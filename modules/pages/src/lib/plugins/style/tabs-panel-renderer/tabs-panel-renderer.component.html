@@ -1,0 +1,5 @@
+<mat-tab-group mat-align-tabs="start">
+  <mat-tab *ngFor="let pane of panes; let i = index" label="Tab Label">
+    <classifieds-ui-render-pane  [pluginName]="pane.contentPlugin" [settings]="pane.settings" [contexts]="pane.contexts"></classifieds-ui-render-pane>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,11 @@
+<ng-container [formGroup]="controlContainer.control">
+  <label>{{ attribute.label }}</label>
+  <div formArrayName="attributes">
+    <mat-form-field formGroupName="0">
+      <input matInput type="number" [placeholder]="attribute.attributes[0].label" formControlName="value">
+    </mat-form-field>
+    <mat-form-field formGroupName="1">
+      <input matInput type="number" [placeholder]="attribute.attributes[1].label" formControlName="value">
+    </mat-form-field>
+  </div>
+</ng-container>

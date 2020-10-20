@@ -1,0 +1,8 @@
+<div class="layout-grid" *ngFor="let gridLayout of (gridLayouts$ | async); let i = index">
+  <div class="layout-grid-thumbnail">
+    <classifieds-ui-grid-layout [dashboard]="gridLayout.gridItems" [options]="options" [displayMainControls]="false" [displayItemHeader]="false"></classifieds-ui-grid-layout>
+  </div>
+  <div class="layout-grid-bottom">
+    <ng-container *ngTemplateOutlet="bottomTmpl,context: { i: i, layout: gridLayout }"></ng-container>
+  </div>
+</div>

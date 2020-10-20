@@ -1,0 +1,8 @@
+<div *ngIf="panes && panes.length > 0 else imagePlaceholder" class="gallery-wrapper">
+  <ngx-gallery [options]="galleryOptions" [images]="galleryImages" class="ngx-gallery"></ngx-gallery>
+</div>
+<ng-template #imagePlaceholder>
+  <div class="placeholder">
+    <span>No Photo Available</span>
+  </div>
+</ng-template>

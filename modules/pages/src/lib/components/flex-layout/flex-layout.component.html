@@ -1,0 +1,11 @@
+<div fxFill fxLayout="column">
+  <div *for="totalRows; let i = index">
+    <div fxLayout="row">
+      <div *for="totalColumns(i); let j = index" [fxFlex]="dashboard[j].cols">
+        <div class="grid-item-inner">
+          <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<div class="layout-wrapper">
+  <div #mainControls [hidden]="!displayMainControls" class="main-controls">
+    <ng-container *ngTemplateOutlet="extraActionsTmpl"></ng-container>
+  </div>
+  <div class="layout-inner">
+    <div fxLayout="column" fxFill>
+      <div #itemHeader fxFlex="0 1 auto" [hidden]="!displayItemHeader" class="grid-item-header">
+        <ng-container *ngTemplateOutlet="gridItemActionsTmpl,context: { i: 0 }"></ng-container>
+      </div>
+      <div fxFlex class="grid-item-inner">
+        <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: 0 }"></ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+

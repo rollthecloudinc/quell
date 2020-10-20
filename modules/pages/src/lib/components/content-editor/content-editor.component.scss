@@ -1,0 +1,103 @@
+.content-editor-wrapper {
+  height: 100%;
+}
+
+.panel-inner {
+  padding: 1em;
+}
+
+.content-editor-wrapper ::ng-deep ngx-dropzone {
+  height: 100%;
+  display: block;
+  padding: 1em;
+  border: none;
+}
+
+.content-editor-wrapper.nested ::ng-deep ngx-dropzone {
+  padding: 0;
+}
+
+.content-editor-wrapper.nested ::ng-deep .grid-item-header {
+  border-bottom: 1px solid white;
+}
+
+.layout-type, .display-type {
+  float: right;
+
+  & ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 1.5em;
+  }
+
+  & ::ng-deep .mat-form-field-label-wrapper {
+    display: none;
+  }
+
+  & ::ng-deep .mat-form-field-infix {
+    border-top: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  & ::ng-deep .mat-form-field {
+    width: 85px;
+  }
+
+  & ::ng-deep .mat-select-value {
+    text-align: right;
+  }
+
+  & ::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+
+}
+
+classifieds-ui-gridless-layout ::ng-deep .main-controls {
+  background-color: #ccc;
+}
+
+classifieds-ui-gridless-layout ::ng-deep .layout-inner{
+  background-color: #ccc;
+  padding: .75em;
+}
+
+classifieds-ui-gridless-layout ::ng-deep .editable-pane-wrapper {
+  border: none;
+  margin-bottom: 0;
+}
+
+classifieds-ui-gridless-layout ::ng-deep .pane-header {
+  background-color: white;
+}
+
+classifieds-ui-gridless-layout ::ng-deep .nested-panel-wrapper {
+  padding: .75em;
+  margin-bottom: 0;
+}
+
+/*.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.editable-pane:last-child {
+  border: none;
+}
+
+.panel-dropzone.cdk-drop-list-dragging .editable-pane:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}*/
+
+.custom-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  //height: 100%;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

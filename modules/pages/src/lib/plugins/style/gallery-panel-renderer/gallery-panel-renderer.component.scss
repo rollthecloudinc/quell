@@ -1,0 +1,26 @@
+:host {
+  height: 100%;
+  padding: 1em;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 1em;
+}
+
+.gallery-wrapper {
+  height: 100%;
+}
+
+.placeholder {
+  height: 250px;
+  background-color: rgb(184, 179, 179);
+  color: black;
+  text-align: center;
+  line-height: 250px;
+}
+
+.gallery-wrapper ::ng-deep .ngx-gallery-layout {
+  height: 250px; // for now
+}

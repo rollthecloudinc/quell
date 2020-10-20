@@ -1,0 +1,8 @@
+<form class="rest-form" [formGroup]="rulesForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <query-builder formControlName="rules" [config]='config'></query-builder>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!rulesForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

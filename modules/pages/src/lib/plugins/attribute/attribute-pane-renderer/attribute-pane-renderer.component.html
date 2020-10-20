@@ -1,0 +1,26 @@
+<div *ngIf="!rendererOverride; else overrideTpl">
+
+  <div *ngIf="displayType == 'page'">
+    <ng-container *ngTemplateOutlet="settingsTmpl; context:{ settings: attributeValues }"></ng-container>
+    <ng-template #settingsTmpl let-settings="settings">
+      <div *ngFor="let setting of settings">
+        <span *ngIf="setting.attributes.length == 0">{{ setting.displayName }}: </span>
+        <span *ngIf="setting.attributes.length == 0">{{ settings | attribute: setting.name }}</span>
+        <div *ngIf="setting.attributes.length > 0">
+          <ng-container *ngTemplateOutlet="settingsTmpl; context:{ settings: setting.attributes }"></ng-container>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="displayType == 'form'" [formGroup]="controlContainer.control">
+    <classifieds-ui-attributes-builder formControlName="settings" [attributes]="attributes" [attributeValues]="attributeValues"></classifieds-ui-attributes-builder>
+    <!-- <classifieds-ui-attribute-widget [attribute]="widget.schema" [widget]="widget" [appearance]="appearance"></classifieds-ui-attribute-widget> -->
+    <!-- <div>Form Field Area</div> -->
+  </div>
+
+</div>
+
+<ng-template #overrideTpl>
+  <classifieds-ui-snippet-pane-renderer [settings]="rendererSettings" [tokens]="tokens"></classifieds-ui-snippet-pane-renderer>
+</ng-template>

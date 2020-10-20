@@ -1,0 +1,39 @@
+.editable-pane-wrapper {
+  border: 1px dotted gray;
+  margin-bottom: 1em;
+}
+
+.nested-panel-wrapper {
+  margin-bottom: 1em;
+}
+
+.inner-pane-wrapper {
+  padding: 1em;
+}
+
+.pane-header {
+  background-color: #ccc;
+  padding: .5em;
+}
+
+button.delete {
+  float: right;
+}
+
+.preview-area {
+  display: none;
+  position: relative;
+}
+
+.preview-area.visible {
+  display: block;
+  height: 300px;
+  overflow-y: scroll;
+  border: 1px solid black;
+  padding: .5em;
+}
+
+.panel-name {
+  float: right;
+  padding-right: .5em;
+}

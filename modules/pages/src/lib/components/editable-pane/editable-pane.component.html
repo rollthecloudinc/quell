@@ -1,0 +1,47 @@
+<div *ngIf="pluginName != 'panel' || locked; else nestedPanelTpl" class="editable-pane-wrapper">
+  <div class="pane-header">
+    <button type="button" (click)="onEditClick()" [disabled]="locked">Edit</button>
+    <button type="button" (click)="onRulesClick()">Rules</button>
+    <button *ngIf="!preview" type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
+    <button *ngIf="preview" type="button" (click)="onDisablePreviewClick()">Disable Preview</button>
+    <button type="button" class="delete" (click)="onDeleteClick()">Delete</button>
+  </div>
+  <div class="inner-pane-wrapper">
+    <mat-expansion-panel (afterCollapse)="onAfterCollapse()" (afterExpand)="onAfterExpand()">
+      <mat-expansion-panel-header>
+        <mat-panel-title>Content: {{ contentPlugin.title }}</mat-panel-title>
+        <mat-panel-description>Name: {{ name }} | Label: {{ label }}</mat-panel-description>
+      </mat-expansion-panel-header>
+      <div [hidden]="preview">
+        <ul>
+          <ng-container *ngTemplateOutlet="settingsTmpl; context:{ settings: settings }"></ng-container>
+        </ul>
+      </div>
+      <div class="preview-area" [ngClass]="{'visible': preview }">
+        <button *ngIf="displayOverride && !hasOverride" class="override" type="button" (click)="onOverrideClick()">Override</button>
+        <button *ngIf="displayOverride && hasOverride" class="override" type="button" (click)="onRemoveOverrideClick()">Remove Override</button>
+        <ng-container><ng-template classifiedsUiPaneContentHost></ng-template></ng-container>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</div>
+
+<ng-template #settingsTmpl let-settings="settings">
+  <li *ngFor="let setting of settings">
+    {{ setting.displayName }}:
+    <span *ngIf="setting.attributes.length == 0">{{ settings | attribute: setting.name }}</span>
+    <ul *ngIf="setting.attributes.length > 0">
+      <ng-container *ngTemplateOutlet="settingsTmpl; context:{ settings: setting.attributes }"></ng-container>
+    </ul>
+  </li>
+</ng-template>
+
+<ng-template #nestedPanelTpl>
+  <div class="nested-panel-wrapper">
+    <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()">
+      <ng-template #extraActionsArea>
+        <div class="panel-name">{{ name }}</div>
+      </ng-template>
+    </classifieds-ui-content-editor>
+  </div>
+</ng-template>

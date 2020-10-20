@@ -1,0 +1,23 @@
+<form class="slice-form" [formGroup]="sliceForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Type</mat-label>
+      <mat-select required formControlName="context">
+        <mat-option value="_root">_root</mat-option>
+        <mat-option *ngFor="let c of contexts" [value]="c.name">{{ c.name }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Query" formControlName="query" required>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Plugin</mat-label>
+      <mat-select required formControlName="plugin">
+        <mat-option value="media">Media</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!sliceForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

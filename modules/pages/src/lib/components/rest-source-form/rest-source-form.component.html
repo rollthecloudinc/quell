@@ -1,0 +1,46 @@
+
+<as-split [formGroup]="sourceForm" direction="horizontal">
+  <div as-split-area size="50">
+    <mat-form-field>
+      <input matInput placeholder="Url" formControlName="url" required>
+    </mat-form-field>
+    <div formArrayName="params">
+      <div *ngFor="let param of params.controls; let i = index" [formGroupName]="i">
+        <div>{{ paramName(i) }}</div>
+        <mat-form-field formGroupName="mapping">
+          <mat-label>Type</mat-label>
+          <mat-select required formControlName="type">
+            <mat-option value="static">Static</mat-option>
+            <mat-option value="route">Route</mat-option>
+            <mat-option value="querystring">Query String</mat-option>
+            <mat-option value="context">Context</mat-option>
+            <mat-option value="form">Form</mat-option>
+            <mat-option value="store">Store</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field *ngIf="param.get('mapping').get('type').value == 'context'" formGroupName="mapping">
+          <mat-label>Context</mat-label>
+          <mat-select formControlName="context">
+            <mat-option *ngFor="let c of contexts" [value]="c.name">{{ c.name }}</mat-option>
+            <!-- <mat-option value="_root">_root</mat-option> -->
+            <!-- <mat-option *ngFor="let context of contexts" [value]="context"></mat-option> -->
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field formGroupName="mapping">
+          <input matInput formControlName="value" placeholder="value" required>
+        </mat-form-field>
+        <mat-form-field formGroupName="mapping">
+          <input matInput formControlName="testValue" placeholder="Test Value" required>
+        </mat-form-field>
+        <div formArrayName="flags">
+          <div *ngFor="let flag of param.get('flags').controls; let j = index" [formGroupName]="j">
+            <mat-checkbox formControlName="enabled">{{ flagsAsArray[j] }}</mat-checkbox>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <as-split-area size="50">
+    <ngx-json-viewer *ngIf="jsonData" [json]="jsonData" [expanded]="false"></ngx-json-viewer>
+  </as-split-area>
+</as-split>

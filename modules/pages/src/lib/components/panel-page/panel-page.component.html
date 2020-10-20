@@ -1,0 +1,79 @@
+<ng-container [ngSwitch]="panelPage?.layoutType">
+  <ng-container *ngSwitchCase="'grid'">
+    <ng-container [ngSwitch]="panelPage?.displayType">
+      <ng-container *ngSwitchCase="'form'">
+        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
+          <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
+            <ng-template #innerGridItem let-i="i">
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            </ng-template>
+          </classifieds-ui-grid-layout>
+          <button type="submit">Submit</button>
+        </form>
+      </ng-container>
+      <ng-container *ngSwitchCase="'page'">
+        <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
+          <ng-template #innerGridItem let-i="i">
+            <classifieds-ui-render-panel fxFlex (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+          </ng-template>
+        </classifieds-ui-grid-layout>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'gridless'">
+    <ng-container [ngSwitch]="panelPage?.displayType">
+      <ng-container *ngSwitchCase="'form'">
+        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
+          <classifieds-ui-gridless-layout [displayMainControls]="false" [displayItemHeader]="false">
+            <ng-template #innerGridItem let-i="i">
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            </ng-template>
+          </classifieds-ui-gridless-layout>
+          <button type="submit">Submit</button>
+        </form>
+        <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
+          <classifieds-ui-gridless-layout [displayMainControls]="false" [displayItemHeader]="false">
+            <ng-template #innerGridItem let-i="i">
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            </ng-template>
+          </classifieds-ui-gridless-layout>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'page'">
+        <classifieds-ui-gridless-layout [displayMainControls]="false" [displayItemHeader]="false">
+          <ng-template #innerGridItem let-i="i">
+            <classifieds-ui-render-panel fxFlex [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+          </ng-template>
+        </classifieds-ui-gridless-layout>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+  <ng-container *ngSwitchCase="'split'">
+    <ng-container [ngSwitch]="panelPage?.displayType">
+      <ng-container *ngSwitchCase="'form'">
+        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
+          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+            <ng-template #innerGridItem let-i="i">
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            </ng-template>
+          </classifieds-ui-flex-layout>
+          <button type="submit">Submit</button>
+        </form>
+        <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
+          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+            <ng-template #innerGridItem let-i="i">
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            </ng-template>
+          </classifieds-ui-flex-layout>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="'page'">
+        <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+          <ng-template #innerGridItem let-i="i">
+            <classifieds-ui-render-panel fxFlex [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+          </ng-template>
+        </classifieds-ui-flex-layout>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>

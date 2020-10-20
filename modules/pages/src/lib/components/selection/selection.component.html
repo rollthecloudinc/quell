@@ -1,0 +1,46 @@
+<div [formGroup]="selectionForm">
+  <div formArrayName="attributes">
+    <div formGroupName="0">
+      <div>
+        <ng-container [ngSwitch]="renderType">
+          <ng-container *ngSwitchCase="'select'">
+              <mat-form-field>
+                <mat-label>{{ label }}</mat-label>
+                <mat-select formControlName="attributes">
+                  <mat-option *ngFor="let opt of options; let i = index" [value]="opt.value">{{ opt.label }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+          </ng-container>
+          <ng-container *ngSwitchCase="'radiogroup'">
+            <div>
+              <label>{{ label }}</label>
+              <mat-radio-group formControlName="attributes">
+                <mat-radio-button *ngFor="let opt of options; let i = index" [value]="opt.value">{{ opt.label }}</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'checkboxgroup'">
+            <div>
+              <div formArrayName="attributes">
+                <div *ngFor="let opt of options; let i = index">
+                  <div [formGroupName]="i">
+                    <mat-checkbox formControlName="_store">{{ opt.label }}</mat-checkbox>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngSwitchCase="'autocomplete'">
+            <mat-form-field>
+              <input matInput [placeholder]="label" [matAutocomplete]="autocomplete" formControlName="_proxy">
+              <!-- <mat-icon matSuffix>location_city</mat-icon> -->
+              <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayAuto" (optionSelected)="onOptionSelected($event)">
+                <mat-option *ngFor="let opt of options; let i = index" [value]="opt">{{ opt.label }}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

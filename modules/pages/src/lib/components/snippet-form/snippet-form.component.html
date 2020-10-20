@@ -1,0 +1,38 @@
+<form *ngIf="rootForm" [formGroup]="contentForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+       <ng-container *ngTemplateOutlet="formBodyTpl"></ng-container>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!contentForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>
+
+<div *ngIf="!rootForm" class="content-inner">
+  <ng-container *ngTemplateOutlet="formBodyTpl"></ng-container>
+</div>
+
+<ng-template #formBodyTpl>
+  <as-split [direction]="splitDirection" [formGroup]="contentForm">
+    <as-split-area size="50">
+      <ul [hidden]="true" *ngIf="tokens">
+        <li *ngFor="let token of tokens | keyvalue">{{ token.key }}</li>
+      </ul>
+      <mat-form-field>
+        <mat-label>Content Type</mat-label>
+        <mat-select required formControlName="contentType">
+          <mat-option value="text/markdown">Markdown</mat-option>
+          <mat-option value="text/html">HTML</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div>
+        <textarea formControlName="content" [cols]="cols" [rows]="rows"></textarea>
+      </div>
+    </as-split-area>
+    <as-split-area size="50">
+      <classifieds-ui-dynamic-content-viewer *ngIf="isMarkdown" [content]="preview | markdown"></classifieds-ui-dynamic-content-viewer>
+      <classifieds-ui-dynamic-content-viewer *ngIf="!isMarkdown" [content]="preview"></classifieds-ui-dynamic-content-viewer>
+    </as-split-area>
+  </as-split>
+</ng-template>

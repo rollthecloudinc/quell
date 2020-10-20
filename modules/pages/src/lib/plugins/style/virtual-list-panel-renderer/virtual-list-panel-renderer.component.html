@@ -1,0 +1,7 @@
+<cdk-virtual-scroll-viewport [itemSize]="75" class="panes-viewport">
+  <div *cdkVirtualFor="let pane of paneDatasource; trackBy: trackByName;" class="pane-item">
+    <classifieds-ui-render-pane  [pluginName]="pane.contentPlugin" [settings]="pane.settings" [contexts]="pane.contexts"></classifieds-ui-render-pane>
+  </div>
+  <!-- <div class="spinner" *ngIf="loading$ | async"><mat-spinner diameter="30" mode="indeterminate"></mat-spinner></div> -->
+</cdk-virtual-scroll-viewport>
+

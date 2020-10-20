@@ -1,0 +1,12 @@
+<div [formGroup]="contextForm" fxLayout="column">
+  <mat-form-field>
+    <input matInput formControlName="name" placeholder="Name" required>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Plugin</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let cPlugin of contextPlugins; let i = index" [value]="cPlugin.name">{{ cPlugin.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container><ng-template classifiedsUiContextEditorHost></ng-template></ng-container>
+</div>

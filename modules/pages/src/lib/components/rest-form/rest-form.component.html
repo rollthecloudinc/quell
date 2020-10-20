@@ -1,0 +1,60 @@
+<form class="rest-form" [formGroup]="restForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <as-split direction="vertical" class="content-inner">
+      <div as-split-area size="50">
+        <classifieds-ui-rest-source-form formControlName="source" (dataChange)="onDataChange($event)" [contexts]="contexts" [restSource]="restSource"></classifieds-ui-rest-source-form>
+      </div>
+      <as-split-area size="50" formGroupName="renderer">
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select required formControlName="type">
+            <mat-optgroup label="Output">
+              <mat-option value="snippet">Snippet</mat-option>
+              <mat-option value="pane">Pane</mat-option>
+            </mat-optgroup>
+            <mat-optgroup label="Input">
+              <mat-option value="select">Select</mat-option>
+              <mat-option value="radiogroup">Radio Group</mat-option>
+              <mat-option value="checkboxgroup">Checkbox Group</mat-option>
+              <mat-option value="autocomplete">Autocomplete</mat-option>
+            </mat-optgroup>
+          </mat-select>
+        </mat-form-field>
+        <classifieds-ui-snippet-form [hidden]="rendererType.value != 'snippet'" formControlName="data" [rootForm]="false" splitDirection="horizontal" rows="10" cols="40" [tokens]="tokens"></classifieds-ui-snippet-form>
+        <div *ngIf="rendererType.value == 'pane'" formArrayName="bindings">
+          <button type="button" (click)="addPane()">Add Pane</button>
+          <div>
+            <div *ngFor="let binding of bindings.controls; let i = index">
+              <mat-form-field [formGroupName]="i">
+                <mat-label>Pane</mat-label>
+                <mat-select required formControlName="id">
+                  <mat-option *ngFor="let pane of panes" [value]="pane">{{ pane }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="isSelectable" formGroupName="select">
+          <mat-form-field>
+            <input matInput formControlName="id" placeholder="Id">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="value" placeholder="Value">
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput formControlName="label" placeholder="Label">
+          </mat-form-field>
+          <div>
+            <mat-checkbox formControlName="multiple">{{ Multiple }}</mat-checkbox>
+          </div>
+          <mat-form-field>
+            <input matInput formControlName="limit" placeholder="Limit">
+          </mat-form-field>
+        </div>
+      </as-split-area>
+    </as-split>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!valid">Save</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,7 @@
+<form [formGroup]="layoutForm" (ngSubmit)="submit()">
+  <classifieds-ui-grid-layout [options]="options">
+    <ng-template #extraActions>
+      <button type="submit">Save</button>
+    </ng-template>
+  </classifieds-ui-grid-layout>
+</form>

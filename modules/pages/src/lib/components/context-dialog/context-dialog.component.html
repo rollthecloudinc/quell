@@ -1,0 +1,8 @@
+<form class="context-form" [formGroup]="contextForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <classifieds-ui-context-form formControlName="context"></classifieds-ui-context-form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!contextForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,6 @@
+<ngx-dropzone [multiple]="false" [accept]="mediaTypes" (change)="onSelectMedia($event)">
+  <ngx-dropzone-label>Drag and Drop Media Here</ngx-dropzone-label>
+  <ngx-dropzone-image-preview *ngIf="media" [removable]="true" [file]="media" (removed)="onRemoveMedia()">
+    <ngx-dropzone-label>{{ media.name }} ({{ media.type }})</ngx-dropzone-label>
+  </ngx-dropzone-image-preview>
+</ngx-dropzone>

@@ -1,0 +1,23 @@
+<div class="layout-wrapper">
+  <div #mainControls [hidden]="!displayMainControls" class="main-controls">
+    <button type="button" (mousedown)="addColumn()">Add Column</button>
+    <button type="button" (mousedown)="addRow()">Add Row</button>
+    <ng-container *ngTemplateOutlet="extraActionsTmpl"></ng-container>
+  </div>
+  <div class="layout-inner" [style.height.px]="gridHeight">
+    <gridster [options]="options">
+      <gridster-item [item]="item" *ngFor="let item of dashboard; let i = index">
+        <div fxLayout="column" fxFill>
+          <div #itemHeader fxFlex="0 1 auto" [hidden]="!displayItemHeader" class="grid-item-header">
+            <ng-container *ngTemplateOutlet="gridItemActionsTmpl,context: { i: i }"></ng-container>
+            <button type="button" class="delete" (mousedown)="removeItem(i)" (touchstart)="removeItem(i)">Delete</button>
+          </div>
+          <div fxFlex class="grid-item-inner">
+            <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: i }"></ng-container>
+          </div>
+        </div>
+      </gridster-item>
+    </gridster>
+  </div>
+</div>
+

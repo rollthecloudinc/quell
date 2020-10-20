@@ -1,0 +1,14 @@
+<div class="content-selector-wrapper">
+  <mat-tab-group [selectedIndex]="selectedIndex">
+    <mat-tab>
+      <mat-nav-list>
+        <a *ngFor="let p of contentPlugins" mat-list-item mat-list-item (click)="onEntitySelected(p)">
+          <span mat-line>{{ p.title }}</span>
+        </a>
+      </mat-nav-list>
+    </mat-tab>
+    <mat-tab>
+      <ng-container><ng-template classifiedsUiContentSelectionHost></ng-template></ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</div>

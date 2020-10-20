@@ -1,0 +1,14 @@
+{
+  "name": "context",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^10.1.5",
+    "@angular/core": "^10.1.5",
+    "@ngrx/store": "^10.0.1",
+    "@ngrx/router-store": "^10.0.1",
+    "@angular/flex-layout": "^10.0.0-beta.32"
+  },
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

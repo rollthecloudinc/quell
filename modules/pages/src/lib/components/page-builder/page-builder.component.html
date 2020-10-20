@@ -1,0 +1,80 @@
+<form fxFill [formGroup]="pageForm" (submit)="onSubmit()">
+  <mat-sidenav-container fxFill>
+    <mat-sidenav opened mode="side">
+      <mat-nav-list>
+        <mat-list-item><button type="button" (click)="changeSection('general')">General</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('contexts')">Contexts</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('routing')">Routing</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('layout')">Layout</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('content')">Editor</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('design')">Design</button></mat-list-item>
+        <mat-list-item><button type="button" (click)="changeSection('preview')">Preview</button></mat-list-item>
+        <mat-list-item><button type="submit">Save</button></mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div [hidden]="section != 'general'"><ng-container *ngTemplateOutlet="general"></ng-container></div>
+      <div [hidden]="section != 'contexts'"><ng-container *ngTemplateOutlet="contexts"></ng-container></div>
+      <div [hidden]="section != 'routing'"><ng-container *ngTemplateOutlet="routing"></ng-container></div>
+      <div [hidden]="section != 'layout'"><ng-container *ngTemplateOutlet="layout"></ng-container></div>
+      <classifieds-ui-content-editor [hidden]="section != 'content'" [pageBuilder]="true" formControlName="content"></classifieds-ui-content-editor>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</form>
+
+<ng-template #general>
+  <div class="general-wrapper" [formGroup]="pageForm">
+    <h3>Page Info</h3>
+    <div fxLayout="column">
+      <mat-form-field>
+        <input matInput formControlName="name" placeholder="Name">
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput formControlName="title" placeholder="Title">
+      </mat-form-field>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #contexts>
+  <div class="contexts-wrapper" [formGroup]="pageForm">
+    <h3>Contexts</h3>
+    <div>
+      <button type="button">Add Context</button>
+      <ul>
+        <li>Context 1</li>
+        <li>Context 2</li>
+        <li>Context 3</li>
+        <li>Context 4</li>
+      </ul>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #routing>
+  <div class="routing-wrapper" [formGroup]="pageForm">
+    <h3>Routing</h3>
+    <div fxLayout="column">
+      <mat-form-field>
+        <input matInput formControlName="path" placeholder="Path">
+      </mat-form-field>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #layout>
+  <div class="layout-wrapper" [formGroup]="pageForm">
+    <h3>Layout</h3>
+    <div>
+      <mat-radio-group>
+        <classifieds-ui-grid-layout-master>
+          <ng-template #bottom let-i="i" let-layout="layout">
+            <mat-radio-button [value]="layout.id">
+              Layout Name
+            </mat-radio-button>
+          </ng-template>
+        </classifieds-ui-grid-layout-master>
+      </mat-radio-group>
+    </div>
+  </div>
+</ng-template>

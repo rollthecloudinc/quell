@@ -7,14 +7,52 @@
     "declaration": false,
     "downlevelIteration": true,
     "experimentalDecorators": true,
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2015",
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "attributes": [
+        "dist/attributes/attributes",
+        "dist/attributes"
+      ],
+      "material": [
+        "dist/material/material",
+        "dist/material"
+      ],
+      "utils": [
+        "dist/utils/utils",
+        "dist/utils"
+      ],
+      "content": [
+        "dist/content/content",
+        "dist/content"
+      ],
+      "token": [
+        "dist/token/token",
+        "dist/token"
+      ],
+      "context": [
+        "dist/context/context",
+        "dist/context"
+      ],
+      "style": [
+        "dist/style/style",
+        "dist/style"
+      ],
+      "pages": [
+        "dist/pages/pages",
+        "dist/pages"
+      ],
+      "media": [
+        "dist/media/media",
+        "dist/media"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

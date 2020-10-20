@@ -1,0 +1,14 @@
+<form [formGroup]="attributesFormGroup" (ngSubmit)="submit()">
+  <mat-dialog-content fxLayout="column">
+    <mat-form-field>
+      <input matInput placeholder="Name" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput placeholder="Label" formControlName="label">
+    </mat-form-field>
+    <classifieds-ui-attributes-builder formControlName="attributes" [attributes]="attributes" [attributeValues]="attributeValues"></classifieds-ui-attributes-builder>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close>Save</button>
+  </mat-dialog-actions>
+</form>

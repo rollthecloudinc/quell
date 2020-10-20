@@ -1,0 +1,20 @@
+<form class="properties-form" [formGroup]="propertiesForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+      <div fxLayout="column">
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="title" placeholder="Title">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="path" placeholder="Path">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!propertiesForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>
