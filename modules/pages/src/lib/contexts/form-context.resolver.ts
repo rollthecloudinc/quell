@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContextResolver, ContextPlugin } from '@classifieds-ui/context';
+import { ContextResolver, ContextPlugin } from 'context';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';

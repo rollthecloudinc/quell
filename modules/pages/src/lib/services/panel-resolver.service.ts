@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
-import { CONTENT_PLUGIN, ContentPlugin, ContentBinding } from '@classifieds-ui/content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentBinding } from 'content';
 import { Pane } from '../models/page.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';

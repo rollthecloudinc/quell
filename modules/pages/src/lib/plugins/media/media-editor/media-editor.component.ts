@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '@classifieds-ui/pages';
-import { AttributeTypes } from '@classifieds-ui/attributes';
-import { FilesService, MediaFile } from '@classifieds-ui/media';
+import { Pane } from '../../../models/page.models';
+import { AttributeTypes } from 'attributes';
+import { FilesService, MediaFile } from 'media';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { switchMap } from 'rxjs/operators';
 

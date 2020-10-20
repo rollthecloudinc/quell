@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
-import { AttributeValue, AttributeSerializerService } from '@classifieds-ui/attributes';
+import { ContentHandler, ContentBinding } from 'content';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { of, Observable } from 'rxjs';
 import { PanelPage, Pane, Panel } from '../models/page.models';
 import { Dataset } from '../models/datasource.models';

@@ -2,9 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Snippet } from '../../models/plugin.models';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '@classifieds-ui/pages';
-import { TokenizerService } from '@classifieds-ui/token';
-import { AttributeValue } from '@classifieds-ui/attributes';
+// import { Pane } from 'pages';
+import { Pane } from '../../models/page.models';
+import { TokenizerService } from 'token';
+import { AttributeValue } from 'attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';
 
 @Component({

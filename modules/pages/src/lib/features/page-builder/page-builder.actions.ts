@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { ContentInstance } from '@classifieds-ui/content';
+import { ContentInstance } from 'content';
 import { Rest, Dataset } from '../../models/datasource.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';

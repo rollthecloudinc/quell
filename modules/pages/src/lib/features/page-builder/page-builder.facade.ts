@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { ContentInstance } from '@classifieds-ui/content';
+import { ContentInstance } from 'content';
 
 import { PageBuilderPartialState } from './page-builder.reducer';
 import { selectContentInstance, selectPageInfo, selectForm, selectFormNames } from './page-builder.selectors';

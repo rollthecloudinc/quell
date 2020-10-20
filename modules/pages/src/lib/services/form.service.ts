@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeSerializerService } from '@classifieds-ui/attributes';
+import { AttributeSerializerService } from 'attributes';
 import { PanelPageForm, PanelPageFormPane } from '../models/form.models';
 
 @Injectable({

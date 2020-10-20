@@ -1,5 +1,5 @@
 import { Snippet } from './plugin.models';
-import { ContentBinding } from '@classifieds-ui/content';
+import { ContentBinding } from 'content';
 
 export class Rest {
   url: string;

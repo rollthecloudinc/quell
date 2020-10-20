@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
-import { AttributeValue, AttributeSerializerService } from '@classifieds-ui/attributes';
-import { FilesService, MediaFile } from '@classifieds-ui/media';
+import { ContentHandler, ContentBinding } from 'content';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { FilesService, MediaFile } from 'media';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Dataset } from '../models/datasource.models';

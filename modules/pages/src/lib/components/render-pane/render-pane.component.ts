@@ -1,7 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
-import { AttributeValue } from '@classifieds-ui/attributes';
-import { ContentPlugin, CONTENT_PLUGIN } from '@classifieds-ui/content';
+import { AttributeValue } from 'attributes';
+import { ContentPlugin, CONTENT_PLUGIN } from 'content';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { PanelPage, Pane } from '../../models/page.models';

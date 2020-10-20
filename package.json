@@ -26,6 +26,7 @@
     "@kolkov/ngx-gallery": "^1.2.3",
     "@ngrx/data": "^10.0.1",
     "@ngrx/effects": "^10.0.1",
+    "@ngrx/entity": "^10.0.1",
     "@ngrx/router-store": "^10.0.1",
     "@ngrx/store": "^10.0.1",
     "angular-gridster2": "^10.1.6",

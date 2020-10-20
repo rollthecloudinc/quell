@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { CONTENT_PLUGIN, ContentPlugin } from '@classifieds-ui/content';
-import { ContextManagerService } from '@classifieds-ui/context';
+import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { ContextManagerService } from 'context';
 import { PanelPage, Pane } from '../../models/page.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';

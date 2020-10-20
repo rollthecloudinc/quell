@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { CONTENT_PLUGIN, ContentPlugin } from '@classifieds-ui/content';
+import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';

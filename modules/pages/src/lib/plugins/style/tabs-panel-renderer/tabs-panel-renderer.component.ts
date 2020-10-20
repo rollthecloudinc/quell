@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeValue } from '@classifieds-ui/attributes';
+import { AttributeValue } from 'attributes';
 import { Pane } from '../../../models/page.models';
 
 @Component({

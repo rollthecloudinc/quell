@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { InlineContext } from '../models/context.models';
-import { ContextManagerService } from '@classifieds-ui/context';
+import { ContextManagerService } from 'context';
 import { Observable, of, combineLatest, merge, forkJoin} from 'rxjs';
 import { map, debounceTime, filter, scan, switchMap } from 'rxjs/operators';
 import * as uuid from 'uuid';

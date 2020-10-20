@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
-import { AttributeValue, AttributeSerializerService } from '@classifieds-ui/attributes';
-import { TokenizerService } from '@classifieds-ui/token';
+import { ContentHandler, ContentBinding } from 'content';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Snippet } from '../models/plugin.models';

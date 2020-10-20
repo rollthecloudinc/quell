@@ -2,6 +2,30 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/pages",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "ngx-markdown": "ngx-markdown",
+      "angular-split": "angular-split",
+      "ngx-dropzone": "ngx-dropzone",
+      "material": "material",
+      "ngx-json-viewer": "ngx-json-viewer",
+      "angular2-query-builder": "angular2-query-builder",
+      "media": "media",
+      "utils": "utils",
+      "token": "token",
+      "attributes": "attributes",
+      "content": "content",
+      "context": "context",
+      "style": "style",
+      "@kolkov/ngx-gallery": "@kolkov/ngx-gallery",
+      "angular-gridster2": "angular-gridster2",
+      "@ngrx/data": "@ngrx/data",
+      "@ngrx/store": "@ngrx/store",
+      "@ngrx/effects": "@ngrx/effects",
+      "uuid": "uuid",
+      "json-rules-engine": "json-rules-engine",
+      "@ngrx/router-store": "@ngrx/router-store",
+      "qs": "qs"
+    }
   }
 }

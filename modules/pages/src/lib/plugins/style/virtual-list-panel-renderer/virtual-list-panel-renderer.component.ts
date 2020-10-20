@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import * as uuid from 'uuid';
-import { AttributeValue } from '@classifieds-ui/attributes';
-import { CONTENT_PLUGIN, ContentPlugin } from '@classifieds-ui/content';
+import { AttributeValue } from 'attributes';
+import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { Pane } from '../../../models/page.models';
 import { PaneDatasourceService } from '../../../services/pane-datasource.service';
 import { filter, concatMap, map, take, skip, tap } from 'rxjs/operators';

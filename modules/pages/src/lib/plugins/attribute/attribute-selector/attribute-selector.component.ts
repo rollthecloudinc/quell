@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes} from '@classifieds-ui/attributes';
-import { CONTENT_PLUGIN, ContentPlugin } from '@classifieds-ui/content';
+import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes} from 'attributes';
+import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';

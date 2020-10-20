@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { TokenizerService } from '@classifieds-ui/token';
+import { TokenizerService } from 'token';
 import { Rest, Param } from '../../models/datasource.models';
 import { RestSourceFormComponent } from '../rest-source-form/rest-source-form.component';
 import { InlineContext } from '../../models/context.models';

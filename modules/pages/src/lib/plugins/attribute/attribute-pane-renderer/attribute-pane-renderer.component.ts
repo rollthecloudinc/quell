@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from '@classifieds-ui/attributes';
+import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from 'attributes';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { Snippet } from '../../../models/plugin.models';
-import { TokenizerService } from '@classifieds-ui/token';
+import { TokenizerService } from 'token';
 
 @Component({
   selector: 'classifieds-ui-attribute-pane-renderer',
@@ -24,7 +24,10 @@ export class AttributePaneRendererComponent implements OnInit {
   @Input()
   label: string;
 
-  attributes:  Array<Attribute> = [];
+  @Input()
+  displayType: string;
+
+  attributes: Array<Attribute> = [];
   attributeValues: Array<AttributeValue>;
 
   rendererOverride: Snippet;

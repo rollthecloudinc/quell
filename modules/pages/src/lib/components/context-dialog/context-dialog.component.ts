@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ContextFormComponent } from '@classifieds-ui/context';
+import { ContextFormComponent } from 'context';
 import { InlineContext } from '../../models/context.models';
 
 @Component({

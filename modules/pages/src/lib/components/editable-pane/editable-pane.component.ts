@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, EventEmitter, Output, ViewChild, ComponentFactoryResolver } from '@angular/core';
-import { AttributeValue } from '@classifieds-ui/attributes';
-import { ContentPlugin, CONTENT_PLUGIN } from '@classifieds-ui/content';
+import { AttributeValue } from 'attributes';
+import { ContentPlugin, CONTENT_PLUGIN } from 'content';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { PanelPage } from '../../models/page.models';

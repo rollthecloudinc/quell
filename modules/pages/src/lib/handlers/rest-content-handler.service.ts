@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AttributeValue, AttributeSerializerService } from '@classifieds-ui/attributes';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { ContentHandler, ContentBinding } from 'content';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
@@ -10,7 +10,7 @@ import { Rest, Dataset } from '../models/datasource.models';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 import { selectDataset } from '../features/page-builder/page-builder.selectors';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
-import { TokenizerService } from '@classifieds-ui/token';
+import { TokenizerService } from 'token';
 import { Panel, PanelPage, Pane } from '../models/page.models';
 import { InlineContext } from '../models/context.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';

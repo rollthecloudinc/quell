@@ -3,11 +3,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Va
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
-import { AttributeValue } from '@classifieds-ui/attributes';
-import { ContentPlugin, CONTENT_PLUGIN, ContentBinding } from '@classifieds-ui/content';
-import { TokenizerService } from '@classifieds-ui/token';
-import { StylePlugin, STYLE_PLUGIN } from '@classifieds-ui/style';
-import { ContextManagerService } from '@classifieds-ui/context';
+import { AttributeValue } from 'attributes';
+import { ContentPlugin, CONTENT_PLUGIN, ContentBinding } from 'content';
+import { TokenizerService } from 'token';
+import { StylePlugin, STYLE_PLUGIN } from 'style';
+import { ContextManagerService } from 'context';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage } from '../../models/page.models';
@@ -28,8 +28,8 @@ import { PropertiesDialogComponent } from '../properties-dialog/properties-dialo
 import { PropertiesFormPayload, PanelPropsFormPayload } from '../../models/form.models';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
-import { timeStamp } from 'console';
-import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
+// import { timeStamp } from 'console';
+// import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 
 @Component({
   selector: 'classifieds-ui-content-editor',

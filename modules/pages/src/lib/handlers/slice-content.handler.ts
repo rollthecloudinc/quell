@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
-import { TokenizerService } from '@classifieds-ui/token';
-import { MediaFile } from '@classifieds-ui/media';
-import { AttributeValue, AttributeSerializerService } from '@classifieds-ui/attributes';
+import { ContentHandler, ContentBinding } from 'content';
+import { TokenizerService } from 'token';
+import { MediaFile } from 'media';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';

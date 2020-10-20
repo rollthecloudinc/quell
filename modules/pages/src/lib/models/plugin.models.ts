@@ -1,4 +1,4 @@
-import { AttributeValue } from '@classifieds-ui/attributes';
+import { AttributeValue } from 'attributes';
 
 export class Snippet {
   content: string;

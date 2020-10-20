@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContextResolver, ContextPlugin } from '@classifieds-ui/context';
+import { ContextResolver, ContextPlugin } from 'context';
 import { InlineContext } from '../models/context.models';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { Store, select } from '@ngrx/store';

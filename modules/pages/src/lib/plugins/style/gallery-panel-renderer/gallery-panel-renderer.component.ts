@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { AttributeValue } from '@classifieds-ui/attributes';
-import { MediaSettings, MEDIA_SETTINGS } from '@classifieds-ui/media';
+import { AttributeValue } from 'attributes';
+import { MediaSettings, MEDIA_SETTINGS } from 'media';
 import { Pane } from '../../../models/page.models';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { forkJoin } from 'rxjs';

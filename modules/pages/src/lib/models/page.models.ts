@@ -1,6 +1,6 @@
-// import { ContentInstance } from '@classifieds-ui/content';
+// import { ContentInstance } from 'content';
 import { RuleSet } from 'angular2-query-builder';
-import { AttributeValue } from '@classifieds-ui/attributes';
+import { AttributeValue } from 'attributes';
 import { InlineContext } from './context.models';
 
 interface DatasourceModel<T> {

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
-import { MEDIA_SETTINGS, MediaSettings, MediaFile } from '@classifieds-ui/media';
-import { AttributeValue } from '@classifieds-ui/attributes';
+import { MEDIA_SETTINGS, MediaSettings, MediaFile } from 'media';
+import { AttributeValue } from 'attributes';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from '@classifieds-ui/content';
-import { AttributeValue, AttributeWidget, AttributeTypes } from '@classifieds-ui/attributes';
+import { ContentHandler, ContentBinding } from 'content';
+import { AttributeValue, AttributeWidget, AttributeTypes } from 'attributes';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Snippet } from '../models/plugin.models';
