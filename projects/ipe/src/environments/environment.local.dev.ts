@@ -1,20 +1,38 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-// import { GlobalErrorHandler } from '@classifieds-ui/logging';
-
 
 export const environment = {
   production: false,
   apiGatewaySettings: {
-    // endpointUrl: 'https://localhost:44340',
-    endpointUrl: "https://x.execute-api.us-east-1.amazonaws.com"
+    endpointUrl: 'https://host.docker.internal:44340',
   },
   mediaSettings: {
-    endpointUrl: 'https://x.execute-api.us-east-1.amazonaws.com/media',
-    cloudinaryUrl: 'https://api.cloudinary.com/v1_1/x',
-    uploadPreset: 'x',
-    imageUrl: 'https://x.execute-api.us-east-1.amazonaws.com'
+    endpointUrl: 'https://host.docker.internal:44340/media',
+    cloudinaryUrl: 'https://api.cloudinary.com/v1_1/dj4vvkgzw',
+    uploadPreset: 'i0hm4opm',
+    imageUrl: 'https://res.cloudinary.com/dj4vvkgzw'
+  },
+  loggingSettings: {
+    endpointUrl: "https://host.docker.internal:44340/logging"
+  },
+  chatSettings: {
+    endpointUrl: "https://host.docker.internal:44340/chat"
+  },
+  oktaSettings: {
+    redirectUri: 'http://localhost:4000/implicit/callback',
+    clientId: '0oa33yn39XtrnvY774x6',
+  },
+  clientSettings: {
+    authority: 'https://localhost:44392',
+    client_id: 'classifieds_spa',
+    redirect_uri: 'http://localhost:4200/auth-callback',
+    silent_redirect_uri: 'http://localhost:4200/silent-refresh.html',
+    response_type: "code",
+    scope:"openid profile ads_api media_api chat IdentityServerApi taxonomy_api api_gateway",
+    filterProtocolClaims: true,
+    loadUserInfo: true,
+    automaticSilentRenew: true
   }
 };
 
