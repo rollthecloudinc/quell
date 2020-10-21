@@ -8,13 +8,13 @@ export const environment = {
   production: false,
   apiGatewaySettings: {
     // endpointUrl: 'https://localhost:44340',
-    endpointUrl: "https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com"
+    endpointUrl: "https://x.execute-api.us-east-1.amazonaws.com"
   },
   mediaSettings: {
-    endpointUrl: 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media',
-    cloudinaryUrl: 'https://api.cloudinary.com/v1_1/dj4vvkgzw',
-    uploadPreset: 'i0hm4opm',
-    imageUrl: 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com'
+    endpointUrl: 'https://x.execute-api.us-east-1.amazonaws.com/media',
+    cloudinaryUrl: 'https://api.cloudinary.com/v1_1/x',
+    uploadPreset: 'x',
+    imageUrl: 'https://x.execute-api.us-east-1.amazonaws.com'
   }
 };
 
