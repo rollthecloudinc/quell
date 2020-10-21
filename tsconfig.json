@@ -51,6 +51,10 @@
       "media": [
         "dist/media/media",
         "dist/media"
+      ],
+      "auth": [
+        "dist/auth/auth",
+        "dist/auth"
       ]
     }
   },

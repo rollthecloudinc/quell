@@ -9,7 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
-// import { AuthModule, AuthInterceptor, LogoutInterceptor, CLIENT_SETTINGS, ClientSettings } from '@classifieds-ui/auth';
+import { AuthModule, AuthInterceptor, LogoutInterceptor, CLIENT_SETTINGS, ClientSettings } from 'auth';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
 import { UtilsModule /*, CorrelationInterceptor */ } from 'utils';
 import { MaterialModule } from 'material';
@@ -41,9 +41,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';*/
 import { EntityDataModule, DefaultDataServiceConfig } from '@ngrx/data';
 import { reducers, metaReducers } from './reducers';
+import { AuthCallbackComponent } from 'auth';
 
 const routes = [
-  // { path: 'auth-callback', component: AuthCallbackComponent },
+  { path: 'auth-callback', component: AuthCallbackComponent },
   // { path: 'implicit/callback', component: OktaCallbackComponent },
   // { path: 'chat', loadChildren: () => import('@classifieds-ui/chat').then(m => m.ChatModule) },
   // { path: 'ads', loadChildren: () => import('@classifieds-ui/ads').then(m => m.AdsModule) },
@@ -81,7 +82,7 @@ export function markedOptionsFactory(): MarkedOptions {
     }
   };
   return {
-    renderer: renderer,
+    renderer,
   };
 }
 
@@ -117,7 +118,7 @@ export function markedOptionsFactory(): MarkedOptions {
     StoreModule.forRoot(
       reducers,
       {
-        metaReducers: metaReducers,
+        metaReducers,
         runtimeChecks: {
           strictActionImmutability: true,
           strictStateImmutability: true
@@ -131,7 +132,7 @@ export function markedOptionsFactory(): MarkedOptions {
     // LoggingModule,
     TokenModule,
     ContextModule,
-    // AuthModule.forRoot(),
+    AuthModule.forRoot(),
     MediaModule,
     // NxModule.forRoot(),
     EntityDataModule.forRoot({}),
@@ -144,7 +145,7 @@ export function markedOptionsFactory(): MarkedOptions {
     // okta auth
     //{ provide: OKTA_CONFIG, useValue: oktaConfig },
 
-    // { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
+    { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
     // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
     // { provide: AD_SETTINGS, useValue: new AdSettings(environment.adSettings) },
@@ -154,9 +155,9 @@ export function markedOptionsFactory(): MarkedOptions {
 
     // There is no way to prioritize interceptors so order can be important.
     // { provide: HTTP_INTERCEPTORS, useClass: CorrelationInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
 
     { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }
   ],
