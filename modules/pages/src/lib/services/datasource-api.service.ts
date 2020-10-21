@@ -14,7 +14,7 @@ export class DatasourceApiService {
     if(this.cache.has(url)) {
       return of(this.cache.get(url)).pipe(delay(0));
     } else {
-      return this.http.get<Array<any>>(`${this.config.root}${url}`).pipe(
+      return this.http.get<Array<any>>(`${url}`).pipe(
         map(data => Array.isArray(data) ? data: [data]),
         tap(data => this.cache.set(url, data))
       );

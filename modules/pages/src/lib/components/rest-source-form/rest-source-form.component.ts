@@ -55,6 +55,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   refreshData$ = new Subject();
   refreshSubscription = this.refreshData$.pipe(
     map(() => this.generateUrl()),
+    tap(url => console.log(url)),
     switchMap((url: string) => this.datasourceApi.getData(url).pipe(
       catchError((e: HttpErrorResponse) => {
         console.log(e);
@@ -95,7 +96,8 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
       debounceTime(500),
       map(url => [url, url.indexOf('?')]),
       map(([url, index]) => [(index > -1 ? url.substring(0, index) : url), (index > -1 ? url.substring(index + 1) : '')])
-    ).subscribe(([path, queryString])=> {
+      // map(([path, queryString]) => [path.indexOf('/'), path, queryString])
+    ).subscribe(([path, queryString]) => {
       console.log(path);
       console.log((path as string).split('/'));
       const pathParsed = (path as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
@@ -214,7 +216,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     const rebuildUrl = [];
     let pathParams = 0;
     for(let i = 0; i < len; i++) {
-      if(pathPieces[i].indexOf(':') > -1) {
+      if(pathPieces[i].indexOf(':') > -1 && pathPieces[i] !== 'http:' && pathPieces[i] !== 'https:') {
         if(!this.params.at(pathParams)) {
           return '';
         }
