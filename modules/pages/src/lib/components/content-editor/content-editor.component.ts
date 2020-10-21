@@ -257,7 +257,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   }
 
   addContent(index: number) {
-    this.bs.open(ContentSelectorComponent, { data: { panelForm: this.panels.controls[index], panelIndex: index, contexts: this.contexts } });
+    console.log(this.panels.at(index));
+    this.bs.open(ContentSelectorComponent, { data: { panelForm: this.panels.at(index), panelIndex: index, contexts: this.contexts } });
   }
 
   editPanelProps(panelIndex: number) {

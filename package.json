@@ -9,6 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "browser": {
+    "vm": false
+  },
   "private": true,
   "dependencies": {
     "@angular/animations": "~10.1.5",
@@ -29,6 +32,7 @@
     "@ngrx/entity": "^10.0.1",
     "@ngrx/router-store": "^10.0.1",
     "@ngrx/store": "^10.0.1",
+    "@ngrx/store-devtools": "^10.0.1",
     "angular-gridster2": "^10.1.6",
     "angular-split": "^4.0.0",
     "angular2-query-builder": "^0.6.2",
