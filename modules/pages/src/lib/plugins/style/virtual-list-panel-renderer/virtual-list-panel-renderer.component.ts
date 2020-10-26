@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import * as uuid from 'uuid';
-import { AttributeValue } from 'attributes';
+import { AttributeValue, AttributeMatcherService } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { TokenizerService } from 'token';
 import { Pane } from '../../../models/page.models';
@@ -35,17 +35,19 @@ export class VirtualListPanelRendererComponent implements OnInit {
   trackByMapping: (index: number, pane: Pane) => string;
 
   private contentPlugins: Array<ContentPlugin>;
+  private trackByTpl: string;
 
   constructor(
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
+    private attributeMatcher: AttributeMatcherService,
     public paneDatasource: PaneDatasourceService
   ) {
     this.contentPlugins = contentPlugins;
     this.trackByMapping = (index: number, pane: Pane): string => {
-      return this.tokenizerService.replaceTokens('[.id]', this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
-    }
+      return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
+    };
   }
 
   ngOnInit(): void {
@@ -71,7 +73,9 @@ export class VirtualListPanelRendererComponent implements OnInit {
     ).subscribe((panes: Array<Pane>) => {
       this.paneDatasource.panes = panes;
     });
+
     this.paneDatasource.panes = this.panes;
+    this.trackByTpl = this.attributeMatcher.matchAttribute('trackBy', this.originPanes[0].settings).value;
 
   }
 

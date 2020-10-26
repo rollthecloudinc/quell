@@ -28,7 +28,7 @@ export class AttributeMatcherService {
     const len = attributes.length;
     for(let i = 0; i < len; i++) {
       if(attributes[i].attributes && attributes[i].attributes.length > 0) {
-        const value = this.matchAttribute(attr, attributes[0].attributes);
+        const value = this.matchAttribute(attr, attributes[i].attributes);
         if(value) {
           return attributes[i];
         } else {
