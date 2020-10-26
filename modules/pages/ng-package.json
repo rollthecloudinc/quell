@@ -25,7 +25,8 @@
       "uuid": "uuid",
       "json-rules-engine": "json-rules-engine",
       "@ngrx/router-store": "@ngrx/router-store",
-      "qs": "qs"
+      "qs": "qs",
+      "jsonpath-plus": "jsonpath-plus"
     }
   }
 }

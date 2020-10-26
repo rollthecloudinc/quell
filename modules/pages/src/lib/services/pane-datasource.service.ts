@@ -9,9 +9,10 @@ export class PaneDatasourceService extends DataSource<Pane> {
   pageChange$ = new Subject<number>();
   private dataStream = new BehaviorSubject<Array<Pane>>([]);
   private subscription = new Subscription();
-  private pageSize = 9;
+  private pageSize = 20;
   private lastPage = 0;
   private paneItems: Array<Pane> = [];
+  // private fetchedPages = new Set<number>();
 
   constructor() {
     super();
@@ -34,7 +35,24 @@ export class PaneDatasourceService extends DataSource<Pane> {
     return this.dataStream;
   }
 
+  /*connect(collectionViewer: CollectionViewer): Observable<Array<any>> {
+    this.subscription.add(collectionViewer.viewChange.subscribe(range => {
+      const startPage = Math.floor(range.start / this.pageSize);
+      const endPage = Math.floor((range.end - 1) / this.pageSize);
+      for (let i = startPage; i <= endPage; i++) {
+        if (this.fetchedPages.has(i)) {
+          return;
+        }
+        console.log(`fetch page ${i}`);
+        this.pageChange$.next(i);
+        this.fetchedPages.add(i);
+      }
+    }));
+    return this.dataStream;
+  }*/
+
   disconnect(collectionViewer: CollectionViewer): void {
     this.subscription.unsubscribe();
   }
+
 }

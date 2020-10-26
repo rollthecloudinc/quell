@@ -216,7 +216,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     const rebuildUrl = [];
     let pathParams = 0;
     for(let i = 0; i < len; i++) {
-      if(pathPieces[i].indexOf(':') > -1 && pathPieces[i] !== 'http:' && pathPieces[i] !== 'https:') {
+      if(pathPieces[i].indexOf(':') === 0) {
         if(!this.params.at(pathParams)) {
           return '';
         }

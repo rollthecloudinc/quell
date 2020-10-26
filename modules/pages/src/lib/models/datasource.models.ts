@@ -21,10 +21,12 @@ export class Rest {
 export class Renderer {
   type: string;
   data: Snippet;
+  query: string;
   bindings: Array<ContentBinding>;
   constructor(data?: Renderer) {
     if(data) {
       this.type = data.type;
+      this.query = data.query;
       if(data.data !== undefined) {
         this.data = new Snippet(data.data);
       }

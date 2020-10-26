@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType} from '@ngrx/effects';
 
 import { concatMap, map, catchError } from 'rxjs/operators';
 import { EMPTY, NEVER } from 'rxjs';
+import { JSONPath } from 'jsonpath-plus';
 
 import * as PageBuilderActions from './page-builder.actions';
 import { DatasourceApiService } from '../../services/datasource-api.service';
@@ -19,6 +20,7 @@ export class PageBuilderEffects {
         catchError(() => {
           return [];
         }),
+        map(results => p.rest.renderer.query !== undefined && p.rest.renderer.query !== '' ? JSONPath({ path: p.rest.renderer.query, json: results }) : results ),
         map(results => PageBuilderActions.loadRestDataSuccess({ tag: p.tag, data: new Dataset({ results }) }))
       ))
     )

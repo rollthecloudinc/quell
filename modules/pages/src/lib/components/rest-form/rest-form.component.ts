@@ -75,6 +75,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
     source: this.fb.control(''),
     renderer: this.fb.group({
       type: 'snippet',
+      query: this.fb.control(''),
       data: this.fb.control(''),
       bindings: this.fb.array([]),
       select: this.fb.group({

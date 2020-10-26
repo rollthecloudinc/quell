@@ -5,7 +5,7 @@ import {
 } from '@ngrx/store';
 import * as fromRouter from '@ngrx/router-store';
 // import { localStorageSync } from 'ngrx-store-localstorage';
-import { environment } from '../../environments/environment';
+// import { environment } from '../../environments/environment';
 
 export interface AppState {
   router: fromRouter.RouterReducerState;

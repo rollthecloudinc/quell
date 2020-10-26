@@ -1,0 +1,3 @@
+p: Virtual List Not Loading next page of results.
+s: Verify that the dynamic pane (ex. rest) is the first pane in the panel. The virtual list style *currently expects the first pane in a panel to be the data source.
+f: Change virtual list discovery process of dynamic pane. Currently expects first item since the discovery is hard coded as index 0 of origin panes.

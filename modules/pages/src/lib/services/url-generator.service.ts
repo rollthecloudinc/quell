@@ -41,7 +41,7 @@ export class UrlGeneratorService {
         const paramNames = this.paramNames(url);
         const mappings = params.reduce<Map<string, Param>>((p, c, i) => new Map([ ...p, [paramNames[i], c ] ]), new Map<string, Param>());
         const path$ = pathPieces.reduce<Array<Observable<string>>>((p, c, i) => {
-          if(c.indexOf(':') > -1) {
+          if(c.indexOf(':') === 0) {
             return [ ...p, this.paramValue(mappings.get(c/*.substr(1)*/), meta)];
           } else {
             return [ ...p, of(pathPieces[i])];

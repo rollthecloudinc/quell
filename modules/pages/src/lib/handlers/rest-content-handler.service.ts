@@ -78,6 +78,7 @@ export class RestContentHandler implements ContentHandler {
       this.store.pipe(
         select(selectDataset(`${metadata.get('tag')}`)),
         filter(dataset => dataset !== undefined),
+        // apply query here to dataset.
         switchMap(dataset => this.getBindings(settings, 'pane').pipe(
           map<Array<ContentBinding>, [Dataset, Array<ContentBinding>]>(bindings => [dataset, bindings])
         )),
