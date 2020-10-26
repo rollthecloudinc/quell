@@ -7,9 +7,9 @@ import { Pane } from '../models/page.models';
 export class PaneDatasourceService extends DataSource<Pane> {
 
   pageChange$ = new Subject<number>();
+  pageSize = 20;
   private dataStream = new BehaviorSubject<Array<Pane>>([]);
   private subscription = new Subscription();
-  private pageSize = 20;
   private lastPage = 0;
   private paneItems: Array<Pane> = [];
   // private fetchedPages = new Set<number>();
@@ -22,6 +22,7 @@ export class PaneDatasourceService extends DataSource<Pane> {
     this.paneItems = [ ...this.paneItems, ...panes];
     // console.log(this.paneItems);
     this.dataStream.next(this.paneItems);
+    // this.dataStream.next(panes);
   }
 
   connect(collectionViewer: CollectionViewer): Observable<Array<any>> {

@@ -28,6 +28,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
       const defaultSelect = { value: '', label: '', id: '', multiple: '', limit: '' };
       this.restForm.setValue({
         renderer: {
+          trackBy: '',
           ...rest.renderer,
           data: rest.renderer.data ? rest.renderer.data : { content: '', contentType: '' },
           select: ['pane', 'snippet'].findIndex(t => t === rest.renderer.type) > -1 ? defaultSelect : JSON.parse(rest.renderer.data.content),
@@ -76,6 +77,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
     renderer: this.fb.group({
       type: 'snippet',
       query: this.fb.control(''),
+      trackBy: this.fb.control(''),
       data: this.fb.control(''),
       bindings: this.fb.array([]),
       select: this.fb.group({

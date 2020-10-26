@@ -53,6 +53,8 @@ export class UrlGeneratorService {
             qsParsed[prop].forEach(p => qs$.push(this.paramValue(mappings.get(p), meta).pipe(map(v => [prop, v, true]))));
           } else if(typeof(qsParsed[prop]) === 'string' && qsParsed[prop].indexOf(':') > -1) {
             qs$.push(this.paramValue(mappings.get(qsParsed[prop]/*.substr(1)*/), meta).pipe(map(v => [prop, v, false])));
+          } else {
+            qs$.push(of([prop, qsParsed[prop], Array.isArray(qsParsed[prop])]));
           }
         }
         return forkJoin([
@@ -97,8 +99,10 @@ export class UrlGeneratorService {
 
   paramValue(param: Param, metadata: Map<string, any>): Observable<string> {
     const route = metadata.get('_route') as ActivatedRoute;
-    if(param.flags.findIndex(f => f.enabled) > -1 && metadata.has('page')) {
+    if(param.flags.findIndex(f => f.enabled && f.name === 'page') > -1 && metadata.has('page')) {
       return of(`${metadata.get('page')}`);
+    } else if (param.flags.findIndex(f => f.enabled && f.name === 'offset') > -1 && metadata.has('limit') && metadata.has('page')) {
+      return of(`${+metadata.get('limit') * (+metadata.get('page') - 1)}`);
     } else if(param.flags.findIndex(f => f.enabled) > -1 && metadata.has('searchString')) {
       return of(`${metadata.get('searchString')}`);
     } else if(param.mapping.type === 'route') {

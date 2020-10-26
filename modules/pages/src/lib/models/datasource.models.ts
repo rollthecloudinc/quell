@@ -22,11 +22,13 @@ export class Renderer {
   type: string;
   data: Snippet;
   query: string;
+  trackBy: string;
   bindings: Array<ContentBinding>;
   constructor(data?: Renderer) {
     if(data) {
       this.type = data.type;
       this.query = data.query;
+      this.trackBy = data.trackBy;
       if(data.data !== undefined) {
         this.data = new Snippet(data.data);
       }

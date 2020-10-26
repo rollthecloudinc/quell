@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges } from '@ang
 import * as uuid from 'uuid';
 import { AttributeValue } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { TokenizerService } from 'token';
 import { Pane } from '../../../models/page.models';
 import { PaneDatasourceService } from '../../../services/pane-datasource.service';
 import { filter, concatMap, map, take, skip, tap } from 'rxjs/operators';
@@ -31,14 +32,20 @@ export class VirtualListPanelRendererComponent implements OnInit {
   @Input()
   contexts: Array<InlineContext>;
 
+  trackByMapping: (index: number, pane: Pane) => string;
+
   private contentPlugins: Array<ContentPlugin>;
 
   constructor(
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private panelHandler: PanelContentHandler,
+    private tokenizerService: TokenizerService,
     public paneDatasource: PaneDatasourceService
   ) {
     this.contentPlugins = contentPlugins;
+    this.trackByMapping = (index: number, pane: Pane): string => {
+      return this.tokenizerService.replaceTokens('[.id]', this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
+    }
   }
 
   ngOnInit(): void {
@@ -58,7 +65,7 @@ export class VirtualListPanelRendererComponent implements OnInit {
       filter(() => this.originPanes !== undefined && this.originPanes[0] !== undefined),
       map(page => [this.contentPlugins.find(c => c.name === this.originPanes[0].contentPlugin, ), page]),
       filter<[ContentPlugin, number]>(([contentPlugin, page]) => contentPlugin !== undefined && contentPlugin.handler !== undefined && this.originPanes.length > 0 && contentPlugin.handler.isDynamic(this.originPanes[0].settings)),
-      concatMap(([contentPlugin, page]) => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['panes', staticPanes], ['contexts', this.contexts] ]))),
+      concatMap(([contentPlugin, page]) => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['contexts', this.contexts] ]))),
       map(items => this.panelHandler.fromPanes(items)),
       map(panes => this.panelHandler.wrapPanel(panes).panes),
     ).subscribe((panes: Array<Pane>) => {
@@ -68,9 +75,11 @@ export class VirtualListPanelRendererComponent implements OnInit {
 
   }
 
-  trackByName(index: number, pane: Pane): string {
-    return pane.name;
-  }
+  /*trackByName(index: number, pane: Pane): string {
+    // return pane.name;
+    // return pane.contexts[0].data.id;
+    return this.tokenizerService.replaceTokens(this.tokenizerService.generateGenericTokens());
+  }*/
 
   mergeContexts(contexts: Array<InlineContext>): Array<InlineContext> {
     if(contexts === undefined && this.contexts === undefined) {
