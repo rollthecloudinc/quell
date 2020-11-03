@@ -7,7 +7,7 @@ import { Snippet } from '../../../models/plugin.models';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({
-  selector: 'classifieds-ui-snippet-editor',
+  selector: 'classifieds-ui-snippet-editor2',
   templateUrl: './snippet-editor.component.html',
   styleUrls: ['./snippet-editor.component.scss']
 })

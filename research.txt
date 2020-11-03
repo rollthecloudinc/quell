@@ -1,0 +1,8 @@
+Lazy loading modules and components with ivy
+disadvantage: requires compiler...
+
+https://indepth.dev/lazy-loading-angular-modules-with-ivy/
+
+Even better (i think) excludes compiler
+
+https://medium.com/angular-in-depth/asynchronous-modules-and-components-in-angular-ivy-1c1d79d45bd3

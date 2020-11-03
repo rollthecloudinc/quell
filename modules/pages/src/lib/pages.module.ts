@@ -88,6 +88,7 @@ import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';
 import { PanelResolverService } from './services/panel-resolver.service';
 import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel-props-dialog.component';
+import { PluginConfigurationManager, PluginConfig } from 'plugin';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -179,6 +180,7 @@ const routes = [
 export class PagesModule {
   constructor(
     eds: EntityDefinitionService,
+    pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
     pageContextResolver: PageContextResolver,
     restContextResolver: RestContextResolver,
@@ -188,5 +190,12 @@ export class PagesModule {
     contextManager.register(pageContextFactory(pageContextResolver));
     contextManager.register(restContextFactory(restContextResolver));
     contextManager.register(formContextFactory(formContextResolver));
+
+    pluginConfigurationManager.addConfig(new PluginConfig({
+      modules: [
+        { module: 'modules/pages/src/lib/pages.module', plugins: new Map<string, Array<string>>([ ['content', [ 'snippet' ]] ]) }
+      ]
+    }));
+
   }
 }

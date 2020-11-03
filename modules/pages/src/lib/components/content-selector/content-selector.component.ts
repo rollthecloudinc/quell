@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
@@ -27,12 +27,14 @@ export class ContentSelectorComponent implements OnInit {
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private dialog: MatDialog,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private contentPluginManager: ContentPluginManager
   ) {
     this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {
+    this.contentPluginManager.getPlugins();
   }
 
   onEntitySelected(plugin: ContentPlugin) {

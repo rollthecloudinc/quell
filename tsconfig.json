@@ -55,6 +55,10 @@
       "auth": [
         "dist/auth/auth",
         "dist/auth"
+      ],
+      "plugin": [
+        "dist/plugin/plugin",
+        "dist/plugin"
       ]
     }
   },

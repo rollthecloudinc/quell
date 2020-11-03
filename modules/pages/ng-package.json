@@ -26,7 +26,8 @@
       "json-rules-engine": "json-rules-engine",
       "@ngrx/router-store": "@ngrx/router-store",
       "qs": "qs",
-      "jsonpath-plus": "jsonpath-plus"
+      "jsonpath-plus": "jsonpath-plus",
+      "plugin": "plugin"
     }
   }
 }

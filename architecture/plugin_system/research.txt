@@ -1,0 +1,52 @@
+Create plugin system modeled from Drupal 8 architecture
+
+The purpose of the plugin system is to extend functionality of the base platform without changing the underlying code.
+How we do this is we identiy areas that are worth exposing to the plugin architecture such as; auth -> support multiple auth providers.
+
+https://www.drupal.org/docs/8/api/plugin-api/plugin-api-overview
+
+Plugin Types:
+ - Content => extend available panel content
+ - Widgets => extend fields available on entities
+ - Media => would support swapping out different media handler (ie vendors or possibly types)
+ - Auth => support different auth providers.
+ - Style => kind of missleading considering this applies to styling panels more so than anything else. This might need to be rethought.
+
+ * For the moment these are all available in the root app - could lazy load... maybe
+
+ Currently are registered with the container via token
+
+ Discovery mechanisms:
+ - manual - register directly
+ - token
+ - decorator
+ - lazy
+ -- json config?
+
+ Example Plugin Definitions
+ - is decorators really necessary - just register into module maybe - kiss?
+
+ pluginManager.register('content', attributeContent)
+
+pluginManager.getDefinition<ContentPlugin>('attribute_content').pipe(
+  switchMap(pd => pd.getPlugins())
+).subscribe(plugins: Array<ContentPlugin> => {
+  console.log(plugins);
+})
+
+interface PluginDefinition<T> {
+  getPlugins: Observable<Array<T>>
+}
+
+export class PluginManager {
+  register<T>(name: string, plugin: T)
+}
+
+export class ContentPluginDefinition implements PluginDefinition<ContentPlugin> {
+
+}
+
+
+ NgRx integration / dependency? -- plugin manager???
+
+ Load
