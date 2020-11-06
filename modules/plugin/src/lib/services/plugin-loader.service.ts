@@ -1,13 +1,16 @@
-import { Type, Compiler, Injector } from '@angular/core';
+import { Type, Compiler, Injector, Injectable } from '@angular/core';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
 // import { PluginDef } from '../models/plugin.models';
 import { PluginConfigurationManager } from './plugin-configuration-manager.service';
 
-export class BasePluginDef<T>  {
+@Injectable({
+  providedIn: 'root'
+})
+export class PluginLoader  {
   constructor(private pcm: PluginConfigurationManager, private compiler: Compiler, private injector: Injector) {
   }
-  getPlugins(): Observable<boolean> {
+  loadPlugins(): Observable<boolean> {
     const configs = this.pcm.getConfigs();
     const len = configs.length;
     const loadModules$: Array<Observable<boolean>> = [];

@@ -5,13 +5,13 @@ import { Observable, of } from 'rxjs';
 
 export interface PluginManager<T> {
   register(plugin: T): void;
-  getDef(): PluginDef<T>;
+  // getDef(): PluginDef<T>;
   getPlugins(): Observable<Array<T>>;
 }
 
-export interface PluginDef<T> {
+/*export interface PluginDef<T> {
   getPlugins(): Observable<boolean>;
-}
+}*/
 
 export class PluginConfig {
   modules: Array<PluginConfigModule>  = [];
