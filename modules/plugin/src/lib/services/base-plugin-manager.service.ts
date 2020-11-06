@@ -1,4 +1,6 @@
 // import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PluginDef} from '../models/plugin.models';
 
 // @Injectable()
@@ -12,8 +14,9 @@ export class BasePluginManager<T> {
   getDef(): PluginDef<T> {
     return this.pluginDef;
   }
-  getPlugins(): Array<T> {
-    this.pluginDef.getPlugins();
-    return this.pluginInstances;
+  getPlugins(): Observable<Array<T>> {
+    return this.pluginDef.getPlugins().pipe(
+      map(() => this.pluginInstances)
+    );
   }
 }

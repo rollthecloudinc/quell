@@ -1,8 +1,14 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ContentPlugin, ContentPluginManager } from 'content';
-import { SnippetEditorComponent } from './snippet-editor/snippet-editor.component';
-import { SnippetPaneRendererComponent } from './snippet-pane-renderer/snippet-pane-renderer.component';
+import { MarkdownModule } from 'ngx-markdown';
+import { AngularSplitModule } from 'angular-split';
+import { MaterialModule } from 'material';
+import { UtilsModule  } from 'utils';
+import { SnippetEditor2Component } from './snippet-editor2/snippet-editor2.component';
+import { SnippetPaneRenderer2Component } from './snippet-pane-renderer2/snippet-pane-renderer2.component';
+import { SnippetForm2Component } from './snippet-form2/snippet-form2.component';
 import { SnippetContentHandler } from './snippet-content.handler';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
@@ -10,16 +16,16 @@ export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
     name: 'snippet',
     title: 'Snippet',
     selectionComponent: undefined,
-    editorComponent: SnippetEditorComponent,
-    renderComponent: SnippetPaneRendererComponent,
+    editorComponent: SnippetEditor2Component,
+    renderComponent: SnippetPaneRenderer2Component,
     handler
   })
 }
 
 @NgModule({
-  imports: [ CommonModule ],
-  declarations: [ SnippetEditorComponent, SnippetPaneRendererComponent ],
-  exports: [ SnippetEditorComponent, SnippetPaneRendererComponent ],
+  imports: [ CommonModule, ReactiveFormsModule, FormsModule, AngularSplitModule, MarkdownModule.forChild(), MaterialModule, UtilsModule ],
+  declarations: [ SnippetEditor2Component, SnippetPaneRenderer2Component, SnippetForm2Component ],
+  // exports: [ SnippetEditor2Component, SnippetPaneRenderer2Component, SnippetForm2Component ],
   providers: [
     { provide: SnippetContentHandler, useClass: SnippetContentHandler }
   ]

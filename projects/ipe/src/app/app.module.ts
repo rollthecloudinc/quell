@@ -51,7 +51,9 @@ const routes = [
   // { path: 'ads', loadChildren: () => import('@classifieds-ui/ads').then(m => m.AdsModule) },
   // { path: 'vocabularies', loadChildren: () => import('@classifieds-ui/vocabulary').then(m => m.VocabularyModule) },
   // { path: 'profiles', loadChildren: () => import('@classifieds-ui/profiles').then(m => m.ProfilesModule) },
-  { path: '', loadChildren: () => import('pages').then(m => m.PagesModule) },
+  { path: '', loadChildren: () => {
+    return import('pages').then(m => m.PagesModule);
+  } },
   //{ path: '', component: HomeComponent },
   //{ path: '**', component: NotFoundComponent }
   //{ path: '', redirectTo: 'pages', pathMatch: "full" }

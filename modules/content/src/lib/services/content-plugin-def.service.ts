@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Compiler, Injector } from '@angular/core';
 import { BasePluginDef, PluginDef, PluginConfigurationManager } from 'plugin';
 import { ContentPlugin } from '../models/content.models';
 
@@ -6,7 +6,7 @@ import { ContentPlugin } from '../models/content.models';
   providedIn: 'root'
 })
 export class ContentPluginDef extends BasePluginDef<ContentPlugin> implements PluginDef<ContentPlugin> {
-  constructor(pcm: PluginConfigurationManager) {
-    super(pcm);
+  constructor(pcm: PluginConfigurationManager, compiler: Compiler, injector: Injector) {
+    super(pcm, compiler, injector);
   }
 }

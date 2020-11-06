@@ -193,7 +193,7 @@ export class PagesModule {
 
     pluginConfigurationManager.addConfig(new PluginConfig({
       modules: [
-        { module: 'modules/pages/src/lib/pages.module', plugins: new Map<string, Array<string>>([ ['content', [ 'snippet' ]] ]) }
+        { module: () => import('./plugins/snippet/snippet.module').then(m => m.SnippetModule), plugins: new Map<string, Array<string>>([ ['content', [ 'snippet' ]] ]) }
       ]
     }));
 

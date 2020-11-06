@@ -34,7 +34,7 @@ export class ContentSelectorComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.contentPluginManager.getPlugins();
+    this.contentPluginManager.getPlugins().subscribe();
   }
 
   onEntitySelected(plugin: ContentPlugin) {

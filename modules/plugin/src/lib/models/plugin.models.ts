@@ -1,3 +1,4 @@
+import { Type } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 // export interface Plugin {}
@@ -5,11 +6,11 @@ import { Observable, of } from 'rxjs';
 export interface PluginManager<T> {
   register(plugin: T): void;
   getDef(): PluginDef<T>;
-  getPlugins(): Array<T>;
+  getPlugins(): Observable<Array<T>>;
 }
 
 export interface PluginDef<T> {
-  getPlugins(): Observable<Array<T>>;
+  getPlugins(): Observable<boolean>;
 }
 
 export class PluginConfig {
@@ -24,7 +25,7 @@ export class PluginConfig {
 }
 
 export class PluginConfigModule {
-  module: string;
+  module: () => Promise<Type<any>>;
   plugins: Map<string, Array<string>>;
   constructor(data?: PluginConfigModule) {
     if (data) {
