@@ -4,7 +4,7 @@ import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
-import { ContentPlugin, CONTENT_PLUGIN, ContentBinding } from 'content';
+import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN } from 'style';
 import { ContextManagerService } from 'context';
@@ -149,7 +149,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     },
   };
 
-  private contentPlugins: Array<ContentPlugin> = [];
+  //private contentPlugins: Array<ContentPlugin> = [];
+  //private contentPlugins: Map<string, ContentPlugin<string>>;
+
   private stylePlugins: Array<StylePlugin> = [];
 
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
@@ -173,8 +175,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   }
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    //@Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
+    private cpm: ContentPluginManager,
     private fb: FormBuilder,
     private bs: MatBottomSheet,
     private dialog: MatDialog,
@@ -182,7 +185,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     private tokenizerService: TokenizerService,
     private contextManager: ContextManagerService
   ) {
-    this.contentPlugins = contentPlugins;
+    //this.contentPlugins = contentPlugins;
     this.stylePlugins = stylePlugins;
   }
 
@@ -400,7 +403,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       });
   }
 
-  onRulesPane(index: number, index2: number) {
+  /*onRulesPane(index: number, index2: number) {
     const pane = new Pane(this.panelPane(index, index2).value);
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
 
@@ -445,6 +448,18 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       });
     }
 
+  }*/
+
+  onRulesPane(index: number, index2: number) {
+    const pane = new Pane(this.panelPane(index, index2).value);
+    const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
+    const [ editablePane ] = this.editablePanes.filter((ep, i) => ep.name === pane.name );
+    this.dialog
+    .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts ] } })
+    .afterClosed()
+    .subscribe(r => {
+      this.panelPane(index, index2).get('rule').setValue(r ? r : rule ? rule : undefined);
+    });
   }
 
   onDeletePane(index: number, index2: number) {
@@ -521,8 +536,24 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   resolvePaneContexts(panelIndex: number, paneIndex: number) {
     const pane = new Pane(this.panelPane(panelIndex, paneIndex).value);
     const controls = this.panelPanes(panelIndex).controls;
-    const plugin = this.contentPlugins.find(p => p.name === pane.contentPlugin);
-    if(plugin.handler !== undefined && plugin.handler.isDynamic(pane.settings)) {
+    // const plugin = this.contentPlugins.find(p => p.id === pane.contentPlugin);
+    this.cpm.getPlugin(pane.contentPlugin).pipe(
+      filter(p => p.handler !== undefined && p.handler.isDynamic(pane.settings)),
+      switchMap((p: ContentPlugin) => p.handler.fetchDynamicData(pane.settings, new Map<string, any>([ ['tag', uuid.v4()], ['contexts', [ ...this.contexts ]] ])).pipe(
+        map(dataset => new InlineContext({ name: '_root', adaptor: 'data', data: dataset.results[0] })),
+        switchMap(context => p.handler.getBindings(pane.settings, 'pane').pipe(
+          map<Array<ContentBinding>, [InlineContext, Array<number>]>(bindings => [context, bindings.map(b => controls.findIndex(p => new Pane(p.value).name === b.id))])
+        ))
+      ))
+    ).subscribe(([context, paneIndexes]) => {
+      this.editablePanes.forEach((p, i) => {
+        if (paneIndexes.findIndex(pi => pi === i) > -1) {
+          p.rootContext = context;
+        }
+      });
+    });
+
+    /*if(plugin.handler !== undefined && plugin.handler.isDynamic(pane.settings)) {
       plugin.handler.fetchDynamicData(pane.settings, new Map<string, any>([ ['tag', uuid.v4()], ['contexts', [ ...this.contexts ]] ])).pipe(
         map(dataset => new InlineContext({ name: '_root', adaptor: 'data', data: dataset.results[0] })),
         switchMap(context => plugin.handler.getBindings(pane.settings, 'pane').pipe(
@@ -535,7 +566,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           }
         });
       })
-    }
+    }*/
   }
 
   panelPanes(index: number): FormArray {
@@ -593,14 +624,32 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   onPaneEdit(index: number, index2: number) {
     const pane = new Pane(this.panelPane(index, index2).value);
     const plugin = this.panelPanePlugin(index, index2);
-    const contentPlugin = this.contentPlugins.find(p => p.name === plugin);
+    /*const contentPlugin = this.contentPlugins.find(p => p.name === plugin);
     if(contentPlugin.editorComponent !== undefined) {
       const dialogRef = this.dialog.open(contentPlugin.editorComponent, { data: { panelFormGroup: this.panels.at(index), panelIndex: index, paneIndex: index2, contexts: this.contexts, contentAdded: this.contentAdded, pane } })
         .afterClosed()
         .subscribe(() => {
           this.resolvePaneContexts(index, index2);
         })
-    }
+    }*/
+    this.cpm.getPlugin(plugin).pipe(
+      filter(p => p.editorComponent !== undefined)
+    ).subscribe(p => {
+      this.dialog.open(
+        p.editorComponent,
+        { data: {
+          panelFormGroup: this.panels.at(index),
+          panelIndex: index,
+          paneIndex: index2,
+          contexts: this.contexts,
+          contentAdded: this.contentAdded, pane
+        }
+      })
+        .afterClosed()
+        .subscribe(() => {
+          this.resolvePaneContexts(index, index2);
+        });
+    });
   }
 
   onPaneDelete(index: number, index2: number) {
@@ -609,11 +658,14 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   onFileChange(event: any, index: number) {
     const file: File = event.addedFiles[0];
-    const plugin = this.contentPlugins.filter(p => p.handler !== undefined).find(p => p.handler.handlesType(file.type));
-    if(plugin !== undefined) {
-      plugin.handler.handleFile(file).subscribe(settings => {
+    // const plugin = this.contentPlugins.filter(p => p.handler !== undefined).find(p => p.handler.handlesType(file.type));
+    this.cpm.getPlugins().pipe(
+      map((plugins: Map<string, ContentPlugin<string>>) => Array.from(plugins.values()).filter(p => p.handler !== undefined).find(p => p.handler.handlesType(file.type))),
+      filter(p => p !== undefined)
+    ).subscribe(p => {
+      p.handler.handleFile(file).subscribe(settings => {
         this.panelPanes(index).push(this.fb.group({
-          contentPlugin: plugin.name,
+          contentPlugin: p.id,
           name: new FormControl(''),
           label: new FormControl(''),
           settings: this.fb.array(settings.map(s => this.fb.group({
@@ -625,7 +677,23 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           })))
         }));
       });
-    }
+    });
+    /*if(plugin !== undefined) {
+      plugin.handler.handleFile(file).subscribe(settings => {
+        this.panelPanes(index).push(this.fb.group({
+          contentPlugin: plugin.id,
+          name: new FormControl(''),
+          label: new FormControl(''),
+          settings: this.fb.array(settings.map(s => this.fb.group({
+            name: new FormControl(s.name, Validators.required),
+            type: new FormControl(s.type, Validators.required),
+            displayName: new FormControl(s.displayName, Validators.required),
+            value: new FormControl(s.value, Validators.required),
+            computedValue: new FormControl(s.value, Validators.required),
+          })))
+        }));
+      });
+    }*/
   }
 
   writeValue(val: any): void {

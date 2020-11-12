@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,12 +17,13 @@ export class ContentSelectorComponent implements OnInit {
   selectedIndex = 0
   plugin: ContentPlugin;
 
-  contentPlugins: Array<ContentPlugin> = [];
+  // contentPlugins: Array<ContentPlugin> = [];
+  contentPlugins: Observable<Map<string, ContentPlugin<string>>>;
 
   @ViewChild(ContentSelectionHostDirective, {static: true}) selectionHost: ContentSelectionHostDirective;
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: { panelForm:FormGroup, panelIndex: number, contexts: Array<InlineContext>, contentAdded: Subject<[number, number]> },
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private dialog: MatDialog,
@@ -30,11 +31,11 @@ export class ContentSelectorComponent implements OnInit {
     private fb: FormBuilder,
     private contentPluginManager: ContentPluginManager
   ) {
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {
-    this.contentPluginManager.getPlugins().subscribe();
+    this.contentPlugins = this.contentPluginManager.getPlugins();
   }
 
   onEntitySelected(plugin: ContentPlugin) {
@@ -47,7 +48,7 @@ export class ContentSelectorComponent implements OnInit {
       const dialogRef = this.dialog.open(this.plugin.editorComponent, { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded } });
     } else {
       (this.data.panelForm.get('panes') as FormArray).push(this.fb.group({
-        contentProvider: this.plugin.name,
+        contentProvider: this.plugin.id,
         settings: this.fb.array([])
       }));
     }

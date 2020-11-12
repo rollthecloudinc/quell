@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { InlineContext } from '../models/context.models';
 import { ContextManagerService } from 'context';
 import { Observable, of, combineLatest, merge, forkJoin} from 'rxjs';
-import { map, debounceTime, filter, scan, switchMap } from 'rxjs/operators';
+import { map, debounceTime, filter, scan, switchMap, defaultIfEmpty } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 
@@ -40,7 +40,7 @@ export class InlineContextResolverService {
 
   resolveForms(): Observable<any> {
     return this.pageBuilderFacade.getFormNames$.pipe(
-      switchMap(names => combineLatest( names.map(n => this.pageBuilderFacade.getForm$(n).pipe(
+      switchMap(names => names.length === 0 ? of([]) : combineLatest( names.map(n => this.pageBuilderFacade.getForm$(n).pipe(
         map(f => [n, f])
       ) ) )),
       map(v => v.reduce((p, [n, f]) => ({ ...p, [`form__${n}`]: f }), {}))

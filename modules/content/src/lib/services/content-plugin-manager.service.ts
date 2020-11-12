@@ -1,12 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BasePluginManager, PluginManager, PluginLoader } from 'plugin';
+import { of } from 'rxjs';
+import { ModuleLoaderService } from 'utils';
+import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from 'plugin';
 import { ContentPlugin } from '../models/content.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ContentPluginManager extends BasePluginManager<ContentPlugin> implements PluginManager<ContentPlugin> {
-  constructor(pluginLoader: PluginLoader) {
-    super(pluginLoader);
+export class ContentPluginManager extends BasePluginManager<ContentPlugin<string>, string> implements PluginManager<ContentPlugin<string>, string> {
+  constructor(pcm: PluginConfigurationManager, moduleLoader: ModuleLoaderService) {
+    super(pcm, moduleLoader);
+  }
+  pluginDef() {
+    return of(new PluginDef({ name: 'content' }));
   }
 }

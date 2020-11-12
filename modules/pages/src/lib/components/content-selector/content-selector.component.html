@@ -2,8 +2,8 @@
   <mat-tab-group [selectedIndex]="selectedIndex">
     <mat-tab>
       <mat-nav-list>
-        <a *ngFor="let p of contentPlugins" mat-list-item mat-list-item (click)="onEntitySelected(p)">
-          <span mat-line>{{ p.title }}</span>
+        <a *ngFor="let p of (contentPlugins | async) | keyvalue" mat-list-item mat-list-item (click)="onEntitySelected(p.value)">
+          <span mat-line>{{ p.value.title }}</span>
         </a>
       </mat-nav-list>
     </mat-tab>

@@ -25,8 +25,8 @@ import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
-  return new ContentPlugin({
-    name: 'snippet',
+  return new ContentPlugin<string>({
+    id: 'snippet',
     title: 'Snippet',
     selectionComponent: undefined,
     editorComponent: SnippetEditorComponent,
@@ -36,8 +36,8 @@ export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
 }
 
 export const attributeContentPluginFactory = (handler: AttributeContentHandler) => {
-  return new ContentPlugin({
-    name: 'attribute',
+  return new ContentPlugin<string>({
+    id: 'attribute',
     title: 'Attribute',
     selectionComponent: AttributeSelectorComponent,
     editorComponent: AttributeEditorComponent,
@@ -47,8 +47,8 @@ export const attributeContentPluginFactory = (handler: AttributeContentHandler) 
 }
 
 export const mediaContentPluginFactory = (handler: MediaContentHandler) => {
-  return new ContentPlugin({
-    name: 'media',
+  return new ContentPlugin<string>({
+    id: 'media',
     title: 'Media',
     selectionComponent: undefined,
     editorComponent: MediaEditorComponent,
@@ -58,8 +58,8 @@ export const mediaContentPluginFactory = (handler: MediaContentHandler) => {
 }
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
-  return new ContentPlugin({
-    name: 'panel',
+  return new ContentPlugin<string>({
+    id: 'panel',
     title: 'Panel',
     selectionComponent: PanelSelectorComponent,
     editorComponent: PanelEditorComponent,
@@ -69,8 +69,8 @@ export const panelContentPluginFactory = (handler: PanelContentHandler) => {
 }
 
 export const restContentPluginFactory = (handler: RestContentHandler) => {
-  return new ContentPlugin({
-    name: 'rest',
+  return new ContentPlugin<string>({
+    id: 'rest',
     title: 'REST',
     selectionComponent: undefined,
     editorComponent: RestEditorComponent,
@@ -80,8 +80,8 @@ export const restContentPluginFactory = (handler: RestContentHandler) => {
 }
 
 export const sliceContentPluginFactory = (handler: SliceContentHandler) => {
-  return new ContentPlugin({
-    name: 'slice',
+  return new ContentPlugin<string>({
+    id: 'slice',
     title: 'Slice',
     selectionComponent: undefined,
     editorComponent: SliceEditorComponent,

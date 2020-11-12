@@ -12,8 +12,8 @@ import { SnippetForm2Component } from './snippet-form2/snippet-form2.component';
 import { SnippetContentHandler } from './snippet-content.handler';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
-  return new ContentPlugin({
-    name: 'snippet',
+  return new ContentPlugin<string>({
+    id: 'snippet',
     title: 'Snippet',
     selectionComponent: undefined,
     editorComponent: SnippetEditor2Component,

@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, APP_INITIALIZER, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, UrlSegment, Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -13,7 +13,7 @@ import { MediaModule } from 'media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from 'utils';
 import { TokenModule } from 'token';
 import { AttributesModule } from 'attributes';
-import { CONTENT_PLUGIN } from 'content';
+import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
 import { STYLE_PLUGIN, StylePlugin } from 'style';
@@ -179,6 +179,8 @@ const routes = [
 })
 export class PagesModule {
   constructor(
+    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
+    cpm: ContentPluginManager,
     eds: EntityDefinitionService,
     pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
@@ -191,11 +193,14 @@ export class PagesModule {
     contextManager.register(restContextFactory(restContextResolver));
     contextManager.register(formContextFactory(formContextResolver));
 
-    pluginConfigurationManager.addConfig(new PluginConfig({
+    // Remove this since much easier just to leave as is for now.
+    /*pluginConfigurationManager.addConfig(new PluginConfig({
       modules: [
         { module: () => import('./plugins/snippet/snippet.module').then(m => m.SnippetModule), plugins: new Map<string, Array<string>>([ ['content', [ 'snippet' ]] ]) }
       ]
-    }));
+    }));*/
+
+    contentPlugins.forEach(p => cpm.register(p));
 
   }
 }

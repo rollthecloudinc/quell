@@ -1,20 +1,47 @@
 // import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 // import { PluginDef} from '../models/plugin.models';
-import { PluginLoader } from './plugin-loader.service';
+import { ModuleLoaderService } from 'utils';
+import { ConfigDiscovery } from './config-discovery.service';
+import { PluginConfigurationManager } from './plugin-configuration-manager.service';
+import { PluginDef, Plugin, PluginDiscovery } from '../models/plugin.models';
 
 // @Injectable()
-export class BasePluginManager<T> {
-  private pluginInstances: Array<T> = [];
-  constructor(private pluginLoader: PluginLoader) {
+export abstract class BasePluginManager<T extends Plugin<Y>, Y> {
+  private pluginInstances = new Map<Y, T>();
+  private discoveryPipeline: Array<PluginDiscovery> = [];
+  constructor(private pcm: PluginConfigurationManager, private moduleLoader: ModuleLoaderService) {
+    this.discovery();
+  }
+  abstract pluginDef(): Observable<PluginDef>;
+  discovery() {
+    this.discoveryPipeline.push(new ConfigDiscovery(this.pcm, this.moduleLoader));
   }
   register(plugin: T): void {
-    this.pluginInstances.push(plugin);
+    this.pluginInstances.set(plugin.id, plugin);
   }
-  getPlugins(): Observable<Array<T>> {
-    return this.pluginLoader.loadPlugins().pipe(
-      map(() => this.pluginInstances)
-    );
+  getPlugins(ids?: Array<Y>): Observable<Map<Y, T>> {
+    const newPlugins = ids ? ids.filter(id => !this.pluginInstances.has(id)) : [];
+    if (ids && newPlugins.length === 0) {
+      return of(new Map<Y, T>(ids.map(id => [id, this.pluginInstances.get(id)])));
+    } else {
+      return this.pluginDef().pipe(
+        switchMap(def => forkJoin(this.discoveryPipeline.map(d => d.loadPlugins(def, newPlugins))).pipe(
+          map(() => ids ? new Map<Y, T>(ids.map(id => [id, this.pluginInstances.get(id)])) : this.pluginInstances )
+        ))
+      );
+    }
+  }
+  getPlugin(id: Y): Observable<T> {
+    if (this.pluginInstances.has(id)) {
+      return of(this.pluginInstances.get(id));
+    } else {
+      return this.pluginDef().pipe(
+        switchMap(def => forkJoin(this.discoveryPipeline.map(d => d.loadPlugins(def, [id]))).pipe(
+          map(() => this.pluginInstances.get(id))
+        ))
+      );
+    }
   }
 }

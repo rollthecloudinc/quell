@@ -4,3 +4,4 @@ export * from './lib/components/dynamic-content-viewer/dynamic-content-viewer.co
 export * from './lib/directives/for.directive';
 export * from './lib/pipes/not-available.pipe';
 export * from './lib/pipes/numeral.pipe';
+export * from './lib/services/module-loader.service';

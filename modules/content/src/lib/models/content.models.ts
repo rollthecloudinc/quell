@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { AttributeValue } from 'attributes';
+import { Plugin } from 'plugin';
 import { Observable } from 'rxjs';
 
 export interface ContentHandler {
@@ -13,22 +14,21 @@ export interface ContentHandler {
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>>;
 }
 
-export class ContentPlugin {
-  name: string;
-  title: string;
+export class ContentPlugin<T = string> extends Plugin<T> {
+  name?: T;
   fileTypes?: Array<string> = [];
   handler?: ContentHandler;
   selectionComponent: Type<any>;
   renderComponent: Type<any>;
   editorComponent: Type<any>;
-  constructor(data?: ContentPlugin) {
+  constructor(data?: ContentPlugin<T>) {
+    super(data);
     if (data) {
-      this.name = data.name;
-      this.title = data.title;
+      this.name = this.id;
       this.handler = data.handler !== undefined ? data.handler: undefined;
       this.selectionComponent = data.selectionComponent ? data.selectionComponent : undefined;
-      this.renderComponent = data.renderComponent ? data.renderComponent: undefined;
-      this.editorComponent = data.editorComponent ? data.editorComponent: undefined;
+      this.renderComponent = data.renderComponent ? data.renderComponent : undefined;
+      this.editorComponent = data.editorComponent ? data.editorComponent : undefined;
     }
   }
 }
