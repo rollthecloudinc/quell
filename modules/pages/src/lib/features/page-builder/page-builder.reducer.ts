@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as PageBuilderActions from './page-builder.actions';
 import { ContentInstance } from 'content';
-import { Dataset } from '../../models/datasource.models';
+import { Dataset } from 'datasource';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
 

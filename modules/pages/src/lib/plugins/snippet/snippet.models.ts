@@ -1,4 +1,4 @@
-export class Snippet {
+/*export class Snippet {
   content: string;
   contentType: string;
   constructor(data?: Snippet) {
@@ -7,4 +7,4 @@ export class Snippet {
       this.contentType = data.contentType;
     }
   }
-}
+}*/

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RuleSet } from 'angular2-query-builder';
 import { Observable, of, forkJoin } from 'rxjs';
 import { RulesParserService } from './rules-parser.service';
-import { InlineContext } from '../models/context.models';
+import { InlineContext } from 'context';
 import { Engine } from 'json-rules-engine';
 import { map, tap, switchMap, take } from 'rxjs/operators';
 import { InlineContextResolverService } from './inline-context-resolver.service';

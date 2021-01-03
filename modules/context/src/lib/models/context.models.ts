@@ -1,5 +1,7 @@
 import { Observable } from 'rxjs';
 import { Type } from '@angular/core';
+import { Rest } from 'datasource';
+import { Snippet } from 'content';
 
 export interface ContextResolver {
   resolve(ctx: ContextPlugin, data?: any): Observable<any>
@@ -24,6 +26,32 @@ export class ContextPlugin {
       if(data.editorComponent) {
         this.editorComponent = data.editorComponent;
       }
+    }
+  }
+}
+
+export class InlineContext {
+  name: string;
+  adaptor: string;
+  plugin?: string;
+  rest?: Rest;
+  snippet?: Snippet;
+  data?: any;
+  tokens?: Map<string, any>;
+  constructor(data?: InlineContext) {
+    this.name = data.name;
+    this.adaptor = data.adaptor;
+    if(data.plugin) {
+      this.plugin = data.plugin;
+    }
+    if(this.adaptor === 'rest') {
+      this.rest = new Rest(data.rest);
+    } else if(this.adaptor === 'snippet' || this.adaptor === 'json') {
+      this.snippet = new Snippet(data.snippet);
+    } else if(this.adaptor === 'data') {
+      this.data = data.data;
+    } else if(this.adaptor === 'token') {
+      this.tokens = new Map([ ...data.tokens ]);
     }
   }
 }

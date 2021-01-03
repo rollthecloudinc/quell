@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Snippet } from '../models/plugin.models';
-import { Dataset } from '../models/datasource.models';
 
 @Injectable()
 export class SnippetContentHandler implements ContentHandler {

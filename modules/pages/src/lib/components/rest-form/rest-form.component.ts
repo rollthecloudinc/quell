@@ -1,9 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { TokenizerService } from 'token';
-import { Rest, Param } from '../../models/datasource.models';
+import { Rest, Param } from 'datasource';
+import { InlineContext } from 'context';
 import { RestSourceFormComponent } from '../rest-source-form/rest-source-form.component';
-import { InlineContext } from '../../models/context.models';
 
 @Component({
   selector: 'classifieds-ui-rest-form',

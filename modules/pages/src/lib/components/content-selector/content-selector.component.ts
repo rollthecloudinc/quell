@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { InlineContext } from 'context';
 import { Subject, Observable } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { InlineContext } from '../../models/context.models';
 
 @Component({
   selector: 'classifieds-ui-content-selector',

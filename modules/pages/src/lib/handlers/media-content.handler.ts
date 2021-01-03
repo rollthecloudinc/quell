@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding } from 'content';
+import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { FilesService, MediaFile } from 'media';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Dataset } from '../models/datasource.models';
 
 @Injectable()
 export class MediaContentHandler implements ContentHandler {

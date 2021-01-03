@@ -3,7 +3,9 @@ import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@ang
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeTypes } from 'attributes';
 import { Pane } from '../../../models/page.models';
-import { Snippet } from '../../../models/plugin.models';
+// import { Snippet } from '../../../models/plugin.models';
+// import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
+import { Snippet } from 'content';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({

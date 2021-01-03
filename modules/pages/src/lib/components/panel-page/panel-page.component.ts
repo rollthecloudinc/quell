@@ -2,13 +2,12 @@ import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementR
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { ContextManagerService } from 'context';
+import { ContextManagerService, InlineContext } from 'context';
 import { PanelPage, Pane } from '../../models/page.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
-import { InlineContext } from '../../models/context.models';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';

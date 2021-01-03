@@ -5,7 +5,8 @@ import { RestContentHandler } from '../../../handlers/rest-content-handler.servi
 import { Subject } from 'rxjs';
 import { switchMap, filter, tap } from 'rxjs/operators';
 import { ControlContainer } from '@angular/forms';
-import { SelectOption, Snippet, SelectMapping } from '../../../models/plugin.models';
+import { SelectOption, SelectMapping } from '../../../models/plugin.models';
+import { Snippet } from 'content';
 
 @Component({
   selector: 'classifieds-ui-rest-pane-renderer',

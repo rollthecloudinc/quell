@@ -1,7 +1,7 @@
 // import { ContentInstance } from 'content';
 import { RuleSet } from 'angular2-query-builder';
 import { AttributeValue } from 'attributes';
-import { InlineContext } from './context.models';
+import { InlineContext } from 'context';
 
 interface DatasourceModel<T> {
   new (): T;

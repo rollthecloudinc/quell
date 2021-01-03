@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, Snippet } from 'content';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Snippet } from './snippet.models';
 // import { Dataset } from '../models/datasource.models';
 
 @Injectable()

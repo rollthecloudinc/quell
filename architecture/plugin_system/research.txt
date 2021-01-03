@@ -7,6 +7,7 @@ https://www.drupal.org/docs/8/api/plugin-api/plugin-api-overview
 
 Plugin Types:
  - Content => extend available panel content
+   1/2/2021 - all content plugins provided by pages modulea are registered manually with the content plugin manager.
  - Widgets => extend fields available on entities
  - Media => would support swapping out different media handler (ie vendors or possibly types)
  - Auth => support different auth providers.

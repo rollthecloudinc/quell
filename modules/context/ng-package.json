@@ -6,7 +6,9 @@
     "umdModuleIds": {
       "material": "material",
       "@ngrx/store": "@ngrx/store",
-      "@ngrx/router-store": "@ngrx/router-store"
+      "@ngrx/router-store": "@ngrx/router-store",
+      "content": "content",
+      "datasource": "datasource"
     }
   }
 }

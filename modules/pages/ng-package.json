@@ -27,7 +27,8 @@
       "@ngrx/router-store": "@ngrx/router-store",
       "qs": "qs",
       "jsonpath-plus": "jsonpath-plus",
-      "plugin": "plugin"
+      "plugin": "plugin",
+      "datasource": "datasource"
     }
   }
 }

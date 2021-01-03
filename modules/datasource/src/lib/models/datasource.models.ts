@@ -1,5 +1,4 @@
-import { Snippet } from './plugin.models';
-import { ContentBinding } from 'content';
+import { ContentBinding, Snippet } from 'content';
 
 export class Rest {
   url: string;

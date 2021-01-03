@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { ContentInstance } from 'content';
-import { Rest, Dataset } from '../../models/datasource.models';
+import { Rest, Dataset } from 'datasource';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
 

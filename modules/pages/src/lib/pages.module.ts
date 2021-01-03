@@ -194,6 +194,7 @@ export class PagesModule {
     contextManager.register(formContextFactory(formContextResolver));
 
     // Remove this since much easier just to leave as is for now.
+    // Proof of concept - snippet is not really worth decoupling.
     /*pluginConfigurationManager.addConfig(new PluginConfig({
       modules: [
         { module: () => import('./plugins/snippet/snippet.module').then(m => m.SnippetModule), plugins: new Map<string, Array<string>>([ ['content', [ 'snippet' ]] ]) }

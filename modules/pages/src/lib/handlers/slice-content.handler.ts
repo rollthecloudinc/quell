@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding } from 'content';
+import { Dataset } from 'datasource';
+import { InlineContext } from 'context';
 import { TokenizerService } from 'token';
 import { MediaFile } from 'media';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
-import { InlineContext } from '../models/context.models';
 import { MediaContentHandler } from './media-content.handler';
 import { PanelContentHandler } from './panel-content.handler';
 import { Pane, Panel, PanelPage } from '../models/page.models';
-import { Dataset } from '../models/datasource.models';
 import { InlineContextResolverService } from '../services/inline-context-resolver.service';
 
 @Injectable()

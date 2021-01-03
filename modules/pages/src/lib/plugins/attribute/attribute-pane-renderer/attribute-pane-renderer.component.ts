@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from 'attributes';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
-import { Snippet } from '../../../models/plugin.models';
+import { Snippet } from 'content';
 import { TokenizerService } from 'token';
 
 @Component({

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding } from 'content';
+import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { of, Observable } from 'rxjs';
 import { PanelPage, Pane, Panel } from '../models/page.models';
-import { Dataset } from '../models/datasource.models';
 
 @Injectable({
   providedIn: 'root'

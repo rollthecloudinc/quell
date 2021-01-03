@@ -59,6 +59,10 @@
       "plugin": [
         "dist/plugin/plugin",
         "dist/plugin"
+      ],
+      "datasource": [
+        "dist/datasource/datasource",
+        "dist/datasource"
       ]
     }
   },

@@ -2,12 +2,12 @@ import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, 
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Panel } from '../../models/page.models';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { InlineContext } from 'context';
 import { STYLE_PLUGIN, StylePlugin } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { Pane } from '../../models/page.models';
 import { switchMap, map, filter, debounceTime, tap } from 'rxjs/operators';
 import { Subscription, Subject } from 'rxjs';
-import { InlineContext } from '../../models/context.models';
 import { PanelResolverService } from '../../services/panel-resolver.service';
 
 @Component({

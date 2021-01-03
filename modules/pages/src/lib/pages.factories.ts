@@ -4,6 +4,7 @@ import { MediaContentHandler } from './handlers/media-content.handler';
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { ContentPlugin } from 'content';
 import { ContextPlugin } from 'context';
+import { Dataset } from 'datasource';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
@@ -19,7 +20,6 @@ import { RestPaneRendererComponent } from './plugins/rest/rest-pane-renderer/res
 import { SliceContentHandler } from './handlers/slice-content.handler';
 import { SliceEditorComponent } from './plugins/slice/slice-editor/slice-editor.component';
 import { PageContextResolver } from './contexts/page-context.resolver';
-import { Dataset } from './models/datasource.models';
 import { ContextEditorComponent } from './components/context-editor/context-editor.component';
 import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';

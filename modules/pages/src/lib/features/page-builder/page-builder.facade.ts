@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
 import { ContentInstance } from 'content';
+import { Rest } from 'datasource';
 
 import { PageBuilderPartialState } from './page-builder.reducer';
 import { selectContentInstance, selectPageInfo, selectForm, selectFormNames } from './page-builder.selectors';
 import * as pageBuilderActions from './page-builder.actions';
-import { Rest } from '../../models/datasource.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
 

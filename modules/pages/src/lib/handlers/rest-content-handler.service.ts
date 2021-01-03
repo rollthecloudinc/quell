@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { Rest, Dataset } from 'datasource';
+import { InlineContext } from 'context';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
-import { Rest, Dataset } from '../models/datasource.models';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 import { selectDataset } from '../features/page-builder/page-builder.selectors';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { TokenizerService } from 'token';
 import { Panel, PanelPage, Pane } from '../models/page.models';
-import { InlineContext } from '../models/context.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { UrlGeneratorService } from '../services/url-generator.service';
-import { SelectMapping, SelectOption, Snippet } from '../models/plugin.models';
+import { SelectMapping, SelectOption } from '../models/plugin.models';
 import { RulesResolverService } from '../services/rules-resolver.service';
 
 @Injectable()

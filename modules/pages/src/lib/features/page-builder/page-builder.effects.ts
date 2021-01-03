@@ -6,9 +6,9 @@ import { concatMap, map, catchError } from 'rxjs/operators';
 import { EMPTY, NEVER } from 'rxjs';
 import { JSONPath } from 'jsonpath-plus';
 
+import { Dataset } from 'datasource';
 import * as PageBuilderActions from './page-builder.actions';
 import { DatasourceApiService } from '../../services/datasource-api.service';
-import { Dataset } from '../../models/datasource.models';
 
 
 @Injectable()

@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AttributeValue } from 'attributes';
+import { Rest } from 'datasource';
+import { InlineContext } from 'context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
-import { Rest } from '../../../models/datasource.models';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Pane } from '../../../models/page.models';
-import { InlineContext } from '../../../models/context.models';
 
 @Component({
   selector: 'classifieds-ui-rest-editor',
