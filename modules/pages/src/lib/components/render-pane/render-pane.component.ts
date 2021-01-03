@@ -1,11 +1,13 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { AttributeValue } from 'attributes';
-import { ContentPlugin, CONTENT_PLUGIN } from 'content';
+import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { PanelPage, Pane } from '../../models/page.models';
 import { InlineContext } from '../../models/context.models';
+import { Subject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
@@ -68,35 +70,14 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   public onTouched: () => void = () => {};
 
-  private contentPlugins: Array<ContentPlugin> = [];
+  // private contentPlugins: Array<ContentPlugin> = [];
 
-  @ViewChild(PaneContentHostDirective, { static: true }) contentPaneHost: PaneContentHostDirective;
-
-  constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private panelHandler: PanelContentHandler,
-    private fb: FormBuilder
-  ) {
-    this.contentPlugins = contentPlugins;
-  }
-
-  ngOnInit(): void {
-    this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
-    this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
-    this.paneForm.get('name').setValue(this.name);
-    this.paneForm.get('label').setValue(this.label);
-    if(this.pluginName === 'panel') {
-      //console.log('resolve nested panel page');
-      this.resolveNestedPanelPage();
-    } else  {
-      this.renderPaneContent();
-    }
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
-    this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
+  private schedulePluginChange = new Subject();
+  private pluginChangeSub = this.schedulePluginChange.pipe(
+    switchMap(() => this.cpm.getPlugin(this.pluginName))
+  ).subscribe(p => {
+    this.contentPlugin = p;
+    this.paneForm.get('contentPlugin').setValue(p.name);
     this.paneForm.get('name').setValue(this.name);
     this.paneForm.get('label').setValue(this.label);
     if(this.pluginName === 'panel') {
@@ -105,6 +86,46 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     } else {
       this.renderPaneContent();
     }
+  });
+
+  @ViewChild(PaneContentHostDirective, { static: true }) contentPaneHost: PaneContentHostDirective;
+
+  constructor(
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private panelHandler: PanelContentHandler,
+    private fb: FormBuilder,
+    private cpm: ContentPluginManager
+  ) {
+    // this.contentPlugins = contentPlugins;
+  }
+
+  ngOnInit(): void {
+    this.schedulePluginChange.next();
+    /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
+    this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
+    this.paneForm.get('name').setValue(this.name);
+    this.paneForm.get('label').setValue(this.label);
+    if(this.pluginName === 'panel') {
+      //console.log('resolve nested panel page');
+      this.resolveNestedPanelPage();
+    } else  {
+      this.renderPaneContent();
+    }*/
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.schedulePluginChange.next();
+    /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
+    this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
+    this.paneForm.get('name').setValue(this.name);
+    this.paneForm.get('label').setValue(this.label);
+    if(this.pluginName === 'panel') {
+      //console.log('resolve nested panel page');
+      this.resolveNestedPanelPage();
+    } else {
+      this.renderPaneContent();
+    }*/
   }
 
   writeValue(val: any): void {

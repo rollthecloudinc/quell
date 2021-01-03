@@ -15,15 +15,15 @@ export class DatasourceSelectorComponent implements OnInit {
   @Input()
   panelFormGroup: FormGroup;
 
-  private contentPlugin: ContentPlugin;
+  // private contentPlugin: ContentPlugin;
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private fb: FormBuilder,
     private dialog: MatDialog
   ) {
-    this.contentPlugin = contentPlugins.find(p => p.name === 'datasource');
+    // this.contentPlugin = contentPlugins.find(p => p.name === 'datasource');
   }
 
   ngOnInit(): void {

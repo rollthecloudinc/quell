@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { ContextManagerService } from 'context';
 import { PanelPage, Pane } from '../../models/page.models';
 import { PanelPageForm } from '../../models/form.models';
@@ -9,8 +9,8 @@ import { PageBuilderFacade } from '../../features/page-builder/page-builder.faca
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 import { InlineContext } from '../../models/context.models';
-import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay } from 'rxjs/operators';
+import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable } from 'rxjs';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
@@ -60,9 +60,35 @@ export class PanelPageComponent implements OnInit, OnChanges {
     mobileBreakpoint: 0
   };
 
-  private contentPlugins: Array<ContentPlugin> = [];
+  // private contentPlugins: Array<ContentPlugin> = [];
 
   private panelPageService: EntityCollectionService<PanelPage>;
+
+  private schedulePageFetch = new Subject();
+  private pageFetchSub = this.schedulePageFetch.pipe(
+    switchMap(() => this.panelPageService.getByKey(this.id)),
+    switchMap(p =>
+      this.cpm.getPlugins(
+        p.panels.reduce<Array<string>>((contentPlugins, c) => {
+          c.panes.forEach(pane => {
+            if(!contentPlugins.includes(pane.contentPlugin)) {
+              contentPlugins.push(pane.contentPlugin);
+            }
+          });
+          return contentPlugins;
+        }, [])
+      ).pipe(
+        map<Map<string, ContentPlugin>, [PanelPage, boolean]>(contentPlugins => [p, p.panels.reduce<Array<Pane>>((panes, panel) => [ ...panes, ...panel.panes ], []).map(pane => contentPlugins.get(pane.contentPlugin).handler?.isDynamic(pane.settings) ).findIndex(d => d === true) !== -1])
+      )
+    )
+  ).subscribe(([p, isDynamic]) => {
+    this.contexts = p.contexts ? p.contexts.map(c => new InlineContext(c)) : [];
+    this.panelPage = p;
+    this.populatePanelsFormArray();
+    if(!this.nested || isDynamic ) {
+      this.hookupContextChange();
+    }
+  });
 
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
 
@@ -70,21 +96,22 @@ export class PanelPageComponent implements OnInit, OnChanges {
     return this.pageForm.get('panels') as FormArray;
   }
 
-  get pageIsDynamic() {
+  /*get pageIsDynamic() {
     return this.panelPage.panels.reduce<Array<[Pane, ContentPlugin]>>((p2, c) => [ ...p2, ...c.panes.map<[Pane, ContentPlugin]>(p3 => [p3, this.contentPlugins.find(cp => cp.name === p3.contentPlugin)]) ], []).find(([p2, cp]) => cp.handler && cp.handler.isDynamic(p2.settings)) !== undefined;
-  }
+  }*/
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private routerStore: Store<RouterReducerState>,
     private fb: FormBuilder,
     private el: ElementRef,
     private inlineContextResolver: InlineContextResolverService,
     private contextManager: ContextManagerService,
     private pageBuilderFacade:PageBuilderFacade,
+    private cpm: ContentPluginManager,
     es: EntityServices,
   ) {
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
     this.panelPageService = es.getEntityCollectionService('PanelPage');
   }
 
@@ -97,7 +124,8 @@ export class PanelPageComponent implements OnInit, OnChanges {
       );
     }*/
     if(this.id !== undefined) {
-      this.fetchPage();
+      // this.fetchPage();
+      this.schedulePageFetch.next();
     } else if(this.panelPage !== undefined) {
       this.populatePanelsFormArray();
     }
@@ -125,18 +153,19 @@ export class PanelPageComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if(!this.nested && !changes.id.firstChange && changes.id.previousValue !== changes.id.currentValue) {
-      this.fetchPage();
+      // this.fetchPage();
+      this.schedulePageFetch.next();
     }
   }
 
-  fetchPage() {
+  /*fetchPage() {
     this.panelPageService.getByKey(this.id).subscribe(p => {
       /*if(this.nested) {
         this.contexts =
       } else {
         this.contexts = [];
       }*/
-      console.log(p);
+      /*console.log(p);
       this.contexts = p.contexts ? p.contexts.map(c => new InlineContext(c)) : [];
       this.panelPage = p;
       this.populatePanelsFormArray();
@@ -145,7 +174,7 @@ export class PanelPageComponent implements OnInit, OnChanges {
         this.hookupContextChange();
       }
     });
-  }
+  }*/
 
   onHeightChange(height: number, index: number) {
     this.gridLayout.setItemContentHeight(index, height);

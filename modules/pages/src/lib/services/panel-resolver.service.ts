@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
-import { CONTENT_PLUGIN, ContentPlugin, ContentBinding } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from 'content';
 import { Pane } from '../models/page.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';
@@ -12,45 +12,77 @@ import { InlineContextResolverService } from '../services/inline-context-resolve
 @Injectable()
 export class PanelResolverService {
 
-  contentPlugins: Array<ContentPlugin> = [];
+  c// ontentPlugins: Array<ContentPlugin> = [];
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private panelHandler: PanelContentHandler,
     private rulesResolver: RulesResolverService,
-    private inlineContextResolver: InlineContextResolverService
+    private inlineContextResolver: InlineContextResolverService,
+    private cpm: ContentPluginManager
   ) {
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
   }
 
   usedContexts(panes: Array<Pane>): Observable<Array<string>> {
-    return forkJoin(
-      panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
-        const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
-        if(plugin.handler !== undefined) {
-          return [ ...p, plugin.handler.getBindings(c.settings, 'context').pipe(
-            map(cb => cb.map(b => b.id))
-          ) ];
-        } else {
-          return [ ...p ];
-        }
-      }, [])
-    ).pipe(
-      map(v => v.reduce<Array<string>>((p, c) => ([ ...p, ...c ]), []))
+    return this.panesPlugins(panes).pipe(
+      switchMap(plugins => forkJoin(
+        panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
+          const plugin = plugins.get(c.contentPlugin);
+          if(plugin.handler !== undefined) {
+            return [ ...p, plugin.handler.getBindings(c.settings, 'context').pipe(
+              map(cb => cb.map(b => b.id))
+            ) ];
+          } else {
+            return [ ...p ];
+          }
+        }, [])
+      ).pipe(
+        map(v => v.reduce<Array<string>>((p, c) => ([ ...p, ...c ]), []))
+      ))
     );
   }
 
+  staticPanes(panes: Array<Pane>): Observable<Array<Pane>> {
+    return this.cpm.getPlugins(panes.reduce<Array<string>>((p, c) => {
+      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [];
+    }, [])).pipe(
+      map(plugins => panes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings)))
+    );
+  }
+
+  panesPlugins(panes: Array<Pane>): Observable<Map<string, ContentPlugin<string>>> {
+    return this.cpm.getPlugins(panes.reduce<Array<string>>((p, c) => {
+      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [];
+    }, []));
+  }
+
   resolvePanes(panes: Array<Pane>, contexts: Array<InlineContext>, resolvedContext: any): Observable<[Array<Pane>, Array<number>, Array<any>]> {
-    const staticPanes = panes.reduce<Array<Pane>>((p, c) => {
+    /*const staticPanes = panes.reduce<Array<Pane>>((p, c) => {
       const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
       if(plugin.handler === undefined || !plugin.handler.isDynamic(c.settings)) {
         return [ ...p, c ];
       } else {
         return [ ...p ];
       }
-    }, []);
+    }, []);*/
     console.log('resolve panes');
-    return forkJoin(panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
+
+    return this.panesPlugins(panes).pipe(
+      switchMap(plugins => forkJoin(
+        panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
+          const plugin = plugins.get(c.contentPlugin);
+          if(plugin.handler !== undefined) {
+            return [ ...p, plugin.handler.getBindings(c.settings, 'pane').pipe(
+              map(c => c.map(c => c.id))
+            ) ];
+          } else {
+            return [ ...p, of([])];
+          }
+        }, [])
+      ))
+    )
+    /*return forkJoin(panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
       const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
       if(plugin.handler !== undefined) {
         return [ ...p, plugin.handler.getBindings(c.settings, 'pane').pipe(
@@ -59,16 +91,23 @@ export class PanelResolverService {
       } else {
         return [ ...p, of([])];
       }
-    }, [])).pipe(
+    }, []))*/.pipe(
       map(groups => groups.reduce<Array<string>>((p, c) => [ ...p, ...c ], [])),
-      switchMap(bindings => forkJoin(
+      switchMap(bindings => this.panesPlugins(panes).pipe(
+        map<Map<string, ContentPlugin<string>>, [Array<string>, Map<string, ContentPlugin<string>>]>(plugins => [bindings, plugins])
+      )),
+      switchMap(([bindings, plugins]) => forkJoin(
         panes.reduce<Array<Observable<Array<Pane>>>>((p, c) => {
-          const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
+          const plugin = plugins.get(c.contentPlugin);
           if(plugin.handler !== undefined && plugin.handler.isDynamic(c.settings)) {
-            return [ ...p, plugin.handler.buildDynamicItems(c.settings, new Map<string, any>([ ...(c.metadata === undefined ? [] : c.metadata),['tag', uuid.v4()], ['panes', staticPanes], ['contexts', contexts !== undefined ? contexts: [] ] ])).pipe(
-              map(items => this.panelHandler.fromPanes(items)),
-              map<Array<Pane>, Array<Pane>>(panes => this.panelHandler.wrapPanel(panes).panes),
-              take(1)
+            return [ ...p, this.staticPanes(panes).pipe(
+              switchMap(staticPanes =>
+                plugin.handler.buildDynamicItems(c.settings, new Map<string, any>([ ...(c.metadata === undefined ? [] : c.metadata),['tag', uuid.v4()], ['panes', staticPanes], ['contexts', contexts !== undefined ? contexts: [] ] ])).pipe(
+                  map(items => this.panelHandler.fromPanes(items)),
+                  map<Array<Pane>, Array<Pane>>(panes => this.panelHandler.wrapPanel(panes).panes),
+                  take(1)
+                )
+              )
             )];
           } else if(c.name === '' || bindings.findIndex(n => n === c.name) === -1) {
             return [ ...p , of([ new Pane({ ...c, contexts: [ ...contexts, ...(c.contexts ? c.contexts: []) ] }) ]).pipe(

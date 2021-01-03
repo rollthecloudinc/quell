@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes} from 'attributes';
-import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
@@ -19,18 +19,19 @@ export class AttributeSelectorComponent implements OnInit {
   panelFormGroup: FormGroup;
 
   attributeWidgets: Array<AttributeWidget> = [];
-  private contentPlugin: ContentPlugin;
+  // private contentPlugin: ContentPlugin;
 
   constructor(
     @Inject(ATTRIBUTE_WIDGET) attributeWidgets: Array<AttributeWidget>,
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private handler: AttributeContentHandler,
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cpm: ContentPluginManager
   ) {
     this.attributeWidgets = attributeWidgets;
-    this.contentPlugin = contentPlugins.find(p => p.name === 'attribute');
+    // this.contentPlugin = contentPlugins.find(p => p.name === 'attribute');
   }
 
   ngOnInit(): void {
@@ -54,7 +55,9 @@ export class AttributeSelectorComponent implements OnInit {
     const formArray = (this.panelFormGroup.get('panes') as FormArray);
     const paneIndex = formArray.length - 1;
     const pane = new Pane(formArray.at(paneIndex).value);
-    this.dialog.open(this.contentPlugin.editorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex } });
+    this.cpm.getPlugin('attribute').subscribe(plugin => {
+      this.dialog.open(plugin.editorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex } });
+    });
     this.bottomSheetRef.dismiss();
   }
 

@@ -91,7 +91,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   stylePlugins: Array<StylePlugin> = [];
   stylePlugin: StylePlugin;
 
-  contentPlugins: Array<ContentPlugin> = [];
+  // contentPlugins: Array<ContentPlugin> = [];
 
   public onTouched: () => void = () => {};
 
@@ -106,14 +106,14 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
 
   constructor(
     @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: FormBuilder,
     private panelResolverService: PanelResolverService
   ) {
     this.counter = RenderPanelComponent.COUNTER++;
     this.stylePlugins = stylePlugins;
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {

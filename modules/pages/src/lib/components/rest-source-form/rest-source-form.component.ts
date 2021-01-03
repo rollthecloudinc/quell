@@ -146,7 +146,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
+  setDisabledState(isDisabled: boolean): void {
     if (isDisabled) {
       this.sourceForm.disable()
     } else {

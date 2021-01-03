@@ -1,10 +1,12 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, EventEmitter, Output, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { AttributeValue } from 'attributes';
-import { ContentPlugin, CONTENT_PLUGIN } from 'content';
+import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { PanelPage } from '../../models/page.models';
 import { InlineContext } from '../../models/context.models';
+import { Subject } from 'rxjs';
+import { switchMap, map, debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'classifieds-ui-editable-pane',
@@ -68,7 +70,25 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   preview = false;
 
-  private contentPlugins: Array<ContentPlugin> = [];
+  // private contentPlugins: Array<ContentPlugin> = [];
+
+  private schedulePluginChange = new Subject<boolean>();
+  private pluginChangeSub = this.schedulePluginChange.pipe(
+    switchMap(init => this.cpm.getPlugin(this.pluginName).pipe(
+      switchMap(p => p.handler.hasRendererOverride(this.settings).pipe(
+        map<boolean, [boolean, ContentPlugin<string>, boolean]>(r => [init, p, r])
+      ))
+    ))
+  ).subscribe(([init, p, r]) => {
+    this.contentPlugin = p;
+    this.displayOverride = p.handler.implementsRendererOverride();
+    this.hasOverride = !!r;
+    if(init && this.pluginName === 'panel') {
+      this.panelHandler.toObject(this.settings).subscribe(p => {
+        this.panelPage = p;
+      });
+    }
+  });
 
   panelPage: PanelPage;
 
@@ -76,28 +96,31 @@ export class EditablePaneComponent implements OnInit, OnChanges {
   @ViewChild('contentEditor', { static: false }) contentEditor: any;
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private panelHandler: PanelContentHandler
+    private panelHandler: PanelContentHandler,
+    private cpm: ContentPluginManager
   ) {
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {
-    this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
+    this.schedulePluginChange.next(true);
+    /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
     this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);
     if(this.pluginName === 'panel') {
       this.panelHandler.toObject(this.settings).subscribe(p => {
         this.panelPage = p;
       });
-    }
+    }*/
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
+    this.schedulePluginChange.next(false);
+    /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
-    this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);
+    this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);*/
   }
 
   onEditClick() {

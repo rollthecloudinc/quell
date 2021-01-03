@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges } from '@angular/core';
 import * as uuid from 'uuid';
 import { AttributeValue, AttributeMatcherService } from 'attributes';
-import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
 import { Pane } from '../../../models/page.models';
 import { PaneDatasourceService } from '../../../services/pane-datasource.service';
-import { filter, concatMap, map, take, skip, tap } from 'rxjs/operators';
+import { filter, concatMap, map, take, skip, tap, switchMap } from 'rxjs/operators';
 import { PanelContentHandler } from '../../../handlers/panel-content.handler';
 import { InlineContext } from '../../../models/context.models';
 
@@ -34,17 +34,18 @@ export class VirtualListPanelRendererComponent implements OnInit {
 
   trackByMapping: (index: number, pane: Pane) => string;
 
-  private contentPlugins: Array<ContentPlugin>;
+  // private contentPlugins: Array<ContentPlugin>;
   private trackByTpl: string;
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
     private attributeMatcher: AttributeMatcherService,
+    private cpm: ContentPluginManager,
     public paneDatasource: PaneDatasourceService
   ) {
-    this.contentPlugins = contentPlugins;
+    // this.contentPlugins = contentPlugins;
     this.trackByMapping = (index: number, pane: Pane): string => {
       return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
     };
@@ -52,22 +53,31 @@ export class VirtualListPanelRendererComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const staticPanes = this.originPanes.reduce<Array<Pane>>((p, c) => {
+    /*const staticPanes = this.originPanes.reduce<Array<Pane>>((p, c) => {
       const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
       if(plugin.handler === undefined || !plugin.handler.isDynamic(c.settings)) {
         return [ ...p, c ];
       } else {
         return [ ...p ];
       }
-    }, []);
+    }, []);*/
 
     this.paneDatasource.pageChange$.pipe(
       skip(1),
       tap(page => console.log(page)),
       filter(() => this.originPanes !== undefined && this.originPanes[0] !== undefined),
-      map(page => [this.contentPlugins.find(c => c.name === this.originPanes[0].contentPlugin, ), page]),
+      switchMap(page => this.cpm.getPlugin(this.originPanes[0].contentPlugin).pipe(
+        map(p => [p, page])
+      )),
       filter<[ContentPlugin, number]>(([contentPlugin, page]) => contentPlugin !== undefined && contentPlugin.handler !== undefined && this.originPanes.length > 0 && contentPlugin.handler.isDynamic(this.originPanes[0].settings)),
-      concatMap(([contentPlugin, page]) => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['contexts', this.contexts] ]))),
+      concatMap(([contentPlugin, page]) =>
+        this.cpm.getPlugins(this.originPanes.reduce<Array<string>>((p, c) => {
+          return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [];
+        }, [])).pipe(
+          map(plugins => this.originPanes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings))),
+          switchMap(staticPanes => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['contexts', this.contexts] ])))
+        )
+      ),
       map(items => this.panelHandler.fromPanes(items)),
       map(panes => this.panelHandler.wrapPanel(panes).panes),
     ).subscribe((panes: Array<Pane>) => {

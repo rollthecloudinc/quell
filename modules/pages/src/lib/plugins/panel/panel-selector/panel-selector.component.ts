@@ -28,10 +28,10 @@ export class PanelSelectorComponent implements OnInit {
   panelPagesService: EntityCollectionService<PanelPage>;
   panelPageListItemsService: EntityCollectionService<PanelPageListItem>;
 
-  private contentPlugin: ContentPlugin;
+  // private contentPlugin: ContentPlugin;
 
   constructor(
-    @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private handler: PanelContentHandler,
     private dialog: MatDialog,
@@ -40,7 +40,7 @@ export class PanelSelectorComponent implements OnInit {
   ) {
     this.panelPagesService = es.getEntityCollectionService('PanelPage');
     this.panelPageListItemsService = es.getEntityCollectionService('PanelPageListItem');
-    this.contentPlugin = contentPlugins.find(p => p.name === 'panel');
+    // this.contentPlugin = contentPlugins.find(p => p.name === 'panel');
   }
 
   ngOnInit(): void {
