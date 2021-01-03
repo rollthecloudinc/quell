@@ -45,7 +45,7 @@ export class PanelResolverService {
 
   staticPanes(panes: Array<Pane>): Observable<Array<Pane>> {
     return this.cpm.getPlugins(panes.reduce<Array<string>>((p, c) => {
-      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [];
+      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
     }, [])).pipe(
       map(plugins => panes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings)))
     );
@@ -53,7 +53,7 @@ export class PanelResolverService {
 
   panesPlugins(panes: Array<Pane>): Observable<Map<string, ContentPlugin<string>>> {
     return this.cpm.getPlugins(panes.reduce<Array<string>>((p, c) => {
-      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [];
+      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
     }, []));
   }
 

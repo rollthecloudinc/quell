@@ -14,7 +14,7 @@ import { UtilsModule, EMBEDDABLE_COMPONENT  } from 'utils';
 import { TokenModule } from 'token';
 import { AttributesModule } from 'attributes';
 import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
-import { CONTEXT_PLUGIN, ContextManagerService, ContextModule } from 'context';
+import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
 import { STYLE_PLUGIN, StylePlugin } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
@@ -89,6 +89,9 @@ import { FormContextResolver } from './contexts/form-context.resolver';
 import { PanelResolverService } from './services/panel-resolver.service';
 import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel-props-dialog.component';
 import { PluginConfigurationManager, PluginConfig } from 'plugin';
+import { InlineContextResolverService } from './services/inline-context-resolver.service';
+import { UrlGeneratorService } from './services/url-generator.service';
+import { RulesResolverService } from './services/rules-resolver.service';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -155,6 +158,9 @@ const routes = [
     RestContextResolver,
     FormContextResolver,
     PanelResolverService,
+    InlineContextResolverService,
+    UrlGeneratorService,
+    RulesResolverService,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageComponent, multi: true },
@@ -181,6 +187,7 @@ export class PagesModule {
   constructor(
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
     cpm: ContentPluginManager,
+    cxm: ContextPluginManager,
     eds: EntityDefinitionService,
     pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
@@ -189,9 +196,17 @@ export class PagesModule {
     formContextResolver: FormContextResolver
   ) {
     eds.registerMetadataMap(entityMetadata);
-    contextManager.register(pageContextFactory(pageContextResolver));
+
+    const contextPlugins = [pageContextFactory(pageContextResolver), restContextFactory(restContextResolver), formContextFactory(formContextResolver)];
+
+    /*contextManager.register(pageContextFactory(pageContextResolver));
     contextManager.register(restContextFactory(restContextResolver));
-    contextManager.register(formContextFactory(formContextResolver));
+    contextManager.register(formContextFactory(formContextResolver));*/
+
+    contextPlugins.forEach(p => {
+      contextManager.register(p); // This will eventually go away once code uses plugin manager instead.
+      cxm.register(p);
+    });
 
     // Remove this since much easier just to leave as is for now.
     // Proof of concept - snippet is not really worth decoupling.

@@ -94,7 +94,7 @@ export class TokenizerService {
       }
       // const [ firstPiece ] = c.indexOf('.') === 1 ? c.substr(2, c.length - 1).split('.') : c.substr(1, c.length - 2).split('.');
       const [ firstPiece ] = c.indexOf('.') === 1 ? ['.'] : c.substr(1, c.length - 2).split('.');
-      if(p.findIndex(p => firstPiece) !== -1) {
+      if(p.findIndex(p => p === firstPiece) !== -1) {
         return p;
       }
       return [ ...p, firstPiece ];

@@ -8,9 +8,7 @@ import { map, tap, switchMap, take } from 'rxjs/operators';
 import { InlineContextResolverService } from './inline-context-resolver.service';
 import * as uuid from 'uuid';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class RulesResolverService {
 
   constructor(

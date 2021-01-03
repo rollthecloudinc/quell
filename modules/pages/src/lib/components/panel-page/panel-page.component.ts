@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementR
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { ContextManagerService, InlineContext } from 'context';
+import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
 import { PanelPage, Pane } from '../../models/page.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
@@ -105,9 +105,10 @@ export class PanelPageComponent implements OnInit, OnChanges {
     private fb: FormBuilder,
     private el: ElementRef,
     private inlineContextResolver: InlineContextResolverService,
-    private contextManager: ContextManagerService,
+    // private contextManager: ContextManagerService,
     private pageBuilderFacade:PageBuilderFacade,
     private cpm: ContentPluginManager,
+    private cxm: ContextPluginManager,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;
@@ -191,12 +192,15 @@ export class PanelPageComponent implements OnInit, OnChanges {
       this.resolveSub.unsubscribe();
     }
     this.inlineContextResolver.resolveMerged(this.contexts, `panelpage:${uuid.v4()}`).pipe(
+      switchMap(resolvedContext => this.cxm.getPlugins().pipe(
+        map(plugins => [resolvedContext, Array.from(plugins.values()).filter(p => p.global === true)])
+      )),
       take(1)
-    ).subscribe(resolvedContext => {
+    ).subscribe(([resolvedContext, globalPlugins]) => {
       this.resolvedContext = resolvedContext;
       console.log(this.resolvedContext);
       this.resolveSub = this.inlineContextResolver.resolveMergedSingle(this.contexts).pipe(
-        skip(this.contextManager.getAll(true).length + (this.contexts ? this.contexts.length : 0))
+        skip(globalPlugins.length + (this.contexts ? this.contexts.length : 0))
       ).subscribe(([cName, cValue]) => {
         console.log(`context changed [${this.panelPage.name}]: ${cName}`);
         this.contextChanged = { name: cName };

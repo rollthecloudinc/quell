@@ -14,9 +14,7 @@ import * as qs from 'qs';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 import { FormService } from './form.service';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class UrlGeneratorService {
 
   constructor(

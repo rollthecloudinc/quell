@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
-import { ContextManagerService, InlineContext } from 'context';
+import { ContextManagerService, InlineContext, BaseInlineContextResolverService, ContextPluginManager } from 'context';
 import { Observable, of, combineLatest, merge, forkJoin} from 'rxjs';
 import { map, debounceTime, filter, scan, switchMap, defaultIfEmpty } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class InlineContextResolverService {
+@Injectable()
+export class InlineContextResolverService extends BaseInlineContextResolverService  {
 
   constructor(
-    private contextManager: ContextManagerService,
-    private pageBuilderFacade: PageBuilderFacade
-  ) {}
+    private pageBuilderFacade: PageBuilderFacade,
+    // contextManager: ContextManagerService,
+    cpm: ContextPluginManager
+  ) {
+    super(cpm);
+  }
 
-  resolveGlobals(tag = uuid.v4()): Observable<any> {
+  /*resolveGlobals(tag = uuid.v4()): Observable<any> {
     const plugins = this.contextManager.getAll(true);
     return merge(
       ...plugins.map(p => p.resolver.resolve(p, {}).pipe(
@@ -35,7 +36,7 @@ export class InlineContextResolverService {
         map(res => [p.name, res])
       ))
     );
-  }
+  }*/
 
   resolveForms(): Observable<any> {
     return this.pageBuilderFacade.getFormNames$.pipe(
@@ -54,7 +55,7 @@ export class InlineContextResolverService {
     );
   }
 
-  resolveAll(contexts: Array<InlineContext>, tag = uuid.v4()): Observable<any>  {
+  /*resolveAll(contexts: Array<InlineContext>, tag = uuid.v4()): Observable<any>  {
     return merge(
       ...contexts.map(c => this.resolve(c, tag).pipe(
         map(res => [c.name, Array.isArray(res) ? res.length > 0 ? res[0] : undefined : res])
@@ -74,7 +75,7 @@ export class InlineContextResolverService {
     ).pipe(
       map(([n, v]) => [n, v])
     );
-  }
+  }*/
 
   resolveMerged(contexts: Array<InlineContext>, tag = uuid.v4()): Observable<any> {
     return combineLatest([this.resolveGlobals(tag), this.resolveForms(), contexts.length === 0 ? of({}) : this.resolveAll(contexts, tag)]).pipe(
@@ -102,7 +103,7 @@ export class InlineContextResolverService {
     );*/
   }
 
-  resolve(context: InlineContext, tag = uuid.v4()): Observable<any> {
+  /*resolve(context: InlineContext, tag = uuid.v4()): Observable<any> {
     if(context.plugin) {
       const plugin = this.contextManager.lookupContext(context.plugin);
       return plugin.resolver.resolve(plugin, this.getDataObject(context));
@@ -126,6 +127,6 @@ export class InlineContextResolverService {
       default:
         return undefined;
     }
-  }
+  }*/
 
 }

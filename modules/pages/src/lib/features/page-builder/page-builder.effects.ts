@@ -20,7 +20,7 @@ export class PageBuilderEffects {
         catchError(() => {
           return [];
         }),
-        map(results => p.rest.renderer.query !== undefined && p.rest.renderer.query !== '' ? JSONPath({ path: p.rest.renderer.query, json: results }) : results ),
+        map(results => p.rest.renderer !== undefined && p.rest.renderer.query !== undefined && p.rest.renderer.query !== '' ? JSONPath({ path: p.rest.renderer.query, json: results }) : results ),
         map(results => PageBuilderActions.loadRestDataSuccess({ tag: p.tag, data: new Dataset({ results }) }))
       ))
     )

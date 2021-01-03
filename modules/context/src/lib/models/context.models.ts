@@ -2,22 +2,24 @@ import { Observable } from 'rxjs';
 import { Type } from '@angular/core';
 import { Rest } from 'datasource';
 import { Snippet } from 'content';
+import { Plugin } from 'plugin';
 
 export interface ContextResolver {
   resolve(ctx: ContextPlugin, data?: any): Observable<any>
 }
 
-export class ContextPlugin {
-  name: string
+export class ContextPlugin<T = string> extends Plugin<T>  {
+  name: T;
   title: string;
   baseObject: any;
   resolver: ContextResolver;
   editorComponent?: Type<any>;
   global? = false;
   group?: string;
-  constructor(data?: ContextPlugin) {
+  constructor(data?: ContextPlugin<T>) {
+    super(data)
     if (data) {
-      this.name = data.name;
+      this.name = this.id;
       this.title = data.title;
       this.baseObject = data.baseObject;
       this.resolver = data.resolver;

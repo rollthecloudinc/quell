@@ -94,19 +94,19 @@ export const pageContextFactory = (resolver: PageContextResolver) => {
   const baseObject = {
     path: '',
   };
-  return new ContextPlugin({ name: 'page', title: 'Page', global: true, group: 'pages', baseObject, resolver });
+  return new ContextPlugin<string>({ id: "page", name: 'page', title: 'Page', global: true, group: 'pages', baseObject, resolver });
 };
 
 export const restContextFactory = (resolver: RestContextResolver) => {
   const baseObject = {
     dataset: new Dataset(),
   };
-  return new ContextPlugin({ name: 'rest', title: 'Rest', baseObject, resolver, editorComponent: ContextEditorComponent });
+  return new ContextPlugin<string>({ id: "rest", name: 'rest', title: 'Rest', baseObject, resolver, editorComponent: ContextEditorComponent });
 };
 
 export const formContextFactory = (resolver: FormContextResolver) => {
   const baseObject = {
     dataset: new Dataset(),
   };
-  return new ContextPlugin({ name: 'form', title: 'Form', baseObject, resolver });
+  return new ContextPlugin<string>({ id: "form", name: 'form', title: 'Form', baseObject, resolver });
 };

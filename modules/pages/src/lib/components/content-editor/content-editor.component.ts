@@ -7,7 +7,7 @@ import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN } from 'style';
-import { ContextManagerService, InlineContext } from 'context';
+import { /*ContextManagerService,*/ InlineContext } from 'context';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage } from '../../models/page.models';
@@ -181,7 +181,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     private dialog: MatDialog,
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
-    private contextManager: ContextManagerService
+    // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
     this.stylePlugins = stylePlugins;

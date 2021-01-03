@@ -29,6 +29,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
       this.restForm.setValue({
         renderer: {
           trackBy: '',
+          query: '',
           ...rest.renderer,
           data: rest.renderer.data ? rest.renderer.data : { content: '', contentType: '' },
           select: ['pane', 'snippet'].findIndex(t => t === rest.renderer.type) > -1 ? defaultSelect : JSON.parse(rest.renderer.data.content),
