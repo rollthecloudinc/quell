@@ -3,7 +3,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Va
 import { ContextManagerService } from '../../services/context-manager.service';
 import { ContextPlugin } from '../../models/context.models';
 import { ContextEditorHostDirective } from '../../directives/context-editor-host.directive';
-
+import { ContextPluginManager } from '../../services/context-plugin-manager.service';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'classifieds-ui-context-form',
   templateUrl: './context-form.component.html',
@@ -23,7 +24,7 @@ import { ContextEditorHostDirective } from '../../directives/context-editor-host
 })
 export class ContextFormComponent implements OnInit, ControlValueAccessor, Validator {
 
-  contextPlugins: Array<ContextPlugin>;
+  contextPlugins: Observable<Map<string, ContextPlugin<string>>>;
 
   componentRef: any;
 
@@ -44,10 +45,12 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
     private contextManager: ContextManagerService,
     private fb: FormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private cpm: ContextPluginManager
   ) { }
 
   ngOnInit(): void {
-    this.contextPlugins = this.contextManager.getAll(false);
+    // this.contextPlugins = this.contextManager.getAll(false);
+    this.contextPlugins = this.cpm.getPlugins();
     this.contextForm.get('plugin').valueChanges.subscribe(v => {
       console.log('value change');
       if(this.contextPlugin.editorComponent) {

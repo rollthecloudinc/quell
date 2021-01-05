@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,6 +14,8 @@ import { AttributePipe } from './pipes/attribute.pipe';
 // import { YmmSelectorComponent } from './widgets/ymm-selector/ymm-selector.component';
 import * as attrFactories from './attributes.factories';
 // import { CitySelectorComponent } from './widgets/city-selector/city-selector.component';
+import { AttributeWidget } from './models/attributes.models';
+import { WidgetPluginManager } from './services/widget-plugin-manager.service';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, MaterialModule, HttpClientModule, HttpClientJsonpModule /*, CitiesModule */ ],
@@ -51,4 +53,11 @@ import * as attrFactories from './attributes.factories';
     }*/
   ]
 })
-export class AttributesModule {}
+export class AttributesModule {
+  constructor(
+    @Inject(ATTRIBUTE_WIDGET) widgetPlugins: Array<AttributeWidget<string>>,
+    wpm: WidgetPluginManager
+  ) {
+    widgetPlugins.forEach(p => wpm.register(p));
+  }
+}

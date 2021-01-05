@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, ComponentFactoryResolver } from '@
 import { ControlContainer } from "@angular/forms";
 import { AttributeWidget, Attribute } from '../../models/attributes.models';
 import { AttributeWidgetDirective } from '../../directives/attribute-widget.directive';
-
+import { Observable } from 'rxjs';
 @Component({
   selector: 'classifieds-ui-attribute-widget',
   styleUrls: ['./attribute-widget.component.scss'],
@@ -11,7 +11,7 @@ import { AttributeWidgetDirective } from '../../directives/attribute-widget.dire
 export class AttributeWidgetComponent implements OnInit {
 
   @Input()
-  widget: AttributeWidget;
+  widget: Observable<AttributeWidget<string>>;
 
   @Input()
   attribute: Attribute;
@@ -25,14 +25,19 @@ export class AttributeWidgetComponent implements OnInit {
 
   ngOnInit() {
 
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.widget.component);
+    this.widget.subscribe(widget => {
 
-    const viewContainerRef = this.widgetHost.viewContainerRef;
-    viewContainerRef.clear();
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(widget.component);
 
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    (componentRef.instance as any).attribute = this.attribute;
-    (componentRef.instance as any).appearance = this.appearance;
+      const viewContainerRef = this.widgetHost.viewContainerRef;
+      viewContainerRef.clear();
+
+      const componentRef = viewContainerRef.createComponent(componentFactory);
+      (componentRef.instance as any).attribute = this.attribute;
+      (componentRef.instance as any).appearance = this.appearance;
+
+    });
+
   }
 
 }

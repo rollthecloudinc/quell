@@ -3,7 +3,8 @@ import { Component, OnChanges, Input, SimpleChanges, forwardRef } from '@angular
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Attribute, AttributeWidget, AttributeValue } from '../../models/attributes.models';
 import { WidgetsService } from '../../services/widgets.service';
-
+import { Observable } from 'rxjs';
+import { WidgetPluginManager } from '../../services/widget-plugin-manager.service';
 @Component({
   selector: 'classifieds-ui-attributes-builder',
   templateUrl: './attributes-builder.component.html',
@@ -49,7 +50,10 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
 
   private _attributeValues: Array<AttributeValue> = [];
 
-  constructor(private widgetsService: WidgetsService) { }
+  constructor(
+    private widgetsService: WidgetsService,
+    private wpm: WidgetPluginManager
+  ) { }
 
   public onTouched: () => void = () => {};
 
@@ -105,8 +109,9 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
     return this.attributesForm.valid ? null : { invalidForm: {valid: false, message: "attributes are invalid"}};
   }
 
-  discoverWidget(widget: string): AttributeWidget {
-    return this.widgetsService.get(widget);
+  discoverWidget(widget: string): Observable<AttributeWidget<string>> {
+    // return this.widgetsService.get(widget);
+    return this.wpm.getPlugin(widget);
   }
 
   applyValues() {

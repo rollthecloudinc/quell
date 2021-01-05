@@ -16,7 +16,7 @@ import { AttributesModule } from 'attributes';
 import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
-import { STYLE_PLUGIN, StylePlugin } from 'style';
+import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GridsterModule } from 'angular-gridster2';
 import { EntityDefinitionService } from '@ngrx/data';
@@ -177,17 +177,19 @@ const routes = [
     { provide: CONTENT_PLUGIN, useFactory: panelContentPluginFactory, multi: true, deps: [ PanelContentHandler ] },
     { provide: CONTENT_PLUGIN, useFactory: restContentPluginFactory, multi: true, deps: [ RestContentHandler ]  },
     { provide: CONTENT_PLUGIN, useFactory: sliceContentPluginFactory, multi: true, deps: [ SliceContentHandler ]  },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin({ name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin({ name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin({ name: 'tabs', title: 'Tabs', editorComponent: undefined, renderComponent: TabsPanelRendererComponent }), multi: true }
+    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
+    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
+    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', editorComponent: undefined, renderComponent: TabsPanelRendererComponent }), multi: true }
   ],
   //exports: [NavigationHostDirective]
 })
 export class PagesModule {
   constructor(
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
+    @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin<string>>,
     cpm: ContentPluginManager,
     cxm: ContextPluginManager,
+    spm: StylePluginManager,
     eds: EntityDefinitionService,
     pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
@@ -217,6 +219,7 @@ export class PagesModule {
     }));*/
 
     contentPlugins.forEach(p => cpm.register(p));
+    stylePlugins.forEach(p => spm.register(p));
 
   }
 }

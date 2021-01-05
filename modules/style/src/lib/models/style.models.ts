@@ -1,13 +1,14 @@
 import { Type } from '@angular/core';
-
-export class StylePlugin {
-  name: string;
+import { Plugin } from 'plugin';
+export class StylePlugin<T = string> extends Plugin<T> {
+  name: T;
   title: string;
   editorComponent: Type<any>;
   renderComponent: Type<any>;
-  constructor(data?: StylePlugin) {
+  constructor(data?: StylePlugin<T>) {
+    super(data);
     if (data) {
-      this.name = data.name;
+      this.name = this.id;
       this.title = data.title;
       this.editorComponent = data.editorComponent ? data.editorComponent: undefined;
       this.renderComponent = data.renderComponent ? data.renderComponent: undefined;

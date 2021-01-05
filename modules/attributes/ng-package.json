@@ -4,7 +4,10 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
-      "material": "material"
+      "material": "material",
+      "plugin": "plugin",
+      "utils": "utils",
+      "numeral": "numeral"
     }
   }
 }

@@ -65,7 +65,7 @@ export class AttributeContentHandler implements ContentHandler {
       attributes: this.snippetHandler.buildSettings(snippet)
     })];
   }
-  widgetSettings(widget: AttributeWidget) {
+  widgetSettings(widget: AttributeWidget<string>) {
     return [new AttributeValue({
       name: 'widget',
       type: widget.schema.type,

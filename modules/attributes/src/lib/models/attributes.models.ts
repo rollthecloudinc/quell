@@ -1,4 +1,5 @@
 import { Type } from '@angular/core';
+import { Plugin } from 'plugin';
 
 export enum AttributeTypes {
   Number,
@@ -9,13 +10,14 @@ export enum AttributeTypes {
   Bool
 }
 
-export class AttributeWidget {
-  name: string;
+export class AttributeWidget<T = string> extends Plugin<T> {
+  name: T;
   component: Type<any>;
   schema?: Attribute;
-  constructor(data?: AttributeWidget) {
+  constructor(data?: AttributeWidget<T>) {
+    super(data);
     if (data) {
-      this.name = data.name;
+      this.name = this.id;
       this.schema = data.schema ? new Attribute(data.schema) : undefined;
       this.component = data.component;
     }

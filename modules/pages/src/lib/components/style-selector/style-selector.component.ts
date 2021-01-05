@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { STYLE_PLUGIN, StylePlugin } from 'style';
+import { StylePlugin, StylePluginManager } from 'style';
+import { Observable } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,34 +14,36 @@ import { MatDialog } from '@angular/material/dialog';
 export class StyleSelectorComponent implements OnInit {
 
   selectedIndex = 0
-  plugin: StylePlugin;
+  plugin: StylePlugin<string>;
 
-  stylePlugins: Array<StylePlugin> = [];
+  stylePlugins: Observable<Map<string, StylePlugin<string>>>;
 
   @ViewChild(ContentSelectionHostDirective, {static: true}) selectionHost: ContentSelectionHostDirective;
 
   constructor(
-    @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
+    // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public panelFormGroup: FormGroup,
+    private spm: StylePluginManager,
     private bottomSheetRef: MatBottomSheetRef<StyleSelectorComponent>,
     private dialog: MatDialog,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: FormBuilder
   ) {
-    this.stylePlugins = stylePlugins;
+    // this.stylePlugins = stylePlugins;
   }
 
   ngOnInit() {
-
+    this.stylePlugins = this.spm.getPlugins();
   }
 
-  onStyleSelected(plugin: StylePlugin) {
+  onStyleSelected(plugin: StylePlugin<string>) {
     this.plugin = plugin;
     if(this.plugin.editorComponent !== undefined) {
       this.bottomSheetRef.dismiss();
       const dialogRef = this.dialog.open(this.plugin.editorComponent);
     } else {
       this.panelFormGroup.get('stylePlugin').setValue(this.plugin.name);
+      this.panelFormGroup.get('styleTitle').setValue(this.plugin.title);
       (this.panelFormGroup.get('settings') as FormArray).clear();
       this.bottomSheetRef.dismiss();
     }

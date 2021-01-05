@@ -84,7 +84,8 @@ export class SplitLayoutComponent implements OnInit  {
   addRow() {
     this.sizes.push([]);
     this.addColumn(this.totalRows === 0 ? 0 : this.totalRows);
-    this.itemAdded.emit();
+    // @todo: Given various tests this results in duplicate columns in this layout.
+    // this.itemAdded.emit();
   }
 
   addColumn(rowIndex: number) {

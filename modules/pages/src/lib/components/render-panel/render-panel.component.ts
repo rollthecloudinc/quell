@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Va
 import { Panel } from '../../models/page.models';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
-import { STYLE_PLUGIN, StylePlugin } from 'style';
+import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { Pane } from '../../models/page.models';
 import { switchMap, map, filter, debounceTime, tap } from 'rxjs/operators';
@@ -82,14 +82,32 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   schduleContextChangeSub: Subscription;
   schduleContextChange = new Subject<string>();
 
+  schedulePanelRender = new Subject<string>();
+  schedulePanelRenderSub = this.schedulePanelRender.pipe(
+    switchMap(p => this.spm.getPlugin(p))
+  ).subscribe(stylePlugin => {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(stylePlugin.renderComponent);
+
+    const viewContainerRef = this.panelHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(componentFactory);
+    (componentRef.instance as any).settings = this.panel.settings;
+    (componentRef.instance as any).panes = this.resolvedPanes;
+    (componentRef.instance as any).originPanes = this.panel.panes;
+    (componentRef.instance as any).originMappings = this.originMappings;
+    (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
+    (componentRef.instance as any).displayType = this.displayType;
+  });
+
   resolvedPanes: Array<Pane>;
   originMappings: Array<number> = [];
   resolvedContexts: Array<any> = [];
 
   resolveContextsSub: Subscription;
 
-  stylePlugins: Array<StylePlugin> = [];
-  stylePlugin: StylePlugin;
+  // stylePlugins: Array<StylePlugin> = [];
+  stylePlugin: string;
 
   // contentPlugins: Array<ContentPlugin> = [];
 
@@ -105,19 +123,20 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   }
 
   constructor(
-    @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
+    // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: FormBuilder,
-    private panelResolverService: PanelResolverService
+    private panelResolverService: PanelResolverService,
+    private spm: StylePluginManager
   ) {
     this.counter = RenderPanelComponent.COUNTER++;
-    this.stylePlugins = stylePlugins;
+    // this.stylePlugins = stylePlugins;
     // this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {
-    this.stylePlugin = this.panel.stylePlugin !== undefined && this.panel.stylePlugin !== '' ? this.stylePlugins.find(p => p.name === this.panel.stylePlugin) : undefined;
+    this.stylePlugin = this.panel.stylePlugin !== undefined && this.panel.stylePlugin !== '' ? this.panel.stylePlugin : undefined; // this.stylePlugins.find(p => p.name === this.panel.stylePlugin) : undefined;
     if(this.panel !== undefined && this.panelHost !== undefined) {
       console.log(`panel render init [${this.panel.name}`);
       this.panelResolverService.usedContexts(this.panel.panes).pipe(
@@ -141,7 +160,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   ngOnChanges(changes: SimpleChanges) {
     //console.log(`ngOnChanges render panel [${this.panel.name}]`);
     //console.log(changes);
-    this.stylePlugin = this.panel.stylePlugin !== undefined && this.panel.stylePlugin !== '' ? this.stylePlugins.find(p => p.name === this.panel.stylePlugin) : undefined;
+    this.stylePlugin = this.panel.stylePlugin !== undefined && this.panel.stylePlugin !== '' ? this.panel.stylePlugin : undefined; // this.stylePlugins.find(p => p.name === this.panel.stylePlugin) : undefined;
     if(changes.resolvedContext && changes.resolvedContext.previousValue === undefined) {
       this.scheduleRender.next([this.panel.panes, this.contexts, this.resolvedContext]);
     }
@@ -184,19 +203,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   }
 
   renderPanelContent() {
-
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.stylePlugin.renderComponent);
-
-    const viewContainerRef = this.panelHost.viewContainerRef;
-    viewContainerRef.clear();
-
-    const componentRef = viewContainerRef.createComponent(componentFactory);
-    (componentRef.instance as any).settings = this.panel.settings;
-    (componentRef.instance as any).panes = this.resolvedPanes;
-    (componentRef.instance as any).originPanes = this.panel.panes;
-    (componentRef.instance as any).originMappings = this.originMappings;
-    (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
-    (componentRef.instance as any).displayType = this.displayType;
+    this.schedulePanelRender.next(this.stylePlugin);
   }
 
 }

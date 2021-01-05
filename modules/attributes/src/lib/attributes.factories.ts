@@ -14,11 +14,11 @@ export const textFactory = () => {
     options: {},
     attributes: []
   });
-  return new AttributeWidget({ name: 'text', component: TextWidgetComponent, schema });
+  return new AttributeWidget<string>({ id: 'text', name: 'text', title: 'Text', component: TextWidgetComponent, schema });
 };
 
 export const minmaxFactory = () => {
-  return new AttributeWidget({ name: 'minmax', component: MinMaxWidgetComponent, schema: undefined });
+  return new AttributeWidget<string>({ id: 'minmax', name: 'minmax', title: 'MinMax', component: MinMaxWidgetComponent, schema: undefined });
 };
 
 /*export const ymmFactory = () => {

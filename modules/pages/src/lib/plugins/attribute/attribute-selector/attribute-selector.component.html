@@ -1,5 +1,5 @@
 <mat-nav-list>
-  <a *ngFor="let widget of attributeWidgets" mat-list-item mat-list-item (click)="onItemSelect(widget)">
-    <span mat-line>{{ widget.name }}</span>
+  <a *ngFor="let widget of ((attributeWidgets | async) | keyvalue)" mat-list-item mat-list-item (click)="onItemSelect(widget.value)">
+    <span mat-line>{{ widget.value.name }}</span>
   </a>
 </mat-nav-list>

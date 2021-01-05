@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes} from 'attributes';
+import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Pane } from '../../../models/page.models';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'classifieds-ui-attribute-selector',
@@ -18,26 +19,28 @@ export class AttributeSelectorComponent implements OnInit {
   @Input()
   panelFormGroup: FormGroup;
 
-  attributeWidgets: Array<AttributeWidget> = [];
+  attributeWidgets: Observable<Map<string, AttributeWidget<string>>>;
   // private contentPlugin: ContentPlugin;
 
   constructor(
-    @Inject(ATTRIBUTE_WIDGET) attributeWidgets: Array<AttributeWidget>,
+    // @Inject(ATTRIBUTE_WIDGET) attributeWidgets: Array<AttributeWidget>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private handler: AttributeContentHandler,
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private cpm: ContentPluginManager
+    private cpm: ContentPluginManager,
+    private wpm: WidgetPluginManager
   ) {
-    this.attributeWidgets = attributeWidgets;
+    // this.attributeWidgets = attributeWidgets;
     // this.contentPlugin = contentPlugins.find(p => p.name === 'attribute');
   }
 
   ngOnInit(): void {
+    this.attributeWidgets = this.wpm.getPlugins();
   }
 
-  onItemSelect(widget: AttributeWidget) {
+  onItemSelect(widget: AttributeWidget<string>) {
     console.log(widget);
     (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
       contentPlugin: 'attribute',

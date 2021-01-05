@@ -8,7 +8,10 @@
       "@ngrx/store": "@ngrx/store",
       "@ngrx/router-store": "@ngrx/router-store",
       "content": "content",
-      "datasource": "datasource"
+      "datasource": "datasource",
+      "plugin": "plugin",
+      "uuid": "uuid",
+      "utils": "utils"
     }
   }
 }

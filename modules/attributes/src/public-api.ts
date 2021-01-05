@@ -8,3 +8,4 @@ export * from './lib/services/attribute-serializer.service';
 export * from './lib/components/attribute-widget/attribute-widget.component';
 export * from './lib/components/attributes-builder/attributes-builder.component';
 export * from './lib/pipes/attribute.pipe';
+export * from './lib/services/widget-plugin-manager.service';

@@ -6,7 +6,7 @@ import { ContentSelectorComponent } from '../content-selector/content-selector.c
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
-import { StylePlugin, STYLE_PLUGIN } from 'style';
+import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -150,7 +150,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   //private contentPlugins: Array<ContentPlugin> = [];
   //private contentPlugins: Map<string, ContentPlugin<string>>;
 
-  private stylePlugins: Array<StylePlugin> = [];
+  // private stylePlugins: Array<StylePlugin> = [];
 
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
   @ViewChild(SplitLayoutComponent, {static: false}) splitLayout: SplitLayoutComponent;
@@ -174,8 +174,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   constructor(
     //@Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
-    @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
+    // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     private cpm: ContentPluginManager,
+    private spm: StylePluginManager,
     private fb: FormBuilder,
     private bs: MatBottomSheet,
     private dialog: MatDialog,
@@ -184,7 +185,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
-    this.stylePlugins = stylePlugins;
+    // this.stylePlugins = stylePlugins;
   }
 
   ngOnInit(): void {
@@ -196,13 +197,15 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       this.nestedUpdate.emit(this.packageFormData());
     });
     this.contentForm.get('layoutType').valueChanges.pipe(
-      filter(v => v === 'gridless')
+      filter(v => v === 'gridless'),
+      delay(1)
     ).subscribe(v => {
       if(this.panels.length === 0) {
         this.panels.push(this.fb.group({
           name: new FormControl(''),
           label: new FormControl(''),
           stylePlugin: new FormControl(''),
+          styleTitle: new FormControl(''),
           settings: new FormArray([]),
           panes: this.fb.array([])
         }));
@@ -224,10 +227,16 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
         this.panels.push(this.fb.group({
           name: new FormControl(p.name),
           label: new FormControl(p.label),
-          stylePlugin: this.fb.control(p.stylePlugin),
+          stylePlugin: new FormControl(p.stylePlugin),
+          styleTitle: new FormControl(''),
           settings: this.fb.array(p.settings !== undefined ? p.settings.map(s => this.convertToGroup(s)): []),
           panes: this.fb.array([])
         }));
+        if(p.stylePlugin && p.stylePlugin !== '') {
+          this.spm.getPlugin(p.stylePlugin).subscribe(p => {
+            this.panels.at(i).get('styleTitle').setValue(p.title);
+          });
+        }
         if(this.nested) {
           this.panelPanes(this.panels.length - 1).valueChanges.pipe(
             debounceTime(5),
@@ -287,6 +296,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       name: new FormControl(''),
       label: new FormControl(''),
       stylePlugin: new FormControl(''),
+      styleTitle: new FormControl(''),
       settings: new FormArray([]),
       panes: this.fb.array([])
     }));
@@ -616,7 +626,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   }
 
   panelStyleTitle(index: number) {
-    return this.stylePlugins.find(s => s.name === this.panels.at(index).get('stylePlugin').value).title;
+    return this.panels.at(index).get('styleTitle').value;
   }
 
   onPaneEdit(index: number, index2: number) {
