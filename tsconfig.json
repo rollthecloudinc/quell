@@ -63,6 +63,10 @@
       "datasource": [
         "dist/datasource/datasource",
         "dist/datasource"
+      ],
+      "layout": [
+        "dist/layout/layout",
+        "dist/layout"
       ]
     }
   },

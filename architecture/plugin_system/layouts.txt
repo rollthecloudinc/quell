@@ -1,0 +1,19 @@
+Documents strategy for turning layouts into plugins.
+
+layouts
+- split
+- grid
+- gridless
+
+
+split / flex
+
+settings
+- expanded
+- flex - flex overrides expanded - expanded - bool value
+
+I think we can just define these as atributes and latch onto the attribute system to build the forms.
+
+Is there any opporunity to manage css inside layouts?
+
+hook up external file reference that is added dynamicallty maybe....

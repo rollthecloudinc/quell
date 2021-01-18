@@ -1,0 +1,18 @@
+<div fxFill fxLayout="column">
+  <div *for="totalRows; let i = index"> <!-- this needs flex 1 -->
+    <div fxLayout="row"> <!-- needs height 100% or fxFill -->
+      <div *for="totalColumns(i); let j = index" [fxFlex]="dashboard[itemIndex(i, j)].cols">
+        <p hidden>row: {{ i }} | column: {{ j }} | size: {{ dashboard[itemIndex(i, j)].cols }}</p>
+        <div class="grid-item-inner"> <!-- height 100% -->
+          <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--
+flex on row indirectly - could be "expand"?
+height of row -- when expand the height is automatically set to 100% - using fill...
+-> indrectly set the item inner to the height of --
+-->

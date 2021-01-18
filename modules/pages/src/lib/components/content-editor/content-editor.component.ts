@@ -8,7 +8,7 @@ import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } f
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
-import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
+import { SplitLayoutComponent, GridLayoutComponent } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage } from '../../models/page.models';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
@@ -21,7 +21,6 @@ import { EditablePaneComponent } from '../editable-pane/editable-pane.component'
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
 import { Rule as NgRule } from 'angular2-query-builder';
-import { SplitLayoutComponent } from '../split-layout/split-layout.component';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { PropertiesFormPayload, PanelPropsFormPayload } from '../../models/form.models';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
@@ -217,7 +216,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     if(changes.panelPage && changes.panelPage.previousValue !== changes.panelPage.currentValue) {
       this.panels.clear();
       this.panelPageId = changes.panelPage.currentValue.panelPageId;
-      this.dashboard = [ ...changes.panelPage.currentValue.gridItems ];
+      this.dashboard = changes.panelPage.currentValue.gridItems.map(o => Object.assign({}, o));
       this.layoutType.setValue(this.panelPage.layoutType);
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path });

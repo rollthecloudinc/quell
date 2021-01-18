@@ -98,13 +98,17 @@ export class SplitLayoutComponent implements OnInit  {
   }
 
   dragEnd(rowIndex: number, {sizes}) {
-    const len = sizes.length;
+    const len = this.dashboard.length;
+    let counter = 0;
     this.sizes[rowIndex] = [ ...sizes ];
+    const newDash = this.dashboard.map(o => ({ ...o }));
     for(let i = 0; i < len; i++) {
       if(this.dashboard[i].y === rowIndex) {
-        this.dashboard[i].cols = sizes[i];
+        newDash[i].cols = sizes[counter];
+        counter += 1;
       }
     }
+    this.dashboard = newDash;
   }
 
   itemIndex(rIndex: number, cIndex: number): any {

@@ -19,6 +19,7 @@ export class FlexLayoutComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log(this.dashboard);
   }
 
   itemIndex(rIndex: number, cIndex: number): any {

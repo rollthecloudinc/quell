@@ -25,11 +25,6 @@ export class SetUser implements Action {
   constructor(public payload: User) {}
 }
 
-/*export class SetUser implements Action {
-  readonly type = AuthActionTypes.SetUser;
-  constructor(public payload: any) {}
-}*/
-
 export type AuthAction = Login | Logout | CompleteAuthentication | SetUser;
 
 export const fromAuthActions = {

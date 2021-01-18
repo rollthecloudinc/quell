@@ -28,7 +28,8 @@
       "qs": "qs",
       "jsonpath-plus": "jsonpath-plus",
       "plugin": "plugin",
-      "datasource": "datasource"
+      "datasource": "datasource",
+      "layout": "layout"
     }
   }
 }

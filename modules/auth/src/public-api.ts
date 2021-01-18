@@ -6,6 +6,7 @@ export * from './lib/+state/auth.facade';
 export * from './lib/auth.module';
 export * from './lib/auth.tokens';
 export * from './lib/models/auth.models';
+export * from './lib/models/cookie.models';
 export * from './lib/http-interceptors/auth-interceptor';
 export * from './lib/http-interceptors/logout-interceptor';
 export * from './lib/auth.factories';
