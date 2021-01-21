@@ -17,6 +17,7 @@ import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { UrlGeneratorService } from '../services/url-generator.service';
 import { SelectMapping, SelectOption } from '../models/plugin.models';
 import { RulesResolverService } from '../services/rules-resolver.service';
+import { LayoutSetting } from 'layout';
 
 @Injectable()
 export class RestContentHandler implements ContentHandler {
@@ -125,8 +126,8 @@ export class RestContentHandler implements ContentHandler {
             return dataset.results.map(row => new Pane({ contentPlugin: 'snippet', name: uuid.v4(), label: undefined, contexts: [ ...(metadata.get('contexts') as Array<InlineContext>), new InlineContext({ name: "_root", adaptor: 'data', data: row })], settings: this.snippetHandler.buildSettings({ ...r.renderer.data, content: r.renderer.data.content }) })) as Array<Pane>;
           }
         }),
-        map(panes => new Panel({ stylePlugin: undefined, settings: [], panes })),
-        map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], panels: [ panel ] })))
+        map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
+        map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] })))
       ).subscribe(panelSettings => {
         subject.next(panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes);
         subject.complete();

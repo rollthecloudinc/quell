@@ -12,6 +12,7 @@ import { MediaContentHandler } from './media-content.handler';
 import { PanelContentHandler } from './panel-content.handler';
 import { Pane, Panel, PanelPage } from '../models/page.models';
 import { InlineContextResolverService } from '../services/inline-context-resolver.service';
+import { LayoutSetting } from 'layout';
 
 @Injectable()
 export class SliceContentHandler implements ContentHandler {
@@ -55,8 +56,8 @@ export class SliceContentHandler implements ContentHandler {
         map(data => [slice, context, data])
       )),
       switchMap(([slice, context, dataArray]) => this.transformDataArray(dataArray, slice.plugin)),
-      map(panes => new Panel({ stylePlugin: undefined, settings: [], panes })),
-      map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], panels: [ panel ] }))),
+      map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
+      map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] }))),
       map(panelSettings => panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes)
     );
   }

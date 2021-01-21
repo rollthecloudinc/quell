@@ -33,12 +33,10 @@ export class EditPanelPageComponent implements OnInit {
 
   onSubmit(panelPage: PanelPage) {
     console.log('submitted');
+    // console.log(panelPage);
     this.panelPageService.update(new PanelPage({ ...panelPage, id: this.panelPage.id })).subscribe(() => {
       alert('panel page updated');
     });
-    /*this.panelPageService.add(panelPage).subscribe(() => {
-      alert('panel page created');
-    });*/
   }
 
 }

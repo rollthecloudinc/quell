@@ -8,7 +8,7 @@ import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } f
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
-import { SplitLayoutComponent, GridLayoutComponent } from 'layout';
+import { SplitLayoutComponent, GridLayoutComponent, LayoutSetting } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage } from '../../models/page.models';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
@@ -113,6 +113,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   pageProperties = new PropertiesFormPayload();
 
+  layoutSetting = new LayoutSetting();
+  rowSettings: Array<LayoutSetting> = [];
+  columnSettings: Array<LayoutSetting> = [];
+
   public onTouched: () => void = () => {};
 
   contentForm = this.fb.group({
@@ -206,7 +210,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           stylePlugin: new FormControl(''),
           styleTitle: new FormControl(''),
           settings: new FormArray([]),
-          panes: this.fb.array([])
+          panes: this.fb.array([]),
+          columnSetting: this.fb.group({
+            settings: this.fb.array([])
+          })
         }));
       }
     });
@@ -217,7 +224,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       this.panels.clear();
       this.panelPageId = changes.panelPage.currentValue.panelPageId;
       this.dashboard = changes.panelPage.currentValue.gridItems.map(o => Object.assign({}, o));
-      this.layoutType.setValue(this.panelPage.layoutType);
+      this.layoutType.setValue(changes.panelPage.currentValue.layoutType);
+      this.layoutSetting = new LayoutSetting(changes.panelPage.currentValue.layoutSetting);
+      this.rowSettings = changes.panelPage.currentValue.rowSettings ? changes.panelPage.currentValue.rowSettings.map(rs => new LayoutSetting(rs)) : [];
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path });
         this.contexts = changes.panelPage.currentValue.contexts;
@@ -229,7 +238,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           stylePlugin: new FormControl(p.stylePlugin),
           styleTitle: new FormControl(''),
           settings: this.fb.array(p.settings !== undefined ? p.settings.map(s => this.convertToGroup(s)): []),
-          panes: this.fb.array([])
+          panes: this.fb.array([]),
+          columnSetting: this.fb.group({
+            settings: this.fb.array([])
+          })
         }));
         if(p.stylePlugin && p.stylePlugin !== '') {
           this.spm.getPlugin(p.stylePlugin).subscribe(p => {
@@ -297,7 +309,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       stylePlugin: new FormControl(''),
       styleTitle: new FormControl(''),
       settings: new FormArray([]),
-      panes: this.fb.array([])
+      panes: this.fb.array([]),
+      columnSetting: this.fb.group({
+        settings: this.fb.array([])
+      })
     }));
 
     if(this.nested && this.gridLayout !== undefined) {
@@ -497,6 +512,27 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     }
   }
 
+  onLayoutSettingChange(evt: LayoutSetting) {
+    this.layoutSetting = new LayoutSetting(evt);
+    if (this.nested) {
+      this.nestedUpdate.emit(this.packageFormData());
+    }
+  }
+
+  onRowSettingsChange(evt: Array<LayoutSetting>) {
+    this.rowSettings = evt.map(s => new LayoutSetting(s));
+    if (this.nested) {
+      this.nestedUpdate.emit(this.packageFormData());
+    }
+  }
+
+  onColumnSettingsChange(evt: Array<LayoutSetting>) {
+    this.columnSettings = evt.map(s => new LayoutSetting(s));
+    if (this.nested) {
+      this.nestedUpdate.emit(this.packageFormData());
+    }
+  }
+
   submit() {
     this.submitted.emit(this.packageFormData());
   }
@@ -522,7 +558,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       layoutType: this.layoutType.value,
       gridItems,
       contexts: this.contexts,
-      panels: this.panels.value
+      panels: this.panels.value,
+      layoutSetting: new LayoutSetting(this.layoutSetting),
+      rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs))
     });
     console.log(panelPage);
     return panelPage;

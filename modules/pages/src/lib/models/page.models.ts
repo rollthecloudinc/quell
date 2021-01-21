@@ -2,6 +2,7 @@
 import { RuleSet } from 'angular2-query-builder';
 import { AttributeValue } from 'attributes';
 import { InlineContext } from 'context';
+import { LayoutSetting } from 'layout';
 
 interface DatasourceModel<T> {
   new (): T;
@@ -17,6 +18,8 @@ export class PanelPage {
   gridItems: Array<GridItem> = [];
   panels: Array<Panel> = [];
   contexts?: Array<InlineContext> = [];
+  layoutSetting: LayoutSetting;
+  rowSettings: Array<LayoutSetting> = [];
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -33,6 +36,12 @@ export class PanelPage {
       }
       if(data.contexts) {
         this.contexts = data.contexts.map(c => new InlineContext(c));
+      }
+      if(data.layoutSetting) {
+        this.layoutSetting = new LayoutSetting(data.layoutSetting);
+      }
+      if (data.rowSettings && Array.isArray(data.rowSettings)) {
+        this.rowSettings = data.rowSettings.map(s => new LayoutSetting(s));
       }
     }
   }
@@ -62,6 +71,7 @@ export class Panel {
   stylePlugin: string;
   settings: Array<AttributeValue> = [];
   panes: Array<Pane> = [];
+  columnSetting: LayoutSetting;
   constructor(data?: Panel) {
     if(data) {
       this.name = data.name ? data.name : undefined;
@@ -72,6 +82,9 @@ export class Panel {
       }
       if(data.panes) {
         this.panes = data.panes.map(p => new Pane(p));
+      }
+      if (data.columnSetting) {
+        this.columnSetting = new LayoutSetting(data.columnSetting);
       }
     }
   }

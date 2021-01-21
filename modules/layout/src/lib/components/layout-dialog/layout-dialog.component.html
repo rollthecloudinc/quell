@@ -1,1 +1,8 @@
-<p>layout-dialog works!</p>
+<form class="layout-form" [formGroup]="dialogForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <druid-layout-form formControlName="layout" [layout]="layout" [type]="type" [settingValues]="settingValues"></druid-layout-form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!dialogForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

@@ -4,6 +4,7 @@ import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { of, Observable } from 'rxjs';
 import { PanelPage, Pane, Panel } from '../models/page.models';
+import { LayoutSetting } from 'layout';
 
 @Injectable({
   providedIn: 'root'
@@ -60,7 +61,8 @@ export class PanelContentHandler implements ContentHandler {
     return new Panel({
       stylePlugin: undefined,
       settings: [],
-      panes: panes
+      panes: panes,
+      columnSetting: new LayoutSetting()
     });
   }
 

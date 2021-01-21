@@ -1,1 +1,3 @@
-<p>layout-form works!</p>
+<div [formGroup]="layoutForm">
+  <classifieds-ui-attributes-builder formControlName="settings" [attributes]="layout.settings.get(type)" [attributeValues]="settingValues"></classifieds-ui-attributes-builder>
+</div>

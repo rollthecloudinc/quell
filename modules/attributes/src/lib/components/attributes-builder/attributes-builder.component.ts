@@ -58,7 +58,7 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
   public onTouched: () => void = () => {};
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.attributes.previousValue !== changes.attributes.currentValue) {
+    if (changes.attributes && (!changes.attributes.previousValue || changes.attributes.previousValue !== changes.attributes.currentValue)) {
       while (this.attributesArray.length !== 0) {
         this.attributesArray.removeAt(0);
       }

@@ -60,7 +60,7 @@
           <button type="submit">Submit</button>
         </form>
         <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
-          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings">
             <ng-template #innerGridItem let-i="i">
               <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
             </ng-template>

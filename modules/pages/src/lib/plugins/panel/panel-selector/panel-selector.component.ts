@@ -10,6 +10,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
+import { LayoutSetting } from 'layout';
 
 @Component({
   selector: 'classifieds-ui-panel-selector',
@@ -48,7 +49,7 @@ export class PanelSelectorComponent implements OnInit {
 
   onNewSelect() {
     const name = uuid.v4();
-    const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], panels: [] });
+    const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
     (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
       contentPlugin: 'panel',
       name: name,

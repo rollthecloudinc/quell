@@ -1,6 +1,11 @@
 import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { SplitAreaDirective } from 'angular-split';
-
+import { LayoutSetting } from '../../models/layout.models';
+import { switchMap } from 'rxjs/operators';
+import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
+import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
+import { AttributeValue } from 'attributes';
 @Component({
   selector: 'classifieds-ui-split-layout',
   templateUrl: './split-layout.component.html',
@@ -23,6 +28,15 @@ export class SplitLayoutComponent implements OnInit  {
   @Input()
   displayItemHeader = true;
 
+  @Input() layoutSetting: LayoutSetting;
+  @Output() layoutSettingChange = new EventEmitter<LayoutSetting>();
+
+  @Input() rowSettings: Array<LayoutSetting>;
+  @Output() rowSettingsChange = new EventEmitter<Array<LayoutSetting>>();
+
+  @Input() columnSettings: Array<LayoutSetting>;
+  @Output() columnSettingsChange = new EventEmitter<Array<LayoutSetting>>();
+
   rows = 0;
   sizes: Array<Array<number>> = [];
 
@@ -41,7 +55,11 @@ export class SplitLayoutComponent implements OnInit  {
     return this.dashboard.length == 0 ? 0 : this.dashboard.reduce<number>((p, c) => c.y > p ? c.y : p, 0) + 1;
   }
 
-  constructor(private el: ElementRef) { }
+  constructor(
+    private el: ElementRef,
+    private dialog: MatDialog,
+    private lpm: LayoutPluginManager
+  ) { }
 
   ngOnInit(): void {
     if(this.dashboard.length === 0) {
@@ -55,6 +73,14 @@ export class SplitLayoutComponent implements OnInit  {
           this.sizes[i].push(this.dashboard[index].cols);
         }
       }
+      if (this.totalRows !== this.rowSettings.length && this.rowSettings.length === 0) {
+        const settings = [];
+        for (let i = 0; i < this.totalRows; i++) {
+          settings.push(new LayoutSetting());
+        }
+        this.rowSettings = settings;
+        this.rowSettingsChange.emit(this.rowSettings);
+      }
     }
   }
 
@@ -64,8 +90,10 @@ export class SplitLayoutComponent implements OnInit  {
     let offset = 0;
     for(let i = 0; i < len; i++) {
       this.dashboard.splice(idx[i] - offset, 1);
+      this.rowSettings.splice(rIndex, 1);
       offset++;
       this.itemRemoved.emit(idx[i]);
+      this.rowSettingsChange.emit(this.rowSettings);
     }
     len = this.dashboard.length;
     for(let i = 0; i < len; i++) {
@@ -83,7 +111,9 @@ export class SplitLayoutComponent implements OnInit  {
 
   addRow() {
     this.sizes.push([]);
+    this.rowSettings = [ ...this.rowSettings.map(s => new LayoutSetting(s)), new LayoutSetting() ];
     this.addColumn(this.totalRows === 0 ? 0 : this.totalRows);
+    this.rowSettingsChange.emit(this.rowSettings);
     // @todo: Given various tests this results in duplicate columns in this layout.
     // this.itemAdded.emit();
   }
@@ -127,6 +157,30 @@ export class SplitLayoutComponent implements OnInit  {
     this.el.nativeElement.querySelectorAll('.as-split-gutter').forEach(e => {
       e.style.height = 'auto';
     });
+  }
+
+  settingValues(type: string, row?: number, column?: number): Array<AttributeValue> {
+    switch(type) {
+      case 'row':
+        return this.rowSettings[row].settings;
+      default:
+        return [];
+    }
+  }
+
+  layoutSettings(type: string, row?: number, column?: number) {
+    this.lpm.getPlugin('split').pipe(
+      switchMap(layout => this.dialog.open(LayoutDialogComponent, { data: { layout, type, settingValues: this.settingValues(type, row, column) } }).afterClosed())
+    ).subscribe(settings => {
+      switch(type) {
+        case 'row':
+          this.rowSettings = this.rowSettings.map((v, i) => i === row ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
+          console.log(this.rowSettings);
+          this.rowSettingsChange.emit(this.rowSettings);
+          break;
+        default:
+      }
+    })
   }
 
 }

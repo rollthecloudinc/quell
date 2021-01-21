@@ -12,8 +12,10 @@ import { FlexLayoutComponent } from './components/flex-layout/flex-layout.compon
 import { GridLayoutComponent } from './components/grid-layout/grid-layout.component';
 import { GridlessLayoutComponent } from './components/gridless-layout/gridless-layout.component';
 import { SplitLayoutComponent } from './components/split-layout/split-layout.component';
-import { LayoutDialogComponent } from './components/layout-dialog/layout-dialog.component';
 import { LayoutFormComponent } from './components/layout-form/layout-form.component';
+import { LayoutDialogComponent } from './components/layout-dialog/layout-dialog.component';
+import { LayoutPluginManager } from './services/layout-plugin-manager.service';
+import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './layout.factories';
 
 @NgModule({
   declarations: [
@@ -21,8 +23,8 @@ import { LayoutFormComponent } from './components/layout-form/layout-form.compon
     GridLayoutComponent,
     GridlessLayoutComponent,
     SplitLayoutComponent,
-    LayoutDialogComponent,
-    LayoutFormComponent
+    LayoutFormComponent,
+    LayoutDialogComponent
   ],
   imports: [
     CommonModule,
@@ -41,8 +43,14 @@ import { LayoutFormComponent } from './components/layout-form/layout-form.compon
     GridLayoutComponent,
     GridlessLayoutComponent,
     SplitLayoutComponent,
-    LayoutDialogComponent,
-    LayoutFormComponent
+    LayoutFormComponent,
+    LayoutDialogComponent
   ]
 })
-export class LayoutModule { }
+export class LayoutModule {
+  constructor(lpm: LayoutPluginManager) {
+    [splitLayoutFactory(), gridLayoutFactory(), gridlessLayoutFactory()].forEach(p => {
+      lpm.register(p);
+    });
+  }
+}
