@@ -32,6 +32,10 @@ export class LayoutFormComponent implements OnInit, ControlValueAccessor, Valida
 
   public onTouched: () => void = () => {};
 
+  get attributes() {
+    return this.layout.settings.has(this.type) ? this.layout.settings.get(this.type) : [];
+  }
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {

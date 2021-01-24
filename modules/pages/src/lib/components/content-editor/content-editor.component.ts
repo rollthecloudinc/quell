@@ -115,7 +115,6 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
-  columnSettings: Array<LayoutSetting> = [];
 
   public onTouched: () => void = () => {};
 
@@ -173,6 +172,15 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   get displayType() {
     return this.contentForm.get('displayType');
+  }
+
+  get columnSettings(): Array<LayoutSetting> {
+    const panelLen = this.panels.length;
+    let settings: Array<LayoutSetting> = [];
+    for(let i = 0; i < panelLen ;i++) {
+      settings = [ ...settings, new LayoutSetting(this.panels.at(i).get('columnSetting').value) ];
+    }
+    return settings;
   }
 
   constructor(
@@ -527,7 +535,13 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   }
 
   onColumnSettingsChange(evt: Array<LayoutSetting>) {
-    this.columnSettings = evt.map(s => new LayoutSetting(s));
+    const len = this.panels.length;
+    for(let i = 0; i < len; i++) {
+      (this.panels.at(i).get('columnSetting').get('settings') as FormArray).clear();
+      for (let j = 0; j < evt[i].settings.length; j++) {
+        (this.panels.at(i).get('columnSetting').get('settings') as FormArray).push(this.convertToGroup(evt[i].settings[j]));
+      }
+    }
     if (this.nested) {
       this.nestedUpdate.emit(this.packageFormData());
     }

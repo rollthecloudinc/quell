@@ -2,7 +2,7 @@ import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren,
 import { MatDialog } from '@angular/material/dialog';
 import { SplitAreaDirective } from 'angular-split';
 import { LayoutSetting } from '../../models/layout.models';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
 import { AttributeValue } from 'attributes';
@@ -159,24 +159,38 @@ export class SplitLayoutComponent implements OnInit  {
     });
   }
 
-  settingValues(type: string, row?: number, column?: number): Array<AttributeValue> {
+  settingValues(type: string, index?: number): Array<AttributeValue> {
     switch(type) {
+      case 'column':
+        return this.columnSettings[index].settings;
       case 'row':
-        return this.rowSettings[row].settings;
+        return this.rowSettings[index].settings;
+      case 'global':
+        return this.layoutSetting.settings;
       default:
         return [];
     }
   }
 
-  layoutSettings(type: string, row?: number, column?: number) {
+  layoutSettings(type: string, index?: number) {
     this.lpm.getPlugin('split').pipe(
-      switchMap(layout => this.dialog.open(LayoutDialogComponent, { data: { layout, type, settingValues: this.settingValues(type, row, column) } }).afterClosed())
+      switchMap(layout => this.dialog.open(LayoutDialogComponent, { data: { layout, type, settingValues: this.settingValues(type, index) } }).afterClosed()),
+      filter(settings => !!settings)
     ).subscribe(settings => {
       switch(type) {
+        case 'column':
+          this.columnSettings = this.columnSettings.map((v, i) => i === index ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
+          console.log(this.columnSettings);
+          this.columnSettingsChange.emit(this.columnSettings);
+          break;
         case 'row':
-          this.rowSettings = this.rowSettings.map((v, i) => i === row ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
+          this.rowSettings = this.rowSettings.map((v, i) => i === index ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
           console.log(this.rowSettings);
           this.rowSettingsChange.emit(this.rowSettings);
+          break;
+        case 'global':
+          this.layoutSetting = new LayoutSetting({ settings: settings.map(s => new AttributeValue(s)) });
+          this.layoutSettingChange.emit(this.layoutSetting);
           break;
         default:
       }

@@ -1,5 +1,6 @@
 <div class="layout-wrapper">
   <div #mainControls [hidden]="!displayMainControls" class="main-controls">
+    <button type="button" (mousedown)="layoutSettings('global')">Layout Settings</button>
     <button type="button" (mousedown)="addRow()">Add Row</button>
     <ng-container *ngTemplateOutlet="extraActionsTmpl"></ng-container>
   </div>
@@ -15,7 +16,7 @@
           <as-split-area *for="totalColumns(i); let j = index" [size]="itemSize(i, j)">
             <div fxLayout="column" fxFill>
               <div #itemHeader fxFlex="0 1 auto" [hidden]="!displayItemHeader" class="grid-item-header">
-                <button type="button" (mousedown)="layoutSettings('column', i, j)">Layout Settings</button>
+                <button type="button" (mousedown)="layoutSettings('column', itemIndex(i, j))">Layout Settings</button>
                 <ng-container *ngTemplateOutlet="gridItemActionsTmpl,context: { i: itemIndex(i, j) }"></ng-container>
                 <span>percent: {{ sizes[i][j] }}</span>
                 <button type="button" class="delete" (mousedown)="removeColumn(i, j)" (touchstart)="removeColumn(i, j)">Delete</button>

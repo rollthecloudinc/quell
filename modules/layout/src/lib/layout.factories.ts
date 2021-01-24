@@ -14,6 +14,30 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
         options: {},
         attributes: []
       })]
+    ],
+    [
+      'column',
+      [new Attribute({
+        name: 'expanded',
+        type: AttributeTypes.Bool,
+        label: 'Expanded',
+        required: false,
+        widget: 'text',
+        options: {},
+        attributes: []
+      })]
+    ],
+    [
+      'global',
+      [new Attribute({
+        name: 'expanded',
+        type: AttributeTypes.Bool,
+        label: 'Expanded',
+        required: false,
+        widget: 'text',
+        options: {},
+        attributes: []
+      })]
     ]
   ]);
   return new LayoutPlugin<string>({ id: 'split', title: 'Split', settings });
