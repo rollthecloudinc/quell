@@ -248,7 +248,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           settings: this.fb.array(p.settings !== undefined ? p.settings.map(s => this.convertToGroup(s)): []),
           panes: this.fb.array([]),
           columnSetting: this.fb.group({
-            settings: this.fb.array([])
+            settings: this.fb.array(p.columnSetting ? p.columnSetting.settings.map(s => this.convertToGroup(s)) : [])
           })
         }));
         if(p.stylePlugin && p.stylePlugin !== '') {

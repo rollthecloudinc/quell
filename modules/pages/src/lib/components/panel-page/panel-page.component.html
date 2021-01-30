@@ -52,7 +52,7 @@
     <ng-container [ngSwitch]="panelPage?.displayType">
       <ng-container *ngSwitchCase="'form'">
         <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
-          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings" [columnSettings]="columnSettings">
             <ng-template #innerGridItem let-i="i">
               <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
             </ng-template>
@@ -60,7 +60,7 @@
           <button type="submit">Submit</button>
         </form>
         <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
-          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings">
+          <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings" [columnSettings]="columnSettings">
             <ng-template #innerGridItem let-i="i">
               <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
             </ng-template>
@@ -68,7 +68,7 @@
         </div>
       </ng-container>
       <ng-container *ngSwitchCase="'page'">
-        <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems">
+        <classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings" [columnSettings]="columnSettings">
           <ng-template #innerGridItem let-i="i">
             <classifieds-ui-render-panel fxFlex [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
           </ng-template>

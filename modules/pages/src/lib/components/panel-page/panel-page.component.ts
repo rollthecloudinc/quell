@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementR
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { GridLayoutComponent } from 'layout';
+import { GridLayoutComponent, LayoutSetting } from 'layout';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
 import { PanelPage, Pane } from '../../models/page.models';
 import { PanelPageForm } from '../../models/form.models';
@@ -93,6 +93,11 @@ export class PanelPageComponent implements OnInit, OnChanges {
 
   get panelsArray(): FormArray {
     return this.pageForm.get('panels') as FormArray;
+  }
+
+  get columnSettings(): Array<LayoutSetting> {
+    const settings = this.panelPage ? this.panelPage.panels.reduce<Array<LayoutSetting>>((p, c) => [ ...p, new LayoutSetting(c.columnSetting) ], []) : [];
+    return settings;
   }
 
   /*get pageIsDynamic() {

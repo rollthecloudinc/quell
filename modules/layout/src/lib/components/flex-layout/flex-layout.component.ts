@@ -18,6 +18,9 @@ export class FlexLayoutComponent implements OnInit {
   @Input()
   rowSettings: Array<LayoutSetting> = [];
 
+  @Input()
+  columnSettings: Array<LayoutSetting> = [];
+
   @ContentChild('innerGridItem') innerGridItemTmpl: TemplateRef<any>;
 
   get totalRows(): number {
@@ -40,8 +43,22 @@ export class FlexLayoutComponent implements OnInit {
     return this.dashboard.reduce<number>((p, c) => c.y === rowIndex ? p + 1 : p, 0);
   }
 
-  rowSetting(index: number, name: string): any {
-    return this.attributeMatcher.getComputedValue(name, this.rowSettings && this.rowSettings[index] ? this.rowSettings[index].settings : []);
+  rowFlex(index: number): string {
+    const attributes = ['flexGrow', 'flexShrink', 'flexBasis'];
+    const values = attributes.map(n => this.attributeMatcher.getComputedValue(n, this.rowSettings && this.rowSettings[index] ? this.rowSettings[index].settings : []));
+    const values2 = values.map(v => v !== undefined && v !== null && v !== '' && v.trim() !== '' ? `${v.trim()}` : '');
+    return values2.join(' ');
+  }
+
+  gridItemInnerStyles(row: number, column: number): any {
+    const index = this.itemIndex(row, column);
+    const settings = this.columnSettings && this.columnSettings[index] ? this.columnSettings[index].settings : [];
+    return { height: this.calculateHeight(this.attributeMatcher.getComputedValue('height', settings)) };
+  }
+
+  calculateHeight(v?: string): string {
+    const trimmed = v !== undefined && v !== null ? v.trim() : 'auto';
+    return trimmed;
   }
 
 }
