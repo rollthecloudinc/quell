@@ -1,4 +1,4 @@
 # Druid
 
-My answer to those pu**y a** Drupal b*tches scared to use Angular.
+Probably not the right thing to say… ooppps. I should keep my thoughts to myself :/
 
