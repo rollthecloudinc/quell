@@ -14,14 +14,3 @@ export class LayoutPlugin<T = string> extends Plugin<T>  {
     }
   }
 }
-
-export class LayoutSetting {
-  settings: Array<AttributeValue> = []
-  constructor(data?: LayoutSetting) {
-    if (data) {
-      if (data.settings && Array.isArray(data.settings)) {
-        this.settings = data.settings.map(v => new AttributeValue(v));
-      }
-    }
-  }
-}

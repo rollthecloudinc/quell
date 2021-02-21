@@ -3,8 +3,7 @@ import { ContentHandler, ContentBinding } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { of, Observable } from 'rxjs';
-import { PanelPage, Pane, Panel } from '../models/page.models';
-import { LayoutSetting } from 'layout';
+import { PanelPage, Pane, Panel, LayoutSetting } from 'panels';
 
 @Injectable({
   providedIn: 'root'

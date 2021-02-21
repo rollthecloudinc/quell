@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PanelPage } from '../../models/page.models';
 import { PropertiesFormPayload } from '../../models/form.models';
 
 @Component({

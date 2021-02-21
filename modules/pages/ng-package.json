@@ -29,7 +29,8 @@
       "jsonpath-plus": "jsonpath-plus",
       "plugin": "plugin",
       "datasource": "datasource",
-      "layout": "layout"
+      "layout": "layout",
+      "panels": "panels"
     }
   }
 }

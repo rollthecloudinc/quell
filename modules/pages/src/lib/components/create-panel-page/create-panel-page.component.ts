@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PanelPage } from '../../models/page.models';
+import { PanelPage } from 'panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 
 @Component({

@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeTypes } from 'attributes';
-import { Pane } from '../../../models/page.models';
+import { Pane } from 'panels';
 import { Snippet } from 'content';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 

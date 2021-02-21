@@ -3,7 +3,7 @@ import { Snippet } from 'content';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { Pane } from 'pages';
-import { Pane } from '../../models/page.models';
+import { Pane } from 'panels';
 import { TokenizerService } from 'token';
 import { AttributeValue } from 'attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';

@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@angular/forms';
 import * as uuid from 'uuid';
 import { AttributeValue } from 'attributes';
-import { PanelPage, PanelPageListItem } from '../../../models/page.models';
+import { PanelPage, PanelPageListItem, LayoutSetting } from 'panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { PanelContentHandler } from '../../../handlers/panel-content.handler';
 import { MatDialog } from '@angular/material/dialog';
@@ -10,7 +10,6 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
-import { LayoutSetting } from 'layout';
 
 @Component({
   selector: 'classifieds-ui-panel-selector',

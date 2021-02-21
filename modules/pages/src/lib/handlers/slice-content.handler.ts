@@ -10,9 +10,8 @@ import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
 import { MediaContentHandler } from './media-content.handler';
 import { PanelContentHandler } from './panel-content.handler';
-import { Pane, Panel, PanelPage } from '../models/page.models';
+import { Pane, Panel, PanelPage, LayoutSetting } from 'panels';
 import { InlineContextResolverService } from '../services/inline-context-resolver.service';
-import { LayoutSetting } from 'layout';
 
 @Injectable()
 export class SliceContentHandler implements ContentHandler {

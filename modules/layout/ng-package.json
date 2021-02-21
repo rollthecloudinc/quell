@@ -10,7 +10,8 @@
       "attributes": "attributes",
       "token": "token",
       "angular-gridster2": "angular-gridster2",
-      "plugin": "plugin"
+      "plugin": "plugin",
+      "panels": "panels"
     }
   }
 }

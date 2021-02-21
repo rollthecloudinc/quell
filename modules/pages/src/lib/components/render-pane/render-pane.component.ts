@@ -5,7 +5,7 @@ import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
-import { PanelPage, Pane } from '../../models/page.models';
+import { PanelPage, Pane } from 'panels';
 import { Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 

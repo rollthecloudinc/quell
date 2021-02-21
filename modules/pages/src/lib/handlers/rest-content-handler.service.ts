@@ -12,12 +12,11 @@ import { PageBuilderFacade } from '../features/page-builder/page-builder.facade'
 import { selectDataset } from '../features/page-builder/page-builder.selectors';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { TokenizerService } from 'token';
-import { Panel, PanelPage, Pane } from '../models/page.models';
+import { Panel, PanelPage, Pane, LayoutSetting } from 'panels';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { UrlGeneratorService } from '../services/url-generator.service';
 import { SelectMapping, SelectOption } from '../models/plugin.models';
 import { RulesResolverService } from '../services/rules-resolver.service';
-import { LayoutSetting } from 'layout';
 
 @Injectable()
 export class RestContentHandler implements ContentHandler {

@@ -2,7 +2,7 @@ import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
 import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
-import { Pane } from '../models/page.models';
+import { Pane } from 'panels';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';
 import { of, forkJoin, Observable, iif } from 'rxjs';

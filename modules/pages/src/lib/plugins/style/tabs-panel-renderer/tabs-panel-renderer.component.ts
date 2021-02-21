@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AttributeValue } from 'attributes';
-import { Pane } from '../../../models/page.models';
+import { Pane } from 'panels';
 
 @Component({
   selector: 'classifieds-ui-tabs-panel-renderer',

@@ -5,12 +5,13 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
+import { PanelsEditor, LayoutSetting } from 'panels';
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
-import { SplitLayoutComponent, GridLayoutComponent, LayoutSetting } from 'layout';
+import { SplitLayoutComponent, GridLayoutComponent } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
-import { Pane, PanelPage } from '../../models/page.models';
+import { Pane, PanelPage } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.component';
@@ -45,7 +46,7 @@ import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dia
     },
   ]
 })
-export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
+export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAccessor, Validator, PanelsEditor {
 
   @Output()
   submitted = new EventEmitter<PanelPage>();

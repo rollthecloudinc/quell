@@ -67,6 +67,10 @@
       "layout": [
         "dist/layout/layout",
         "dist/layout"
+      ],
+      "panels": [
+        "dist/panels/panels",
+        "dist/panels"
       ]
     }
   },

@@ -2,9 +2,9 @@ import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementR
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { GridLayoutComponent, LayoutSetting } from 'layout';
+import { GridLayoutComponent } from 'layout';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
-import { PanelPage, Pane } from '../../models/page.models';
+import { PanelPage, Pane, LayoutSetting } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';

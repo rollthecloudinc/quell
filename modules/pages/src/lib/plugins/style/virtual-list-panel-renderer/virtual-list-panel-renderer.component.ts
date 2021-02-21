@@ -4,7 +4,7 @@ import { AttributeValue, AttributeMatcherService } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
 import { InlineContext } from 'context';
-import { Pane } from '../../../models/page.models';
+import { Pane } from 'panels';
 import { PaneDatasourceService } from '../../../services/pane-datasource.service';
 import { filter, concatMap, map, take, skip, tap, switchMap } from 'rxjs/operators';
 import { PanelContentHandler } from '../../../handlers/panel-content.handler';

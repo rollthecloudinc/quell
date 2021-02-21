@@ -6,7 +6,7 @@ import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@ang
 import { Subject } from 'rxjs';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '../../../models/page.models';
+import { Pane } from 'panels';
 
 @Component({
   selector: 'classifieds-ui-rest-editor',

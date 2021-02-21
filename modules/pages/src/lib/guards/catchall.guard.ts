@@ -3,7 +3,7 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMa
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
 import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
-import { PanelPageListItem, PanelPage } from '../models/page.models';
+import { PanelPageListItem, PanelPage } from 'panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';
 import * as qs from 'qs';

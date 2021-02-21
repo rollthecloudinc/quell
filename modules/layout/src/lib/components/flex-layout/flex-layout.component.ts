@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
-import { LayoutSetting } from '../../models/layout.models';
+import { LayoutSetting } from 'panels';
 import { AttributeMatcherService } from 'attributes';
 
 @Component({

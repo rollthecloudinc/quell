@@ -4,7 +4,7 @@ import { InlineContext } from 'context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SliceContentHandler } from '../../../handlers/slice-content.handler';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '../../../models/page.models';
+import { Pane } from 'panels';
 import { DataSlice } from '../../../models/plugin.models';
 
 @Component({
