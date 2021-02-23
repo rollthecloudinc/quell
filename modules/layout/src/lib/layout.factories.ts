@@ -1,5 +1,6 @@
 import { LayoutPlugin } from './models/layout.models';
 import { Attribute, AttributeTypes } from 'attributes';
+import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
 
 export const splitLayoutFactory = (): LayoutPlugin<string>  => {
   const settings = new Map<string, Array<Attribute>>([
@@ -71,13 +72,13 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
       })]
     ]*/
   ]);
-  return new LayoutPlugin<string>({ id: 'split', title: 'Split', settings });
+  return new LayoutPlugin<string>({ id: 'split', title: 'Split', editor: undefined, renderer: undefined, settings });
 };
 
 export const gridLayoutFactory = (): LayoutPlugin<string>  => {
-  return new LayoutPlugin<string>({ id: 'grid', title: 'Grid', settings: new Map<string, Array<Attribute>>() });
+  return new LayoutPlugin<string>({ id: 'grid', title: 'Grid', editor: undefined, renderer: undefined, settings: new Map<string, Array<Attribute>>() });
 };
 
 export const gridlessLayoutFactory = (): LayoutPlugin<string>  => {
-  return new LayoutPlugin<string>({ id: 'gridless', title: 'Gridless', settings: new Map<string, Array<Attribute>>() });
+  return new LayoutPlugin<string>({ id: 'gridless', title: 'Gridless', editor: GridlessLayoutEditorComponent, renderer: undefined, settings: new Map<string, Array<Attribute>>() });
 };

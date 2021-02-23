@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormControl, FormGroup } from "@angular/forms";
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -9,7 +9,7 @@ import { PanelsEditor, LayoutSetting } from 'panels';
 import { TokenizerService } from 'token';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
-import { SplitLayoutComponent, GridLayoutComponent } from 'layout';
+import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
@@ -26,8 +26,10 @@ import { PropertiesDialogComponent } from '../properties-dialog/properties-dialo
 import { PropertiesFormPayload, PanelPropsFormPayload } from '../../models/form.models';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
+import { NgTemplateOutlet } from '@angular/common';
 // import { timeStamp } from 'console';
 // import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
+import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.directive';
 
 @Component({
   selector: 'classifieds-ui-content-editor',
@@ -104,6 +106,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   @Input()
   rootContext: InlineContext;
 
+  layoutEditorRef: ComponentRef<any>;
+
   contentAdded = new Subject<[number, number]>();
   contentAdddedSub = this.contentAdded.subscribe(([panelIndex, paneIndex]) => {
     this.resolvePaneContexts(panelIndex, paneIndex);
@@ -161,6 +165,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   @ViewChildren('panes') paneContainers: QueryList<ElementRef>;
   @ViewChildren(EditablePaneComponent) editablePanes: QueryList<EditablePaneComponent>;
 
+  @ViewChild(LayoutEditorHostDirective, { static: false }) layoutEditorHost: LayoutEditorHostDirective;
+
+  @ViewChild('contextsMenuTpl', { static: true }) contextsMenuTpl: TemplateRef<any>;
+  @ViewChild('editablePaneTpl', { static: true }) editablePaneTpl: TemplateRef<any>;
   @ContentChild('extraActionsArea') extraActionsAreaTmpl: TemplateRef<any>;
 
   get panels() {
@@ -189,11 +197,13 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     private cpm: ContentPluginManager,
     private spm: StylePluginManager,
+    private lpm: LayoutPluginManager,
     private fb: FormBuilder,
     private bs: MatBottomSheet,
     private dialog: MatDialog,
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
+    private componentFactoryResolver: ComponentFactoryResolver,
     // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
@@ -224,6 +234,17 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
             settings: this.fb.array([])
           })
         }));
+      }
+    });
+    this.layoutType.valueChanges.pipe(
+      filter(() => !!this.layoutEditorHost)
+    ).subscribe(v => {
+      // @todo: Testing only gridless using plugin for now.
+      if (v === 'gridless') {
+        this.renderEditorLayout();
+      } else {
+        const viewContainerRef = this.layoutEditorHost.viewContainerRef;
+        viewContainerRef.clear();
       }
     });
   }
@@ -800,6 +821,27 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     }
 
     return fg;
+
+  }
+  
+  renderEditorLayout() {
+
+    this.lpm.getPlugin('gridless').subscribe(p => {
+
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(p.editor);
+
+      const viewContainerRef = this.layoutEditorHost.viewContainerRef;
+      viewContainerRef.clear();
+  
+      this.layoutEditorRef = viewContainerRef.createComponent(componentFactory);
+      (this.layoutEditorRef.instance as any).savable = this.savable;
+      (this.layoutEditorRef.instance as any).nested = this.nested;
+      (this.layoutEditorRef.instance as any).editor = this;
+      (this.layoutEditorRef.instance as any).extraActionsAreaTmpl = this.extraActionsAreaTmpl;
+      (this.layoutEditorRef.instance as any).contextsMenuTpl = this.contextsMenuTpl;
+      (this.layoutEditorRef.instance as any).editablePaneTpl = this.editablePaneTpl;
+
+    });
 
   }
 

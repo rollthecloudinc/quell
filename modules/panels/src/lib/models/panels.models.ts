@@ -11,7 +11,7 @@ export interface PanelsEditor {
   onRulesClick(): void;
   addContent(index: number): void;
   editPanelProps(panelIndex: number): void;
-  hasPanelStyle(index: number): void;
+  hasPanelStyle(index: number): boolean;
   applyStyle(index: number): void;
   panelStyleTitle(index): void;
   onFileChange(event: any, index: number): void;

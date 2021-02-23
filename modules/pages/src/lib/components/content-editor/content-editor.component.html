@@ -1,19 +1,27 @@
 <form *ngIf="!nested && !pageBuilder; else nestedTpl" [formGroup]="contentForm" (ngSubmit)="submit()" class="content-editor-wrapper" [ngClass]="{'nested': nested}">
     <ng-container [ngSwitch]="layoutType.value">
       <ng-container *ngSwitchCase="'grid'"><ng-container *ngTemplateOutlet="gridLayoutTpl"></ng-container></ng-container>
-      <ng-container *ngSwitchCase="'gridless'"><ng-container *ngTemplateOutlet="gridlessLayoutTpl"></ng-container></ng-container>
+      <!-- <ng-container *ngSwitchCase="'gridless'"><ng-container *ngTemplateOutlet="gridlessLayoutTpl"></ng-container></ng-container> -->
       <ng-container *ngSwitchCase="'split'"><ng-container *ngTemplateOutlet="splitLayoutTpl"></ng-container></ng-container>
     </ng-container>
+    <ng-container><ng-template classifiedsUiLayoutEditorHost></ng-template></ng-container>
 </form>
 
 <ng-template #nestedTpl>
   <div [formGroup]="contentForm" class="content-editor-wrapper" [ngClass]="{'nested': nested}">
     <ng-container [ngSwitch]="layoutType.value">
       <ng-container *ngSwitchCase="'grid'"><ng-container *ngTemplateOutlet="gridLayoutTpl"></ng-container></ng-container>
-      <ng-container *ngSwitchCase="'gridless'"><ng-container *ngTemplateOutlet="gridlessLayoutTpl"></ng-container></ng-container>
+      <!-- <ng-container *ngSwitchCase="'gridless'"><ng-container *ngTemplateOutlet="gridlessLayoutTpl"></ng-container></ng-container> -->
       <ng-container *ngSwitchCase="'split'"><ng-container *ngTemplateOutlet="splitLayoutTpl"></ng-container></ng-container>
     </ng-container>
+    <ng-container><ng-template classifiedsUiLayoutEditorHost></ng-template></ng-container>
   </div>
+</ng-template>
+
+<ng-template #editablePaneTpl let-i="i" let-j="j">
+  <classifieds-ui-editable-pane class="editable-pane" (delete)="onDeletePane(i, j)" (rules)="onRulesPane(i, j)" (nestedUpdate)="onNestedUpdate($event, i, j)" (rendererOverride)="onOverrideRenderer(i, j)" (removeRendererOverride)="onRemoveOverrideRenderer(i, j)" (edit)="onPaneEdit(i, j)" (delete)="onPaneDelete(i, j)" [panelIndex]="i" [paneIndex]="j" [name]="panelPaneName(i, j)" [label]="panelPaneLabel(i, j)" [locked]="panelPaneLocked(i, j)" [contexts]="contexts" [pluginName]="panelPanePlugin(i, j)" [settings]="panelPaneSettings(i, j)">
+    <div class="custom-placeholder" *cdkDragPlaceholder></div>
+  </classifieds-ui-editable-pane>
 </ng-template>
 
 <ng-template #contextsMenuTpl>
@@ -68,42 +76,6 @@
       </ngx-dropzone>
     </ng-template>
   </classifieds-ui-grid-layout>
-</ng-template>
-
-<ng-template #gridlessLayoutTpl>
-  <classifieds-ui-gridless-layout cdkDropListGroup>
-    <ng-template #extraActions>
-      <button *ngIf="savable" type="submit">Save</button>
-      <button *ngIf="savable" type="button" (click)="onPropertiesClick()">Properties</button>
-      <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
-      <button *ngIf="nested" type="button" (click)="onDeleteClick()">Delete</button>
-      <button *ngIf="nested" type="button" (click)="onRulesClick()">Rules</button>
-      <button type="button" (mousedown)="addContent(0)" (touchstart)="addContent(0)">Add Content</button>
-      <button type="button" (mousedown)="editPanelProps(0)" (touchstart)="editPanelProps(0)" >Props</button>
-      <span *ngIf="hasPanelStyle(0)">Style: {{ panelStyleTitle(0) }}</span>
-      <button *ngIf="!hasPanelStyle(0)" type="button" (mousedown)="applyStyle(0)" (touchstart)="applyStyle(0)">Apply Style</button>
-      <div class="layout-type">
-        <mat-form-field>
-          <mat-select required [formControl]="layoutType">
-            <mat-option value="grid">Grid</mat-option>
-            <mat-option value="gridless">Gridless</mat-option>
-            <mat-option value="split">Split</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
-    </ng-template>
-    <ng-template #gridItemActions let-i="i"></ng-template>
-    <ng-template #innerGridItem let-i="i">
-      <ngx-dropzone [cdkDropListData]="i" class="panel-dropzone" [multiple]="true" [disableClick]="true" (change)="onFileChange($event, i)" cdkDropList (cdkDropListDropped)="onDrop($event)">
-        <div #panes>
-          <classifieds-ui-editable-pane *ngFor="let pane of panelPanes(i).controls; let j = index" class="editable-pane" (delete)="onDeletePane(i, j)" (rules)="onRulesPane(i, j)" (nestedUpdate)="onNestedUpdate($event, i, j)" (rendererOverride)="onOverrideRenderer(i, j)" (removeRendererOverride)="onRemoveOverrideRenderer(i, j)" (edit)="onPaneEdit(i, j)" (delete)="onPaneDelete(i, j)" [panelIndex]="i" [paneIndex]="j" [name]="panelPaneName(i, j)" [label]="panelPaneLabel(i, j)" [locked]="panelPaneLocked(i, j)" [contexts]="contexts" [pluginName]="panelPanePlugin(i, j)" [settings]="panelPaneSettings(i, j)" cdkDrag>
-            <div class="custom-placeholder" *cdkDragPlaceholder></div>
-          </classifieds-ui-editable-pane>
-        </div>
-      </ngx-dropzone>
-    </ng-template>
-  </classifieds-ui-gridless-layout>
 </ng-template>
 
 <ng-template #splitLayoutTpl>

@@ -11,7 +11,8 @@
       "token": "token",
       "angular-gridster2": "angular-gridster2",
       "plugin": "plugin",
-      "panels": "panels"
+      "panels": "panels",
+      "ngx-dropzone": "ngx-dropzone"
     }
   }
 }

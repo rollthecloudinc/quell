@@ -1,0 +1,26 @@
+.layout-type, .display-type {
+  float: right;
+}
+
+:host ::ng-deep .main-controls {
+  background-color: #ccc;
+}
+
+:host ::ng-deep .layout-inner{
+  background-color: #ccc;
+  padding: .75em;
+}
+
+:host ::ng-deep .editable-pane-wrapper {
+  border: none;
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .pane-header {
+  background-color: white;
+}
+
+:host ::ng-deep .nested-panel-wrapper {
+  padding: .75em;
+  margin-bottom: 0;
+}

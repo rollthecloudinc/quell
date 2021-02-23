@@ -8,6 +8,7 @@ import { GridsterModule } from 'angular-gridster2';
 import { AttributesModule } from 'attributes';
 import { TokenModule } from 'token';
 import { UtilsModule } from 'utils';
+import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FlexLayoutComponent } from './components/flex-layout/flex-layout.component';
 import { GridLayoutComponent } from './components/grid-layout/grid-layout.component';
 import { GridlessLayoutComponent } from './components/gridless-layout/gridless-layout.component';
@@ -16,6 +17,7 @@ import { LayoutFormComponent } from './components/layout-form/layout-form.compon
 import { LayoutDialogComponent } from './components/layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from './services/layout-plugin-manager.service';
 import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './layout.factories';
+import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './
     GridlessLayoutComponent,
     SplitLayoutComponent,
     LayoutFormComponent,
-    LayoutDialogComponent
+    LayoutDialogComponent,
+    GridlessLayoutEditorComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +37,7 @@ import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './
     FlexLayoutModule,
     AngularSplitModule,
     GridsterModule,
+    NgxDropzoneModule,
     UtilsModule,
     TokenModule,
     AttributesModule,
@@ -44,7 +48,8 @@ import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './
     GridlessLayoutComponent,
     SplitLayoutComponent,
     LayoutFormComponent,
-    LayoutDialogComponent
+    LayoutDialogComponent,
+    GridlessLayoutEditorComponent
   ]
 })
 export class LayoutModule {
