@@ -1,0 +1,5 @@
+<classifieds-ui-gridless-layout [displayMainControls]="displayMainControls" [displayItemHeader]="displayItemHeader">
+  <ng-template #innerGridItem let-i="i">
+    <ng-container *ngTemplateOutlet="renderPanelTpl;context:{ i: i }"></ng-container>
+  </ng-template>
+</classifieds-ui-gridless-layout>

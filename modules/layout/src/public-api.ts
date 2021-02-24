@@ -11,3 +11,4 @@ export{ SplitLayoutComponent } from './lib/components/split-layout/split-layout.
 export { LayoutFormComponent } from './lib/components/layout-form/layout-form.component';
 export { LayoutDialogComponent } from './lib/components/layout-dialog/layout-dialog.component';
 export { GridlessLayoutEditorComponent } from './lib/components/gridless-layout-editor/gridless-layout-editor.component';
+export { GridlessLayoutRendererComponent } from './lib/components/gridless-layout-renderer/gridless-layout-renderer.component';

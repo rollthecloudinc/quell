@@ -1,8 +1,8 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { GridLayoutComponent } from 'layout';
+import { GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
 import { PanelPage, Pane, LayoutSetting } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
@@ -13,6 +13,7 @@ import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } fr
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
+import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
 
 @Component({
@@ -36,6 +37,7 @@ export class PanelPageComponent implements OnInit, OnChanges {
 
   resolvedContext: any;
   contextChanged: { name: string };
+  layoutRendererRef: ComponentRef<any>;
 
   pageForm = this.fb.group({
     /*name: this.fb.control(''),
@@ -87,9 +89,17 @@ export class PanelPageComponent implements OnInit, OnChanges {
     if(!this.nested || isDynamic ) {
       this.hookupContextChange();
     }
+    if (p.layoutType === 'gridless') {
+      this.renderLayoutRenderer();
+    } else {
+      const viewContainerRef = this.layoutRendererHost.viewContainerRef;
+      viewContainerRef.clear();
+    }
   });
 
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
+  @ViewChild('renderPanelTpl', { static: true }) renderPanelTpl: TemplateRef<any>;
+  @ViewChild(LayoutRendererHostDirective, { static: false }) layoutRendererHost: LayoutRendererHostDirective;
 
   get panelsArray(): FormArray {
     return this.pageForm.get('panels') as FormArray;
@@ -114,6 +124,8 @@ export class PanelPageComponent implements OnInit, OnChanges {
     private pageBuilderFacade:PageBuilderFacade,
     private cpm: ContentPluginManager,
     private cxm: ContextPluginManager,
+    private lpm: LayoutPluginManager,
+    private componentFactoryResolver: ComponentFactoryResolver,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;
@@ -216,6 +228,24 @@ export class PanelPageComponent implements OnInit, OnChanges {
 
   submit() {
     const panelPage = new PanelPage(this.pageForm.value);
+  }
+
+  renderLayoutRenderer() {
+
+    this.lpm.getPlugin('gridless').pipe(
+      delay(1)
+    ).subscribe(p => {
+
+      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(p.renderer);
+
+      const viewContainerRef = this.layoutRendererHost.viewContainerRef;
+      viewContainerRef.clear();
+  
+      this.layoutRendererRef = viewContainerRef.createComponent(componentFactory);
+      (this.layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
+
+    });
+
   }
 
 }

@@ -18,6 +18,7 @@ import { LayoutDialogComponent } from './components/layout-dialog/layout-dialog.
 import { LayoutPluginManager } from './services/layout-plugin-manager.service';
 import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './layout.factories';
 import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
+import { GridlessLayoutRendererComponent } from './components/gridless-layout-renderer/gridless-layout-renderer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { GridlessLayoutEditorComponent } from './components/gridless-layout-edit
     SplitLayoutComponent,
     LayoutFormComponent,
     LayoutDialogComponent,
-    GridlessLayoutEditorComponent
+    GridlessLayoutEditorComponent,
+    GridlessLayoutRendererComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +51,8 @@ import { GridlessLayoutEditorComponent } from './components/gridless-layout-edit
     SplitLayoutComponent,
     LayoutFormComponent,
     LayoutDialogComponent,
-    GridlessLayoutEditorComponent
+    GridlessLayoutEditorComponent,
+    GridlessLayoutRendererComponent
   ]
 })
 export class LayoutModule {
