@@ -32,3 +32,15 @@ Ambitions:
 - Add example of using a lazy loaded plugin to ipe project. For example, adding a content plugin that is lazy
 loaded. This can probably be something as simple as a component in a small module to demostrate the plugin system
 module loader discovery.
+
+Plugins:
+
+## Context
+
+## Content
+
+## Style
+
+## Layout
+
+## Attribute
