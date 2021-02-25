@@ -89,8 +89,8 @@ export class PanelPageComponent implements OnInit, OnChanges {
     if(!this.nested || isDynamic ) {
       this.hookupContextChange();
     }
-    if (p.layoutType === 'gridless') {
-      this.renderLayoutRenderer();
+    if (p.layoutType === 'gridless' || p.layoutType === 'split') {
+      this.renderLayoutRenderer(p.layoutType);
     } else {
       const viewContainerRef = this.layoutRendererHost.viewContainerRef;
       viewContainerRef.clear();
@@ -230,9 +230,9 @@ export class PanelPageComponent implements OnInit, OnChanges {
     const panelPage = new PanelPage(this.pageForm.value);
   }
 
-  renderLayoutRenderer() {
+  renderLayoutRenderer(layout: string) {
 
-    this.lpm.getPlugin('gridless').pipe(
+    this.lpm.getPlugin(layout).pipe(
       delay(1)
     ).subscribe(p => {
 
@@ -243,6 +243,7 @@ export class PanelPageComponent implements OnInit, OnChanges {
   
       this.layoutRendererRef = viewContainerRef.createComponent(componentFactory);
       (this.layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
+      (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
 
     });
 

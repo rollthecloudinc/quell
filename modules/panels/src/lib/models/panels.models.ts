@@ -28,7 +28,12 @@ export interface PanelsEditor {
   panelPaneLabel(index: number, index2: number): string;
   panelPaneLocked(index: number, index2: number): boolean;
   panelPanePlugin(index: number, index2: number): string;
-  panelPaneSettings(index: number, index2: number): Array<AttributeValue>
+  panelPaneSettings(index: number, index2: number): Array<AttributeValue>;
+  onItemAdded(): void;
+  onItemRemoved(index: number): void;
+  onLayoutSettingChange(evt: LayoutSetting): void;
+  onRowSettingsChange(evt: Array<LayoutSetting>): void
+  onColumnSettingsChange(evt: Array<LayoutSetting>): void;
 
 }
 

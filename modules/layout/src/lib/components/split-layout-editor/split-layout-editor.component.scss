@@ -1,0 +1,30 @@
+.layout-type, .display-type {
+  float: right;
+
+  & ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 1.5em;
+  }
+
+  & ::ng-deep .mat-form-field-label-wrapper {
+    display: none;
+  }
+
+  & ::ng-deep .mat-form-field-infix {
+    border-top: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  & ::ng-deep .mat-form-field {
+    width: 85px;
+  }
+
+  & ::ng-deep .mat-select-value {
+    text-align: right;
+  }
+
+  & ::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+
+}

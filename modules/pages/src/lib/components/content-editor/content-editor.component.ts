@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormControl, FormGroup } from "@angular/forms";
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -11,7 +11,7 @@ import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
-import { Pane, PanelPage } from 'panels';
+import { Pane, PanelPage, LayoutEditorBaseComponent } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.component';
@@ -48,7 +48,7 @@ import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.d
     },
   ]
 })
-export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAccessor, Validator, PanelsEditor {
+export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, ControlValueAccessor, Validator, PanelsEditor {
 
   @Output()
   submitted = new EventEmitter<PanelPage>();
@@ -106,7 +106,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   @Input()
   rootContext: InlineContext;
 
-  layoutEditorRef: ComponentRef<any>;
+  layoutEditorRef: ComponentRef<LayoutEditorBaseComponent>;
 
   contentAdded = new Subject<[number, number]>();
   contentAdddedSub = this.contentAdded.subscribe(([panelIndex, paneIndex]) => {
@@ -124,7 +124,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
   public onTouched: () => void = () => {};
 
   contentForm = this.fb.group({
-    layoutType: this.fb.control('grid', Validators.required),
+    layoutType: this.fb.control('', Validators.required),
     displayType: this.fb.control('page', Validators.required),
     panels: this.fb.array([])
   });
@@ -239,14 +239,16 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     this.layoutType.valueChanges.pipe(
       filter(() => !!this.layoutEditorHost)
     ).subscribe(v => {
-      // @todo: Testing only gridless using plugin for now.
-      if (v === 'gridless') {
-        this.renderEditorLayout();
-      } else {
-        const viewContainerRef = this.layoutEditorHost.viewContainerRef;
-        viewContainerRef.clear();
-      }
+      this.renderEditorLayout(v);
     });
+  }
+
+  ngAfterContentInit() {
+    setTimeout(() => {
+      if (!this.panelPage) {
+        this.contentForm.get('layoutType').setValue('grid');
+      }
+    }, 1000);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -362,7 +364,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
         const container = this.paneContainers.find((i, index) => index === panelIndex);
         this.gridLayout.setItemContentHeight(panelIndex, container.nativeElement.offsetHeight);
       };
-    })(this.panels.length - 1))
+    })(this.panels.length - 1));
+
+    if (this.layoutEditorRef) {
+      (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
+    }
   }
 
   onItemRemoved(index: number) {
@@ -374,6 +380,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
           this.gridLayout.setItemContentHeight(i, p.nativeElement.offsetHeight);
         });
       });
+    }
+
+    if (this.layoutEditorRef) {
+      (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
     }
   }
 
@@ -547,12 +557,18 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     if (this.nested) {
       this.nestedUpdate.emit(this.packageFormData());
     }
+    if (this.layoutEditorRef) {
+      (this.layoutEditorRef.instance as any).layoutSetting = this.layoutSetting;
+    }
   }
 
   onRowSettingsChange(evt: Array<LayoutSetting>) {
     this.rowSettings = evt.map(s => new LayoutSetting(s));
     if (this.nested) {
       this.nestedUpdate.emit(this.packageFormData());
+    }
+    if (this.layoutEditorRef) {
+      (this.layoutEditorRef.instance as any).rowSettings = this.rowSettings;
     }
   }
 
@@ -567,6 +583,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
     if (this.nested) {
       this.nestedUpdate.emit(this.packageFormData());
     }
+    if (this.layoutEditorRef) {
+      (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
+    }
   }
 
   submit() {
@@ -575,16 +594,17 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   packageFormData(): PanelPage {
     //this.syncNestedPanelPages();
-    let gridItems = [];
-    switch(this.layoutType.value) {
+    const gridItems = this.layoutEditorRef.instance.gridItems;
+    /*switch(this.layoutType.value) {
       case 'grid':
         gridItems = this.gridLayout.grid.map((gi, i) => ({ ...gi, weight: i }));
         break;
       case 'split':
-        gridItems = this.splitLayout.dashboard.map((gi, i) => ({ ...gi, cols: Math.floor(gi.cols), weight: i }));
+        // gridItems = this.splitLayout.dashboard.map((gi, i) => ({ ...gi, cols: Math.floor(gi.cols), weight: i }));
+        gridItems = this.layoutEditorRef.instance.gridItems;
         break;
       default:
-    }
+    }*/
     const panelPage = new PanelPage({
       id: this.panelPageId,
       title: this.pageProperties.title,
@@ -824,9 +844,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
 
   }
   
-  renderEditorLayout() {
+  renderEditorLayout(layout: string) {
 
-    this.lpm.getPlugin('gridless').subscribe(p => {
+    this.lpm.getPlugin(layout).subscribe(p => {
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(p.editor);
 
@@ -836,10 +856,17 @@ export class ContentEditorComponent implements OnInit, OnChanges, ControlValueAc
       this.layoutEditorRef = viewContainerRef.createComponent(componentFactory);
       (this.layoutEditorRef.instance as any).savable = this.savable;
       (this.layoutEditorRef.instance as any).nested = this.nested;
+
       (this.layoutEditorRef.instance as any).editor = this;
+
       (this.layoutEditorRef.instance as any).extraActionsAreaTmpl = this.extraActionsAreaTmpl;
       (this.layoutEditorRef.instance as any).contextsMenuTpl = this.contextsMenuTpl;
       (this.layoutEditorRef.instance as any).editablePaneTpl = this.editablePaneTpl;
+
+      (this.layoutEditorRef.instance as any).dashboard = this.dashboard;
+      (this.layoutEditorRef.instance as any).layoutSetting = this.layoutSetting;
+      (this.layoutEditorRef.instance as any).rowSettings = this.rowSettings;
+      (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
 
     });
 

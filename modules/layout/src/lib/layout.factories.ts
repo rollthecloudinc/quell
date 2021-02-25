@@ -2,6 +2,9 @@ import { LayoutPlugin } from './models/layout.models';
 import { Attribute, AttributeTypes } from 'attributes';
 import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
 import { GridlessLayoutRendererComponent } from './components/gridless-layout-renderer/gridless-layout-renderer.component';
+import { SplitLayoutEditorComponent } from './components/split-layout-editor/split-layout-editor.component';
+import { FlexLayoutRendererComponent } from './components/flex-layout-renderer/flex-layout-renderer.component';
+import { GridLayoutEditorComponent } from './components/grid-layout-editor/grid-layout.editor.component';
 
 export const splitLayoutFactory = (): LayoutPlugin<string>  => {
   const settings = new Map<string, Array<Attribute>>([
@@ -73,11 +76,11 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
       })]
     ]*/
   ]);
-  return new LayoutPlugin<string>({ id: 'split', title: 'Split', editor: undefined, renderer: undefined, settings });
+  return new LayoutPlugin<string>({ id: 'split', title: 'Split', editor: SplitLayoutEditorComponent, renderer: FlexLayoutRendererComponent, settings });
 };
 
 export const gridLayoutFactory = (): LayoutPlugin<string>  => {
-  return new LayoutPlugin<string>({ id: 'grid', title: 'Grid', editor: undefined, renderer: undefined, settings: new Map<string, Array<Attribute>>() });
+  return new LayoutPlugin<string>({ id: 'grid', title: 'Grid', editor: GridLayoutEditorComponent, renderer: undefined, settings: new Map<string, Array<Attribute>>() });
 };
 
 export const gridlessLayoutFactory = (): LayoutPlugin<string>  => {

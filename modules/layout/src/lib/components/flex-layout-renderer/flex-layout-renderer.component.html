@@ -1,0 +1,5 @@
+<classifieds-ui-flex-layout [dashboard]="panelPage?.gridItems" [layoutSetting]="panelPage.layoutSetting" [rowSettings]="panelPage.rowSettings" [columnSettings]="columnSettings">
+  <ng-template #innerGridItem let-i="i">
+    <ng-container *ngTemplateOutlet="renderPanelTpl;context:{ i: i }"></ng-container>
+  </ng-template>
+</classifieds-ui-flex-layout>
