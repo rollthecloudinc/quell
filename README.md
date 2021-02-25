@@ -13,3 +13,14 @@ the layout can adapt to that change even load in extra content and display it al
 - Context system that allows pages to react to state changes is extensible.
 - Three default layouts exist: grid (gridster), gridless (flat), and split (flex layout).
 - Layouts are also extensible. Create your own layouts and plug them into the system for user selection.
+
+Future Enahancements:
+
+Auth system is currently hard coded to aws. Make the auth system extensible.
+Websocket support.
+Customization of panel page presentation using css/scss that overrides defaults.
+Media is currently hard coded to back-end api (not open source yet). Make this extensible.
+More attribute widgets.
+Panel page form integration possible using well known libraries like formly.
+Using panel pages as content.
+Data grid / actions within panel pages.
