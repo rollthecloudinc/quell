@@ -29,3 +29,6 @@ Ambitions:
 - Data grid / actions within panel pages.
   - Tabular data support. Not only in markup but in building the table via the builder itself. This
     will include actions on entities. Like an "action" pane or something rendered in a cell maybe.
+- Add example of using a lazy loaded plugin to ipe project. For example, adding a content plugin that is lazy
+loaded. This can probably be something as simple as a component in a small module to demostrate the plugin system
+module loader discovery.
