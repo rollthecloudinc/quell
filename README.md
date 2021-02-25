@@ -32,6 +32,8 @@ Ambitions:
 - Add example of using a lazy loaded plugin to ipe project. For example, adding a content plugin that is lazy
 loaded. This can probably be something as simple as a component in a small module to demostrate the plugin system
 module loader discovery.
+- Create demo website. I want people to be able to create and edit panel pages without needing to download
+this package and install it.
 
 Plugins:
 
