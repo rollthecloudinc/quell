@@ -16,11 +16,11 @@ the layout can adapt to that change even load in extra content and display it al
 
 Future Enahancements:
 
-Auth system is currently hard coded to aws. Make the auth system extensible.
-Websocket support.
-Customization of panel page presentation using css/scss that overrides defaults.
-Media is currently hard coded to back-end api (not open source yet). Make this extensible.
-More attribute widgets.
-Panel page form integration possible using well known libraries like formly.
-Using panel pages as content.
-Data grid / actions within panel pages.
+- Auth system is currently hard coded to aws. Make the auth system extensible.
+- Websocket support.
+- Customization of panel page presentation using css/scss that overrides defaults.
+- Media is currently hard coded to back-end api (not open source yet). Make this extensible.
+- More attribute widgets.
+- Panel page form integration possible using well known libraries like formly.
+- Using panel pages as content.
+- Data grid / actions within panel pages.
