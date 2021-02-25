@@ -1,3 +1,15 @@
 # Druid
 
 Drag and drop page builder using Angular.
+
+Features:
+- Default content like html and markdown.
+- Content is extensible without altering code. For example, if you have a component or several which you would
+like to allow users to drop into a layout. This is possible.
+- Groups of content can be styled. For example, a group of items can be made into a virtual list. 
+- Styling groups of content is extensible. You can define your own styles without modifying the base code.
+- Pages that are created can change based on some type of state. For example, when the query string changes
+the layout can adapt to that change even load in extra content and display it alongside other content.
+- Context system that allows pages to react to state changes is extensible.
+- Three default layouts exist: grid (gridster), gridless (flat), and split (flex layout).
+- Layouts are also extensible. Create your own layouts and plug them into the system for user selection.
