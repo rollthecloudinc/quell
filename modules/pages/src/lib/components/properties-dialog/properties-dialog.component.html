@@ -11,6 +11,11 @@
         <mat-form-field>
           <input matInput formControlName="path" placeholder="Path">
         </mat-form-field>
+        <mat-form-field formArrayName="readUserIds">
+          <div formGroupName="0">
+            <input matInput formControlName="userId" placeholder="Read User Id">
+          </div>
+        </mat-form-field>
       </div>
     </div>
   </mat-dialog-content>

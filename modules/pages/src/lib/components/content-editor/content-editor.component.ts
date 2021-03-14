@@ -260,7 +260,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.layoutSetting = new LayoutSetting(changes.panelPage.currentValue.layoutSetting);
       this.rowSettings = changes.panelPage.currentValue.rowSettings ? changes.panelPage.currentValue.rowSettings.map(rs => new LayoutSetting(rs)) : [];
       if(!this.nested) {
-        this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path });
+        this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds });
         this.contexts = changes.panelPage.currentValue.contexts;
       }
       changes.panelPage.currentValue.panels.forEach((p, i) => {
@@ -616,7 +616,12 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       contexts: this.contexts,
       panels: this.panels.value,
       layoutSetting: new LayoutSetting(this.layoutSetting),
-      rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs))
+      rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs)),
+      entityPermissions: {
+        readUserIds: this.pageProperties.readUserIds,
+        writeUserIds: [],
+        deleteUserIds: []
+      }
     });
     console.log(panelPage);
     return panelPage;

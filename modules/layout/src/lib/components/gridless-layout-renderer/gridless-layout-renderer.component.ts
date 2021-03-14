@@ -5,7 +5,7 @@ import { LayoutRendererBaseComponent } from 'panels';
 @Component({
   selector: 'classifieds-ui-gridless-layout-renderer',
   templateUrl: './gridless-layout-renderer.component.html',
-  // styleUrls: ['./gridless-layout-renderer.component.scss']
+  styleUrls: ['./gridless-layout-renderer.component.scss']
 })
 export class GridlessLayoutRendererComponent extends LayoutRendererBaseComponent implements OnInit {
 

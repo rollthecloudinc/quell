@@ -1,0 +1,55 @@
+my pages --- display all pages
+
+- filtering pages????
+
+
+global layout medta data could be used to add metadata for filtering like "page type"
+
+
+-- for now just list all readable pages for the user.
+
+We could also integrate with profiles instead?
+
+deploy demo for each user? - is it even a deployment- run from lambda? - match user to site???
+
+
+- each would would have a profile - automate profile creation when user registers.
+- add profileId to page entity.
+
+there can only ever be 1 creator. For simplcity it is probaly easiest to just ad creatorId to page and owner auth.
+
+OwnerAuthorization expects userId not creatorId - thats fine.
+
+Add endpoint to get all pages that match current users id.
+- add userId for search index on pages. Add as part of lookup.
+
+pages - list all pages
+pages table/grid - what module? 
+am I moving towards an admin?
+
+login
+pages
+ipe create/edit
+view - indirect - link on each page. -- what about args?
+user registration - email and password
+
+- render pages as tree? ---
+
+--------------------------------
+page       | .   Viewer/editor
+page       |
+page       | .   <- editor collpases left panel
+       |
+       |
+
+
+      ------- or
+
+table /data grid?
+-------------------------------
+
+
+demo
+- page-list (dumb list)
+- pages (smart / wrapper of list - phys page)
+- 

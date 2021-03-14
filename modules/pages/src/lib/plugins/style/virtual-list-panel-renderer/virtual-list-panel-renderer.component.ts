@@ -85,7 +85,7 @@ export class VirtualListPanelRendererComponent implements OnInit {
     });
 
     this.paneDatasource.panes = this.panes;
-    this.trackByTpl = this.attributeMatcher.matchAttribute('trackBy', this.originPanes[0].settings).value;
+    //this.trackByTpl = this.attributeMatcher.matchAttribute('trackBy', this.originPanes[0].settings).value;
 
   }
 

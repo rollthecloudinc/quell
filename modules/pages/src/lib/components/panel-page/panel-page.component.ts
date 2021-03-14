@@ -173,6 +173,9 @@ export class PanelPageComponent implements OnInit, OnChanges {
       // this.fetchPage();
       this.schedulePageFetch.next();
     }
+    if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
+      (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
+    }
   }
 
   /*fetchPage() {

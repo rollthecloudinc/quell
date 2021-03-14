@@ -42,6 +42,7 @@ export class PanelPage {
   name?: string;
   title?: string;
   path?: string;
+  userId?: string;
   layoutType: string;
   displayType: string;
   gridItems: Array<GridItem> = [];
@@ -49,6 +50,7 @@ export class PanelPage {
   contexts?: Array<InlineContext> = [];
   layoutSetting: LayoutSetting;
   rowSettings: Array<LayoutSetting> = [];
+  entityPermissions?: PanelPagePermissions = new PanelPagePermissions();
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -56,6 +58,7 @@ export class PanelPage {
       this.displayType = data.displayType;
       this.name = data.name ? data.name : undefined;
       this.title = data.title ? data.title: undefined;
+      this.userId = data.userId ? data.userId : undefined;
       this.path = data.path ? data.path : undefined;
       if(data.panels) {
         this.panels = data.panels.map(p => new Panel(p));
@@ -71,6 +74,9 @@ export class PanelPage {
       }
       if (data.rowSettings && Array.isArray(data.rowSettings)) {
         this.rowSettings = data.rowSettings.map(s => new LayoutSetting(s));
+      }
+      if (data.entityPermissions) {
+        this.entityPermissions = new PanelPagePermissions(data.entityPermissions);
       }
     }
   }
@@ -178,6 +184,19 @@ export class LayoutSetting {
       if (data.settings && Array.isArray(data.settings)) {
         this.settings = data.settings.map(v => new AttributeValue(v));
       }
+    }
+  }
+}
+
+export class PanelPagePermissions {
+	readUserIds: Array<string> = [];
+	writeUserIds: Array<string> = [];
+	deleteUserIds: Array<string> = [];
+  constructor(data?: PanelPagePermissions) {
+    if(data) {
+      this.readUserIds = data.readUserIds ? data.readUserIds.map(id => id) : [];
+      this.writeUserIds = data.writeUserIds ? data.writeUserIds.map(id => id) : [];
+      this.deleteUserIds = data.deleteUserIds ? data.deleteUserIds.map(id => id) : [];
     }
   }
 }

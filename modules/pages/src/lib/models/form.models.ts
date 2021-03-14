@@ -4,11 +4,15 @@ export class PropertiesFormPayload {
   title: string;
   name: string;
   path: string;
+  readUserIds: Array<string> = [];
   constructor(data?: PropertiesFormPayload) {
     if(data) {
       this.title = data.title;
       this.name = data.name;
       this.path = data.path;
+      if (data.readUserIds) {
+        this.readUserIds = data.readUserIds.map(id => id);
+      }
     }
   }
 }
