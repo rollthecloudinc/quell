@@ -1,1 +1,90 @@
 Customization of default styles for layouts ands pane content.
+
+If you create your own layout you can style it anyway you want.
+
+What about altering the default layout styling without changing the base code?
+
+What about changing styles in panes without altering the base code?
+
+Inline styles would need to be applied to specific element which really sucks.
+
+Options:
+
+Panes:
+
+All panes have an optional style section. The styles are added dynamically to the component. They are embedded and only affect that pane instance.
+
+- would store css inside db.
+- Can we use scss? - maybe if we compile before saving to the db, or have an alternate version of the raw styles that are compiled.
+
+Another way to look at this…
+
+Every page is a separate component.
+
+If every page is a separate component styles can be associated directly with that component without affecting other instances.
+
+The build process would need to register dynamic components. 
+
+or...
+
+Before the build occurs we would need to write dynamic components.... hmmm
+
+Instead of PanelPage the it would need to be components that extend the base platform and given unique names. Those
+components would also need to be dynamically registred with the platform.
+
+At this point we are writting dynamic components before compiling the app just so that the css can changed... hmmm oh and use the preprocessor.
+
+Every page gets its own component dynamically written to the file system.
+
+That doesn't really solve styling at the pane level. If each components view encaps is the default the panes would also need to be written as separate components... ugh
+
+It would need to be something like...
+
+PanelPage__{uuid}Component
+
+PanelPage__{uuid}__Pane__{{id}}Component
+
+Just so that they can be styled... that seems like it would really suck.
+
+I would also need to figure out how to dynamically add components to the build process based on some type of entity discovery process.
+
+The build would need to loop through all pages and write dynamic component files on the physical server.
+
+Once we do that all the scss would be compiled like it was part of a normal component.
+
+Creating and upading pages would require a new build. How do we manage that?
+
+You create / update a page. Those changes wouldn't be applied until the new build occurs.
+
+The build process would need to know how to discover and write these files before building the project.
+
+It would need to be like page_instances and every build recreates it.
+
+
+page_instances
+- src
+-- lib
+--- components
+---- page_{uuid}
+------ panel__{uuid}_{0001}
+--------- pane__{uuid}__0001__0001
+--------- pane__{uuid}__0001__0002
+
+Once I do this what other features / advantages do I get?
+
+Well in theory if I dynamically declare the components before the build process I can alter any part of
+the component I want. For example, I could provide inputs for extending the base component with new functions
+and overriding the render template itself.
+
+I'm liking this more and more even though I have no idea how to achieve it...
+
+We would need to make an async request to the page data source and write the components with a schema dynamically before building based on info options from each panel page.
+
+Each page could be a separate lazy loaded module... in theory.
+
+I mean once this is done anything can be done with the components. I can have each pane provide an extension point where people are able
+to extend the base class with their own typescript code.
+
+Panel pages become blueprints for dynamically generated components that are actually included as physical classes/components.
+
+We could even build individual page modules based on the dependencies required.
