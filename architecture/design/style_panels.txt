@@ -154,3 +154,17 @@ Style overrides allowed
 Those styles are rolled up into one single file and included at runtime.
 
 We could also write a component that includes that single file. Again… requires dynamic writting of components before the build.
+
+We can also at this point dynamically compile if its being done on the backend. Which means contexts can be passed and the css altered based on those contexts.
+
+The css files could not only be scss but could include golang template code...
+
+You could do things like
+
+{{ if Req.QueryStringParams.productId }} 
+.product { color: red; }
+{{ end }}
+
+Bulding the css files with not only scss but golang as well… lol I love it.
+
+If the queries are defined with golang why shouldn't the css?…
