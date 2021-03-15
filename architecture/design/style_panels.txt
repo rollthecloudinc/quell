@@ -88,3 +88,69 @@ to extend the base class with their own typescript code.
 Panel pages become blueprints for dynamically generated components that are actually included as physical classes/components.
 
 We could even build individual page modules based on the dependencies required.
+
+Another option...
+
+Allow scss and save it as media on aws s3 after compile.
+
+Individual page/panel components can include this scss file when rendering.
+
+The compiled css is inluded dynamically when rendering pages.
+
+We could rollup everything into one single "page" style sheet.
+
+Use base classes on components to target elements.
+
+Could also compile before saving to db. Store the compiled code in db and just attach.
+
+We need to attach relative to the host element of the targeted component, wouldn't we?
+
+s3:
+
+pages
+-- page__{uuid}
+---- styles.css
+----- panel__{uuid}__001.css
+----- panel__{uuid}__002.scss
+----- pane__{uuid}_0001__0001.css
+----- pane__{uuid}_0001__0002.css
+----- pane__{uuid}_0002__0001.css
+----- pane__{uuid}_0002__0002.css
+
+ugh… maybe
+
+... or we rollup
+
+Either way now I need to have a styles instances that have raw and compiled.
+
+styled: {
+  raw: "",
+  compiled: ""
+}
+
+I need to add an scss pre-processor to the back-end api. What options exist for go?
+
+Other ideas...
+
+I can't easily include styles without dynamically generating components before the build. Which sucks. I mean its flexible but its going
+to require a bunch of work to figure out and complicate setup for possible users. So I think regardless how great this seems it is a no go here.
+
+If I don't want to do that. I like the middle ground. Allow scss overrides inside pages, panels, and panes. When a page
+is saved take all of that combine it into one single file and compile. When the page is accessed include the single compiled css file for that page.
+
+The next level is each combination above has its own compiled css file. Those files will be attached at runtime
+to the page.
+
+I think the best option is the middle.
+
+Aggregate the styles and save as one single file. When the page is viewed attach that dynamically.
+
+layouts
+panels
+panes
+
+Style overrides allowed
+
+Those styles are rolled up into one single file and included at runtime.
+
+We could also write a component that includes that single file. Again… requires dynamic writting of components before the build.
