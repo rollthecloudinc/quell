@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { ContentHandler, ContentBinding, Snippet } from 'content';
 import { Rest, Dataset } from 'datasource';
 import { InlineContext } from 'context';
+import { SITE_NAME } from 'utils';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
@@ -22,6 +23,7 @@ import { RulesResolverService } from '../services/rules-resolver.service';
 export class RestContentHandler implements ContentHandler {
 
   constructor(
+    @Inject(SITE_NAME) private siteName: string,
     private snippetHandler: SnippetContentHandler,
     private pageBuilderFacade: PageBuilderFacade,
     private store: Store<PageBuilderPartialState>,
@@ -126,7 +128,7 @@ export class RestContentHandler implements ContentHandler {
           }
         }),
         map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
-        map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] })))
+        map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] })))
       ).subscribe(panelSettings => {
         subject.next(panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes);
         subject.complete();

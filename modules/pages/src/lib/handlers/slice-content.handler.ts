@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding } from 'content';
 import { Dataset } from 'datasource';
 import { InlineContext } from 'context';
 import { TokenizerService } from 'token';
 import { MediaFile } from 'media';
+import { SITE_NAME } from 'utils';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
@@ -17,6 +18,7 @@ import { InlineContextResolverService } from '../services/inline-context-resolve
 export class SliceContentHandler implements ContentHandler {
 
   constructor(
+    @Inject(SITE_NAME) private siteName: string,
     private tokenizerService: TokenizerService,
     private panelHandler: PanelContentHandler,
     private mediaHandler: MediaContentHandler,
@@ -56,7 +58,7 @@ export class SliceContentHandler implements ContentHandler {
       )),
       switchMap(([slice, context, dataArray]) => this.transformDataArray(dataArray, slice.plugin)),
       map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
-      map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] }))),
+      map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] }))),
       map(panelSettings => panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes)
     );
   }

@@ -168,3 +168,5 @@ You could do things like
 Bulding the css files with not only scss but golang as well… lol I love it.
 
 If the queries are defined with golang why shouldn't the css?…
+
+How useful though really is that?… I mean I think we can just approach the situation aggregating and compiling scss. If we need to add golang support do so in future, right?

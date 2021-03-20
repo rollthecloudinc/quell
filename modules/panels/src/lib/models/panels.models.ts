@@ -43,6 +43,7 @@ export class PanelPage {
   title?: string;
   path?: string;
   userId?: string;
+  site?: string; // for but will required - accom old data
   layoutType: string;
   displayType: string;
   gridItems: Array<GridItem> = [];
@@ -58,6 +59,7 @@ export class PanelPage {
       this.displayType = data.displayType;
       this.name = data.name ? data.name : undefined;
       this.title = data.title ? data.title: undefined;
+      this.site = data.site ? data.site : undefined;
       this.userId = data.userId ? data.userId : undefined;
       this.path = data.path ? data.path : undefined;
       if(data.panels) {

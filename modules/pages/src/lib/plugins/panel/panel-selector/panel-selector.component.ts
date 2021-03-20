@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@angular/forms';
 import * as uuid from 'uuid';
 import { AttributeValue } from 'attributes';
+import { SITE_NAME } from 'utils';
 import { PanelPage, PanelPageListItem, LayoutSetting } from 'panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { PanelContentHandler } from '../../../handlers/panel-content.handler';
@@ -32,6 +33,7 @@ export class PanelSelectorComponent implements OnInit {
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    @Inject(SITE_NAME) private siteName: string,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private handler: PanelContentHandler,
     private dialog: MatDialog,
@@ -48,7 +50,7 @@ export class PanelSelectorComponent implements OnInit {
 
   onNewSelect() {
     const name = uuid.v4();
-    const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
+    const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
     (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
       contentPlugin: 'panel',
       name: name,

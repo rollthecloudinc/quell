@@ -7,6 +7,7 @@ import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
 import { PanelsEditor, LayoutSetting } from 'panels';
 import { TokenizerService } from 'token';
+import { SITE_NAME } from 'utils';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ InlineContext } from 'context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
@@ -195,6 +196,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   constructor(
     //@Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
+    @Inject(SITE_NAME) private siteName: string,
     private cpm: ContentPluginManager,
     private spm: StylePluginManager,
     private lpm: LayoutPluginManager,
@@ -609,6 +611,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       id: this.panelPageId,
       title: this.pageProperties.title,
       name: this.pageProperties.name,
+      site: this.siteName,
       path: this.pageProperties.path,
       displayType: this.displayType.value,
       layoutType: this.layoutType.value,

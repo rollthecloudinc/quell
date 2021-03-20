@@ -11,7 +11,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
 import { AuthModule, AuthInterceptor, LogoutInterceptor, CLIENT_SETTINGS, ClientSettings } from 'auth';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
-import { UtilsModule /*, CorrelationInterceptor */ } from 'utils';
+import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME } from 'utils';
 import { MaterialModule } from 'material';
 // import { LOGGING_SETTINGS, LoggingSettings, LoggingModule, HttpErrorInterceptor, GlobalErrorHandler } from '@classifieds-ui/logging';
 import { TokenModule } from 'token';
@@ -148,6 +148,8 @@ export function markedOptionsFactory(): MarkedOptions {
 
     // okta auth
     //{ provide: OKTA_CONFIG, useValue: oktaConfig },
+
+    { provide: SITE_NAME, useValue: environment.site },
 
     { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
