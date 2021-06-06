@@ -345,6 +345,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     this.bs.open(StyleSelectorComponent, { data: this.panels.controls[index] });
   }
 
+  removeStyle(index: number) {
+    this.panels.controls[index].get('stylePlugin').setValue('');
+    this.panels.controls[index].get('styleTitle').setValue('');
+  }
+
   onItemAdded() {
     console.log('item added');
 
@@ -703,6 +708,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   panelPaneSettings(index: number, index2: number): Array<AttributeValue> {
     // return this.panelPane(index, index2).get('settings').value.map(s => new AttributeValue(s));
+    // console.log(this.panelPane(index, index2).get('settings').value);
+    // NOTE: No that we no longer cast to a new value its possible settings can be missing props which can cause a proplem if code expewcts the actual data model.
     return this.panelPane(index, index2).get('settings').value;
   }
 

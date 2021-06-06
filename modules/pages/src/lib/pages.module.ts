@@ -87,6 +87,7 @@ import { UrlGeneratorService } from './services/url-generator.service';
 import { RulesResolverService } from './services/rules-resolver.service';
 import { LayoutEditorHostDirective } from './directives/layout-editor-host.directive';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
+import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -110,8 +111,8 @@ const panePageMatcher = (url: UrlSegment[]) => {
 const routes = [
   { path: 'pages', children: [
     { path: 'create-panel-page', component: CreatePanelPageComponent },
-    { matcher: panePageMatcher, component: PanelPageRouterComponent },
     { path: 'panelpage/:panelPageId/manage', component: EditPanelPageComponent },
+    { matcher: panePageMatcher, component: PanelPageRouterComponent },
   ]},
   //{ matcher: testPageMatcher, component: PanelPageRouterComponent },
   { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
@@ -144,7 +145,7 @@ const routes = [
     StoreModule.forFeature(fromPageBuilder.pageBuilderFeatureKey, fromPageBuilder.reducer),
     EffectsModule.forFeature([PageBuilderEffects])
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetFormComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, PanelEditorComponent, StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, RestSourceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetFormComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, PanelEditorComponent, StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, RestSourceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -172,7 +173,8 @@ const routes = [
     { provide: CONTENT_PLUGIN, useFactory: sliceContentPluginFactory, multi: true, deps: [ SliceContentHandler ]  },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', editorComponent: undefined, renderComponent: TabsPanelRendererComponent }), multi: true }
+    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', editorComponent: undefined, renderComponent: TabsPanelRendererComponent }), multi: true },
+    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
   //exports: [NavigationHostDirective]
 })

@@ -29,6 +29,7 @@
     <button type="button" (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
     <button *ngIf="!editor.hasPanelStyle(i)" type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
     <span *ngIf="editor.hasPanelStyle(i)">Style: {{ editor.panelStyleTitle(i) }}</span>
+    <button *ngIf="editor.hasPanelStyle(i)" type="button" (mousedown)="editor.removeStyle(i)" (touchstart)="editor.removeStyle(i)" >Remove Style</button>
   </ng-template>
   <ng-template #innerGridItem let-i="i">
     <ngx-dropzone [cdkDropListData]="i" class="panel-dropzone" [multiple]="true" [disableClick]="true" (change)="editor.onFileChange($event, i)" cdkDropList (cdkDropListDropped)="editor.onDrop($event)">

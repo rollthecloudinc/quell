@@ -13,6 +13,7 @@ export interface PanelsEditor {
   editPanelProps(panelIndex: number): void;
   hasPanelStyle(index: number): boolean;
   applyStyle(index: number): void;
+  removeStyle(index: number): void
   panelStyleTitle(index): void;
   onFileChange(event: any, index: number): void;
   onDrop(evt: CdkDragDrop<string[]>): void;

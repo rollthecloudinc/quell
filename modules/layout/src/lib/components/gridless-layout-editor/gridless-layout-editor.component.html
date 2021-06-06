@@ -9,6 +9,7 @@
       <button type="button" (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button>
       <span *ngIf="editor.hasPanelStyle(0)">Style: {{ editor.panelStyleTitle(0) }}</span>
       <button *ngIf="!editor.hasPanelStyle(0)" type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button>
+      <button *ngIf="editor.hasPanelStyle(0)" type="button" (mousedown)="editor.removeStyle(0)" (touchstart)="editor.removeStyle(0)" >Remove Style</button>
       <div class="layout-type">
         <mat-form-field>
           <mat-select required formControlName="layoutType">

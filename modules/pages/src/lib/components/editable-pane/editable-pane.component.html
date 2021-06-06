@@ -29,8 +29,8 @@
 <ng-template #settingsTmpl let-settings="settings">
   <li *ngFor="let setting of settings">
     {{ setting.displayName }}:
-    <span *ngIf="setting.attributes.length == 0">{{ settings | attribute: setting.name }}</span>
-    <ul *ngIf="setting.attributes.length > 0">
+    <span *ngIf="!setting.attributes || setting.attributes.length == 0">{{ settings | attribute: setting.name }}</span>
+    <ul *ngIf="settings.attributes && setting.attributes.length > 0">
       <ng-container *ngTemplateOutlet="settingsTmpl; context:{ settings: setting.attributes }"></ng-container>
     </ul>
   </li>
