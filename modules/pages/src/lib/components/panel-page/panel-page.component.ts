@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
@@ -21,7 +21,7 @@ import * as uuid from 'uuid';
   templateUrl: './panel-page.component.html',
   styleUrls: ['./panel-page.component.scss']
 })
-export class PanelPageComponent implements OnInit, OnChanges {
+export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
 
   @Input()
   id: string;
@@ -140,11 +140,42 @@ export class PanelPageComponent implements OnInit, OnChanges {
         tap(() => alert('Hello'))
       );
     }*/
+    this.pageForm.valueChanges.pipe(
+      debounceTime(100),
+      filter(() => this.panelPage !== undefined && this.panelPage.displayType === 'form'),
+      tap(() => console.log('page form value change'))
+    ).subscribe(v => {
+      const form = new PanelPageForm({ ...v, name: this.panelPage.name, title: this.panelPage.title, derivativeId: this.panelPage.id});
+      this.pageBuilderFacade.setForm(this.panelPage.name, form);
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (this.nested) {
+      console.log('panel page on changes');
+      console.log(changes);
+    }
+    if(!this.nested && !changes.id.firstChange && changes.id.previousValue !== changes.id.currentValue) {
+      // this.fetchPage();
+      console.log(`fetch page`);
+      this.schedulePageFetch.next();
+    }
+    if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
+      console.log(`assign panel page to renderer ref - passthur`);
+      (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
+    }
+  }
+
+  ngAfterViewInit() {
     if(this.id !== undefined) {
       // this.fetchPage();
       this.schedulePageFetch.next();
     } else if(this.panelPage !== undefined) {
+      console.log('populate from array');
       this.populatePanelsFormArray();
+    }
+    if (this.nested && this.id === undefined && this.panelPage) {
+      this.renderLayoutRenderer(this.panelPage.layoutType);
     }
     if(!this.nested) {
       const { selectCurrentRoute } = getSelectors((state: any) => state.router);
@@ -157,24 +188,6 @@ export class PanelPageComponent implements OnInit, OnChanges {
     }
     if(this.nested && this.id === undefined) {
       this.hookupContextChange();
-    }
-    this.pageForm.valueChanges.pipe(
-      debounceTime(100),
-      filter(() => this.panelPage !== undefined && this.panelPage.displayType === 'form'),
-      tap(() => console.log('page form value change'))
-    ).subscribe(v => {
-      const form = new PanelPageForm({ ...v, name: this.panelPage.name, title: this.panelPage.title, derivativeId: this.panelPage.id});
-      this.pageBuilderFacade.setForm(this.panelPage.name, form);
-    });
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if(!this.nested && !changes.id.firstChange && changes.id.previousValue !== changes.id.currentValue) {
-      // this.fetchPage();
-      this.schedulePageFetch.next();
-    }
-    if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
-      (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
     }
   }
 
@@ -234,6 +247,8 @@ export class PanelPageComponent implements OnInit, OnChanges {
   }
 
   renderLayoutRenderer(layout: string) {
+
+    console.log(`render layout ${layout}`);
 
     this.lpm.getPlugin(layout).pipe(
       delay(1)

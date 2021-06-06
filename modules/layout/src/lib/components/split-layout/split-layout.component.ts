@@ -81,6 +81,20 @@ export class SplitLayoutComponent implements OnInit  {
         this.rowSettings = settings;
         this.rowSettingsChange.emit(this.rowSettings);
       }
+      let totalCols = 0;
+      for (let i = 0; i < this.totalRows; i++) {
+        totalCols += this.totalColumns(i);
+      }
+      if (totalCols !== this.columnSettings.length && this.columnSettings.length === 0) {
+        const settings = [];
+        for (let i = 0; i < this.totalRows; i++) {
+          for (let j = 0; j < this.totalColumns(i); j++) {
+            settings.push(new LayoutSetting());
+          }
+        }
+        this.columnSettings = settings;
+        this.columnSettingsChange.emit(this.columnSettings);
+      }
     }
   }
 

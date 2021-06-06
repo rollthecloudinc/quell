@@ -114,6 +114,7 @@ export class UrlGeneratorService {
       console.log(`form: ${name} || ${value}`);
       return this.pageBuilderFacade.getForm$(name).pipe(
         take(1),
+        map(form => form ? form : new PanelPageForm() ),
         map(form => this.formService.serializeForm(form)),
         map(obj => this.tokenizerService.generateGenericTokens(obj)),
         tap(tokens => console.log(tokens)),

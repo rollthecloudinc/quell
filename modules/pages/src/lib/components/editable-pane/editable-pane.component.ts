@@ -106,6 +106,7 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     this.schedulePluginChange.next(true);
+    console.log('here 1');
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
     this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);
@@ -118,6 +119,8 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.schedulePluginChange.next(false);
+    console.log('here 2');
+    console.log(changes);
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
     this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);*/

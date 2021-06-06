@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormControl, FormGroup } from "@angular/forms";
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
@@ -49,7 +49,7 @@ import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.d
     },
   ]
 })
-export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, ControlValueAccessor, Validator, PanelsEditor {
+export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, ControlValueAccessor, Validator, PanelsEditor {
 
   @Output()
   submitted = new EventEmitter<PanelPage>();
@@ -238,11 +238,17 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
         }));
       }
     });
+  }
+
+  ngAfterViewInit() {
     this.layoutType.valueChanges.pipe(
       filter(() => !!this.layoutEditorHost)
     ).subscribe(v => {
       this.renderEditorLayout(v);
     });
+    if (this.layoutType.value) {
+      this.renderEditorLayout(this.layoutType.value);
+    }
   }
 
   ngAfterContentInit() {
@@ -308,6 +314,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
           setTimeout(() => this.resolvePaneContexts(i, i2));
         });
       });
+      if(this.layoutEditorRef) {
+        (this.layoutEditorRef.instance as any).layoutSetting = this.layoutSetting;
+        (this.layoutEditorRef.instance as any).rowSettings = this.rowSettings;
+        (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
+      }
     }
   }
 
@@ -691,7 +702,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   panelPaneSettings(index: number, index2: number): Array<AttributeValue> {
-    return this.panelPane(index, index2).get('settings').value.map(s => new AttributeValue(s));
+    // return this.panelPane(index, index2).get('settings').value.map(s => new AttributeValue(s));
+    return this.panelPane(index, index2).get('settings').value;
   }
 
   panelPaneName(index: number, index2: number): string {
@@ -854,6 +866,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   
   renderEditorLayout(layout: string) {
 
+    console.log(`render editor layout ${layout}`);
+
     this.lpm.getPlugin(layout).subscribe(p => {
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(p.editor);
@@ -878,6 +892,22 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
     });
 
+  }
+
+  updateEditorLayoutVars() {
+      (this.layoutEditorRef.instance as any).savable = this.savable;
+      (this.layoutEditorRef.instance as any).nested = this.nested;
+
+      (this.layoutEditorRef.instance as any).editor = this;
+
+      (this.layoutEditorRef.instance as any).extraActionsAreaTmpl = this.extraActionsAreaTmpl;
+      (this.layoutEditorRef.instance as any).contextsMenuTpl = this.contextsMenuTpl;
+      (this.layoutEditorRef.instance as any).editablePaneTpl = this.editablePaneTpl;
+
+      (this.layoutEditorRef.instance as any).dashboard = this.dashboard;
+      (this.layoutEditorRef.instance as any).layoutSetting = this.layoutSetting;
+      (this.layoutEditorRef.instance as any).rowSettings = this.rowSettings;
+      (this.layoutEditorRef.instance as any).columnSettings = this.columnSettings;
   }
 
 }
