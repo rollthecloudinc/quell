@@ -199,7 +199,7 @@ export class PagesModule {
     contextManager.register(formContextFactory(formContextResolver));*/
 
     contextPlugins.forEach(p => {
-      contextManager.register(p); // This will eventually go away once code uses plugin manager instead.
+      // contextManager.register(p); // This will eventually go away once code uses plugin manager instead.
       cxm.register(p);
     });
 

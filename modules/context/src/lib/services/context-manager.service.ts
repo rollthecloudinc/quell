@@ -2,6 +2,11 @@ import { Injectable, Inject } from '@angular/core';
 import { CONTEXT_PLUGIN } from '../context.tokens';
 import { ContextPlugin } from '../models/context.models';
 
+/*
+ * DO NOT USE THIS
+ * This has been replaced by the context plugin manager which integrates with the plugin system.
+ * @deprecated
+ */
 @Injectable({
   providedIn: 'root'
 })
