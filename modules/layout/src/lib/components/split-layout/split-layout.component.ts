@@ -1,4 +1,4 @@
-import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output, OnChanges, SimpleChanges } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SplitAreaDirective } from 'angular-split';
 import { LayoutSetting } from 'panels';
@@ -11,7 +11,7 @@ import { AttributeValue } from 'attributes';
   templateUrl: './split-layout.component.html',
   styleUrls: ['./split-layout.component.scss']
 })
-export class SplitLayoutComponent implements OnInit  {
+export class SplitLayoutComponent implements OnInit, OnChanges  {
 
   @Output()
   itemAdded = new EventEmitter();
@@ -82,6 +82,10 @@ export class SplitLayoutComponent implements OnInit  {
         this.rowSettingsChange.emit(this.rowSettings);
       }
     }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let x = 'y';
   }
 
   removeRow(rIndex: number) {

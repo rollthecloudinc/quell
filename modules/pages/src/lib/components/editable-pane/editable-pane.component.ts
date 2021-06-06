@@ -13,7 +13,7 @@ import { switchMap, map, debounceTime } from 'rxjs/operators';
   templateUrl: './editable-pane.component.html',
   styleUrls: ['./editable-pane.component.scss']
 })
-export class EditablePaneComponent implements OnInit, OnChanges {
+export class EditablePaneComponent implements OnInit /* OnChanges */ {
 
   @Input()
   pluginName: string;
@@ -80,9 +80,15 @@ export class EditablePaneComponent implements OnInit, OnChanges {
       ))
     ))
   ).subscribe(([init, p, r]) => {
-    this.contentPlugin = p;
-    this.displayOverride = p.handler.implementsRendererOverride();
-    this.hasOverride = !!r;
+    // <--- causing misery ---
+    /*
+     * This logic causes recursion. I don't think its the the only problem but I have identified
+     * this logic causes recursion. So thats one part of this major fucking problem...
+     */
+    // this.contentPlugin = p;
+    // this.displayOverride = p.handler.implementsRendererOverride();
+    // this.hasOverride = !!r;
+    // --- end of causing misery --->
     if(init && this.pluginName === 'panel') {
       this.panelHandler.toObject(this.settings).subscribe(p => {
         this.panelPage = p;
@@ -116,12 +122,12 @@ export class EditablePaneComponent implements OnInit, OnChanges {
     }*/
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  /*ngOnChanges(changes: SimpleChanges) {
     this.schedulePluginChange.next(false);
-    /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
-    this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
-    this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);*/
-  }
+    //this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
+    // this.displayOverride = this.contentPlugin.handler.implementsRendererOverride();
+    // this.contentPlugin.handler.hasRendererOverride(this.settings).subscribe(r => this.hasOverride = !!r);
+  }*/
 
   onEditClick() {
     this.edit.emit();

@@ -7,9 +7,11 @@
     <ng-container><ng-template classifiedsUiLayoutEditorHost></ng-template></ng-container>
   </div>
 </ng-template>
-
+<!-- why the fuck is all this shit triggering in recursion - ahhhhhhhh!!!!!!!!!! -->
 <ng-template #editablePaneTpl let-i="i" let-j="j">
-  <classifieds-ui-editable-pane class="editable-pane" (delete)="onDeletePane(i, j)" (rules)="onRulesPane(i, j)" (nestedUpdate)="onNestedUpdate($event, i, j)" (rendererOverride)="onOverrideRenderer(i, j)" (removeRendererOverride)="onRemoveOverrideRenderer(i, j)" (edit)="onPaneEdit(i, j)" (delete)="onPaneDelete(i, j)" [panelIndex]="i" [paneIndex]="j" [name]="panelPaneName(i, j)" [label]="panelPaneLabel(i, j)" [locked]="panelPaneLocked(i, j)" [contexts]="contexts" [pluginName]="panelPanePlugin(i, j)" [settings]="panelPaneSettings(i, j)">
+  <!-- <classifieds-ui-editable-pane class="editable-pane" (delete)="onDeletePane(i, j)" (rules)="onRulesPane(i, j)" (nestedUpdate)="onNestedUpdate($event, i, j)" (rendererOverride)="onOverrideRenderer(i, j)" (removeRendererOverride)="onRemoveOverrideRenderer(i, j)" (edit)="onPaneEdit(i, j)" (delete)="onPaneDelete(i, j)" [panelIndex]="i" [paneIndex]="j" [name]="panelPaneName(i, j)" [label]="panelPaneLabel(i, j)" [locked]="panelPaneLocked(i, j)" [contexts]="contexts" [pluginName]="panelPanePlugin(i, j)" [settings]="panelPaneSettings(i, j)"> -->
+    <!-- lets try some bull shit remove all the bindings  fuck this -->
+  <classifieds-ui-editable-pane class="editable-pane" (delete)="onDeletePane(i, j)" (rules)="onRulesPane(i, j)" (nestedUpdate)="onNestedUpdate($event, i, j)" (rendererOverride)="onOverrideRenderer(i, j)" (removeRendererOverride)="onRemoveOverrideRenderer(i, j)" (edit)="onPaneEdit(i, j)" (delete)="onPaneDelete(i, j)" [panelIndex]="i" [paneIndex]="j" [name]="panelPaneName(i, j)" [label]="panelPaneLabel(i, j)" [locked]="panelPaneLocked(i, j)" [contexts]="contexts" [settings]="panelPaneSettings(i, j)">
     <div class="custom-placeholder" *cdkDragPlaceholder></div>
   </classifieds-ui-editable-pane>
 </ng-template>

@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { Component, OnInit, Input, TemplateRef, OnChanges, SimpleChanges } from '@angular/core';
+import { AbstractControl, ControlContainer } from '@angular/forms';
 import { LayoutEditorBaseComponent, GridItem } from 'panels';
 
 @Component({
@@ -7,7 +7,7 @@ import { LayoutEditorBaseComponent, GridItem } from 'panels';
   templateUrl: './split-layout-editor.component.html',
   styleUrls: ['./split-layout-editor.component.scss']
 })
-export class SplitLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit {
+export class SplitLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit, OnChanges {
 
   get gridItems(): Array<GridItem> {
     return this.dashboard.map((gi, i) => ({ ...gi, cols: Math.floor(gi.cols), weight: i }));
@@ -18,6 +18,20 @@ export class SplitLayoutEditorComponent extends LayoutEditorBaseComponent implem
   }
 
   ngOnInit(): void {
+    let y = 'x'
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    let x = 'y';
+  }
+
+  debug(i, j) {
+    let x = 'y';
+    return 1;
+  }
+
+  panelPaneControls(i: number): Array<AbstractControl> {
+    return this.editor.panelPanes(i).controls;
   }
 
 }

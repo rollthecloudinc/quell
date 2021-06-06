@@ -27,13 +27,13 @@
   <ng-template #gridItemActions let-i="i">
     <button type="button" (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
     <button type="button" (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
-    <button *ngIf="!editor.hasPanelStyle(i)" type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
-    <span *ngIf="editor.hasPanelStyle(i)">Style: {{ editor.panelStyleTitle(i) }}</span>
+    <!-- <button *ngIf="!editor.hasPanelStyle(i)" type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button> fuck me... what the hell -->
+    <!-- <span *ngIf="editor.hasPanelStyle(i)">Style: {{ editor.panelStyleTitle(i) }}</span> god damn mother fucker... -->
   </ng-template>
   <ng-template #innerGridItem let-i="i">
     <ngx-dropzone [cdkDropListData]="i" class="panel-dropzone" [multiple]="true" [disableClick]="true" (change)="editor.onFileChange($event, i)" cdkDropList (cdkDropListDropped)="editor.onDrop($event)">
       <div #panes>
-        <div *ngFor="let pane of editor.panelPanes(i).controls; let j = index" cdkDrag>
+        <div *ngFor="let pane of panelPaneControls(i); let j = index" cdkDrag [attr.data-debug]="debug(i, j)">
           <ng-container *ngTemplateOutlet="editablePaneTpl;context:{ i: i, j: j }"></ng-container>
         </div>
       </div>
