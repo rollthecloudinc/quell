@@ -63,7 +63,7 @@ export class PanelSelectorComponent implements OnInit {
 
   onLinkSelect() {
     this.selectedIndex = 1;
-    this.panels$ = this.panelPageListItemsService.getAll();
+    this.panels$ = this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}`);
   }
 
   onItemSelect(panel: string) {

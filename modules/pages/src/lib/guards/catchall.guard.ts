@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
+import { SITE_NAME } from 'utils';
 import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
 import { PanelPageListItem, PanelPage } from 'panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
@@ -16,6 +17,7 @@ export class CatchAllGuard implements CanActivate {
   panelPageListItemsService: EntityCollectionService<PanelPageListItem>;
 
   constructor(
+    @Inject(SITE_NAME) private siteName: string,
     private router: Router,
     es: EntityServices
   ) {
@@ -25,11 +27,11 @@ export class CatchAllGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
     return new Promise(res => {
-      const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).join('&path=');
+      const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
       forkJoin([
         iif(
           () => !this.routesLoaded,
-          this.panelPageListItemsService.getAll().pipe(
+          this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}`).pipe(
             map(pp => pp.filter(p => p.path !== undefined && p.path !== '')),
             map(pp => pp.map(o => new PanelPage(o)).sort((a, b) => {
               if(a.path.split('/').length === b.path.split('/').length) {
@@ -69,7 +71,7 @@ export class CatchAllGuard implements CanActivate {
     });
   }
 
-  createMatcher(panelPage: PanelPage): UrlMatcher    {
+  createMatcher(panelPage: PanelPage): UrlMatcher {
     return (url: UrlSegment[]) => {
       if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
         const pathLen = panelPage.path.substr(1).split('/').length;
