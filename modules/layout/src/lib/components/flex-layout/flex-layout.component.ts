@@ -27,6 +27,11 @@ export class FlexLayoutComponent implements OnInit {
     return this.dashboard.length == 0 ? 0 : this.dashboard.reduce<number>((p, c) => c.y > p ? c.y : p, 0) + 1;
   }
 
+  get direction(): string {
+    const d = this.attributeMatcher.getComputedValue('direction', this.layoutSetting ? this.layoutSetting.settings : []);
+    return d && (d.trim() === 'column' || d.trim() === 'row') ? d : 'column';
+  }
+
   constructor(
     private attributeMatcher: AttributeMatcherService
   ) { }
@@ -41,6 +46,11 @@ export class FlexLayoutComponent implements OnInit {
 
   totalColumns(rowIndex: number): number {
     return this.dashboard.reduce<number>((p, c) => c.y === rowIndex ? p + 1 : p, 0);
+  }
+
+  rowDirection(index: number): string {
+    const d = this.attributeMatcher.getComputedValue('direction', this.rowSettings && this.rowSettings[index] ? this.rowSettings[index].settings : []);
+    return d && (d.trim() === 'column' || d.trim() === 'row') ? d : 'row';
   }
 
   rowFlex(index: number): string {

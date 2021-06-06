@@ -47,6 +47,15 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
           options: {},
           attributes: []
         }),
+        new Attribute({
+          name: 'direction',
+          type: AttributeTypes.Text,
+          label: 'Direction',
+          required: false,
+          widget: 'text',
+          options: {},
+          attributes: []
+        })
       ]
     ],
     [
@@ -63,18 +72,18 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
         }),
       ]
     ],
-    /*[
+    [
       'global',
       [new Attribute({
-        name: 'expanded',
-        type: AttributeTypes.Bool,
-        label: 'Expanded',
+        name: 'direction',
+        type: AttributeTypes.Text,
+        label: 'Direction',
         required: false,
         widget: 'text',
         options: {},
         attributes: []
       })]
-    ]*/
+    ]
   ]);
   return new LayoutPlugin<string>({ id: 'split', title: 'Split', editor: SplitLayoutEditorComponent, renderer: FlexLayoutRendererComponent, settings });
 };
