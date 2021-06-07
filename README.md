@@ -94,3 +94,4 @@ Replaces tokens in strings with real values.
 
 Inspired by Drupal panels. Aims to provide a user friendly interface for building modern web experiences.
 
+![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
