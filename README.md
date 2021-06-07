@@ -64,17 +64,21 @@ Any feature now compatible with the context system naturally inherits access to 
 
 ## Content
 
-Panels subsystem for information placed on a page.
+Panels backbone. The content which is placed on a page.
 
 ## Style
 
-Panels subsystem for changing the behavior of panes in a panel.
+Panels subsystem for enhancing standard panel rendering with additional behavior.
 
 ## Layout
 
 Panels subsystem for laying out content on a panel page.
 
-## Widgets
+## Attribute
+
+Inpsired by Magento.
+
+Framework for extending concrete entities with unstructured meta data.
 
 ## Panels
 
