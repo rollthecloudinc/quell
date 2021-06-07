@@ -18,6 +18,7 @@ the layout can adapt to that change even load in extra content and display it al
 
 Ambitions:
 
+- Panel Styles need options.
 - Auth system is currently hard coded to aws. Make the auth system extensible.
 - Websocket support.
   - Define a websocket like you would a rest api endpoint and when a message is received
@@ -40,6 +41,20 @@ this package and install it.
 Plugins:
 
 ## Context
+
+Inspired by the Drupal context system. 
+
+Applications and pages have contexts.
+
+Those contexts are used to provide info to the end user.
+
+The alternative to contexts is hard-coding logic in the application which changes its behavior.
+
+Different features (modules) provide their own contexts.
+
+A global module like a user module might provide an application wide context for user info.
+
+Any feature now compatible with the context system naturally inherits access to the user info.
 
 ## Content
 
