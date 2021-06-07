@@ -25,3 +25,18 @@ Layouts have been converted from hard coded HTML inside panels to true plugins.
 The base layouts have been converted to plugins.
 
 NOTE: Although the project began with gridster it has become less and less useful. Therefore, not as much care/time has been put into testing the gridster layout as a plugin.
+
+The two main layouts:
+
+Gridless
+split
+
+These are far more flexible than gridster.
+
+use case: drop content onto a page
+
+gridless -- one panel -> pane -> drop whatever content you want --> no layout
+
+use case: arrange content on a page
+
+nest other panels to build final display
