@@ -17,3 +17,11 @@ I think we can just define these as atributes and latch onto the attribute syste
 Is there any opporunity to manage css inside layouts?
 
 hook up external file reference that is added dynamicallty maybe....
+
+--------------
+
+Layouts have been converted from hard coded HTML inside panels to true plugins.
+
+The base layouts have been converted to plugins.
+
+NOTE: Although the project began with gridster it has become less and less useful. Therefore, not as much care/time has been put into testing the gridster layout as a plugin.
