@@ -1,7 +1,13 @@
 # Druid
 
+Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
+
+Rendered Page
 ![Rendered Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_page_render_abc.png)
+
+Nesting individual panel pages in one another
+![Nesting](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/nesting_panels_in_one_another.png)
 
 Drag and drop page builder using Angular.
 
