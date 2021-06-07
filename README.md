@@ -38,7 +38,13 @@ module loader discovery.
 - Create demo website. I want people to be able to create and edit panel pages without needing to download
 this package and install it.
 
-Plugins:
+## Plugins
+
+Inspired by drupal plugin system.
+
+Extend framework, platform, app without changing any source code in that project.
+
+Promote development that inspires all authors to consider extensibility.
 
 ## Context
 
@@ -63,3 +69,8 @@ Any feature now compatible with the context system naturally inherits access to 
 ## Layout
 
 ## Widgets
+
+## Panels
+
+Inspired by Drupal panels. Aims to provide a user friendly interface for building modern web experiences.
+
