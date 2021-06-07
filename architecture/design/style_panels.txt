@@ -170,3 +170,30 @@ Bulding the css files with not only scss but golang as well… lol I love it.
 If the queries are defined with golang why shouldn't the css?…
 
 How useful though really is that?… I mean I think we can just approach the situation aggregating and compiling scss. If we need to add golang support do so in future, right?
+
+--------
+
+This all sounds convoluted and sucks.
+
+Ultimately there is a page. That page has html. What is the easiest way to style that page – using css.
+
+Screw the components, screw knowing how the page was created. Screw adding css to specific panels, panes, ugh what a nightmare.
+
+Lets keep it simple.
+
+Build the page
+Style the page
+
+Use the editor you know to style the page.
+Create style file
+Push style file
+Include style file in page.
+
+Push to s3
+Build - publish
+websocket notifies page
+page responds by replacing file
+file replaced dynamically in dev
+In prod file is compiled into style source
+
+> 
