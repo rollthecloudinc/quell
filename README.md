@@ -1,5 +1,7 @@
 # Druid
 
+![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
+
 Drag and drop page builder using Angular.
 
 backend api: https://github.com/verti-go
@@ -93,5 +95,3 @@ Replaces tokens in strings with real values.
 ## Panels
 
 Inspired by Drupal panels. Aims to provide a user friendly interface for building modern web experiences.
-
-![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
