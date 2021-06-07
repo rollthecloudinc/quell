@@ -38,7 +38,7 @@ module loader discovery.
 - Create demo website. I want people to be able to create and edit panel pages without needing to download
 this package and install it.
 
-## Plugins
+## Plugin
 
 Inspired by drupal plugin system.
 
@@ -64,9 +64,15 @@ Any feature now compatible with the context system naturally inherits access to 
 
 ## Content
 
+Panels subsystem for information placed on a page.
+
 ## Style
 
+Panels subsystem for changing the behavior of panes in a panel.
+
 ## Layout
+
+Panels subsystem for laying out content on a panel page.
 
 ## Widgets
 
