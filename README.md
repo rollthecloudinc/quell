@@ -91,13 +91,7 @@ Framework for extending concrete entities with unstructured meta data.
 
 ## Token
 
-Converts attribute(s) to flat map.
-
-Converts object to flat map.
-
-Inspects strings for tokens.
-
-Replaces tokens in strings with real values.
+Converson of structured data to unstructured and vice versa.
 
 ## Panels
 
