@@ -3,8 +3,13 @@
     <div [fxLayout]="rowDirection(i)" [ngStyle]="{ height: '100%' }"> <!-- needs height 100% or fxFill -->
       <div *for="totalColumns(i); let j = index" [fxFlex]="dashboard[itemIndex(i, j)].cols">
         <p hidden>row: {{ i }} | column: {{ j }} | size: {{ dashboard[itemIndex(i, j)].cols }}</p>
-        <div class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)"> <!-- height 100% -->
+        <div *ngIf="!isForm" class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)"> <!-- height 100% -->
           <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
+        </div>
+        <div *ngIf="isForm" class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)" [formGroup]="controlContainer.control"> <!-- height 100% -->
+          <ng-container formArrayName="panels">
+            <ng-container [formControlName]="i" *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
+          </ng-container>
         </div>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, TemplateRef, Optional } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
+import { ControlContainer, FormGroup } from '@angular/forms';
 import { LayoutRendererBaseComponent } from 'panels'
 
 @Component({
@@ -8,6 +8,10 @@ import { LayoutRendererBaseComponent } from 'panels'
   // styleUrls: ['./gridless-layout-renderer.component.scss']
 })
 export class FlexLayoutRendererComponent extends LayoutRendererBaseComponent implements OnInit {
+
+  get isForm(): boolean {
+    return this.controlContainer && (this.controlContainer.control as FormGroup).contains('panels') ? true : false;
+  }
 
   constructor(@Optional() public controlContainer: ControlContainer) { 
     super(controlContainer);

@@ -1,6 +1,7 @@
-import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, ContentChild, TemplateRef, Optional } from '@angular/core';
 import { LayoutSetting } from 'panels';
 import { AttributeMatcherService } from 'attributes';
+import { AbstractControl, ControlContainer, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'classifieds-ui-flex-layout',
@@ -32,9 +33,17 @@ export class FlexLayoutComponent implements OnInit {
     return d && (d.trim() === 'column' || d.trim() === 'row') ? d : 'column';
   }
 
+  get isForm(): boolean {
+    return this.controlContainer && (this.controlContainer.control as FormGroup).contains('panels') ? true : false;
+  }
+
   constructor(
+    @Optional() public controlContainer: ControlContainer,
     private attributeMatcher: AttributeMatcherService
-  ) { }
+  ) { 
+    console.log('control container');
+    console.log(controlContainer ? controlContainer.control : null);
+  }
 
   ngOnInit(): void {
     console.log(this.dashboard);
