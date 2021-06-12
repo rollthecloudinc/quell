@@ -196,4 +196,62 @@ page responds by replacing file
 file replaced dynamically in dev
 In prod file is compiled into style source
 
-> 
+--------------------------------------------------------
+
+Styles need to override defaults.
+
+The only way to assure is to place them inline.
+
+When style sheet created (css) use below library to convert parse
+
+https://github.com/tdewolff/parse/blob/master/css/parse.go
+
+Take that convert to json.
+
+or we could run a node lambda to do the conversion?
+
+- better tools for parsing and converting
+
+https://www.npmjs.com/package/cssparser
+
+- css to json
+
+- disdvantge is now things become more complex - need to setup aws s3 for node to write file to bucket
+which already exists fo go. Unless I just run parser as a service and rely on go to handle that.
+
+two new lambdas
+
+- media_parser go - calls css_parser - gets output (json) - writes to 3s ->>> file_name.css.json
+- css_parser - nodejs using https://www.npmjs.com/package/cssparser
+
+----------------------------------------------------
+
+push css file to s3
+converts css to json and writes file with .json extension
+notifies stream (websocket)
+subscriber pulls down new file
+applies json on top of panel
+
+can I somehow use the browser dev tools to allow people to apply css and reapply?
+
+add userId as meta data when uploading media
+- how about when direct upload? ----- need to map priniple to users
+
+------------------------------------------
+
+pull down json
+
+strategy for applying json to panels?
+
+.panel--{name}
+.pane--{name}
+
+-- what about nested?
+
+- should each page have separate - no not - less reuse
+
+-- can prefix with page
+
+.page--xxx .panel--name (should be isolated to page)
+
+is it possible to parse -- from chrome dev tools and build the file?
