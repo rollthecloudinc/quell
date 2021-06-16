@@ -81,7 +81,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
-    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.panel-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.panel-${this.indexPosition}`) + `.panel-${this.indexPosition}`.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode()))
+    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition}`))
   ).subscribe((css: JSONNode) => {
     this.filteredCss = css;
   });

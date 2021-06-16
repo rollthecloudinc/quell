@@ -83,10 +83,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
-    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode())),
+    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.pane-${this.indexPosition}`)),
     map((css: JSONNode) => [
-      Object.keys(css.children).filter(k => k.indexOf('.panel-page') !== 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c]: css.children[c] } }), this.cssHelper.makeJsonNode()),
-      Object.keys(css.children).filter(k => k.indexOf('.panel-page') === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf('.panel-page') + '.panel-page'.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode())
+      this.cssHelper.reduceCss(css, '.panel-page', false),
+      this.cssHelper.reduceCss(css, '.panel-page')
     ]),
     tap(([_, nestedCss]) => this.filteredCss = nestedCss),
     map(([css, _]) => css),
