@@ -255,3 +255,29 @@ strategy for applying json to panels?
 .page--xxx .panel--name (should be isolated to page)
 
 is it possible to parse -- from chrome dev tools and build the file?
+
+
+-----------------------------
+
+.panel-page 
+.panel-{index}
+.pane-{index}
+
+These classes will be used to apply styles to proper component.
+
+* Note layout should be handled in layouts.
+
+.panel-0 .pane-0 p {
+  background-color: red;
+}
+
+.panel-0 .pane-1 p {
+  background-color: blue;
+}
+
+.panel-0 .pane-2 {
+  background-color: green;
+}
+
+-- subset any styles that include panel-x
+--- submit any panes that include pane-x in that set.

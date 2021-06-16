@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Panel, Pane } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
@@ -6,13 +6,15 @@ import { InlineContext } from 'context';
 import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { switchMap, map, filter, debounceTime, tap } from 'rxjs/operators';
-import { Subscription, Subject } from 'rxjs';
+import { Subscription, Subject, BehaviorSubject } from 'rxjs';
 import { PanelResolverService } from '../../services/panel-resolver.service';
+import { JSONNode } from 'cssjson';
 
 @Component({
   selector: 'classifieds-ui-render-panel',
   templateUrl: './render-panel.component.html',
   styleUrls: ['./render-panel.component.scss'],
+  // encapsulation: ViewEncapsulation.ShadowDom,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,7 +26,11 @@ import { PanelResolverService } from '../../services/panel-resolver.service';
       useExisting: forwardRef(() => RenderPanelComponent),
       multi: true
     },
-  ]
+  ],
+  host: {
+    '[class.panel]': 'true',
+    '[attr.data-index]': 'indexPosition'
+  }
 })
 export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAccessor, Validator  {
 
@@ -48,8 +54,19 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   @Input()
   contextChanged: { name: string; };
 
+  @Input()
+  indexPosition: number;
+
+  @Input() set css(css: JSONNode) {
+    this.css$.next(css);
+  }
+
   @Output()
   heightChange = new EventEmitter<number>();
+
+  @HostBinding('class') get indexPositionClass() {
+    return `panel-${this.indexPosition}`;
+  }
 
   panelForm = this.fb.group({
     name: this.fb.control(''),
@@ -58,6 +75,19 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   });
 
   panes: Array<Pane>;
+
+  filteredCss: JSONNode;
+
+  css$ = new BehaviorSubject<JSONNode>({});
+  cssSub = this.css$.pipe(
+    tap(css => {
+      console.log('css:');
+      console.log(css);
+    }),
+    map((css: JSONNode) => css && css.children ? Object.keys(css.children).filter(k => k.indexOf(`.panel-${this.indexPosition}`) > -1).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.panel-${this.indexPosition}`) + `.panel-${this.indexPosition}`.length).trim()]: css.children[c] } }), {}) : [])
+  ).subscribe((css: JSONNode) => {
+    this.filteredCss = css;
+  });
 
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
   scheduleRenderSub = this.scheduleRender.pipe(

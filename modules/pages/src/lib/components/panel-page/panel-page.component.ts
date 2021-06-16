@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
+import { StyleLoaderService } from 'utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
 import { PanelPage, Pane, LayoutSetting } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
@@ -15,11 +17,17 @@ import { Store, select } from '@ngrx/store';
 import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
+import * as cssSelect from 'css-select';
+import { JSONNode } from 'cssjson';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
   templateUrl: './panel-page.component.html',
-  styleUrls: ['./panel-page.component.scss']
+  styleUrls: ['./panel-page.component.scss'],
+  // encapsulation: ViewEncapsulation.ShadowDom,
+  host: {
+    '[class.panel-page]': 'true'
+  }
 })
 export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
 
@@ -38,6 +46,8 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
   resolvedContext: any;
   contextChanged: { name: string };
   layoutRendererRef: ComponentRef<any>;
+
+  css: JSONNode;
 
   pageForm = this.fb.group({
     /*name: this.fb.control(''),
@@ -95,6 +105,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
       const viewContainerRef = this.layoutRendererHost.viewContainerRef;
       viewContainerRef.clear();
     }
+    this.experimentalApplyCss();
   });
 
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
@@ -126,6 +137,9 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     private cxm: ContextPluginManager,
     private lpm: LayoutPluginManager,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private styleLoader: StyleLoaderService,
+    // I don't feel good about this but f**k it for now til I figure this out
+    private http: HttpClient,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;
@@ -140,6 +154,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
         tap(() => alert('Hello'))
       );
     }*/
+    // this.styleLoader.loadStyle('https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test.css');
     this.pageForm.valueChanges.pipe(
       debounceTime(100),
       filter(() => this.panelPage !== undefined && this.panelPage.displayType === 'form'),
@@ -263,6 +278,21 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
       (this.layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
       (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
 
+    });
+
+  }
+
+  experimentalApplyCss() {
+
+    this.http.get<JSONNode>("https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test41.css.json").subscribe(css => {
+      this.css = css;
+      /*console.log(res);
+      const keys = Object.keys((res as any).children);
+      console.log("matched nodes:");*/
+      /*keys.forEach(k => {
+        const matchedNodes = cssSelect.selectAll(k, this.el.nativeElement);
+        console.log(matchedNodes);
+      });*/
     });
 
   }

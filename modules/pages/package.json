@@ -14,7 +14,8 @@
     "@ngrx/data": "^10.0.1",
     "@ngrx/effects": "^10.0.1",
     "qs": "^6.9.4",
-    "json-rules-engine": "^5.0.4"
+    "json-rules-engine": "^5.0.4",
+    "cssjson": "^2.1.3"
   },
   "dependencies": {
     "tslib": "^2.0.0"

@@ -30,7 +30,9 @@
       "plugin": "plugin",
       "datasource": "datasource",
       "layout": "layout",
-      "panels": "panels"
+      "panels": "panels",
+      "css-select": "css-select",
+      "cssjson": "cssjson"
     }
   }
 }

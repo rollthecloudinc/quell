@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
@@ -6,13 +6,16 @@ import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { PanelPage, Pane } from 'panels';
-import { Subject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { delay, map, switchMap, tap } from 'rxjs/operators';
+import { JSONNode } from 'cssjson';
+import { selectAll } from 'css-select';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
   templateUrl: './render-pane.component.html',
   styleUrls: ['./render-pane.component.scss'],
+  // encapsulation: ViewEncapsulation.ShadowDom,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -24,7 +27,11 @@ import { switchMap } from 'rxjs/operators';
       useExisting: forwardRef(() => RenderPaneComponent),
       multi: true
     },
-  ]
+  ],
+  host: {
+    '[class.pane]': 'true',
+    '[attr.data-index]': 'indexPosition'
+  }
 })
 export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
 
@@ -55,11 +62,49 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   @Input()
   resolvedContext: any;
 
+  @Input()
+  indexPosition: number;
+
+  @Input() set css(css: JSONNode) {
+    this.css$.next(css);
+  }
+
+  @HostBinding('class') get indexPositionClass() {
+    return `pane-${this.indexPosition}`;
+  } 
+
   contentPlugin: ContentPlugin;
 
   panelPage: PanelPage;
 
   componentRef: ComponentRef<any>;
+
+  // filteredCss: JSONNode;
+
+  css$ = new BehaviorSubject<JSONNode>({});
+  cssSub = this.css$.pipe(
+    tap(css => {
+      console.log('css:');
+    }),
+    map((css: JSONNode) => css && css.children ? Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) > -1).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), {}) : undefined),
+    delay(1000)
+  ).subscribe(css => {
+      if (css) {
+        const keys = Object.keys(css.children);
+        keys.forEach(k => {
+          console.log(`search: ${k}`);
+          const matchedNodes = this.el.nativeElement.querySelectorAll(k);
+          const len = matchedNodes.length;
+          const rules = Object.keys(css.children[k].attributes);
+          for (let i = 0; i < len; i++) {
+            rules.forEach(p => {
+              console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+              this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
+            });
+          }
+        });
+      }
+  });
 
   paneForm = this.fb.group({
     contentPlugin: this.fb.control('', Validators.required),
@@ -92,6 +137,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    private el: ElementRef,
+    private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
     private panelHandler: PanelContentHandler,
     private fb: FormBuilder,
