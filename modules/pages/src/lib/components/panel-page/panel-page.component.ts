@@ -19,6 +19,7 @@ import { LayoutRendererHostDirective } from '../../directives/layout-renderer-ho
 import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
+import { CssHelperService } from '../../services/css-helper.service';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -53,7 +54,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
 
   filteredCss: JSONNode;
 
-  css$ = new BehaviorSubject<JSONNode>({ attributes: {}, children: {} });
+  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.subscribe(css => {
     this.filteredCss = css;
   });
@@ -149,6 +150,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     private styleLoader: StyleLoaderService,
     // I don't feel good about this but f**k it for now til I figure this out
     private http: HttpClient,
+    private cssHelper: CssHelperService,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;

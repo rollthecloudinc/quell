@@ -9,7 +9,7 @@ import { PanelPage, Pane } from 'panels';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
-import { selectAll } from 'css-select';
+import { CssHelperService } from '../../services/css-helper.service';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
@@ -81,12 +81,12 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   filteredCss: JSONNode;
 
-  css$ = new BehaviorSubject<JSONNode>({ children: {}, attributes: {} });
+  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
-    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), { children: {}, attributes: {} })),
+    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode())),
     map((css: JSONNode) => [
-      Object.keys(css.children).filter(k => k.indexOf('.panel-page') !== 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c]: css.children[c] } }), { children: {}, attributes: {} }),
-      Object.keys(css.children).filter(k => k.indexOf('.panel-page') === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf('.panel-page') + '.panel-page'.length).trim()]: css.children[c] } }), { children: {}, attributes: {} })
+      Object.keys(css.children).filter(k => k.indexOf('.panel-page') !== 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c]: css.children[c] } }), this.cssHelper.makeJsonNode()),
+      Object.keys(css.children).filter(k => k.indexOf('.panel-page') === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf('.panel-page') + '.panel-page'.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode())
     ]),
     tap(([_, nestedCss]) => this.filteredCss = nestedCss),
     map(([css, _]) => css),
@@ -143,7 +143,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private componentFactoryResolver: ComponentFactoryResolver,
     private panelHandler: PanelContentHandler,
     private fb: FormBuilder,
-    private cpm: ContentPluginManager
+    private cpm: ContentPluginManager,
+    private cssHelper: CssHelperService
   ) {
     // this.contentPlugins = contentPlugins;
   }

@@ -9,6 +9,7 @@ import { switchMap, map, filter, debounceTime, tap } from 'rxjs/operators';
 import { Subscription, Subject, BehaviorSubject } from 'rxjs';
 import { PanelResolverService } from '../../services/panel-resolver.service';
 import { JSONNode } from 'cssjson';
+import { CssHelperService } from '../../services/css-helper.service';
 
 @Component({
   selector: 'classifieds-ui-render-panel',
@@ -78,9 +79,9 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
 
   filteredCss: JSONNode;
 
-  css$ = new BehaviorSubject<JSONNode>({ attributes: {}, children: {} });
+  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
-    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.panel-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.panel-${this.indexPosition}`) + `.panel-${this.indexPosition}`.length).trim()]: css.children[c] } }), { attributes: {}, children: {} }))
+    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.panel-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.panel-${this.indexPosition}`) + `.panel-${this.indexPosition}`.length).trim()]: css.children[c] } }), this.cssHelper.makeJsonNode()))
   ).subscribe((css: JSONNode) => {
     this.filteredCss = css;
   });
@@ -153,7 +154,8 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: FormBuilder,
     private panelResolverService: PanelResolverService,
-    private spm: StylePluginManager
+    private spm: StylePluginManager,
+    private cssHelper: CssHelperService
   ) {
     this.counter = RenderPanelComponent.COUNTER++;
     // this.stylePlugins = stylePlugins;
