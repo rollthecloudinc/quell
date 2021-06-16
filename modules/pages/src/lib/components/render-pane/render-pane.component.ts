@@ -79,31 +79,32 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   componentRef: ComponentRef<any>;
 
-  // filteredCss: JSONNode;
+  filteredCss: JSONNode;
 
-  css$ = new BehaviorSubject<JSONNode>({});
+  css$ = new BehaviorSubject<JSONNode>({ children: {}, attributes: {} });
   cssSub = this.css$.pipe(
-    tap(css => {
-      console.log('css:');
-    }),
-    map((css: JSONNode) => css && css.children ? Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) > -1).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), {}) : undefined),
+    map((css: JSONNode) => Object.keys(css.children).filter(k => k.indexOf(`.pane-${this.indexPosition}`) === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf(`.pane-${this.indexPosition}`) + `.pane-${this.indexPosition}`.length).trim()]: css.children[c] } }), { children: {}, attributes: {} })),
+    map((css: JSONNode) => [
+      Object.keys(css.children).filter(k => k.indexOf('.panel-page') !== 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c]: css.children[c] } }), { children: {}, attributes: {} }),
+      Object.keys(css.children).filter(k => k.indexOf('.panel-page') === 0).reduce<JSONNode>((p, c) => ({  ...p, children: { ...p.children, [c.substr(c.indexOf('.panel-page') + '.panel-page'.length).trim()]: css.children[c] } }), { children: {}, attributes: {} })
+    ]),
+    tap(([_, nestedCss]) => this.filteredCss = nestedCss),
+    map(([css, _]) => css),
     delay(1000)
   ).subscribe(css => {
-      if (css) {
-        const keys = Object.keys(css.children);
-        keys.forEach(k => {
-          console.log(`search: ${k}`);
-          const matchedNodes = this.el.nativeElement.querySelectorAll(k);
-          const len = matchedNodes.length;
-          const rules = Object.keys(css.children[k].attributes);
-          for (let i = 0; i < len; i++) {
-            rules.forEach(p => {
-              console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-              this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
-            });
-          }
+    const keys = Object.keys(css.children);
+    keys.forEach(k => {
+      console.log(`search: ${k}`);
+      const matchedNodes = this.el.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      const rules = Object.keys(css.children[k].attributes);
+      for (let i = 0; i < len; i++) {
+        rules.forEach(p => {
+          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+          this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
         });
       }
+    });
   });
 
   paneForm = this.fb.group({

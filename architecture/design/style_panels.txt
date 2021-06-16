@@ -271,13 +271,25 @@ These classes will be used to apply styles to proper component.
   background-color: red;
 }
 
-.panel-0 .pane-1 p {
+.panel-1 .pane-1 p {
   background-color: blue;
 }
 
-.panel-0 .pane-2 {
+.panel-2 .pane-2 p {
   background-color: green;
+}
+
+# nested panel page
+.panel-3 .pane-0 .panel-page .panel-0 .pane-0 p {
+  background-color: yellow;
 }
 
 -- subset any styles that include panel-x
 --- submit any panes that include pane-x in that set.
+
+-- store on panel page as array of strings?
+for now just support one ['{url}']
+-- however future support for merging and sharing files between multiple panels.
+-- shared files would require named panel pages to differentiate which styles apply to which page.
+
+-- add conversion process for sass files -- requires lambda running dart -- speed is important

@@ -43,11 +43,20 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
   @Input()
   contexts: Array<InlineContext>;
 
+  @Input() set css(css: JSONNode) {
+    this.css$.next(css);
+  }
+
   resolvedContext: any;
   contextChanged: { name: string };
   layoutRendererRef: ComponentRef<any>;
 
-  css: JSONNode;
+  filteredCss: JSONNode;
+
+  css$ = new BehaviorSubject<JSONNode>({ attributes: {}, children: {} });
+  cssSub = this.css$.subscribe(css => {
+    this.filteredCss = css;
+  });
 
   pageForm = this.fb.group({
     /*name: this.fb.control(''),
@@ -284,15 +293,8 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
 
   experimentalApplyCss() {
 
-    this.http.get<JSONNode>("https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test41.css.json").subscribe(css => {
-      this.css = css;
-      /*console.log(res);
-      const keys = Object.keys((res as any).children);
-      console.log("matched nodes:");*/
-      /*keys.forEach(k => {
-        const matchedNodes = cssSelect.selectAll(k, this.el.nativeElement);
-        console.log(matchedNodes);
-      });*/
+    this.http.get<JSONNode>("https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test42.css.json").subscribe(css => {
+      this.filteredCss = css;
     });
 
   }
