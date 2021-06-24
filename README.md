@@ -31,6 +31,14 @@ Editor for list of ads:
 
 https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate/manage
 
+Nested detail view:
+
+https://dpxmq1mxvsyda.cloudfront.net/addetailv3/x/691733b2-a9d3-11ea-99f3-7e44960cbab9
+
+Details view editor:
+
+https://dpxmq1mxvsyda.cloudfront.net/addetailv3/x/691733b2-a9d3-11ea-99f3-7e44960cbab9/manage
+
 backend api: https://github.com/verti-go
 
 Features:
