@@ -23,6 +23,10 @@ https://dpxmq1mxvsyda.cloudfront.net/adbrowserv9/realestate/cbed078f-ab57-11ea-9
 
 - Save is disabled but one can play around.
 
+Nested ad list:
+
+https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate
+
 backend api: https://github.com/verti-go
 
 Features:
