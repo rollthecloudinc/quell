@@ -17,6 +17,12 @@ https://dpxmq1mxvsyda.cloudfront.net/adbrowserv9/realestate/691733b2-a9d3-11ea-9
 
 - Saving disabled unless page owned by user.
 
+Any page can be followed by manage to view the editor:
+
+https://dpxmq1mxvsyda.cloudfront.net/adbrowserv9/realestate/cbed078f-ab57-11ea-9774-ea79e329ea22/manage
+
+- Save is disabled but one can play around.
+
 backend api: https://github.com/verti-go
 
 Features:
