@@ -254,7 +254,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   ngAfterContentInit() {
     setTimeout(() => {
       if (!this.panelPage) {
-        this.contentForm.get('layoutType').setValue('grid');
+        this.contentForm.get('layoutType').setValue('split');
       }
     }, 1000);
   }
