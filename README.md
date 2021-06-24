@@ -27,6 +27,10 @@ Nested ad list:
 
 https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate
 
+Editor for list of ads:
+
+https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate/manage
+
 backend api: https://github.com/verti-go
 
 Features:
