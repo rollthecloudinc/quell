@@ -71,6 +71,10 @@
       "panels": [
         "dist/panels/panels",
         "dist/panels"
+      ],
+      "alias": [
+        "dist/alias/alias",
+        "dist/alias"
       ]
     }
   },

@@ -17,6 +17,8 @@ import { MaterialModule } from 'material';
 import { TokenModule } from 'token';
 import { ContextModule } from 'context';
 import { ContentModule } from 'content';
+import { AliasModule } from 'alias';
+import { PanelsModule } from 'panels';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -140,6 +142,8 @@ export function markedOptionsFactory(): MarkedOptions {
     MediaModule,
     // NxModule.forRoot(),
     EntityDataModule.forRoot({}),
+    AliasModule,
+    PanelsModule
     // JsonschemaModule
     // OktaAuthModule
   ],
