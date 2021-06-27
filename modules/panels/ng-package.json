@@ -10,6 +10,7 @@
       "context": "context",
       "layout": "layout",
       "alias": "alias",
+      "qs": "qs",
       "angular2-query-builder": "angular2-query-builder"
     }
   }
