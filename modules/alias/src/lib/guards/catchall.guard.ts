@@ -9,6 +9,7 @@ import { PanelPageRouterComponent } from '../components/panel-page-router/panel-
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';*/
 //import * as qs from 'qs';
 import { AliasPluginManager } from '../services/alias-plugin-manager.service';
+import { AliasPlugin } from '../models/alias.models';
 
 @Injectable()
 export class CatchAllGuard implements CanActivate {
@@ -27,41 +28,24 @@ export class CatchAllGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
-
     console.log('catch all alias hit');
-
-    /*if (this.routesLoaded) {
-      console.log('false');
-      return new Promise(res => {
-        this.apm.getPlugins().subscribe(pp => {
-          pp.forEach(p => {
-            p.matchingStrategy.match(state).subscribe(r => {
-              if (r !== undefined) {
-                res(false);
-                p.redirectHandler.redirect(route, state);
-              }
-            });
-          });
-        });
-      });
-    }*/
-
     return new Promise(res => {
       this.apm.getPlugins().pipe(
         switchMap(plugins => forkJoin(Array.from(plugins).map(([_, p]) => p.loadingStrategy.load()))),
         tap(() => this.routesLoaded = true),
-        switchMap(() => this.apm.getPlugins())
-      ).subscribe(pp => {
-        pp.forEach(p => {
-          p.matchingStrategy.match(state).subscribe(r => {
-            if (r !== undefined) {
-              res(false);
-              p.redirectHandler.redirect(route, state);
-            }
-          });
-        });
+        switchMap(() => this.apm.getPlugins()),
+        switchMap(plugins => forkJoin(Array.from(plugins).map(([_, p]) => p.matchingStrategy.match(state).pipe(
+          map(m => [p, m])
+        ))))
+      ).subscribe((pp: Array<[AliasPlugin<string>, boolean]>) => {
+        const matchedPlugin = pp.map(([p, m], _) => m ? p : undefined).find(p => p !== undefined);
+        if (matchedPlugin !== undefined) {
+          matchedPlugin.redirectHandler.redirect(route, state);
+          res(false);
+        } else {
+          res(true);
+        }
       });
     });
   }
-
 }

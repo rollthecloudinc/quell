@@ -5,7 +5,7 @@ import { CatchAllGuard } from './guards/catchall.guard';
 import { CatchAllRouterComponent } from './components/catch-all-router/catch-all-router.component';
 
 const routes = [
-  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
+  // { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
 ];
 
 @NgModule({
@@ -14,9 +14,11 @@ const routes = [
     UtilsModule,
     RouterModule.forChild(routes)
   ],
-  exports: [],
+  exports: [
+    CatchAllRouterComponent
+  ],
   providers: [
-    CatchAllGuard
+    // CatchAllGuard
   ]
 })
 export class AliasModule { }

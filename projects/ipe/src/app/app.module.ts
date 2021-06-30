@@ -17,7 +17,7 @@ import { MaterialModule } from 'material';
 import { TokenModule } from 'token';
 import { ContextModule } from 'context';
 import { ContentModule } from 'content';
-import { AliasModule } from 'alias';
+import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from 'alias';
 import { PanelsModule } from 'panels';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
@@ -53,11 +53,12 @@ const routes = [
   // { path: 'ads', loadChildren: () => import('@classifieds-ui/ads').then(m => m.AdsModule) },
   // { path: 'vocabularies', loadChildren: () => import('@classifieds-ui/vocabulary').then(m => m.VocabularyModule) },
   // { path: 'profiles', loadChildren: () => import('@classifieds-ui/profiles').then(m => m.ProfilesModule) },
-  { path: '', loadChildren: () => {
+  { path: 'pages', loadChildren: () => {
     return import('pages').then(m => m.PagesModule);
   } },
-  //{ path: '', component: HomeComponent },
+  { path: '', children: [] /*, component: HomeComponent*/ },
   //{ path: '**', component: NotFoundComponent }
+  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   //{ path: '', redirectTo: 'pages', pathMatch: "full" }
 ];
 
@@ -152,6 +153,7 @@ export function markedOptionsFactory(): MarkedOptions {
 
     // okta auth
     //{ provide: OKTA_CONFIG, useValue: oktaConfig },
+    CatchAllGuard,
 
     { provide: SITE_NAME, useValue: environment.site },
 

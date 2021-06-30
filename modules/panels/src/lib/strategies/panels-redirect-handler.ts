@@ -32,6 +32,9 @@ export class PanelsRedirectHandler implements AliasRedirectHandler {
         return [panelPage, argPath];
       })
     ).subscribe(([panelPage, argPath]) => {
+      // this.router.onSameUrlNavigation.reload;
+      // this.router.navigate(['reload']);
+      console.log(`nagigvate to: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
       this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment })
     });
   }

@@ -35,7 +35,7 @@ export class PanelsLoadingStrategy implements AliasLoadingStrategy {
       })),
       tap(pp => {
         const target = this.router.config.find(r => r.path === '');
-        target.children = [];
+        // target.children = [];
         pp.forEach(p => {
           console.log(`register alias ${p.path}`);
           target.children.push({ matcher: this.createEditMatcher(p), component: PanelsPageRouterComponent /*EditPanelPageComponent*/ });
@@ -49,24 +49,10 @@ export class PanelsLoadingStrategy implements AliasLoadingStrategy {
     // return of(true);
   }
 
-  match(state: RouterStateSnapshot): Observable<UrlTree> {
-    const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
-    return this.panelPageListItemsService.getWithQuery(matchPathQuery).pipe(
-      catchError(e => {
-        return of([]);
-      }),
-      map(pages => pages.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
-      map(panelPage => {
-        const argPath = state.url.substr(1).split('/').slice(panelPage.path.split('/').length - 1).join('/');
-        return [panelPage, argPath];
-      }),
-      map(() => new UrlTree()) // @todo: Build url tree from panel page.
-    )
-  }
-
   createMatcher(panelPage: PanelPage): UrlMatcher {
     return (url: UrlSegment[]) => {
       if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
+        console.log(`matcher matched: ${panelPage.path}`);
         const pathLen = panelPage.path.substr(1).split('/').length;
         return {
           consumed: url,
@@ -89,6 +75,7 @@ export class PanelsLoadingStrategy implements AliasLoadingStrategy {
   createEditMatcher(panelPage: PanelPage): UrlMatcher {
     return (url: UrlSegment[]) => {
       if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0 && url.map(u => u.path).join('/').indexOf('/manage') > -1) {
+        console.log(`edit matched matched: ${panelPage.path}`);
         const pathLen = panelPage.path.substr(1).split('/').length;
         return {
           consumed: url,

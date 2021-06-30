@@ -109,13 +109,13 @@ const panePageMatcher = (url: UrlSegment[]) => {
 }
 
 const routes = [
-  { path: 'pages', children: [
+  //{ path: 'pages', children: [
     { path: 'create-panel-page', component: CreatePanelPageComponent },
     { path: 'panelpage/:panelPageId/manage', component: EditPanelPageComponent },
     { matcher: panePageMatcher, component: PanelPageRouterComponent },
-  ]},
+  //]},
   //{ matcher: testPageMatcher, component: PanelPageRouterComponent },
-  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
+  // { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   // { path: '**', component: PageControllerComponent, pathMatch: 'full' }
 ];
 
