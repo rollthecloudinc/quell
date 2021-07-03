@@ -124,3 +124,7 @@ Framework for extending concrete entities with unstructured meta data.
 ## Panels
 
 Inspired by Drupal panels. Aims to provide a user friendly interface for building modern web experiences.
+
+## Alias
+
+Extends angular routing with dynamic routing capabilities using plugins.
