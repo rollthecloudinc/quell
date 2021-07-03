@@ -40,11 +40,10 @@ export class CatchAllGuard implements CanActivate {
               return a.path.split('/').length > b.path.split('/').length ? -1 : 1;
             })),
             tap(pp => {
-              const target = this.router.config.find(r => r.path === '');
-              target.children = [];
+              const target = (this.router.config[0] as any)._loadedConfig.routes;
               pp.forEach(p => {
-                target.children.push({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });
-                target.children.push({ matcher: this.createMatcher(p), component: PanelPageRouterComponent });
+                target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent });
+                target.unshift({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });
               });
               this.routesLoaded = true;
             }),
@@ -66,7 +65,8 @@ export class CatchAllGuard implements CanActivate {
         map(([pp, [panelPage, argPath]]) => [panelPage, argPath])
       ).subscribe(([panelPage, argPath]) => {
         res(false);
-        this.router.navigateByUrl(`/${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment });
+        console.log(`panels garud navigate: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
+        this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment });
       });
     });
   }

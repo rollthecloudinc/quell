@@ -34,12 +34,20 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         return a.path.split('/').length > b.path.split('/').length ? -1 : 1;
       })),
       tap(pp => {
-        const target = this.router.config.find(r => r.path === '');
-        pp.forEach(p => {
-          console.log(`register alias ${p.path}`);
-          target.children.push({ matcher: this.createEditMatcher(p), component: PagealiasRouterComponent /*EditPanelPageComponent*/ });
-          target.children.push({ matcher: this.createMatcher(p), component: PagealiasRouterComponent /*PanelPageRouterComponent*/ });
-        });
+        // const target = this.router.config.find(r => r.path === '');
+
+        // const matchers = pp.map(p => [ this.createEditMatcher(p), this.createMatcher(p) ]).reduce<Array<UrlMatcher>>((p, c) => [ ...p, ...c ], []);
+        const paths = pp.map(p => p.path);
+
+        this.router.config.unshift({ matcher: this.createPageMatcher(paths), loadChildren: () => {
+          return import('pages').then(m => m.PagesModule);
+        } });
+
+        //pp.forEach(p => {
+          //console.log(`register alias ${p.path}`);
+          //target.children.push({ matcher: this.createEditMatcher(p), component: PagealiasRouterComponent /*EditPanelPageComponent*/ });
+          //target.children.push({ matcher: this.createMatcher(p), component: PagealiasRouterComponent /*PanelPageRouterComponent*/ });
+        //});
         this.routesLoaded = true;
       }),
       tap(() => console.log('panels routes loaded')),
@@ -48,7 +56,7 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
     // return of(true);
   }
 
-  createMatcher(panelPage: PanelPage): UrlMatcher {
+  /*createMatcher(panelPage: PanelPage): UrlMatcher {
     return (url: UrlSegment[]) => {
       if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
         console.log(`matcher matched: ${panelPage.path}`);
@@ -69,9 +77,9 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         return null;
       }
     };
-  }
+  }*/
 
-  createEditMatcher(panelPage: PanelPage): UrlMatcher {
+  /*createEditMatcher(panelPage: PanelPage): UrlMatcher {
     return (url: UrlSegment[]) => {
       if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0 && url.map(u => u.path).join('/').indexOf('/manage') > -1) {
         console.log(`edit matched matched: ${panelPage.path}`);
@@ -89,6 +97,28 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
       } else {
         return null;
       }
+    };
+  }*/
+
+  createPageMatcher(paths: Array<string>): UrlMatcher  {
+    return (url: UrlSegment[]) => {
+
+      for (let i = 0; i < paths.length; i++) {
+        if(('/' + url.map(u => u.path).join('/')).indexOf(paths[i]) === 0) {
+          return { consumed: [], posParams: {} };
+        }
+      }
+
+      if (url.length > 0 && url[0].path === 'pages') {
+        console.log('matched page!');
+        return {
+          consumed: url.slice(0, 1),
+          posParams: {}
+        };
+      } else {
+        return null;
+      }
+
     };
   }
 

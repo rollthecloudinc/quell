@@ -115,7 +115,7 @@ const routes = [
     { matcher: panePageMatcher, component: PanelPageRouterComponent },
   //]},
   //{ matcher: testPageMatcher, component: PanelPageRouterComponent },
-  // { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
+  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   // { path: '**', component: PageControllerComponent, pathMatch: 'full' }
 ];
 

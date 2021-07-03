@@ -29,7 +29,7 @@ export class PagealiasMatchingStrategy implements AliasMatchingStrategy {
         return of([]);
       }),
       map(pages => pages.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
-      map(m => !!m)
+      map(m => !!m || state.url.indexOf('pages') > -1)
     )
   }
 
