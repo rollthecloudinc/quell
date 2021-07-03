@@ -34,6 +34,8 @@
     "@ngrx/store": "^10.0.1",
     "@ngrx/store-devtools": "^10.0.1",
     "@nguniversal/express-engine": "^10.1.0",
+    "@ngx-formly/core": "^5.10.21",
+    "@ngx-formly/material": "^5.10.21",
     "angular-gridster2": "^10.1.6",
     "angular-split": "^4.0.0",
     "angular2-query-builder": "^0.6.2",

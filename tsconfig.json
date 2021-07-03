@@ -79,6 +79,10 @@
       "pagealias": [
         "dist/pagealias/pagealias",
         "dist/pagealias"
+      ],
+      "formly": [
+        "dist/formly/formly",
+        "dist/formly"
       ]
     }
   },

@@ -1,0 +1,5 @@
+<mat-nav-list>
+  <a *ngFor="let field of ((fields$ | async) | keyvalue)" mat-list-item mat-list-item (click)="onItemSelect(field.key)">
+    <span mat-line>{{ field.value }}</span>
+  </a>
+</mat-nav-list>
