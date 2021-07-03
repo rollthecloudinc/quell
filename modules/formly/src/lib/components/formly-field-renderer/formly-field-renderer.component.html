@@ -1,1 +1,7 @@
-<p>Formly field renderer</p>
+<div [formGroup]="controlContainer.control">
+  <formly-form
+  [form]="controlContainer.control"
+  [fields]="fields"
+  [model]="model">
+</formly-form>
+</div>

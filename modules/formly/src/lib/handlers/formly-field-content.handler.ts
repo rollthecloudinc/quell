@@ -46,8 +46,8 @@ export class FormlyFieldContentHandler implements ContentHandler {
     return of([]);
   }
 
-  toObject(settings: Array<AttributeValue>): Observable<Snippet> {
-    return of(new Snippet(this.attributeSerializer.deserializeAsObject(settings)));
+  toObject(settings: Array<AttributeValue>): Observable<FormlyFieldInstance> {
+    return of(new FormlyFieldInstance(this.attributeSerializer.deserializeAsObject(settings)));
   }
 
   buildSettings(instance: FormlyFieldInstance): Array<AttributeValue> {
