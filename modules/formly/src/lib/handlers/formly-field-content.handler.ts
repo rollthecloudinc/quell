@@ -4,6 +4,7 @@ import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
+import { FormlyFieldInstance } from '../models/formly.models';
 
 @Injectable()
 export class FormlyFieldContentHandler implements ContentHandler {
@@ -14,14 +15,7 @@ export class FormlyFieldContentHandler implements ContentHandler {
   ) { }
 
   handleFile(file: File): Observable<Array<AttributeValue>> {
-    return new Observable(obs => {
-      const reader = new FileReader();
-      reader.onload = () => {
-        obs.next(this.buildSettings(new Snippet({ contentType: file.type, content: `${reader.result}`})));
-        obs.complete();
-      }
-      reader.readAsText(file);
-    });
+    return of([]);
   }
 
   handlesType(type: string): boolean {
@@ -56,8 +50,8 @@ export class FormlyFieldContentHandler implements ContentHandler {
     return of(new Snippet(this.attributeSerializer.deserializeAsObject(settings)));
   }
 
-  buildSettings(snippet: Snippet): Array<AttributeValue> {
-    return this.attributeSerializer.serialize(snippet, 'root').attributes;
+  buildSettings(instance: FormlyFieldInstance): Array<AttributeValue> {
+    return this.attributeSerializer.serialize(instance, 'root').attributes;
   }
 
 }

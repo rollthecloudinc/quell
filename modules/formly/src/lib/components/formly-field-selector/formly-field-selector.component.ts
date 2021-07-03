@@ -1,13 +1,19 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager } from 'attributes';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { MatDialog } from '@angular/material/dialog';
+import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager, AttributeSerializerService } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { Pane } from 'panels';
 //import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 // import { MatDialog } from '@angular/material/dialog';
 // import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 // import { Pane } from 'panels';
 // import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
+import { FormlyFieldInstance } from '../../models/formly.models';
+import { FormlyFieldEditorComponent } from '../formly-field-editor/formly-field-editor.component';
 
 @Component({
   selector: 'classifieds-formly-field-selector',
@@ -31,12 +37,13 @@ export class FormlyFieldSelectorComponent implements OnInit {
   constructor(
     // @Inject(ATTRIBUTE_WIDGET) attributeWidgets: Array<AttributeWidget>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
-    // private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
-    // private handler: AttributeContentHandler,
+    private bottomSheetRef: MatBottomSheetRef<any/*ContentSelectorComponent*/>,
+    private handler: FormlyFieldContentHandler,
+    private attributeSerializer: AttributeSerializerService,
     private fb: FormBuilder,
-    // private dialog: MatDialog,
-    private cpm: ContentPluginManager,
-    private wpm: WidgetPluginManager
+    private dialog: MatDialog,
+    // private cpm: ContentPluginManager,
+    // private wpm: WidgetPluginManager
   ) {
     // this.attributeWidgets = attributeWidgets;
     // this.contentPlugin = contentPlugins.find(p => p.name === 'attribute');
@@ -47,27 +54,19 @@ export class FormlyFieldSelectorComponent implements OnInit {
   }
 
   onItemSelect(type: string) {
-    console.log(type);
-    /*(this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
-      contentPlugin: 'attribute',
+    const instance = new FormlyFieldInstance({ type, key: '' });
+    (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+      contentPlugin: 'formly_field',
       name: new FormControl(''),
       label: new FormControl(''),
       rule: new FormControl(''),
-      settings: this.fb.array(this.handler.widgetSettings(widget).map(s => this.fb.group({
-        name: new FormControl(s.name, Validators.required),
-        type: new FormControl(s.type, Validators.required),
-        displayName: new FormControl(s.displayName, Validators.required),
-        value: new FormControl(s.value, Validators.required),
-        computedValue: new FormControl(s.computedValue, Validators.required),
-      })))
+      settings: this.fb.array(this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s)))
     }));
     const formArray = (this.panelFormGroup.get('panes') as FormArray);
     const paneIndex = formArray.length - 1;
     const pane = new Pane(formArray.at(paneIndex).value);
-    this.cpm.getPlugin('attribute').subscribe(plugin => {
-      this.dialog.open(plugin.editorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex } });
-    });
-    this.bottomSheetRef.dismiss();*/
+    this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex, instance } });
+    this.bottomSheetRef.dismiss();
   }
 
 }

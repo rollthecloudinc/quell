@@ -9,7 +9,9 @@
       "attributes": "attributes",
       "datasource": "datasource",
       "material": "material",
-      "@ngx-formly/core": "@ngx-formly/core"
+      "panels": "panels",
+      "@ngx-formly/core": "@ngx-formly/core",
+      "@angular/flex-layout": "@angular/flex-layout"
     }
   }
 }
