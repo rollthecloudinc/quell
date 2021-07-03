@@ -75,6 +75,10 @@
       "alias": [
         "dist/alias/alias",
         "dist/alias"
+      ],
+      "pagealias": [
+        "dist/pagealias/pagealias",
+        "dist/pagealias"
       ]
     }
   },

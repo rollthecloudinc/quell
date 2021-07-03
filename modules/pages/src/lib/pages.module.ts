@@ -158,6 +158,7 @@ const routes = [
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageComponent, multi: true },
+    { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageRouterComponent, multi: true},
     { provide: SnippetContentHandler, useClass: SnippetContentHandler },
     { provide: AttributeContentHandler, useClass: AttributeContentHandler },
     { provide: MediaContentHandler, useClass: MediaContentHandler },

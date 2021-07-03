@@ -2,14 +2,14 @@ import { Injectable } from "@angular/core";
 import { iif, Observable, of } from "rxjs";
 import { AliasMatchingStrategy } from 'alias';
 import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { PanelPage } from "../models/panels.models";
+import { PanelPage } from 'panels';
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
-import { PanelsPageRouterComponent } from '../components/panels-page-router/panels-page-router.component';
+import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';
 import { HttpParams } from "@angular/common/http";
 
 @Injectable()
-export class PanelsMatchingStrategy implements AliasMatchingStrategy {
+export class PagealiasMatchingStrategy implements AliasMatchingStrategy {
   siteName = 'ipe'
   get panelPageListItemsService() {
     return this.es.getEntityCollectionService('PanelPageListItem');

@@ -2,13 +2,13 @@ import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { AliasLoadingStrategy } from 'alias';
 import { catchError, map, tap } from "rxjs/operators";
-import { PanelPage } from "../models/panels.models";
+import { PanelPage } from 'panels';
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
-import { PanelsPageRouterComponent } from '../components/panels-page-router/panels-page-router.component';
+import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';
 
 @Injectable()
-export class PanelsLoadingStrategy implements AliasLoadingStrategy {
+export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
   siteName = 'ipe'
   get panelPageListItemsService() {
@@ -35,11 +35,10 @@ export class PanelsLoadingStrategy implements AliasLoadingStrategy {
       })),
       tap(pp => {
         const target = this.router.config.find(r => r.path === '');
-        // target.children = [];
         pp.forEach(p => {
           console.log(`register alias ${p.path}`);
-          target.children.push({ matcher: this.createEditMatcher(p), component: PanelsPageRouterComponent /*EditPanelPageComponent*/ });
-          target.children.push({ matcher: this.createMatcher(p), component: PanelsPageRouterComponent /*PanelPageRouterComponent*/ });
+          target.children.push({ matcher: this.createEditMatcher(p), component: PagealiasRouterComponent /*EditPanelPageComponent*/ });
+          target.children.push({ matcher: this.createMatcher(p), component: PagealiasRouterComponent /*PanelPageRouterComponent*/ });
         });
         this.routesLoaded = true;
       }),

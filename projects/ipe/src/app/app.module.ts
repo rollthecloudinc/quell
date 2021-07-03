@@ -18,6 +18,7 @@ import { TokenModule } from 'token';
 import { ContextModule } from 'context';
 import { ContentModule } from 'content';
 import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from 'alias';
+import { PagealiasModule } from 'pagealias';
 import { PanelsModule } from 'panels';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
@@ -144,7 +145,8 @@ export function markedOptionsFactory(): MarkedOptions {
     // NxModule.forRoot(),
     EntityDataModule.forRoot({}),
     AliasModule,
-    PanelsModule
+    PanelsModule,
+    PagealiasModule
     // JsonschemaModule
     // OktaAuthModule
   ],

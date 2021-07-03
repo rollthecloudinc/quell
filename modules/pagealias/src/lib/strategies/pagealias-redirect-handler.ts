@@ -2,15 +2,15 @@ import { Injectable } from "@angular/core";
 import { iif, Observable, of } from "rxjs";
 import { AliasRedirectHandler } from 'alias';
 import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { PanelPage } from "../models/panels.models";
+import { PanelPage } from 'panels';
 import { EntityServices } from "@ngrx/data";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
-import { PanelsPageRouterComponent } from '../components/panels-page-router/panels-page-router.component';
+import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';
 import { HttpParams } from "@angular/common/http";
 import * as qs from 'qs'
 
 @Injectable()
-export class PanelsRedirectHandler implements AliasRedirectHandler {
+export class PagealiasRedirectHandler implements AliasRedirectHandler {
   siteName = 'ipe'
   get panelPageListItemsService() {
     return this.es.getEntityCollectionService('PanelPageListItem');
@@ -30,12 +30,13 @@ export class PanelsRedirectHandler implements AliasRedirectHandler {
       map(panelPage => {
         const argPath = state.url.substr(1).split('/').slice(panelPage.path.split('/').length - 1).join('/');
         return [panelPage, argPath];
-      })
+      }),
     ).subscribe(([panelPage, argPath]) => {
       // this.router.onSameUrlNavigation.reload;
       // this.router.navigate(['reload']);
       console.log(`nagigvate to: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
-      this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment })
+      // this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment })
+      this.router.navigateByUrl(`/pages/panelpage/${panelPage.id}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment })
     });
   }
 
