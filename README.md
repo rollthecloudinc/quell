@@ -41,6 +41,12 @@ https://dpxmq1mxvsyda.cloudfront.net/addetailv3/x/691733b2-a9d3-11ea-99f3-7e4496
 
 backend api: https://github.com/verti-go
 
+List viewable panel pages:
+
+https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1
+
+- formly pages not implemented on prod yet.
+
 Features:
 - Default content like html and markdown.
 - Content is extensible without altering code. For example, if you have a component or several which you would
