@@ -45,6 +45,10 @@ List viewable panel pages:
 
 https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1
 
+Manage link:
+
+https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1/manage
+
 - formly pages not implemented on prod yet.
 
 Features:
