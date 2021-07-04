@@ -119,7 +119,7 @@ Framework for extending concrete entities with unstructured meta data.
 
 ## Token
 
-@todo
+Allows users to specify tokens that are replaced with dynamic content.
 
 ## Panels
 
