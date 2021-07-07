@@ -34,6 +34,8 @@ export class FormlyFieldEditorComponent implements OnInit {
 
   submit() {
     const instance = new FormlyFieldInstance(this.formGroup.value);
+    this.paneGroup.get('name').setValue(instance.key);
+    this.paneGroup.get('label').setValue(instance.key);
     (this.paneGroup.get('settings') as FormArray).clear();
     const controls = this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s));
     controls.forEach(c => (this.paneGroup.get('settings') as FormArray).push(c));

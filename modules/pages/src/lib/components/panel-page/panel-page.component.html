@@ -55,5 +55,9 @@
 </ng-container>
 
 <ng-template #renderPanelTpl let-i="i">
-  <classifieds-ui-render-panel [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [css]="filteredCss"></classifieds-ui-render-panel>
+  <ng-container [formGroup]="pageForm">
+    <ng-container formArrayName="panels">
+      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [css]="filteredCss"></classifieds-ui-render-panel>
+    </ng-container>
+  </ng-container>
 </ng-template>

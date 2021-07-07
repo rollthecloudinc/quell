@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { debounceTime } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 
 @Component({
@@ -30,7 +31,9 @@ export class FormlyFieldRendererComponent implements OnInit {
   model: any = {};
 
   constructor(
+    private fb: FormBuilder,
     private handler: FormlyFieldContentHandler,
+    private attributeSerializer: AttributeSerializerService,
     @Optional() public controlContainer?: ControlContainer
   ) { }
 

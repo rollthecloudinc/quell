@@ -8,6 +8,7 @@ import { FormlyFieldContentHandler } from './handlers/formly-field-content.handl
 import { FormlyFieldEditorComponent } from './components/formly-field-editor/formly-field-editor.component';
 import { FormlyFieldRendererComponent } from './components/formly-field-renderer/formly-field-renderer.component';
 import { FormlyFieldSelectorComponent } from './components/formly-field-selector/formly-field-selector.component';
+import { FormlyPaneFieldComponent } from './components/formly-pane-field/formly-pane-field.component';
 import { formlyFieldContentPluginFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -16,7 +17,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   declarations: [
     FormlyFieldEditorComponent,
     FormlyFieldRendererComponent,
-    FormlyFieldSelectorComponent
+    FormlyFieldSelectorComponent,
+    FormlyPaneFieldComponent
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   exports: [
     FormlyFieldEditorComponent,
     FormlyFieldRendererComponent,
-    FormlyFieldSelectorComponent
+    FormlyFieldSelectorComponent,
+    FormlyPaneFieldComponent
   ],
   providers: [
     FormlyFieldContentHandler

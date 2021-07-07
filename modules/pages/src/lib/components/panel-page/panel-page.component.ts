@@ -270,6 +270,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
 
   submit() {
     const panelPage = new PanelPage(this.pageForm.value);
+    console.log(panelPage);
   }
 
   renderLayoutRenderer(layout: string) {

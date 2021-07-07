@@ -1,7 +1,8 @@
 <div [formGroup]="controlContainer.control">
-  <formly-form
-  [form]="controlContainer.control"
+  <!-- <formly-form
+  [form]="formGroup"
   [fields]="fields"
   [model]="model">
-</formly-form>
+  </formly-form> -->
+  <classifieds-ui-formly-pane-field formControlName="settings" [settings]="settings"></classifieds-ui-formly-pane-field>
 </div>
