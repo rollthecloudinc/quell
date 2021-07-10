@@ -5,8 +5,14 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "content": "content",
+      "@ngrx/store": "@ngrx/store",
       "@ngrx/data": "@ngrx/data",
-      "material": "material"
+      "@ngrx/router-store": "@ngrx/router-store",
+      "material": "material",
+      "plugin": "plugin",
+      "qs": "qs",
+      "attributes": "attributes",
+      "token": "token"
     }
   }
 }

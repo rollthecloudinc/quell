@@ -5,7 +5,6 @@ import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { debounceTime } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
-import { FormlyFieldInstance } from '../../models/formly.models';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -52,8 +51,8 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   ) { }
 
   ngOnInit(): void {
-    this.handler.toObject(this.settings).subscribe(instance => {
-      this.fields = [ { key: 'value', type: instance.type } ];
+    this.handler.buildFieldConfig(this.settings).subscribe(f => {
+      this.fields = [ { ...f } ];
     });
 
   }

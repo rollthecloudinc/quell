@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { ContentHandler, ContentBinding } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
 import { FormlyFieldInstance } from '../models/formly.models';
-
+import { switchMap } from 'rxjs/operators';
+import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyHandlerHelper } from '../services/formly-handler-helper.service';
 @Injectable()
 export class FormlyFieldContentHandler implements ContentHandler {
 
   constructor(
     private attributeSerializer: AttributeSerializerService,
-    private tokenizrService: TokenizerService
+    private formlyHandlerHelper: FormlyHandlerHelper
   ) { }
 
   handleFile(file: File): Observable<Array<AttributeValue>> {
@@ -52,6 +53,12 @@ export class FormlyFieldContentHandler implements ContentHandler {
 
   buildSettings(instance: FormlyFieldInstance): Array<AttributeValue> {
     return this.attributeSerializer.serialize(instance, 'root').attributes;
+  }
+
+  buildFieldConfig(settings: Array<AttributeValue>): Observable<FormlyFieldConfig> {
+    return this.toObject(settings).pipe(
+      switchMap(i => this.formlyHandlerHelper.buildFieldConfig(i))
+    );
   }
 
 }
