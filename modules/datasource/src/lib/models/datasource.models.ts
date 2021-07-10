@@ -85,3 +85,24 @@ export class Dataset {
     }
   }
 }
+
+export class DatasourceOptions {
+  query: string;
+  trackBy: string;
+  idMapping: string;
+  labelMapping: string;
+  valueMapping: string;
+  multiple: boolean;
+  limit: number;
+  constructor(data?: DatasourceOptions) {
+    if (data) {
+      this.query = data.query;
+      this.trackBy = data.trackBy;
+      this.idMapping = data.idMapping;
+      this.labelMapping = data.labelMapping;
+      this.valueMapping = data.valueMapping;
+      this.multiple = data.multiple;
+      this.limit = data.limit;
+    }
+  }
+}

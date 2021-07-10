@@ -83,6 +83,10 @@
       "formly": [
         "dist/formly/formly",
         "dist/formly"
+      ],
+      "rest": [
+        "dist/rest/rest",
+        "dist/rest"
       ]
     }
   },

@@ -3,3 +3,5 @@
  */
 export * from './lib/datasource.module';
 export * from './lib/models/datasource.models';
+export * from './lib/services/datasource-api.service';
+export * from './lib/components/datasource-options/datasource-options.component';

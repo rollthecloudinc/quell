@@ -14,7 +14,12 @@ export class FormlyFieldEditorComponent implements OnInit {
 
   formGroup = this.fb.group({
     type: this.fb.control(this.data.instance.type, [ Validators.required ]),
-    key: this.fb.control(this.data.instance.key, [ Validators.required ])
+    key: this.fb.control(this.data.instance.key, [ Validators.required ]),
+    options: this.fb.group({
+      label: this.fb.control('')
+    }),
+    rest: this.fb.control(''),
+    datasourceOptions: this.fb.control('')
   });
 
   get paneGroup(): AbstractControl {
@@ -33,7 +38,9 @@ export class FormlyFieldEditorComponent implements OnInit {
   }
 
   submit() {
+    console.log(this.formGroup.value);
     const instance = new FormlyFieldInstance(this.formGroup.value);
+    console.log(instance);
     this.paneGroup.get('name').setValue(instance.key);
     this.paneGroup.get('label').setValue(instance.key);
     (this.paneGroup.get('settings') as FormArray).clear();

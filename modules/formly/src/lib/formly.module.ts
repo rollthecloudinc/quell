@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule  } from '@angular/forms';
 import { FormlyModule as RealFormlyModule }  from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
+import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
 import { ContentPluginManager } from 'content';
 import { MaterialModule } from 'material';
 import { FormlyFieldContentHandler } from './handlers/formly-field-content.handler';
@@ -12,6 +13,8 @@ import { FormlyPaneFieldComponent } from './components/formly-pane-field/formly-
 import { formlyFieldContentPluginFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { RestModule } from 'rest';
+import { DatasourceModule } from 'datasource';
 
 @NgModule({
   declarations: [
@@ -26,7 +29,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MaterialModule,
     FlexLayoutModule,
     RealFormlyModule.forChild(),
-    FormlyMaterialModule
+    FormlyMaterialModule,
+    FormlyMatDatepickerModule,
+    RestModule,
+    DatasourceModule
   ],
   exports: [
     FormlyFieldEditorComponent,

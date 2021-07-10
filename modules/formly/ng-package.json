@@ -10,9 +10,11 @@
       "datasource": "datasource",
       "material": "material",
       "panels": "panels",
+      "rest": "rest",
       "@ngx-formly/core": "@ngx-formly/core",
       "@ngx-formly/material": "@ngx-formly/material",
-      "@angular/flex-layout": "@angular/flex-layout"
+      "@angular/flex-layout": "@angular/flex-layout",
+      "@ngx-formly/material/datepicker": "@ngx-formly/material/datepicker"
     }
   }
 }

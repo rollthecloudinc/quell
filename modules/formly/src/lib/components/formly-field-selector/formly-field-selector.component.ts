@@ -28,7 +28,12 @@ export class FormlyFieldSelectorComponent implements OnInit {
   fields$ = new BehaviorSubject<Map<string, string>>(new Map([ 
     ['input', 'Input'],
     ['textarea', 'Textarea'],
-    ['checkbox', 'Checkbox']
+    ['checkbox', 'Checkbox'],
+    ['select', 'Select'],
+    ['datepicker', 'Date picker'],
+    ['toggle', 'Toggle'],
+    ['slider', 'Slider'],
+    ['autocomplete', 'Autocomplete']
   ]));
 
   // attributeWidgets: Observable<Map<string, AttributeWidget<string>>>;
