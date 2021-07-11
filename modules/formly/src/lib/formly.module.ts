@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RestModule } from 'rest';
 import { DatasourceModule } from 'datasource';
+import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DatasourceModule } from 'datasource';
     RealFormlyModule.forChild(),
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
+    FormlyMatNativeSelectModule,
     RestModule,
     DatasourceModule
   ],

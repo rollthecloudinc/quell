@@ -8,8 +8,8 @@
         <input matInput placeholder="label" formControlName="label">
       </mat-form-field>
     </div>
-    <classifieds-ui-rest-source-form formControlName="rest"></classifieds-ui-rest-source-form>
-    <classifieds-ui-datasource-options formControlName="datasourceOptions"></classifieds-ui-datasource-options>
+    <classifieds-ui-rest-source-form formControlName="rest" [restSource]="rest"></classifieds-ui-rest-source-form>
+    <classifieds-ui-datasource-options formControlName="datasourceOptions" [datasourceOptions]="datasourceOptions"></classifieds-ui-datasource-options>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button type="submit" mat-raised-button color="primary" mat-dialog-close>Save</button>

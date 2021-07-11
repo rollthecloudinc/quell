@@ -28,8 +28,11 @@ export class FormlyFieldSelectorComponent implements OnInit {
   fields$ = new BehaviorSubject<Map<string, string>>(new Map([ 
     ['input', 'Input'],
     ['textarea', 'Textarea'],
+    ['radio', 'Radio'],
     ['checkbox', 'Checkbox'],
     ['select', 'Select'],
+    ['select_multi', 'Select Multi'],
+    ['native-select', 'Native Select'],
     ['datepicker', 'Date picker'],
     ['toggle', 'Toggle'],
     ['slider', 'Slider'],
@@ -70,7 +73,7 @@ export class FormlyFieldSelectorComponent implements OnInit {
     const formArray = (this.panelFormGroup.get('panes') as FormArray);
     const paneIndex = formArray.length - 1;
     const pane = new Pane(formArray.at(paneIndex).value);
-    this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex, instance } });
+    this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex } });
     this.bottomSheetRef.dismiss();
   }
 

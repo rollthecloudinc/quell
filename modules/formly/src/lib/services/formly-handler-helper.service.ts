@@ -32,7 +32,7 @@ export class FormlyHandlerHelper {
 
   buildTemplateOptions(instance: FormlyFieldInstance): Observable<FormlyTemplateOptions> {
     return of(instance).pipe(
-      map<FormlyFieldInstance, [FormlyFieldInstance, FormlyTemplateOptions]>(i => [i, { label:  i.options.label, options: [] }]),
+      map<FormlyFieldInstance, [FormlyFieldInstance, FormlyTemplateOptions]>(i => [i, { label:  i.options.label, multiple: i.datasourceOptions ? i.datasourceOptions.multiple : false, options: [] }]),
       switchMap(([i, t]) => iif(
         () => this.hasDataOptions(i),
         this.buildDataOptions(i).pipe(

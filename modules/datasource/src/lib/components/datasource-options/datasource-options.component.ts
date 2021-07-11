@@ -1,5 +1,8 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, forwardRef, Input } from '@angular/core';
 import { FormBuilder, ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
+import { DatasourceOptions } from '../../models/datasource.models';
+import { mockDatasourceOptions } from '../../mocks/datasource.mocks';
 
 @Component({
   selector: 'classifieds-ui-datasource-options',
@@ -20,6 +23,13 @@ import { FormBuilder, ControlValueAccessor, Validator, AbstractControl, Validati
 })
 export class DatasourceOptionsComponent implements ControlValueAccessor, Validator {
 
+  @Input() 
+  set datasourceOptions(datasourceOptions: DatasourceOptions) {
+    this.datasourceOptions$.next(datasourceOptions);
+  }
+
+  datasourceOptions$ = new BehaviorSubject<DatasourceOptions>(mockDatasourceOptions);
+
   formGroup = this.fb.group({
     query: this.fb.control(''),
     trackBy: this.fb.control(''),
@@ -28,6 +38,10 @@ export class DatasourceOptionsComponent implements ControlValueAccessor, Validat
     idMapping: this.fb.control(''),
     multiple: this.fb.control(''),
     limit: this.fb.control('')
+  });
+
+  datasourceOptionsSub = this.datasourceOptions$.subscribe(ds => {
+    this.formGroup.setValue(ds);
   });
 
   public onTouched: () => void = () => {};
