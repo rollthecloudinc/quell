@@ -138,3 +138,25 @@ Inspired by Drupal panels. Aims to provide a user friendly interface for buildin
 ## Alias
 
 Extends angular routing with dynamic routing capabilities using plugins.
+
+## Formly
+
+Panel pages formly pages.
+
+Place formly elements on the page using panel pages for their layout.
+
+Render panel page as form that accepts user input.
+
+Panel page forms stored in state (redux) and can be used as contexts
+to trigger state changes. For example, when user selects item in drop down
+rest request can be triggered to update other content on the page.
+
+Futures:
+
+Save panel page form as derivative of panel page that form was derived from.
+
+This effectively allows panel pages to be used not only for layout but to create
+and define new entities dynamically using the panel page builder.
+
+In Drupal this is known as "panels everywhere". That is essentially what is being replicated
+but with modern technology rather than an outdated php, legacy monolithic stack and poor ui.
