@@ -57,6 +57,9 @@ Manage link to kitchen sink for formly
 
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
+Formly options are populated using rest api call to marvel api. 
+Future plans to implement other data sources and static options.
+
 Features:
 - Default content like html and markdown.
 - Content is extensible without altering code. For example, if you have a component or several which you would
