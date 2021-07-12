@@ -2,7 +2,8 @@
 
 Druid is a modern content publishing platform inspired by a decade of experience using various php monothlithic publishing platforms. Greatly inspired by Drupal druid aims to provide a modern, sleek publishing experience for
 editors. The project also aims to provide the upmost flexibility for developers without needing to resort
-to hacky work arounds to achieve goals or god forbid hack core code.
+to hacky work arounds to achieve goals or god forbid hack core code. Also Druid is meant to demonstrate 
+the true power and wonder of Angular over other alternative, less powerful, enterprise ecosystems like react and vue.
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
