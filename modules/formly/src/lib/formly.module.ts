@@ -16,6 +16,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RestModule } from 'rest';
 import { DatasourceModule } from 'datasource';
 import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
+import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
+import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,8 @@ import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select'
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
     FormlyMatNativeSelectModule,
+    FormlyMatToggleModule,
+    FormlyMatSliderModule,
     RestModule,
     DatasourceModule
   ],

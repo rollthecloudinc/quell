@@ -16,7 +16,9 @@
       "@angular/flex-layout": "@angular/flex-layout",
       "@ngx-formly/material/datepicker": "@ngx-formly/material/datepicker",
       "@ngx-formly/material/native-select": "@ngx-formly/material/native-select",
-      "jsonpath-plus": "jsonpath-plus"
+      "jsonpath-plus": "jsonpath-plus",
+      "@ngx-formly/material/toggle": "@ngx-formly/material/toggle",
+      "@ngx-formly/material/slider": "@ngx-formly/material/slider"
     }
   }
 }

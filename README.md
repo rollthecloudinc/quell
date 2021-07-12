@@ -49,7 +49,13 @@ Manage link:
 
 https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1/manage
 
-- formly pages not implemented on prod yet.
+Formly Kitchen Sink
+
+https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
+
+Manage link to kitchen sink for formly
+
+https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
 Features:
 - Default content like html and markdown.
