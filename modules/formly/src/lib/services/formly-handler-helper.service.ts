@@ -82,7 +82,7 @@ export class FormlyHandlerHelper {
   }
 
   hasDataOptions(instance: FormlyFieldInstance): boolean {
-    return !!instance.rest;
+    return !!instance.rest && instance.rest.url && instance.rest.url.trim() !== '';
   }
 
 } 

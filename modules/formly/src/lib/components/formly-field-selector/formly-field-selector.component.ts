@@ -31,7 +31,6 @@ export class FormlyFieldSelectorComponent implements OnInit {
     ['radio', 'Radio'],
     ['checkbox', 'Checkbox'],
     ['select', 'Select'],
-    ['select_multi', 'Select Multi'],
     ['native-select', 'Native Select'],
     ['datepicker', 'Date picker'],
     ['toggle', 'Toggle'],
