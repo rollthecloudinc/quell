@@ -9,7 +9,7 @@ of re-invention of the wheel. If there is a project out there that is well suite
 php monoliths all stuck in their legacy ways with little ambition to change. As someone who is always looking for
 a better way to do things and fed up with that mentality wanted to start building my own, modern solution. A solution
 that those stuck in the legacy world couldn't even comprehend or understand. Not scared to begin from the bottom, roll
-around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time.
+around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time. Fueled by hate, anger, frustration but most importantly love.
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
