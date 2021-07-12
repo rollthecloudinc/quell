@@ -13,6 +13,15 @@ Formly Field panel page
 
 ![Formly Kitchen Sink](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_v1_display.png)
 
+State changes to form persisted to store. These changes can than be used to initiate other actions
+on the page. For example, when someone changes a form value trigger a new search of data.
+
+![Formly Kitchen Sink Redux](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_redux.png)
+
+Example of the editor page for formly.
+
+![Formly Kitchen Sink Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchensink_v1_manage.png)
+
 Drag and drop page builder using Angular.
 
 Example Page:
