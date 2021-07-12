@@ -5,11 +5,12 @@ editors. The project also aims to provide the upmost flexibility for developers 
 to hacky work arounds to achieve goals or god forbid hack core code. Also Druid is meant to demonstrate 
 the true power and wonder of Angular over other alternative, less powerful, enterprise ecosystems like react and vue.
 This project also strives to use as much of the community possible to achieve goals. Forget self fulfilling prophescies
-of re-invention of the wheel. If there is a project out there that is well suited to a purpose it will be used. The
-php monoliths all stuck in their legacy ways with little ambition to change. As someone who is always looking for
+of re-invention of the wheel. If there is a project out there that is well suited to a purpose it will be used. 
+
+The php monoliths all stuck in their legacy ways with little ambition to change. As someone who is always looking for
 a better way to do things and fed up with that mentality wanted to start building my own, modern solution. A solution
 that those stuck in the legacy world couldn't even comprehend or understand. Not scared to begin from the bottom, roll
-around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time. Fueled by hate, anger, frustration but most importantly love. Desire to create, learn, evolve profsssional skillset that supercedes all else. Advocate for people, technologies I believe in – adversary to the rest.
+around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time. Fueled by hate, anger, frustration but most importantly love. Desire to create, learn, evolve profsssional skillset that supercedes all else. Advocate for people, technologies I believe in – adversary to the rest. Using my foes developments against them to destroy them.
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
