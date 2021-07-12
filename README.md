@@ -9,6 +9,10 @@ Rendered Page
 Nesting individual panel pages in one another
 ![Nesting](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/nesting_panels_in_one_another.png)
 
+Formly Field panel page
+
+![Formly Kitchen Sink](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_v1_display.png)
+
 Drag and drop page builder using Angular.
 
 Example Page:
