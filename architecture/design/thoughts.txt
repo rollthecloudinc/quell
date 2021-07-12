@@ -19,3 +19,10 @@ What is so wrong with taking sketches and using them in their raw form to repres
 Isn't that actually more representative of the project itself. One where we recognize, appreciate there is no finished.
 
 For software to be finished is for it to be dead.
+
+----
+
+The php monoliths all stuck in their legacy ways with little ambition to change. As someone who is always looking for
+a better way to do things and fed up with that mentality wanted to start building my own, modern solution. A solution
+that those stuck in the legacy world couldn't even comprehend or understand. Not scared to begin from the bottom, roll
+around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time. Fueled by hate, anger, frustration but most importantly love. Desire to create, learn, evolve profsssional skillset that supercedes all else. Advocate for people, technologies I believe in – adversary to the rest. Using my foes developments against them to destroy them.
