@@ -30,3 +30,15 @@ class Biden {
     private mouthPiece: MouthPiece
   ) {}
 }
+
+--------------------
+
+class RaidCapitalBuilding {
+  persons$ = new BehaviorSubject<Array<Person>>([]);
+  personsSub = this.persons$.subscribe(persons => {
+    console.log('all idiots destined to be f**ked by the fbi: ' + persons.map(p => `${p.firstName} ${p.lastName}`).join(','));
+  });
+  addPerson(person: Person) {
+    this.persons$.next([ ...this.persons$.value, person ]);
+  }
+}
