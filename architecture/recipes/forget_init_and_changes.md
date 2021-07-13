@@ -42,3 +42,12 @@ class RaidCapitalBuilding {
     this.persons$.next([ ...this.persons$.value, person ]);
   }
 }
+
+---------------------
+
+class Rape {
+  rape$ = new BehaviorSubject<[Person, Array<Person>]>([]);
+  rapeSub = this.rape$.subscribe(([victum, persons]) => {
+    persons.forEach(p => console.log(`${p.firstName} ${p.lastName} burn. ${victum.firstName} ${victum.lastName} these people should be gone for what they did to you. Are they even people... monsters more like it.`));
+  });
+}
