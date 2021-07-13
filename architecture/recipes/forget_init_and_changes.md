@@ -23,7 +23,7 @@ No need for ngOnInit
 All dependencies passed into the constructor can be immediately accessed.
 
 class Biden {
-  this.mouthPiece.speaks.subscribe(() => {
+  bidenSub = this.mouthPiece.speaks.subscribe(() => {
     console.log('call bs');
   });
   constructor(
