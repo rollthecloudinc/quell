@@ -57,11 +57,13 @@ class Rape {
     switchMap(([v, mn]) => iif(
       () => mn.length > 0,
       of(...mn.map(m => this.monsterDestruction.removeMonsterFromfaceOfPlanet(m).pipe(
-        concatAll()
+        concatAll(),
+        map(() => [v, mn])
       ))),)),
       of([v, mn])
     ))
-  ).subscribe(([victum, monsters]) => {
-    monsters.forEach(m => console.log(`${m.monsterName} burn. ${victum.firstName} ${victum.lastName} monsters should be gone for what they did to you. Not people pure monsters, evil. Now they have become what they are.`));
+  ).subscribe(([v, monsters]) => {
+    console.log(`${v.firstName} ${v.lastName}`);
+    monsters.forEach(m => console.log(`${m.monsterName} monster destroyed.`));
   });
 }
