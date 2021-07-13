@@ -22,6 +22,7 @@ No need for ngOnInit
 
 All dependencies passed into the constructor can be immediately accessed.
 
+```typescript
 class Biden {
   bidenSub = this.mouthPiece.speaks.subscribe(() => {
     console.log('call bs');
@@ -30,9 +31,11 @@ class Biden {
     private mouthPiece: MouthPiece
   ) {}
 }
+```
 
 --------------------
 
+```typescript
 class RaidCapitalBuilding {
   persons$ = new BehaviorSubject<Array<Person>>([]);
   personsSub = this.persons$.subscribe(persons => {
@@ -42,9 +45,11 @@ class RaidCapitalBuilding {
     this.persons$.next([ ...this.persons$.value, person ]);
   }
 }
+```
 
 ---------------------
 
+```typescript
 class Rape {
   rape$ = new BehaviorSubject<[Person, Array<Person>]>([]);
   rapeSub = this.rape$.pipe(
@@ -67,3 +72,4 @@ class Rape {
     monsters.forEach(m => console.log(`${m.monsterName} monster destroyed.`));
   });
 }
+```
