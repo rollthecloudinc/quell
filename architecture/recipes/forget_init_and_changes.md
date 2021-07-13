@@ -55,6 +55,6 @@ class Rape {
       map<Array<Monster>, [Person, Array<Monster>]>(monsters => [victum, monsters])
     ))
   ).subscribe(([victum, monsters]) => {
-    monsters.forEach(p => console.log(`${m.monsterName} burn. ${victum.firstName} ${victum.lastName} monsters should be gone for what they did to you. Not people pure monsters, evil. No they have become what they are.`));
+    monsters.forEach(m => console.log(`${m.monsterName} burn. ${victum.firstName} ${victum.lastName} monsters should be gone for what they did to you. Not people pure monsters, evil. Now they have become what they are.`));
   });
 }
