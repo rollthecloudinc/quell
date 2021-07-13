@@ -114,6 +114,11 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     settings: this.fb.control('')
   });
 
+  paneFormSub = this.paneForm.valueChanges.subscribe(v => {
+    console.log(`pane form value plugin: ${this.pluginName}`);
+    console.log(v);
+  });
+
   public onTouched: () => void = () => {};
 
   // private contentPlugins: Array<ContentPlugin> = [];

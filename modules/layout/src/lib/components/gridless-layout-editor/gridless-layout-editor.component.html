@@ -19,6 +19,14 @@
           </mat-select>
         </mat-form-field>
       </div>
+      <div *ngIf="nested" class="display-type">
+        <mat-form-field>
+          <mat-select required formControlName="displayType">
+            <mat-option value="page">Page</mat-option>
+            <mat-option value="form">Form</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
     </ng-template>
     <ng-template #gridItemActions let-i="i"></ng-template>

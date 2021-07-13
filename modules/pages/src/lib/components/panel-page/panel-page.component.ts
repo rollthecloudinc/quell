@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef } from '@angular/core';
+import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
@@ -20,6 +20,7 @@ import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
+import { AttributeSerializerService } from 'attributes';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -28,9 +29,21 @@ import { CssHelperService } from '../../services/css-helper.service';
   // encapsulation: ViewEncapsulation.ShadowDom,
   host: {
     '[class.panel-page]': 'true'
-  }
+  },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PanelPageComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => PanelPageComponent),
+      multi: true
+    },
+  ]
 })
-export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
+export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, ControlValueAccessor, Validator {
 
   @Input()
   id: string;
@@ -59,6 +72,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     this.filteredCss = css;
   });
 
+  settingsFormArray = this.fb.array([]);
   pageForm = this.fb.group({
     /*name: this.fb.control(''),
     title: this.fb.control(''),
@@ -118,6 +132,18 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     this.experimentalApplyCss();
   });
 
+  bridgeSub = this.pageForm.valueChanges.pipe(
+    filter(() => this.nested),
+    debounceTime(500)
+  ).subscribe(v => {
+    console.log('write page');
+    console.log(v);
+    this.settingsFormArray.clear();
+    const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v, 'value').attributes[0]);
+    this.settingsFormArray.push(newGroup);
+    console.log(newGroup.value);
+  });
+
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
   @ViewChild('renderPanelTpl', { static: true }) renderPanelTpl: TemplateRef<any>;
   @ViewChild(LayoutRendererHostDirective, { static: false }) layoutRendererHost: LayoutRendererHostDirective;
@@ -135,6 +161,8 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     return this.panelPage.panels.reduce<Array<[Pane, ContentPlugin]>>((p2, c) => [ ...p2, ...c.panes.map<[Pane, ContentPlugin]>(p3 => [p3, this.contentPlugins.find(cp => cp.name === p3.contentPlugin)]) ], []).find(([p2, cp]) => cp.handler && cp.handler.isDynamic(p2.settings)) !== undefined;
   }*/
 
+  public onTouched: () => void = () => {};
+
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private routerStore: Store<RouterReducerState>,
@@ -151,6 +179,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
     // I don't feel good about this but f**k it for now til I figure this out
     private http: HttpClient,
     private cssHelper: CssHelperService,
+    private attributeSerializer: AttributeSerializerService,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;
@@ -300,6 +329,32 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit {
       this.filteredCss = css;
     });
 
+  }
+
+  writeValue(val: any): void {
+    if (val) {
+      this.settingsFormArray.setValue(val, { emitEvent: false });
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.settingsFormArray.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.settingsFormArray.disable()
+    } else {
+      this.settingsFormArray.enable()
+    }
+  }
+
+  validate(c: AbstractControl): ValidationErrors | null{
+    return this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
   }
 
 }

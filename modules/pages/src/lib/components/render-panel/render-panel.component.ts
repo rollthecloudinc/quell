@@ -75,6 +75,11 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     panes: this.fb.array([])
   });
 
+  panelFormSub = this.panelForm.valueChanges.subscribe(v => {
+    console.log('paneL form value');
+    console.log(v);
+  });
+
   panes: Array<Pane>;
 
   filteredCss: JSONNode;
