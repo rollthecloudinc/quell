@@ -47,7 +47,14 @@ class RaidCapitalBuilding {
 
 class Rape {
   rape$ = new BehaviorSubject<[Person, Array<Person>]>([]);
-  rapeSub = this.rape$.subscribe(([victum, persons]) => {
-    persons.forEach(p => console.log(`${p.firstName} ${p.lastName} burn. ${victum.firstName} ${victum.lastName} these people should be gone for what they did to you. Are they even people... monsters more like it.`));
+  rapeSub = this.rape$.pipe(
+    tap(([victum, persons]) => {
+      persons.forEach(p => console.log(`${p.firstName} ${p.lastName} burn. ${victum.firstName} ${victum.lastName} these people should be gone for what they did to you. Are they even people... monsters more like it. So lets transform them into what they are...`));
+    }),
+    switchMap(([victum, persons]) => this.rapistService.convertToMonsters(persons).pipe(
+      map<Array<Monster>, [Person, Array<Monster>]>(monsters => [victum, monsters])
+    ))
+  ).subscribe(([victum, monsters]) => {
+    monsters.forEach(p => console.log(`${m.monsterName} burn. ${victum.firstName} ${victum.lastName} monsters should be gone for what they did to you. Not people pure monsters, evil. No they have become what they are.`));
   });
 }
