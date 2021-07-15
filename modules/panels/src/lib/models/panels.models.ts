@@ -53,6 +53,7 @@ export class PanelPage {
   layoutSetting: LayoutSetting;
   rowSettings: Array<LayoutSetting> = [];
   entityPermissions?: PanelPagePermissions = new PanelPagePermissions();
+  cssFile?: string;
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -80,6 +81,9 @@ export class PanelPage {
       }
       if (data.entityPermissions) {
         this.entityPermissions = new PanelPagePermissions(data.entityPermissions);
+      }
+      if (data.cssFile) {
+        this.cssFile = data.cssFile;
       }
     }
   }

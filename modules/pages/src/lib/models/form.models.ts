@@ -5,11 +5,13 @@ export class PropertiesFormPayload {
   name: string;
   path: string;
   readUserIds: Array<string> = [];
+  cssFile: string;
   constructor(data?: PropertiesFormPayload) {
     if(data) {
       this.title = data.title;
       this.name = data.name;
       this.path = data.path;
+      this.cssFile = data.cssFile;
       if (data.readUserIds) {
         this.readUserIds = data.readUserIds.map(id => id);
       }

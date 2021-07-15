@@ -130,7 +130,9 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
       const viewContainerRef = this.layoutRendererHost.viewContainerRef;
       viewContainerRef.clear();
     }
-    this.experimentalApplyCss();
+    if (p.cssFile && p.cssFile.trim() !== '') {
+      this.experimentalApplyCss(p.cssFile.trim());
+    }
   });
 
   bridgeSub = this.pageForm.valueChanges.pipe(
@@ -326,9 +328,9 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
 
   }
 
-  experimentalApplyCss() {
+  experimentalApplyCss(cssFile: string) {
 
-    this.http.get<JSONNode>("https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test42.css.json").subscribe(css => {
+    this.http.get<JSONNode>(cssFile).subscribe(css => {
       this.filteredCss = css;
     });
 
