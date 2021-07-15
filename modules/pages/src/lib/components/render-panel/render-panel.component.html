@@ -5,7 +5,6 @@
       <ng-container *ngSwitchCase="'form'">
         <div [formGroup]="panelForm">
           <div formArrayName="panes">
-            <p>panel form panel</p>
             <classifieds-ui-render-pane classifiedsUiRenderedPane *ngFor="let pane of resolvedPanes; let j = index" [formControlName]="j" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [displayType]="displayType" [resolvedContext]="resolvedContexts[j]" [indexPosition]="j" [css]="filteredCss"></classifieds-ui-render-pane>
           </div>
         </div>

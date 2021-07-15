@@ -1,7 +1,7 @@
 <classifieds-ui-gridless-layout [formGroup]="controlContainer.control" cdkDropListGroup>
     <ng-template #extraActions>
       <button *ngIf="savable" type="submit">Save</button>
-      <button *ngIf="savable" type="button" (click)="editor.onPropertiesClick()">Properties</button>
+      <button *ngIf="savable || nested" type="button" (click)="editor.onPropertiesClick()">Properties</button>
       <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
       <button *ngIf="nested" type="button" (click)="editor.onDeleteClick()">Delete</button>
       <button *ngIf="nested" type="button" (click)="editor.onRulesClick()">Rules</button>

@@ -21,6 +21,7 @@ import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { AttributeSerializerService } from 'attributes';
+import { FormService } from '../../services/form.service';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -180,6 +181,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     private http: HttpClient,
     private cssHelper: CssHelperService,
     private attributeSerializer: AttributeSerializerService,
+    private formService: FormService,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;
@@ -298,8 +300,9 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   }
 
   submit() {
-    const panelPage = new PanelPage(this.pageForm.value);
-    console.log(panelPage);
+    const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
+    console.log(panelPageForm);
+    console.log(this.formService.serializeForm(panelPageForm));
   }
 
   renderLayoutRenderer(layout: string) {
