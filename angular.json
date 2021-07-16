@@ -390,9 +390,16 @@
             ],
             "styles": [
               "projects/ipe/src/styles.scss",
-              "projects/ipe/src/theme.scss"
+              "projects/ipe/src/theme.scss",
+              "node_modules/prismjs/themes/prism-okaidia.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/marked/lib/marked.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-json.min.js",
+              "node_modules/prismjs/components/prism-typescript.min.js",
+              "node_modules/prismjs/components/prism-css.min.js"
+            ]
           },
           "configurations": {
             "production": {
