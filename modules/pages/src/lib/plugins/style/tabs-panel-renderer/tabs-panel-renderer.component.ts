@@ -24,6 +24,7 @@ export class TabsPanelRendererComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

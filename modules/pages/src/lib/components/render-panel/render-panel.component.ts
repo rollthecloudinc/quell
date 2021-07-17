@@ -1,11 +1,11 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Panel, Pane } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
 import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { switchMap, map, filter, debounceTime, tap } from 'rxjs/operators';
+import { switchMap, map, filter, debounceTime, tap, delay } from 'rxjs/operators';
 import { Subscription, Subject, BehaviorSubject } from 'rxjs';
 import { PanelResolverService } from '../../services/panel-resolver.service';
 import { JSONNode } from 'cssjson';
@@ -86,9 +86,31 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
-    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition}`))
+    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition}`)),
+    map((css: JSONNode) => [
+      this.cssHelper.reduceCss(css, '.pane-', false),
+      css
+    ]),
+    tap(([_, nestedCss]) => this.filteredCss = nestedCss),
+    map(([css, _]) => css),
+    delay(1000)
   ).subscribe((css: JSONNode) => {
-    this.filteredCss = css;
+    /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
+    console.log(css);
+    this.filteredCss = css;*/
+    const keys = Object.keys(css.children);
+    keys.forEach(k => {
+      console.log(`search: ${k}`);
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : this.hostEl.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      const rules = Object.keys(css.children[k].attributes);
+      for (let i = 0; i < len; i++) {
+        rules.forEach(p => {
+          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+          this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
+        });
+      }
+    });
   });
 
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
@@ -156,6 +178,8 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   constructor(
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    private hostEl: ElementRef,
+    private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: FormBuilder,
     private panelResolverService: PanelResolverService,

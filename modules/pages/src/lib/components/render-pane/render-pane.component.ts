@@ -95,7 +95,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     const keys = Object.keys(css.children);
     keys.forEach(k => {
       console.log(`search: ${k}`);
-      const matchedNodes = this.el.nativeElement.querySelectorAll(k);
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       const rules = Object.keys(css.children[k].attributes);
       for (let i = 0; i < len; i++) {
