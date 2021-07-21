@@ -3,8 +3,7 @@ import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { PanelContentHandler } from '../../handlers/panel-content.handler';
-import { PanelPage } from 'panels';
+import { PanelPage, PanelContentHandler } from 'panels';
 import { Subject } from 'rxjs';
 import { switchMap, map, debounceTime } from 'rxjs/operators';
 

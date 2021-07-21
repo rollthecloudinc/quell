@@ -11,7 +11,11 @@
       "layout": "layout",
       "alias": "alias",
       "qs": "qs",
-      "angular2-query-builder": "angular2-query-builder"
+      "angular2-query-builder": "angular2-query-builder",
+      "material": "material",
+      "content": "content",
+      "uuid": "uuid",
+      "datasource": "datasource"
     }
   }
 }

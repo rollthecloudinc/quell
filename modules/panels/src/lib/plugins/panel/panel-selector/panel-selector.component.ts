@@ -3,12 +3,13 @@ import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@ang
 import * as uuid from 'uuid';
 import { AttributeValue } from 'attributes';
 import { SITE_NAME } from 'utils';
-import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from 'panels';
+import { PanelPage, PanelPageListItem, LayoutSetting } from '../../../models/panels.models';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
+import { PanelContentHandler } from '../../../handlers/panel-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
-import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
+// import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -33,7 +34,7 @@ export class PanelSelectorComponent implements OnInit {
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     @Inject(SITE_NAME) private siteName: string,
-    private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
+    private bottomSheetRef: MatBottomSheetRef</*ContentSelectorComponent*/any>,
     private handler: PanelContentHandler,
     private dialog: MatDialog,
     private fb: FormBuilder,

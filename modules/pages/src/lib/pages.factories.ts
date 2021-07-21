@@ -1,7 +1,7 @@
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { MediaContentHandler } from './handlers/media-content.handler';
-import { PanelContentHandler } from './handlers/panel-content.handler';
+// import { PanelContentHandler } from './handlers/panel-content.handler';
 import { ContentPlugin } from 'content';
 import { ContextPlugin } from 'context';
 import { Dataset } from 'datasource';
@@ -12,8 +12,8 @@ import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/a
 import { AttributePaneRendererComponent } from './plugins/attribute/attribute-pane-renderer/attribute-pane-renderer.component';
 import { MediaEditorComponent } from './plugins/media/media-editor/media-editor.component';
 import { MediaPaneRendererComponent } from './plugins/media/media-pane-renderer/media-pane-renderer.component';
-import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
-import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
+// import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
+// import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { RestEditorComponent } from './plugins/rest/rest-editor/rest-editor.component';
 import { RestContentHandler } from './handlers/rest-content-handler.service';
 import { RestPaneRendererComponent } from './plugins/rest/rest-pane-renderer/rest-pane-renderer.component';
@@ -57,7 +57,7 @@ export const mediaContentPluginFactory = (handler: MediaContentHandler) => {
   })
 }
 
-export const panelContentPluginFactory = (handler: PanelContentHandler) => {
+/*export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
     id: 'panel',
     title: 'Panel',
@@ -66,7 +66,7 @@ export const panelContentPluginFactory = (handler: PanelContentHandler) => {
     renderComponent: undefined,
     handler
   })
-}
+}*/
 
 export const restContentPluginFactory = (handler: RestContentHandler) => {
   return new ContentPlugin<string>({

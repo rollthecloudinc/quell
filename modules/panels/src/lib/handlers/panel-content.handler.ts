@@ -3,12 +3,12 @@ import { ContentHandler, ContentBinding } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { of, Observable } from 'rxjs';
-import { PanelPage, Pane, Panel, LayoutSetting } from 'panels';
+import { PanelPage, Pane, Panel, LayoutSetting } from '../models/panels.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PanelContentHandlerX implements ContentHandler {
+export class PanelContentHandler implements ContentHandler {
 
   constructor(private attributeSerializer: AttributeSerializerService) { }
 

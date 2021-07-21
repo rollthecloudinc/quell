@@ -5,7 +5,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
-import { PanelsEditor, LayoutSetting } from 'panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler } from 'panels';
 import { TokenizerService } from 'token';
 import { SITE_NAME } from 'utils';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
@@ -18,7 +18,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.component';
 import { Observable, forkJoin, iif, of, BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, tap, switchMap, take } from 'rxjs/operators';
-import { PanelContentHandler } from '../../handlers/panel-content.handler';
+// import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { EditablePaneComponent } from '../editable-pane/editable-pane.component';
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
@@ -342,7 +342,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   applyStyle(index: number) {
-    this.bs.open(StyleSelectorComponent, { data: this.panels.controls[index] });
+    this.bs.open(StyleSelectorComponent, { data: { panelForm: this.panels.controls[index], panelIndex: index, contexts: this.contexts } });
   }
 
   removeStyle(index: number) {

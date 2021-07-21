@@ -1,10 +1,11 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { StylePlugin, StylePluginManager } from 'style';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { InlineContext } from 'context';
 
 @Component({
   selector: 'classifieds-ui-style-selector',
@@ -22,7 +23,7 @@ export class StyleSelectorComponent implements OnInit {
 
   constructor(
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public panelFormGroup: FormGroup,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: { panelForm:FormGroup, panelIndex: number, contexts: Array<InlineContext>, contentAdded: Subject<[number, number]> },
     private spm: StylePluginManager,
     private bottomSheetRef: MatBottomSheetRef<StyleSelectorComponent>,
     private dialog: MatDialog,
@@ -40,11 +41,14 @@ export class StyleSelectorComponent implements OnInit {
     this.plugin = plugin;
     if(this.plugin.editorComponent !== undefined) {
       this.bottomSheetRef.dismiss();
-      const dialogRef = this.dialog.open(this.plugin.editorComponent);
+      this.data.panelForm.get('stylePlugin').setValue(this.plugin.name);
+      this.data.panelForm.get('styleTitle').setValue(this.plugin.title);
+      (this.data.panelForm.get('settings') as FormArray).clear();
+      const dialogRef = this.dialog.open(this.plugin.editorComponent, { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, contexts: this.data.contexts } });
     } else {
-      this.panelFormGroup.get('stylePlugin').setValue(this.plugin.name);
-      this.panelFormGroup.get('styleTitle').setValue(this.plugin.title);
-      (this.panelFormGroup.get('settings') as FormArray).clear();
+      this.data.panelForm.get('stylePlugin').setValue(this.plugin.name);
+      this.data.panelForm.get('styleTitle').setValue(this.plugin.title);
+      (this.data.panelForm.get('settings') as FormArray).clear();
       this.bottomSheetRef.dismiss();
     }
     /*if(this.plugin.selectionComponent !== undefined) {

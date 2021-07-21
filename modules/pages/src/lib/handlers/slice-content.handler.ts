@@ -10,8 +10,7 @@ import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
 import { MediaContentHandler } from './media-content.handler';
-import { PanelContentHandler } from './panel-content.handler';
-import { Pane, Panel, PanelPage, LayoutSetting } from 'panels';
+import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from 'panels';
 import { InlineContextResolverService } from '../services/inline-context-resolver.service';
 
 @Injectable()
