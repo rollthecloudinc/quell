@@ -23,6 +23,10 @@ import { PageContextResolver } from './contexts/page-context.resolver';
 import { ContextEditorComponent } from './components/context-editor/context-editor.component';
 import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';
+import { StylePlugin } from 'style';
+import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
+import { TabsPanelRendererComponent } from './plugins/style/tabs-panel-renderer/tabs-panel-renderer.component';
+import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -109,4 +113,8 @@ export const formContextFactory = (resolver: FormContextResolver) => {
     dataset: new Dataset(),
   };
   return new ContextPlugin<string>({ id: "form", name: 'form', title: 'Form', baseObject, resolver });
+};
+
+export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {
+  return new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', handler, editorComponent: TabsPanelEditorComponent, renderComponent: TabsPanelRendererComponent }); 
 };

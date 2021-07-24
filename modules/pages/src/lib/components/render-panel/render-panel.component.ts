@@ -10,6 +10,7 @@ import { Subscription, Subject, BehaviorSubject } from 'rxjs';
 import { PanelResolverService } from '../../services/panel-resolver.service';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
+import { StyleResolverService } from '../../services/style-resolver.service';
 
 @Component({
   selector: 'classifieds-ui-render-panel',
@@ -117,6 +118,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   scheduleRenderSub = this.scheduleRender.pipe(
     tap(() => console.log(`schdule renderer before [${this.panel.name}]`)),
     switchMap(([panes, contexts, resolvedContext]) => this.panelResolverService.resolvePanes(panes, contexts, resolvedContext)),
+    switchMap(([resolvedPanes, originMappings, resolvedContexts]) => this.styleResolverService.alterResolvedPanes(this.panel, resolvedPanes, originMappings, resolvedContexts)),
     tap(() => console.log(`schdule renderer after [${this.panel.name}]`)),
   ).subscribe(([resolvedPanes, originMappings, resolvedContexts]) => {
     console.log(`render panel: ${this.panel.name}`);
@@ -184,7 +186,8 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     private fb: FormBuilder,
     private panelResolverService: PanelResolverService,
     private spm: StylePluginManager,
-    private cssHelper: CssHelperService
+    private cssHelper: CssHelperService,
+    private styleResolverService: StyleResolverService
   ) {
     this.counter = RenderPanelComponent.COUNTER++;
     // this.stylePlugins = stylePlugins;

@@ -14,5 +14,5 @@
       <mat-option *ngFor="let p of (panes$ | async); let i = index" [value]="i">pane | {{ i }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <druid-panels-panelpage-linkedlist *ngIf="nested" [panelPages]="nested"></druid-panels-panelpage-linkedlist>
+  <druid-panels-panelpage-linkedlist *ngIf="nested" formControlName="nested" [panelPages]="nested"></druid-panels-panelpage-linkedlist>
 </div>

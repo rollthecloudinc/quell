@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { EntityCollectionService, EntityServices } from "@ngrx/data";
 import { InlineContext } from "context";
@@ -16,7 +16,15 @@ export class TabsPanelEditorComponent implements OnInit {
   contexts: Array<InlineContext> = [];
   // panelPages$ = new BehaviorSubject<Map<string ,PanelPage>>(new Map([]));
   panelPages: Array<PanelPage> = [];
+  formGroup = this.fb.group({
+    labels: this.fb.array([
+      this.buildLabelGroup()
+    ])
+  });
   private panelPageService: EntityCollectionService<PanelPage>;
+  get labels(): FormArray {
+    return this.formGroup.get('labels') as FormArray;
+  }
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; panelIndex: number; contexts: Array<InlineContext>; },
     private dialogRef: MatDialogRef<TabsPanelEditorComponent>,
@@ -41,4 +49,23 @@ export class TabsPanelEditorComponent implements OnInit {
       this.panelPages$.next(new Map([]));
     }*/
   }
+
+  submit() {
+    console.log(this.formGroup.value);
+  }
+
+  onRemoveMapping(index: number) {
+    this.labels.removeAt(index);
+  }
+
+  onAddMapping() {
+    this.labels.push(this.buildLabelGroup());
+  }
+
+  buildLabelGroup(): FormGroup {
+    return this.fb.group({
+      mapping: this.fb.control('')
+    });
+  }
+
 }

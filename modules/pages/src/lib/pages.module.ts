@@ -41,7 +41,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -90,6 +90,8 @@ import { LayoutRendererHostDirective } from './directives/layout-renderer-host.d
 import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { PanelsModule, PanelContentHandler } from 'panels';
+import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
+import { StyleResolverService } from './services/style-resolver.service';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -158,6 +160,7 @@ const routes = [
     InlineContextResolverService,
     UrlGeneratorService,
     RulesResolverService,
+    StyleResolverService,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageComponent, multi: true },
@@ -168,6 +171,7 @@ const routes = [
     /*{ provide: PanelContentHandler, useClass: PanelContentHandler },*/
     { provide: RestContentHandler, useClass: RestContentHandler },
     { provide: SliceContentHandler, useClass:  SliceContentHandler },
+    { provide: TabsStyleHandler, useClass: TabsStyleHandler },
     //{ provide: CONTEXT_PLUGIN, useFactory: pageContextFactory, multi: true, deps: [ PageContextResolver ] },
     { provide: CONTENT_PLUGIN, useFactory: snippetContentPluginFactory, multi: true, deps: [ SnippetContentHandler ] },
     { provide: CONTENT_PLUGIN, useFactory: attributeContentPluginFactory, multi: true, deps: [ AttributeContentHandler ] },
@@ -177,7 +181,7 @@ const routes = [
     { provide: CONTENT_PLUGIN, useFactory: sliceContentPluginFactory, multi: true, deps: [ SliceContentHandler ]  },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', editorComponent: TabsPanelEditorComponent, renderComponent: TabsPanelRendererComponent }), multi: true },
+    { provide: STYLE_PLUGIN, useFactory: tabsStylePluginFactory, multi: true, deps: [ TabsStyleHandler ] },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
   //exports: [NavigationHostDirective]

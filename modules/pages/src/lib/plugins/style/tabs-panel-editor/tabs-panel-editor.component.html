@@ -1,1 +1,10 @@
-<druid-panels-panelpage-linkedlist [panelPages]="panelPages"></druid-panels-panelpage-linkedlist>
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <div formArrayName="labels">
+    <div *ngFor="let label of labels.controls; let i = index" [formGroupName]="i">
+      <druid-panels-panelpage-linkedlist formControlName="mapping" [panelPages]="panelPages"></druid-panels-panelpage-linkedlist>
+      <button type="button" mat-raised-button color="primary" (click)="onRemoveMapping(i)">Remove</button>
+    </div>
+    <button type="button" mat-raised-button color="primary" (click)="onAddMapping()">Add</button>
+  </div>
+  <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!formGroup.valid">Save</button>
+</form>

@@ -8,7 +8,7 @@ import { PanelPage, Pane, Panel, LayoutSetting } from 'panels';
 @Injectable({
   providedIn: 'root'
 })
-export class PanelContentHandlerX implements ContentHandler {
+export class PanelContentHandler implements ContentHandler {
 
   constructor(private attributeSerializer: AttributeSerializerService) { }
 

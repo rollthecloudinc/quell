@@ -24,7 +24,10 @@ export class TabsPanelRendererComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    
+    console.log('Mappings For Tabs Renderer');
+    console.log(this.panes);
+    console.log(this.originPanes);
+    console.log(this.originMappings);
   }
 
 }

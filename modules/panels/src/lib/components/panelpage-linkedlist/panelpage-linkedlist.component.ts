@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { Component, forwardRef, Input, OnInit } from "@angular/core";
+import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { PanelContentHandler } from "../../handlers/panel-content.handler";
 import { BehaviorSubject, iif, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
@@ -7,10 +7,22 @@ import { Pane, Panel, PanelPage } from "../../models/panels.models";
 
 @Component({
   selector: 'druid-panels-panelpage-linkedlist',
-  templateUrl: './panelpage-linkedlist.component.html'
+  templateUrl: './panelpage-linkedlist.component.html',
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+      multi: true
+    },
+  ],
 })
-export class PanelPageLinkedlistComponent {
-  
+export class PanelPageLinkedlistComponent implements ControlValueAccessor, Validator {
+
   @Input() set panelPages(panelPages: Array<PanelPage>) {
     this.panelPages$.next(panelPages);
   }
@@ -18,6 +30,7 @@ export class PanelPageLinkedlistComponent {
   panelPages$ = new BehaviorSubject<Array<PanelPage>>([]);
   panels$ = new BehaviorSubject<Array<Panel>>([]);
   panes$ = new BehaviorSubject<Array<Pane>>([]);
+  nested$ = new BehaviorSubject<Array<PanelPage>>([]);
 
   formGroup = this.fb.group({
     panelPage: this.fb.control(''),
@@ -43,8 +56,10 @@ export class PanelPageLinkedlistComponent {
     )),
     filter(p => !!p)
   ).subscribe(panelPage => {
-    this.panelPages$.next([ ...this.panelPages$.value, panelPage ]);
+    this.nested$.next([ panelPage ]);
   });
+
+  public onTouched: () => void = () => {};
 
   get panels(): Array<Panel> {
     return this.panels$.value && Array.isArray(this.panels$.value) ? this.panels$.value : [];
@@ -55,12 +70,38 @@ export class PanelPageLinkedlistComponent {
   }
 
   get nested(): Array<PanelPage> {
-    return this.panelPages$.value && typeof(this.panelPages$.value) !== undefined && this.panelPages$.value.length > 1 ? [ this.panelPages$.value[1] ] : undefined;
+    return this.nested$.value && typeof(this.nested$.value) !== undefined && this.nested$.value.length > 0 ? [ ...this.nested$.value ] : undefined;
   }
   
   constructor(
     private fb: FormBuilder,
     private panelHandler: PanelContentHandler
   ) {}
+
+  writeValue(val: any): void {
+    if (val) {
+      this.formGroup.setValue(val, { emitEvent: false });
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.formGroup.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.formGroup.disable()
+    } else {
+      this.formGroup.enable()
+    }
+  }
+
+  validate(c: AbstractControl): ValidationErrors | null{
+    return this.formGroup.valid ? null : { invalidForm: { valid: false }};
+  }
 
 }
