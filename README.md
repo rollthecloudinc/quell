@@ -1,5 +1,9 @@
 # Druid
 
+Embrace modern JavaScript ecosystem
+Push Angular beyond its limits
+
+
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
 
