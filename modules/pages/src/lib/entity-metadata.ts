@@ -4,10 +4,10 @@ export const entityMetadata: EntityMetadataMap = {
   GridLayout: {
     entityName: 'GridLayout'
   },
-  PanelPage: {
+  /*PanelPage: {
     entityName: 'PanelPage'
   },
   PanelPageListItem: {
     entityName: 'PanelPageListItem'
-  }
+  }*/
 };

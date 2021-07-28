@@ -142,6 +142,7 @@ export class Pane {
   metadata?: Map<string, any>;
   contexts?: Array<InlineContext> = [];
   rule?: RuleSet;
+  nestedPage?: PanelPage;
   constructor(data?: Pane) {
     if(data) {
       this.name = data.name;
@@ -162,6 +163,9 @@ export class Pane {
       }
       if(data.rule !== undefined && typeof(data.rule) !== 'string') {
         this.rule = { ...data.rule } as RuleSet;
+      }
+      if (data.nestedPage) {
+        this.nestedPage = new PanelPage(data.nestedPage);
       }
     }
   }

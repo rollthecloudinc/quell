@@ -47,9 +47,11 @@ import { HomeComponent } from './components/home/home.component';*/
 import { EntityDataModule, DefaultDataServiceConfig } from '@ngrx/data';
 import { reducers, metaReducers } from './reducers';
 import { AuthCallbackComponent } from 'auth';
+import { PlaygroundComponent } from './components/playground/playground.component';
 
 const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
+  { path: 'playground', component: PlaygroundComponent },
   // { path: 'implicit/callback', component: OktaCallbackComponent },
   // { path: 'chat', loadChildren: () => import('@classifieds-ui/chat').then(m => m.ChatModule) },
   // { path: 'ads', loadChildren: () => import('@classifieds-ui/ads').then(m => m.AdsModule) },
@@ -95,7 +97,7 @@ export function markedOptionsFactory(): MarkedOptions {
 }
 
 @NgModule({
-  declarations: [AppComponent /*, AuthCallbackComponent, AppHeaderComponent, AppFooterComponent, HomeComponent, NotFoundComponent */],
+  declarations: [AppComponent, PlaygroundComponent /*, AuthCallbackComponent, AppHeaderComponent, AppFooterComponent, HomeComponent, NotFoundComponent */],
   imports: [
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     CommonModule,
