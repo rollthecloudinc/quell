@@ -1,7 +1,7 @@
 # Druid
 
 * Embrace modern JavaScript ecosystem
-* Push Angular beyond its limits
+* Innovate, inspire others to use Angular and Reactive programming
 
 
 Content Editor
