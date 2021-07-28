@@ -1,7 +1,7 @@
 # Druid
 
-Embrace modern JavaScript ecosystem
-Push Angular beyond its limits
+* Embrace modern JavaScript ecosystem
+* Push Angular beyond its limits
 
 
 Content Editor
