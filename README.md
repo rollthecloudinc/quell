@@ -1,16 +1,10 @@
 # Druid
 
-Druid is a modern content publishing platform inspired by a decade of experience using various php monothlithic publishing platforms. Greatly inspired by Drupal druid aims to provide a modern, sleek publishing experience for
-editors. The project also aims to provide the upmost flexibility for developers without needing to resort
-to hacky work arounds to achieve goals or god forbid hack core code. Also Druid is meant to demonstrate 
-the true power and wonder of Angular over other alternative, less powerful, enterprise ecosystems like react and vue.
-This project also strives to use as much of the community possible to achieve goals. Forget self fulfilling prophescies
-of re-invention of the wheel. If there is a project out there that is well suited to a purpose it will be used. 
+* Embrace modern JavaScript ecosystem
+* Innovate, inspire others to use Angular and Reactive programming
+* Provide example of complex Angular application for learning purposes.
+* Modernization of past concepts, patterns used in the CMS realm
 
-The php monoliths all stuck in their legacy ways with little ambition to change. As someone who is always looking for
-a better way to do things and fed up with that mentality wanted to start building my own, modern solution. A solution
-that those stuck in the legacy world couldn't even comprehend or understand. Not scared to begin from the bottom, roll
-around in the dirt and create something magnificent rather than coasting on legacy technology. Not to mention not sit around discussing things forever instead just build it, evolve it over time. Fueled by hate, anger, frustration but most importantly love. Desire to create, learn, evolve profsssional skillset that supercedes all else. Advocate for people, technologies I believe in – adversary to the rest. Using my foes developments against them to destroy them.
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
@@ -192,5 +186,4 @@ Save panel page form as derivative of panel page that form was derived from.
 This effectively allows panel pages to be used not only for layout but to create
 and define new entities dynamically using the panel page builder.
 
-In Drupal this is known as "panels everywhere". That is essentially what is being replicated
-but with modern technology rather than an outdated php, legacy monolithic stack and poor ui.
+In Drupal this is known as "panels everywhere".
