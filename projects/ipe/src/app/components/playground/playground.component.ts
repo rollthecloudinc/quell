@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { EntityCollectionService, EntityServices } from "@ngrx/data";
 import { AttributeValue } from "attributes";
-import { Pane, PanelPage, PanelContentHandler, Panel } from "panels";
+import { Pane, PanelPage, PanelContentHandler, Panel, PanelsModule } from "panels";
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { JSONPath } from 'jsonpath-plus';
@@ -25,6 +25,8 @@ export class PlaygroundComponent implements OnInit {
       // select nested page
       // rebuild without other panels and without target - 2 separate.
       console.log(result);
+      console.log(this.rebuildPage(p, [ 0, 0, 0, -1 ]));
+      console.log(this.rebuildPage(p, [ 1, 1, 1, 1 ]));
     });
   }
   reducePage(pp: PanelPage): Array<Observable<[number, number, PanelPage]>> {
@@ -85,5 +87,20 @@ export class PlaygroundComponent implements OnInit {
 
   // selector trials
 
+  rebuildPage(panelPage: PanelPage, path: Array<number>): PanelPage {
+    return new PanelPage({ ...panelPage, panels: this.rebuildPanels(panelPage.panels, [ ...path ]) });
+  }
+
+  rebuildPanels(panels: Array<Panel>, path: Array<number>): Array<Panel> {
+    return panels.filter((_, i) => this.rebuildCondition(path[0], i)).map(p => new Panel({ ...p, panes: this.rebuildPanes(p.panes, path.slice(1)) }));
+  }
+
+  rebuildPanes(panes: Array<Pane>, path: Array<number>): Array<Pane> {
+    return panes.filter((_, i) => this.rebuildCondition(path[0], i)).map(p => p.contentPlugin === 'panel' ? new Pane({ ...p, settings: this.panelHandler.buildSettings(this.rebuildPage(p.nestedPage, path.slice(1))) }) : new Pane({ ...p }));
+  }
+
+  rebuildCondition(s: number, i: number): boolean {
+    return s !== 0 ? s > -1 ? i === (s + (s * -1)) : i !== ((s* -1) + s) : true;
+  }
 
 }
