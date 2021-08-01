@@ -4,6 +4,7 @@
 * Innovate, inspire others to use Angular and Reactive programming
 * Provide example of complex Angular application for learning purposes.
 * Modernization of past concepts, patterns used in the CMS realm
+* Use sorcery and magic to build something cool.
 
 
 Content Editor
