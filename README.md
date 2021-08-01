@@ -4,8 +4,7 @@
 * Innovate, inspire others to use Angular and Reactive programming
 * Provide example of complex Angular application for learning purposes.
 * Modernization of past concepts, patterns used in the CMS realm
-* Harness vodoo, sorcery and magic to build something cool.
-
+* Harness vodoo, sorcery and magic
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
