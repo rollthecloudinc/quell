@@ -10,3 +10,5 @@ export * from './lib/components/panelpage-linkedlist/panelpage-linkedlist.compon
 export * from './lib/plugins/panel/panel-editor/panel-editor.component';
 export * from './lib/plugins/panel/panel-selector/panel-selector.component';
 export * from './lib/handlers/panel-content.handler';
+export * from './lib/services/panels-loader.service';
+export * from './lib/services/panels-selector.service';
