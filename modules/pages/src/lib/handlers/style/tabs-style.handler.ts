@@ -62,6 +62,10 @@ export class TabsStyleHandler implements StyleHandler {
       // Right now just hard coding for proof of concept instead of implmenting that right now.
       const flatSelectorsMock = [ [0, 0,    1, 1], [0, 1,    1, 1] ]; // this is right... creates page with only title pane.
       const flatSelectorsMock2 = [ [0, 0,   0, -1], [0, 1,   0, -1] ]; // this is right... creates page without selected target cinluding tab content only.
+      // The selector settings need to be stored relative to the panel not root page.
+      // The original plan was to allow any pane to selected. However, that comes with way to issues.
+      // Instead all we really need to do is allow any pane within the panel to be selected. Forget about selecting outside panes. Not worth it.
+      // In this case I know that the first two selectors can be tossed out since we are already inside there with the exception of matching the pane index 1.
       const rebuilt = flatSelectorsMock.map((s, i) => this.panelsSelectorService.rebuildPage(v[s[1]], s.slice(2)));
       const rebuilt2 = flatSelectorsMock2.map((s, i) => this.panelsSelectorService.rebuildPage(v[s[1]], s.slice(2)));
       console.log(rebuilt);
@@ -72,6 +76,14 @@ export class TabsStyleHandler implements StyleHandler {
       // This is a mass deviation from how this works. Before we were working with arrays. Now we are
       // changing the interface to a map with separate categories?
       // or do we keep the existing interface and use a map for "extra", categories panes instead?
+      // This is a type of extract and categorize.
+      // Perhaps adding a map but keeping the existing interface is the way to go... hmm
+      // or we could just leave it as a array and skip out categoizations for now.... hmmm
+      // Where the renderer component would be responsible for knowing that evens [0,2,4] are titles. odds [1,3,5] as content
+      // I'm starting to lean towards keeping the signature the same as an array.
+      // Relying on the renderer component to know about how to handle this.
+      // which makes sense since the handler is directly coupled to the renderer.
+      // In that case we return 4 panes in the array instead of 2. It would ALWAYS be doubled to include title selections.
     });
 
     // For now use the first pane inside a nested panel as the label. -- this is just a proof of concept at the moment
