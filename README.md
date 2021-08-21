@@ -4,7 +4,11 @@
 * Innovate, inspire others to use Angular and Reactive programming
 * Provide example of complex Angular application for learning purposes.
 * Modernization of past concepts, patterns used in the CMS realm
-
+* Harness vodoo, sorcery and magic
+* Compared to Angular – React, Vue, etc. are complete garbage
+* Frameworks are only limited by understanding and capacity to learn.
+* Keep evolving, improving, innovating, seeking out improvement always.
+* There is always a better way to do things.
 
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
