@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { EntityCollectionService, EntityServices } from "@ngrx/data";
 import { InlineContext } from "context";
+import { AttributeSerializerService } from 'attributes';
 import { LayoutSetting, Pane, Panel, PanelPage, PanelContentHandler } from "panels";
 import { BehaviorSubject, forkJoin, Observable } from "rxjs";
 import { map } from "rxjs/operators";
@@ -30,6 +31,7 @@ export class TabsPanelEditorComponent implements OnInit {
     private dialogRef: MatDialogRef<TabsPanelEditorComponent>,
     private fb: FormBuilder,
     private panelHandler: PanelContentHandler,
+    private attributeSerializer: AttributeSerializerService,
     es: EntityServices
   ) {
     this.contexts = this.data.contexts;
@@ -51,7 +53,10 @@ export class TabsPanelEditorComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.formGroup.value);
+    (this.data.panelFormGroup.get('settings') as FormArray).clear();
+    this.attributeSerializer.serialize(this.formGroup.value, 'root').attributes.forEach(a => {
+      (this.data.panelFormGroup.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a));
+    });
   }
 
   onRemoveMapping(index: number) {
