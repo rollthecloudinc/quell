@@ -87,6 +87,13 @@ Tabs Page with custom labeling using selectors
 
 https://dpxmq1mxvsyda.cloudfront.net/example-tabs-custom-labels-v1
 
+The first snippet in each tab is selected as the label for the tab.
+This is made possible my the new panel page selection feature.
+The panel page selection "api" eases pane mutations.
+The page selection api is the drivinf force behind selecting a label for the tab.
+The tabs style is the first proof of concept for the selection api and style handlers.
+Style handlers are the other piece of this that can be used to dynamically change the page data structure.
+
 Features:
 - Default content like html and markdown.
 - Content is extensible without altering code. For example, if you have a component or several which you would
