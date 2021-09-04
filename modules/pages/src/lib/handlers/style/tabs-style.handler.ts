@@ -30,7 +30,9 @@ export class TabsStyleHandler implements StyleHandler {
     let flatSelectors: Array<Array<number>> = [];
 
     if(selectors.length === 0) {
-      
+      // Short circuit - no need to manipulate at this point - path of least resistence? :/
+      // We could try to dynamically create the titles but I think that is more trouble than its worth.
+      return of([resolvedPanes, originMappings, resolvedContexts]);
     } else {
       // attempt rebuild to support dynamic panes automatically like those generated from rest.
       if(resolvedPanes.length !== selectors.length) {

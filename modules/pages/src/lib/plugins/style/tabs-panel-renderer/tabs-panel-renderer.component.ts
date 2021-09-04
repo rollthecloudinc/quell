@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeTypes, AttributeValue } from 'attributes';
 import { Pane } from 'panels';
 
 @Component({
@@ -21,13 +21,15 @@ export class TabsPanelRendererComponent implements OnInit {
   @Input()
   originMappings: Array<number> = [];
 
-  constructor() { }
+  labelMappingsEnabled = false;
+
+  constructor(
+    private attributeSerializer: AttributeSerializerService
+  ) { }
 
   ngOnInit(): void {
-    console.log('Mappings For Tabs Renderer');
-    console.log(this.panes);
-    console.log(this.originPanes);
-    console.log(this.originMappings);
+    const obj = this.attributeSerializer.deserialize(new AttributeValue({ name: '', displayName: '', computedValue: '', type: AttributeTypes.Complex, value: '', intValue: 0, attributes: this.settings }));
+    this.labelMappingsEnabled = obj.labels !== undefined && Array.isArray(obj.labels) && obj.labels.length > 0 ? true : false;
   }
 
 }
