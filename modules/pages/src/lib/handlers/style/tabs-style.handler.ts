@@ -24,16 +24,35 @@ export class TabsStyleHandler implements StyleHandler {
     // this.panelHandler.toObject();
     const obj = this.attributeSerializer.deserialize(new AttributeValue({ name: '', displayName: '', computedValue: '', type: AttributeTypes.Complex, value: '', intValue: 0, attributes: settings }));
     // console.log('Deserialized settings:');
-    const selectors = obj.labels.map(l => new PanelPageSelector(l.mapping));
+    const selectors = obj.labels !== undefined && Array.isArray(obj.labels) ? obj.labels.map(l => new PanelPageSelector(l.mapping)) : [];
     // console.log(selectors);
-    const flatSelectors = selectors.map((s, index) => {
-      // console.log(`flat selector for ${index}`);
-      //console.log(this.flattenSelector(s));
-      return this.flattenSelector(s);
-      // We don't have access to page. So this needs to be a type of partial reduction.
-      // partial, selection - reducetion?
-      // this.panelsLoaderService.reducePage(new PanelPage({ panels:  }));
-    });
+
+    let flatSelectors: Array<Array<number>> = [];
+
+    if(selectors.length === 0) {
+      
+    } else {
+      // attempt rebuild to support dynamic panes automatically like those generated from rest.
+      if(resolvedPanes.length !== selectors.length) {
+        flatSelectors = resolvedPanes.map((_, i) => new PanelPageSelector({ ...(i < selectors.length ? selectors[i] : selectors[selectors.length - 1]), pane: i })).map(s => {
+          // console.log(`flat selector for ${index}`);
+          //console.log(this.flattenSelector(s));
+          return this.flattenSelector(s);
+          // We don't have access to page. So this needs to be a type of partial reduction.
+          // partial, selection - reducetion?
+          // this.panelsLoaderService.reducePage(new PanelPage({ panels:  }));
+        });
+      } else {
+        flatSelectors = selectors.map(s => {
+          // console.log(`flat selector for ${index}`);
+          //console.log(this.flattenSelector(s));
+          return this.flattenSelector(s);
+          // We don't have access to page. So this needs to be a type of partial reduction.
+          // partial, selection - reducetion?
+          // this.panelsLoaderService.reducePage(new PanelPage({ panels:  }));
+        });
+      }
+    }
 
     /*forkJoin(resolvedPanes.map((p, index) => forkJoin(this.panelsLoaderService.reducePanes([], p, index)))).subscribe(v => {
       console.log('reduced panes');
@@ -41,7 +60,7 @@ export class TabsStyleHandler implements StyleHandler {
     });*/
 
     // is - 0 right?
-    forkJoin(    
+    return forkJoin(    
       resolvedPanes.map(    
         (c2, i2) => {
           // console.log('Inside reduce: ' + i2);
@@ -53,8 +72,23 @@ export class TabsStyleHandler implements StyleHandler {
         }  
       )   
     ).pipe(
-      map(v => v.reduce<Array<PanelPage>>((p2, [_, pp]) => [ ...p2, pp ], []))
-    ).subscribe(v => {
+      map(v => v.reduce<Array<PanelPage>>((p2, [_, pp]) => [ ...p2, pp ], [])),
+      map(v => {
+        // const flatSelectorsMock = [ [0, 0,    1, 1], [0, 1,    1, 1] ]; // this is right... creates page with only title pane.
+        // const flatSelectorsMock2 = [ [0, 0,   0, -1], [0, 1,   0, -1] ]; // this is right... creates page without selected target cinluding tab content only. 
+        const withTarget = flatSelectors.map(s => this.selectWithTarget(s));
+        const withoutTarget = flatSelectors.map(s => this.selectWithoutTarget(s));
+        const rebuilt = withTarget.map((s, i) => this.panelsSelectorService.rebuildPage(v[flatSelectors[i][0]], s.slice(1)));
+        const rebuilt2 = withoutTarget.map((s, i) => this.panelsSelectorService.rebuildPage(v[flatSelectors[i][0]], s.slice(1)));
+        const rebuildResolvedPanes: Array<Pane> = [];
+        const len = resolvedPanes.length;
+        for(let i = 0; i < len; i++) {
+          rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt[i]) }));
+          rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt2[i]) }));
+        }
+        return [rebuildResolvedPanes, originMappings, resolvedContexts]
+      })
+    );/*.subscribe(v => {
       console.log(`reduced panes 2`);
       console.log(flatSelectors);
       // console.log(v);
@@ -70,6 +104,13 @@ export class TabsStyleHandler implements StyleHandler {
       const rebuilt2 = flatSelectorsMock2.map((s, i) => this.panelsSelectorService.rebuildPage(v[s[1]], s.slice(2)));
       console.log(rebuilt);
       console.log(rebuilt2);
+
+      const rebuildResolvedPanes: Array<Pane> = [];
+      const len = resolvedPanes.length;
+      for(let i = 0; i < len; i++) {
+        rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt[i]) }));
+        rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt2[i]) }));
+      }
       // I think now we just need to serialize the nested pages back into the origin pane, right?
       // We should end up with 2 catgories containing 2 panes in an array.
       // cat = title & cat = content
@@ -84,7 +125,7 @@ export class TabsStyleHandler implements StyleHandler {
       // Relying on the renderer component to know about how to handle this.
       // which makes sense since the handler is directly coupled to the renderer.
       // In that case we return 4 panes in the array instead of 2. It would ALWAYS be doubled to include title selections.
-    });
+    });*/
 
     // For now use the first pane inside a nested panel as the label. -- this is just a proof of concept at the moment
     console.log('TabsStyleHandler::alterResolvedPanes');
@@ -120,6 +161,14 @@ export class TabsStyleHandler implements StyleHandler {
       this.flattenSelector(selector.nested).forEach(i => flat.push(i));
     }
     return flat;
+  }
+
+  selectWithTarget(s: Array<number>): Array<number> {
+    return s.map(v => v + 1);
+  }
+
+  selectWithoutTarget(s: Array<number>): Array<number> {
+    return s.map((v, i) => i === (s.length - 1) ? (v + 1) * -1 : 0);
   }
 
 }

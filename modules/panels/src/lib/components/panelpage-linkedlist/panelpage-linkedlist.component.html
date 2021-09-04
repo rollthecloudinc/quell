@@ -1,15 +1,15 @@
 <div [formGroup]="formGroup">
-  <mat-form-field>
+  <mat-form-field *ngIf="panelPages.length > 0">
     <mat-select required formControlName="panelPage">
       <mat-option *ngFor="let p of (panelPages$ | async); let i = index" [value]="i">panel page | level: {{ i }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field *ngIf="panels">
+  <mat-form-field *ngIf="panels.length > 0">
     <mat-select required formControlName="panel">
       <mat-option *ngFor="let p of (panels$ | async); let i = index" [value]="i">panel | {{ i }}</mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-form-field *ngIf="panes">
+  <mat-form-field *ngIf="panes.length > 0">
     <mat-select required formControlName="pane">
       <mat-option *ngFor="let p of (panes$ | async); let i = index" [value]="i">pane | {{ i }}</mat-option>
     </mat-select>

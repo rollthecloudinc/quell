@@ -27,16 +27,24 @@ export class PanelPageLinkedlistComponent implements ControlValueAccessor, Valid
     this.panelPages$.next(panelPages);
   }
 
+  @Input() set panels(panels: Array<Panel>) {
+    this.panels$.next(panels);
+  }
+
+  @Input() set panes(panes: Array<Pane>) {
+    this.panes$.next(panes);
+  }
+
   panelPages$ = new BehaviorSubject<Array<PanelPage>>([]);
   panels$ = new BehaviorSubject<Array<Panel>>([]);
   panes$ = new BehaviorSubject<Array<Pane>>([]);
   nested$ = new BehaviorSubject<Array<PanelPage>>([]);
 
   formGroup = this.fb.group({
-    panelPage: this.fb.control(''),
-    panel: this.fb.control(''),
-    pane: this.fb.control(''),
-    nested: this.fb.control('')
+    panelPage: this.fb.control(undefined),
+    panel: this.fb.control(undefined),
+    pane: this.fb.control(undefined),
+    nested: this.fb.control(undefined)
   });
 
   panelPageSub = this.formGroup.get('panelPage').valueChanges.subscribe(index => {
@@ -60,6 +68,10 @@ export class PanelPageLinkedlistComponent implements ControlValueAccessor, Valid
   });
 
   public onTouched: () => void = () => {};
+
+  get panelPages(): Array<PanelPage> {
+    return this.panelPages$.value && Array.isArray(this.panelPages$.value) ? this.panelPages$.value : [];
+  }
 
   get panels(): Array<Panel> {
     return this.panels$.value && Array.isArray(this.panels$.value) ? this.panels$.value : [];
