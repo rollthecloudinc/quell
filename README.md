@@ -83,6 +83,10 @@ https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 Formly options are populated using rest api call to marvel api. 
 Future plans to implement other data sources and static options.
 
+Tabs Page with custom labeling using selectors
+
+https://dpxmq1mxvsyda.cloudfront.net/example-tabs-custom-labels-v1
+
 Features:
 - Default content like html and markdown.
 - Content is extensible without altering code. For example, if you have a component or several which you would
