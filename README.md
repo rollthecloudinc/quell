@@ -85,6 +85,14 @@ Future plans to implement other data sources and static options.
 
 Tabs Page with custom labeling using selectors
 
+Formly Kitchen sink v2 (code tabs)
+
+https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v2
+
+Version 2 of formly kitchen sink.
+Adds code tabs using angular material tab component.
+First proof of concept with panel page selecors and style handlers.
+
 https://dpxmq1mxvsyda.cloudfront.net/example-tabs-custom-labels-v1
 
 The first snippet in each tab is selected as the label for the tab.
