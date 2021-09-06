@@ -11,7 +11,8 @@
       "datasource": "datasource",
       "plugin": "plugin",
       "uuid": "uuid",
-      "utils": "utils"
+      "utils": "utils",
+      "bridge": "bridge"
     }
   }
 }

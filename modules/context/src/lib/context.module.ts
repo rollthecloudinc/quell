@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from 'material';
+import { BridgeBuilderPluginManager } from 'bridge';
 import { CONTEXT_PLUGIN } from './context.tokens';
-import { routeContextFactory } from './context.factories';
+import { routeContextFactory, contextBridgeFactory } from './context.factories';
 import { RouteResolver } from './resolvers/route.resolver';
 import { ContextFormComponent } from './components/context-form/context-form.component';
 import { ContextEditorHostDirective } from './directives/context-editor-host.directive';
@@ -23,8 +24,10 @@ import { ContextPlugin } from './models/context.models';
 export class ContextModule {
   constructor(
     @Inject(CONTEXT_PLUGIN) contextPlugins: Array<ContextPlugin<string>>,
-    cpm: ContextPluginManager
+    cpm: ContextPluginManager,
+    bpm: BridgeBuilderPluginManager
   ) {
     contextPlugins.forEach(p => cpm.register(p));
+    bpm.register(contextBridgeFactory(cpm));
   }
 }
