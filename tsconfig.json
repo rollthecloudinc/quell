@@ -87,6 +87,10 @@
       "rest": [
         "dist/rest/rest",
         "dist/rest"
+      ],
+      "bridge": [
+        "dist/bridge/bridge",
+        "dist/bridge"
       ]
     }
   },

@@ -1,6 +1,9 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { AuthFacade } from 'auth';
 import { Router } from '@angular/router';
+import { PublicApiBridgeService } from 'bridge';
+
+declare var bridge: PublicApiBridgeService;
 
 @Component({
   selector: 'app-root',
@@ -13,7 +16,12 @@ export class AppComponent implements OnInit {
   isAuthenticated: boolean;
   @Output()
   menuClicked = new EventEmitter();
-  constructor(private authFacade: AuthFacade, private router: Router) {
+  constructor(
+    private authFacade: AuthFacade, 
+    private router: Router,
+    publicApiBridge: PublicApiBridgeService
+  ) {
+    bridge = publicApiBridge;
     /*this.oktaAuth.$authenticationState.subscribe(
       (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
     );*/

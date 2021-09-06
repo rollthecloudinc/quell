@@ -133,6 +133,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     if (p.cssFile && p.cssFile.trim() !== '') {
       this.experimentalApplyCss(p.cssFile.trim());
     }
+    this.experimentalApplyJs();
   });
 
   bridgeSub = this.pageForm.valueChanges.pipe(
@@ -334,6 +335,16 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
       this.filteredCss = css;
     });
 
+  }
+
+  experimentalApplyJs() {
+    //if (!this.nested) {
+      const src = 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-03.js';
+      let script = document.createElement('script') as HTMLScriptElement;
+      script.type = 'text/javascript';
+      script.src = src;
+      document.getElementsByTagName('head')[0].appendChild(script);
+    //}
   }
 
   writeValue(val: any): void {
