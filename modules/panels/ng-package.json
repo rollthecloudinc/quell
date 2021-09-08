@@ -15,7 +15,8 @@
       "material": "material",
       "content": "content",
       "uuid": "uuid",
-      "datasource": "datasource"
+      "datasource": "datasource",
+      "bridge": "bridge"
     }
   }
 }

@@ -4,7 +4,9 @@
   "lib": {
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
-      "content": "content"
+      "content": "content",
+      "@ngrx/entity": "@ngrx/entity",
+      "@ngrx/data": "@ngrx/data"
     }
   }
 }

@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Inject, NgModule } from '@angular/core';
-import { EntityDefinitionService } from '@ngrx/data';
+import { DefaultDataServiceConfig, EntityCollectionDataService, EntityDataService, EntityDefinitionService, EntityServices } from '@ngrx/data';
 import { entityMetadata } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { NoopDataService } from 'utils';
 import { MaterialModule } from 'material';
+import { AttributeSerializerService } from 'attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';
-import { panelContentPluginFactory } from './panels.factories';
+import { panelContentPluginFactory, panelsBridgeFactory } from './panels.factories';
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
+import { PanelPageState } from './models/state.models';
+import { BridgeBuilderPluginManager } from 'bridge';
 
 @NgModule({
   declarations: [PanelPageLinkedlistComponent, PanelEditorComponent, PanelSelectorComponent],
@@ -33,9 +37,16 @@ export class PanelsModule {
   constructor(
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
     eds: EntityDefinitionService,
-    cpm: ContentPluginManager
+    cpm: ContentPluginManager,
+    entityDataService: EntityDataService,
+    bpm: BridgeBuilderPluginManager,
+    es: EntityServices,
+    attributesSerialzer: AttributeSerializerService
   ) {
     eds.registerMetadataMap(entityMetadata);
+    entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     contentPlugins.forEach(p => cpm.register(p));
+    bpm.register(panelsBridgeFactory(es, attributesSerialzer));
+    // console.log('register panel page state');
   }
 }
