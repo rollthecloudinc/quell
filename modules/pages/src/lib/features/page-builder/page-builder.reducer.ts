@@ -4,6 +4,7 @@ import { ContentInstance } from 'content';
 import { Dataset } from 'datasource';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
+import { PanelPage } from 'panels';
 
 export const pageBuilderFeatureKey = 'pageBuilder';
 
@@ -14,6 +15,7 @@ export interface State {
   pageInfo: PanelPageStateSlice;
   formNames: Array<string>;
   forms: Array<PanelPageForm>;
+  page: PanelPage;
 }
 
 export interface PageBuilderPartialState {
@@ -26,7 +28,8 @@ export const initialState: State = {
   datasets: [],
   pageInfo: undefined,
   formNames: [],
-  forms: []
+  forms: [],
+  page: undefined
 };
 
 const pageBuilderReducer = createReducer(
@@ -53,6 +56,9 @@ const pageBuilderReducer = createReducer(
   on(PageBuilderActions.addContentInstance, (state, action) => ({ ...state, contentInstance: action.contentInstance })),
   on(PageBuilderActions.setPageInfo, (state, action ) => {
     return ({ ...state, pageInfo: action.info !== undefined ? new PanelPageStateSlice(action.info) : undefined });
+  }),
+  on(PageBuilderActions.setPage, (state, action ) => {
+    return ({ ...state, page: action.page !== undefined ? new PanelPage(action.page) : undefined });
   })
 );
 

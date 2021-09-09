@@ -26,9 +26,15 @@ export class PanelState {
 
 export class PaneState {
   state: AttributeValue;
+  nestedPage?: PanelPageState;
   constructor(data?: PaneState) {
-    if (data.state !== undefined) {
-      this.state = new AttributeValue(data.state);
+    if (data) {
+      if (data.state !== undefined) {
+        this.state = new AttributeValue(data.state);
+      }
+      if (data.nestedPage !== undefined && data.nestedPage !== null) {
+        this.nestedPage = new PanelPageState(data.nestedPage);
+      }
     }
   }
 }

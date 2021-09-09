@@ -5,6 +5,8 @@ import { MediaContentHandler } from './handlers/media-content.handler';
 import { ContentPlugin } from 'content';
 import { ContextPlugin } from 'context';
 import { Dataset } from 'datasource';
+import { PanelPageState, PanelState , PaneState } from 'panels';
+import { AttributeValue } from 'attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
@@ -27,6 +29,8 @@ import { StylePlugin } from 'style';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { TabsPanelRendererComponent } from './plugins/style/tabs-panel-renderer/tabs-panel-renderer.component';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
+import { PageStateContextResolver } from './contexts/page-state-context.resolver';
+import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -113,6 +117,11 @@ export const formContextFactory = (resolver: FormContextResolver) => {
     dataset: new Dataset(),
   };
   return new ContextPlugin<string>({ id: "form", name: 'form', title: 'Form', baseObject, resolver });
+};
+
+export const pageStateContextFactory = (resolver: PageStateContextResolver) => {
+  const baseObject = new PanelPageState({ id: '', panels: [ new PanelState({ panes: [ new PaneState({ state: new AttributeValue() }) ] }) ] });
+  return new ContextPlugin<string>({ id: "pagestate", name: 'pagestate', title: 'Page State', global: true, baseObject, resolver, editorComponent: PageStateEditorComponent });
 };
 
 export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {

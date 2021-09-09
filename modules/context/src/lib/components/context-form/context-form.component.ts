@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
-import { ContextManagerService } from '../../services/context-manager.service';
 import { ContextPlugin } from '../../models/context.models';
 import { ContextEditorHostDirective } from '../../directives/context-editor-host.directive';
 import { ContextPluginManager } from '../../services/context-plugin-manager.service';
 import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 @Component({
   selector: 'classifieds-ui-context-form',
   templateUrl: './context-form.component.html',
@@ -37,12 +37,7 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
 
   @ViewChild(ContextEditorHostDirective, { static: true }) editorHost: ContextEditorHostDirective;
 
-  get contextPlugin(): ContextPlugin {
-    return this.contextManager.lookupContext(this.contextForm.get('plugin').value);
-  }
-
   constructor(
-    private contextManager: ContextManagerService,
     private fb: FormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
     private cpm: ContextPluginManager
@@ -51,10 +46,11 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
   ngOnInit(): void {
     // this.contextPlugins = this.contextManager.getAll(false);
     this.contextPlugins = this.cpm.getPlugins();
-    this.contextForm.get('plugin').valueChanges.subscribe(v => {
-      console.log('value change');
-      if(this.contextPlugin.editorComponent) {
-        this.renderEditor();
+    this.contextForm.get('plugin').valueChanges.pipe(
+      switchMap(v => this.cpm.getPlugin(v))
+    ).subscribe(plugin => {
+      if(plugin.editorComponent) {
+        this.renderEditor(plugin);
       } else {
         this.editorHost.viewContainerRef.clear();
       }
@@ -83,12 +79,12 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
     }
   }
 
-  validate(c: AbstractControl): ValidationErrors | null{
+  validate(c: AbstractControl): ValidationErrors | null{ 
     return this.contextForm.valid ? null : { invalidForm: {valid: false, message: "context is invalid"}};
   }
 
-  renderEditor() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.contextPlugin.editorComponent);
+  renderEditor(plugin: ContextPlugin) {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(plugin.editorComponent);
 
     const viewContainerRef = this.editorHost.viewContainerRef;
     viewContainerRef.clear();

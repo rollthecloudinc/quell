@@ -14,6 +14,9 @@ import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 import { PanelPageState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
+// import { PanelsStateContextResolver } from './contexts/panels-state-context.resolver';
+import { ContextPluginManager } from 'context';
+// import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
   declarations: [PanelPageLinkedlistComponent, PanelEditorComponent, PanelSelectorComponent],
@@ -41,12 +44,15 @@ export class PanelsModule {
     entityDataService: EntityDataService,
     bpm: BridgeBuilderPluginManager,
     es: EntityServices,
-    attributesSerialzer: AttributeSerializerService
+    attributesSerialzer: AttributeSerializerService,
+    /*ctxm: ContextPluginManager,
+    panelsStateContextResolver: PanelsStateContextResolver*/
   ) {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     contentPlugins.forEach(p => cpm.register(p));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
+    // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));
     // console.log('register panel page state');
   }
 }

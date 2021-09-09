@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { ContentInstance } from 'content';
 import { Rest, Dataset } from 'datasource';
+import { PanelPage } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
 
@@ -32,6 +33,11 @@ export const setPageInfo = createAction(
 export const setForm = createAction(
   '[PageBuilder] Set Form',
   props<{ name: string; form: PanelPageForm }>()
+);
+
+export const setPage = createAction(
+  '[PageBuilder] Set Page',
+  props<{ page: PanelPage }>()
 );
 
 

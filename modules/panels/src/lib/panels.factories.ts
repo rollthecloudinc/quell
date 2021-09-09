@@ -4,7 +4,7 @@ import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.
 import { ContentPlugin } from 'content';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { EntityServices } from '@ngrx/data';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { PanelPageState, PanelState, PaneState } from './models/state.models';
 import { of } from 'rxjs';
@@ -54,5 +54,5 @@ export const panelsBridgeFactory = (es: EntityServices, attributeSerializer: Att
       }
     }
   }); 
-}; 
+};
 

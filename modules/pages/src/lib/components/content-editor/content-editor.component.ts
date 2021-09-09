@@ -31,6 +31,7 @@ import { NgTemplateOutlet } from '@angular/common';
 // import { timeStamp } from 'console';
 // import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.directive';
+import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 
 @Component({
   selector: 'classifieds-ui-content-editor',
@@ -206,6 +207,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
     private componentFactoryResolver: ComponentFactoryResolver,
+    private pageBuilderFacade: PageBuilderFacade
     // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
@@ -237,6 +239,13 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
           })
         }));
       }
+    });
+    this.contentForm.valueChanges.pipe(
+      filter(() => !this.nested),
+      debounceTime(500)
+    ).subscribe(() => {
+      const pp = this.packageFormData();
+      this.pageBuilderFacade.setPage(pp);
     });
   }
 
