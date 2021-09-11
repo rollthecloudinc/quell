@@ -16,6 +16,7 @@ export interface State {
   formNames: Array<string>;
   forms: Array<PanelPageForm>;
   page: PanelPage;
+  selectionPath: Array<number>;
 }
 
 export interface PageBuilderPartialState {
@@ -29,7 +30,8 @@ export const initialState: State = {
   pageInfo: undefined,
   formNames: [],
   forms: [],
-  page: undefined
+  page: undefined,
+  selectionPath: []
 };
 
 const pageBuilderReducer = createReducer(
@@ -59,6 +61,9 @@ const pageBuilderReducer = createReducer(
   }),
   on(PageBuilderActions.setPage, (state, action ) => {
     return ({ ...state, page: action.page !== undefined ? new PanelPage(action.page) : undefined });
+  }),
+  on(PageBuilderActions.setSelectionPath, (state, action ) => {
+    return ({ ...state, selectionPath: action.path !== undefined ? action.path : [] });
   })
 );
 

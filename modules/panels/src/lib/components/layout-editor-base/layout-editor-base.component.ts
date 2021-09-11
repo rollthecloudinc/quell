@@ -38,6 +38,9 @@ export class LayoutEditorBaseComponent {
   @Input()
   contextsMenuTpl: TemplateRef<any>;
 
+  @Input()
+  ancestory: Array<number> = [];
+
   get gridItems(): Array<GridItem> {
     return [];
   }

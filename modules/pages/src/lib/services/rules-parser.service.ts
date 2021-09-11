@@ -36,9 +36,11 @@ export class RulesParserService {
             }
           } else if(prop !== 'attributes') {
             if(prop === s.name) {
-              fields.set(`${prefix}.${prop}`, { name: `${prefix}.${prop}`, type: this.resolveAttributeType(s[prop].type), defaultValue: s[prop] });
+              // fields.set(`${prefix}.${prop}`, { name: `${prefix}.${prop}`, type: this.resolveAttributeType(s[prop].type), defaultValue: s[prop] });
+              fields.set(`${prefix}.${prop}`, { name: `${prefix}.${prop}`, type: this.resolveAttributeType(s.type), defaultValue: s[prop] });
             } else {
-              fields.set(`${prefix}.${s.name}.${prop}`, { name: `${prefix}.${s.name}.${prop}`, type: this.resolveAttributeType(s[prop].type), defaultValue: s[prop] });
+              // fields.set(`${prefix}.${s.name}.${prop}`, { name: `${prefix}.${s.name}.${prop}`, type: this.resolveAttributeType(s[prop].type), defaultValue: s[prop] });
+              fields.set(`${prefix}.${s.name}.${prop}`, { name: `${prefix}.${s.name}.${prop}`, type: this.resolveAttributeType(s.type), defaultValue: s[prop] });
             }
           }
         }

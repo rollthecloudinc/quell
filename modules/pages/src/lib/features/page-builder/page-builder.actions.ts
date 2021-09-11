@@ -40,6 +40,11 @@ export const setPage = createAction(
   props<{ page: PanelPage }>()
 );
 
+export const setSelectionPath = createAction(
+  '[PageBuilder] Selection Path',
+  props<{ path: Array<number> }>()
+);
+
 
 
 

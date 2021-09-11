@@ -1,11 +1,11 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, EventEmitter, Output, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, EventEmitter, Output, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { AttributeValue } from 'attributes';
-import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
+import { ContentPlugin, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelPage, PanelContentHandler } from 'panels';
-import { Subject } from 'rxjs';
-import { switchMap, map, debounceTime } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'classifieds-ui-editable-pane',
@@ -27,10 +27,14 @@ export class EditablePaneComponent implements OnInit, OnChanges {
   label: string;
 
   @Input()
-  panelIndex: number;
+  set panelIndex(panelIndex: number) {
+    this.panelIndex$.next(panelIndex);
+  }
 
   @Input()
-  paneIndex: number;
+  set paneIndex(paneIndex: number) {
+    this.paneIndex$.next(paneIndex);
+  }
 
   @Input()
   locked = false;
@@ -40,6 +44,11 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   @Input()
   contexts: Array<InlineContext> = [];
+
+  @Input() 
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
 
   @Output()
   edit = new EventEmitter();
@@ -90,9 +99,23 @@ export class EditablePaneComponent implements OnInit, OnChanges {
   });
 
   panelPage: PanelPage;
+  ancestory$ = new Subject<Array<number>>();
+  panelIndex$ = new Subject<number>();
+  paneIndex$ = new Subject<number>();
+  paneAncestoryWithSelf: Array<number> = [];
 
   @ViewChild(PaneContentHostDirective, { static: false }) contentPaneHost: PaneContentHostDirective;
   @ViewChild('contentEditor', { static: false }) contentEditor: any;
+
+  paneAncestoryWithSelfSub = combineLatest([
+    this.ancestory$,
+    this.panelIndex$,
+    this.paneIndex$
+  ]).pipe(
+    map(([ancestory, panelIndex, paneIndex]) => [...ancestory, panelIndex, paneIndex])
+  ).subscribe(a => {
+    this.paneAncestoryWithSelf = a;
+  });
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,

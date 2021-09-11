@@ -14,7 +14,7 @@ import { CssHelperService } from '../../services/css-helper.service';
   selector: 'classifieds-ui-render-pane',
   templateUrl: './render-pane.component.html',
   styleUrls: ['./render-pane.component.scss'],
-  // encapsulation: ViewEncapsulation.ShadowDom,
+  encapsulation: ViewEncapsulation.ShadowDom,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

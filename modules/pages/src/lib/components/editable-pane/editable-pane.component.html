@@ -38,7 +38,7 @@
 
 <ng-template #nestedPanelTpl>
   <div class="nested-panel-wrapper">
-    <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()">
+    <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" [ancestory]="paneAncestoryWithSelf" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()">
       <ng-template #extraActionsArea>
         <div class="panel-name">{{ name }}</div>
       </ng-template>

@@ -57,6 +57,8 @@ export class RulesDialogComponent implements OnInit {
   }
 
   submit() {
+    console.log('the rules');
+    console.log(this.rulesForm.get('rules').value);
     this.dialogRef.close(this.rulesForm.get('rules').value);
   }
 

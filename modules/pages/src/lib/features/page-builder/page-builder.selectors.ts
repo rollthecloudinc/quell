@@ -18,6 +18,7 @@ export const selectDataset = (tag: string) => createSelector(selectPageBuilderSt
 
 export const selectPageInfo = createSelector(selectPageBuilderState, state => state.pageInfo);
 export const selectPage = createSelector(selectPageBuilderState, state => state.page);
+export const selectSelectionPath = createSelector(selectPageBuilderState, state => state.selectionPath);
 
 export const selectFormNames = createSelector(selectPageBuilderState, state => state.formNames);
 export const selectForms = createSelector(selectPageBuilderState, state => state.forms);

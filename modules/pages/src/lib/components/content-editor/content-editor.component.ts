@@ -108,6 +108,14 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   @Input()
   rootContext: InlineContext;
 
+  @Input()
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
+  get ancestory(): Array<number> {
+    return this.ancestory$.value;
+  }
+
   layoutEditorRef: ComponentRef<LayoutEditorBaseComponent>;
 
   contentAdded = new Subject<[number, number]>();
@@ -122,6 +130,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
+
+  ancestory$ = new BehaviorSubject<Array<number>>([]);
 
   public onTouched: () => void = () => {};
 
@@ -172,6 +182,12 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   @ViewChild('contextsMenuTpl', { static: true }) contextsMenuTpl: TemplateRef<any>;
   @ViewChild('editablePaneTpl', { static: true }) editablePaneTpl: TemplateRef<any>;
   @ContentChild('extraActionsArea') extraActionsAreaTmpl: TemplateRef<any>;
+
+  ancestorySub = this.ancestory$.pipe(
+    filter(() => !!this.layoutEditorRef)
+  ).subscribe(ancestory => {
+    (this.layoutEditorRef.instance as any).ancestory = ancestory;
+  });
 
   get panels() {
     return (this.contentForm.get('panels') as FormArray);
@@ -543,6 +559,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     const pane = new Pane(this.panelPane(index, index2).value);
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
     const [ editablePane ] = this.editablePanes.filter((ep, i) => ep.name === pane.name );
+    this.pageBuilderFacade.setSelectionPath([ ...this.ancestory, index, index2 ]);
     this.dialog
     .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts ] } })
     .afterClosed()
@@ -895,6 +912,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.layoutEditorRef = viewContainerRef.createComponent(componentFactory);
       (this.layoutEditorRef.instance as any).savable = this.savable;
       (this.layoutEditorRef.instance as any).nested = this.nested;
+      (this.layoutEditorRef.instance as any).ancestory = this.ancestory;
 
       (this.layoutEditorRef.instance as any).editor = this;
 
@@ -914,6 +932,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   updateEditorLayoutVars() {
       (this.layoutEditorRef.instance as any).savable = this.savable;
       (this.layoutEditorRef.instance as any).nested = this.nested;
+      (this.layoutEditorRef.instance as any).ancestory = this.ancestory;
 
       (this.layoutEditorRef.instance as any).editor = this;
 
