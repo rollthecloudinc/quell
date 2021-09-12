@@ -9,7 +9,7 @@ import { PanelsEditor, LayoutSetting, PanelContentHandler } from 'panels';
 import { TokenizerService } from 'token';
 import { SITE_NAME } from 'utils';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
-import { /*ContextManagerService,*/ InlineContext } from 'context';
+import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from 'context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Pane, PanelPage, LayoutEditorBaseComponent } from 'panels';
@@ -32,6 +32,8 @@ import { NgTemplateOutlet } from '@angular/common';
 // import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.directive';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
+import { paneStateContextFactory } from '../../pages.factories';
+import { PaneStateContextResolver } from '../../contexts/pane-state-context.resolver';
 
 @Component({
   selector: 'classifieds-ui-content-editor',
@@ -217,13 +219,15 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     private cpm: ContentPluginManager,
     private spm: StylePluginManager,
     private lpm: LayoutPluginManager,
+    private cxtm: ContextPluginManager,
     private fb: FormBuilder,
     private bs: MatBottomSheet,
     private dialog: MatDialog,
     private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private pageBuilderFacade: PageBuilderFacade
+    private pageBuilderFacade: PageBuilderFacade,
+    private paneStateContextResolver: PaneStateContextResolver
     // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
@@ -560,6 +564,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
     const [ editablePane ] = this.editablePanes.filter((ep, i) => ep.name === pane.name );
     this.pageBuilderFacade.setSelectionPath([ ...this.ancestory, index, index2 ]);
+    const paneStateName = 'panestate' + [ ...this.ancestory, index, index2 ].map(i => `[${i}]`).join('');
+    if (this.contexts.findIndex(c => c.name === paneStateName) === -1) {
+      this.contexts = [ ...this.contexts, new InlineContext({ name: paneStateName, adaptor: 'data', plugin: 'panestate', data: { id: this.panelPage.id, selectionPath: [ ...this.ancestory, index, index2 ] } }) ];
+    }
     this.dialog
     .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts ] } })
     .afterClosed()

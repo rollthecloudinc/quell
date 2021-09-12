@@ -7,6 +7,7 @@ import { Engine } from 'json-rules-engine';
 import { map, tap, switchMap, take } from 'rxjs/operators';
 import { InlineContextResolverService } from './inline-context-resolver.service';
 import * as uuid from 'uuid';
+import { Rule } from 'json-rules-engine'
 
 @Injectable()
 export class RulesResolverService {
@@ -20,7 +21,10 @@ export class RulesResolverService {
     return this.inlineContextResolver.resolveMerged(contexts, `rules:${uuid.v4()}`).pipe(
       take(1),
       map(facts => [{ ...facts }, new Engine()]),
-      tap(([facts, engine]) => engine.addRule(this.rulesParser.toEngineRule(ngRule))),
+      tap(([facts, engine]) => {
+        const rule = this.rulesParser.toEngineRule(ngRule);
+        engine.addRule(rule);
+      }),
       switchMap(([facts, engine]) => new Observable<boolean>(obs => {
         engine.run(facts).then(res => {
           obs.next(res.events.findIndex(e => e.type === 'visible') > -1);
@@ -28,6 +32,33 @@ export class RulesResolverService {
         });
       }))
     );
+    // A bit easier to debug using breakpoints.
+    /*return new Observable<boolean>(obs => {
+      const name = `rules:${uuid.v4()}`;
+      this.inlineContextResolver.resolveMerged(contexts, name).pipe(
+        take(1),
+        map(facts => [{ ...facts }, new Engine()]),
+        tap(([facts, engine]) => {
+          const rule = this.rulesParser.toEngineRule(ngRule);
+          engine.addRule(new Rule({ 
+            ...rule, 
+            onSuccess: () => {
+              obs.next(true);
+              obs.complete();
+            },
+            onFailure: () => {
+              obs.next(false);
+              obs.complete();
+            },
+            name 
+          }));
+          engine.run(facts).then(() => {
+            console.log('facts ran!');
+          });;
+        })
+      ).subscribe(() => {
+        console.log(`subscription complete for rule ${name}`);
+      });
+    });*/
   }
-
 }

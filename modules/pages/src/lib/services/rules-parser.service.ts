@@ -67,25 +67,43 @@ export class RulesParserService {
     }
   }
 
+  /**
+   * Changes commited on 9/12/2021 have potential to break older panel pages that
+   * use context. Although I believe that originally this only worked for one level. Now
+   * it works for nested rules. I also can't recall why the field split was limited
+   * to only 2 items. That might hav just been laziness or there might have been a valid reason for it.
+   * I don't know why that be done instead of using indexOf to make sure the full path is included.
+   */
   toEngineRule(rule: RuleSet, level = 0): Rule  {
 
-    const len = rule.rules.length;
     const conditions: Array<NestedCondition> = [];
 
-    for(let i = 0; i < len; i++) {
-      if('field' in rule.rules[i]) {
-        const [ fact, path ] = (rule.rules[i] as NgRule).field.split('.', 2)
-        conditions.push({ fact, path: `$.${path}`, operator: this.operatorsMap.get((rule.rules[i] as NgRule).operator), value: (rule.rules[i] as NgRule).value });
-      } else {
-        const nestedRule = this.toEngineRule(rule.rules[i] as RuleSet, level + 1);
-        conditions.push(nestedRule.conditions);
-      }
-    }
-
-    if(rule.condition === 'and') {
+    if(rule.rules === undefined || !Array.isArray(rule.rules)) {
+      // const [ fact, path ] = (rule as any).field.split('.', 2);
+      const firstDot = (rule as any).field.indexOf('.');
+      const fact = (rule as any).field.substr(0, firstDot);
+      const path = (rule as any).field.substr(firstDot + 1);
+      conditions.push({ fact, path: `$.${path}`, operator: this.operatorsMap.get((rule as any).operator), value: (rule as any).value });
       return new Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
     } else {
-      return new Rule({ conditions: { any: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+      const len = rule.rules.length;
+      for(let i = 0; i < len; i++) {
+        if('field' in rule.rules[i] && (rule.condition === undefined || rule.condition === null || rule.condition === '')) {
+          // const [ fact, path ] = (rule.rules[i] as NgRule).field.split('.', 2);
+          const firstDot = (rule.rules[i] as NgRule).field.indexOf('.');
+          const fact = (rule.rules[i] as NgRule).field.substr(0, firstDot);
+          const path = (rule.rules[i] as NgRule).field.substr(firstDot + 1);
+          conditions.push({ fact, path: `$.${path}`, operator: this.operatorsMap.get((rule.rules[i] as NgRule).operator), value: (rule.rules[i] as NgRule).value });
+        } else {
+          const nestedRule = this.toEngineRule(rule.rules[i] as RuleSet, level + 1);
+          conditions.push(nestedRule.conditions);
+        }
+      }
+      if(rule.condition === 'and') {
+        return new Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+      } else {
+        return new Rule({ conditions: { any: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+      }
     }
   }
 

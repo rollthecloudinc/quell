@@ -41,7 +41,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, pageStateContextFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -89,11 +89,11 @@ import { LayoutEditorHostDirective } from './directives/layout-editor-host.direc
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
-import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
+import { PaneStateEditorComponent } from './components/pane-state-editor/pane-state-editor.component';
 import { PanelsModule, PanelContentHandler } from 'panels';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { StyleResolverService } from './services/style-resolver.service';
-import { PageStateContextResolver } from './contexts/page-state-context.resolver';
+import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -152,14 +152,14 @@ const routes = [
     EffectsModule.forFeature([PageBuilderEffects]),
     PanelsModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetFormComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, RestSourceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetFormComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, RestSourceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PaneStateEditorComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
     RestContextResolver,
     FormContextResolver,
     PanelResolverService,
-    PageStateContextResolver,
+    PaneStateContextResolver,
     InlineContextResolverService,
     UrlGeneratorService,
     RulesResolverService,
@@ -202,11 +202,11 @@ export class PagesModule {
     pageContextResolver: PageContextResolver,
     restContextResolver: RestContextResolver,
     formContextResolver: FormContextResolver,
-    pageStateContextResolver: PageStateContextResolver
+    paneStateContextResolver: PaneStateContextResolver
   ) {
     eds.registerMetadataMap(entityMetadata);
 
-    const contextPlugins = [pageContextFactory(pageContextResolver), restContextFactory(restContextResolver), formContextFactory(formContextResolver), pageStateContextFactory(pageStateContextResolver)];
+    const contextPlugins = [pageContextFactory(pageContextResolver), restContextFactory(restContextResolver), formContextFactory(formContextResolver), paneStateContextFactory(paneStateContextResolver)];
 
     /*contextManager.register(pageContextFactory(pageContextResolver));
     contextManager.register(restContextFactory(restContextResolver));
