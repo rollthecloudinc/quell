@@ -12,6 +12,8 @@ import { PanelPageStateSlice } from '../models/page.models';
 @Injectable()
 export class PaneStateContextResolver implements ContextResolver {
 
+  resolverCache$ = new Map<string, Observable<any>>();
+
   get emptyPaneState(): PaneState {
     return new PaneState({ state: this.attributeSerializer.serialize({  displayAssociatedPane: '' }, 'root') });
   }
@@ -44,18 +46,28 @@ export class PaneStateContextResolver implements ContextResolver {
   ) { }
 
   resolve(ctx: ContextPlugin, data?: any): Observable<any> {
-    // const svc = this.entityServices.getEntityCollectionService('PanelPageState');
-    // return svc.getByKey(data.id);
+    const cacheKey = data && data.selectionMethod && data.selectionMethod.length !== 0 && data.id && data.id !== null && data.id !== '' ? `ps[id=${data.id}]${data.selectionMethod.map(i => `${i}`).join('')}`  : undefined;
+    if (cacheKey && this.resolverCache$.has(cacheKey)) {
+      return this.resolverCache$.get(cacheKey);
+    } else {
+      const resolver = this.resolve$(ctx, data);
+      if (cacheKey) {
+        this.resolverCache$.set(cacheKey, resolver);
+      }
+      return resolver;
+    }
+  }
+
+  resolve$(ctx: ContextPlugin, data?: any): Observable<any> {
     return combineLatest([this.panelPage$, this.entities$]).pipe(
-        map<[PanelPage, Array<PanelPageState>], [PanelPage, PanelPageState]>(([pp, entities]) => [pp, pp && entities.findIndex(e => e.id === pp.id) !== -1 ? entities.find(e => e.id === pp.id) : new PanelPageState()]),
-        switchMap(([pp, ps]) => this.pageBuilderFacade.getSelectionPath$.pipe(
-          map(selectionPath => data && data.selectionPath ? data.selectionPath : selectionPath), // temp hard code to see if context change is triggered
-          tap(selectionPath => selectionPath.join(',')),
-          map(s => s.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`)),
-          map(s => s.length === 0 ? undefined : '$.' + s.join('.')),
-          map<string, [PanelPage, PanelPageState, string]>(s => [pp, ps, s])
-        )
-      ),
+      map<[PanelPage, Array<PanelPageState>], [PanelPage, PanelPageState]>(([pp, entities]) => [pp, pp && entities.findIndex(e => e.id === pp.id) !== -1 ? entities.find(e => e.id === pp.id) : new PanelPageState()]),
+      switchMap(([pp, ps]) => this.pageBuilderFacade.getSelectionPath$.pipe(
+        map(selectionPath => data && data.selectionPath ? data.selectionPath : selectionPath), // temp hard code to see if context change is triggered
+        tap(selectionPath => selectionPath.join(',')),
+        map(s => s.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`)),
+        map(s => s.length === 0 ? undefined : '$.' + s.join('.')),
+        map<string, [PanelPage, PanelPageState, string]>(s => [pp, ps, s])
+      )),
       tap(([pp, ps, query]) => {
         console.log('page state context resolver');
         console.log(pp);
@@ -87,4 +99,5 @@ export class PaneStateContextResolver implements ContextResolver {
       })
     );
   }
+
 }
