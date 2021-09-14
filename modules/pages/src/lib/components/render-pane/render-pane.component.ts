@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ViewEncapsulation, ElementRef, Renderer2, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { delay, map, switchMap, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
+import { PublicApiBridgeService } from 'bridge';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
@@ -32,7 +33,9 @@ import { CssHelperService } from '../../services/css-helper.service';
     '[attr.data-index]': 'indexPosition'
   }
 })
-export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
+export class RenderPaneComponent implements OnInit, OnChanges, AfterContentInit, ControlValueAccessor, Validator {
+
+  static testTcriptFileAdded = false;
 
   @Input()
   pluginName: string;
@@ -138,6 +141,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     }
   });
 
+  private worker: Worker;
+
   @ViewChild(PaneContentHostDirective, { static: true }) contentPaneHost: PaneContentHostDirective;
 
   constructor(
@@ -148,12 +153,14 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private panelHandler: PanelContentHandler,
     private fb: FormBuilder,
     private cpm: ContentPluginManager,
-    private cssHelper: CssHelperService
+    private cssHelper: CssHelperService,
+    private bridge: PublicApiBridgeService
   ) {
     // this.contentPlugins = contentPlugins;
   }
 
   ngOnInit(): void {
+
     this.schedulePluginChange.next();
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
@@ -179,6 +186,54 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     } else {
       this.renderPaneContent();
     }*/
+  }
+
+  ngAfterContentInit() {
+    // KISS for now could move this and add other data.
+    // undefined
+    // this.el.nativeElement.shadowRoot.paneIndex = this.indexPosition;
+    // just for testing at the moment
+    // script ref will be stored on pane like css on panel page.
+    //if (this.indexPosition === 1) {
+    /*let ctxScript = document.createElement('script') as HTMLScriptElement;
+    ctxScript.type = 'text/javascript';
+    ctxScript.appendChild(document.createTextNode(`var paneIndex = ${this.indexPosition}`));
+    this.el.nativeElement.shadowRoot.appendChild(ctxScript);*/
+
+    //if(!RenderPaneComponent.testTcriptFileAdded) {
+      /*RenderPaneComponent.testTcriptFileAdded = true;
+      console.log('shadow root');
+      console.log(this.el.nativeElement.shadowRoot);*/
+      /*const src = `https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/test-shadowdom-var-context-v1--${this.indexPosition}-2.js`;
+      let script = document.createElement('script') as HTMLScriptElement;
+      script.type = 'text/javascript';
+      script.src = src;
+      this.el.nativeElement.shadowRoot.appendChild(script);*/
+    //}
+    //}
+
+    // this.worker = new Worker(`https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-15.js`);
+    /*fetch(`https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-25.js`)
+      .then(res => res.blob())
+      .then(blob => {
+        // const blob = new Blob([script], { type: 'application/javascript' });
+        const blobUrl = URL.createObjectURL(blob);
+        this.worker = new Worker(blobUrl);
+        this.worker.onmessage = action => {
+          console.log('action from worker:');
+          console.log(action.data.type);
+          console.log(action.data.payload);
+          console.log(action.data.correlationId);
+          this.bridge[action.data.type](...action.data.payload)
+            .then(payload => {
+              console.log(`result for:`);
+              console.log(action.data.type);
+              console.log(action.data.payload);
+              console.log(action.data.correlationId);
+              this.worker.postMessage({ correlationId: action.data.correlationId, payload });
+            });
+        };
+      });*/
   }
 
   writeValue(val: any): void {
