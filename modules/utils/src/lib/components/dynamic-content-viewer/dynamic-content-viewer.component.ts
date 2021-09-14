@@ -1,12 +1,14 @@
-import { Type, Component, NgModule, VERSION, Inject, ComponentFactoryResolver, InjectionToken,Injector, ElementRef, Output, Input, EventEmitter, ComponentFactory, ComponentRef} from '@angular/core'
+import { Type, Component, NgModule, VERSION, Inject, ComponentFactoryResolver, InjectionToken,Injector, ElementRef, Output, Input, EventEmitter, ComponentFactory, ComponentRef, OnInit, AfterContentInit, SecurityContext} from '@angular/core'
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { EMBEDDABLE_COMPONENT } from '../../utils.tokens';
 
 @Component({
   selector: 'classifieds-ui-dynamic-content-viewer',
-  template: '',
+  template: `<div *ngIf="bypassSecurity" [innerHtml]="safeContent"></div>
+             <div *ngIf="!bypassSecurity" [innerHtml]="unsafeContent"></div>`,
 })
-export class DynamicContentViewer {
+export class DynamicContentViewer implements OnInit, AfterContentInit {
   private hostElement: HTMLElement;
   private embeddedComponentFactories: Map<string, ComponentFactory<any>> = new Map();
   private embeddedComponents: ComponentRef<any>[] = [];
@@ -14,14 +16,24 @@ export class DynamicContentViewer {
   @Input()
   data: any;
 
+  @Input()
+  content: string;
+
+  @Input()
+  bypassSecurity = false;
+
   @Output()
   docRendered = new EventEmitter();
+
+  unsafeContent: string;
+  safeContent: SafeHtml;
 
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     elementRef: ElementRef,
     @Inject(EMBEDDABLE_COMPONENT) embeddedComponents: Array<Type<any>>,
     private injector: Injector,
+    private sanitizer: DomSanitizer
     ) {
     this.hostElement = elementRef.nativeElement;
     embeddedComponents.forEach(component =>{
@@ -30,19 +42,32 @@ export class DynamicContentViewer {
     })
   }
 
-  @Input()
+  /*@Input()
   set content(content) {
     this.ngOnDestroy();
     if (content) {
       this.build(content);
       this.docRendered.emit();
     }
+  }*/
+
+  ngOnInit() {
+    if(this.bypassSecurity) {
+      this.safeContent = this.sanitizer.bypassSecurityTrustHtml(this.content);
+      this.unsafeContent = undefined;
+    } else {
+      this.safeContent = undefined;
+      this.unsafeContent = this.content;
+    }
   }
 
-  private build(content) {
-    this.hostElement.innerHTML = content || '';
+  ngAfterContentInit() {
+    this.build();
+  }
 
-    if (!content) { return; }
+  private build() {
+
+    if (!this.safeContent && !this.unsafeContent) { return; }
 
     this.embeddedComponentFactories.forEach((factory, selector) => {
       const embeddedComponentElements = this.hostElement.querySelectorAll(selector);
