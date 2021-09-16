@@ -30,7 +30,8 @@ import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs
 import { TabsPanelRendererComponent } from './plugins/style/tabs-panel-renderer/tabs-panel-renderer.component';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
-import { PaneStateEditorComponent } from './components/pane-state-editor/pane-state-editor.component';
+import { PageStateContextResolver } from './contexts/page-state-context.resolver';
+import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -121,7 +122,12 @@ export const formContextFactory = (resolver: FormContextResolver) => {
 
 export const paneStateContextFactory = (resolver: PaneStateContextResolver) => {
   const baseObject = new PaneState({ state: new AttributeValue() });
-  return new ContextPlugin<string>({ id: 'panestate', name: 'panestate', title: 'Pane State', baseObject, resolver /*, editorComponent: PaneStateEditorComponent*/ });
+  return new ContextPlugin<string>({ id: 'panestate', name: 'panestate', title: 'Pane State', baseObject, resolver });
+};
+
+export const pageStateContextFactory = (resolver: PageStateContextResolver) => {
+  const baseObject = new PaneState({ state: new AttributeValue() });
+  return new ContextPlugin<string>({ id: 'pagestate', name: 'pagestate', title: 'Page State', baseObject, resolver, editorComponent: PageStateEditorComponent });
 };
 
 export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {

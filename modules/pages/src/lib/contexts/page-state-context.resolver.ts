@@ -10,7 +10,7 @@ import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { PanelPageStateSlice } from '../models/page.models';
 
 @Injectable()
-export class PaneStateContextResolver implements ContextResolver {
+export class PageStateContextResolver implements ContextResolver {
 
   resolverCache$ = new Map<string, Observable<any>>();
 

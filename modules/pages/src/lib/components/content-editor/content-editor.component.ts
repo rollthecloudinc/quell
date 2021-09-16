@@ -566,7 +566,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     this.pageBuilderFacade.setSelectionPath([ ...this.ancestory, index, index2 ]);
     const paneStateName = 'panestate' + [ ...this.ancestory, index, index2 ].map(i => `[${i}]`).join('');
     if (this.contexts.findIndex(c => c.name === paneStateName) === -1) {
-      this.contexts = [ ...this.contexts, new InlineContext({ name: paneStateName, adaptor: 'data', plugin: 'panestate', data: { id: this.panelPage.id, selectionPath: [ ...this.ancestory, index, index2 ] } }) ];
+      this.contexts = [ ...this.contexts, new InlineContext({ name: paneStateName, adaptor: 'data', plugin: 'panestate', data: { id: this.panelPage ? this.panelPage.id : '', selectionPath: [ ...this.ancestory, index, index2 ] } }) ];
     }
     this.dialog
     .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts ] } })
@@ -581,6 +581,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   onAddContextClick() {
+    const pp = this.packageFormData();
+    this.pageBuilderFacade.setPage(pp);
     this.dialog.open(ContextDialogComponent, { data: { } })
     .afterClosed()
     .subscribe((context?: InlineContext) => {
@@ -594,6 +596,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     const editContext = this.contexts.find(c => c.name === name);
     console.log(editContext);
     if(editContext) {
+      const pp = this.packageFormData();
+      this.pageBuilderFacade.setPage(pp);
       this.dialog.open(ContextDialogComponent, { data: { context: editContext } })
       .afterClosed()
       .subscribe((context?: InlineContext) => {

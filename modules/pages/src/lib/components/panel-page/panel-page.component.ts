@@ -339,11 +339,11 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
 
   experimentalApplyJs() {
     //if (!this.nested) {
-      const src = 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-12.js';
+      /*const src = 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-12.js';
       let script = document.createElement('script') as HTMLScriptElement;
       script.type = 'text/javascript';
       script.src = src;
-      document.getElementsByTagName('head')[0].appendChild(script);
+      document.getElementsByTagName('head')[0].appendChild(script);*/
     //}
   }
 

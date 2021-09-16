@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
-import { ContextPlugin } from '../../models/context.models';
+import { ContextPlugin, InlineContext } from '../../models/context.models';
 import { ContextEditorHostDirective } from '../../directives/context-editor-host.directive';
 import { ContextPluginManager } from '../../services/context-plugin-manager.service';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'classifieds-ui-context-form',
   templateUrl: './context-form.component.html',
@@ -24,6 +24,11 @@ import { switchMap } from 'rxjs/operators';
 })
 export class ContextFormComponent implements OnInit, ControlValueAccessor, Validator {
 
+  @Input()
+  set context(context: InlineContext) {
+    this.context$.next(context);
+  }
+
   contextPlugins: Observable<Map<string, ContextPlugin<string>>>;
 
   componentRef: any;
@@ -32,6 +37,8 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
     name: this.fb.control('', Validators.required),
     plugin: this.fb.control('', Validators.required)
   });
+
+  context$ = new BehaviorSubject<InlineContext>(undefined);
 
   public onTouched: () => void = () => {};
 
@@ -54,6 +61,11 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
       } else {
         this.editorHost.viewContainerRef.clear();
       }
+    });
+    this.context$.pipe(
+      filter(() => !!this.componentRef)
+    ).subscribe(c => {
+      (this.componentRef.instance as any).context = c;
     });
   }
 
@@ -90,6 +102,7 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
     viewContainerRef.clear();
 
     this.componentRef = viewContainerRef.createComponent(componentFactory);
+    (this.componentRef.instance as any).context = this.context$.value;
   }
 
 }

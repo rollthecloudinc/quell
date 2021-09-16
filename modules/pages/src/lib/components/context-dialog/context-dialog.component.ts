@@ -13,13 +13,17 @@ export class ContextDialogComponent implements OnInit, AfterViewInit  {
     context: this.fb.control('')
   });
 
+  context: InlineContext;
+
   @ViewChild(ContextFormComponent) contextFormComp: ContextFormComponent;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { context?: InlineContext },
     private dialogRef: MatDialogRef<ContextDialogComponent>,
     private fb: FormBuilder
-  ) { }
+  ) { 
+    this.context = data.context;
+  }
 
   ngOnInit(): void {
   }
