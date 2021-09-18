@@ -91,6 +91,10 @@
       "bridge": [
         "dist/bridge/bridge",
         "dist/bridge"
+      ],
+      "state": [
+        "dist/state/state",
+        "dist/state"
       ]
     }
   },

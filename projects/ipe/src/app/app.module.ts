@@ -22,6 +22,7 @@ import { PagealiasModule } from 'pagealias';
 import { PanelsModule } from 'panels';
 import { FormlyModule } from 'formly';
 import { BridgeModule } from 'bridge';
+import { StateModule } from 'state';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -139,6 +140,7 @@ export function markedOptionsFactory(): MarkedOptions {
     EffectsModule.forRoot([]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],
     BridgeModule,
+    StateModule,
     MaterialModule,
     UtilsModule,
     // LoggingModule,
