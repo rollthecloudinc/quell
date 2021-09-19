@@ -16,19 +16,30 @@
 <ng-template #formBodyTpl>
   <as-split [direction]="splitDirection" [formGroup]="contentForm">
     <as-split-area size="50">
-      <ul [hidden]="true" *ngIf="tokens">
-        <li *ngFor="let token of tokens | keyvalue">{{ token.key }}</li>
-      </ul>
-      <mat-form-field>
-        <mat-label>Content Type</mat-label>
-        <mat-select required formControlName="contentType">
-          <mat-option value="text/markdown">Markdown</mat-option>
-          <mat-option value="text/html">HTML</mat-option>
-        </mat-select>
-      </mat-form-field>
       <div>
-        <textarea formControlName="content" [cols]="cols" [rows]="rows"></textarea>
+        <ul [hidden]="true" *ngIf="tokens">
+          <li *ngFor="let token of tokens | keyvalue">{{ token.key }}</li>
+        </ul>
+        <mat-form-field>
+          <mat-label>Content Type</mat-label>
+          <mat-select required formControlName="contentType">
+            <mat-option value="text/markdown">Markdown</mat-option>
+            <mat-option value="text/html">HTML</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
+      <as-split direction="horizontal">
+        <as-split-area size="50">
+          <div>
+            <textarea formControlName="content" [cols]="cols" [rows]="rows"></textarea>
+          </div>
+        </as-split-area>
+        <as-split-area size="50">
+          <div>
+            <textarea formControlName="jsScript" [cols]="cols" [rows]="rows"></textarea>
+          </div>
+        </as-split-area>
+      </as-split>
     </as-split-area>
     <as-split-area size="50">
       <classifieds-ui-dynamic-content-viewer *ngIf="isMarkdown" [content]="preview | markdown"></classifieds-ui-dynamic-content-viewer>

@@ -64,6 +64,13 @@ export class SnippetEditorComponent implements OnInit {
         displayName: new FormControl('Content', Validators.required),
         value: new FormControl(snippet.content, Validators.required),
         computedValue: new FormControl(snippet.content, Validators.required),
+      }),
+      this.fb.group({
+        name: new FormControl('jsScript', Validators.required),
+        type: new FormControl(AttributeTypes.Text, Validators.required),
+        displayName: new FormControl('jsScript', Validators.required),
+        value: new FormControl(snippet.jsScript),
+        computedValue: new FormControl(snippet.jsScript),
       })
     ];
   }

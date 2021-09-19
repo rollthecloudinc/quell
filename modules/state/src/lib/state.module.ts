@@ -6,6 +6,10 @@ import { ContextStateEditorComponent } from './components/context-state-editor/c
 import { ContextStateFormComponent } from './components/context-state-form/context-state-form.component';
 import { StateContextResolver } from './contexts/state-context.resolver';
 import { stateContextFactory } from './state.factories';
+import { EntityDataService, EntityDefinitionService } from '@ngrx/data';
+import { entityMetadata } from './entity-metadata';
+import { NoopDataService } from 'utils';
+import { ContextualState } from './models/state.models';
 
 @NgModule({
   declarations: [
@@ -24,9 +28,13 @@ import { stateContextFactory } from './state.factories';
 })
 export class StateModule { 
   constructor(
+    eds: EntityDefinitionService,
+    entityDataService: EntityDataService,
     cpm: ContextPluginManager,
     stateContextResolver: StateContextResolver
   ) {
+    eds.registerMetadataMap(entityMetadata);
+    entityDataService.registerService('ContextualState', new NoopDataService<ContextualState>('ContextualState'));
     cpm.register(stateContextFactory(stateContextResolver));
   }
 }

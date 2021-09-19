@@ -43,7 +43,10 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
   @Input()
   set snippet(snippet: Snippet) {
     if(snippet !== undefined) {
-      this.contentForm.setValue(snippet);
+      this.contentForm.setValue({
+        ...snippet,
+        jsScript: snippet.jsScript && snippet.jsScript !== '' ? snippet.jsScript : ''
+      });
     }
   }
 
@@ -51,7 +54,8 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
 
   contentForm = this.fb.group({
     content: this.fb.control('', Validators.required),
-    contentType: this.fb.control('', Validators.required)
+    contentType: this.fb.control('', Validators.required),
+    jsScript: this.fb.control('')
   });
 
   preview: string;
@@ -103,6 +107,7 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
     this.submitted.emit(new Snippet({
       content: this.contentForm.get('content').value,
       contentType: this.contentForm.get('contentType').value,
+      jsScript: this.contentForm.get('jsScript').value
     }));
   }
 
@@ -113,6 +118,14 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
       });
     }
     return v;
+  }
+
+  addScript() {
+      // const src = 'https://80ry0dd5s4.execute-api.us-east-1.amazonaws.com/media/bridge-test-12.js';
+      let script = document.createElement('script') as HTMLScriptElement;
+      script.type = 'text/javascript';
+      // script.src = src;
+      document.getElementsByTagName('head')[0].appendChild(script);
   }
 
 }

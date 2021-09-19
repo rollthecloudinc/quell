@@ -6,6 +6,8 @@
     "umdModuleIds": {
       "attributes": "attributes",
       "context": "context",
+      "bridge": "bridge",
+      "utils": "utils",
       "@ngrx/data": "@ngrx/data"
     }
   }

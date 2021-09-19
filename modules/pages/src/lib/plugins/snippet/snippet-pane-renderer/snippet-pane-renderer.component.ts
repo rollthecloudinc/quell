@@ -1,10 +1,10 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, AfterContentInit, ElementRef } from '@angular/core';
 import { AttributeValue } from 'attributes';
 import { TokenizerService } from 'token';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 import { Snippet } from 'content';
 import { InlineContext } from 'context';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 @Component({
@@ -12,10 +12,12 @@ import { switchMap, map } from 'rxjs/operators';
   templateUrl: './snippet-pane-renderer.component.html',
   styleUrls: ['./snippet-pane-renderer.component.scss']
 })
-export class SnippetPaneRendererComponent implements OnInit, OnChanges {
+export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterContentInit {
 
   @Input()
-  settings: Array<AttributeValue> = [];
+  set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
 
   @Input()
   contexts: Array<InlineContext> = [];
@@ -26,41 +28,57 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges {
   @Input()
   resolvedContext: any;
 
+  afterContentInit$ = new Subject<void>();
+
   contentType: string;
-  content: string;
+  content = '';
+
+  content$ = new BehaviorSubject<string>('');
+  settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
+  snippet$ = new BehaviorSubject<Snippet>(undefined);
+  docRendered$ = new Subject();
+
+  contentSub = combineLatest([
+    this.afterContentInit$,
+    this.content$,
+    this.snippet$,
+    this.docRendered$
+  ]).subscribe(([_, content, snippet]) => {
+    if (snippet && snippet.jsScript && snippet.jsScript !== '') {
+      setTimeout(() => this.appendScript(snippet.jsScript));
+    }
+  });
+
+  settingsSub = this.settings$.pipe(
+    switchMap(settings => this.handler.toObject(settings)),
+    switchMap(snippet => this.resolveContexts().pipe(
+      map<Map<string, any>, [Snippet, Map<string, any> | undefined]>(tokens => [snippet, tokens])
+    ))
+  ).subscribe(([snippet, tokens]) => {
+    if(tokens !== undefined) {
+      this.tokens = tokens;
+    }
+    this.contentType = snippet.contentType;
+    this.snippet$.next(snippet);
+    this.content$.next(this.replaceTokens(snippet.content));
+  });
 
   constructor(
+    private hostEl: ElementRef,
     private handler: SnippetContentHandler,
     private tokenizerService: TokenizerService
   ) { }
 
   ngOnInit(): void {
-    this.handler.toObject(this.settings).pipe(
-      switchMap(snippet => this.resolveContexts().pipe(
-        map<Map<string, any>, [Snippet, Map<string, any> | undefined]>(tokens => [snippet, tokens])
-      ))
-    ).subscribe(([snippet, tokens]) => {
-      if(tokens !== undefined) {
-        this.tokens = tokens;
-      }
-      this.contentType = snippet.contentType;
-      this.content = this.replaceTokens(snippet.content);
-    });
   }
 
   ngOnChanges(): void {
     console.log('pane changed');
-    this.handler.toObject(this.settings).pipe(
-      switchMap(snippet => this.resolveContexts().pipe(
-        map<Map<string, any>, [Snippet, Map<string, any> | undefined]>(tokens => [snippet, tokens])
-      ))
-    ).subscribe(([snippet, tokens]) => {
-      if(tokens !== undefined) {
-        this.tokens = tokens;
-      }
-      this.contentType = snippet.contentType;
-      this.content = this.replaceTokens(snippet.content);
-    });
+  }
+
+  ngAfterContentInit() {
+    this.afterContentInit$.next();
+    this.afterContentInit$.complete();
   }
 
   replaceTokens(v: string): string {
@@ -83,6 +101,18 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges {
       obs.next(tokens);
       obs.complete();
     });
+  }
+
+  appendScript(js: string) {
+      let script = document.createElement('script') as HTMLScriptElement;
+      script.type = 'text/javascript';
+      script.appendChild(document.createTextNode(js));
+      this.hostEl.nativeElement.appendChild(script);
+      console.log('add script');
+  }
+
+  onDocRendered() {
+    this.docRendered$.next();
   }
 
 }
