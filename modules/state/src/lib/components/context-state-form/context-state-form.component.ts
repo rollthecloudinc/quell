@@ -33,7 +33,7 @@ export class ContextStateFormComponent implements OnInit, ControlValueAccessor {
   context$ = new BehaviorSubject<InlineContext>(undefined);
   formGroup = this.fb.group({
     // selectionPath: this.fb.control([]),
-    state: this.fb.control('', [ Validators.required ]),
+    value: this.fb.control('', [ Validators.required ])
     /*type: this.fb.control('', [ ]),
     defaultValue: this.fb.control(''),*/
   });
@@ -61,7 +61,7 @@ export class ContextStateFormComponent implements OnInit, ControlValueAccessor {
   ).subscribe(v => {
     console.log('write state');
     console.log(v);
-    this.formGroup.get('state').setValue(v);
+    this.formGroup.get('value').setValue(v);
   });
 
   public onTouched: () => void = () => {};
@@ -71,7 +71,7 @@ export class ContextStateFormComponent implements OnInit, ControlValueAccessor {
   ngOnInit(): void {
     this.context$.subscribe(c => {
       if (c) {
-        this.stateCtrl.setValue(JSON.stringify(c.data.state));
+        this.stateCtrl.setValue(JSON.stringify(c.data.value));
       } else {
         this.stateCtrl.setValue('');
       }

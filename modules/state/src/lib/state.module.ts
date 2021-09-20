@@ -5,11 +5,13 @@ import { ContextPluginManager } from 'context';
 import { ContextStateEditorComponent } from './components/context-state-editor/context-state-editor.component';
 import { ContextStateFormComponent } from './components/context-state-form/context-state-form.component';
 import { StateContextResolver } from './contexts/state-context.resolver';
-import { stateContextFactory } from './state.factories';
-import { EntityDataService, EntityDefinitionService } from '@ngrx/data';
+import { stateBridgeFactory, stateContextFactory } from './state.factories';
+import { EntityDataService, EntityDefinitionService, EntityServices } from '@ngrx/data';
 import { entityMetadata } from './entity-metadata';
 import { NoopDataService } from 'utils';
-import { ContextualState } from './models/state.models';
+import { GlobalState } from './models/state.models';
+import { BridgeBuilderPluginManager } from 'bridge';
+import { AttributeSerializerService } from 'attributes';
 
 @NgModule({
   declarations: [
@@ -31,11 +33,15 @@ export class StateModule {
     eds: EntityDefinitionService,
     entityDataService: EntityDataService,
     cpm: ContextPluginManager,
+    es: EntityServices, 
+    attributeSerializer: AttributeSerializerService,
+    bpm: BridgeBuilderPluginManager,
     stateContextResolver: StateContextResolver
   ) {
     eds.registerMetadataMap(entityMetadata);
-    entityDataService.registerService('ContextualState', new NoopDataService<ContextualState>('ContextualState'));
+    entityDataService.registerService('GlobalState', new NoopDataService<GlobalState>('GlobalState'));
     cpm.register(stateContextFactory(stateContextResolver));
+    bpm.register(stateBridgeFactory(es, attributeSerializer));
   }
 }
 
