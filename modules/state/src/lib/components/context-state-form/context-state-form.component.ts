@@ -33,7 +33,8 @@ export class ContextStateFormComponent implements OnInit, ControlValueAccessor {
   context$ = new BehaviorSubject<InlineContext>(undefined);
   formGroup = this.fb.group({
     // selectionPath: this.fb.control([]),
-    value: this.fb.control('', [ Validators.required ])
+    value: this.fb.control('', [ Validators.required ]),
+    id: this.fb.control('hhhhh')
     /*type: this.fb.control('', [ ]),
     defaultValue: this.fb.control(''),*/
   });
