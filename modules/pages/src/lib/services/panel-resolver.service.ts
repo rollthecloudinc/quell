@@ -23,6 +23,14 @@ export class PanelResolverService {
     // this.contentPlugins = contentPlugins;
   }
 
+  /**
+   * @todo: This needs to include looking through the rules. Otherwise contexts
+   * only used in rules will not trigger context update chain. A hacky work-around
+   * to this is to include the context token being used in a rule as a hidden value
+   * part of the content. This works for snippets and for the time being is an ok
+   * solution since states are only really relevant to snippets. However, in the long term
+   * the disovery needs to include rules.
+   */
   usedContexts(panes: Array<Pane>): Observable<Array<string>> {
     return this.panesPlugins(panes).pipe(
       switchMap(plugins => forkJoin(
