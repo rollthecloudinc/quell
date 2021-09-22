@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Type } from '@angular/core';
 import { Rest } from 'datasource';
 import { Snippet } from 'content';
@@ -6,6 +6,7 @@ import { Plugin } from 'plugin';
 
 export interface ContextResolver {
   resolve(ctx: ContextPlugin, data?: any): Observable<any>
+  resolve(ctx: ContextPlugin, data?: any, meta?: Map<string, any>): Observable<any>
 }
 
 export class ContextPlugin<T = string> extends Plugin<T>  {
@@ -30,6 +31,9 @@ export class ContextPlugin<T = string> extends Plugin<T>  {
       }
     }
   }
+  /*public beforeResolve(data: { inlineContext: InlineContext }): Observable<{ inlineContext: InlineContext }> {
+    return of({ inlineContext: data.inlineContext });
+  }*/
 }
 
 export class InlineContext {

@@ -24,7 +24,7 @@ export class TabsStyleHandler implements StyleHandler {
     // this.panelHandler.toObject();
     const obj = this.attributeSerializer.deserialize(new AttributeValue({ name: '', displayName: '', computedValue: '', type: AttributeTypes.Complex, value: '', intValue: 0, attributes: settings }));
     // console.log('Deserialized settings:');
-    const selectors = obj.labels !== undefined && Array.isArray(obj.labels) ? obj.labels.map(l => new PanelPageSelector(l.mapping)) : [];
+    const selectors = obj && obj.labels !== undefined && Array.isArray(obj.labels) ? obj.labels.map(l => new PanelPageSelector(l.mapping)) : [];
     // console.log(selectors);
 
     let flatSelectors: Array<Array<number>> = [];

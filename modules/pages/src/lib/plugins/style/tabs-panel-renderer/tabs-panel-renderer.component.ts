@@ -29,7 +29,7 @@ export class TabsPanelRendererComponent implements OnInit {
 
   ngOnInit(): void {
     const obj = this.attributeSerializer.deserialize(new AttributeValue({ name: '', displayName: '', computedValue: '', type: AttributeTypes.Complex, value: '', intValue: 0, attributes: this.settings }));
-    this.labelMappingsEnabled = obj.labels !== undefined && Array.isArray(obj.labels) && obj.labels.length > 0 ? true : false;
+    this.labelMappingsEnabled = obj && obj.labels !== undefined && Array.isArray(obj.labels) && obj.labels.length > 0 ? true : false;
   }
 
 }

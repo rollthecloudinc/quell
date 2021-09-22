@@ -203,7 +203,9 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
         tap(ctx => console.log(`contexts [${this.panel.name}]: ${ctx.join(',')}`)),
         switchMap(ctx => this.schduleContextChange.pipe(
           tap(contextChanged => console.log(`detected change [${this.panel.name}]: ${contextChanged}`)),
-          map(contextChanged => [ctx.includes(contextChanged) ? ctx : [ ...ctx, contextChanged ], contextChanged])
+          map(contextChanged =>  [ctx, contextChanged ])
+          // @todo: Replacing the line above with the one below causes an infinite context change loop on the ad browser use case. no good.
+          // I think this line was being used for the pane state detection since there was an issue with it. However, that is not being use anymore.
           // map(contextChanged => [ctx.includes(contextChanged) ? ctx : [ ...ctx, contextChanged ], contextChanged]) // This might be a breaking change but I do know some of this was never very well tested... :/
         )),
         tap(([ctx, contextChanged]) => console.log(`detected change [${this.panel.name}]: ${contextChanged} : ctx: ${(ctx as Array<string>).join('.')}`)),

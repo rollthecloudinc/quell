@@ -26,7 +26,9 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
   tokens: Map<string, any>;
 
   @Input()
-  resolvedContext: any;
+  set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
 
   afterContentInit$ = new Subject<void>();
 
@@ -36,6 +38,7 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
   content$ = new BehaviorSubject<string>('');
   settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
   snippet$ = new BehaviorSubject<Snippet>(undefined);
+  resolvedContext$ = new BehaviorSubject<any>(undefined);
   docRendered$ = new Subject();
 
   contentSub = combineLatest([
@@ -49,8 +52,11 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
     }
   });
 
-  settingsSub = this.settings$.pipe(
-    switchMap(settings => this.handler.toObject(settings)),
+  renderContentSub = combineLatest([
+    this.settings$,
+    this.resolvedContext$
+  ]).pipe(
+    switchMap(([settings, _]) => this.handler.toObject(settings)),
     switchMap(snippet => this.resolveContexts().pipe(
       map<Map<string, any>, [Snippet, Map<string, any> | undefined]>(tokens => [snippet, tokens])
     ))
@@ -93,9 +99,9 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
   resolveContexts(): Observable<undefined | Map<string, any>> {
     return new Observable(obs => {
       let tokens = new Map<string, any>();
-      if(this.resolvedContext) {
-        for(const name in this.resolvedContext) {
-          tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(this.resolvedContext[name], name === '_root' ? '' : name) ]);
+      if(this.resolvedContext$.value) {
+        for(const name in this.resolvedContext$.value) {
+          tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(this.resolvedContext$.value[name], name === '_root' ? '' : name) ]);
         }
       }
       obs.next(tokens);

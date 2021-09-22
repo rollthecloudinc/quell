@@ -20,7 +20,8 @@ export class StateContextResolver implements ContextResolver {
   ) {
   }
 
-  resolve(ctx: ContextPlugin, data?: any): Observable<any> {
+  resolve(ctx: ContextPlugin, data?: any, meta?: Map<string, any>): Observable<any> {
+    // return of({});
 
     const selectEntities = (entities: EntityCollection<GlobalState>) => entities.entities;
 
@@ -32,8 +33,10 @@ export class StateContextResolver implements ContextResolver {
     console.log('hookup globalstate');
     console.log(data)
 
-    return data.id ? this.entityCollectionService.collection$.pipe(
-      select(selectById(data.id)),
+    const name = meta && meta.has('name') && meta.get('name') && meta.get('name') !== null && meta.get('name') !== '' ? meta.get('name') : undefined;
+
+    return name ? this.entityCollectionService.collection$.pipe(
+      select(selectById(name)),
       map(gs => gs ? this.attributeSerializer.deserialize(gs.value) : data.value ? data.value : {}),
       map(value => value.root ? value.root : value),
       tap(v => {

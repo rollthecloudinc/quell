@@ -144,7 +144,11 @@ export abstract class BaseInlineContextResolverService {
   resolve(context: InlineContext, tag = uuid.v4()): Observable<any> {
     if(context.plugin) {
       return this.cpm.getPlugin(context.plugin).pipe(
-        switchMap(p => p.resolver.resolve(p, this.getDataObject(context)))
+        /*switchMap(p => p.beforeResolve({ inlineContext: context }).pipe(
+          map(({ inlineContext }) => ({ inlineContext, plugin: p }))
+        )),*/
+        // switchMap(p => p.resolver.resolve(p, this.getDataObject(context)))
+        switchMap(p => p.resolver.resolve(p, this.getDataObject(context), new Map<string, any>([ [ 'name', context.name ] ])))
       );
       /*const plugin = this.contextManager.lookupContext(context.plugin);
       return plugin.resolver.resolve(plugin, this.getDataObject(context));*/
