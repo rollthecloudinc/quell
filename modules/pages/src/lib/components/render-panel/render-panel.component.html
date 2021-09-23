@@ -1,6 +1,6 @@
 <div class="render-panel" #panes>
   <ng-container><ng-template classifiedsUiPaneContentHost></ng-template></ng-container>
-  <div fxFlex *ngIf="!stylePlugin && resolvedPanes">
+  <div *ngIf="!stylePlugin && resolvedPanes"> <!-- is fxFlex needed here? - verify other pages -->
     <ng-container [ngSwitch]="displayType">
       <ng-container *ngSwitchCase="'form'">
         <div [formGroup]="panelForm">
@@ -10,7 +10,8 @@
         </div>
       </ng-container>
       <ng-container *ngSwitchCase="'page'">
-        <classifieds-ui-render-pane fxFlex classifiedsUiRenderedPane *ngFor="let pane of resolvedPanes; let j = index" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [linkedPageId]="pane.linkedPageId" [displayType]="displayType" [resolvedContext]="resolvedContexts[j]" [indexPosition]="j" [css]="filteredCss"></classifieds-ui-render-pane>
+        <!-- is fxFlex needed here? - verify other pages -->
+        <classifieds-ui-render-pane classifiedsUiRenderedPane *ngFor="let pane of resolvedPanes; let j = index" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [linkedPageId]="pane.linkedPageId" [displayType]="displayType" [resolvedContext]="resolvedContexts[j]" [indexPosition]="j" [css]="filteredCss"></classifieds-ui-render-pane>
       </ng-container>
     </ng-container>
   </div>
