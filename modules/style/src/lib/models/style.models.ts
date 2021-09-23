@@ -11,6 +11,7 @@ export interface StyleHandler {
     originMappings: Array<number>,
     resolvedContexts: Array<any>
   ): Observable<[Array<Pane>, Array<number>, Array<any>]>;
+  stateDefinition(settings: Array<AttributeValue>): Observable<any>;
 }
 export class StylePlugin<T = string> extends Plugin<T> {
   name: T;

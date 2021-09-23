@@ -151,6 +151,10 @@ export class TabsStyleHandler implements StyleHandler {
     return of([resolvedPanes, originMappings, resolvedContexts]);
   }
 
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
   flattenSelector(selector: PanelPageSelector): Array<number> {
     const flat: Array<number> = [];
     if (selector.panel !== undefined && selector.panel !== null) {
