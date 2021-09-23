@@ -177,4 +177,7 @@ export class RestContentHandler implements ContentHandler {
     const renderType = [settings.find(s => s.name === 'renderer')].map(r => r.attributes.find(s => s.name === 'type'));
     return renderType.length > 0 ? renderType[0].value: undefined;
   }
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
 }

@@ -56,4 +56,8 @@ export class MediaContentHandler implements ContentHandler {
     return this.attributeSerializer.serialize(mediaFile, 'root').attributes;
   }
 
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
 }

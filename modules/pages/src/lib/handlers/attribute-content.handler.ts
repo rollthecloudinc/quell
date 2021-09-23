@@ -76,4 +76,7 @@ export class AttributeContentHandler implements ContentHandler {
       attributes: []
     })];
   }
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
 }

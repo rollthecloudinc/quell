@@ -12,6 +12,7 @@ export interface ContentHandler {
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>>;
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any>;
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>>;
+  stateDefinition(settings: Array<AttributeValue>): Observable<any>;
 }
 
 export class ContentPlugin<T = string> extends Plugin<T> {

@@ -61,4 +61,8 @@ export class FormlyFieldContentHandler implements ContentHandler {
     );
   }
 
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
 }

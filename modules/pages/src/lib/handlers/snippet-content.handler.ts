@@ -72,4 +72,8 @@ export class SnippetContentHandler implements ContentHandler {
     return this.attributeSerializer.serialize(snippet, 'root').attributes;
   }
 
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
 }
