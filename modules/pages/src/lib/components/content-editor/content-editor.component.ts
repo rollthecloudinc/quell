@@ -337,7 +337,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
             label: new FormControl(pp.label),
             locked: new FormControl(pp.locked),
             linkedPageId: new FormControl(pp.linkedPageId),
-            rule: new FormControl(pp.rule),
+            rule: new FormControl({ ...pp.rule }),
             settings: new FormArray(pp.settings.map(s => this.convertToGroup(s)))
           }));
           setTimeout(() => this.resolvePaneContexts(i, i2));
