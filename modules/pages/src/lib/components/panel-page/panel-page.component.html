@@ -5,7 +5,7 @@
         <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
           <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
             <ng-template #innerGridItem let-i="i">
-              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [ancestory]="ancestory"></classifieds-ui-render-panel>
             </ng-template>
           </classifieds-ui-grid-layout>
           <button type="submit">Submit</button>
@@ -14,7 +14,7 @@
       <ng-container *ngSwitchCase="'page'">
         <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
           <ng-template #innerGridItem let-i="i">
-            <classifieds-ui-render-panel fxFlex (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType"></classifieds-ui-render-panel>
+            <classifieds-ui-render-panel fxFlex (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [ancestory]="ancestory"></classifieds-ui-render-panel>
           </ng-template>
         </classifieds-ui-grid-layout>
       </ng-container>
@@ -57,7 +57,7 @@
 <ng-template #renderPanelTpl let-i="i">
   <ng-container [formGroup]="pageForm">
     <ng-container formArrayName="panels">
-      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [css]="filteredCss"></classifieds-ui-render-panel>
+      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [css]="filteredCss" [ancestory]="ancestory"></classifieds-ui-render-panel>
     </ng-container>
   </ng-container>
 </ng-template>

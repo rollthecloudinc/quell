@@ -64,6 +64,9 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   @Input()
   indexPosition: number;
 
+  @Input()
+  ancestory: Array<number> = [];
+
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
   }
@@ -73,8 +76,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   } 
 
   contentPlugin: ContentPlugin;
-
+ 
   panelPage: PanelPage;
+
+  ancestoryWithSelf: Array<number> = [];
 
   componentRef: ComponentRef<any>;
 
@@ -154,6 +159,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   }
 
   ngOnInit(): void {
+    this.ancestoryWithSelf = [ ...(this.ancestory ? this.ancestory: []), ...( this.indexPosition !== undefined && this.indexPosition !== null? [ this.indexPosition ] : [] ) ];
     this.schedulePluginChange.next();
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
@@ -168,6 +174,12 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.ancestory || changes.indexPosition) {
+      const ancestoryWithSelf = [ ...(changes.ancestory.currentValue ? changes.ancestory.currentValue :  this.ancestory ? this.ancestory : []), ...( changes.indexPosition.currentValue !== undefined && changes.indexPosition.currentValue !== null? [ changes.indexPosition.currentValue ] : this.indexPosition ? [ this.indexPosition ] : [] ) ];
+      if (ancestoryWithSelf.length !== this.ancestoryWithSelf.length || this.ancestoryWithSelf.filter((n, index) => ancestoryWithSelf[index] !== n).length !== 0) {
+        this.ancestoryWithSelf = ancestoryWithSelf;
+      }
+    }
     this.schedulePluginChange.next();
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
@@ -226,6 +238,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     (this.componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (this.componentRef.instance as any).displayType = this.displayType;
     (this.componentRef.instance as any).resolvedContext = this.resolvedContext;
+    (this.componentRef.instance as any).ancestory = this.ancestoryWithSelf;
   }
 
 }

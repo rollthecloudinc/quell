@@ -13,12 +13,17 @@ export class MediaPaneRendererComponent implements OnInit {
   @Input()
   settings: Array<AttributeValue> = [];
 
+  @Input()
+  ancestory: Array<number> = [];
+
   mediaFile: MediaFile;
   mediaBaseUrl: string;
 
   constructor(@Inject(MEDIA_SETTINGS) private mediaSettings: MediaSettings, private handler: MediaContentHandler) { }
 
   ngOnInit(): void {
+    console.log('media ancestory is');
+    console.log(this.ancestory);
     this.mediaBaseUrl = this.mediaSettings.imageUrl;
     this.handler.toObject(this.settings).subscribe((mediaFile: MediaFile) => {
       this.mediaFile = mediaFile;

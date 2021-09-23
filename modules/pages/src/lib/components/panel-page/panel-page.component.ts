@@ -58,6 +58,9 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   @Input()
   contexts: Array<InlineContext>;
 
+  @Input()
+  ancestory: Array<number> = [];
+
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
   }

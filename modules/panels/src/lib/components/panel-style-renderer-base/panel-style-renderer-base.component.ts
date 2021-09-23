@@ -24,6 +24,9 @@ export class PanelStyleRendererBaseComponent {
   @Input()
   contexts: Array<InlineContext>;
 
+  @Input()
+  ancestory: Array<number> = [];
+
   mergeContexts(contexts: Array<InlineContext>): Array<InlineContext> {
     if(contexts === undefined && this.contexts === undefined) {
       return undefined;

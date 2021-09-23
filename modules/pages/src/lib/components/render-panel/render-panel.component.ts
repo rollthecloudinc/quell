@@ -59,6 +59,9 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   @Input()
   indexPosition: number;
 
+  @Input()
+  ancestory: Array<number> = [];
+
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
   }
@@ -153,11 +156,13 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     (componentRef.instance as any).originMappings = this.originMappings;
     (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (componentRef.instance as any).displayType = this.displayType;
+    (componentRef.instance as any).ancestory = this.ancestoryWithSelf;
   });
 
   resolvedPanes: Array<Pane>;
   originMappings: Array<number> = [];
   resolvedContexts: Array<any> = [];
+  ancestoryWithSelf: Array<number> = [];
 
   resolveContextsSub: Subscription;
 
@@ -217,6 +222,7 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
         this.scheduleRender.next([this.panel.panes, this.contexts, this.resolvedContext]);
       });
     }
+    this.ancestoryWithSelf = [ ...(this.ancestory ? this.ancestory: []), ...( this.indexPosition !== undefined && this.indexPosition !== null? [ this.indexPosition ] : [] ) ];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -228,6 +234,12 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     }
     if(changes.contextChanged && changes.contextChanged.currentValue !== undefined) {
       this.schduleContextChange.next(changes.contextChanged.currentValue.name);
+    }
+    if (changes.ancestory || changes.indexPosition) {
+      const ancestoryWithSelf = [ ...(changes.ancestory.currentValue ? changes.ancestory.currentValue :  this.ancestory ? this.ancestory : []), ...( changes.indexPosition.currentValue !== undefined && changes.indexPosition.currentValue !== null? [ changes.indexPosition.currentValue ] : this.indexPosition ? [ this.indexPosition ] : [] ) ];
+      if (ancestoryWithSelf.length !== this.ancestoryWithSelf.length || this.ancestoryWithSelf.filter((n, index) => ancestoryWithSelf[index] !== n).length !== 0) {
+        this.ancestoryWithSelf = ancestoryWithSelf;
+      }
     }
   }
 
