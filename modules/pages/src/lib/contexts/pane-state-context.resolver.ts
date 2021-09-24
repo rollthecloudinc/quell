@@ -14,10 +14,6 @@ export class PaneStateContextResolver implements ContextResolver {
 
   resolverCache$ = new Map<string, Observable<any>>();
 
-  get emptyPaneState(): PaneState {
-    return new PaneState({ state: this.attributeSerializer.serialize({  displayAssociatedPane: '' }, 'root') });
-  }
-
   get entities$(): Observable<Array<PanelPageState>> {
     return this.entityServices.getEntityCollectionService('PanelPageState').entities$.pipe(
       tap(e => {
@@ -76,17 +72,17 @@ export class PaneStateContextResolver implements ContextResolver {
       switchMap(([pp, ps, query]) => iif<[PanelPageState, string], [PanelPageState, string]>(
         () => !!pp && !ps,
         this.panelStateConverterService.convertPageToState(pp).pipe(
-          map(state => new PanelPageState({ ...state, panels: state.panels.map(p => new PanelState({ ...p, panes: p.panes.map(p2 => new PaneState({ ...p2, state: this.attributeSerializer.serialize({ displayAssociatedPane: 'y' }, 'root') })) }))  })),
+          map(state => new PanelPageState({ ...state, panels: state.panels.map(p => new PanelState({ ...p, panes: p.panes.map(p2 => new PaneState({ ...p2, state: this.attributeSerializer.serialize(data.value ? data.value : {}, 'root') })) }))  })),
           map<PanelPageState, [PanelPageState, string]>(state => [state, query])
         ),
-        of([ps ? ps : this.emptyPaneState, query])
+        of([ps ? ps : this.defaultPaneState(data.value ? data.value : {}), query])
       )),
       tap(([state, _]) => {
         console.log('rebuilt state from realtime page');
         console.log(state);
       }),
-      map(([json, path]) => path ? JSONPath({ path, json }) : this.emptyPaneState),
-      map(m => m && Array.isArray(m) && m.length !== 0 ? m[0] : this.emptyPaneState),
+      map(([json, path]) => path ? JSONPath({ path, json }) : this.defaultPaneState(data.value ? data.value : {})),
+      map(m => m && Array.isArray(m) && m.length !== 0 ? m[0] : this.defaultPaneState(data.value ? data.value : {})),
       tap(m => {
         console.log('json path match');
         console.log(m);
@@ -96,8 +92,13 @@ export class PaneStateContextResolver implements ContextResolver {
       tap(s => {
         console.log('final state');
         console.log(s);
-      })
+      }),
+      map(s => s.root ? s.root : s.root === undefined && Object.keys(s).length !== 0 ? s : {})
     );
+  }
+
+  private defaultPaneState(v?: any): PaneState {
+    return new PaneState({ state: this.attributeSerializer.serialize(v, 'root') });
   }
 
 }

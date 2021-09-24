@@ -5,14 +5,13 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
-import { PanelsEditor, LayoutSetting, PanelContentHandler } from 'panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent } from 'panels';
 import { TokenizerService } from 'token';
 import { SITE_NAME } from 'utils';
 import { StylePlugin, STYLE_PLUGIN, StylePluginManager } from 'style';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from 'context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { MatDialog } from '@angular/material/dialog';
-import { Pane, PanelPage, LayoutEditorBaseComponent } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.component';
@@ -227,7 +226,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     private tokenizerService: TokenizerService,
     private componentFactoryResolver: ComponentFactoryResolver,
     private pageBuilderFacade: PageBuilderFacade,
-    private paneStateContextResolver: PaneStateContextResolver
+    private paneStateContextResolver: PaneStateContextResolver,
+    private panelsContextService: PanelsContextService
     // private contextManager: ContextManagerService
   ) {
     //this.contentPlugins = contentPlugins;
@@ -563,15 +563,17 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     const pane = new Pane(this.panelPane(index, index2).value);
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
     const [ editablePane ] = this.editablePanes.filter((ep, i) => ep.name === pane.name );
-    this.pageBuilderFacade.setSelectionPath([ ...this.ancestory, index, index2 ]);
-    const paneStateName = 'panestate' + [ ...this.ancestory, index, index2 ].map(i => `[${i}]`).join('');
-    if (this.contexts.findIndex(c => c.name === paneStateName) === -1) {
-      this.contexts = [ ...this.contexts, new InlineContext({ name: paneStateName, adaptor: 'data', plugin: 'panestate', data: { id: this.panelPage ? this.panelPage.id : '', selectionPath: [ ...this.ancestory, index, index2 ] } }) ];
-    }
-    this.dialog
-    .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts ] } })
-    .afterClosed()
-    .subscribe(r => {
+    this.pageBuilderFacade.getPage$.pipe(
+      tap(() => {
+        this.pageBuilderFacade.setSelectionPath([ ...this.ancestory, index, index2 ]);
+      }),
+      switchMap(pp => this.panelsContextService.allActivePageContexts({ panelPage: pp })),
+      switchMap(paneContexts => this.dialog
+        .open(RulesDialogComponent, { data: { rule, contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } })
+        .afterClosed()
+      ),
+      take(1)
+    ).subscribe(r => {
       this.panelPane(index, index2).get('rule').setValue(r ? r : rule ? rule : undefined);
     });
   }

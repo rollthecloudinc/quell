@@ -15,3 +15,5 @@ export * from './lib/services/panels-loader.service';
 export * from './lib/services/panels-selector.service';
 export * from './lib/models/state.models';
 export * from './lib/services/panel-state-converter.service';
+export * from './lib/services/panels-context.service';
+export * from './lib/services/panels-walker.service';

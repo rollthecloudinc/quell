@@ -57,7 +57,12 @@ export class MediaContentHandler implements ContentHandler {
   }
 
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
-    return of({});
+    return of({
+      mediaLoading: 'y',
+      mediaLoaded: 'n',
+      loadError: 'n',
+      loadDuration: 'y'
+    });
   }
 
 }
