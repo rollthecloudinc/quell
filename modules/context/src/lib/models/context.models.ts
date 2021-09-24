@@ -17,6 +17,7 @@ export class ContextPlugin<T = string> extends Plugin<T>  {
   editorComponent?: Type<any>;
   global? = false;
   group?: string;
+  internal?: boolean;
   constructor(data?: ContextPlugin<T>) {
     super(data)
     if (data) {
@@ -25,6 +26,7 @@ export class ContextPlugin<T = string> extends Plugin<T>  {
       this.baseObject = data.baseObject;
       this.resolver = data.resolver;
       this.global = data.global === undefined ? false: data.global;
+      this.internal = data.internal === undefined ? false : data.internal;
       this.group = data.group !== undefined ? data.group : undefined;
       if(data.editorComponent) {
         this.editorComponent = data.editorComponent;

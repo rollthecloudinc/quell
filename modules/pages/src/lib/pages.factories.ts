@@ -122,12 +122,12 @@ export const formContextFactory = (resolver: FormContextResolver) => {
 
 export const paneStateContextFactory = (resolver: PaneStateContextResolver) => {
   const baseObject = new PaneState({ state: new AttributeValue() });
-  return new ContextPlugin<string>({ id: 'panestate', name: 'panestate', title: 'Pane State', baseObject, resolver });
+  return new ContextPlugin<string>({ id: 'panestate', name: 'panestate', title: 'Pane State', internal: true, baseObject, resolver });
 };
 
 export const pageStateContextFactory = (resolver: PageStateContextResolver) => {
   const baseObject = new PaneState({ state: new AttributeValue() });
-  return new ContextPlugin<string>({ id: 'pagestate', name: 'pagestate', title: 'Page State', baseObject, resolver, editorComponent: PageStateEditorComponent });
+  return new ContextPlugin<string>({ id: 'pagestate', name: 'pagestate', title: 'Page State', internal: true, baseObject, resolver, editorComponent: PageStateEditorComponent });
 };
 
 export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {

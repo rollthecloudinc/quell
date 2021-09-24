@@ -6,7 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { StyleLoaderService } from 'utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
-import { PanelPage, Pane, LayoutSetting } from 'panels';
+import { PanelPage, Pane, LayoutSetting, PanelsContextService } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
@@ -22,7 +22,6 @@ import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { AttributeSerializerService } from 'attributes';
 import { FormService } from '../../services/form.service';
-
 @Component({
   selector: 'classifieds-ui-panel-page',
   templateUrl: './panel-page.component.html',
@@ -119,9 +118,16 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
       ).pipe(
         map<Map<string, ContentPlugin>, [PanelPage, boolean]>(contentPlugins => [p, p.panels.reduce<Array<Pane>>((panes, panel) => [ ...panes, ...panel.panes ], []).map(pane => contentPlugins.get(pane.contentPlugin).handler?.isDynamic(pane.settings) ).findIndex(d => d === true) !== -1])
       )
-    )
-  ).subscribe(([p, isDynamic]) => {
-    this.contexts = p.contexts ? p.contexts.map(c => new InlineContext(c)) : [];
+    ),
+    switchMap(([p, isDynamic]) => iif<[PanelPage, boolean, Array<InlineContext>], [PanelPage, boolean, Iterable<InlineContext>]>(
+      () => !this.nested,
+      this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
+        map(paneContexts => [p, isDynamic, paneContexts])
+      ),
+      of([p, isDynamic, []])
+    ))
+  ).subscribe(([p, isDynamic, paneContexts]) => {
+    this.contexts = [ ...(p.contexts ? p.contexts.map(c => new InlineContext(c)) : []), ...paneContexts ];
     this.panelPage = p;
     this.populatePanelsFormArray();
     if(!this.nested || isDynamic ) {
@@ -188,6 +194,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     private cssHelper: CssHelperService,
     private attributeSerializer: AttributeSerializerService,
     private formService: FormService,
+    private panelsContextService: PanelsContextService,
     es: EntityServices,
   ) {
     // this.contentPlugins = contentPlugins;

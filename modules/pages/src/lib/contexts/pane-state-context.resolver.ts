@@ -93,7 +93,7 @@ export class PaneStateContextResolver implements ContextResolver {
         console.log('final state');
         console.log(s);
       }),
-      map(s => s.root ? s.root : s.root === undefined && Object.keys(s).length !== 0 ? s : {})
+      map(s => s.root ? s.root : s.root === undefined && Object.keys(s).length === 1 ? {} : s)
     );
   }
 

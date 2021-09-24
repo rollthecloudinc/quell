@@ -4,7 +4,7 @@ import { ContextPlugin, InlineContext } from '../../models/context.models';
 import { ContextEditorHostDirective } from '../../directives/context-editor-host.directive';
 import { ContextPluginManager } from '../../services/context-plugin-manager.service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 @Component({
   selector: 'classifieds-ui-context-form',
   templateUrl: './context-form.component.html',
@@ -52,7 +52,9 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
 
   ngOnInit(): void {
     // this.contextPlugins = this.contextManager.getAll(false);
-    this.contextPlugins = this.cpm.getPlugins();
+    this.contextPlugins = this.cpm.getPlugins().pipe(
+      map(plugins => new Map<string, ContextPlugin<string>>(Array.from(plugins).filter(([_, p], __) => !p.internal).map(([_, p], __) => [ p.name, p ])))
+    );
     this.contextForm.get('plugin').valueChanges.pipe(
       switchMap(v => this.cpm.getPlugin(v))
     ).subscribe(plugin => {
