@@ -1,14 +1,18 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Inject, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ViewEncapsulation, ElementRef, Renderer2 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
-import { AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { PanelPage, Pane, PanelContentHandler } from 'panels';
+import { PanelPage, Pane, PanelContentHandler, PanelPageState, PanelStateArchitectService } from 'panels';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { delay, map, switchMap, tap } from 'rxjs/operators';
+import { delay, map, switchMap, take, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
+import { EntityCollection, EntityCollectionService, EntityServices } from '@ngrx/data';
+import { createSelector, select } from '@ngrx/store';
+import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
+import { JSONPath } from 'jsonpath-plus';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
@@ -25,7 +29,7 @@ import { CssHelperService } from '../../services/css-helper.service';
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => RenderPaneComponent),
       multi: true
-    },
+    }
   ],
   host: {
     '[class.pane]': 'true',
@@ -123,6 +127,14 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     console.log(v);
   });
 
+  private panelPageStateService: EntityCollectionService<PanelPageState>;
+
+  selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
+  selectById = ({ id }: { id: string }) => createSelector(
+    this.selectEntities,
+    entities => entities[id] ? entities[id] : undefined
+  );
+
   public onTouched: () => void = () => {};
 
   // private contentPlugins: Array<ContentPlugin> = [];
@@ -153,8 +165,13 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private panelHandler: PanelContentHandler,
     private fb: FormBuilder,
     private cpm: ContentPluginManager,
-    private cssHelper: CssHelperService
+    private cssHelper: CssHelperService,
+    private pageBuilderFacade: PageBuilderFacade,
+    private panelStateArchitectService: PanelStateArchitectService,
+    private attributeSerializer: AttributeSerializerService,
+    es: EntityServices
   ) {
+    this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
     // this.contentPlugins = contentPlugins;
   }
 
@@ -239,6 +256,41 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     (this.componentRef.instance as any).displayType = this.displayType;
     (this.componentRef.instance as any).resolvedContext = this.resolvedContext;
     (this.componentRef.instance as any).ancestory = this.ancestoryWithSelf;
+
+    if ((this.componentRef.instance as any).state && this.contentPlugin.handler) {
+      this.contentPlugin.handler.stateDefinition(this.settings).pipe(
+        take(1)
+      ).subscribe(s => {
+        (this.componentRef.instance as any).state = s ? s : {};
+      });
+    }
+
+    if ((this.componentRef.instance as any).stateChange) {
+      (this.componentRef.instance as any).stateChange.pipe(
+        switchMap(s => this.pageBuilderFacade.getPageInfo$.pipe(
+          map(p => [s, p])
+        )),
+        switchMap(([s, p]) => this.panelPageStateService.collection$.pipe(
+          select(this.selectById(p.id)),
+          map(ps => [s, new PanelPageState(ps ? ps : { id: p.id, panels: [] })]),
+          take(1)
+        )),
+        tap(([s, ps]) => {
+          this.panelStateArchitectService.buildToAncestorySpec({ panelPageState: ps, ancestory: [ ...this.ancestoryWithSelf ] });
+          const path = '$.' + this.ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
+          JSONPath({ path, json: ps })[0].state = this.attributeSerializer.serialize(s, 'root');
+          console.log('new start to upsert:');
+          console.log(ps);
+          this.panelPageStateService.upsert(ps);
+        }),
+      ).subscribe(([s, ps]) => {
+        console.log('merge state');
+        console.log(this.ancestoryWithSelf);
+        console.log(s);
+        console.log(ps);
+      });
+    }
+
   }
 
 }

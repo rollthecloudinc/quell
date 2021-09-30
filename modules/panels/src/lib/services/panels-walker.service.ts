@@ -28,9 +28,10 @@ export class PanelsWalkerService {
           if(panelPage.panels[i].panes[j].nestedPage && panelPage.panels[i].panes[j].nestedPage.panels && panelPage.panels[i].panes[j].nestedPage.panels.length !== 0) {
             visitors$.push(this.walkPageHierarchy<T>({ panelPage, visitorFunc, defaultv, ancestory: [ ...ancestory, i, j ] }));
           } else if(panelPage.panels[i].panes[j].contentPlugin === 'panel' ) {
-            visitors$.push(this.panelsLoaderService.nestedPage$(panelPage.panels[i].panes[j]).pipe(
+            // @todo: This is causing infinite recusion on adbrowser page. :( - max call stack exceeded
+            /*visitors$.push(this.panelsLoaderService.nestedPage$(panelPage.panels[i].panes[j]).pipe(
               switchMap(nestedPage => this.walkPageHierarchy<T>({ panelPage: nestedPage, visitorFunc, defaultv, ancestory: [ ...ancestory, i, j ] }))
-            ));
+            ));*/
           }
         }
       }

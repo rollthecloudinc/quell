@@ -18,7 +18,8 @@ export class PanelsContextService {
       : of({})
     ),
     map(state => new InlineContext({ 
-      name: 'panestate' + ancestoryWithSelf.map(i => `[${i}]`).join(''), 
+      // name: 'panestate' + ancestoryWithSelf.map(i => `[${i}]`).join(''), 
+      name: 'panestate-' + ancestoryWithSelf.join('-'),
       adaptor: 'data', 
       plugin: 'panestate', 
       data: { 

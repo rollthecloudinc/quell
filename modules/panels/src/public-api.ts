@@ -17,3 +17,4 @@ export * from './lib/models/state.models';
 export * from './lib/services/panel-state-converter.service';
 export * from './lib/services/panels-context.service';
 export * from './lib/services/panels-walker.service';
+export * from './lib/services/panel-state-architect.service';

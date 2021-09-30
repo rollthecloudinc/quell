@@ -119,13 +119,16 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
         map<Map<string, ContentPlugin>, [PanelPage, boolean]>(contentPlugins => [p, p.panels.reduce<Array<Pane>>((panes, panel) => [ ...panes, ...panel.panes ], []).map(pane => contentPlugins.get(pane.contentPlugin).handler?.isDynamic(pane.settings) ).findIndex(d => d === true) !== -1])
       )
     ),
+    // This breaks adbrowser because it results in infinite recursion :(
     switchMap(([p, isDynamic]) => iif<[PanelPage, boolean, Array<InlineContext>], [PanelPage, boolean, Iterable<InlineContext>]>(
       () => !this.nested,
-      this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
+      !this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
         map(paneContexts => [p, isDynamic, paneContexts])
-      ),
+      ): of([p, isDynamic, []]),
       of([p, isDynamic, []])
     ))
+    // placeholder for now...
+    // map<[PanelPage, boolean], [PanelPage, boolean, Array<InlineContext>]>(([p, isDynamic]) => [p, isDynamic,[]])
   ).subscribe(([p, isDynamic, paneContexts]) => {
     this.contexts = [ ...(p.contexts ? p.contexts.map(c => new InlineContext(c)) : []), ...paneContexts ];
     this.panelPage = p;
