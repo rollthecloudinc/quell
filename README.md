@@ -111,6 +111,9 @@ This is done using pane states. The media content panel updates its pane state s
 the outside world in this case a rule can take action like hiding/showing content. This
 is the first of many examples to follow using pane states.
 
+!Important: There seems to be an issue hear. When the pane using a rule is part of the same panel
+for the content that triggers the rule infinite context resolution loop occurs.
+
 
 Features:
 - Default content like html and markdown.
