@@ -5,7 +5,7 @@ import { ContentPlugin, CONTENT_PLUGIN, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelPage, Pane, PanelContentHandler, PanelPageState, PanelStateArchitectService } from 'panels';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, iif, Observable, Subject } from 'rxjs';
 import { delay, map, switchMap, take, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
@@ -13,6 +13,7 @@ import { EntityCollection, EntityCollectionService, EntityServices } from '@ngrx
 import { createSelector, select } from '@ngrx/store';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { JSONPath } from 'jsonpath-plus';
+import merge from 'deepmerge-json';
 
 @Component({
   selector: 'classifieds-ui-render-pane',
@@ -270,25 +271,24 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
         switchMap(s => this.pageBuilderFacade.getPageInfo$.pipe(
           map(p => [s, p])
         )),
-        switchMap(([s, p]) => this.panelPageStateService.collection$.pipe(
+        switchMap(([s, p]) => this.contentPlugin.handler.stateDefinition(this.settings).pipe(
+          map(d => [s, p, d])
+        )),
+        switchMap(([s, p, d]) => this.panelPageStateService.collection$.pipe(
           select(this.selectById(p.id)),
-          map(ps => [s, new PanelPageState(ps ? ps : { id: p.id, panels: [] })]),
+          map(ps => [s, new PanelPageState(ps ? ps : { id: p.id, panels: [] }), d]),
           take(1)
         )),
-        tap(([s, ps]) => {
+        tap(([s, ps, d]) => {
           this.panelStateArchitectService.buildToAncestorySpec({ panelPageState: ps, ancestory: [ ...this.ancestoryWithSelf ] });
           const path = '$.' + this.ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
-          JSONPath({ path, json: ps })[0].state = this.attributeSerializer.serialize(s, 'root');
-          console.log('new start to upsert:');
-          console.log(ps);
+          const paneState = JSONPath({ path, json: ps })[0];
+          const deserializedState = paneState.state ? paneState.state.root ? this.attributeSerializer.deserialize(paneState.state).root : this.attributeSerializer.deserialize(paneState.state) : {}; 
+          const newState = merge(Object.keys(deserializedState).length === 0 ? d : deserializedState, s);
+          paneState.state = this.attributeSerializer.serialize(newState, 'root');
           this.panelPageStateService.upsert(ps);
         }),
-      ).subscribe(([s, ps]) => {
-        console.log('merge state');
-        console.log(this.ancestoryWithSelf);
-        console.log(s);
-        console.log(ps);
-      });
+      ).subscribe();
     }
 
   }

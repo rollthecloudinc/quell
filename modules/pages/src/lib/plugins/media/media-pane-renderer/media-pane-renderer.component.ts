@@ -43,6 +43,8 @@ export class MediaPaneRendererComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     console.log('media ancestory is');
     console.log(this.ancestory);
+    console.log('my state is:');
+    console.log(this.state);
     this.mediaBaseUrl = this.mediaSettings.imageUrl;
     this.handler.toObject(this.settings).subscribe((mediaFile: MediaFile) => {
       this.mediaFile = mediaFile;
