@@ -102,6 +102,16 @@ The page selection api is the drivinf force behind selecting a label for the tab
 The tabs style is the first proof of concept for the selection api and style handlers.
 Style handlers are the other piece of this that can be used to dynamically change the page data structure.
 
+Pane States
+
+https://dpxmq1mxvsyda.cloudfront.net/test-pane-state-media-content-v1
+
+Momentarily see loading text until image loads. Once image loads the loading text is removed.
+This is done using pane states. The media content panel updates its pane state so that
+the outside world in this case a rule can take action like hiding/showing content. This
+is the first of many examples to follow using pane states.
+
+
 Features:
 - Default content like html and markdown.
 - Content is extensible without altering code. For example, if you have a component or several which you would
