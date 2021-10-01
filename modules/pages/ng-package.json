@@ -32,7 +32,8 @@
       "layout": "layout",
       "panels": "panels",
       "css-select": "css-select",
-      "cssjson": "cssjson"
+      "cssjson": "cssjson",
+      "deepmerge-json": "deepmerge-json"
     }
   }
 }
