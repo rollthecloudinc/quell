@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
+import { Component, OnInit, Input, Inject, Optional, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
@@ -27,6 +27,12 @@ export class FormlyFieldRendererComponent implements OnInit {
   @Input()
   displayType: string;
 
+  @Input()
+  state: any = {};
+
+  @Output()
+  stateChange = new EventEmitter<any>();
+
   fields: FormlyFieldConfig[] = [];
   model: any = {};
 
@@ -41,6 +47,10 @@ export class FormlyFieldRendererComponent implements OnInit {
     this.handler.toObject(this.settings).subscribe(instance => {
       this.fields = [ { key: instance.key, type: instance.type } ];
     });
+  }
+
+  onSearchChange(input: string) {
+    this.stateChange.next({ autocomplete: { input } });
   }
 
 }

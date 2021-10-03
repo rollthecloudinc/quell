@@ -1,10 +1,12 @@
 
-import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { debounceTime } from 'rxjs/operators';
+import { iif, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
+import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autocomplete.component';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -27,6 +29,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
 
   @Input()
   settings: Array<AttributeValue> = [];
+
+  @Output()
+  searchChange = new EventEmitter<string>();
 
   settingsFormArray = this.fb.array([]);
   proxyGroup = this.fb.group({});
@@ -51,7 +56,16 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   ) { }
 
   ngOnInit(): void {
-    this.handler.buildFieldConfig(this.settings).subscribe(f => {
+    this.handler.buildFieldConfig(this.settings).pipe(
+      map(f => ({
+        ...f,
+        hooks: {
+          afterViewInit: (field: FormlyFieldConfig) => {
+            this.formlyHookAfterViewInit(field);
+          }
+        }
+      }))
+    ).subscribe(f => {
       this.fields = [ { ...f } ];
     });
 
@@ -81,6 +95,17 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
 
   validate(c: AbstractControl): ValidationErrors | null{
     return null; //this.attributesForm.valid ? null : { invalidForm: {valid: false, message: "attributes are invalid"}};
+  }
+s
+  formlyHookAfterViewInit(field: FormlyFieldConfig) {
+    if (field.type === 'autocomplete') {
+      const target: ComponentRef<FormlyAutocompleteComponent> = (field as any)._componentRefs.find(ref => ref.instance instanceof FormlyAutocompleteComponent);
+      target.instance.formControl.valueChanges.pipe(
+        debounceTime(1000),
+        distinctUntilChanged(),
+        tap(s => this.searchChange.emit(s))
+      ).subscribe();
+    }
   }
 
 }

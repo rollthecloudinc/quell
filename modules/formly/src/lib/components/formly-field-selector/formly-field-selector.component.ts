@@ -4,6 +4,7 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager, AttributeSerializerService } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { InlineContext } from 'context';
 import { Pane } from 'panels';
 //import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 // import { MatDialog } from '@angular/material/dialog';
@@ -24,6 +25,9 @@ export class FormlyFieldSelectorComponent implements OnInit {
 
   @Input()
   panelFormGroup: FormGroup;
+
+  @Input()
+  contexts: Array<InlineContext> = [];
 
   fields$ = new BehaviorSubject<Map<string, string>>(new Map([ 
     ['input', 'Input'],
@@ -72,7 +76,7 @@ export class FormlyFieldSelectorComponent implements OnInit {
     const formArray = (this.panelFormGroup.get('panes') as FormArray);
     const paneIndex = formArray.length - 1;
     const pane = new Pane(formArray.at(paneIndex).value);
-    this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex } });
+    this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex, contexts: [] } });
     this.bottomSheetRef.dismiss();
   }
 

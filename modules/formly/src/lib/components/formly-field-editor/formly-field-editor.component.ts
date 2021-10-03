@@ -1,7 +1,8 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from 'attributes';
+import { InlineContext } from 'context';
 import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from 'datasource';
 import { Pane } from 'panels';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
@@ -12,6 +13,8 @@ import { FormlyFieldInstance } from '../../models/formly.models';
   styleUrls: ['./formly-field-editor.component.scss']
 })
 export class FormlyFieldEditorComponent implements OnInit {
+
+  contexts: Array<InlineContext>;
 
   rest = mockRest;
   datasourceOptions = mockDatasourceOptions;
@@ -31,12 +34,14 @@ export class FormlyFieldEditorComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<FormlyFieldEditorComponent>,
     private fb: FormBuilder,
     private handler: FormlyFieldContentHandler,
     private attributeSerializer: AttributeSerializerService
-  ) {}
+  ) {
+    this.contexts = data.contexts;
+  }
 
   ngOnInit(): void {
     this.handler.toObject(this.data.pane.settings).subscribe(i => {

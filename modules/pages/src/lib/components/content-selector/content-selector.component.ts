@@ -62,7 +62,7 @@ export class ContentSelectorComponent implements OnInit {
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).panelFormGroup = this.data.panelForm;
-    (componentRef.instance as any).contents = this.data.contexts;
+    (componentRef.instance as any).contexts = this.data.contexts;
 
   }
 
