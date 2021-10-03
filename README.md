@@ -1,5 +1,9 @@
 # Druid
 
+Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
+
+### Motivations
+
 * Embrace modern JavaScript ecosystem
 * Innovate, inspire others to use Angular and Reactive programming
 * Provide example of complex Angular application for learning purposes.
