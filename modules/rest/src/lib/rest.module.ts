@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { MaterialModule } from 'material';
 import { AngularSplitModule } from 'angular-split';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
+import { SnippetModule } from 'snippet';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { RestSourceFormComponent } from './components/rest-source-form/rest-sour
     ReactiveFormsModule,
     MaterialModule,
     AngularSplitModule,
-    NgxJsonViewerModule
+    NgxJsonViewerModule,
+    SnippetModule
   ],
   exports: [ RestSourceFormComponent ]
 })

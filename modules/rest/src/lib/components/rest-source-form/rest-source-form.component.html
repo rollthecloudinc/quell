@@ -1,9 +1,20 @@
 
 <as-split [formGroup]="sourceForm" direction="horizontal">
   <div as-split-area size="50">
-    <mat-form-field>
-      <input matInput placeholder="Url" formControlName="url" required>
-    </mat-form-field>
+    <div>
+      <mat-form-field>
+        <mat-select required formControlName="method">
+          <mat-option value="get">GET</mat-option>
+          <mat-option value="post">POST</mat-option>
+          <mat-option value="put">PUT</mat-option>
+          <mat-option value="delete">DELETE</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Url" formControlName="url" required>
+      </mat-form-field>
+    </div>
+    <classifieds-ui-snippet-form formControlName="body" [rootForm]="false" rows="10" cols="40" [tokens]="tokens"></classifieds-ui-snippet-form>
     <div formArrayName="params">
       <div *ngFor="let param of params.controls; let i = index" [formGroupName]="i">
         <div>{{ paramName(i) }}</div>

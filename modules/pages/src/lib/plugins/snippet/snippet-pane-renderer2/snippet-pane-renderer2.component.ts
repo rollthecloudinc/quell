@@ -2,7 +2,7 @@ import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { AttributeValue } from 'attributes';
 import { TokenizerService } from 'token';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
-import { Snippet } from 'content';
+import { Snippet } from 'snippet';
 import { InlineContext } from 'context';
 import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';

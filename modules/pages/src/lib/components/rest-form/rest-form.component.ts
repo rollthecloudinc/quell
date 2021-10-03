@@ -5,6 +5,7 @@ import { Rest } from 'datasource';
 import { Param } from 'dparam';
 import { InlineContext } from 'context';
 import { RestSourceFormComponent } from 'rest';
+import { Snippet } from 'snippet';
 
 @Component({
   selector: 'classifieds-ui-rest-form',
@@ -38,7 +39,9 @@ export class RestFormComponent implements OnInit, AfterViewInit {
         },
         source: {
           url: '', // rest.url,
-          params: [] // rest.params
+          params: [], // rest.params
+          method: '',
+          body: ''
         }
       });
       if(rest.renderer.type === 'pane') {
@@ -58,13 +61,13 @@ export class RestFormComponent implements OnInit, AfterViewInit {
         this.restForm.get('renderer').get('data').enable();
       }
       setTimeout(() => {
-        this.restSource = { url: rest.url, params: rest.params };
+        this.restSource = { url: rest.url, params: rest.params, method: rest.method ? rest.method : '', body: rest.body ? { ...rest.body, jsScript: ''  } : '' };
         this.sourceForm.refreshData$.next();
       });
     }
   }
 
-  restSource: { url: string, params: Array<Param> };
+  restSource: { url: string, params: Array<Param>, method?: string, body?: string | Snippet };
 
   @ViewChild(RestSourceFormComponent, {static: true}) sourceForm: RestSourceFormComponent;
 
@@ -161,7 +164,9 @@ export class RestFormComponent implements OnInit, AfterViewInit {
     const rest = new Rest({
       ...this.restForm.value,
       url: this.restForm.value.source.url,
-      params: this.restForm.value.source.params
+      params: this.restForm.value.source.params,
+      method: this.restForm.value.source.method,
+      body: this.restForm.value.source.body
     });
     this.submitted.emit(rest);
   }

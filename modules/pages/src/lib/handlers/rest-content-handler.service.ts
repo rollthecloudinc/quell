@@ -1,7 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { ContentHandler, ContentBinding } from 'content';
+import { Snippet } from 'snippet';
 import { Rest, Dataset } from 'datasource';
 import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';

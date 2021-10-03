@@ -36,7 +36,8 @@
       "deepmerge-json": "deepmerge-json",
       "durl": "durl",
       "dparam": "dparam",
-      "rest": "rest"
+      "rest": "rest",
+      "snippet": "snippet"
     }
   }
 }

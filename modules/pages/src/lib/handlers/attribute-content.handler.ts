@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { ContentHandler, ContentBinding } from 'content';
+import { Snippet } from 'snippet';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeWidget, AttributeTypes } from 'attributes';
 import { Observable, of } from 'rxjs';

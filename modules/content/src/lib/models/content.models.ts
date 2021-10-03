@@ -58,7 +58,7 @@ export class ContentInstance {
   }
 }
 
-export class Snippet {
+/*export class Snippet {
   content: string;
   contentType: string;
   jsFile?: string;
@@ -75,4 +75,4 @@ export class Snippet {
       }
     }
   }
-}
+}*/

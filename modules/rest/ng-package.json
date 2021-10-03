@@ -12,7 +12,8 @@
       "ngx-json-viewer": "ngx-json-viewer",
       "token": "token",
       "durl": "durl",
-      "dparam": "dparam"
+      "dparam": "dparam",
+      "snippet": "snippet"
     }
   }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { ContentHandler, ContentBinding } from 'content';
+import { Snippet } from 'snippet';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { TokenizerService } from 'token';

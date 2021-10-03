@@ -14,7 +14,8 @@
       "utils": "utils",
       "bridge": "bridge",
       "dparam": "dparam",
-      "token": "token"
+      "token": "token",
+      "snippet": "snippet"
     }
   }
 }

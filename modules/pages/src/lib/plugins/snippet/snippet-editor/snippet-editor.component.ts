@@ -5,7 +5,7 @@ import { AttributeTypes } from 'attributes';
 import { Pane } from 'panels';
 // import { Snippet } from '../../../models/plugin.models';
 // import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
-import { Snippet } from 'content';
+import { Snippet } from 'snippet';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({

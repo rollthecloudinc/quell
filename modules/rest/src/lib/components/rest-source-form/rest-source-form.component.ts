@@ -7,6 +7,8 @@ import { NEVER, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
 import { DatasourceApiService } from 'datasource';
 import * as qs from 'qs';
+import { TokenizerService } from 'token';
+import { Snippet } from 'snippet';
 
 @Component({
   selector: 'classifieds-ui-rest-source-form',
@@ -31,9 +33,11 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   dataChange = new EventEmitter<any>();
 
   @Input()
-  set restSource(restSource: { url: string; params: Array<Param> }) {
+  set restSource(restSource: { url: string; params: Array<Param>, method?: string, body?: Snippet }) {
     if(restSource !== undefined) {
       this.sourceForm.get('url').setValue(restSource.url);
+      this.sourceForm.get('method').setValue(restSource.method ? restSource.method : '');
+      this.sourceForm.get('body').setValue(restSource.body ? { ...restSource.body, jsScript: '' } : '');
       setTimeout(() => this.sourceForm.get('params').setValue(restSource.params), 500);
     }
   };
@@ -46,9 +50,12 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   sourceForm = this.fb.group({
     url: this.fb.control('', Validators.required),
     params: this.fb.array([]),
+    body: this.fb.control(''),
+    method: this.fb.control('get', [ Validators.required ])
   });
 
   jsonData: Array<any>;
+  tokens: Map<string, any>;
 
   componentDestroyed = new Subject();
 
@@ -84,7 +91,11 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     return flags;
   }
 
-  constructor(private fb: FormBuilder, private datasourceApi: DatasourceApiService,) {
+  constructor(
+    private fb: FormBuilder, 
+    private datasourceApi: DatasourceApiService,
+    private tokenizerService: TokenizerService
+  ) {
     this.flags.set('page', 'Page');
     this.flags.set('limit', 'Limit');
     this.flags.set('offset', 'Offset');
@@ -240,6 +251,10 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     const apiUrl = rebuildUrl.join('/') + (queryString !== '' ? '?' + qs.stringify({ ...qsParsed, ...qsOverrides }) : '');
     console.log(apiUrl);
     return apiUrl;
+  }
+
+  onDataChange(data: any) {
+    this.tokens = this.tokenizerService.generateGenericTokens(data[0]);
   }
 
 }

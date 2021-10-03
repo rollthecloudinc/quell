@@ -103,6 +103,10 @@
       "dparam": [
         "dist/dparam/dparam",
         "dist/dparam"
+      ],
+      "snippet": [
+        "dist/snippet/snippet",
+        "dist/snippet"
       ]
     }
   },

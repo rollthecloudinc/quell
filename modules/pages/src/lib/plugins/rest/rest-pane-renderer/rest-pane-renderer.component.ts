@@ -6,7 +6,7 @@ import { Subject } from 'rxjs';
 import { switchMap, filter, tap } from 'rxjs/operators';
 import { ControlContainer } from '@angular/forms';
 import { SelectOption, SelectMapping } from '../../../models/plugin.models';
-import { Snippet } from 'content';
+import { Snippet } from 'snippet';
 import { InlineContext } from 'context';
 
 @Component({

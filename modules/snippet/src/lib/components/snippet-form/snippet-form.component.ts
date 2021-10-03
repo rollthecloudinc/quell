@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Snippet } from 'content';
+import { Snippet } from '../../models/snippet.models';
 
 @Component({
   selector: 'classifieds-ui-snippet-form',
