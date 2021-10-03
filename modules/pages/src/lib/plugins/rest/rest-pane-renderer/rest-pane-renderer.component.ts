@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as uuid from 'uuid';
 import { AttributeValue } from 'attributes';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
@@ -7,6 +7,7 @@ import { switchMap, filter, tap } from 'rxjs/operators';
 import { ControlContainer } from '@angular/forms';
 import { SelectOption, SelectMapping } from '../../../models/plugin.models';
 import { Snippet } from 'content';
+import { InlineContext } from 'context';
 
 @Component({
   selector: 'classifieds-ui-rest-pane-renderer',
@@ -26,6 +27,15 @@ export class RestPaneRendererComponent implements OnInit {
 
   @Input()
   displayType: string;
+
+  @Input()
+  contexts: Array<InlineContext> = [];
+
+  @Input()
+  state: any = {};
+
+  @Output()
+  stateChange = new EventEmitter<any>();
 
   tag = uuid.v4();
 
@@ -53,12 +63,15 @@ export class RestPaneRendererComponent implements OnInit {
         this.selectMapping = new SelectMapping(JSON.parse(this.snippet.content));
       }),
       filter(() => this.renderType !== 'autocomplete'),
-      switchMap(r => this.restHandler.buildSelectOptionItems(this.settings, new Map<string, any>([ ['tag', this.tag], [ 'snippet', r.renderer.data ] ])))
+      switchMap(r => this.restHandler.buildSelectOptionItems(this.settings, new Map<string, any>([ ['tag', this.tag], [ 'snippet', r.renderer.data ], [ 'contexts', this.contexts ] ])))
     ).subscribe(options => {
       this.options = options;
     });
     this.searchChange$.pipe(
-      switchMap(r => this.restHandler.buildSelectOptionItems(this.settings, new Map<string, any>([ ['tag', uuid.v4()], [ 'snippet', this.snippet ] ])))
+      tap(input=> {
+        this.stateChange.emit({ autocomplete: { input } });
+      }),
+      switchMap(r => this.restHandler.buildSelectOptionItems(this.settings, new Map<string, any>([ ['tag', uuid.v4()], [ 'snippet', this.snippet ], [ 'contexts', this.contexts ] ])))
     ).subscribe(options => {
       this.options = options;
     });

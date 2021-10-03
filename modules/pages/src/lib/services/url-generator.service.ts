@@ -149,7 +149,7 @@ export class UrlGeneratorService {
         switchMap(d => iif(
           () => param.mapping.value && param.mapping.value !== '',
           of(d).pipe(
-            map(d => this.tokenizerService.generateGenericTokens(d[0])),
+            map(d => this.tokenizerService.generateGenericTokens(Array.isArray(d) ? d[0] : d)),
             map(tokens => this.tokenizerService.replaceTokens(`[${param.mapping.value}]`, tokens)),
             take(1)
           ),

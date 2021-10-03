@@ -31,7 +31,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
           trackBy: '',
           query: '',
           ...rest.renderer,
-          data: rest.renderer.data ? rest.renderer.data : { content: '', contentType: '' },
+          data: rest.renderer.data ? { ...rest.renderer.data, jsScript: ( rest.renderer.data.jsScript ? rest.renderer.data.jsScript : '' ) } : { content: '', contentType: '', jsScript: '' },
           select: ['pane', 'snippet'].findIndex(t => t === rest.renderer.type) > -1 ? defaultSelect : JSON.parse(rest.renderer.data.content),
           bindings: []
         },
@@ -125,13 +125,15 @@ export class RestFormComponent implements OnInit, AfterViewInit {
       }
       this.restForm.get('renderer').get('data').setValue({
         contentType: '',
-        content: ''
+        content: '',
+        jsScript: ''
       });
     });
     this.restForm.get('renderer').get('select').valueChanges.subscribe(v => {
       this.restForm.get('renderer').get('data').setValue({
         contentType: 'application/json',
-        content: JSON.stringify({ value: v.value, label: v.label , id: v.id, multiple: v.multiple, limit: v.limit})
+        content: JSON.stringify({ value: v.value, label: v.label , id: v.id, multiple: v.multiple, limit: v.limit }),
+        jsScript: ''
       });
     });
   }

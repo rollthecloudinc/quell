@@ -353,8 +353,16 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   addContent(index: number) {
+
     console.log(this.panels.at(index));
-    this.bs.open(ContentSelectorComponent, { data: { panelForm: this.panels.at(index), panelIndex: index, contexts: this.contexts } });
+    this.pageBuilderFacade.getPage$.pipe(
+      switchMap(pp => this.panelsContextService.allActivePageContexts({ panelPage: pp })),
+      switchMap(paneContexts => this.dialog
+        .open(ContentSelectorComponent, { data: {  panelForm: this.panels.at(index), panelIndex: index, contexts: [ ...( this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } })
+        .afterClosed()
+      ),
+      take(1)
+    ).subscribe();
   }
 
   editPanelProps(panelIndex: number) {
@@ -794,6 +802,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   onPaneEdit(index: number, index2: number) {
     const pane = new Pane(this.panelPane(index, index2).value);
     const plugin = this.panelPanePlugin(index, index2);
+    const [ editablePane ] = this.editablePanes.filter((ep, i) => ep.name === pane.name );
     /*const contentPlugin = this.contentPlugins.find(p => p.name === plugin);
     if(contentPlugin.editorComponent !== undefined) {
       const dialogRef = this.dialog.open(contentPlugin.editorComponent, { data: { panelFormGroup: this.panels.at(index), panelIndex: index, paneIndex: index2, contexts: this.contexts, contentAdded: this.contentAdded, pane } })
@@ -803,15 +812,22 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
         })
     }*/
     this.cpm.getPlugin(plugin).pipe(
-      filter(p => p.editorComponent !== undefined)
-    ).subscribe(p => {
+      filter(p => p.editorComponent !== undefined),
+      switchMap(p => this.pageBuilderFacade.getPage$.pipe(
+        switchMap(pp => this.panelsContextService.allActivePageContexts({ panelPage: pp }).pipe(
+          map<Iterable<InlineContext>, [ContentPlugin<string>, Iterable<InlineContext>]>(paneContexts => [p, paneContexts]),
+          take(1)
+        )),
+        take(1)
+      )),
+    ).subscribe(([p, paneContexts]) => {
       this.dialog.open(
         p.editorComponent,
         { data: {
           panelFormGroup: this.panels.at(index),
           panelIndex: index,
           paneIndex: index2,
-          contexts: this.contexts,
+          contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ],
           contentAdded: this.contentAdded, pane
         }
       })

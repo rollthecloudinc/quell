@@ -178,6 +178,6 @@ export class RestContentHandler implements ContentHandler {
     return renderType.length > 0 ? renderType[0].value: undefined;
   }
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
-    return of({});
+    return of({ autocomplete: { input: '' } });
   }
 }
