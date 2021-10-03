@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RestSourceFormComponent } from '../rest-source-form/rest-source-form.component';
+import { RestSourceFormComponent } from 'rest';
 
 @Component({
   selector: 'classifieds-ui-context-editor',

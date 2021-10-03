@@ -4,7 +4,7 @@ import { TokenizerService } from 'token';
 import { Rest } from 'datasource';
 import { Param } from 'dparam';
 import { InlineContext } from 'context';
-import { RestSourceFormComponent } from '../rest-source-form/rest-source-form.component';
+import { RestSourceFormComponent } from 'rest';
 
 @Component({
   selector: 'classifieds-ui-rest-form',

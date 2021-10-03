@@ -35,7 +35,8 @@
       "cssjson": "cssjson",
       "deepmerge-json": "deepmerge-json",
       "durl": "durl",
-      "dparam": "dparam"
+      "dparam": "dparam",
+      "rest": "rest"
     }
   }
 }
