@@ -6,6 +6,7 @@ import { map, switchMap, tap } from "rxjs/operators";
 import { TokenizerService } from "token";
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
+import { InlineContext } from "context";
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +34,7 @@ export class FormlyHandlerHelper {
 
   buildTemplateOptions(instance: FormlyFieldInstance): Observable<FormlyTemplateOptions> {
     return of(instance).pipe(
-      map<FormlyFieldInstance, [FormlyFieldInstance, FormlyTemplateOptions]>(i => [i, { label:  i.options.label, multiple: i.datasourceOptions ? i.datasourceOptions.multiple : false, options: [], ...( i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {} ) }]),
+      map<FormlyFieldInstance, [FormlyFieldInstance, FormlyTemplateOptions]>(i => [i, { label:  i.options.label, multiple: i.datasourceOptions ? i.datasourceOptions.multiple : false, options: [] }]),
       switchMap(([i, t]) => iif(
         () => this.hasDataOptions(i),
         this.buildDataOptions(i).pipe(
@@ -78,9 +79,9 @@ export class FormlyHandlerHelper {
 
   mapDataItem(instance: FormlyFieldInstance, tokens: Map<string, any>): any {
     return {
-      value: this.tokenizerService.replaceTokens(`[${instance.datasourceOptions.valueMapping}]`, tokens),
-      label: this.tokenizerService.replaceTokens(`[${instance.datasourceOptions.labelMapping}]`, tokens),
-      display: this.tokenizerService.replaceTokens(`[${instance.datasourceOptions.labelMapping}]`, tokens)
+      value: this.tokenizerService.replaceTokens(`${instance.datasourceOptions.valueMapping}`, tokens),
+      label: this.tokenizerService.replaceTokens(`${instance.datasourceOptions.labelMapping}`, tokens),
+      display: this.tokenizerService.replaceTokens(`${instance.datasourceOptions.labelMapping}`, tokens)
     };
   }
 
@@ -88,9 +89,9 @@ export class FormlyHandlerHelper {
     return !!instance.rest && instance.rest.url && instance.rest.url.trim() !== '';
   }
 
-  makeFilterFunction(i: FormlyFieldInstance): (term: string) => Observable<Array<any>> {
+  makeFilterFunction(i: FormlyFieldInstance, contexts: Array<InlineContext>): (term: string) => Observable<Array<any>> {
     return () => of([]).pipe(
-      switchMap(() => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([]))),
+      switchMap(() => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', contexts ] ]))),
       switchMap(s => this.datasourceApi.getData(`${s}`)),
       map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.mapDataOptions(i, data))

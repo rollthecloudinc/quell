@@ -1,8 +1,12 @@
-import { ContextPlugin } from './models/context.models';
+import { ContextPlugin, InlineContext } from './models/context.models';
 import { RouteResolver } from './resolvers/route.resolver';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { ContextPluginManager } from './services/context-plugin-manager.service';
-import { switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
+import { ParamPlugin, Param } from 'dparam';
+import { iif, of } from 'rxjs';
+import { InlineContextResolverService } from './services/inline-context-resolver.service';
+import { TokenizerService } from 'token';
 
 export const routeContextFactory = (resolver: RouteResolver) => {
   const baseObject = {
@@ -35,3 +39,30 @@ export const contextBridgeFactory = (cpm: ContextPluginManager) => {
     }
   }); 
 };
+
+export const paramPluginFactory = (
+  inlineContextResolver: InlineContextResolverService,
+  tokenizerService: TokenizerService
+) => {
+  return new ParamPlugin<string>({ 
+    id: 'context',
+    title: 'Context',
+    evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
+      const ctx = new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context));
+      return inlineContextResolver.resolve(ctx).pipe(
+        take(1),
+        switchMap(d => iif(
+          () => param.mapping.value && param.mapping.value !== '',
+          of(d).pipe(
+            map(d => tokenizerService.generateGenericTokens(Array.isArray(d) ? d[0] : d)),
+            map(tokens => tokenizerService.replaceTokens(`[${param.mapping.value}]`, tokens)),
+            take(1)
+          ),
+          of(Array.isArray(d) ? d[0] : d)).pipe(
+            take(1)
+          )
+        )
+      );
+    }
+  });
+}

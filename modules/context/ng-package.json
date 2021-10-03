@@ -12,7 +12,9 @@
       "plugin": "plugin",
       "uuid": "uuid",
       "utils": "utils",
-      "bridge": "bridge"
+      "bridge": "bridge",
+      "dparam": "dparam",
+      "token": "token"
     }
   }
 }

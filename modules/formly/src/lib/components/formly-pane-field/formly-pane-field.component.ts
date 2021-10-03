@@ -3,10 +3,13 @@ import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, Compone
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { iif, of } from 'rxjs';
+import { forkJoin, iif, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autocomplete.component';
+import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
+import { InlineContext } from 'context';
+import { FormlyFieldInstance } from '../../models/formly.models';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -30,6 +33,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   @Input()
   settings: Array<AttributeValue> = [];
 
+  @Input()
+  contexts: Array<InlineContext> = [];
+
   @Output()
   searchChange = new EventEmitter<string>();
 
@@ -52,20 +58,31 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   constructor(
     private fb: FormBuilder,
     private attributeSerializer: AttributeSerializerService,
-    private handler: FormlyFieldContentHandler
+    private handler: FormlyFieldContentHandler,
+    private formlyHandlerHelper: FormlyHandlerHelper
   ) { }
 
   ngOnInit(): void {
     this.handler.buildFieldConfig(this.settings).pipe(
-      map(f => ({
+      switchMap(f => this.handler.toObject(this.settings).pipe(
+        map<FormlyFieldInstance, [FormlyFieldConfig, FormlyFieldInstance]>(i => [f, i])
+      )),
+      map<[FormlyFieldConfig, FormlyFieldInstance], [FormlyFieldConfig, FormlyFieldInstance]>(([f, i]) => [{
         ...f,
         hooks: {
           afterViewInit: (field: FormlyFieldConfig) => {
             this.formlyHookAfterViewInit(field);
           }
         }
-      }))
-    ).subscribe(f => {
+      }, i]),
+      map<[FormlyFieldConfig, FormlyFieldInstance], [FormlyFieldConfig, FormlyFieldInstance]>(([f, i]) => [{
+        ...f,
+        templateOptions: {
+          ...f.templateOptions,
+          ...(i.type === 'autocomplete' ? { filter: this.formlyHandlerHelper.makeFilterFunction(i, this.contexts) } : {})
+        }
+      }, i])
+    ).subscribe(([f, _]) => {
       this.fields = [ { ...f } ];
     });
 

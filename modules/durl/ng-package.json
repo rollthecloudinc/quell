@@ -9,7 +9,7 @@
       "qs": "qs",
       "token": "token",
       "attributes": "attributes",
-      "durl": "durl"
+      "dparam": "dparam"
     }
   }
 }

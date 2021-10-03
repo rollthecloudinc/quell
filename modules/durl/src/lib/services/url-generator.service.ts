@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
-import { Param } from 'dparam';
+import { Param, ParamPluginManager, ParamPlugin } from 'dparam';
 // import { InlineContext } from 'context';
 // import { PanelPageForm } from '../models/form.models';
 import { Observable, of, forkJoin, iif } from 'rxjs';
@@ -25,6 +25,7 @@ export class UrlGeneratorService {
     private tokenizerService: TokenizerService,
     // private pageBuilderFacade: PageBuilderFacade, -> plugin
     private attributeMatcher: AttributeMatcherService,
+    private paramPluginManager: ParamPluginManager
     // private formService: FormService -> plugin
   ) {}
 
@@ -146,6 +147,9 @@ export class UrlGeneratorService {
       //);
       return of(param.mapping.value);
     } else if(param.mapping.type === 'context') { // kill for now
+      return this.paramPluginManager.getPlugin('context').pipe(
+        switchMap((p: ParamPlugin<string>) => p.evalParam({ param, metadata }))
+      );
       /*const ctx = new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context));
       return this.inlineContextResolver.resolve(ctx).pipe(
         take(1),
