@@ -11,7 +11,8 @@
       "angular-split": "angular-split",
       "ngx-json-viewer": "ngx-json-viewer",
       "token": "token",
-      "durl": "durl"
+      "durl": "durl",
+      "dparam": "dparam"
     }
   }
 }

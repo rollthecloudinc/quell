@@ -13,7 +13,8 @@
       "qs": "qs",
       "attributes": "attributes",
       "token": "token",
-      "durl": "durl"
+      "durl": "durl",
+      "dparam": "dparam"
     }
   }
 }

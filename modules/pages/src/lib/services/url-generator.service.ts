@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
-import { Param } from 'durl';
+import { Param } from 'dparam';
 import { InlineContext } from 'context';
 import { PanelPageForm } from '../models/form.models';
 import { Observable, of, forkJoin, iif } from 'rxjs';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UrlGeneratorService, Param } from 'durl';
-
+import { UrlGeneratorService } from 'durl';
+import { Param } from 'dparam';
 @Injectable({
   providedIn: 'root'
 })

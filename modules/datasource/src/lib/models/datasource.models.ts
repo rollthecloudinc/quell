@@ -1,5 +1,5 @@
 import { ContentBinding, Snippet } from 'content';
-import { Param } from 'durl';
+import { Param } from 'dparam';
 
 export class Rest {
   url: string;

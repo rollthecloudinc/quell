@@ -34,7 +34,8 @@
       "css-select": "css-select",
       "cssjson": "cssjson",
       "deepmerge-json": "deepmerge-json",
-      "durl": "durl"
+      "durl": "durl",
+      "dparam": "dparam"
     }
   }
 }

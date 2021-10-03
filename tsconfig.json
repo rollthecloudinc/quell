@@ -99,6 +99,10 @@
       "durl": [
         "dist/durl/durl",
         "dist/durl"
+      ],
+      "dparam": [
+        "dist/dparam/dparam",
+        "dist/dparam"
       ]
     }
   },
