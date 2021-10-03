@@ -7,8 +7,6 @@
       "@ngrx/router-store": "@ngrx/router-store",
       "@ngrx/store": "@ngrx/store",
       "qs": "qs",
-      "token": "token",
-      "attributes": "attributes",
       "dparam": "dparam"
     }
   }

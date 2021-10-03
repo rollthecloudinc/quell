@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { DparamModule } from 'dparam';
+import { DparamModule, ParamPluginManager } from 'dparam';
+import { paramPagePluginFactory, paramSearchStringPluginFactory, paramRoutePluginFactory, paramQueryStringPluginFactory, paramStandardPaginationPluginFactory } from './durl.factories';
 
 @NgModule({
   declarations: [],
@@ -8,4 +9,16 @@ import { DparamModule } from 'dparam';
   ],
   exports: []
 })
-export class DurlModule { }
+export class DurlModule { 
+  constructor(
+    ppm: ParamPluginManager
+  ) {
+    [
+      paramPagePluginFactory(), 
+      paramSearchStringPluginFactory(), 
+      paramRoutePluginFactory(), 
+      paramQueryStringPluginFactory(), 
+      paramStandardPaginationPluginFactory()
+    ].forEach(p => ppm.register(p));
+  }
+}
