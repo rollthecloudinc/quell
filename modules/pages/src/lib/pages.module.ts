@@ -11,7 +11,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { MediaModule } from 'media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from 'utils';
-import { TokenModule } from 'token';
+import { TokenizerService, TokenModule } from 'token';
 import { AttributesModule } from 'attributes';
 import { LayoutModule } from 'layout';
 import { RestModule } from 'rest';
@@ -42,7 +42,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -83,7 +83,6 @@ import { PanelResolverService } from './services/panel-resolver.service';
 import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel-props-dialog.component';
 import { PluginConfigurationManager, PluginConfig } from 'plugin';
 import { InlineContextResolverService } from './services/inline-context-resolver.service';
-import { UrlGeneratorService } from './services/url-generator.service';
 import { RulesResolverService } from './services/rules-resolver.service';
 import { LayoutEditorHostDirective } from './directives/layout-editor-host.directive';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
@@ -96,6 +95,9 @@ import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { StyleResolverService } from './services/style-resolver.service';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
+import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
+import { FormService } from './services/form.service';
+import { ParamPluginManager, DparamModule } from 'dparam';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -154,7 +156,8 @@ const routes = [
     EffectsModule.forFeature([PageBuilderEffects]),
     PanelsModule,
     RestModule,
-    SnippetModule
+    SnippetModule,
+    DparamModule
   ],
   declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent],
   providers: [
@@ -166,7 +169,6 @@ const routes = [
     PaneStateContextResolver,
     PageStateContextResolver,
     InlineContextResolverService,
-    UrlGeneratorService,
     RulesResolverService,
     StyleResolverService,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
@@ -202,8 +204,12 @@ export class PagesModule {
     cxm: ContextPluginManager,
     spm: StylePluginManager,
     eds: EntityDefinitionService,
+    ppm: ParamPluginManager,
     pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
+    tokenizerService: TokenizerService,
+    formService: FormService,
+    pageBuilderFacade: PageBuilderFacade,
     pageContextResolver: PageContextResolver,
     restContextResolver: RestContextResolver,
     formContextResolver: FormContextResolver,
@@ -233,6 +239,12 @@ export class PagesModule {
 
     contentPlugins.forEach(p => cpm.register(p));
     stylePlugins.forEach(p => spm.register(p));
+
+    ppm.register(formParamPluginFactory(
+      tokenizerService,
+      formService,
+      pageBuilderFacade
+    ));
 
   }
 }

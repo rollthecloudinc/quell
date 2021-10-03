@@ -32,6 +32,13 @@ import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
+import { InlineContextResolverService } from './services/inline-context-resolver.service';
+import { ParamPlugin, Param } from 'dparam';
+import { map, take, tap } from 'rxjs/operators';
+import { TokenizerService } from 'token';
+import { FormService } from './services/form.service';
+import { PanelPageForm } from './models/form.models';
+import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -133,3 +140,49 @@ export const pageStateContextFactory = (resolver: PageStateContextResolver) => {
 export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {
   return new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', handler, editorComponent: TabsPanelEditorComponent, renderComponent: TabsPanelRendererComponent }); 
 };
+
+export const formParamPluginFactory = (
+  tokenizerService: TokenizerService,
+  formService: FormService,
+  pageBuilderFacade: PageBuilderFacade
+) => {
+  return new ParamPlugin<string>({ 
+    id: 'form',
+    title: 'Form',
+    evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
+      const name = param.mapping.value.substr(0, param.mapping.value.indexOf('.'));
+      const value = param.mapping.value.substr(param.mapping.value.indexOf('.') + 1);
+      console.log(`form: ${name} || ${value}`);
+      return pageBuilderFacade.getForm$(name).pipe(
+        take(1),
+        map(form => form ? form : new PanelPageForm() ),
+        map(form => formService.serializeForm(form)),
+        map(obj => tokenizerService.generateGenericTokens(obj)),
+        tap(tokens => console.log(tokens)),
+        map(tokens => {
+          if(!tokens.has(`.${value}`)) {
+            return '';
+          } else {
+            return tokenizerService.replaceTokens(`[.${value}]`/*`[.${value}.value]`*/, tokens);
+          }
+        }),
+        tap(value => {
+          console.log('form value');
+          console.log(value);
+        }),
+        /*switchMap(form => iif(
+          () => form !== undefined,
+          new Observable<string>(obs => {
+            const formValue = this.formValue(form, value);
+            console.log(`form value: ${formValue}`);
+            obs.next(formValue);
+            obs.complete();
+          }).pipe(take(1)),
+          of(undefined).pipe(
+            take(1)
+          )
+        ))*/
+      );
+    }
+  });
+}

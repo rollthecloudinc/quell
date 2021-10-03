@@ -5,7 +5,7 @@ import { PageBuilderPartialState } from '../features/page-builder/page-builder.r
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, of, merge } from 'rxjs';
 import { filter, take, switchMap, tap, map } from 'rxjs/operators';
-import { UrlGeneratorService } from '../services/url-generator.service';
+import { UrlGeneratorService } from 'durl';
 import { Rest } from 'datasource';
 import { Param } from 'dparam'
 import { selectDataset, selectPageInfo } from '../features/page-builder/page-builder.selectors';
@@ -28,7 +28,7 @@ export class RestContextResolver implements ContextResolver {
     return this.changePipeline(rest.params).pipe(
       switchMap(() => this.rebuildParams(rest.params)),
       map<Array<Param>, [Array<Param>, Map<string, any>]>(params => [params, new Map<string, any>([ [ 'tag', uuid.v4() ] ])]),
-      switchMap(([params, metadata]) => this.urlGeneratorService.generateUrl(rest.url, params, metadata).pipe(
+      switchMap(([params, metadata]) => this.urlGeneratorService.getUrl(rest.url, params, metadata).pipe(
         map<string, [string, Map<string, any>]>(url => [url, metadata])
       )),
       switchMap(([url, metadata]) => {

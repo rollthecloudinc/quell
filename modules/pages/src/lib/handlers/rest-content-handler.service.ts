@@ -15,7 +15,7 @@ import { selectDataset } from '../features/page-builder/page-builder.selectors';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { TokenizerService } from 'token';
 import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler } from 'panels';
-import { UrlGeneratorService } from '../services/url-generator.service';
+import { UrlGeneratorService } from 'durl';
 import { SelectMapping, SelectOption } from '../models/plugin.models';
 import { RulesResolverService } from '../services/rules-resolver.service';
 
@@ -52,7 +52,7 @@ export class RestContentHandler implements ContentHandler {
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     const subject = new Subject<Dataset>();
     this.toObject(settings).pipe(
-      switchMap(r => this.urlGeneratorService.generateUrl(r.url, r.params, metadata).pipe(
+      switchMap(r => this.urlGeneratorService.getUrl(r.url, r.params, metadata).pipe(
         map<string, [Rest, string]>(url => [r, url])
       ))
     ).subscribe(([r, url]) => {
@@ -71,7 +71,7 @@ export class RestContentHandler implements ContentHandler {
     const subject = new Subject<Array<AttributeValue>>();
     console.log('build dynamic items rest');
     this.toObject(settings).pipe(
-      switchMap(r => this.urlGeneratorService.generateUrl(r.url, r.params, metadata).pipe(
+      switchMap(r => this.urlGeneratorService.getUrl(r.url, r.params, metadata).pipe(
         map<string, [Rest, string]>(url => [r, url])
       ))
     ).subscribe(([r, url]) => {
@@ -138,7 +138,7 @@ export class RestContentHandler implements ContentHandler {
   }
   buildSelectOptionItems(settings: Array<AttributeValue>, metadata: Map<string, any>) {
     this.toObject(settings).pipe(
-      switchMap(r => this.urlGeneratorService.generateUrl(r.url, r.params, metadata).pipe(
+      switchMap(r => this.urlGeneratorService.getUrl(r.url, r.params, metadata).pipe(
         map(url => [r, url])
       )),
       map<[Rest, string], Rest>(([r, url]) => new Rest({ ...r, url }))
