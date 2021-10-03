@@ -2,31 +2,33 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
-import { Param } from 'durl';
-import { InlineContext } from 'context';
-import { PanelPageForm } from '../models/form.models';
+import { Param } from '../models/url.models';
+// import { InlineContext } from 'context';
+// import { PanelPageForm } from '../models/form.models';
 import { Observable, of, forkJoin, iif } from 'rxjs';
 import { map, switchMap, defaultIfEmpty, take, tap } from 'rxjs/operators';
-import { InlineContextResolverService } from './inline-context-resolver.service';
+// import { InlineContextResolverService } from './inline-context-resolver.service';
 import { TokenizerService } from 'token';
 import { AttributeMatcherService } from 'attributes';
 import * as qs from 'qs';
-import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
-import { FormService } from './form.service';
+//import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
+//import { FormService } from './form.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class UrlGeneratorService {
 
   constructor(
     private routerStore: Store<RouterReducerState>,
-    private inlineContextResolver: InlineContextResolverService,
+    // private inlineContextResolver: InlineContextResolverService, -> plugin
     private tokenizerService: TokenizerService,
-    private pageBuilderFacade: PageBuilderFacade,
+    // private pageBuilderFacade: PageBuilderFacade, -> plugin
     private attributeMatcher: AttributeMatcherService,
-    private formService: FormService
+    // private formService: FormService -> plugin
   ) {}
 
-  generateUrl(url, params: Array<Param>, metadata: Map<string, any>): Observable<string> {
+  getUrl(url, params: Array<Param>, metadata: Map<string, any>): Observable<string> {
     const { selectCurrentRoute } = getSelectors((state: any) => state.router);
     return this.routerStore.pipe(
       select(selectCurrentRoute),
@@ -109,7 +111,7 @@ export class UrlGeneratorService {
       return of(route.queryParams[param.mapping.value]);
     } else if(param.mapping.type === 'form') {
       // const [name, value] = param.mapping.value.split('.', 2);
-      const name = param.mapping.value.substr(0, param.mapping.value.indexOf('.'));
+      /*const name = param.mapping.value.substr(0, param.mapping.value.indexOf('.'));
       const value = param.mapping.value.substr(param.mapping.value.indexOf('.') + 1);
       console.log(`form: ${name} || ${value}`);
       return this.pageBuilderFacade.getForm$(name).pipe(
@@ -122,13 +124,13 @@ export class UrlGeneratorService {
           if(!tokens.has(`.${value}`)) {
             return '';
           } else {
-            return this.tokenizerService.replaceTokens(`[.${value}]`/*`[.${value}.value]`*/, tokens);
+            return this.tokenizerService.replaceTokens(`[.${value}]`/*`[.${value}.value]`*//*, tokens);
           }
         }),
         tap(value => {
           console.log('form value');
           console.log(value);
-        }),
+        }),*/
         /*switchMap(form => iif(
           () => form !== undefined,
           new Observable<string>(obs => {
@@ -141,15 +143,16 @@ export class UrlGeneratorService {
             take(1)
           )
         ))*/
-      );
-    } else if(param.mapping.type === 'context') {
-      const ctx = new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context));
+      //);
+      return of(param.mapping.value);
+    } else if(param.mapping.type === 'context') { // kill for now
+      /*const ctx = new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context));
       return this.inlineContextResolver.resolve(ctx).pipe(
         take(1),
         switchMap(d => iif(
           () => param.mapping.value && param.mapping.value !== '',
           of(d).pipe(
-            map(d => this.tokenizerService.generateGenericTokens(Array.isArray(d) ? d[0] : d)),
+            map(d => this.tokenizerService.generateGenericTokens(d[0])),
             map(tokens => this.tokenizerService.replaceTokens(`[${param.mapping.value}]`, tokens)),
             take(1)
           ),
@@ -157,13 +160,14 @@ export class UrlGeneratorService {
             take(1)
           )
         ))
-      );
+      );*/
+      return of(param.mapping.value);
     } else {
       return of(param.mapping.value);
     }
   }
 
-  formValue(form: PanelPageForm, value: string): string {
+  /*formValue(form: PanelPageForm, value: string): string {
     if(!form) {
       return undefined;
     }
@@ -176,7 +180,7 @@ export class UrlGeneratorService {
         }
       }
     }
-  }
+  }*/
 
   rebuildQueryString(q: any): any {
     const newQ = {};

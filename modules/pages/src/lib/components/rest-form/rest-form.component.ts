@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
 import { TokenizerService } from 'token';
-import { Rest, Param } from 'datasource';
+import { Rest } from 'datasource';
+import { Param } from 'durl';
 import { InlineContext } from 'context';
 import { RestSourceFormComponent } from '../rest-source-form/rest-source-form.component';
 

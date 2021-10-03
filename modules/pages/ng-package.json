@@ -33,7 +33,8 @@
       "panels": "panels",
       "css-select": "css-select",
       "cssjson": "cssjson",
-      "deepmerge-json": "deepmerge-json"
+      "deepmerge-json": "deepmerge-json",
+      "durl": "durl"
     }
   }
 }

@@ -12,7 +12,8 @@
       "plugin": "plugin",
       "qs": "qs",
       "attributes": "attributes",
-      "token": "token"
+      "token": "token",
+      "durl": "durl"
     }
   }
 }

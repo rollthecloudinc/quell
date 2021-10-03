@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'material';
+import { DurlModule } from 'durl';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { DatasourceOptionsComponent } from './components/datasource-options/data
     CommonModule,
     HttpClientModule,
     ReactiveFormsModule,
-    MaterialModule
+    MaterialModule,
+    DurlModule
   ],
   exports: [
     DatasourceOptionsComponent

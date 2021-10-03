@@ -10,7 +10,8 @@
       "material": "material",
       "angular-split": "angular-split",
       "ngx-json-viewer": "ngx-json-viewer",
-      "token": "token"
+      "token": "token",
+      "durl": "durl"
     }
   }
 }

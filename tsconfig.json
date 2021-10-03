@@ -95,6 +95,10 @@
       "state": [
         "dist/state/state",
         "dist/state"
+      ],
+      "durl": [
+        "dist/durl/durl",
+        "dist/durl"
       ]
     }
   },

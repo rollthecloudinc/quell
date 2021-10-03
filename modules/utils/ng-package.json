@@ -6,7 +6,9 @@
     "umdModuleIds": {
       "content": "content",
       "@ngrx/entity": "@ngrx/entity",
-      "@ngrx/data": "@ngrx/data"
+      "@ngrx/data": "@ngrx/data",
+      "durl": "durl",
+      "numeral": "numeral"
     }
   }
 }

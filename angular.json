@@ -937,5 +937,45 @@
           }
         }
       }
+    },
+    "durl": {
+      "projectType": "library",
+      "root": "modules/durl",
+      "sourceRoot": "modules/durl/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/durl/tsconfig.lib.json",
+            "project": "modules/durl/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/durl/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/durl/src/test.ts",
+            "tsConfig": "modules/durl/tsconfig.spec.json",
+            "karmaConfig": "modules/durl/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/durl/tsconfig.lib.json",
+              "modules/durl/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
-import { Param } from 'datasource';
+import { Param } from 'durl';
 import { InlineContext } from 'context';
 import { NEVER, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
