@@ -20,4 +20,9 @@ export class DatasourceApiService {
       );
     }
   }
+  postData({ url, body = '' }: {url: string, body?: any} ): Observable<Array<any>> {
+    return this.http.post<Array<any>>(`${url}`, body).pipe(
+      map(data => Array.isArray(data) ? data: [data])
+    );
+  }
 }

@@ -4,3 +4,4 @@
 export * from './lib/snippet.module';
 export * from './lib/components/snippet-form/snippet-form.component';
 export * from './lib/models/snippet.models';
+export * from './lib/services/snippet-parser.service';
