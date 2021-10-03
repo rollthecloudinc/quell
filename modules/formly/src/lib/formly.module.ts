@@ -10,6 +10,7 @@ import { FormlyFieldEditorComponent } from './components/formly-field-editor/for
 import { FormlyFieldRendererComponent } from './components/formly-field-renderer/formly-field-renderer.component';
 import { FormlyFieldSelectorComponent } from './components/formly-field-selector/formly-field-selector.component';
 import { FormlyPaneFieldComponent } from './components/formly-pane-field/formly-pane-field.component';
+import { FormlyAutocompleteComponent } from './components/formly-autocomplete/formly-autocomplete.component';
 import { formlyFieldContentPluginFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -24,14 +25,23 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldEditorComponent,
     FormlyFieldRendererComponent,
     FormlyFieldSelectorComponent,
-    FormlyPaneFieldComponent
+    FormlyPaneFieldComponent,
+    FormlyAutocompleteComponent
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    RealFormlyModule.forChild(),
+    RealFormlyModule.forChild({
+      types: [
+        {
+          name: 'autocomplete',
+          component: FormlyAutocompleteComponent,
+          wrappers: ['form-field'],
+        }
+      ]
+    }),
     FormlyMaterialModule,
     FormlyMatDatepickerModule,
     FormlyMatNativeSelectModule,
@@ -44,7 +54,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldEditorComponent,
     FormlyFieldRendererComponent,
     FormlyFieldSelectorComponent,
-    FormlyPaneFieldComponent
+    FormlyPaneFieldComponent,
+    FormlyAutocompleteComponent
   ],
   providers: [
     FormlyFieldContentHandler

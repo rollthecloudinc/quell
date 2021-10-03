@@ -357,12 +357,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     console.log(this.panels.at(index));
     this.pageBuilderFacade.getPage$.pipe(
       switchMap(pp => this.panelsContextService.allActivePageContexts({ panelPage: pp })),
-      switchMap(paneContexts => this.dialog
-        .open(ContentSelectorComponent, { data: {  panelForm: this.panels.at(index), panelIndex: index, contexts: [ ...( this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } })
-        .afterClosed()
-      ),
       take(1)
-    ).subscribe();
+    ).subscribe(paneContexts => {
+      this.bs.open(ContentSelectorComponent, { data: {  panelForm: this.panels.at(index), panelIndex: index, contexts: [ ...( this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } });
+    });
   }
 
   editPanelProps(panelIndex: number) {

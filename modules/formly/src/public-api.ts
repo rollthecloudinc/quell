@@ -6,3 +6,4 @@ export * from './lib/components/formly-field-editor/formly-field-editor.componen
 export * from './lib/components/formly-field-renderer/formly-field-renderer.component';
 export * from './lib/components/formly-field-selector/formly-field-selector.component';
 export * from './lib/components/formly-pane-field/formly-pane-field.component';
+export * from './lib/components/formly-autocomplete/formly-autocomplete.component';

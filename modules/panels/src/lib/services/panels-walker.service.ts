@@ -35,13 +35,18 @@ export class PanelsWalkerService {
           }
         }
       }
-      forkJoin(visitors$).pipe(
-        map(groups => groups.reduce<Iterable<T>>((p, c) => [ ...p, ...c ] as any, defaultv)),
-        tap(values => {
-          obs.next(values);
-          obs.complete();
-        })
-      ).subscribe();
+      if (visitors$.length === 0) {
+        obs.next(defaultv);
+        obs.complete();
+      } else {
+        forkJoin(visitors$).pipe(
+          map(groups => groups.reduce<Iterable<T>>((p, c) => [ ...p, ...c ] as any, defaultv)),
+          tap(values => {
+            obs.next(values);
+            obs.complete();
+          })
+        ).subscribe();
+      }
     });
   }
 }
