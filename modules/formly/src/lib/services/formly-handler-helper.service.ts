@@ -2,11 +2,10 @@ import { Injectable } from "@angular/core";
 import { FormlyTemplateOptions, FormlyFieldConfig } from '@ngx-formly/core';
 import { DatasourceHttpService, DatasourceApiService } from "datasource";
 import { iif, Observable, of } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { map, switchMap } from "rxjs/operators";
 import { TokenizerService } from "token";
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
-import { InlineContext } from "context";
 
 @Injectable({
   providedIn: 'root'
@@ -87,15 +86,6 @@ export class FormlyHandlerHelper {
 
   hasDataOptions(instance: FormlyFieldInstance): boolean {
     return !!instance.rest && instance.rest.url && instance.rest.url.trim() !== '';
-  }
-
-  makeFilterFunction(i: FormlyFieldInstance, contexts: Array<InlineContext>): (term: string) => Observable<Array<any>> {
-    return () => of([]).pipe(
-      switchMap(() => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', contexts ] ]))),
-      switchMap(s => this.datasourceApi.getData(`${s}`)),
-      map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
-      switchMap(data => this.mapDataOptions(i, data))
-    );
   }
 
 } 

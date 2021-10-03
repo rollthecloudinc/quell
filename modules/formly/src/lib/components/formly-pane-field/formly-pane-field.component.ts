@@ -2,14 +2,16 @@
 import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
+import { JSONPath } from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { forkJoin, iif, of } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { forkJoin, iif, Observable, of, Subject } from 'rxjs';
+import { debounceTime, delay, distinctUntilChanged, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autocomplete.component';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 import { InlineContext } from 'context';
 import { FormlyFieldInstance } from '../../models/formly.models';
+import { DatasourceApiService, DatasourceHttpService } from 'datasource';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -59,7 +61,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     private fb: FormBuilder,
     private attributeSerializer: AttributeSerializerService,
     private handler: FormlyFieldContentHandler,
-    private formlyHandlerHelper: FormlyHandlerHelper
+    private formlyHandlerHelper: FormlyHandlerHelper,
+    private datasourceHttp: DatasourceHttpService,
+    private datasourceApi: DatasourceApiService,
   ) { }
 
   ngOnInit(): void {
@@ -79,7 +83,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
         ...f,
         templateOptions: {
           ...f.templateOptions,
-          ...(i.type === 'autocomplete' ? { filter: this.formlyHandlerHelper.makeFilterFunction(i, this.contexts) } : {})
+          ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {})
         }
       }, i])
     ).subscribe(([f, _]) => {
@@ -125,4 +129,17 @@ s
     }
   }
 
+  makeFilterFunction(i: FormlyFieldInstance): (term: string) => Observable<Array<any>> {
+    return (term: string) => of([]).pipe(
+      switchMap(s => this.searchChange.pipe(
+        filter(v => v === term)
+      )),
+      switchMap(() => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
+      switchMap(s => this.datasourceApi.getData(`${s}`)),
+      map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
+      switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
+    );
+  }
+
 }
+
