@@ -11,7 +11,8 @@ import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autoc
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 import { InlineContext } from 'context';
 import { FormlyFieldInstance } from '../../models/formly.models';
-import { DatasourceApiService, DatasourceHttpService } from 'datasource';
+import { DatasourceApiService } from 'datasource';
+import { UrlGeneratorService } from 'durl';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -62,7 +63,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     private attributeSerializer: AttributeSerializerService,
     private handler: FormlyFieldContentHandler,
     private formlyHandlerHelper: FormlyHandlerHelper,
-    private datasourceHttp: DatasourceHttpService,
+    private urlGeneratorService: UrlGeneratorService ,
     private datasourceApi: DatasourceApiService,
   ) { }
 
@@ -134,7 +135,7 @@ s
       switchMap(s => this.searchChange.pipe(
         filter(v => v === term)
       )),
-      switchMap(() => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
+      switchMap(() => this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
       switchMap(s => this.datasourceApi.getData(`${s}`)),
       map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))

@@ -16,6 +16,7 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RestModule } from 'rest';
 import { DatasourceModule } from 'datasource';
+import { DurlModule } from 'durl';
 import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
@@ -48,7 +49,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyMatToggleModule,
     FormlyMatSliderModule,
     RestModule,
-    DatasourceModule
+    DatasourceModule,
+    DurlModule
   ],
   exports: [
     FormlyFieldEditorComponent,

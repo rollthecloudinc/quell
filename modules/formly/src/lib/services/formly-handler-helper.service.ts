@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
 import { FormlyTemplateOptions, FormlyFieldConfig } from '@ngx-formly/core';
-import { DatasourceHttpService, DatasourceApiService } from "datasource";
+import { DatasourceApiService } from "datasource";
 import { iif, Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { TokenizerService } from "token";
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
-
+import { UrlGeneratorService } from "durl";
 @Injectable({
   providedIn: 'root'
 })
 export class FormlyHandlerHelper {
 
   constructor(
-    private datasourceHttp: DatasourceHttpService,
+    private urlGeneratorService: UrlGeneratorService,
     private datasourceApi: DatasourceApiService,
     private tokenizerService: TokenizerService
   ) {}
@@ -63,7 +63,7 @@ export class FormlyHandlerHelper {
 
   buildRestDataOptions(instance: FormlyFieldInstance): Observable<Array<any>> {
     return of(instance).pipe(
-      switchMap(i => this.datasourceHttp.getUrl(i.rest.url, i.rest.params, new Map<string, any>([]))),
+      switchMap(i => this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([]))),
       switchMap(s => this.datasourceApi.getData(`${s}`))
     );
   }
