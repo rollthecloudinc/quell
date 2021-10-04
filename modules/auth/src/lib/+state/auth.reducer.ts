@@ -1,6 +1,6 @@
 import { AuthAction, AuthActionTypes } from './auth.actions';
 import { User } from 'oidc-client';
-// import { Cookie } from '../models/cookie.models';
+import { Cookie } from '../models/cookie.models';
 // import { userInfo } from 'os';
 
 export const AUTH_FEATURE_KEY = 'auth';
@@ -17,7 +17,7 @@ export interface Entity {}
 
 export interface AuthState {
   user: User;
-  // cookies: Map<string, Cookie>;
+  cookies: Map<string, Cookie>;
   // user: any;
 }
 
@@ -27,7 +27,7 @@ export interface AuthPartialState {
 
 export const initialState: AuthState = {
   user: undefined,
-  // cookies: new Map<string, Cookie>()
+  cookies: new Map<string, Cookie>()
 };
 
 export function reducer(

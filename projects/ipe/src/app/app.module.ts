@@ -9,7 +9,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
+// Base auth
 import { AuthModule, LogoutInterceptor} from 'auth';
+// Auth implementation - open connect/oauth
 import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from 'oidc';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
 import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME } from 'utils';
