@@ -70,6 +70,7 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 * Page Nesting and Embedding
 * Content Style libraries
 * Extensible via plugin architecture
+* Authentication and authorization
 
 The examples provided below is a small subset of the editors capabilities.
 
