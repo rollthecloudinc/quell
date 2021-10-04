@@ -26,6 +26,20 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 * Magento | https://magento.com/
 * Modx | https://modx.com/
 
+### Use Cases
+
+The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
+
+* Personal blog
+* Small personal websites
+* One-off landing pages
+* Ecommerce website
+* Professional business website(s)
+* Web applications
+* Development prototyping
+* Email generation
+* PDF generation
+
 ### Notable Mentions
 
 This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
@@ -52,20 +66,6 @@ In addition to Angular Druid also uses many nodejs projects.
 * css-json | https://www.npmjs.com/package/cssjson
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
-
-### Use Cases
-
-The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
-
-* Personal blog
-* Small personal websites
-* One-off landing pages
-* Ecommerce website
-* Professional business website(s)
-* Web applications
-* Development prototyping
-* Email generation
-* PDF generation
 
 # Introduction
 
