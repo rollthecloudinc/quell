@@ -47,7 +47,7 @@ In addition to Angular Druid also uses many nodejs projects.
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
 
-### Chief Editor
+# Introduction
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
 
