@@ -6,6 +6,16 @@ This projects goal is to provide a powerful, sophisticated toolset for authoring
 
 Digital authoring targets include:
 
+* highly interactive web app
+* smaller website building
+* landing page creation
+* small static sites
+* email creation
+* other digital marketing
+* PDF creation / documentation
+* prototyping tool
+* diagramming
+
 ### Motivations
 
 * Embrace modern JavaScript ecosystem
