@@ -1097,5 +1097,45 @@
           }
         }
       }
+    },
+    "drxdb": {
+      "projectType": "library",
+      "root": "modules/drxdb",
+      "sourceRoot": "modules/drxdb/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/drxdb/tsconfig.lib.json",
+            "project": "modules/drxdb/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/drxdb/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/drxdb/src/test.ts",
+            "tsConfig": "modules/drxdb/tsconfig.spec.json",
+            "karmaConfig": "modules/drxdb/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/drxdb/tsconfig.lib.json",
+              "modules/drxdb/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }

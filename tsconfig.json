@@ -111,6 +111,10 @@
       "oidc": [
         "dist/oidc/oidc",
         "dist/oidc"
+      ],
+      "drxdb": [
+        "dist/drxdb/drxdb",
+        "dist/drxdb"
       ]
     }
   },
