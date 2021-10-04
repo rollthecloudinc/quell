@@ -26,13 +26,13 @@ This project would not be possible without the previous work of many. Druid uses
 
 One of the primary reasons Angular has been choosen for this project is due to the rich ecosystem of modules developed by community. Many of those projects have been used to provide qoptimize development quality, performance, efficiency, and maintainance.
 
-* Angular Material
-* NgRx
-* Formly
-* Ngx Markdown
-* Angular Split
-* ng2 Query Builder
-* Flex Layout
+* Angular Material | https://material.angular.io/
+* NgRx | https://ngrx.io/
+* Formly | https://formly.dev/
+* Ngx Markdown | https://www.npmjs.com/package/ngx-markdown
+* Angular Split | https://angular-split.github.io/
+* ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
+* Flex Layout | https://github.com/angular/flex-layout
 
 ### Chief Editor
 
