@@ -1,4 +1,4 @@
-# Druid
+# d r u i d
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
 
@@ -25,6 +25,20 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 * Drupal | https://www.drupal.org/
 * Magento | https://magento.com/
 * Modx | https://modx.com/
+
+### Use Cases
+
+The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
+
+* Personal blog
+* Small personal websites
+* One-off landing pages
+* Ecommerce website
+* Professional business website(s)
+* Web applications
+* Development prototyping
+* Email generation
+* PDF generation
 
 ### Notable Mentions
 
