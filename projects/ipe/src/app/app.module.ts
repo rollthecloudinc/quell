@@ -9,7 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
-import { AuthModule, AuthInterceptor, LogoutInterceptor, CLIENT_SETTINGS, ClientSettings } from 'auth';
+import { AuthModule, LogoutInterceptor} from 'auth';
+import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from 'oidc';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
 import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME } from 'utils';
 import { MaterialModule } from 'material';
@@ -148,6 +149,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ContentModule,
     ContextModule,
     AuthModule.forRoot(),
+    OidcModule.forRoot(),
     MediaModule,
     // NxModule.forRoot(),
     EntityDataModule.forRoot({}),
@@ -177,7 +179,7 @@ export function markedOptionsFactory(): MarkedOptions {
 
     // There is no way to prioritize interceptors so order can be important.
     // { provide: HTTP_INTERCEPTORS, useClass: CorrelationInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
     // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
 

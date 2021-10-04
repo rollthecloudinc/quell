@@ -1,22 +1,18 @@
-/*import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ofEntityType, ofEntityOp, EntityOp, EntityActionFactory } from '@ngrx/data';
 import { UserManager } from 'oidc-client';
 import { map, switchMap, tap } from 'rxjs/operators';
-import {
-  SetUser,
-  AuthActionTypes
-} from './auth.actions';
+import { AuthActions } from 'auth';
 import { Observable } from 'rxjs';
 import * as Cookies from 'js-cookie';
-import { Cookie } from '../models/cookie.models';
 
 @Injectable()
-export class AuthEffects {
+export class OidcAuthEffects {
 
   login$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActionTypes.Login),
+      ofType(AuthActions.AuthActionTypes.Login),
       tap(() => {
         this.userManager.signinRedirect();
       })
@@ -26,7 +22,7 @@ export class AuthEffects {
 
   logout$ = createEffect(() =>
   this.actions$.pipe(
-    ofType(AuthActionTypes.Logout),
+    ofType(AuthActions.AuthActionTypes.Logout),
     tap(() => {
       this.userManager.signoutRedirect();
     })
@@ -36,10 +32,10 @@ export class AuthEffects {
 
   completeAuthentication$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(AuthActionTypes.CompleteAuthentication),
-      switchMap(() => new Observable<SetUser>(sub => {
+      ofType(AuthActions.AuthActionTypes.CompleteAuthentication),
+      switchMap(() => new Observable<AuthActions.SetUser>(sub => {
           this.userManager.signinRedirectCallback().then(user => {
-            sub.next(new SetUser(user));
+            sub.next(new AuthActions.SetUser(user));
             sub.complete();
           });
         })
@@ -47,12 +43,12 @@ export class AuthEffects {
     )
   );
 
-  setUser = createEffect(() =>
+  /*setUser = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActionTypes.SetUser),
       map(() => this.entityActionFactory.create<Cookie>('Cookie', EntityOp.QUERY_ALL))
     )
-  );
+  );*/
 
   loadCookies$ = createEffect(() =>
     this.actions$.pipe(
@@ -72,4 +68,4 @@ export class AuthEffects {
     private entityActionFactory: EntityActionFactory
   ) {
   }
-}*/
+}

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
 // import { OktaAuthService } from '@okta/okta-angular';
-import { AuthFacade } from '../+state/auth.facade';
+import { AuthFacade } from 'auth';
 import { Observable } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 
 @Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export class TokenInterceptor implements HttpInterceptor {
 
   constructor(private authFacade: AuthFacade/*, private oktaAuth: OktaAuthService*/) {}
 

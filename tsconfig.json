@@ -107,6 +107,10 @@
       "snippet": [
         "dist/snippet/snippet",
         "dist/snippet"
+      ],
+      "oidc": [
+        "dist/oidc/oidc",
+        "dist/oidc"
       ]
     }
   },

@@ -3,7 +3,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Request } from 'express';
 import * as Cookies from 'js-cookie';
 import * as numeral from 'numeral';
-import { ClientSettings } from '../models/auth.models';
+import { ClientSettings } from '../models/oidc.models';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
 const AUTH_KEY = makeStateKey('auth');

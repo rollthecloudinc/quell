@@ -1,8 +1,8 @@
 import { Injector } from '@angular/core';
 import { isPlatformServer, isPlatformBrowser } from '@angular/common';
-import { ClientSettings } from './models/auth.models';
+import { ClientSettings } from './models/oidc.models';
 import { UserManager, WebStorageStateStore } from 'oidc-client';
-import { AuthFacade } from './+state/auth.facade';
+import { AuthFacade } from 'auth';
 import { AuthWebStorageService } from './services/auth-web-storage.service';
 import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import { TransferState } from '@angular/platform-browser';
