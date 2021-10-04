@@ -1,4 +1,4 @@
-# D R U I D
+# d r u i d
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
 
