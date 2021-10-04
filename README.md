@@ -58,7 +58,13 @@ Meet the chief editor and driving force behind entire the entire publishing expe
 
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
 
-Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities.
+Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
+
+* Markdown and HTML content
+* Query APIs for data
+* Upload media assets
+* Extend with custom external JavaScript
+* Form building and data storage 
 
 The examples provided below is a small subset of the editors capabilities.
 
