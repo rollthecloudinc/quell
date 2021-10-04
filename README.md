@@ -71,7 +71,7 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 * Content Style libraries
 * Extensible via plugin architecture
 * Authentication and authorization
-* Customizable data storage
+* Customizable data storage and access guards
 
 The examples provided below is a small subset of the editors capabilities.
 
