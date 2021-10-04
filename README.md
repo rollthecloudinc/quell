@@ -33,19 +33,19 @@ One of the primary reasons Angular has been choosen for this project is due to t
 * Angular Split | https://angular-split.github.io/
 * ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
 * Flex Layout | https://github.com/angular/flex-layout
-* Ngx Json Viewer | 
+* Ngx Json Viewer | https://www.npmjs.com/package/ngx-json-viewer
 
 In addition to Angular Druid also uses many nodejs projects.
 
-* jsonpath-plus
-* json-rules-engine
-* oidc-client
-* numeral
-* qs
-* css-select
-* css-json
-* deepmerge-json
-* js-cookie
+* jsonpath-plus | https://www.npmjs.com/package/jsonpath-plus
+* json-rules-engine | https://www.npmjs.com/package/json-rules-engine
+* oidc-client | https://www.npmjs.com/package/oidc-client
+* numeral | http://numeraljs.com/
+* qs | https://www.npmjs.com/package/qs
+* css-select | https://www.npmjs.com/package/css-select
+* css-json | https://www.npmjs.com/package/cssjson
+* deepmerge-json | https://www.npmjs.com/package/deepmerge-json
+* js-cookie | https://www.npmjs.com/package/js-cookie
 
 ### Chief Editor
 
