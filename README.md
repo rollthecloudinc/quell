@@ -4,7 +4,7 @@ Druid is a serverless publishing platform optimized for the modern web using cut
 
 ### Intentions
 
-This projects goal is to provide a powerful, sophisticated toolset for authoring digital content.
+This project will be the most powerful, sophisticated open source authoring suite available for modern digital publishing.
 
 Digital authoring targets include:
 
