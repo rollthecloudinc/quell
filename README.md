@@ -20,6 +20,10 @@ Digital authoring targets include:
 
 This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web.
 
+### Notable Mentions
+
+This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek sophisticated publising experience. The most noteworthy of those is ![Angular](https://angular.io/). The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
+
 ### Chief Editor
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
@@ -29,10 +33,6 @@ Meet the chief editor and driving force behind entire the entire publishing expe
 Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities.
 
 The examples provided below is a small subset of the editors capabilities.
-
-### Notable Mentions
-
-This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek sophisticated publising experience. The most noteworthy of those is ![Angular](https://angular.io/). The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
 
 # Examples
 
