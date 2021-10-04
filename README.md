@@ -2,22 +2,83 @@
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
 
+### Intentions
+
+This project will be the most powerful, sophisticated open source authoring suite available for modern digital publishing.
+
+Digital authoring targets include:
+
+* highly interactive web app
+* smaller website building
+* landing page creation
+* small static sites
+* email creation
+* other digital marketing
+* PDF creation / documentation
+* prototyping tool
+* diagramming
+
 ### Motivations
 
-* Embrace modern JavaScript ecosystem
-* Innovate, inspire others to use Angular and Reactive programming
-* Provide example of complex Angular application for learning purposes.
-* Modernization of past concepts, patterns used in the CMS realm
-* Harness vodoo, sorcery and magic
-* Compared to Angular – React, Vue, etc. are complete garbage
-* Frameworks are only limited by understanding and capacity to learn.
-* Keep evolving, improving, innovating, seeking out improvement always.
-* There is always a better way to do things.
+This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
 
-Content Editor
+* Drupal | https://www.drupal.org/
+* Magento | https://magento.com/
+* Modx | https://modx.com/
+
+### Notable Mentions
+
+This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
+
+One of the primary reasons Angular has been choosen for this project is due to the rich ecosystem of modules developed by community. Many of those projects have been used to optimize development quality, performance, efficiency, and maintainance.
+
+* Angular Material | https://material.angular.io/
+* NgRx | https://ngrx.io/
+* Formly | https://formly.dev/
+* Ngx Markdown | https://www.npmjs.com/package/ngx-markdown
+* Angular Split | https://angular-split.github.io/
+* ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
+* Flex Layout | https://github.com/angular/flex-layout
+* Ngx Json Viewer | https://www.npmjs.com/package/ngx-json-viewer
+
+In addition to Angular Druid also uses many nodejs projects.
+
+* jsonpath-plus | https://www.npmjs.com/package/jsonpath-plus
+* json-rules-engine | https://www.npmjs.com/package/json-rules-engine
+* oidc-client | https://www.npmjs.com/package/oidc-client
+* numeral | http://numeraljs.com/
+* qs | https://www.npmjs.com/package/qs
+* css-select | https://www.npmjs.com/package/css-select
+* css-json | https://www.npmjs.com/package/cssjson
+* deepmerge-json | https://www.npmjs.com/package/deepmerge-json
+* js-cookie | https://www.npmjs.com/package/js-cookie
+
+# Introduction
+
+Meet the chief editor and driving force behind entire the entire publishing experience.
+
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
 
-Rendered Page
+Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
+
+* Markdown and HTML content
+* Query APIs for data
+* Upload media assets
+* Extend with custom external JavaScript
+* Form building and data storage 
+* Conditional content display
+* Customizable CSS styling
+* Page Nesting and Embedding
+* Content Style libraries
+* Extensible via plugin architecture
+* Authentication and authorization
+* Customizable data storage and access restrictions
+
+The examples provided below is a small subset of the editors capabilities.
+
+# Examples
+
+Classified Ads Fully Interactive Browser
 ![Rendered Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_page_render_abc.png)
 
 Nesting individual panel pages in one another
