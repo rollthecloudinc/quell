@@ -66,6 +66,7 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 * Extend with custom external JavaScript
 * Form building and data storage 
 * Conditional content display
+* Customizable CSS styling
 
 The examples provided below is a small subset of the editors capabilities.
 
