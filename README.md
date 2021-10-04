@@ -24,12 +24,11 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
 
+![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
+
 Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities.
 
-# Examples
-
-Content Editor
-![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
+The examples provided below is a small subset of the editors capabilities.
 
 Rendered Page
 ![Rendered Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_page_render_abc.png)
