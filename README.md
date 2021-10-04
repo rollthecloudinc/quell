@@ -20,10 +20,11 @@ Digital authoring targets include:
 
 ### Motivations
 
-This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web.
+This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
 
 * Drupal | https://www.drupal.org/
 * Magento | https://magento.com/
+* Modx | https://modx.com/
 
 ### Notable Mentions
 
