@@ -22,7 +22,7 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 
 ### Notable Mentions
 
-This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek sophisticated publising experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
+This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
 
 One of the primary reasons Angular has been choosen for this project is due to the rich ecosystem of modules developed by community. Many of thiose projects have been used to optimize development efficiency and maintainance.
 
