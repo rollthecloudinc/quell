@@ -20,6 +20,12 @@ Digital authoring targets include:
 
 This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web.
 
+### Editor
+
+Meet the chief editor and driving force behind entire the entire publishing experience.
+
+# Examples
+
 Content Editor
 ![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
 
