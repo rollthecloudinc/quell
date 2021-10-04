@@ -53,6 +53,20 @@ In addition to Angular Druid also uses many nodejs projects.
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
 
+### Use Cases
+
+The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swiff army knife of content development.
+
+* Personal blog
+* Small personal websites
+* One-off landing pages
+* Ecommerce website
+* Professional business website(s)
+* Web applications
+* Development prototyping
+* Email generation
+* PDF generation
+
 # Introduction
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
