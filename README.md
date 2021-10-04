@@ -24,6 +24,8 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
 
+Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities.
+
 # Examples
 
 Content Editor
