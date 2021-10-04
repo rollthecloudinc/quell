@@ -67,7 +67,7 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 * Form building and data storage 
 * Conditional content display
 * Customizable CSS styling
-* Page Nesting and hierarchies
+* Page Nesting and Embedding
 
 The examples provided below is a small subset of the editors capabilities.
 
