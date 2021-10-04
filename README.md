@@ -30,6 +30,10 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 
 The examples provided below is a small subset of the editors capabilities.
 
+### Notable Mentions
+
+This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek sophisticated publising experience. The most noteworthy of those is ![Angular](https://angular.io/). The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
+
 # Examples
 
 Classified Ads Fully Interactive Browser
