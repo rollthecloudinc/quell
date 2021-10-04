@@ -22,6 +22,9 @@ Digital authoring targets include:
 
 This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web.
 
+* Drupal | https://www.drupal.org/
+* Magento | https://magento.com/
+
 ### Notable Mentions
 
 This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
