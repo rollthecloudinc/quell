@@ -55,7 +55,7 @@ In addition to Angular Druid also uses many nodejs projects.
 
 ### Use Cases
 
-The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swiff army knife of content development.
+The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
 
 * Personal blog
 * Small personal websites
