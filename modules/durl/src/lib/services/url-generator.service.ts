@@ -86,9 +86,13 @@ export class UrlGeneratorService {
 
   paramValue(param: Param, metadata: Map<string, any>): Observable<string> {
     return this.paramPluginManager.getPlugins().pipe(
-      map<Map<string, ParamPlugin<string>>, [string, ParamPlugin<string>]>(plugins => Array.from(plugins).find(([_, p]) => (p.condition && p.condition({ param, metadata }) || (!p.condition && p.id === param.mapping.type)))),
-      map<[string, ParamPlugin<string>], ParamPlugin<string>>(([_, p]) => p),
-      switchMap<ParamPlugin<string>, Observable<any>>(p => p.evalParam({ param, metadata }))
+      map<Map<string, ParamPlugin<string>>, Array<ParamPlugin<string>>>(plugins => Array.from(plugins).map(([_, p]) => p)),
+      map(plugins => plugins.find(p => (p.condition && p.condition({ param, metadata }) || (!p.condition && p.id === param.mapping.type)))),
+      switchMap<ParamPlugin<string>, Observable<any>>(p => iif(
+        () => !!p,
+        p ? p.evalParam({ param, metadata }) : of(),
+        of(param.mapping.value)
+      ))
     );
   }
 
