@@ -28,3 +28,17 @@
   }
 
 }
+
+.mat-menu-trigger {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.cdk-drag {
+  padding: .25em;
+}
+
+.panel-actions-btn .mat-icon {
+  transform: rotate(-90deg);
+}

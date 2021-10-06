@@ -9,7 +9,10 @@ import { AttributeValue } from 'attributes';
 @Component({
   selector: 'classifieds-ui-split-layout',
   templateUrl: './split-layout.component.html',
-  styleUrls: ['./split-layout.component.scss']
+  styleUrls: ['./split-layout.component.scss'],
+  host: {
+    "[class.is-nested]": "nested"
+  }
 })
 export class SplitLayoutComponent implements OnInit  {
 
@@ -27,6 +30,9 @@ export class SplitLayoutComponent implements OnInit  {
 
   @Input()
   displayItemHeader = true;
+
+  @Input()
+  nested = false;
 
   @Input() layoutSetting: LayoutSetting;
   @Output() layoutSettingChange = new EventEmitter<LayoutSetting>();
@@ -119,6 +125,11 @@ export class SplitLayoutComponent implements OnInit  {
 
   removeColumn(rIndex: number, cIndex: number) {
     const index = this.itemIndex(rIndex, cIndex);
+    this.dashboard.splice(index, 1);
+    this.itemRemoved.emit(index);
+  }
+
+  removeColumn2(index: number) {
     this.dashboard.splice(index, 1);
     this.itemRemoved.emit(index);
   }

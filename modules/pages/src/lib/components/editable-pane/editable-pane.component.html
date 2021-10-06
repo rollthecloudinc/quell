@@ -1,17 +1,34 @@
 <div *ngIf="pluginName != 'panel' || locked; else nestedPanelTpl" class="editable-pane-wrapper">
-  <div class="pane-header">
+  <!-- <div class="pane-header">
     <button type="button" (click)="onEditClick()" [disabled]="locked">Edit</button>
     <button type="button" (click)="onPropsClick()" [disabled]="locked">Props</button>
     <button type="button" (click)="onRulesClick()">Rules</button>
     <button *ngIf="!preview" type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
     <button *ngIf="preview" type="button" (click)="onDisablePreviewClick()">Disable Preview</button>
     <button type="button" class="delete" (click)="onDeleteClick()">Delete</button>
-  </div>
-  <div class="inner-pane-wrapper">
-    <mat-expansion-panel (afterCollapse)="onAfterCollapse()" (afterExpand)="onAfterExpand()">
+  </div> -->
+  <!-- <div class="pane-header">
+    <button mat-button type="button" [matMenuTriggerFor]="headerMenu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #headerMenu="matMenu">
+      <button type="button" mat-menu-item (click)="onEditClick()" [disabled]="locked">Edit</button>
+      <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked">Props</button>
+      <button type="button" mat-menu-item (click)="onRulesClick()">Rules</button>
+      <button *ngIf="!preview" mat-menu-item type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
+      <button *ngIf="preview" mat-menu-item type="button" (click)="onDisablePreviewClick()">Disable Preview</button>
+      <button type="button" mat-menu-item class="delete" (click)="onDeleteClick()">Delete</button>
+    </mat-menu>
+  </div> -->
+  <div class="inner-pane-wrapper" fxLayout="row">
+    <div class="pane-menu-trigger-wrapper">
+      <button mat-button type="button" [matMenuTriggerFor]="paneMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </div>
+    <mat-expansion-panel fxFlex (afterCollapse)="onAfterCollapse()" (afterExpand)="onAfterExpand()">
       <mat-expansion-panel-header>
-        <mat-panel-title>Content: {{ contentPlugin.title }}</mat-panel-title>
-        <mat-panel-description>Name: {{ name }} | Label: {{ label }}</mat-panel-description>
+        <mat-panel-title>{{ contentPlugin.title }} : {{ name }}</mat-panel-title>
       </mat-expansion-panel-header>
       <div [hidden]="preview">
         <ul>
@@ -41,8 +58,17 @@
   <div class="nested-panel-wrapper">
     <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" [ancestory]="paneAncestoryWithSelf" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()" (props)="onPropsClick()">
       <ng-template #extraActionsArea>
-        <div class="panel-name">{{ name }}</div>
+        <!-- <div class="panel-name">{{ name }}</div> I don't think this is necessary anymore -->
       </ng-template>
     </classifieds-ui-content-editor>
   </div>
 </ng-template>
+
+<mat-menu #paneMenu="matMenu">
+  <button type="button" mat-menu-item (click)="onEditClick()" [disabled]="locked">Edit</button>
+  <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked">Props</button>
+  <button type="button" mat-menu-item (click)="onRulesClick()">Rules</button>
+  <button *ngIf="!preview" mat-menu-item type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
+  <button *ngIf="preview" mat-menu-item type="button" (click)="onDisablePreviewClick()">Disable Preview</button>
+  <button type="button" mat-menu-item class="delete" (click)="onDeleteClick()">Delete</button>
+</mat-menu>

@@ -15,10 +15,11 @@
 </ng-template>
 
 <ng-template #contextsMenuTpl>
-  <button type="button" mat-button [matMenuTriggerFor]="contextMenu">Contexts</button>
-  <mat-menu #contextMenu="matMenu">
-    <button type="button" mat-menu-item (click)="onAddContextClick()">Add Context</button>
-    <mat-divider></mat-divider>
-    <button *ngFor="let c of contexts" type="button" mat-menu-item (click)="onEditContext(c.name)">{{ c.name }}</button>
-  </mat-menu>
+  <button type="button" mat-menu-item [matMenuTriggerFor]="contextMenu">Contexts</button>
 </ng-template>
+
+<mat-menu #contextMenu="matMenu">
+  <button type="button" mat-menu-item (click)="onAddContextClick()">Add Context</button>
+  <mat-divider></mat-divider>
+  <button *ngFor="let c of contexts" type="button" mat-menu-item (click)="onEditContext(c.name)">{{ c.name }}</button>
+</mat-menu>

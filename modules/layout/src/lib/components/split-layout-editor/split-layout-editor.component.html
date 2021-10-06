@@ -1,11 +1,25 @@
-<classifieds-ui-split-layout [formGroup]="controlContainer.control" cdkDropListGroup (itemAdded)="editor.onItemAdded()" (itemRemoved)="editor.onItemRemoved($event)" [dashboard]="dashboard" [layoutSetting]="layoutSetting" [rowSettings]="rowSettings" [columnSettings]="columnSettings" (layoutSettingChange)="editor.onLayoutSettingChange($event)" (rowSettingsChange)="editor.onRowSettingsChange($event)" (columnSettingsChange)="editor.onColumnSettingsChange($event)">
+<classifieds-ui-split-layout #splitLayout [nested]="nested" [formGroup]="controlContainer.control" cdkDropListGroup (itemAdded)="editor.onItemAdded()" (itemRemoved)="editor.onItemRemoved($event)" [dashboard]="dashboard" [layoutSetting]="layoutSetting" [rowSettings]="rowSettings" [columnSettings]="columnSettings" (layoutSettingChange)="editor.onLayoutSettingChange($event)" (rowSettingsChange)="editor.onRowSettingsChange($event)" (columnSettingsChange)="editor.onColumnSettingsChange($event)">
   <ng-template #extraActions>
-    <button *ngIf="savable" type="submit">Save</button>
+
+    <button mat-button type="button" [matMenuTriggerFor]="topActions">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <mat-menu #topActions="matMenu">
+      <button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button>
+      <button type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button>
+      <button *ngIf="savable" mat-menu-item type="submit">Save</button>
+      <button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Props</button>
+      <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button>
+      <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onDeleteClick()">Delete</button>
+      <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
+    </mat-menu>
+
+    <!-- <button *ngIf="savable" type="submit">Save</button>
     <button type="button" (click)="editor.onPropertiesClick()">Props</button>
-    <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
-    <!-- <button *ngIf="nested" type="button" (click)="editor.onPropsClick()">Props</button> -->
     <button *ngIf="nested" type="button" (click)="editor.onRulesClick()">Rules</button>
-    <button *ngIf="nested" type="button" (click)="editor.onDeleteClick()">Delete</button>
+    <button *ngIf="nested" type="button" (click)="editor.onDeleteClick()">Delete</button> -->
+
+    <!-- moved to properties dialog
     <div class="layout-type">
       <mat-form-field>
         <mat-select required formControlName="layoutType">
@@ -22,14 +36,26 @@
           <mat-option value="form">Form</mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
+    </div> -->
     <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
   </ng-template>
   <ng-template #gridItemActions let-i="i">
-    <button type="button" (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
+
+    <button class="panel-actions-btn" mat-button type="button" [matMenuTriggerFor]="panelActions">
+      <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #panelActions="matMenu">
+      <button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('column', i)">Layout Settings</button>
+      <button type="button" mat-menu-item (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
+      <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
+      <button *ngIf="!editor.hasPanelStyle(i)" mat-menu-item type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
+      <button type="button" class="delete" mat-menu-item (mousedown)="splitLayout.removeColumn2(i)" (touchstart)="splitLayout.removeColumn2(i)">Delete</button>
+    </mat-menu>
+
+    <!-- <button type="button" (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
     <button type="button" (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
-    <button *ngIf="!editor.hasPanelStyle(i)" type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
-    <span *ngIf="editor.hasPanelStyle(i)">Style: {{ editor.panelStyleTitle(i) }}</span>
+    <button *ngIf="!editor.hasPanelStyle(i)" type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button> -->
+    <!-- <span *ngIf="editor.hasPanelStyle(i)">Style: {{ editor.panelStyleTitle(i) }}</span> -->
   </ng-template>
   <ng-template #innerGridItem let-i="i">
     <ngx-dropzone [cdkDropListData]="i" class="panel-dropzone" [multiple]="true" [disableClick]="true" (change)="editor.onFileChange($event, i)" cdkDropList (cdkDropListDropped)="editor.onDrop($event)">

@@ -1,25 +1,35 @@
 <div class="layout-wrapper">
   <div #mainControls [hidden]="!displayMainControls" class="main-controls">
-    <button type="button" (mousedown)="layoutSettings('global')">Layout Settings</button>
-    <button type="button" (mousedown)="addRow()">Add Row</button>
+    <!-- <button type="button" (mousedown)="layoutSettings('global')">Layout Settings</button>
+    <button type="button" (mousedown)="addRow()">Add Row</button> -->
     <ng-container *ngTemplateOutlet="extraActionsTmpl"></ng-container>
   </div>
   <div class="layout-inner">
     <div *for="totalRows; let i = index" class="rows-wrapper">
       <div class="row-controls">
-        <button type="button" (mousedown)="addColumn(i)">Add Column</button>
+
+        <button mat-button type="button" [matMenuTriggerFor]="rowActions">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <mat-menu #rowActions="matMenu">
+          <button type="button" mat-menu-item (mousedown)="addColumn(i)">Add Column</button>
+          <button type="button" mat-menu-item (mousedown)="layoutSettings('row', i)">Layout Settings</button>
+          <button type="button" mat-menu-item (mousedown)="removeRow(i)" class="remove-row">Delete</button>
+        </mat-menu>
+
+        <!-- <button type="button" (mousedown)="addColumn(i)">Add Column</button>
         <button type="button" (mousedown)="layoutSettings('row', i)">Layout Settings</button>
-        <button type="button" (mousedown)="removeRow(i)" class="remove-row">Delete</button>
+        <button type="button" (mousedown)="removeRow(i)" class="remove-row">Delete</button> -->
       </div>
       <div class="rows-inner">
         <as-split unit="percent" direction="horizontal" (dragEnd)="dragEnd(i, $event)">
           <as-split-area *for="totalColumns(i); let j = index" [size]="itemSize(i, j)">
             <div fxLayout="column" fxFill>
               <div #itemHeader fxFlex="0 1 auto" [hidden]="!displayItemHeader" class="grid-item-header">
-                <button type="button" (mousedown)="layoutSettings('column', itemIndex(i, j))">Layout Settings</button>
+                <!-- <button type="button" (mousedown)="layoutSettings('column', itemIndex(i, j))">Layout Settings</button> -->
                 <ng-container *ngTemplateOutlet="gridItemActionsTmpl,context: { i: itemIndex(i, j) }"></ng-container>
-                <span>percent: {{ sizes[i][j] }}</span>
-                <button type="button" class="delete" (mousedown)="removeColumn(i, j)" (touchstart)="removeColumn(i, j)">Delete</button>
+                <!-- <span>percent: {{ sizes[i][j] }}</span> figure out what to do with percent -->
+                <!-- <button type="button" class="delete" (mousedown)="removeColumn(i, j)" (touchstart)="removeColumn(i, j)">Delete</button> -->
               </div>
               <div fxFlex class="grid-item-inner">
                 <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>

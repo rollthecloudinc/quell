@@ -3,8 +3,8 @@
 }
 
 .grid-item-header {
-  background-color: #ccc;
-  padding: .5em;
+  // background-color: #ccc;
+  padding: 0;
 }
 
 button.delete {
@@ -13,7 +13,7 @@ button.delete {
 
 .main-controls {
   background-color: white;
-  padding: .5em;
+  padding: 0;
 }
 
 .rows-inner {
@@ -23,9 +23,30 @@ button.delete {
 
 .row-controls {
   background-color: #808080;
-  padding: .65em;
+  padding: 0;
 }
 
 .remove-row {
   float: right;
+}
+
+:host.is-nested .layout-wrapper {
+  padding: 0 .25em;
+  border: 1px solid #ccc;
+}
+
+:host:not(.is-nested) .row-controls {
+  // background-color: #eee;
+}
+
+.mat-menu-trigger {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
+  color: white;
+
+  .mat-icon {
+    transform: rotate(-90deg);
+  }
+
 }

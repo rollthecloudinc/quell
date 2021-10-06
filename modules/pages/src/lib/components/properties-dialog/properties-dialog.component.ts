@@ -16,6 +16,8 @@ export class PropertiesDialogComponent implements OnInit {
     title: this.fb.control(this.data.props.title),
     path: this.fb.control(this.data.props.path),
     cssFile: this.fb.control(this.data.props.cssFile),
+    layoutType: this.fb.control(''),
+    displayType: this.fb.control(''),
     readUserIds: this.fb.array([
       this.fb.group({
         userId: this.fb.control(this.data.props.readUserIds && this.data.props.readUserIds.length > 0 ? this.data.props.readUserIds[0] : '')
