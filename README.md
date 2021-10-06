@@ -71,7 +71,7 @@ In addition to Angular Druid also uses many nodejs projects.
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
 
-![Panels UI](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_content_editor_abcd.png)
+![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v1.png)
 
 Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
 
