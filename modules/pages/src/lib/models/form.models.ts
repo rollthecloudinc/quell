@@ -30,6 +30,18 @@ export class PanelPropsFormPayload {
   }
 }
 
+
+export class PanePropsFormPayload {
+  label: string;
+  name: string;
+  constructor(data?: PanePropsFormPayload) {
+    if(data) {
+      this.label = data.label;
+      this.name = data.name;
+    }
+  }
+}
+
 export class PanelPageForm {
   name: string;
   title: string;

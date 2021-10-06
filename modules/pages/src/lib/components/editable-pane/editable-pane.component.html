@@ -1,6 +1,7 @@
 <div *ngIf="pluginName != 'panel' || locked; else nestedPanelTpl" class="editable-pane-wrapper">
   <div class="pane-header">
     <button type="button" (click)="onEditClick()" [disabled]="locked">Edit</button>
+    <button type="button" (click)="onPropsClick()" [disabled]="locked">Props</button>
     <button type="button" (click)="onRulesClick()">Rules</button>
     <button *ngIf="!preview" type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
     <button *ngIf="preview" type="button" (click)="onDisablePreviewClick()">Disable Preview</button>
@@ -38,7 +39,7 @@
 
 <ng-template #nestedPanelTpl>
   <div class="nested-panel-wrapper">
-    <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" [ancestory]="paneAncestoryWithSelf" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()">
+    <classifieds-ui-content-editor #contentEditor [panelPage]="panelPage" [savable]="false" [nested]="true" [locked]="locked" [contexts]="contexts" [rootContext]="rootContext" [ancestory]="paneAncestoryWithSelf" (nestedUpdate)="onNestedUpdate($event)" (delete)="onDeleteClick()" (rules)="onRulesClick()" (props)="onPropsClick()">
       <ng-template #extraActionsArea>
         <div class="panel-name">{{ name }}</div>
       </ng-template>

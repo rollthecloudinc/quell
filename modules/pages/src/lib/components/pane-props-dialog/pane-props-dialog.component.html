@@ -1,0 +1,17 @@
+<form class="props-form" [formGroup]="propsForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+      <div fxLayout="column">
+        <mat-form-field>
+          <input matInput formControlName="name" placeholder="Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input matInput formControlName="label" placeholder="Label">
+        </mat-form-field>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!propsForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

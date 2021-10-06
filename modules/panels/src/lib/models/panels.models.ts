@@ -4,13 +4,16 @@ import { AttributeValue } from "attributes"
 import { RuleSet } from 'angular2-query-builder';
 import { InlineContext } from 'context';
 
+// Editor behaviors
 export interface PanelsEditor {
 
   onPropertiesClick(): void;
   onDeleteClick(): void;
   onRulesClick(): void;
+  // onPropsClick(): void;
   addContent(index: number): void;
   editPanelProps(panelIndex: number): void;
+  editPaneProps(panelIndex: number, paneIndex: number): void;
   hasPanelStyle(index: number): boolean;
   applyStyle(index: number): void;
   removeStyle(index: number): void

@@ -54,6 +54,9 @@ export class EditablePaneComponent implements OnInit, OnChanges {
   edit = new EventEmitter();
 
   @Output()
+  props = new EventEmitter();
+
+  @Output()
   delete = new EventEmitter();
 
   @Output()
@@ -150,6 +153,10 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   onEditClick() {
     this.edit.emit();
+  }
+
+  onPropsClick() {
+    this.props.emit();
   }
 
   onRulesClick() {

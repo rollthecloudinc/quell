@@ -23,9 +23,10 @@ import { StyleSelectorComponent } from '../style-selector/style-selector.compone
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
 import { Rule as NgRule } from 'angular2-query-builder';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
-import { PropertiesFormPayload, PanelPropsFormPayload } from '../../models/form.models';
+import { PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from '../../models/form.models';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
+import { PanePropsDialogComponent } from '../pane-props-dialog/pane-props-dialog.component';
 import { NgTemplateOutlet } from '@angular/common';
 // import { timeStamp } from 'console';
 // import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
@@ -64,6 +65,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   @Output()
   rules = new EventEmitter();
+
+  @Output()
+  props = new EventEmitter();
 
   @Input()
   panelPage: PanelPage;
@@ -137,6 +141,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   public onTouched: () => void = () => {};
 
   contentForm = this.fb.group({
+    name: this.fb.control(''),
+    title: this.fb.control(''),
     layoutType: this.fb.control('', Validators.required),
     displayType: this.fb.control('page', Validators.required),
     panels: this.fb.array([])
@@ -299,6 +305,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds, cssFile: changes.panelPage.currentValue.cssFile });
         this.contexts = changes.panelPage.currentValue.contexts;
+      } else {
+        this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: '', readUserIds: [], cssFile: '' });
+        this.contentForm.get('name').setValue(changes.panelPage.currentValue.name);
+        this.contentForm.get('title').setValue(changes.panelPage.currentValue.title);
       }
       changes.panelPage.currentValue.panels.forEach((p, i) => {
         this.panels.push(this.fb.group({
@@ -370,6 +380,20 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       .open(PanelPropsDialogComponent, { data: { props: new PanelPropsFormPayload({ name: name.value, label: label.value }) } })
       .afterClosed()
       .subscribe((props: PanelPropsFormPayload) => {
+        if(props) {
+          name.setValue(props.name);
+          label.setValue(props.label);
+        }
+      });
+  }
+
+  editPaneProps(panelIndex: number, paneIndex: number) {
+    const name = this.panelPane(panelIndex, paneIndex).get('name');
+    const label = this.panelPane(panelIndex, paneIndex).get('label');
+    this.dialog
+      .open(PanePropsDialogComponent, { data: { props: new PanePropsFormPayload({ name: name.value, label: label.value }) } })
+      .afterClosed()
+      .subscribe((props: PanePropsFormPayload) => {
         if(props) {
           name.setValue(props.name);
           label.setValue(props.label);
@@ -508,15 +532,22 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     this.rules.emit();
   }
 
+  /*onPropsClick() {
+    this.props.emit();
+  }*/
+
   onPropertiesClick() {
+    this.props.emit();
     this.dialog
-      .open(PropertiesDialogComponent, { data: { props: this.pageProperties } })
-      .afterClosed()
-      .subscribe((props: PropertiesFormPayload) => {
-        if(props) {
-          this.pageProperties = new PropertiesFormPayload({ ...props });
-        }
-      });
+    .open(PropertiesDialogComponent, { data: { props: this.pageProperties } })
+    .afterClosed()
+    .subscribe((props: PropertiesFormPayload) => {
+      if(props) {
+        this.pageProperties = new PropertiesFormPayload({ ...props });
+        this.contentForm.get('name').setValue(props.name);
+        this.contentForm.get('title').setValue(props.title);
+      }
+    });
   }
 
   /*onRulesPane(index: number, index2: number) {
