@@ -25,7 +25,7 @@
         <as-split unit="percent" direction="horizontal" (dragEnd)="dragEnd(i, $event)">
           <as-split-area *for="totalColumns(i); let j = index" [size]="itemSize(i, j)">
             <div fxLayout="column" fxFill>
-              <div #itemHeader fxFlex="0 1 auto" [hidden]="!displayItemHeader" class="grid-item-header">
+              <div #itemHeader [hidden]="!displayItemHeader" class="grid-item-header">
                 <!-- <button type="button" (mousedown)="layoutSettings('column', itemIndex(i, j))">Layout Settings</button> -->
                 <ng-container *ngTemplateOutlet="gridItemActionsTmpl,context: { i: itemIndex(i, j) }"></ng-container>
                 <!-- <span>percent: {{ sizes[i][j] }}</span> figure out what to do with percent -->
