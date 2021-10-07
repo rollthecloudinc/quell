@@ -2,7 +2,7 @@
     <ng-template #extraActions>
 
       <button mat-button type="button" [matMenuTriggerFor]="topActions">
-        <mat-icon>menu</mat-icon>
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #topActions="matMenu">
         <button *ngIf="savable" mat-menu-item type="submit">Save</button>
@@ -12,11 +12,12 @@
         <button *ngIf="nested" type="button" mat-menu-item (click)="editor.onRulesClick()">Rules</button>
         <button type="button" mat-menu-item (mousedown)="editor.addContent(0)" (touchstart)="editor.addContent(0)">Add Content</button>
         <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button>
-        <!-- <span *ngIf="editor.hasPanelStyle(0)">Style: {{ editor.panelStyleTitle(0) }}</span> -->
         <button *ngIf="!editor.hasPanelStyle(0)" mat-menu-item  type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button>
         <button *ngIf="editor.hasPanelStyle(0)" mat-menu-item type="button" (mousedown)="editor.removeStyle(0)" (touchstart)="editor.removeStyle(0)" >Remove Style</button>
         <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
       </mat-menu>
+
+      <div *ngIf="editor.hasPanelStyle(0)" class="style-title">{{ editor.panelStyleTitle(0) }}</div>
 
       <span *ngIf="nested" class="spacer"></span>
       <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
