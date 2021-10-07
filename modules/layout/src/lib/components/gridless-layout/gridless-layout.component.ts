@@ -3,7 +3,10 @@ import { Component, OnInit, ContentChild, TemplateRef, Input } from '@angular/co
 @Component({
   selector: 'classifieds-ui-gridless-layout',
   templateUrl: './gridless-layout.component.html',
-  styleUrls: ['./gridless-layout.component.scss']
+  styleUrls: ['./gridless-layout.component.scss'],
+  host: {
+    "[class.is-nested]": "nested"
+  }
 })
 export class GridlessLayoutComponent implements OnInit {
 
@@ -12,6 +15,9 @@ export class GridlessLayoutComponent implements OnInit {
 
   @Input()
   displayItemHeader = true;
+
+  @Input()
+  nested = false;
 
   @ContentChild('gridItemActions') gridItemActionsTmpl: TemplateRef<any>;
   @ContentChild('innerGridItem') innerGridItemTmpl: TemplateRef<any>;

@@ -1,33 +1,46 @@
-<classifieds-ui-gridless-layout [formGroup]="controlContainer.control" cdkDropListGroup>
+<classifieds-ui-gridless-layout [formGroup]="controlContainer.control" [nested]="nested" cdkDropListGroup>
     <ng-template #extraActions>
-      <button *ngIf="savable" type="submit">Save</button>
-      <button *ngIf="savable || nested" type="button" (click)="editor.onPropertiesClick()">Properties</button>
-      <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
-      <button *ngIf="nested" type="button" (click)="editor.onDeleteClick()">Delete</button>
-      <button *ngIf="nested" type="button" (click)="editor.onRulesClick()">Rules</button>
-      <button type="button" (mousedown)="editor.addContent(0)" (touchstart)="editor.addContent(0)">Add Content</button>
-      <button type="button" (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button>
-      <span *ngIf="editor.hasPanelStyle(0)">Style: {{ editor.panelStyleTitle(0) }}</span>
-      <button *ngIf="!editor.hasPanelStyle(0)" type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button>
-      <button *ngIf="editor.hasPanelStyle(0)" type="button" (mousedown)="editor.removeStyle(0)" (touchstart)="editor.removeStyle(0)" >Remove Style</button>
+
+      <button mat-button type="button" [matMenuTriggerFor]="topActions">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <mat-menu #topActions="matMenu">
+        <button *ngIf="savable" mat-menu-item type="submit">Save</button>
+        <button *ngIf="savable || nested" type="button" mat-menu-item (click)="editor.onPropertiesClick()">Properties</button>
+        <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
+        <button *ngIf="nested" type="button" mat-menu-item (click)="editor.onDeleteClick()">Delete</button>
+        <button *ngIf="nested" type="button" mat-menu-item (click)="editor.onRulesClick()">Rules</button>
+        <button type="button" mat-menu-item (mousedown)="editor.addContent(0)" (touchstart)="editor.addContent(0)">Add Content</button>
+        <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button>
+        <!-- <span *ngIf="editor.hasPanelStyle(0)">Style: {{ editor.panelStyleTitle(0) }}</span> -->
+        <button *ngIf="!editor.hasPanelStyle(0)" mat-menu-item  type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button>
+        <button *ngIf="editor.hasPanelStyle(0)" mat-menu-item type="button" (mousedown)="editor.removeStyle(0)" (touchstart)="editor.removeStyle(0)" >Remove Style</button>
+        <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
+      </mat-menu>
+
+      <span *ngIf="nested" class="spacer"></span>
+      <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
+
       <div class="layout-type">
         <mat-form-field>
           <mat-select required formControlName="layoutType">
-            <mat-option value="grid">Grid</mat-option>
-            <mat-option value="gridless">Gridless</mat-option>
-            <mat-option value="split">Split</mat-option>
+            <mat-option value="grid">grid</mat-option>
+            <mat-option value="gridless">gridless</mat-option>
+            <mat-option value="split">split</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <div *ngIf="nested" class="display-type">
+      <div class="display-type">
         <mat-form-field>
           <mat-select required formControlName="displayType">
-            <mat-option value="page">Page</mat-option>
-            <mat-option value="form">Form</mat-option>
+            <mat-option value="page">page</mat-option>
+            <mat-option value="form">form</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
-      <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
+
+      <div *ngIf="!nested" class="brand">d r u i d</div>
+
     </ng-template>
     <ng-template #gridItemActions let-i="i"></ng-template>
     <ng-template #innerGridItem let-i="i">

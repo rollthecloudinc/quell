@@ -9,12 +9,8 @@
 .content-editor-wrapper ::ng-deep ngx-dropzone {
   height: 100%;
   display: block;
-  padding: .25em;
-  border: none;
-}
-
-.content-editor-wrapper.nested ::ng-deep ngx-dropzone {
   padding: 0;
+  border: none;
 }
 
 .content-editor-wrapper.nested ::ng-deep .grid-item-header {

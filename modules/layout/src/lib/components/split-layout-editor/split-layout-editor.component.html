@@ -18,26 +18,29 @@
     <button type="button" (click)="editor.onPropertiesClick()">Props</button>
     <button *ngIf="nested" type="button" (click)="editor.onRulesClick()">Rules</button>
     <button *ngIf="nested" type="button" (click)="editor.onDeleteClick()">Delete</button> -->
+    <span *ngIf="nested" class="spacer"></span>
 
-    <!-- moved to properties dialog
-    <div class="layout-type">
-      <mat-form-field>
-        <mat-select required formControlName="layoutType">
-          <mat-option value="grid">Grid</mat-option>
-          <mat-option value="gridless">Gridless</mat-option>
-          <mat-option value="split">Split</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
     <div class="display-type">
       <mat-form-field>
         <mat-select required formControlName="displayType">
-          <mat-option value="page">Page</mat-option>
-          <mat-option value="form">Form</mat-option>
+          <mat-option value="page">page</mat-option>
+          <mat-option value="form">form</mat-option>
         </mat-select>
       </mat-form-field>
-    </div> -->
+    </div>
+    <div class="layout-type">
+      <mat-form-field>
+        <mat-select required formControlName="layoutType">
+          <mat-option value="grid">grid</mat-option>
+          <mat-option value="gridless">gridless</mat-option>
+          <mat-option value="split">split</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
     <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
+
+    <div *ngIf="!nested" class="brand">d r u i d</div>
   </ng-template>
   <ng-template #gridItemActions let-i="i">
 

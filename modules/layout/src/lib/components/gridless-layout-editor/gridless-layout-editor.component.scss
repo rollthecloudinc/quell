@@ -1,26 +1,49 @@
 .layout-type, .display-type {
-  float: right;
+
+  & ::ng-deep .mat-form-field-wrapper {
+    padding-bottom: 0;
+  }
+
+  & ::ng-deep .mat-form-field-label-wrapper {
+    display: none;
+  }
+
+  & ::ng-deep .mat-form-field-infix {
+    border-top: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  & ::ng-deep .mat-form-field {
+    width: 70px;
+  }
+
+  & ::ng-deep .mat-select-value {
+    text-align: right;
+  }
+
+  & ::ng-deep .mat-form-field-underline {
+    display: none;
+  }
+
 }
 
-:host ::ng-deep .main-controls {
-  background-color: #ccc;
+.mat-menu-trigger {
+  min-width: 0;
+  padding: 0;
+  margin: 0;
 }
 
-:host ::ng-deep .layout-inner{
-  background-color: #ccc;
-  padding: .75em;
+.cdk-drag {
+  padding: .25em;
 }
 
-:host ::ng-deep .editable-pane-wrapper {
-  border: none;
-  margin-bottom: 0;
+.brand {
+  font-family: sans-serif;
+  text-align: right;
+  flex: 1;
 }
 
-:host ::ng-deep .pane-header {
-  background-color: white;
-}
-
-:host ::ng-deep .nested-panel-wrapper {
-  padding: .75em;
-  margin-bottom: 0;
+.spacer {
+  flex: 1;
 }

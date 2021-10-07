@@ -1,8 +1,7 @@
 .layout-type, .display-type {
-  float: right;
 
   & ::ng-deep .mat-form-field-wrapper {
-    padding-bottom: 1.5em;
+    padding-bottom: 0;
   }
 
   & ::ng-deep .mat-form-field-label-wrapper {
@@ -16,7 +15,7 @@
   }
 
   & ::ng-deep .mat-form-field {
-    width: 85px;
+    width: 70px;
   }
 
   & ::ng-deep .mat-select-value {
@@ -41,4 +40,14 @@
 
 .panel-actions-btn .mat-icon {
   transform: rotate(-90deg);
+}
+
+.brand {
+  font-family: sans-serif;
+  text-align: right;
+  flex: 1;
+}
+
+.spacer {
+  flex: 1;
 }

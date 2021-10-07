@@ -2,7 +2,14 @@
   height: 100%;
 }
 
+:host.is-nested .layout-wrapper {
+  padding: 0 .25em;
+  border: 1px solid #ccc;
+}
+
 .main-controls {
-  background-color: white;
-  padding: .5em;
+  display: flex;
+  padding: 0;
+  align-items: baseline;
+  border-bottom: 1px solid #ccc;
 }
