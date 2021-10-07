@@ -22,20 +22,20 @@
       <span *ngIf="nested" class="spacer"></span>
       <ng-container *ngTemplateOutlet="extraActionsAreaTmpl"></ng-container>
 
+      <div class="display-type">
+        <mat-form-field>
+          <mat-select required formControlName="displayType">
+            <mat-option value="page">page</mat-option>
+            <mat-option value="form">form</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
       <div class="layout-type">
         <mat-form-field>
           <mat-select required formControlName="layoutType">
             <mat-option value="grid">grid</mat-option>
             <mat-option value="gridless">gridless</mat-option>
             <mat-option value="split">split</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="display-type">
-        <mat-form-field>
-          <mat-select required formControlName="displayType">
-            <mat-option value="page">page</mat-option>
-            <mat-option value="form">form</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
