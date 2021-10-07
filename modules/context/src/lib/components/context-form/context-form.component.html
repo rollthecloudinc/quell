@@ -3,7 +3,7 @@
     <input matInput formControlName="name" placeholder="Name" required>
   </mat-form-field>
   <mat-form-field>
-    <mat-label>Plugin</mat-label>
+    <mat-label>Type</mat-label>
     <mat-select required formControlName="plugin">
       <mat-option *ngFor="let cPlugin of ((contextPlugins | async) | keyvalue); let i = index" [value]="cPlugin.value.name">{{ cPlugin.value.title }}</mat-option>
     </mat-select>
