@@ -52,8 +52,11 @@
       <button type="button" mat-menu-item (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
       <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
       <button *ngIf="!editor.hasPanelStyle(i)" mat-menu-item type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
+      <button *ngIf="editor.hasPanelStyle(i)" mat-menu-item type="button" (mousedown)="editor.removeStyle(i)" (touchstart)="editor.removeStyle(i)" >Remove Style</button>
       <button type="button" class="delete" mat-menu-item (mousedown)="splitLayout.removeColumn2(i)" (touchstart)="splitLayout.removeColumn2(i)">Delete</button>
     </mat-menu>
+
+    <div *ngIf="editor.hasPanelStyle(i)" class="style-title">{{ editor.panelStyleTitle(i) }}</div>
 
     <!-- <button type="button" (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
     <button type="button" (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
