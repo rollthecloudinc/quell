@@ -53,6 +53,7 @@ import { EntityDataModule, DefaultDataServiceConfig } from '@ngrx/data';
 import { reducers, metaReducers } from './reducers';
 import { AuthCallbackComponent } from 'auth';
 import { PlaygroundComponent } from './components/playground/playground.component';
+import { TransformModule } from 'transform';
 
 const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
@@ -158,7 +159,8 @@ export function markedOptionsFactory(): MarkedOptions {
     AliasModule,
     PanelsModule,
     PagealiasModule,
-    FormlyModule
+    FormlyModule,
+    TransformModule
     // JsonschemaModule
     // OktaAuthModule
   ],
