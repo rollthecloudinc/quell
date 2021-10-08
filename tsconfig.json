@@ -119,6 +119,10 @@
       "transform": [
         "dist/transform/transform",
         "dist/transform"
+      ],
+      "rules": [
+        "dist/rules/rules",
+        "dist/rules"
       ]
     }
   },

@@ -16,7 +16,10 @@
       "content": "content",
       "uuid": "uuid",
       "datasource": "datasource",
-      "bridge": "bridge"
+      "bridge": "bridge",
+      "token": "token",
+      "durl": "durl",
+      "rules": "rules"
     }
   }
 }

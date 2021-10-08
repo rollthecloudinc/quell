@@ -38,6 +38,7 @@ import { DatasourceModule } from 'datasource';
   ],
   providers: [
     { provide: PanelContentHandler, useClass: PanelContentHandler },
+    //{ provide: PanelContentHandler, useClass: PanelContentHandler },
     { provide: CONTENT_PLUGIN, useFactory: panelContentPluginFactory, multi: true, deps: [ PanelContentHandler ] },
     { provide: CONTENT_PLUGIN, useFactory: datasourceContentPluginFactory, multi: true, deps: [ DatasourceContentHandler ] },
   ]

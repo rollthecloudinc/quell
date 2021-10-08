@@ -11,3 +11,4 @@ export * from './lib/components/datasource-form/datasource-form.component';
 export * from './lib/directives/datasource-renderer-host.directive';
 export * from './lib/components/data-datasource/data-datasource.component';
 export * from './lib/components/data-source-form/data-source-form.component';
+export * from './lib/models/select.models';

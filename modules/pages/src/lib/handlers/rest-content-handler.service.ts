@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { ContentHandler, ContentBinding } from 'content';
 import { Snippet } from 'snippet';
-import { Rest, Dataset } from 'datasource';
+import { Rest, Dataset, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';
 import { SnippetContentHandler } from './snippet-content.handler';
@@ -14,9 +14,8 @@ import { PageBuilderFacade } from '../features/page-builder/page-builder.facade'
 import { selectDataset } from '../features/page-builder/page-builder.selectors';
 import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { TokenizerService } from 'token';
-import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler } from 'panels';
+import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler  } from 'panels';
 import { UrlGeneratorService } from 'durl';
-import { SelectMapping, SelectOption } from '../models/plugin.models';
 import { RulesResolverService } from '../services/rules-resolver.service';
 
 @Injectable()

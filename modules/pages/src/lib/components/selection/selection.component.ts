@@ -2,7 +2,7 @@ import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@ang
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormControl, FormGroup, Validator, Validators, AbstractControl, ValidationErrors, FormArray, ControlContainer } from "@angular/forms";
 import { AttributeTypes, AttributeSerializerService, AttributeValue } from 'attributes';
 import { TokenizerService } from 'token';
-import { SelectOption, SelectMapping } from '../../models/plugin.models';
+import { SelectOption, SelectMapping } from 'datasource';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

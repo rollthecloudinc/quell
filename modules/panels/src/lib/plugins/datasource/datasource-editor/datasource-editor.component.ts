@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from 'attributes';
-import { Datasource } from 'datasource';
+import { InlineContext } from 'context';
+import { Subject } from 'rxjs';
+import { Pane } from '../../../models/panels.models';
 @Component({
   selector: 'classifieds-ui-datasource-editor',
   templateUrl: './datasource-editor.component.html',
@@ -9,23 +12,38 @@ import { Datasource } from 'datasource';
 })
 export class DatasourceEditorComponent implements OnInit {
 
+  bindableOptions: Array<string> = [];
+
   formGroup = this.fb.group({
-    datasource: this.fb.control('')
+    source: this.fb.control('')
   });
 
   constructor(
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
     private fb: FormBuilder,
     private attributeSerializer: AttributeSerializerService 
   ) { }
 
   ngOnInit(): void {
+    this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
   }
 
   onSubmit() {
-    const plugin = this.formGroup.value.datasource.plugin;
-    const settings = this.attributeSerializer.serialize(this.formGroup.value.datasource.settings, 'settings');
-    const datasource = new Datasource({ plugin, settings: settings.attributes });
-    console.log(datasource);
+    const sourceSettings = this.attributeSerializer.serialize(this.formGroup.value.source, 'source')
+    const paneForm = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex);
+    if(this.data.paneIndex === undefined) {
+      (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+        contentPlugin: 'datasource',
+        name: new FormControl(''),
+        label: new FormControl(''),
+        rule: new FormControl(''),
+        settings: this.fb.array([ this.attributeSerializer.convertToGroup(sourceSettings) ])
+      }));
+      console.log(this.data.panelFormGroup.get('panes').value);
+    } else {
+      (paneForm.get('settings') as FormArray).clear();
+      (paneForm.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(sourceSettings));
+    }
   }
 
 }

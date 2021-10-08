@@ -9,4 +9,22 @@
 
   <ng-container><ng-template classifiedsUiDatasourceRendererHost></ng-template></ng-container>
 
+  <div formArrayName="renderer">
+
+    <div formArrayName="bindings">
+      <button type="button" (click)="addBinding()">Add Binding</button>
+      <div>
+        <div *ngFor="let b of bindings.controls; let i = index" [formGroupName]="i">
+          <mat-form-field>
+            <mat-label>Binding</mat-label>
+            <mat-select required formControlName="id">
+              <mat-option *ngFor="let bo of bindableOptions" [value]="bo">{{ bo }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
 </div>

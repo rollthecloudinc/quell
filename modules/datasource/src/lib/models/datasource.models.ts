@@ -4,12 +4,16 @@ import { Param } from 'dparam';
 import { Plugin } from 'plugin';
 import { Type } from '@angular/core';
 import { AttributeValue } from 'attributes';
+import { Observable } from 'rxjs';
+
 export class DatasourcePlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
+  fetch: ({ settings }: { settings: Array<AttributeValue> }) => Observable<Dataset>;
   constructor(data?: DatasourcePlugin<T>) {
     super(data)
     if(data) {
       this.editor = data.editor;
+      this.fetch = data.fetch;
     }
   }
 }
@@ -90,12 +94,21 @@ export class DatasourceOptions {
 
 export class Datasource {
   plugin: string;
+  renderer?: Renderer;
   settings: Array<AttributeValue> = [];
+  // params are going to be first class citizens because they are applicable to every source.
+  params?: Array<Param> = [];
   constructor(data?: Datasource) {
     if (data) {
       this.plugin = data.plugin;
+      if (data.renderer) {
+        this.renderer = new Renderer(data.renderer);
+      }
       if (data.settings) {
         this.settings = data.settings.map(s => new AttributeValue(s));
+      }
+      if (data.params) {
+        this.params = data.params.map(p => new Param(p));
       }
     }
   }

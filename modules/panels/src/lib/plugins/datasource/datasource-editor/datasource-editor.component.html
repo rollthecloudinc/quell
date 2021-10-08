@@ -1,4 +1,4 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
-  <classifieds-ui-datasource-form formControlName="datasource"></classifieds-ui-datasource-form>
+  <classifieds-ui-datasource-form formControlName="source" [bindableOptions]="bindableOptions"></classifieds-ui-datasource-form>
   <button type="submit">Save</button>
 </form>

@@ -4,7 +4,7 @@ import { MatInput } from '@angular/material/input';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { SelectOption } from 'dist/pages/lib/models/plugin.models';
+import { SelectOption } from 'datasource';
 
 @Component({
   selector: 'classifieds-formly-autocomplete',

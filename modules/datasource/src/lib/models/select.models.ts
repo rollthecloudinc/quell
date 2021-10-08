@@ -1,19 +1,6 @@
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from "attributes";
 
-export class DataSlice {
-  context: string;
-  query: string;
-  plugin: string;
-  constructor(data?: DataSlice) {
-    if(data) {
-      this.context = data.context;
-      this.query = data.query;
-      this.plugin = data.plugin;
-    }
-  }
-}
-
-/*export class SelectOption {
+export class SelectOption {
   value: AttributeValue;
   label: string;
   dataItem: any;
@@ -26,9 +13,9 @@ export class DataSlice {
       }
     }
   }
-}*/
+}
 
-/*export class SelectMapping {
+export class SelectMapping {
   value: string;
   label: string;
   id: string;
@@ -43,4 +30,4 @@ export class DataSlice {
       this.limit = data.limit;
     }
   }
-}*/
+}

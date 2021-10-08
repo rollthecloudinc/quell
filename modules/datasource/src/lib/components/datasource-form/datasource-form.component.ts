@@ -1,6 +1,6 @@
-import { Component, ComponentFactoryResolver, ComponentRef, forwardRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DatasourcePluginManager } from '../../services/datasource-plugin-manager.service';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { switchMap } from 'rxjs/operators';
 import { DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
@@ -31,12 +31,21 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
 
   formGroup = this.fb.group({
     plugin: this.fb.control('', [ Validators.required ]),
-    settings: this.fb.control('')
+    settings: this.fb.control(''),
+    renderer: this.fb.group({
+      bindings: this.fb.array([])
+    })
   });
+
+  @Input() bindableOptions: Array<string> = [];
 
   componentRef$ = new BehaviorSubject<ComponentRef<any>>(undefined);
 
   public onTouched: () => void = () => {};
+
+  get bindings(): FormArray {
+    return this.formGroup.get('renderer').get('bindings') as FormArray;
+  }
 
   constructor(
     private fb: FormBuilder,
@@ -86,6 +95,13 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
 
   validate(c: AbstractControl): ValidationErrors | null{
     return this.formGroup.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
+  }
+
+  addBinding() {
+    this.bindings.push(this.fb.group({
+      type: this.fb.control('pane', Validators.required),
+      id: this.fb.control('', Validators.required)
+    }));
   }
 
 }

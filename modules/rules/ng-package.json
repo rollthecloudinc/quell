@@ -1,0 +1,14 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/rules",
+  "lib": {
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "angular2-query-builder": "angular2-query-builder",
+      "context": "context", 
+      "json-rules-engine": "json-rules-engine",
+      "uuid": "uuid",
+      "attributes": "attributes"
+    }
+  }
+}
