@@ -1,6 +1,17 @@
 import { ContentBinding } from 'content';
 import { Snippet } from 'snippet';
 import { Param } from 'dparam';
+import { Plugin } from 'plugin';
+import { Type } from '@angular/core';
+export class DatasourcePlugin<T = string> extends Plugin<T>  {
+  editor: Type<any>;
+  constructor(data?: DatasourcePlugin<T>) {
+    super(data)
+    if(data) {
+      this.editor = data.editor;
+    }
+  }
+}
 
 export class Rest {
   url: string;

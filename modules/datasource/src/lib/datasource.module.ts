@@ -5,10 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'material';
 import { DurlModule } from 'durl';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
+import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';
+import { DatasourceRendererHostDirective }  from './directives/datasource-renderer-host.directive';
 
 @NgModule({
   declarations: [
-    DatasourceOptionsComponent
+    DatasourceOptionsComponent,
+    DatasourceFormComponent,
+    DatasourceRendererHostDirective
   ],
   imports: [
     CommonModule,
@@ -18,7 +22,9 @@ import { DatasourceOptionsComponent } from './components/datasource-options/data
     DurlModule
   ],
   exports: [
-    DatasourceOptionsComponent
+    DatasourceOptionsComponent,
+    DatasourceFormComponent,
+    DatasourceRendererHostDirective
   ]
 })
 export class DatasourceModule { }

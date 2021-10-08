@@ -8,6 +8,8 @@ import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { PanelPageState, PanelState, PaneState } from './models/state.models';
 import { of } from 'rxjs';
+import { DatasourceContentHandler } from './handlers/datasource-content.handler';
+import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
@@ -15,6 +17,17 @@ export const panelContentPluginFactory = (handler: PanelContentHandler) => {
     title: 'Panel',
     selectionComponent: PanelSelectorComponent,
     editorComponent: PanelEditorComponent,
+    renderComponent: undefined,
+    handler
+  })
+}
+
+export const datasourceContentPluginFactory = (handler: DatasourceContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'datasource',
+    title: 'Datasource',
+    selectionComponent: undefined,
+    editorComponent: DatasourceEditorComponent,
     renderComponent: undefined,
     handler
   })

@@ -115,6 +115,10 @@
       "drxdb": [
         "dist/drxdb/drxdb",
         "dist/drxdb"
+      ],
+      "transform": [
+        "dist/transform/transform",
+        "dist/transform"
       ]
     }
   },

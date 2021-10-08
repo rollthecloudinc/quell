@@ -6,3 +6,6 @@ export * from './lib/models/datasource.models';
 export * from './lib/services/datasource-api.service';
 export * from './lib/components/datasource-options/datasource-options.component';
 export * from './lib/mocks/datasource.mocks';
+export * from './lib/services/datasource-plugin-manager.service';
+export * from './lib/components/datasource-form/datasource-form.component';
+export * from './lib/directives/datasource-renderer-host.directive';

@@ -1,0 +1,12 @@
+<div [formGroup]="formGroup">
+
+  <mat-form-field>
+    <mat-label>Datasource</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let dp of ((datasources$ | async) | keyvalue); let i = index" [value]="dp.value.id">{{ dp.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container><ng-template classifiedsUiDatasourceRendererHost></ng-template></ng-container>
+
+</div>
