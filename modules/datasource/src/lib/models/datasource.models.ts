@@ -3,6 +3,7 @@ import { Snippet } from 'snippet';
 import { Param } from 'dparam';
 import { Plugin } from 'plugin';
 import { Type } from '@angular/core';
+import { AttributeValue } from 'attributes';
 export class DatasourcePlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
   constructor(data?: DatasourcePlugin<T>) {
@@ -83,6 +84,19 @@ export class DatasourceOptions {
       this.valueMapping = data.valueMapping;
       this.multiple = data.multiple;
       this.limit = data.limit;
+    }
+  }
+}
+
+export class Datasource {
+  plugin: string;
+  settings: Array<AttributeValue> = [];
+  constructor(data?: Datasource) {
+    if (data) {
+      this.plugin = data.plugin;
+      if (data.settings) {
+        this.settings = data.settings.map(s => new AttributeValue(s));
+      }
     }
   }
 }

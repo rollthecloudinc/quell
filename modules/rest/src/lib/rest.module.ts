@@ -9,9 +9,10 @@ import { SnippetModule } from 'snippet';
 import { TokenModule } from 'token';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 import { restDatasourcePluginFactory } from './rest.factories';
+import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 
 @NgModule({
-  declarations: [ RestSourceFormComponent ],
+  declarations: [ RestSourceFormComponent, RestDatasourceComponent ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -22,7 +23,7 @@ import { restDatasourcePluginFactory } from './rest.factories';
     DatasourceModule,
     TokenModule
   ],
-  exports: [ RestSourceFormComponent ]
+  exports: [ RestSourceFormComponent, RestDatasourceComponent ]
 })
 export class RestModule { 
   constructor(

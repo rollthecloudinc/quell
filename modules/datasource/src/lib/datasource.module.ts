@@ -7,12 +7,18 @@ import { DurlModule } from 'durl';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
 import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';
 import { DatasourceRendererHostDirective }  from './directives/datasource-renderer-host.directive';
+import { DataDatasourceComponent } from './components/data-datasource/data-datasource.component';
+import { dataDatasourcePluginFactory } from './datasource.factories';
+import { DatasourcePluginManager } from './services/datasource-plugin-manager.service';
+import { DataSourceFormComponent } from './components/data-source-form/data-source-form.component';
 
 @NgModule({
   declarations: [
     DatasourceOptionsComponent,
     DatasourceFormComponent,
-    DatasourceRendererHostDirective
+    DatasourceRendererHostDirective,
+    DataDatasourceComponent,
+    DataSourceFormComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +30,17 @@ import { DatasourceRendererHostDirective }  from './directives/datasource-render
   exports: [
     DatasourceOptionsComponent,
     DatasourceFormComponent,
-    DatasourceRendererHostDirective
+    DatasourceRendererHostDirective,
+    DataDatasourceComponent,
+    DataSourceFormComponent
   ]
 })
-export class DatasourceModule { }
+export class DatasourceModule { 
+  constructor(
+    dpm: DatasourcePluginManager
+  ) {
+    [
+      dataDatasourcePluginFactory()
+    ].forEach(p => dpm.register(p));
+  }
+}

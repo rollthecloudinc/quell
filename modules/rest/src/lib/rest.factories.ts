@@ -1,6 +1,6 @@
 import { DatasourcePlugin } from 'datasource';
-import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
+import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 
 export const restDatasourcePluginFactory = () => {
-  return new DatasourcePlugin<string>({ id: 'rest', title: 'Rest', editor: RestSourceFormComponent });
+  return new DatasourcePlugin<string>({ id: 'rest', title: 'Rest', editor: RestDatasourceComponent });
 };
