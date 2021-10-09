@@ -33,6 +33,7 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     plugin: this.fb.control('', [ Validators.required ]),
     settings: this.fb.control(''),
     renderer: this.fb.group({
+      type: this.fb.control('pane'),
       bindings: this.fb.array([])
     })
   });

@@ -8,6 +8,6 @@ export const restDatasourcePluginFactory = () => {
     id: 'rest', 
     title: 'Rest', 
     editor: RestDatasourceComponent,
-    fetch: ({ settings }: { settings: Array<AttributeValue> }) => of(new Dataset())
+    fetch: ({ settings }: { settings: Array<AttributeValue> }) => of(new Dataset({ results: [ { id: 123, title: 'hello' }, { id: 234, title: 'hello2' } ] }))
   });
 };

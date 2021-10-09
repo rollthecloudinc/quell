@@ -37,12 +37,12 @@ export class DatasourceEditorComponent implements OnInit {
         name: new FormControl(''),
         label: new FormControl(''),
         rule: new FormControl(''),
-        settings: this.fb.array([ this.attributeSerializer.convertToGroup(sourceSettings) ])
+        settings: this.fb.array(sourceSettings.attributes.map(a => this.attributeSerializer.convertToGroup(a)))
       }));
       console.log(this.data.panelFormGroup.get('panes').value);
     } else {
       (paneForm.get('settings') as FormArray).clear();
-      (paneForm.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(sourceSettings));
+      sourceSettings.attributes.forEach(a => (paneForm.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a)));
     }
   }
 

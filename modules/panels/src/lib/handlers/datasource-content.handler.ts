@@ -1,18 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+// import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { ContentHandler, ContentBinding } from 'content';
-import { Snippet } from 'snippet';
+// import { Snippet } from 'snippet';
 import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';
-import { DatasourceApiService } from 'datasource';
 
 // move to snippet module?
 // import { SnippetContentHandler } from './snippet-content.handler';
 
 
-import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
+import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
 
@@ -43,10 +42,8 @@ export class DatasourceContentHandler implements ContentHandler {
     // private snippetHandler: SnippetContentHandler,
     // private pageBuilderFacade: PageBuilderFacade,
     // private store: Store<PageBuilderPartialState>,
-    private datasourceApi: DatasourceApiService,
     private tokenizerService: TokenizerService,
     private panelHandler: PanelContentHandler,
-    private urlGeneratorService: UrlGeneratorService,
     private attributeSerializer: AttributeSerializerService,
     private rulesResolver: RulesResolverService,
     private dpm: DatasourcePluginManager
@@ -65,7 +62,8 @@ export class DatasourceContentHandler implements ContentHandler {
     return of(false);
   }
   isDynamic(settings: Array<AttributeValue>): boolean {
-    return ['snippet','pane'].indexOf(this.getRenderType(settings)) > -1;
+    // return ['snippet','pane'].indexOf(this.getRenderType(settings)) > -1;
+    return true;
   }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     /*const subject = new Subject<Dataset>();
@@ -96,12 +94,86 @@ export class DatasourceContentHandler implements ContentHandler {
 
   }
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>> {
-    const subject = new Subject<Array<AttributeValue>>();
-    console.log('build dynamic items rest');
-
-    return of([]);
-
-    // this.datasourceApiService.
+    return this.toObject(settings).pipe(
+      switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
+        map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
+      )),
+      switchMap(([ds, p]) => p.fetch({ settings: ds.settings }).pipe(
+        map(d => [ds, d])
+      )),
+      switchMap<[Datasource, Dataset], Observable<[Datasource, Dataset, Array<ContentBinding>]>>(([ds, dataset]) => this.getBindings(settings, 'pane').pipe(
+        map<Array<ContentBinding>, [Datasource, Dataset, Array<ContentBinding>]>(bindings => [ds, dataset, bindings])
+      )),
+      switchMap(([ds, dataset, bindings]) => iif(
+        () => dataset.results.length !== 0 && bindings.length > 0,
+        /*new Observable<[Datasource, Dataset, Array<string>]>(obs => {
+          forkJoin(
+            dataset.results.map(row => from(bindings).pipe(
+              map(binding => (metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)),
+              switchMap(pane => iif(
+                () => pane.rule && pane.rule !== null && pane.rule.condition !== '',
+                this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
+                  map<boolean, [Pane, boolean]>(res => [pane, res])
+                ),
+                of(false).pipe(
+                  map<boolean, [Pane, boolean]>(b => [pane, b])
+                )
+              )),
+              filter(([_, res]) => res),
+              map(([pane, _]) => pane.name),
+              defaultIfEmpty(bindings[0].id),
+              take(1)
+            ))
+          ).pipe(
+            map<Array<string>, [Dataset, Array<string>]>(groups => [dataset, groups]),
+            take(1)
+          )
+          ).subscribe(d => {
+            obs.next([ds, ...d]);
+            obs.complete();
+          });
+        }),*/
+        forkJoin(
+          dataset.results.map(row => from(bindings).pipe(
+            map(binding => (metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)),
+            switchMap(pane => iif(
+              () => pane.rule && pane.rule !== null && pane.rule.condition !== '',
+              this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
+                map<boolean, [Pane, boolean]>(res => [pane, res])
+              ),
+              of(false).pipe(
+                map<boolean, [Pane, boolean]>(b => [pane, b])
+              )
+            )),
+            filter(([_, res]) => res),
+            map(([pane, _]) => pane.name),
+            defaultIfEmpty(bindings[0].id),
+            take(1)
+          ))
+        ).pipe(
+          map<Array<string>, [Datasource, Dataset, Array<string>]>(groups => [ds, dataset, groups])
+          // take(1)
+        ),
+        new Observable<[Datasource, Dataset, Array<string>]>(obs => {
+          obs.next([ds, dataset, []]);
+          obs.complete();
+        })
+      )),
+      map(([ds, dataset, paneMappings]) => {
+        if(ds.renderer.type === 'pane') {
+          return dataset.results.map((row, rowIndex) => {
+            const attachedPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === paneMappings[rowIndex]);
+            const name = uuid.v4();
+            return new Pane({ ...attachedPane, rule: undefined, label: name, contexts: [ ...(metadata.get('contexts') as Array<InlineContext>) ,new InlineContext({ name: "_root", adaptor: 'data', data: row })] });
+          }) as Array<Pane>;
+        } else {
+          return dataset.results.map(row => new Pane({ contentPlugin: 'snippet', name: uuid.v4(), label: undefined, contexts: [ ...(metadata.get('contexts') as Array<InlineContext>), new InlineContext({ name: "_root", adaptor: 'data', data: row })], settings: this.attributeSerializer.serialize({ ...ds.renderer.data, content: ds.renderer.data.content }, 'root').attributes })) as Array<Pane>;
+        }
+      }),
+      map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
+      map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] }))),
+      map(panelSettings => panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes)
+    );
 
     /*this.toObject(settings).pipe(
       switchMap(r => this.urlGeneratorService.getUrl(r.url, r.params, metadata).pipe(
@@ -190,7 +262,7 @@ export class DatasourceContentHandler implements ContentHandler {
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
     if(type === 'context') {
       return this.toObject(settings).pipe(
-        map(ds => ds.params.reduce((p, c) => ([ ...p, ...(c.mapping.type === 'form' ? [ new ContentBinding({ id: `form__${c.mapping.value.split('.', 2)[0].trim()}`, type: 'context' }) ] : []) ]), []))
+        map(ds => ds.params ? ds.params.reduce((p, c) => ([ ...p, ...(c.mapping.type === 'form' ? [ new ContentBinding({ id: `form__${c.mapping.value.split('.', 2)[0].trim()}`, type: 'context' }) ] : []) ]), []): [])
       );
     } else {
       return this.toObject(settings).pipe(
