@@ -10,6 +10,7 @@ import { TokenModule } from 'token';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 import { restDatasourcePluginFactory } from './rest.factories';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
+import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 
 @NgModule({
   declarations: [ RestSourceFormComponent, RestDatasourceComponent ],
@@ -23,12 +24,16 @@ import { RestDatasourceComponent } from './components/rest-datasource/rest-datas
     DatasourceModule,
     TokenModule
   ],
-  exports: [ RestSourceFormComponent, RestDatasourceComponent ]
+  exports: [ RestSourceFormComponent, RestDatasourceComponent ],
+  providers: [
+    RestFetchHelperService
+  ]
 })
 export class RestModule { 
   constructor(
-    dspm: DatasourcePluginManager
+    dspm: DatasourcePluginManager,
+    fetchHelper: RestFetchHelperService
   ) {
-    dspm.register(restDatasourcePluginFactory());
+    dspm.register(restDatasourcePluginFactory(fetchHelper));
   }
 }
