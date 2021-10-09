@@ -76,7 +76,7 @@ Meet the chief editor and driving force behind entire the entire publishing expe
 Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
 
 * Markdown and HTML content
-* Query and refine API for datasets
+* Query and refine API datasets
 * Upload media assets
 * Extend with custom external JavaScript
 * Form building and data storage 
