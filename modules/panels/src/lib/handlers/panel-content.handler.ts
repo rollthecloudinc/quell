@@ -32,6 +32,10 @@ export class PanelContentHandler implements ContentHandler {
     return false;
   }
 
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>> {
     return of([]);
   }

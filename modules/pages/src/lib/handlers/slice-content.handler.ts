@@ -45,6 +45,10 @@ export class SliceContentHandler implements ContentHandler {
     return true;
   }
 
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     return of(new Dataset());
   }

@@ -44,6 +44,10 @@ export class SnippetContentHandler implements ContentHandler {
     return false;
   }
 
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
     if(type === 'context') {
       return this.toObject(settings).pipe(

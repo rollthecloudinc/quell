@@ -65,6 +65,9 @@ export class DatasourceContentHandler implements ContentHandler {
     // return ['snippet','pane'].indexOf(this.getRenderType(settings)) > -1;
     return true;
   }
+  isData(settings: Array<AttributeValue>): boolean {
+    return true;
+  }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     /*const subject = new Subject<Dataset>();
     this.toObject(settings).pipe(

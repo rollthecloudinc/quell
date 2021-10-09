@@ -48,6 +48,9 @@ export class RestContentHandler implements ContentHandler {
   isDynamic(settings: Array<AttributeValue>): boolean {
     return ['snippet','pane'].indexOf(this.getRenderType(settings)) > -1;
   }
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     const subject = new Subject<Dataset>();
     this.toObject(settings).pipe(

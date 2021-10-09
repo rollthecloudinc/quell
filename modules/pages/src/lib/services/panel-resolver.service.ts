@@ -11,7 +11,7 @@ import { InlineContextResolverService } from '../services/inline-context-resolve
 @Injectable()
 export class PanelResolverService {
 
-  c// ontentPlugins: Array<ContentPlugin> = [];
+  // ontentPlugins: Array<ContentPlugin> = [];
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
@@ -55,6 +55,14 @@ export class PanelResolverService {
       return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
     }, [])).pipe(
       map(plugins => panes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings)))
+    );
+  }
+
+  dataPanes(panes: Array<Pane>): Observable<Array<Pane>> {
+    return this.cpm.getPlugins(panes.reduce<Array<string>>((p, c) => {
+      return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
+    }, [])).pipe(
+      map(plugins => panes.filter(p => plugins.get(p.contentPlugin).handler !== undefined && plugins.get(p.contentPlugin).handler.isData(p.settings)))
     );
   }
 
@@ -107,9 +115,12 @@ export class PanelResolverService {
         panes.reduce<Array<Observable<Array<Pane>>>>((p, c) => {
           const plugin = plugins.get(c.contentPlugin);
           if(plugin.handler !== undefined && plugin.handler.isDynamic(c.settings)) {
-            return [ ...p, this.staticPanes(panes).pipe(
-              switchMap(staticPanes =>
-                plugin.handler.buildDynamicItems(c.settings, new Map<string, any>([ ...(c.metadata === undefined ? [] : c.metadata),['tag', uuid.v4()], ['panes', staticPanes], ['contexts', contexts !== undefined ? contexts: [] ] ])).pipe(
+            return [ ...p, forkJoin([
+              this.staticPanes(panes),
+              this.dataPanes(panes)
+            ]).pipe(
+              switchMap(([staticPanes, dataPanes]) =>
+                plugin.handler.buildDynamicItems(c.settings, new Map<string, any>([ ...(c.metadata === undefined ? [] : c.metadata),['tag', uuid.v4()], ['panes', staticPanes], ['dataPanes', dataPanes], ['contexts', contexts !== undefined ? contexts: [] ] ])).pipe(
                   map(items => this.panelHandler.fromPanes(items)),
                   map<Array<Pane>, Array<Pane>>(panes => this.panelHandler.wrapPanel(panes).panes),
                   take(1)

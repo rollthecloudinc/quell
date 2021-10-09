@@ -28,6 +28,9 @@ export class AttributeContentHandler implements ContentHandler {
   isDynamic(settings: Array<AttributeValue>): boolean {
     return false;
   }
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     return of(new Dataset());
   }
