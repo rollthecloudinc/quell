@@ -1,5 +1,9 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { SelectTransform } from '../../models/transform.models';
 
 @Component({
   selector: 'classifieds-ui-select-source-form',
@@ -20,14 +24,31 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 })
 export class SelectSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 
+  @Input() set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
+
+  settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
+
   formGroup = this.fb.group({
     query: this.fb.control('', [ Validators.required ])
+  });
+
+  settingsSub = this.settings$.pipe(
+    map(s => s ? new SelectTransform(this.attributeSerializer.deserializeAsObject(s)) : undefined)
+  ).subscribe(ds => {
+    if (ds) {
+      this.formGroup.get('query').setValue(ds.query);
+    } else {
+      this.formGroup.get('query').setValue('');
+    }
   });
 
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private attributeSerializer: AttributeSerializerService
   ) {}
 
   ngOnInit() {

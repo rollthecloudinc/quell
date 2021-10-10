@@ -36,8 +36,7 @@ export class ContextDatasourceFormComponent implements ControlValueAccessor, Val
   });
 
   settingsSub = this.settings$.pipe(
-    map(s => s ? new ContextDatasource(this.attributeSerializer.deserializeAsObject(s)) : undefined),
-    delay(1)
+    map(s => s ? new ContextDatasource(this.attributeSerializer.deserializeAsObject(s)) : undefined)
   ).subscribe(ds => {
     if (ds) {
       this.formGroup.get('name').setValue(ds.name);
