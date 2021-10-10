@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { ControlContainer } from '@angular/forms';
 
 @Component({
   selector: 'classifieds-ui-transform-select',
-  templateUrl: './transform-select.component.html',
-  styleUrls: ['./transform-select.component.scss']
+  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-select-source-form formControlName="settings"></classifieds-ui-select-source-form></ng-container>`,
 })
-export class TransformSelectComponent implements OnInit {
-
-  constructor() {}
-
-  ngOnInit() {
-
-  }
+export class TransformSelectComponent {
+  constructor(
+    public controlContainer: ControlContainer
+  ) {}
 }

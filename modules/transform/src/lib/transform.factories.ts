@@ -2,11 +2,12 @@ import { Dataset, DatasourcePlugin } from 'datasource';
 import { TransformSelectComponent } from './components/transform-select/transform-select.component';
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { iif, of } from 'rxjs';
-import { AttributeValue } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { map } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';
+import { SelectTransform } from './models/transform.models';
 
-export const selectDatasourcePluginFactory = () => {
+export const selectDatasourcePluginFactory = (attributeSerializer: AttributeSerializerService) => {
   return new DatasourcePlugin<string>({ 
     id: 'select', 
     title: 'Select', 
@@ -14,7 +15,8 @@ export const selectDatasourcePluginFactory = () => {
     fetch: ({ settings, dataset }: { settings: Array<AttributeValue>, dataset?: Dataset }) => iif(
       () => !!dataset,
       of(dataset).pipe(
-        map(json => new Dataset({ results: JSONPath({ path: '$..data.results.*', json }) }))
+        map(() => new SelectTransform(attributeSerializer.deserializeAsObject(settings))),
+        map(ds => new Dataset({ results: JSONPath({ path: ds.query, json: dataset }) }))
       ),
       of(new Dataset())
     )
