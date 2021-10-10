@@ -6,7 +6,8 @@
     "umdModuleIds": {
       "datasource": "datasource",
       "material": "material",
-      "attributes": "attributes"
+      "attributes": "attributes",
+      "jsonpath-plus": "jsonpath-plus"
     }
   }
 }

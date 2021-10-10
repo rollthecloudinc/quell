@@ -13,7 +13,7 @@ import { SITE_NAME } from 'utils';
 
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
-import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
+import { map, filter, switchMap, take, defaultIfEmpty, tap, reduce } from 'rxjs/operators';
 
 
 
@@ -97,13 +97,28 @@ export class DatasourceContentHandler implements ContentHandler {
 
   }
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>> {
+    const dataPanes = new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p]));
     return this.toObject(settings).pipe(
       switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
         map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
       )),
       switchMap(([ds, p]) => p.fetch({ settings: ds.settings }).pipe(
-        map(d => [ds, d])
+        map<Dataset, [Datasource, Dataset]>(d => [ds, d])
       )),
+      switchMap(([ds, dataset]) => 
+        forkJoin(
+          ds.renderer.bindings.reduce<Array<Observable<Datasource>>>((p, c) => [ ...p, ...(dataPanes.has(c.id) ? [ this.toObject(dataPanes.get(c.id).settings) ] : []) ], [])
+        ).pipe(
+          switchMap(datasources => datasources.reduce<Observable<Dataset>>((p, c) => p.pipe(
+            switchMap<Dataset, Observable<[DatasourcePlugin<string>, Dataset]>>(dataset2 => this.dpm.getPlugin(c.plugin).pipe(
+              map(dsp => [dsp, dataset2])
+            )),
+            switchMap(([dsp, dataset2]) => dsp.fetch({ settings: c.settings, dataset: dataset2 }))
+          ), of(dataset))),
+          map(dataset => [ds, dataset]),
+          defaultIfEmpty([ds, dataset])
+        )
+      ),
       switchMap<[Datasource, Dataset], Observable<[Datasource, Dataset, Array<ContentBinding>]>>(([ds, dataset]) => this.getBindings(settings, 'pane').pipe(
         map<Array<ContentBinding>, [Datasource, Dataset, Array<ContentBinding>]>(bindings => [ds, dataset, bindings])
       )),
@@ -140,10 +155,10 @@ export class DatasourceContentHandler implements ContentHandler {
           dataset.results.map(row => from(bindings).pipe(
             map(binding => (metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)),
             switchMap(pane => iif(
-              () => pane.rule && pane.rule !== null && pane.rule.condition !== '',
-              this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
+              () => pane && pane.rule && pane.rule !== null && pane.rule.condition !== '',
+              pane ? this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
                 map<boolean, [Pane, boolean]>(res => [pane, res])
-              ),
+              ) : of<[Pane, boolean]>([pane, false]),
               of(false).pipe(
                 map<boolean, [Pane, boolean]>(b => [pane, b])
               )
