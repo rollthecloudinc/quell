@@ -6,3 +6,5 @@ export * from './lib/components/context-form/context-form.component';
 export * from './lib/services/context-plugin-manager.service';
 export * from './lib/services/inline-context-resolver.service';
 export * from './lib/services/base-inline-context-resolver.service';
+export * from './lib/components/context-datasource/context-datasource.component';
+export * from './lib/components/context-datasource-form/context-datasource-form.component';

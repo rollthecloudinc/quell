@@ -13,6 +13,7 @@ import { Pane } from '../../../models/panels.models';
 export class DatasourceEditorComponent implements OnInit {
 
   bindableOptions: Array<string> = [];
+  contexts: Array<string> = [];
 
   formGroup = this.fb.group({
     source: this.fb.control('')
@@ -26,6 +27,7 @@ export class DatasourceEditorComponent implements OnInit {
 
   ngOnInit(): void {
     this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
+    this.contexts = this.data.contexts.map(c => c.name);
   }
 
   onSubmit() {

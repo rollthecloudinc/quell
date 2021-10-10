@@ -63,3 +63,12 @@ export class InlineContext {
     }
   }
 }
+
+export class ContextDatasource {
+  name: string;
+  constructor(data?: ContextDatasource) {
+    if (data) {
+      this.name = data.name;
+    }
+  }
+}

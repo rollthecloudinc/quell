@@ -1,0 +1,10 @@
+<div [formGroup]="formGroup">
+
+  <mat-form-field>
+    <mat-label>Context</mat-label>
+    <mat-select required formControlName="name">
+      <mat-option *ngFor="let c of contexts" [value]="c">{{ c }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+</div>

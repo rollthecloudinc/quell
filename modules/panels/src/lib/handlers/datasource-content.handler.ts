@@ -102,7 +102,7 @@ export class DatasourceContentHandler implements ContentHandler {
       switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
         map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
       )),
-      switchMap(([ds, p]) => p.fetch({ settings: ds.settings }).pipe(
+      switchMap(([ds, p]) => p.fetch({ settings: ds.settings, metadata }).pipe(
         map<Dataset, [Datasource, Dataset]>(d => [ds, d])
       )),
       switchMap(([ds, dataset]) => 
@@ -113,7 +113,7 @@ export class DatasourceContentHandler implements ContentHandler {
             switchMap<Dataset, Observable<[DatasourcePlugin<string>, Dataset]>>(dataset2 => this.dpm.getPlugin(c.plugin).pipe(
               map(dsp => [dsp, dataset2])
             )),
-            switchMap(([dsp, dataset2]) => dsp.fetch({ settings: c.settings, dataset: dataset2 }))
+            switchMap(([dsp, dataset2]) => dsp.fetch({ settings: c.settings, dataset: dataset2, metadata }))
           ), of(dataset))),
           map(dataset => [ds, dataset]),
           defaultIfEmpty([ds, dataset])

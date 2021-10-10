@@ -744,7 +744,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     this.cpm.getPlugin(pane.contentPlugin).pipe(
       filter(p => p.handler !== undefined && p.handler.isDynamic(pane.settings)),
       switchMap((p: ContentPlugin) => p.handler.fetchDynamicData(pane.settings, new Map<string, any>([ ['tag', uuid.v4()], ['contexts', [ ...this.contexts ]] ])).pipe(
-        map(dataset => new InlineContext({ name: '_root', adaptor: 'data', data: dataset.results[0] })),
+        map(dataset => new InlineContext({ name: '_root', adaptor: 'data', data: dataset.length !== 0 ? dataset.results[0] : {} })),
         switchMap(context => p.handler.getBindings(pane.settings, 'pane').pipe(
           map<Array<ContentBinding>, [InlineContext, Array<number>]>(bindings => [context, bindings.map(b => controls.findIndex(p => new Pane(p.value).name === b.id))])
         ))

@@ -1,4 +1,4 @@
-import { ContextPlugin, InlineContext } from './models/context.models';
+import { ContextDatasource, ContextPlugin, InlineContext } from './models/context.models';
 import { RouteResolver } from './resolvers/route.resolver';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { ContextPluginManager } from './services/context-plugin-manager.service';
@@ -7,6 +7,9 @@ import { ParamPlugin, Param } from 'dparam';
 import { iif, of } from 'rxjs';
 import { InlineContextResolverService } from './services/inline-context-resolver.service';
 import { TokenizerService } from 'token';
+import { Dataset, DatasourcePlugin } from 'datasource';
+import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 
 export const routeContextFactory = (resolver: RouteResolver) => {
   const baseObject = {
@@ -66,3 +69,21 @@ export const paramPluginFactory = (
     }
   });
 }
+
+export const contextDatasourceFactory = (
+  inlineContextResolver: InlineContextResolverService,
+  attributeSerializer: AttributeSerializerService
+) => {
+  return new DatasourcePlugin<string>({
+    id: 'context',
+    title: 'Context',
+    editor: ContextDatasourceComponent,
+    fetch: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata: Map<string, any> }) => of(new Dataset()).pipe(
+      map(() => new ContextDatasource(attributeSerializer.deserializeAsObject(settings))),
+      map(ds => (metadata.get('contexts') as Array<InlineContext>).find(c => c.name === ds.name)),
+      switchMap(inlineContext => inlineContextResolver.resolve(inlineContext).pipe(
+        take(1)
+      ))
+    )
+  });
+};

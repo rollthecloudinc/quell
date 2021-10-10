@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class DatasourcePlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
-  fetch: ({ settings, dataset }: { settings: Array<AttributeValue>, dataset?: Dataset }) => Observable<Dataset>;
+  fetch: ({ settings, dataset, metadata }: { settings: Array<AttributeValue>, dataset?: Dataset, metadata?: Map<string, any> }) => Observable<Dataset>;
   constructor(data?: DatasourcePlugin<T>) {
     super(data)
     if(data) {

@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DatasourcePluginManager } from '../../services/datasource-plugin-manager.service';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { switchMap } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
 import { BehaviorSubject } from 'rxjs';
@@ -39,8 +39,15 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
   });
 
   @Input() bindableOptions: Array<string> = [];
+  @Input() contexts: Array<string> = [];
 
   componentRef$ = new BehaviorSubject<ComponentRef<any>>(undefined);
+
+  contextForwardingSub = this.componentRef$.pipe(
+    filter(componentRef => !!componentRef)
+  ).subscribe(componentRef => {
+    (componentRef.instance as any).contexts = this.contexts;
+  });
 
   public onTouched: () => void = () => {};
 
@@ -69,7 +76,6 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     viewContainerRef.clear();
 
     this.componentRef$.next(viewContainerRef.createComponent(componentFactory));
-    // (componentRef.instance as any).settings = this.settings;
   }
 
   writeValue(val: any): void {
