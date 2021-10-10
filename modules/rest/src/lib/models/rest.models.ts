@@ -1,11 +1,11 @@
 import { Renderer } from "datasource";
-// import { Param } from "dparam";
+import { Param } from "dparam";
 import { Snippet } from "snippet";
 
 export class Rest {
   url: string;
   renderer: Renderer;
-  // params: Array<Param>;
+  params: Array<Param>;
   body?: Snippet;
   method?: string;
   constructor(data?: Rest) {
@@ -15,9 +15,10 @@ export class Rest {
       if(data.renderer !== undefined) {
         this.renderer = new Renderer(data.renderer);
       }
-      /*if(data.params !== undefined) {
+      // For now leave these on rest even though they should probably be one level above inside datasource... maybe not :/
+      if(data.params !== undefined) {
         this.params = data.params.map(p => new Param(p));
-      }*/
+      }
       if (data.body) {
         this.body = new Snippet(data.body);
       }

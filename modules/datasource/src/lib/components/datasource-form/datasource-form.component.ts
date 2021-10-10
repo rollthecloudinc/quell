@@ -64,9 +64,11 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     this.formGroup.get('plugin').valueChanges,
     this.afterViewInit$
   ]).pipe(
-    switchMap(([p, _]) => this.dpm.getPlugin(p))
+    switchMap(([p, _]) => p && p !== '' ? this.dpm.getPlugin(p) : undefined)
   ).subscribe(p => {
-    this.renderPlugin(p);
+    if (p) {
+      this.renderPlugin(p);
+    }
   });
 
   settingsSub = combineLatest([

@@ -1,12 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { Rest } from '../../models/rest.models';
 
 @Component({
   selector: 'classifieds-ui-rest-datasource',
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings"></classifieds-ui-rest-source-form></ng-container>`,
+  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [restSource]="restSource"></classifieds-ui-rest-source-form></ng-container>`,
 })
 export class RestDatasourceComponent {
+  @Input() set settings(settings: Array<AttributeValue>) {
+    this.restSource = settings ? new Rest(this.attributeSerializer.deserializeAsObject(settings)) : undefined;
+  }
+  restSource: Rest;
   constructor(
+    private attributeSerializer: AttributeSerializerService,
     public controlContainer: ControlContainer
   ) {}
 }
