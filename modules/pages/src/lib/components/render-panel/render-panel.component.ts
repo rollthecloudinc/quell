@@ -213,12 +213,12 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
           // I think this line was being used for the pane state detection since there was an issue with it. However, that is not being use anymore.
           // map(contextChanged => [ctx.includes(contextChanged) ? ctx : [ ...ctx, contextChanged ], contextChanged]) // This might be a breaking change but I do know some of this was never very well tested... :/
         )),
-        tap(([ctx, contextChanged]) => console.log(`detected change [${this.panel.name}]: ${contextChanged} : ctx: ${(ctx as Array<string>).join('.')}`)),
+        tap(([ctx, contextChanged]) => console.log(`detected change [${this.panel.name}]: ${contextChanged} : ctx: ${(ctx as Array<string>).join(',')}`)),
         filter(([ctx, contextChanged]) => Array.isArray(ctx) && ctx.findIndex(c => c === contextChanged) !== -1),
         debounceTime(100)
       ).subscribe(([ctx, contextChanged]) => {
         console.log(`Context changed [${this.panel.name}]: ${contextChanged}`);
-        console.log(`contexts detected [${this.panel.name}]: ${(ctx as Array<string>).join('.')}`);
+        console.log(`contexts detected [${this.panel.name}]: ${(ctx as Array<string>).join(',')}`);
         this.scheduleRender.next([this.panel.panes, this.contexts, this.resolvedContext]);
       });
     }

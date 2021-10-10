@@ -278,9 +278,30 @@ export class DatasourceContentHandler implements ContentHandler {
     return of([]);
   }
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
+    const dataPanes = metadata ? new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p])) : new Map<string, any>();
     if(type === 'context') {
       return this.toObject(settings).pipe(
-        map(ds => ds.params ? ds.params.reduce((p, c) => ([ ...p, ...(c.mapping.type === 'form' ? [ new ContentBinding({ id: `form__${c.mapping.value.split('.', 2)[0].trim()}`, type: 'context' }) ] : []) ]), []): [])
+        map(ds => [ds, ds.params ? ds.params.reduce((p, c) => ([ ...p, ...(c.mapping.type === 'form' ? [ new ContentBinding({ id: `form__${c.mapping.value.split('.', 2)[0].trim()}`, type: 'context' }) ] : []) ]), []): [] ]),
+        switchMap<[Datasource, Array<ContentBinding>], Observable<[Datasource, Array<ContentBinding>]>>(([ds, bindings]) => this.dpm.getPlugin(ds.plugin).pipe(
+          switchMap<DatasourcePlugin<string>, Observable<[Datasource, Array<ContentBinding>]>>(dsp => dsp.getBindings({ settings: ds.settings, metadata }).pipe(
+            map(bindings => [ds, bindings])
+          ))
+        )),
+        switchMap<[Datasource, Array<ContentBinding>], Observable<Array<ContentBinding>>>(([ds, bindings]) => 
+          forkJoin(
+            ds.renderer.bindings.reduce<Array<Observable<Datasource>>>((p, c) => [ ...p, ...(dataPanes.has(c.id) ? [ this.toObject(dataPanes.get(c.id).settings) ] : []) ], [])
+          ).pipe(
+            switchMap(datasources => forkJoin(
+              datasources.map(d => this.dpm.getPlugin(d.plugin).pipe(
+                switchMap<DatasourcePlugin<string>, Observable<Array<ContentBinding>>>(dsp => dsp.getBindings({ settings: d.settings, metadata }))
+              ))
+            ).pipe(
+              map(dsBindings => dsBindings.reduce((p, c) => [ ...p, ...c ], bindings)),
+              defaultIfEmpty(bindings)
+            )),
+            defaultIfEmpty(bindings)
+          )
+        )
       );
     } else {
       return this.toObject(settings).pipe(

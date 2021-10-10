@@ -10,6 +10,7 @@ import { TokenizerService } from 'token';
 import { Dataset, DatasourcePlugin } from 'datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { ContentBinding } from 'content';
 
 export const routeContextFactory = (resolver: RouteResolver) => {
   const baseObject = {
@@ -84,6 +85,10 @@ export const contextDatasourceFactory = (
       switchMap(inlineContext => inlineContextResolver.resolve(inlineContext).pipe(
         take(1)
       ))
+    ),
+    getBindings: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata: Map<string, any> }) => of([]).pipe(
+      map(() => new ContextDatasource(attributeSerializer.deserializeAsObject(settings))),
+      map(ds => [ new ContentBinding({ id: ds.name, type: 'context' }) ])
     )
   });
 };

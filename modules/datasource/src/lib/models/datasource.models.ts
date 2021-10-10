@@ -4,16 +4,18 @@ import { Param } from 'dparam';
 import { Plugin } from 'plugin';
 import { Type } from '@angular/core';
 import { AttributeValue } from 'attributes';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 export class DatasourcePlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
   fetch: ({ settings, dataset, metadata }: { settings: Array<AttributeValue>, dataset?: Dataset, metadata?: Map<string, any> }) => Observable<Dataset>;
+  getBindings?: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => Observable<Array<ContentBinding>>;
   constructor(data?: DatasourcePlugin<T>) {
     super(data)
     if(data) {
       this.editor = data.editor;
       this.fetch = data.fetch;
+      this.getBindings = data.getBindings ? data.getBindings : () => of([]);
     }
   }
 }
