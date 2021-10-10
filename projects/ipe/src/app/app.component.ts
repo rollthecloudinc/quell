@@ -1,4 +1,5 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, PLATFORM_ID, Inject } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { AuthFacade } from 'auth';
 import { Router } from '@angular/router';
 import { PublicApiBridgeService } from 'bridge';
@@ -17,11 +18,14 @@ export class AppComponent implements OnInit {
   @Output()
   menuClicked = new EventEmitter();
   constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
     private authFacade: AuthFacade, 
     private router: Router,
     publicApiBridge: PublicApiBridgeService
   ) {
-    bridge = publicApiBridge;
+    if (isPlatformBrowser(platformId)) {
+      bridge = publicApiBridge;
+    }
     /*this.oktaAuth.$authenticationState.subscribe(
       (isAuthenticated: boolean)  => this.isAuthenticated = isAuthenticated
     );*/

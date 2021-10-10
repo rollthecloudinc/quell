@@ -495,6 +495,52 @@
               "devServerTarget": "ipe:serve:production"
             }
           }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/ipe/server",
+            "main": "projects/ipe/src/main.server.ts",
+            "tsConfig": "projects/ipe/tsconfig.server.json"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "bundleDependencies": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/ipe/src/environments/environment.ts",
+                  "with": "projects/ipe/src/environments/environment.prod.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            },
+            "dev": {
+              "outputHashing": "media",
+              "bundleDependencies": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/ipe/src/environments/environment.ts",
+                  "with": "projects/ipe/src/environments/environment.dev.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            },
+            "local.dev": {
+              "outputHashing": "media",
+              "bundleDependencies": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/ipe/src/environments/environment.ts",
+                  "with": "projects/ipe/src/environments/environment.local.dev.ts"
+                }
+              ],
+              "sourceMap": false,
+              "optimization": true
+            }
+          }
         }
       }
     },
