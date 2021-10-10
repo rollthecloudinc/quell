@@ -1,10 +1,12 @@
-import { Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DatasourcePluginManager } from '../../services/datasource-plugin-manager.service';
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { filter, switchMap } from 'rxjs/operators';
-import { DatasourcePlugin } from '../../models/datasource.models';
+import { filter, switchMap, tap } from 'rxjs/operators';
+import { Datasource, DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { ContentBinding } from 'content';
+import { AttributeValue } from 'attributes';
 
 @Component({
   selector: 'classifieds-ui-datasource-form',
@@ -23,7 +25,7 @@ import { BehaviorSubject } from 'rxjs';
     },
   ]
 })
-export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Validator {
+export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
 
   @ViewChild(DatasourceRendererHostDirective, { static: true }) datasourceHost: DatasourceRendererHostDirective;
 
@@ -41,12 +43,59 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
   @Input() bindableOptions: Array<string> = [];
   @Input() contexts: Array<string> = [];
 
+  @Input() set datasource(ds: Datasource) {
+    this.datasource$.next(ds);
+  }
+
+  settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
+
   componentRef$ = new BehaviorSubject<ComponentRef<any>>(undefined);
+  datasource$ = new BehaviorSubject<Datasource>(undefined);
+  afterViewInit$ = new Subject();
 
   contextForwardingSub = this.componentRef$.pipe(
     filter(componentRef => !!componentRef)
   ).subscribe(componentRef => {
     (componentRef.instance as any).contexts = this.contexts;
+    (componentRef.instance as any).settings = this.settings$.value;
+  });
+
+  rendererSub = combineLatest([
+    this.formGroup.get('plugin').valueChanges,
+    this.afterViewInit$
+  ]).pipe(
+    switchMap(([p, _]) => this.dpm.getPlugin(p))
+  ).subscribe(p => {
+    this.renderPlugin(p);
+  });
+
+  settingsSub = combineLatest([
+    this.componentRef$,
+    this.settings$
+  ]).pipe(
+    filter(([componentRef, _]) => !!componentRef)
+  ).subscribe(([componentRef, s]) => {
+    (componentRef.instance as any).settings = s;
+  })
+
+  datasourceSub = this.datasource$.pipe(
+    tap(ds => {
+      setTimeout(() => this.settings$.next(ds ? ds.settings : []));
+    })
+  ).subscribe(ds => {
+    (this.formGroup.get('renderer').get('bindings') as FormArray).clear();
+    if (ds) {
+      this.formGroup.get('plugin').setValue(ds.plugin);
+      this.formGroup.get('renderer').get('type').setValue('pane');
+      if (ds.renderer && ds.renderer.bindings) {
+        ds.renderer.bindings.forEach(b => {
+          this.addBinding(b);
+        });
+      }
+    } else {
+      this.formGroup.get('plugin').setValue('');
+      this.formGroup.get('renderer').get('type').setValue('pane');
+    }
   });
 
   public onTouched: () => void = () => {};
@@ -62,11 +111,10 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
   ) { }
 
   ngOnInit(): void {
-    this.formGroup.get('plugin').valueChanges.pipe(
-      switchMap(p => this.dpm.getPlugin(p))
-    ).subscribe(p => {
-      this.renderPlugin(p);
-    });
+  }
+
+  ngAfterViewInit() {
+    this.afterViewInit$.next();
   }
 
   renderPlugin(plugin: DatasourcePlugin<string>) {
@@ -104,10 +152,10 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     return this.formGroup.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
   }
 
-  addBinding() {
+  addBinding(b?: ContentBinding) {
     this.bindings.push(this.fb.group({
       type: this.fb.control('pane', Validators.required),
-      id: this.fb.control('', Validators.required)
+      id: this.fb.control(b ? b.id : '', Validators.required)
     }));
   }
 

@@ -1,6 +1,9 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { InlineContext } from '../../models/context.models';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
+import { ContextDatasource, InlineContext } from '../../models/context.models';
 
 @Component({
   selector: 'classifieds-ui-context-datasource-form',
@@ -19,23 +22,36 @@ import { InlineContext } from '../../models/context.models';
     },
   ]
 })
-export class ContextDatasourceFormComponent implements OnInit, ControlValueAccessor, Validator {
+export class ContextDatasourceFormComponent implements ControlValueAccessor, Validator {
 
   @Input() contexts: Array<string> = [];
+  @Input() set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
+
+  settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
 
   formGroup = this.fb.group({
     name: this.fb.control('', [ Validators.required ])
   });
 
+  settingsSub = this.settings$.pipe(
+    map(s => s ? new ContextDatasource(this.attributeSerializer.deserializeAsObject(s)) : undefined),
+    delay(1)
+  ).subscribe(ds => {
+    if (ds) {
+      this.formGroup.get('name').setValue(ds.name);
+    } else {
+      this.formGroup.get('name').setValue('');
+    }
+  });
+
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private attributeSerializer: AttributeSerializerService
   ) {}
-
-  ngOnInit() {
-
-  }
 
   writeValue(val: any): void {
     if (val) {

@@ -1,8 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { InlineContext } from 'context';
+import { Datasource } from 'datasource';
+import { DatasourceContentHandler } from '../../../handlers/datasource-content.handler';
 import { Subject } from 'rxjs';
 import { Pane } from '../../../models/panels.models';
 @Component({
@@ -11,6 +13,8 @@ import { Pane } from '../../../models/panels.models';
   styleUrls: ['./datasource-editor.component.scss']
 })
 export class DatasourceEditorComponent implements OnInit {
+
+  datasource: Datasource = new Datasource();
 
   bindableOptions: Array<string> = [];
   contexts: Array<string> = [];
@@ -22,12 +26,19 @@ export class DatasourceEditorComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
     private fb: FormBuilder,
-    private attributeSerializer: AttributeSerializerService 
+    private attributeSerializer: AttributeSerializerService,
+    private datasourceHandler: DatasourceContentHandler
   ) { }
 
   ngOnInit(): void {
     this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
     this.contexts = this.data.contexts.map(c => c.name);
+    if (this.data.panelIndex !== undefined) {
+      const settings = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
+      this.datasourceHandler.toObject(settings).subscribe(ds => {
+        this.datasource = ds;
+      });
+    }
   }
 
   onSubmit() {

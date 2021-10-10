@@ -325,6 +325,6 @@ export class DatasourceContentHandler implements ContentHandler {
   }
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     // What about this?
-    return of({ autocomplete: { input: '' } });
+    return of({ autocomplete: { input: '' }, loading: 'y' });
   }
 }
