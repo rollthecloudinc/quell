@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Snippet } from 'snippet';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeWidget, AttributeTypes } from 'attributes';
@@ -82,5 +82,8 @@ export class AttributeContentHandler implements ContentHandler {
   }
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     return of({});
+  }
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
   }
 }

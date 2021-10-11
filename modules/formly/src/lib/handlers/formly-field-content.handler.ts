@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { Observable, of } from 'rxjs';
@@ -67,6 +67,10 @@ export class FormlyFieldContentHandler implements ContentHandler {
 
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     return of({ autocomplete: { input: '' } });
+  }
+
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
   }
 
 }

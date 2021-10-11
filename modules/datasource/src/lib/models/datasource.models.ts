@@ -10,12 +10,14 @@ export class DatasourcePlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
   fetch: ({ settings, dataset, metadata }: { settings: Array<AttributeValue>, dataset?: Dataset, metadata?: Map<string, any> }) => Observable<Dataset>;
   getBindings?: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => Observable<Array<ContentBinding>>;
+  editorOptions?: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => Observable<DatasourceEditorOptions>
   constructor(data?: DatasourcePlugin<T>) {
     super(data)
     if(data) {
       this.editor = data.editor;
       this.fetch = data.fetch;
       this.getBindings = data.getBindings ? data.getBindings : () => of([]);
+      this.editorOptions = data.editorOptions ? data.editorOptions : () => of(new DatasourceEditorOptions());
     }
   }
 }
@@ -112,6 +114,15 @@ export class Datasource {
       if (data.params) {
         this.params = data.params.map(p => new Param(p));
       }
+    }
+  }
+}
+
+export class DatasourceEditorOptions {
+  fullscreen = false;
+  constructor(data?: DatasourceEditorOptions) {
+    if (data) {
+      this.fullscreen = data.fullscreen;
     }
   }
 }

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 // import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 // import { Snippet } from 'snippet';
 import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
@@ -326,5 +326,14 @@ export class DatasourceContentHandler implements ContentHandler {
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     // What about this?
     return of({ autocomplete: { input: '' }, loading: 'y' });
+  }
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return this.toObject(settings).pipe(
+      switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
+        map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
+      )),
+      switchMap(([ds, p]) => p.editorOptions ? p.editorOptions({ settings: ds.settings }) : of(undefined)),
+      map(o => new ContentPluginEditorOptions({ fullscreen: o ? o.fullscreen : false }))
+    );
   }
 }

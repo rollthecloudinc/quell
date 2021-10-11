@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { FilesService, MediaFile } from 'media';
@@ -67,6 +67,10 @@ export class MediaContentHandler implements ContentHandler {
       loadError: 'n',
       loadDuration: 'y'
     });
+  }
+
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
   }
 
 }

@@ -14,6 +14,7 @@ export interface ContentHandler {
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any>;
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>>;
   stateDefinition(settings: Array<AttributeValue>): Observable<any>;
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions>;
 }
 
 export class ContentPlugin<T = string> extends Plugin<T> {
@@ -77,3 +78,12 @@ export class ContentInstance {
     }
   }
 }*/
+
+export class ContentPluginEditorOptions {
+  fullscreen = false;
+  constructor(data?: ContentPluginEditorOptions) {
+    if (data) {
+      this.fullscreen = data.fullscreen;
+    }
+  }
+}

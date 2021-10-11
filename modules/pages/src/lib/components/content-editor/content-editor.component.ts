@@ -4,7 +4,7 @@ import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
-import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager } from 'content';
+import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from 'content';
 import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent } from 'panels';
 import { TokenizerService } from 'token';
 import { SITE_NAME } from 'utils';
@@ -840,6 +840,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
           this.resolvePaneContexts(index, index2);
         })
     }*/
+            /*maxWidth: '100vw',
+        maxHeight: '100vh',
+        height: '100%',
+        width: '100%'*/
     this.cpm.getPlugin(plugin).pipe(
       filter(p => p.editorComponent !== undefined),
       switchMap(p => this.pageBuilderFacade.getPage$.pipe(
@@ -849,7 +853,14 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
         )),
         take(1)
       )),
-    ).subscribe(([p, paneContexts]) => {
+      switchMap(([p, paneContexts]) => 
+        p.handler ? 
+        p.handler.editorOptions(pane.settings).pipe(
+          map<ContentPluginEditorOptions, [ContentPlugin<string>, Iterable<InlineContext>, ContentPluginEditorOptions]>(editorOptions => [p, paneContexts, editorOptions])
+        ):
+        of<[ContentPlugin<string>, Iterable<InlineContext>, ContentPluginEditorOptions]>([p, paneContexts, new ContentPluginEditorOptions()])
+      )
+    ).subscribe(([p, paneContexts, editorOptions]) => {
       this.dialog.open(
         p.editorComponent,
         { data: {
@@ -858,7 +869,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
           paneIndex: index2,
           contexts: [ ...( editablePane.rootContext ? [ editablePane.rootContext ] : this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ],
           contentAdded: this.contentAdded, pane
-        }
+        },
+        ...( editorOptions.fullscreen ? { maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' } : {} )
       })
         .afterClosed()
         .subscribe(() => {

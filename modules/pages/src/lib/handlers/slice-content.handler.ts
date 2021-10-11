@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
 import { InlineContext } from 'context';
 import { TokenizerService } from 'token';
@@ -114,6 +114,10 @@ export class SliceContentHandler implements ContentHandler {
 
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     return of({});
+  }
+
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
   }
 
 }

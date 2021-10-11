@@ -1,5 +1,5 @@
 import { AttributeValue } from 'attributes';
-import { Dataset, DatasourcePlugin } from 'datasource';
+import { Dataset, DatasourcePlugin, DatasourceEditorOptions } from 'datasource';
 import { of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
@@ -11,6 +11,7 @@ export const restDatasourcePluginFactory = (fetchhelper: RestFetchHelperService)
     id: 'rest', 
     title: 'Rest', 
     editor: RestDatasourceComponent,
-    fetch: ({ settings }: { settings: Array<AttributeValue> }) => fetchhelper.fetchDataset({ settings })
+    fetch: ({ settings }: { settings: Array<AttributeValue> }) => fetchhelper.fetchDataset({ settings }),
+    editorOptions: () => of(new DatasourceEditorOptions({ fullscreen: true }))
   });
 };

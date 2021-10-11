@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { ContentHandler, ContentBinding } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Snippet } from 'snippet';
 import { Rest, Dataset, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
@@ -182,5 +182,8 @@ export class RestContentHandler implements ContentHandler {
   }
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
     return of({ autocomplete: { input: '' } });
+  }
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
   }
 }
