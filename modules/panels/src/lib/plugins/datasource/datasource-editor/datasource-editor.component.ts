@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { InlineContext } from 'context';
 import { Datasource } from 'datasource';
@@ -25,6 +25,7 @@ export class DatasourceEditorComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
+    private dialogRef: MatDialogRef<DatasourceEditorComponent>,
     private fb: FormBuilder,
     private attributeSerializer: AttributeSerializerService,
     private datasourceHandler: DatasourceContentHandler
@@ -57,6 +58,7 @@ export class DatasourceEditorComponent implements OnInit {
       (paneForm.get('settings') as FormArray).clear();
       sourceSettings.attributes.forEach(a => (paneForm.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a)));
     }
+    this.dialogRef.close();
   }
 
 }

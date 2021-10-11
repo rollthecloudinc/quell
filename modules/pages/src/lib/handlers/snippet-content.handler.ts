@@ -82,7 +82,7 @@ export class SnippetContentHandler implements ContentHandler {
   }
 
   editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
-    return of(new ContentPluginEditorOptions());
+    return of(new ContentPluginEditorOptions({ fullscreen: true }));
   }
 
 }

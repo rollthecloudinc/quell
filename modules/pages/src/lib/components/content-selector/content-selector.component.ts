@@ -45,7 +45,17 @@ export class ContentSelectorComponent implements OnInit {
       this.renderSelectionComponent();
     } else if(this.plugin.editorComponent !== undefined) {
       this.bottomSheetRef.dismiss();
-      const dialogRef = this.dialog.open(this.plugin.editorComponent, { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded } });
+      if (plugin.handler) {
+        this.plugin.handler.editorOptions([]).subscribe(o => {
+          const dialogRef = this.dialog.open(
+            this.plugin.editorComponent, 
+            { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded },
+            ...(o.fullscreen ? { maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' } : {})
+          });
+        });
+      } else {
+        const dialogRef = this.dialog.open(this.plugin.editorComponent, { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded } });
+      }
     } else {
       (this.data.panelForm.get('panes') as FormArray).push(this.fb.group({
         contentProvider: this.plugin.id,
