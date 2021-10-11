@@ -1,16 +1,17 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Panel, Pane } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
 import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { switchMap, map, filter, debounceTime, tap, delay } from 'rxjs/operators';
-import { Subscription, Subject, BehaviorSubject } from 'rxjs';
+import { switchMap, map, filter, debounceTime, tap, delay, takeUntil, startWith } from 'rxjs/operators';
+import { Subscription, Subject, BehaviorSubject, Observable } from 'rxjs';
 import { PanelResolverService } from '../../services/panel-resolver.service';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { StyleResolverService } from '../../services/style-resolver.service';
+import { RenderPaneComponent } from '../render-pane/render-pane.component';
 
 @Component({
   selector: 'classifieds-ui-render-panel',
@@ -34,7 +35,7 @@ import { StyleResolverService } from '../../services/style-resolver.service';
     '[attr.data-index]': 'indexPosition'
   }
 })
-export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAccessor, Validator  {
+export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor, Validator  {
 
   static COUNTER = 0;
 
@@ -73,6 +74,8 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     return `panel-${this.indexPosition}`;
   }
 
+  @ViewChildren(RenderPaneComponent) renderedPanes: QueryList<RenderPaneComponent>;
+
   panelForm = this.fb.group({
     name: this.fb.control(''),
     label: this.fb.control(''),
@@ -87,6 +90,15 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
   panes: Array<Pane>;
 
   filteredCss: JSONNode;
+  
+  /*initialRenderComplete = setInterval(() => {
+    console.log(`check pane initial render [${this.panel.name}]`);
+    console.log(`expected: ${this.resolvedPanes !== undefined ? this.resolvedPanes.length : 'null'} | actual ${this.renderedPanes.length}`);
+    if (this.resolvedPanes !== undefined && this.renderedPanes.length === this.resolvedPanes.length) {
+      console.log(`COMPLETE: check pane initial render [${this.panel.name}]`);
+      clearInterval(this.initialRenderComplete);
+    }
+  }, 250);*/
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
   cssSub = this.css$.pipe(
@@ -129,12 +141,14 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
     this.originMappings = originMappings;
     this.resolvedContexts = resolvedContexts;
     if(this.paneContainer && this.stylePlugin === undefined) {
-      setTimeout(() => this.heightChange.emit(this.paneContainer.nativeElement.offsetHeight));
+      // setTimeout(() => this.heightChange.emit(this.paneContainer.nativeElement.offsetHeight));
     }
     this.populatePanesFormArray();
     if(this.stylePlugin !== undefined) {
       this.renderPanelContent();
     }
+
+    // clearInterval(this.initialRenderComplete);
   });
 
   schduleContextChangeSub: Subscription;
@@ -241,6 +255,9 @@ export class RenderPanelComponent implements OnInit, OnChanges, ControlValueAcce
         this.ancestoryWithSelf = ancestoryWithSelf;
       }
     }
+  }
+
+  ngAfterViewInit() {
   }
 
   writeValue(val: any): void {

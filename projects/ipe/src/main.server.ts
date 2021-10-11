@@ -1,10 +1,11 @@
+import 'zone.js/dist/zone-node';
+
 import { renderModule, renderModuleFactory } from '@angular/platform-server';
 import { environment } from './environments/environment';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import { AppServerModule } from './app/app.server.module';
 
 // import 'localstorage-polyfill';
-import 'zone.js/dist/zone-node';
 import * as express from 'express';
 // const { ngExpressEngine, AppServerModule, enableProdMode } = require('../../../dist/ipe/server/main');
 import { APP_BASE_HREF } from '@angular/common';
@@ -14,7 +15,7 @@ import { enableProdMode } from '@angular/core';
 const cookieParser = require('cookie-parser');
 
 // @todo: Required for https to function locally. Need to revisit on prod environment.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+// process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 /*winston.add(new Loggly({
   token: 'fffe7bd7-80d7-67fg-baef-b1c80f4d59xx',
