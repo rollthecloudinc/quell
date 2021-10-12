@@ -72,8 +72,9 @@ export class VirtualListPanelRendererComponent implements OnInit {
         this.cpm.getPlugins(this.originPanes.reduce<Array<string>>((p, c) => {
           return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
         }, [])).pipe(
-          map(plugins => this.originPanes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings))),
-          switchMap(staticPanes => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['contexts', this.contexts] ])))
+          map(plugins => [plugins, this.originPanes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings))]),
+          map<[Map<string, ContentPlugin<string>>, Array<Pane>], [Array<Pane>, Array<Pane>]>(([plugins, staticPanes]) => [staticPanes, this.originPanes.filter(p => plugins.get(p.contentPlugin).handler !== undefined && plugins.get(p.contentPlugin).handler.isData(p.settings))]),
+          switchMap(([staticPanes, dataPanes]) => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['dataPanes', dataPanes], ['contexts', this.contexts] ])))
         )
       ),
       map(items => this.panelHandler.fromPanes(items)),

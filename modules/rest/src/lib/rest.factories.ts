@@ -11,7 +11,7 @@ export const restDatasourcePluginFactory = (fetchhelper: RestFetchHelperService)
     id: 'rest', 
     title: 'Rest', 
     editor: RestDatasourceComponent,
-    fetch: ({ settings }: { settings: Array<AttributeValue> }) => fetchhelper.fetchDataset({ settings }),
+    fetch: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata: Map<string, any> }) => fetchhelper.fetchDataset({ settings, metadata }),
     editorOptions: () => of(new DatasourceEditorOptions({ fullscreen: true }))
   });
 };

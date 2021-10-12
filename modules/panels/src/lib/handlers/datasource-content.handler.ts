@@ -329,10 +329,10 @@ export class DatasourceContentHandler implements ContentHandler {
   }
   editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
     return this.toObject(settings).pipe(
-      switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
+      switchMap(ds => this.dpm.getPlugin(ds && ds.plugin ? ds.plugin : 'data').pipe(
         map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
       )),
-      switchMap(([ds, p]) => p.editorOptions ? p.editorOptions({ settings: ds.settings }) : of(undefined)),
+      switchMap(([ds, p]) => p.editorOptions ? p.editorOptions({ settings: ds && ds.settings ? ds.settings: [] }) : of(undefined)),
       map(o => new ContentPluginEditorOptions({ fullscreen: o ? o.fullscreen : false }))
     );
   }
