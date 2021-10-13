@@ -62,13 +62,13 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   label: string;
 
   @Input()
-  resolvedContext: any;
-
-  @Input()
   indexPosition: number;
 
   @Input()
   ancestory: Array<number> = [];
+
+  @Input()
+  resolvedContext = {};
 
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
@@ -237,7 +237,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   resolveNestedPanelPage() {
     this.panelHandler.toObject(this.settings).subscribe(p => {
-      this.panelPage = p;
+      this.panelPage = new PanelPage({ ...p, contexts: this.contexts });
     });
   }
 

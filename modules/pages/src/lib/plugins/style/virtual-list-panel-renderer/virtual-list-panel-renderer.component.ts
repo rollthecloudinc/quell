@@ -1,12 +1,9 @@
-import { Component, OnInit, Input, Inject, OnChanges, SimpleChanges } from '@angular/core';
-import * as uuid from 'uuid';
-import { AttributeValue, AttributeMatcherService } from 'attributes';
-import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { Component, OnInit, Input } from '@angular/core';
+import { AttributeValue } from 'attributes';
 import { TokenizerService } from 'token';
-import { InlineContext, InlineContextResolverService } from 'context';
-import { Pane, Panel, PanelContentHandler, PanelResolverService, StyleResolverService, PaneDatasourceService } from 'panels';
-import { filter, concatMap, map, take, skip, tap, switchMap } from 'rxjs/operators';
-import { VirtualListItem } from '../../../models/style/virtual-list.models';
+import { InlineContext } from 'context';
+import { Pane, Panel, PanelResolverService, StyleResolverService, PaneDatasourceService } from 'panels';
+import { skip, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'classifieds-ui-virtual-list-panel-renderer',
@@ -32,38 +29,28 @@ export class VirtualListPanelRendererComponent implements OnInit {
   contexts: Array<InlineContext>;
 
   @Input()
-  resolvedContexts = [];
-
-  @Input()
   resolvedContext = {};
 
   @Input()
   panel: Panel;
 
-  trackByMapping: (index: number, pane: VirtualListItem) => string;
-
-  // private contentPlugins: Array<ContentPlugin>;
+  trackByMapping: (index: number, pane: Pane) => string;
   private trackByTpl: string;
 
   constructor(
-    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
-    private panelHandler: PanelContentHandler,
     private tokenizerService: TokenizerService,
-    private attributeMatcher: AttributeMatcherService,
-    private cpm: ContentPluginManager,
     private panelResolverService: PanelResolverService,
-    private inlineContextResolver: InlineContextResolverService,
     private styleResolverService: StyleResolverService,
     public paneDatasource: PaneDatasourceService
   ) {
-    // this.contentPlugins = contentPlugins;
-    /*this.trackByMapping = (index: number, vlp: VirtualListItem): string => {
+    /*this.trackByMapping = (index: number, pane: Pane): string => {
       // Changing this to root lookup for now...
       // return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
-      console.log(`index is: ${index}`);
-      console.log(vlp);
-      console.log(this.tokenizerService.generateGenericTokens(vlp.resolvedContext));
-      return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(vlp.resolvedContext));
+      console.log(`track by item: ${this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.resolvedContext))}`);
+      const tokens = this.tokenizerService.generateGenericTokens(pane.resolvedContext);
+      const mapping = this.tokenizerService.replaceTokens(this.trackByTpl, tokens);
+      console.log(`track by: ${mapping} | name: ${tokens.get('._root.name')}`);
+      return mapping;
     };*/
   }
 
@@ -72,34 +59,15 @@ export class VirtualListPanelRendererComponent implements OnInit {
     this.paneDatasource.pageChange$.pipe(
       skip(1),
       switchMap(page => this.panelResolverService.resolvePanes({ panes: this.originPanes.map(p => new Pane({ ...p, metadata: new Map<string, any>([ ...(p.metadata ? p.metadata : []), ['page', page], ['limit', this.paneDatasource.pageSize] ]) })), contexts: this.contexts, resolvedContext: this.resolvedContext })),
-      switchMap(({ resolvedPanes, originMappings /*, resolvedContexts */ }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings /*, resolvedContexts */ })),
-    ).subscribe(({ resolvedPanes, originMappings /*, resolvedContexts */ }) => {
+      switchMap(({ resolvedPanes, originMappings }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings })),
+    ).subscribe(({ resolvedPanes, originMappings }) => {
       this.originMappings = originMappings;
       this.paneDatasource.panes = resolvedPanes;
     });
 
     this.paneDatasource.panes = this.panes;
-    // this.trackByTpl = '[_root.id]'; // this needs to be a style option.
+    this.trackByTpl = '[._root.id]';
 
-  }
-
-  /*trackByName(index: number, pane: Pane): string {
-    // return pane.name;
-    // return pane.contexts[0].data.id;
-    return this.tokenizerService.replaceTokens(this.tokenizerService.generateGenericTokens());
-  }*/
-
-  mergeContexts(contexts: Array<InlineContext>): Array<InlineContext> {
-    if(contexts === undefined && this.contexts === undefined) {
-      return undefined;
-    } else if(contexts !== undefined && this.contexts !== undefined) {
-      return [ ...contexts, ...this.contexts ];
-    } else if(contexts !== undefined) {
-      return contexts;
-    } else {
-      return this.contexts;
-    }
-    //return [ ...( this.contexts !== undefined ? this.contexts.map(c => new InlineContext(c)) : [] ), ...( contexts !== undefined ? contexts.map(c => new InlineContext(c)) : [] ) ];
   }
 
 }

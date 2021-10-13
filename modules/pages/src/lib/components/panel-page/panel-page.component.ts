@@ -10,7 +10,7 @@ import { PanelPage, Pane, LayoutSetting, PanelsContextService } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
-import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable } from 'rxjs';
+import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
@@ -54,7 +54,14 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   nested = false;
 
   @Input()
-  contexts: Array<InlineContext>;
+  contexts: Array<InlineContext> = [];
+  /*@Input()
+  set contexts(contexts: Array<InlineContext>) {
+    this.contexts$.next(contexts);
+  }
+  get contexts(): Array<InlineContext> {
+    return this.contexts$.value;
+  }*/
 
   @Input()
   ancestory: Array<number> = [];
@@ -63,9 +70,20 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     this.css$.next(css);
   }
 
-  resolvedContext: any;
+  /*@Input()
+  set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
+  get resolvedContexts(): any {
+    return this.resolvedContext$.value;
+  }*/
+  @Input()
+  resolvedContext = {};
+
   contextChanged: { name: string };
   layoutRendererRef: ComponentRef<any>;
+  //contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+  //resolvedContext$ = new BehaviorSubject<any>({});
 
   filteredCss: JSONNode;
 
@@ -159,6 +177,13 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     console.log(newGroup.value);
   });
 
+  /*scheduleContextChangeSub = combineLatest([
+    this.contexts$,
+    this.resolvedContext$
+  ]).subscribe(() => {
+    this.hookupContextChange();
+  });*/
+
   @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
   @ViewChild('renderPanelTpl', { static: true }) renderPanelTpl: TemplateRef<any>;
   @ViewChild(LayoutRendererHostDirective, { static: false }) layoutRendererHost: LayoutRendererHostDirective;
@@ -234,7 +259,10 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     }
     if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
       console.log(`assign panel page to renderer ref - passthur`);
-      (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
+      // (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
+      this.populatePanelsFormArray();
+      this.renderLayoutRenderer(this.panelPage.layoutType);
+      this.hookupContextChange();
     }
   }
 
@@ -297,6 +325,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
       this.resolveSub.unsubscribe();
     }
     this.inlineContextResolver.resolveMerged(this.contexts, `panelpage:${uuid.v4()}`).pipe(
+      // map(resolvedContext => ({ ...this.resolvedContext, ...resolvedContext })),
       switchMap(resolvedContext => this.cxm.getPlugins().pipe(
         map(plugins => [resolvedContext, Array.from(plugins.values()).filter(p => p.global === true)])
       )),
