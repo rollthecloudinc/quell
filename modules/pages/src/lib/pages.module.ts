@@ -19,7 +19,7 @@ import { SnippetModule } from 'snippet';
 import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
-import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
+import { STYLE_PLUGIN } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GridsterModule } from 'angular-gridster2';
 import { EntityDefinitionService } from '@ngrx/data';
@@ -79,21 +79,17 @@ import { ContextDialogComponent } from './components/context-dialog/context-dial
 import { ContextEditorComponent } from './components/context-editor/context-editor.component';
 import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';
-import { PanelResolverService } from './services/panel-resolver.service';
 import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel-props-dialog.component';
 import { PanePropsDialogComponent } from './components/pane-props-dialog/pane-props-dialog.component';
 import { PluginConfigurationManager, PluginConfig } from 'plugin';
-import { InlineContextResolverService } from './services/inline-context-resolver.service';
-import { RulesResolverService } from './services/rules-resolver.service';
 import { LayoutEditorHostDirective } from './directives/layout-editor-host.directive';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 import { PageStateFormComponent } from './components/page-state-form/page-state-form.component';
-import { PanelsModule, PanelContentHandler } from 'panels';
+import { PanelsModule, PanelContentHandler, StylePlugin, StylePluginManager } from 'panels';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
-import { StyleResolverService } from './services/style-resolver.service';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
@@ -166,12 +162,8 @@ const routes = [
     PageContextResolver,
     RestContextResolver,
     FormContextResolver,
-    PanelResolverService,
     PaneStateContextResolver,
     PageStateContextResolver,
-    InlineContextResolverService,
-    RulesResolverService,
-    StyleResolverService,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageComponent, multi: true },

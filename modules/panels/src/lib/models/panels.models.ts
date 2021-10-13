@@ -147,6 +147,7 @@ export class Pane {
   contexts?: Array<InlineContext> = [];
   rule?: RuleSet;
   nestedPage?: PanelPage;
+  resolvedContext?: any;
   constructor(data?: Pane) {
     if(data) {
       this.name = data.name;
@@ -157,7 +158,7 @@ export class Pane {
         this.linkedPageId = data.linkedPageId;
       }
       if(data.metadata !== undefined) {
-        this.metadata = new Map(...data.metadata);
+        this.metadata = new Map([ ...data.metadata ]);
       }
       if(data.settings !== undefined) {
         this.settings = data.settings.map(a => new AttributeValue(a));
@@ -170,6 +171,9 @@ export class Pane {
       }
       if (data.nestedPage) {
         this.nestedPage = new PanelPage(data.nestedPage);
+      }
+      if (data.resolvedContext) {
+        this.resolvedContext = { ...data.resolvedContext };
       }
     }
   }

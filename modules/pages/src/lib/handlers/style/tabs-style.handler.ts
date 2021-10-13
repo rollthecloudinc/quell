@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AttributeValue, AttributeSerializerService, AttributeTypes } from 'attributes';
-import { Pane, Panel, PanelPage, PanelPageSelector, PanelsLoaderService, PanelsSelectorService } from 'panels';
+import { Pane, Panel, PanelPage, PanelPageSelector, PanelsLoaderService, PanelsSelectorService, StyleHandler } from 'panels';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, map, tap } from 'rxjs/operators';
-import { StyleHandler } from 'style';
 import { PanelContentHandler } from '../panel-content.handler';
 
 @Injectable()
@@ -15,11 +14,8 @@ export class TabsStyleHandler implements StyleHandler {
     private panelsSelectorService: PanelsSelectorService
   ) {}
   alterResolvedPanes(
-    settings: Array<AttributeValue>,
-    resolvedPanes: Array<Pane>, 
-    originMappings: Array<number>,
-    resolvedContexts: Array<any>
-  ): Observable<[Array<Pane>, Array<number>, Array<any>]> {
+    { settings, resolvedPanes, originMappings /*, resolvedContexts */ }: { settings: Array<AttributeValue>, resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any> */ }
+  ): Observable<{ resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any> */ }> {
 
     // this.panelHandler.toObject();
     const obj = this.attributeSerializer.deserialize(new AttributeValue({ name: '', displayName: '', computedValue: '', type: AttributeTypes.Complex, value: '', intValue: 0, attributes: settings }));
@@ -32,7 +28,7 @@ export class TabsStyleHandler implements StyleHandler {
     if(selectors.length === 0) {
       // Short circuit - no need to manipulate at this point - path of least resistence? :/
       // We could try to dynamically create the titles but I think that is more trouble than its worth.
-      return of([resolvedPanes, originMappings, resolvedContexts]);
+      return of({ resolvedPanes, originMappings /*, resolvedContexts */ });
     } else {
       // attempt rebuild to support dynamic panes automatically like those generated from rest.
       if(resolvedPanes.length !== selectors.length) {
@@ -88,7 +84,7 @@ export class TabsStyleHandler implements StyleHandler {
           rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt[i]) }));
           rebuildResolvedPanes.push(new Pane({ ...resolvedPanes[i], settings: this.panelHandler.buildSettings(rebuilt2[i]) }));
         }
-        return [rebuildResolvedPanes, originMappings, resolvedContexts]
+        return { resolvedPanes: rebuildResolvedPanes, originMappings /*, resolvedContexts */ };
       })
     );/*.subscribe(v => {
       console.log(`reduced panes 2`);
@@ -133,7 +129,7 @@ export class TabsStyleHandler implements StyleHandler {
     console.log('TabsStyleHandler::alterResolvedPanes');
     console.log(resolvedPanes);
     console.log(originMappings);
-    console.log(resolvedContexts);
+    //console.log(resolvedContexts);
     // @todo: support linked pages
     /*const nestedPages$: Array<Observable<[Pane, PanelPage]>> = resolvedPanes.map(p => p.contentPlugin === 'panel' ? this.panelHandler.toObject(p.settings).pipe(map<PanelPage, [Pane, PanelPage]>(page => [p, page])) : undefined).filter(p => p !== undefined);
     return forkJoin(nestedPages$).pipe(
@@ -148,7 +144,7 @@ export class TabsStyleHandler implements StyleHandler {
       }),
       map(rebuiltPanes => [ rebuiltPanes, originMappings, resolvedContexts])
     );*/
-    return of([resolvedPanes, originMappings, resolvedContexts]);
+    return of({ resolvedPanes, originMappings /*, resolvedContexts */ });
   }
 
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {

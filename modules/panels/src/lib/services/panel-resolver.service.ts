@@ -1,14 +1,16 @@
 import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
 import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from 'content';
-import { InlineContext } from 'context';
-import { Pane, PanelContentHandler } from 'panels';
+import { InlineContext, InlineContextResolverService } from 'context';
+import { Pane } from '../models/panels.models';
+import { PanelContentHandler } from '../handlers/panel-content.handler';
+import { RulesResolverService } from 'rules';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';
 import { of, forkJoin, Observable, iif } from 'rxjs';
-import { RulesResolverService } from './rules-resolver.service';
-import { InlineContextResolverService } from '../services/inline-context-resolver.service';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class PanelResolverService {
 
   // ontentPlugins: Array<ContentPlugin> = [];
@@ -72,7 +74,9 @@ export class PanelResolverService {
     }, []));
   }
 
-  resolvePanes(panes: Array<Pane>, contexts: Array<InlineContext>, resolvedContext: any): Observable<[Array<Pane>, Array<number>, Array<any>]> {
+  resolvePanes(
+    { panes, contexts, resolvedContext }: { panes: Array<Pane>, contexts: Array<InlineContext>, resolvedContext: any}
+  ): Observable<{ resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any> */ }> {
     /*const staticPanes = panes.reduce<Array<Pane>>((p, c) => {
       const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
       if(plugin.handler === undefined || !plugin.handler.isDynamic(c.settings)) {
@@ -156,14 +160,14 @@ export class PanelResolverService {
         ]).pipe(
           map(pc => [paneGroups, pc.map(c => ({ ...c, ...resolvedContext }))])
         )),*/
-        map<[Array<Array<Pane>>, Array<any>],[Array<Pane>, Array<number>, Array<any>]>(([paneGroups, resolvedContexts]) => {
+        map<[Array<Array<Pane>>, Array<any>],{ resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any>*/ }>(([paneGroups, resolvedContexts]) => {
           let resolvedPanes = [];
           let originMappings = [];
           paneGroups.forEach((panes, index) => {
-            resolvedPanes = [ ...(resolvedPanes === undefined ? [] : resolvedPanes), ...panes ];
+            resolvedPanes = [ ...(resolvedPanes === undefined ? [] : resolvedPanes), ...panes.map((p, index2) => new Pane({ ...p, resolvedContext: resolvedContexts[resolvedPanes.length + index2] })) ];
             originMappings = [ ...(originMappings ? [] : originMappings), ...panes.map(() => index)];
           });
-          return [resolvedPanes, originMappings, resolvedContexts];
+          return { resolvedPanes, originMappings /*, resolvedContexts */ };
         })
       ))
     );

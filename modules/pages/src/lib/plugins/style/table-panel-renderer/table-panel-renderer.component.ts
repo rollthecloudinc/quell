@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pane, PanelStyleRendererBaseComponent } from 'panels';
+import { Pane, PanelStyleRendererBaseComponent, PaneDatasourceService  } from 'panels';
 import { TokenizerService } from 'token';
-import { PaneDatasourceService } from '../../../services/pane-datasource.service';
 
 @Component({
   selector: 'lib-table-panel-renderer',

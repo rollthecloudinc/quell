@@ -6,6 +6,7 @@ import { Snippet } from 'snippet';
 import { Rest, Dataset, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';
+import { RulesResolverService } from 'rules';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
@@ -16,7 +17,6 @@ import { PageBuilderPartialState } from '../features/page-builder/page-builder.r
 import { TokenizerService } from 'token';
 import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler  } from 'panels';
 import { UrlGeneratorService } from 'durl';
-import { RulesResolverService } from '../services/rules-resolver.service';
 
 @Injectable()
 export class RestContentHandler implements ContentHandler {

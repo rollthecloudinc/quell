@@ -1,13 +1,13 @@
-/*import { Type } from '@angular/core';
+import { Type } from '@angular/core';
 import { Plugin } from 'plugin';
-import { Pane, Panel } from 'panels';
+import { Pane, Panel } from '../models/panels.models';
 import { Observable } from 'rxjs';
 import { AttributeValue } from 'attributes';
 
 export interface StyleHandler {
   alterResolvedPanes(
-    { settings, resolvedPanes, originMappings, resolvedContexts }: { settings: Array<AttributeValue>, resolvedPanes: Array<Pane>, originMappings: Array<number>, resolvedContexts: Array<any> }
-  ): Observable<{ resolvedPanes: Array<Pane>, originMappings: Array<number>, resolvedContexts: Array<any> }>;
+    { settings, resolvedPanes, originMappings /*, resolvedContexts */}: { settings: Array<AttributeValue>, resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any> */ }
+  ): Observable<{ resolvedPanes: Array<Pane>, originMappings: Array<number> /*, resolvedContexts: Array<any> */ }>;
   stateDefinition(settings: Array<AttributeValue>): Observable<any>;
 }
 export class StylePlugin<T = string> extends Plugin<T> {
@@ -28,4 +28,4 @@ export class StylePlugin<T = string> extends Plugin<T> {
       }
     }
   }
-}*/
+}

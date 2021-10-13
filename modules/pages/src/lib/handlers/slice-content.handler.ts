@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
-import { InlineContext } from 'context';
+import { InlineContext, InlineContextResolverService } from 'context';
 import { TokenizerService } from 'token';
 import { MediaFile } from 'media';
 import { SITE_NAME } from 'utils';
@@ -11,7 +11,6 @@ import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
 import { MediaContentHandler } from './media-content.handler';
 import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from 'panels';
-import { InlineContextResolverService } from '../services/inline-context-resolver.service';
 
 @Injectable()
 export class SliceContentHandler implements ContentHandler {

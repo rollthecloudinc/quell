@@ -3,10 +3,11 @@ import * as uuid from 'uuid';
 import { AttributeValue, AttributeMatcherService } from 'attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { TokenizerService } from 'token';
-import { InlineContext } from 'context';
-import { Pane, PanelContentHandler } from 'panels';
-import { PaneDatasourceService } from '../../../services/pane-datasource.service';
+import { InlineContext, InlineContextResolverService } from 'context';
+import { Pane, Panel, PanelContentHandler, PanelResolverService, StyleResolverService, PaneDatasourceService } from 'panels';
 import { filter, concatMap, map, take, skip, tap, switchMap } from 'rxjs/operators';
+import { VirtualListItem } from '../../../models/style/virtual-list.models';
+
 @Component({
   selector: 'classifieds-ui-virtual-list-panel-renderer',
   templateUrl: './virtual-list-panel-renderer.component.html',
@@ -30,7 +31,16 @@ export class VirtualListPanelRendererComponent implements OnInit {
   @Input()
   contexts: Array<InlineContext>;
 
-  trackByMapping: (index: number, pane: Pane) => string;
+  @Input()
+  resolvedContexts = [];
+
+  @Input()
+  resolvedContext = {};
+
+  @Input()
+  panel: Panel;
+
+  trackByMapping: (index: number, pane: VirtualListItem) => string;
 
   // private contentPlugins: Array<ContentPlugin>;
   private trackByTpl: string;
@@ -41,50 +51,35 @@ export class VirtualListPanelRendererComponent implements OnInit {
     private tokenizerService: TokenizerService,
     private attributeMatcher: AttributeMatcherService,
     private cpm: ContentPluginManager,
+    private panelResolverService: PanelResolverService,
+    private inlineContextResolver: InlineContextResolverService,
+    private styleResolverService: StyleResolverService,
     public paneDatasource: PaneDatasourceService
   ) {
     // this.contentPlugins = contentPlugins;
-    this.trackByMapping = (index: number, pane: Pane): string => {
-      return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
-    };
+    /*this.trackByMapping = (index: number, vlp: VirtualListItem): string => {
+      // Changing this to root lookup for now...
+      // return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(pane.contexts[0].data));
+      console.log(`index is: ${index}`);
+      console.log(vlp);
+      console.log(this.tokenizerService.generateGenericTokens(vlp.resolvedContext));
+      return this.tokenizerService.replaceTokens(this.trackByTpl, this.tokenizerService.generateGenericTokens(vlp.resolvedContext));
+    };*/
   }
 
   ngOnInit(): void {
 
-    /*const staticPanes = this.originPanes.reduce<Array<Pane>>((p, c) => {
-      const plugin = this.contentPlugins.find(cp => cp.name === c.contentPlugin);
-      if(plugin.handler === undefined || !plugin.handler.isDynamic(c.settings)) {
-        return [ ...p, c ];
-      } else {
-        return [ ...p ];
-      }
-    }, []);*/
-
     this.paneDatasource.pageChange$.pipe(
       skip(1),
-      tap(page => console.log(page)),
-      filter(() => this.originPanes !== undefined && this.originPanes[0] !== undefined),
-      switchMap(page => this.cpm.getPlugin(this.originPanes[0].contentPlugin).pipe(
-        map(p => [p, page])
-      )),
-      filter<[ContentPlugin, number]>(([contentPlugin, page]) => contentPlugin !== undefined && contentPlugin.handler !== undefined && this.originPanes.length > 0 && contentPlugin.handler.isDynamic(this.originPanes[0].settings)),
-      concatMap(([contentPlugin, page]) =>
-        this.cpm.getPlugins(this.originPanes.reduce<Array<string>>((p, c) => {
-          return p.findIndex(cp => cp === c.contentPlugin) === -1 ? [ ...p, c.contentPlugin] : [ ...p ];
-        }, [])).pipe(
-          map(plugins => [plugins, this.originPanes.filter(p => plugins.get(p.contentPlugin).handler === undefined || !plugins.get(p.contentPlugin).handler.isDynamic(p.settings))]),
-          map<[Map<string, ContentPlugin<string>>, Array<Pane>], [Array<Pane>, Array<Pane>]>(([plugins, staticPanes]) => [staticPanes, this.originPanes.filter(p => plugins.get(p.contentPlugin).handler !== undefined && plugins.get(p.contentPlugin).handler.isData(p.settings))]),
-          switchMap(([staticPanes, dataPanes]) => contentPlugin.handler.buildDynamicItems(this.originPanes[0].settings, new Map([ ...(this.originPanes[0].metadata === undefined ? [] : this.originPanes[0].metadata), ['tag', uuid.v4()], ['page', page], ['limit', this.paneDatasource.pageSize], ['panes', staticPanes], ['dataPanes', dataPanes], ['contexts', this.contexts] ])))
-        )
-      ),
-      map(items => this.panelHandler.fromPanes(items)),
-      map(panes => this.panelHandler.wrapPanel(panes).panes),
-    ).subscribe((panes: Array<Pane>) => {
-      this.paneDatasource.panes = panes;
+      switchMap(page => this.panelResolverService.resolvePanes({ panes: this.originPanes.map(p => new Pane({ ...p, metadata: new Map<string, any>([ ...(p.metadata ? p.metadata : []), ['page', page], ['limit', this.paneDatasource.pageSize] ]) })), contexts: this.contexts, resolvedContext: this.resolvedContext })),
+      switchMap(({ resolvedPanes, originMappings /*, resolvedContexts */ }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings /*, resolvedContexts */ })),
+    ).subscribe(({ resolvedPanes, originMappings /*, resolvedContexts */ }) => {
+      this.originMappings = originMappings;
+      this.paneDatasource.panes = resolvedPanes;
     });
 
     this.paneDatasource.panes = this.panes;
-    //this.trackByTpl = this.attributeMatcher.matchAttribute('trackBy', this.originPanes[0].settings).value;
+    // this.trackByTpl = '[_root.id]'; // this needs to be a style option.
 
   }
 

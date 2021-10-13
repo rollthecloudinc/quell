@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CollectionViewer, DataSource } from '@angular/cdk/collections';
 import { BehaviorSubject, Observable, Subscription, Subject } from 'rxjs';
-import { Pane } from 'panels';
+import { Pane } from '../models/panels.models';
 
 @Injectable()
 export class PaneDatasourceService extends DataSource<Pane> {

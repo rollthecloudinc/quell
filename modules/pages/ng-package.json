@@ -37,7 +37,8 @@
       "durl": "durl",
       "dparam": "dparam",
       "rest": "rest",
-      "snippet": "snippet"
+      "snippet": "snippet",
+      "rules": "rules"
     }
   }
 }

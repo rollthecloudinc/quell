@@ -2,9 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { QueryBuilderConfig, FieldMap, Rule as NgRule } from 'angular2-query-builder';
-import { InlineContext } from 'context';
-import { RulesParserService } from '../../services/rules-parser.service';
-import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
+import { InlineContext, InlineContextResolverService } from 'context';
+import { RulesParserService } from 'rules';
 import { forkJoin } from 'rxjs';
 import { map, tap, defaultIfEmpty } from 'rxjs/operators';
 

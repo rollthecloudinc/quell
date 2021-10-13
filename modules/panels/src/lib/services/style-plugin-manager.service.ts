@@ -1,4 +1,4 @@
-/*import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { ModuleLoaderService } from 'utils';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from 'plugin';
@@ -14,4 +14,4 @@ export class StylePluginManager extends BasePluginManager<StylePlugin<string>, s
   pluginDef() {
     return of(new PluginDef({ name: 'style' }));
   }
-}*/
+}

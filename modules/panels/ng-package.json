@@ -19,7 +19,8 @@
       "bridge": "bridge",
       "token": "token",
       "durl": "durl",
-      "rules": "rules"
+      "rules": "rules",
+      "plugin": "plugin"
     }
   }
 }

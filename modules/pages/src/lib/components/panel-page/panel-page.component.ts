@@ -5,7 +5,7 @@ import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { StyleLoaderService } from 'utils';
-import { /*ContextManagerService, */ InlineContext, ContextPluginManager } from 'context';
+import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from 'context';
 import { PanelPage, Pane, LayoutSetting, PanelsContextService } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
@@ -14,7 +14,6 @@ import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, O
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
-import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';

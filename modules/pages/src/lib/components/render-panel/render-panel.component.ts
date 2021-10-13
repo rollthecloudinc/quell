@@ -1,16 +1,14 @@
 import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
-import { Panel, Pane } from 'panels';
+import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
-import { STYLE_PLUGIN, StylePlugin, StylePluginManager } from 'style';
+import { STYLE_PLUGIN } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { switchMap, map, filter, debounceTime, tap, delay, takeUntil, startWith } from 'rxjs/operators';
 import { Subscription, Subject, BehaviorSubject, Observable } from 'rxjs';
-import { PanelResolverService } from '../../services/panel-resolver.service';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
-import { StyleResolverService } from '../../services/style-resolver.service';
 import { RenderPaneComponent } from '../render-pane/render-pane.component';
 
 @Component({
@@ -132,14 +130,14 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
   scheduleRenderSub = this.scheduleRender.pipe(
     tap(() => console.log(`schdule renderer before [${this.panel.name}]`)),
-    switchMap(([panes, contexts, resolvedContext]) => this.panelResolverService.resolvePanes(panes, contexts, resolvedContext)),
-    switchMap(([resolvedPanes, originMappings, resolvedContexts]) => this.styleResolverService.alterResolvedPanes(this.panel, resolvedPanes, originMappings, resolvedContexts)),
+    switchMap(([panes, contexts, resolvedContext]) => this.panelResolverService.resolvePanes({ panes, contexts, resolvedContext })),
+    switchMap(({ resolvedPanes, originMappings/*, resolvedContexts */ }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings /*, resolvedContexts */ })),
     tap(() => console.log(`schdule renderer after [${this.panel.name}]`)),
-  ).subscribe(([resolvedPanes, originMappings, resolvedContexts]) => {
+  ).subscribe(({ resolvedPanes, originMappings/*, resolvedContexts*/ }) => {
     console.log(`render panel: ${this.panel.name}`);
     this.resolvedPanes = resolvedPanes;
     this.originMappings = originMappings;
-    this.resolvedContexts = resolvedContexts;
+    // this.resolvedContexts = resolvedContexts;
     if(this.paneContainer && this.stylePlugin === undefined) {
       // setTimeout(() => this.heightChange.emit(this.paneContainer.nativeElement.offsetHeight));
     }
@@ -171,6 +169,9 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
     (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (componentRef.instance as any).displayType = this.displayType;
     (componentRef.instance as any).ancestory = this.ancestoryWithSelf;
+    // (componentRef.instance as any).resolvedContexts = this.resolvedContexts;
+    (componentRef.instance as any).resolvedContext = this.resolvedContext;
+    (componentRef.instance as any).panel = this.panel;
   });
 
   resolvedPanes: Array<Pane>;
