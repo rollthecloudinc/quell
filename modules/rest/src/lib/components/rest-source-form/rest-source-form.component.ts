@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
-import { Param } from 'dparam';
+import { Param, ParamPluginManager } from 'dparam';
 import { InlineContext } from 'context';
 import { NEVER, Subject, Subscription, of } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
@@ -59,6 +59,8 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
 
   componentDestroyed = new Subject();
 
+  paramPlugins$ = this.ppm.getPlugins();
+
   refreshData$ = new Subject();
   refreshSubscription = this.refreshData$.pipe(
     map(() => this.generateUrl()),
@@ -94,7 +96,8 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   constructor(
     private fb: FormBuilder, 
     private datasourceApi: DatasourceApiService,
-    private tokenizerService: TokenizerService
+    private tokenizerService: TokenizerService,
+    private ppm: ParamPluginManager
   ) {
     this.flags.set('page', 'Page');
     this.flags.set('limit', 'Limit');

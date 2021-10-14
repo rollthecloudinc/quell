@@ -14,7 +14,8 @@
       "durl": "durl",
       "dparam": "dparam",
       "snippet": "snippet",
-      "attributes": "attributes"
+      "attributes": "attributes",
+      "content": "content"
     }
   }
 }

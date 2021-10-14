@@ -16,7 +16,8 @@
       "durl": "durl",
       "dparam": "dparam",
       "snippet": "snippet",
-      "utils": "utils"
+      "utils": "utils",
+      "angular-split": "angular-split"
     }
   }
 }

@@ -5,6 +5,7 @@ import * as uuid from 'uuid';
 import { InlineContext } from '../models/context.models';
 import { ContextManagerService } from './context-manager.service';
 import { ContextPluginManager } from './context-plugin-manager.service';
+import { ResolvedContextPluginManager } from './resolved-context-plugin-manager.service';
 
 // import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 
@@ -13,7 +14,8 @@ export abstract class BaseInlineContextResolverService {
   constructor(
     // private contextManager: ContextManagerService,
     // private pageBuilderFacade: PageBuilderFacade,
-    private cpm: ContextPluginManager
+    private cpm: ContextPluginManager,
+    private rcm: ResolvedContextPluginManager
   ) {}
 
   resolveGlobals(tag = uuid.v4()): Observable<any> {
