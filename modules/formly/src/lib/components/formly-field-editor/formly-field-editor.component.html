@@ -8,7 +8,15 @@
         <input matInput placeholder="label" formControlName="label">
       </mat-form-field>
     </div>
-    <classifieds-ui-rest-source-form formControlName="rest" [restSource]="rest" [contexts]="contexts"></classifieds-ui-rest-source-form>
+    <!-- <classifieds-ui-rest-source-form formControlName="rest" [restSource]="rest" [contexts]="contexts"></classifieds-ui-rest-source-form> -->
+
+    <mat-form-field formGroupName="datasourceBinding">
+      <mat-label>Datasource</mat-label>
+      <mat-select required formControlName="id">
+        <mat-option *ngFor="let bo of bindableOptions" [value]="bo">{{ bo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
     <classifieds-ui-datasource-options formControlName="datasourceOptions" [datasourceOptions]="datasourceOptions"></classifieds-ui-datasource-options>
   </mat-dialog-content>
   <mat-dialog-actions>

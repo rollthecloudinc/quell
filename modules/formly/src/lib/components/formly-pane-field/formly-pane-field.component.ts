@@ -13,6 +13,7 @@ import { InlineContext } from 'context';
 import { FormlyFieldInstance } from '../../models/formly.models';
 import { DatasourceApiService } from 'datasource';
 import { UrlGeneratorService } from 'durl';
+import { Pane } from 'panels';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -38,6 +39,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
 
   @Input()
   contexts: Array<InlineContext> = [];
+
+  @Input()
+  panes: Array<Pane> = [];
 
   @Output()
   searchChange = new EventEmitter<string>();
@@ -68,7 +72,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   ) { }
 
   ngOnInit(): void {
-    this.handler.buildFieldConfig(this.settings).pipe(
+    this.handler.buildFieldConfig(this.settings, new Map<string, any>([ [ 'panes', this.panes ] ])).pipe(
       switchMap(f => this.handler.toObject(this.settings).pipe(
         map<FormlyFieldInstance, [FormlyFieldConfig, FormlyFieldInstance]>(i => [f, i])
       )),
@@ -118,7 +122,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   validate(c: AbstractControl): ValidationErrors | null{
     return null; //this.attributesForm.valid ? null : { invalidForm: {valid: false, message: "attributes are invalid"}};
   }
-s
+
   formlyHookAfterViewInit(field: FormlyFieldConfig) {
     if (field.type === 'autocomplete') {
       const target: ComponentRef<FormlyAutocompleteComponent> = (field as any)._componentRefs.find(ref => ref.instance instanceof FormlyAutocompleteComponent);

@@ -14,10 +14,12 @@ import { FormlyFieldInstance } from '../../models/formly.models';
 })
 export class FormlyFieldEditorComponent implements OnInit {
 
-  contexts: Array<InlineContext>;
+  // contexts: Array<InlineContext>;
 
   rest = mockRest;
   datasourceOptions = mockDatasourceOptions;
+
+  @Input() bindableOptions: Array<string> = [];
 
   formGroup = this.fb.group({
     type: this.fb.control('', [ Validators.required ]),
@@ -26,7 +28,11 @@ export class FormlyFieldEditorComponent implements OnInit {
       label: this.fb.control('')
     }),
     rest: this.fb.control(''),
-    datasourceOptions: this.fb.control('')
+    datasourceOptions: this.fb.control(''),
+    datasourceBinding: this.fb.group({
+      id: this.fb.control(''),
+      type: this.fb.control('pane')
+    })
   });
 
   get paneGroup(): AbstractControl {
@@ -40,7 +46,7 @@ export class FormlyFieldEditorComponent implements OnInit {
     private handler: FormlyFieldContentHandler,
     private attributeSerializer: AttributeSerializerService
   ) {
-    this.contexts = data.contexts;
+    // this.contexts = data.contexts;
   }
 
   ngOnInit(): void {
@@ -52,6 +58,14 @@ export class FormlyFieldEditorComponent implements OnInit {
       this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
       setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
     });
+    this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
+    // this.contexts = this.data.contexts.map(c => c.name);
+    /*if (this.data.panelIndex !== undefined) {
+      const settings = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
+      this.datasourceHandler.toObject(settings).subscribe(ds => {
+        this.datasource = ds;
+      });
+    }*/
   }
 
   submit() {

@@ -59,9 +59,9 @@ export class FormlyFieldContentHandler implements ContentHandler {
     return this.attributeSerializer.serialize(instance, 'root').attributes;
   }
 
-  buildFieldConfig(settings: Array<AttributeValue>): Observable<FormlyFieldConfig> {
+  buildFieldConfig(settings: Array<AttributeValue>, metadata?: Map<string, any>): Observable<FormlyFieldConfig> {
     return this.toObject(settings).pipe(
-      switchMap(i => this.formlyHandlerHelper.buildFieldConfig(i))
+      switchMap(i => this.formlyHandlerHelper.buildFieldConfig(i, metadata))
     );
   }
 

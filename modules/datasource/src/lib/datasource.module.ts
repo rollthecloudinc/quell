@@ -4,6 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'material';
 import { DurlModule } from 'durl';
+import { AttributeSerializerService } from 'attributes';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
 import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';
 import { DatasourceRendererHostDirective }  from './directives/datasource-renderer-host.directive';
@@ -37,10 +38,11 @@ import { DataSourceFormComponent } from './components/data-source-form/data-sour
 })
 export class DatasourceModule { 
   constructor(
-    dpm: DatasourcePluginManager
+    dpm: DatasourcePluginManager,
+    attributeSerializer: AttributeSerializerService
   ) {
     [
-      dataDatasourcePluginFactory()
+      dataDatasourcePluginFactory(attributeSerializer)
     ].forEach(p => dpm.register(p));
   }
 }

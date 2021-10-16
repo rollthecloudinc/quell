@@ -42,7 +42,7 @@ export class DatasourceContentHandler implements ContentHandler {
     return true;
   }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
-    const dataPanes = new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p]));
+    const dataPanes = metadata.has('dataPanes') ? new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p])) : new Map<string, any>([]);
     return this.toObject(settings).pipe(
       switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
         map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])

@@ -1,9 +1,11 @@
+import { ContentBinding } from 'content';
 import { Rest, DatasourceOptions } from 'datasource';
 export class FormlyFieldInstance {
   type: string;
   key: string;
   options?: FormlyFieldInstanceOptions;
   rest?: Rest;
+  datasourceBinding?: ContentBinding;
   datasourceOptions?: DatasourceOptions; 
   constructor(data?: FormlyFieldInstance) {
     if (data) {
@@ -14,6 +16,9 @@ export class FormlyFieldInstance {
       }
       if (data.rest && typeof(data.rest) === 'object') {
         this.rest = new Rest(data.rest);
+      }
+      if (data.datasourceBinding && typeof(data.datasourceBinding) === 'object') {
+        this.datasourceBinding = new ContentBinding(data.datasourceBinding);
       }
       if (data.datasourceOptions && typeof(data.datasourceOptions) === 'object') {
         this.datasourceOptions = new DatasourceOptions(data.datasourceOptions);

@@ -7,6 +7,7 @@ import { TokenizerService } from "token";
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
 import { UrlGeneratorService } from "durl";
+import { DatasourceContentHandler, Pane, PanelResolverService } from 'panels';
 @Injectable({
   providedIn: 'root'
 })
@@ -15,14 +16,16 @@ export class FormlyHandlerHelper {
   constructor(
     private urlGeneratorService: UrlGeneratorService,
     private datasourceApi: DatasourceApiService,
-    private tokenizerService: TokenizerService
+    private tokenizerService: TokenizerService,
+    private datasourceContentHandler: DatasourceContentHandler,
+    private panelResolver: PanelResolverService
   ) {}
 
-  buildFieldConfig(instance: FormlyFieldInstance): Observable<FormlyFieldConfig> {
+  buildFieldConfig(instance: FormlyFieldInstance, metadata?: Map<string, any>): Observable<FormlyFieldConfig> {
     return of(instance).pipe(
       switchMap(i => iif(
         () => !!i.options,
-        this.buildTemplateOptions(i).pipe(
+        this.buildTemplateOptions(i, metadata).pipe(
           map<FormlyTemplateOptions,[FormlyFieldInstance, FormlyTemplateOptions]>(t => [i, t])
         ),
         of<[FormlyFieldInstance, FormlyTemplateOptions]>([i, {}])
@@ -31,12 +34,12 @@ export class FormlyHandlerHelper {
     );
   }
 
-  buildTemplateOptions(instance: FormlyFieldInstance): Observable<FormlyTemplateOptions> {
+  buildTemplateOptions(instance: FormlyFieldInstance, metadata: Map<string, any>): Observable<FormlyTemplateOptions> {
     return of(instance).pipe(
       map<FormlyFieldInstance, [FormlyFieldInstance, FormlyTemplateOptions]>(i => [i, { label:  i.options.label, multiple: i.datasourceOptions ? i.datasourceOptions.multiple : false, options: [] }]),
       switchMap(([i, t]) => iif(
         () => this.hasDataOptions(i),
-        this.buildDataOptions(i).pipe(
+        this.buildDataOptions(i, metadata).pipe(
           map<Array<any>, [FormlyTemplateOptions, Array<any>]>(opts => [t, opts])
         ),
         of<[FormlyTemplateOptions, Array<any>]>([t, []])
@@ -45,13 +48,21 @@ export class FormlyHandlerHelper {
     );
   }
 
-  buildDataOptions(instance: FormlyFieldInstance): Observable<Array<any>> {
+  buildDataOptions(instance: FormlyFieldInstance, metadata?: Map<string,any>): Observable<Array<any>> {
     return of(instance).pipe(
       switchMap(i => {
-        if (i.rest && i.type !== 'autocomplete') {
-          return this.buildRestDataOptions(i).pipe(
-            map<Array<any>, [FormlyFieldInstance, Array<any>]>(d => [i, d])
-          );
+        if ((i.rest || i.datasourceBinding) && i.type !== 'autocomplete') {
+          if (i.datasourceBinding) {
+            const dataPane = metadata.has('panes') ? (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id) : undefined;
+            return this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
+              switchMap(dataPanes => dataPane ? this.datasourceContentHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ] ])) : of([])),
+              map(d => [i, d.results])
+            );
+          } else {
+            return this.buildRestDataOptions(i).pipe(
+              map<Array<any>, [FormlyFieldInstance, Array<any>]>(d => [i, d])
+            );
+          }
         } else {
           return of<[FormlyFieldInstance, Array<any>]>([i, []]);
         }
@@ -85,7 +96,7 @@ export class FormlyHandlerHelper {
   }
 
   hasDataOptions(instance: FormlyFieldInstance): boolean {
-    return !!instance.rest && instance.rest.url && instance.rest.url.trim() !== '';
+    return (!!instance.rest && instance.rest.url && instance.rest.url.trim() !== '') || !!instance.datasourceBinding;
   }
 
 } 

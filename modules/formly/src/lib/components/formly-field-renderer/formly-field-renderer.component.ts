@@ -3,6 +3,7 @@ import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { InlineContext } from 'context';
+import { Pane } from 'panels';
 import { debounceTime } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 
@@ -18,6 +19,9 @@ export class FormlyFieldRendererComponent implements OnInit {
 
   @Input()
   contexts: Array<InlineContext> = [];
+
+  @Input()
+  panes: Array<Pane> = [];
 
   @Input()
   appearance = 'legacy';
