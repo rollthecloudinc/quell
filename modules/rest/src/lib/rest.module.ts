@@ -7,6 +7,8 @@ import { AngularSplitModule } from 'angular-split';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SnippetModule } from 'snippet';
 import { TokenModule } from 'token';
+import { ParamContextExtractorService } from 'context';
+import { AttributeSerializerService } from 'attributes';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 import { restDatasourcePluginFactory } from './rest.factories';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
@@ -32,8 +34,10 @@ import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 export class RestModule { 
   constructor(
     dspm: DatasourcePluginManager,
-    fetchHelper: RestFetchHelperService
+    fetchHelper: RestFetchHelperService,
+    paramContextExtractor: ParamContextExtractorService,
+    attributeSerializer: AttributeSerializerService
   ) {
-    dspm.register(restDatasourcePluginFactory(fetchHelper));
+    dspm.register(restDatasourcePluginFactory(fetchHelper, paramContextExtractor, attributeSerializer));
   }
 }

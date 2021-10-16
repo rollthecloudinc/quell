@@ -10,3 +10,4 @@ export * from './lib/components/context-datasource/context-datasource.component'
 export * from './lib/components/context-datasource-form/context-datasource-form.component';
 export * from './lib/services/resolved-context-plugin-manager.service';
 export * from './lib/models/resolved-context.models';
+export * from './lib/services/param-context-extractor.service';

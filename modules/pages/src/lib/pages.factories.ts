@@ -148,6 +148,7 @@ export const formParamPluginFactory = (
   return new ParamPlugin<string>({ 
     id: 'form',
     title: 'Form',
+    usedContexts: ({ param, metadata }: { param: Param, metadata: Map<string, any> }) => of([ `form__${param.mapping.value.substr(0, param.mapping.value.indexOf('.'))}` ]),
     evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
       const name = param.mapping.value.substr(0, param.mapping.value.indexOf('.'));
       const value = param.mapping.value.substr(param.mapping.value.indexOf('.') + 1);
