@@ -260,6 +260,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
       console.log(`assign panel page to renderer ref - passthur`);
       // (this.layoutRendererRef.instance as any).panelPage = this.panelPage;
+      // This stuff below breaks the _page links on the character browser but fixes the _page when nested.
       this.populatePanelsFormArray();
       this.renderLayoutRenderer(this.panelPage.layoutType);
       this.hookupContextChange();

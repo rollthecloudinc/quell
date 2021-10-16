@@ -117,25 +117,61 @@ export abstract class BaseInlineContextResolverService {
   }
 
   resolveMerged(contexts: Array<InlineContext>, tag = uuid.v4()): Observable<any> {
-    return combineLatest([this.resolveGlobals(tag)/*, this.resolveForms()*/, contexts.length === 0 ? of({}) : this.resolveAll(contexts, tag)]).pipe(
+    /*return combineLatest([this.resolveGlobals(tag), this.resolveForms(), contexts.length === 0 ? of({}) : this.resolveAll(contexts, tag)]).pipe(
       debounceTime(0),
       map(v => v.reduce<any>((p, c) => ({ ...p, ...c }), {}))
+    );*/
+    return this.rcm.getPlugins().pipe(
+      switchMap(() => this.rcm.add$.pipe(
+        defaultIfEmpty()
+      )),
+      switchMap(() => this.rcm.getPlugins()),
+      switchMap(plugins => combineLatest([
+        // ...Array.from(plugins).map(([_, p]) => p.resolve()),
+        this.resolveGlobals(tag),
+        contexts.length === 0 ? of({}) : this.resolveAll(contexts, tag)
+      ]).pipe(
+        debounceTime(0),
+        map(v => v.reduce<any>((p, c) => ({ ...p, ...c }), {})) 
+      ))
     );
   }
 
   resolveMergedSingle(contexts: Array<InlineContext>, tag = uuid.v4()): Observable<any> {
     if(contexts.length !== 0) {
-      return merge(
+      /*return merge(
         this.resolveGlobalsSingle(),
         // this.resolveFormsSingle(),
         this.resolveAllSingle(contexts)
+      );*/
+      return this.rcm.getPlugins().pipe(
+        /*switchMap(() => this.rcm.add$.pipe(
+          defaultIfEmpty()
+        )),
+        switchMap(() => this.rcm.getPlugins()),*/
+        switchMap(plugins => merge(
+          ...Array.from(plugins).map(([_, p]) => p.resolveSingle()),
+          // Turn this into plugins as well
+          this.resolveGlobalsSingle(),
+          this.resolveAllSingle(contexts),
+        ))
       );
     } else {
       /*return merge(
-        this.resolveFormsSingle(),
+        // this.resolveFormsSingle(),
         this.resolveGlobalsSingle()
-      )*/
-      return this.resolveGlobalsSingle();
+      );*/
+      //return this.resolveGlobalsSingle();
+      return this.rcm.getPlugins().pipe(
+        /*switchMap(() => this.rcm.add$.pipe(
+          defaultIfEmpty()
+        )),
+        switchMap(() => this.rcm.getPlugins()),*/
+        switchMap(plugins => merge(
+          ...Array.from(plugins).map(([_, p]) => p.resolveSingle()),
+          this.resolveGlobalsSingle()
+        ))
+      );
     }
     /*return merge(
       this.resolveGlobalsSingle(),

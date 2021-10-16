@@ -3,7 +3,7 @@ import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { MediaContentHandler } from './handlers/media-content.handler';
 // import { PanelContentHandler } from './handlers/panel-content.handler';
 import { ContentPlugin } from 'content';
-import { ContextPlugin, InlineContextResolverService } from 'context';
+import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from 'context';
 import { Dataset } from 'datasource';
 import { PanelPageState, PanelState , PaneState, StylePlugin } from 'panels';
 import { AttributeValue } from 'attributes';
@@ -32,11 +32,12 @@ import { PaneStateContextResolver } from './contexts/pane-state-context.resolver
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 import { ParamPlugin, Param } from 'dparam';
-import { map, take, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { TokenizerService } from 'token';
 import { FormService } from './services/form.service';
 import { PanelPageForm } from './models/form.models';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
+import { combineLatest, merge, of } from 'rxjs';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -184,3 +185,23 @@ export const formParamPluginFactory = (
     }
   });
 }
+
+export const formResolvedContextPluginFactory = (
+  pageBuilderFacade: PageBuilderFacade
+) => {
+  return new ResolvedContextPlugin<string>({
+    id: 'form',
+    title: 'Form',
+    resolve: () => pageBuilderFacade.getFormNames$.pipe(
+      switchMap(names => names.length === 0 ? of([]) : combineLatest( names.map(n => pageBuilderFacade.getForm$(n).pipe(
+        map(f => [n, f])
+      ) ) )),
+      map(v => v.reduce((p, [n, f]) => ({ ...p, [`form__${n}`]: f }), {}))
+    ),
+    resolveSingle: () => pageBuilderFacade.getFormNames$.pipe(
+      switchMap(names => merge( ...names.map(n => pageBuilderFacade.getForm$(n).pipe(
+        map(f => [`form__${n}`, f])
+      ) ) ))
+    )
+  });
+};

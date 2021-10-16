@@ -6,6 +6,7 @@ import { InlineContext } from '../models/context.models';
 import { ContextManagerService } from './context-manager.service';
 import { ContextPluginManager } from './context-plugin-manager.service';
 import { BaseInlineContextResolverService } from './base-inline-context-resolver.service';
+import { ResolvedContextPluginManager } from './resolved-context-plugin-manager.service';
 
 // import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 
@@ -17,9 +18,10 @@ export class InlineContextResolverService extends BaseInlineContextResolverServi
   constructor(
     // contextManager: ContextManagerService,
     // private pageBuilderFacade: PageBuilderFacade,
-    cpm: ContextPluginManager
+    cpm: ContextPluginManager,
+    rcm: ResolvedContextPluginManager
   ) {
-    super(cpm);
+    super(cpm, rcm);
   }
 
 }

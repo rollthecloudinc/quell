@@ -9,7 +9,7 @@ import { PluginDef, Plugin, PluginDiscovery } from '../models/plugin.models';
 
 // @Injectable()
 export abstract class BasePluginManager<T extends Plugin<Y>, Y> {
-  private pluginInstances = new Map<Y, T>();
+  protected pluginInstances = new Map<Y, T>();
   private discoveryPipeline: Array<PluginDiscovery> = [];
   constructor(private pcm: PluginConfigurationManager, private moduleLoader: ModuleLoaderService) {
     this.discovery();

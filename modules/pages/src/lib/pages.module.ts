@@ -17,7 +17,7 @@ import { LayoutModule } from 'layout';
 import { RestModule } from 'rest';
 import { SnippetModule } from 'snippet';
 import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
-import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager } from 'context';
+import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager, ResolvedContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
 import { STYLE_PLUGIN } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
@@ -42,7 +42,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -198,6 +198,7 @@ export class PagesModule {
     spm: StylePluginManager,
     eds: EntityDefinitionService,
     ppm: ParamPluginManager,
+    rcm: ResolvedContextPluginManager,
     pluginConfigurationManager: PluginConfigurationManager,
     contextManager: ContextManagerService,
     tokenizerService: TokenizerService,
@@ -238,6 +239,8 @@ export class PagesModule {
       formService,
       pageBuilderFacade
     ));
+
+    rcm.register(formResolvedContextPluginFactory(pageBuilderFacade));
 
   }
 }
