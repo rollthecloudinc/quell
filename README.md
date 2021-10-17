@@ -1,5 +1,6 @@
 ![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
 #
+### Summary
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
 
