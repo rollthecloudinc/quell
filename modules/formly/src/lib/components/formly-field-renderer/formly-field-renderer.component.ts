@@ -36,7 +36,13 @@ export class FormlyFieldRendererComponent implements OnInit {
   displayType: string;
 
   @Input()
+  resolvedContext = {};
+
+  @Input()
   state: any = {};
+
+  @Input()
+  tokens: Map<string, any>;
 
   @Output()
   stateChange = new EventEmitter<any>();

@@ -38,6 +38,7 @@ import { FormService } from './services/form.service';
 import { PanelPageForm } from './models/form.models';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { combineLatest, merge, of } from 'rxjs';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -205,4 +206,18 @@ export const formResolvedContextPluginFactory = (
       ) ) ))
     )
   });
+};
+
+export const pagesFormBridgeFactory = (formService: FormService) => {
+  return new BridgeBuilderPlugin<string>({
+    id: 'pages_form',
+    title: 'Pages Form',
+    build: () => {
+      PublicApiBridgeService.prototype['serializePageForm'] = (form: PanelPageForm): Promise<any> => {
+        return new Promise(res => {
+          res(formService.serializeForm(form));
+        });
+      }
+    }
+  }); 
 };

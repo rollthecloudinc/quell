@@ -42,7 +42,7 @@ export class ContextModule {
     attributeSerializer: AttributeSerializerService
   ) {
     contextPlugins.forEach(p => cpm.register(p));
-    bpm.register(contextBridgeFactory(cpm));
+    bpm.register(contextBridgeFactory(cpm, inlineContextResolver));
     ppm.register(paramPluginFactory(inlineContextResolver, tokenizerService));
     dpm.register(contextDatasourceFactory(inlineContextResolver, attributeSerializer));
   }

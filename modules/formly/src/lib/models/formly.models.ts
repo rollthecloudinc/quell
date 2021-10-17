@@ -5,12 +5,14 @@ export class FormlyFieldInstance {
   key: string;
   options?: FormlyFieldInstanceOptions;
   rest?: Rest;
+  value?: string;
   datasourceBinding?: ContentBinding;
   datasourceOptions?: DatasourceOptions; 
   constructor(data?: FormlyFieldInstance) {
     if (data) {
       this.type = data.type;
       this.key = data.key;
+      this.value = data.value !== undefined && data.value !== null ? data.value : undefined;
       if (data.options && typeof(data.options) === 'object') {
         this.options = new FormlyFieldInstanceOptions(data.options);
       }

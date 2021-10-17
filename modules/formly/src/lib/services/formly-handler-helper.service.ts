@@ -51,7 +51,7 @@ export class FormlyHandlerHelper {
   buildDataOptions(instance: FormlyFieldInstance, metadata?: Map<string,any>): Observable<Array<any>> {
     return of(instance).pipe(
       switchMap(i => {
-        if ((i.rest || i.datasourceBinding) && i.type !== 'autocomplete') {
+        if ((i.rest || (i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== '')) && i.type !== 'autocomplete') {
           if (i.datasourceBinding) {
             const dataPane = metadata.has('panes') ? (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id) : undefined;
             return this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
@@ -96,7 +96,7 @@ export class FormlyHandlerHelper {
   }
 
   hasDataOptions(instance: FormlyFieldInstance): boolean {
-    return (!!instance.rest && instance.rest.url && instance.rest.url.trim() !== '') || !!instance.datasourceBinding;
+    return (!!instance.rest && instance.rest.url && instance.rest.url.trim() !== '') || (instance.datasourceBinding && instance.datasourceBinding.id && instance.datasourceBinding.id !== '');
   }
 
 } 

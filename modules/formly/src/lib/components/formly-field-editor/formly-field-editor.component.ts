@@ -24,6 +24,7 @@ export class FormlyFieldEditorComponent implements OnInit {
   formGroup = this.fb.group({
     type: this.fb.control('', [ Validators.required ]),
     key: this.fb.control('', [ Validators.required ]),
+    value: this.fb.control('',),
     options: this.fb.group({
       label: this.fb.control('')
     }),
@@ -53,6 +54,7 @@ export class FormlyFieldEditorComponent implements OnInit {
     this.handler.toObject(this.data.pane.settings).subscribe(i => {
       this.formGroup.get('type').setValue(i.type);
       this.formGroup.get('key').setValue(i.key);
+      this.formGroup.get('value').setValue(i.value);
       this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
       this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
       this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;

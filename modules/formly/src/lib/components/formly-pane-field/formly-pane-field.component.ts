@@ -1,10 +1,10 @@
 
-import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { JSONPath } from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { forkJoin, iif, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autocomplete.component';
@@ -14,6 +14,7 @@ import { FormlyFieldInstance } from '../../models/formly.models';
 import { DatasourceApiService } from 'datasource';
 import { UrlGeneratorService } from 'durl';
 import { Pane, DatasourceContentHandler, PanelResolverService } from 'panels';
+import { TokenizerService } from 'token';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -32,10 +33,7 @@ import { Pane, DatasourceContentHandler, PanelResolverService } from 'panels';
     },
   ]
 })
-export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator, OnInit {
-
-  @Input()
-  settings: Array<AttributeValue> = [];
+export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator, OnInit, AfterViewInit {
 
   @Input()
   contexts: Array<InlineContext> = [];
@@ -43,11 +41,30 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   @Input()
   panes: Array<Pane> = [];
 
+  @Input()
+  tokens: Map<string, any>;
+
+  @Input()
+  set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
+
+  @Input()
+  set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
+
   @Output()
   searchChange = new EventEmitter<string>();
 
   settingsFormArray = this.fb.array([]);
   proxyGroup = this.fb.group({});
+
+  init$ = new Subject();
+  afterViewInit$ = new Subject();
+  resolvedContext$ = new BehaviorSubject<any>(undefined);
+  settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
+  // snippet$ = new BehaviorSubject<Snippet>(undefined);
 
   bridgeSub = this.proxyGroup.valueChanges.pipe(
     debounceTime(500)
@@ -57,25 +74,35 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     this.settingsFormArray.push(newGroup);
   });
 
-  public onTouched: () => void = () => {};
+  renderContentSub = combineLatest([
+    this.settings$,
+    this.resolvedContext$,
+    this.afterViewInit$
+  ]).pipe(
+    switchMap(([settings, _]) => this.handler.toObject(settings)),
+    switchMap(i => this.resolveContexts().pipe(
+      map<Map<string, any>, [FormlyFieldInstance, Map<string, any> | undefined]>(tokens => [i, tokens])
+    ))
+  ).subscribe(([instance, tokens]) => {
+    if(tokens !== undefined) {
+      this.tokens = tokens;
+    }
+    // this.settingsFormArray.clear();
+    if (instance.value && instance.value !== null && instance.value !== '') {
+      this.model = { value: this.replaceTokens(instance.value) };
+      /*const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(instance.value, 'value'));
+      this.settingsFormArray.push(newGroup);*/
+    } else {
+      this.model = {};
+    }
+  });
 
-  fields: FormlyFieldConfig[] = [];
-  model: any = {};
-
-  constructor(
-    private fb: FormBuilder,
-    private attributeSerializer: AttributeSerializerService,
-    private handler: FormlyFieldContentHandler,
-    private formlyHandlerHelper: FormlyHandlerHelper,
-    private urlGeneratorService: UrlGeneratorService ,
-    private datasourceApi: DatasourceApiService,
-    private datasourceHandler: DatasourceContentHandler,
-    private panelResolver: PanelResolverService
-  ) { }
-
-  ngOnInit(): void {
-    this.handler.buildFieldConfig(this.settings, new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ])).pipe(
-      switchMap(f => this.handler.toObject(this.settings).pipe(
+  settingsSub = combineLatest([
+    this.settings$,
+    this.init$
+  ]).pipe(
+    switchMap(([settings]) => this.handler.buildFieldConfig(settings, new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ])).pipe(
+      switchMap(f => this.handler.toObject(settings).pipe(
         map<FormlyFieldInstance, [FormlyFieldConfig, FormlyFieldInstance]>(i => [f, i])
       )),
       map<[FormlyFieldConfig, FormlyFieldInstance], [FormlyFieldConfig, FormlyFieldInstance]>(([f, i]) => [{
@@ -92,11 +119,36 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
           ...f.templateOptions,
           ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {})
         }
-      }, i])
-    ).subscribe(([f, _]) => {
+      }, i]))
+    ),
+    tap(([f, i]) => {
       this.fields = [ { ...f } ];
-    });
+    })
+  ).subscribe();
 
+  public onTouched: () => void = () => {};
+
+  fields: FormlyFieldConfig[] = [];
+  model: any = {};
+
+  constructor(
+    private fb: FormBuilder,
+    private attributeSerializer: AttributeSerializerService,
+    private handler: FormlyFieldContentHandler,
+    private formlyHandlerHelper: FormlyHandlerHelper,
+    private urlGeneratorService: UrlGeneratorService ,
+    private datasourceApi: DatasourceApiService,
+    private datasourceHandler: DatasourceContentHandler,
+    private panelResolver: PanelResolverService,
+    private tokenizerService: TokenizerService
+  ) { }
+
+  ngOnInit(): void {
+    this.init$.next();
+  }
+
+  ngAfterViewInit() {
+    this.afterViewInit$.next();
   }
 
   writeValue(val: any): void {
@@ -143,8 +195,6 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
       switchMap(s => this.searchChange.pipe(
         filter(v => v === term)
       )),
-      /*switchMap(() => this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
-      switchMap(s => this.datasourceApi.getData(`${s}`)),*/
       switchMap(() => iif(
         () => !!i.datasourceBinding,
         i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
@@ -158,6 +208,28 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
       map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
     );
+  }
+
+  replaceTokens(v: string): string {
+    if(this.tokens !== undefined) {
+      this.tokens.forEach((value, key) => {
+        v = v.split(`[${key}]`).join(`${value}`)
+      });
+    }
+    return v;
+  }
+
+  resolveContexts(): Observable<undefined | Map<string, any>> {
+    return new Observable(obs => {
+      let tokens = new Map<string, any>();
+      if(this.resolvedContext$.value) {
+        for(const name in this.resolvedContext$.value) {
+          tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(this.resolvedContext$.value[name], name === '_root' ? '' : name) ]);
+        }
+      }
+      obs.next(tokens);
+      obs.complete();
+    });
   }
 
 }

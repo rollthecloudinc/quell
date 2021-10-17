@@ -127,7 +127,7 @@ export abstract class BaseInlineContextResolverService {
       )),
       switchMap(() => this.rcm.getPlugins()),
       switchMap(plugins => combineLatest([
-        // ...Array.from(plugins).map(([_, p]) => p.resolve()),
+        ...Array.from(plugins).map(([_, p]) => p.resolve()),
         this.resolveGlobals(tag),
         contexts.length === 0 ? of({}) : this.resolveAll(contexts, tag)
       ]).pipe(

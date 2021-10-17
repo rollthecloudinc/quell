@@ -42,7 +42,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -95,6 +95,7 @@ import { PageStateContextResolver } from './contexts/page-state-context.resolver
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { FormService } from './services/form.service';
 import { ParamPluginManager, DparamModule } from 'dparam';
+import { BridgeBuilderPluginManager, BridgeModule } from 'bridge';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -154,7 +155,8 @@ const routes = [
     PanelsModule,
     RestModule,
     SnippetModule,
-    DparamModule
+    DparamModule,
+    BridgeModule
   ],
   declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent],
   providers: [
@@ -208,7 +210,8 @@ export class PagesModule {
     restContextResolver: RestContextResolver,
     formContextResolver: FormContextResolver,
     paneStateContextResolver: PaneStateContextResolver,
-    pageStateContextResolver: PageStateContextResolver
+    pageStateContextResolver: PageStateContextResolver,
+    bpm: BridgeBuilderPluginManager
   ) {
     eds.registerMetadataMap(entityMetadata);
 
@@ -241,6 +244,14 @@ export class PagesModule {
     ));
 
     rcm.register(formResolvedContextPluginFactory(pageBuilderFacade));
+
+    bpm.register(pagesFormBridgeFactory(formService));
+
+    // build because this is after the built phase since module is lazy loaded.
+    // There is probably a better solution but for now this will work.
+    // Probably is better to schedule builds using a queue to automatically add.
+    // It doesn't really do any harm calling build though since prototype will just overriden and shouldn't have state anyway.
+    bpm.getPlugin('pages_form').subscribe(p => p.build());
 
   }
 }

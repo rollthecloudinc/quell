@@ -38,7 +38,8 @@
       "dparam": "dparam",
       "rest": "rest",
       "snippet": "snippet",
-      "rules": "rules"
+      "rules": "rules",
+      "bridge": "bridge"
     }
   }
 }

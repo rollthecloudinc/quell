@@ -40,6 +40,7 @@ export class FormlyFieldContentHandler implements ContentHandler {
   }
 
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
+    // return of([ new ContentBinding({ id: 'ad', type: 'context' }) ]);
     return of([]);
   }
 

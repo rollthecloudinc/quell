@@ -2,7 +2,7 @@ import { ContextDatasource, ContextPlugin, InlineContext } from './models/contex
 import { RouteResolver } from './resolvers/route.resolver';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { ContextPluginManager } from './services/context-plugin-manager.service';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ParamPlugin, Param } from 'dparam';
 import { iif, of } from 'rxjs';
 import { InlineContextResolverService } from './services/inline-context-resolver.service';
@@ -24,7 +24,7 @@ export const routeContextFactory = (resolver: RouteResolver) => {
   return new ContextPlugin<string>({ id: 'route', name: 'route', title: 'Route', global: true, baseObject, resolver });
 };
 
-export const contextBridgeFactory = (cpm: ContextPluginManager) => {
+export const contextBridgeFactory = (cpm: ContextPluginManager, inlineContextResolver: InlineContextResolverService) => {
   return new BridgeBuilderPlugin<string>({
     id: 'context',
     title: 'Context',
@@ -40,6 +40,14 @@ export const contextBridgeFactory = (cpm: ContextPluginManager) => {
           });
         });
       }
+      PublicApiBridgeService.prototype['resolveMergedContext'] = (contexts: Array<InlineContext>): Promise<any> => {
+        return new Promise(res => {
+          inlineContextResolver.resolveMerged(contexts).pipe(
+            tap(v => res(v)),
+            take(1),
+          ).subscribe();
+        });
+      };
     }
   }); 
 };
@@ -83,6 +91,7 @@ export const contextDatasourceFactory = (
       map(() => new ContextDatasource(attributeSerializer.deserializeAsObject(settings))),
       map(ds => (metadata.get('contexts') as Array<InlineContext>).find(c => c.name === ds.name)),
       switchMap(inlineContext => inlineContextResolver.resolve(inlineContext).pipe(
+        map(v => new Dataset({ results: Array.isArray(v) ? v : [v] })),
         take(1)
       ))
     ),
