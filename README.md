@@ -1,10 +1,6 @@
-# d r u i d
-
-Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
-
 ![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
 
-Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
+Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
 
 * Markdown and HTML content
 * Query and refine API datasets
@@ -22,30 +18,6 @@ Highly inspired by Drupal panels. The Druid editor provides a suite of extensibl
 
 ### Intentions
 
-This project will be the most powerful, sophisticated open source authoring suite available for modern digital publishing.
-
-Digital authoring targets include:
-
-* highly interactive web app
-* smaller website building
-* landing page creation
-* small static sites
-* email creation
-* other digital marketing
-* PDF creation / documentation
-* prototyping tool
-* diagramming
-
-### Motivations
-
-This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
-
-* Drupal | https://www.drupal.org/
-* Magento | https://magento.com/
-* Modx | https://modx.com/
-
-### Use Cases
-
 The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
 
 * Personal blog
@@ -57,6 +29,14 @@ The well has run dry with sophisticated, powerful modern tools for authoring con
 * Development prototyping
 * Email generation
 * PDF generation
+
+### Motivations
+
+This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
+
+* Drupal | https://www.drupal.org/
+* Magento | https://magento.com/
+* Modx | https://modx.com/
 
 ### Notable Mentions
 
