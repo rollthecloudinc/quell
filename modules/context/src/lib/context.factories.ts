@@ -52,8 +52,8 @@ export const paramPluginFactory = (
     id: 'context',
     title: 'Context',
     evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
-      const ctx = new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context));
-      return inlineContextResolver.resolve(ctx).pipe(
+      const ctx = param.mapping.context && param.mapping.context !== '' ? new InlineContext(metadata.get('contexts').find(c => c.name === param.mapping.context)) : undefined;
+      return ctx ? inlineContextResolver.resolve(ctx).pipe(
         take(1),
         switchMap(d => iif(
           () => param.mapping.value && param.mapping.value !== '',
@@ -66,7 +66,7 @@ export const paramPluginFactory = (
             take(1)
           )
         )
-      );
+      ) : of();
     }
   });
 }

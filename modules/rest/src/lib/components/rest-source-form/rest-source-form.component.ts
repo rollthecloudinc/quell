@@ -38,12 +38,13 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
       this.sourceForm.get('url').setValue(restSource.url);
       this.sourceForm.get('method').setValue(restSource.method ? restSource.method : '');
       this.sourceForm.get('body').setValue(restSource.body ? { ...restSource.body, jsScript: '' } : '');
-      setTimeout(() => this.sourceForm.get('params').setValue(restSource.params), 500);
+      setTimeout(() => this.sourceForm.get('params').setValue(restSource && restSource.params ? restSource.params : []), 500);
     }
   };
 
   @Input()
-  contexts: Array<InlineContext> = [];
+  contexts: Array<string> = [];
+  // contexts: Array<string> = [];
 
   flags = new Map<string, string>();
 

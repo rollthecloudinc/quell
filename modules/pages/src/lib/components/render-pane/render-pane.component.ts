@@ -145,7 +145,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   private schedulePluginChange = new Subject();
   private pluginChangeSub = this.schedulePluginChange.pipe(
-    // filter(p => this.pluginName && this.pluginName !== null && this.pluginName !== ''),
+    filter(() => this.pluginName && this.pluginName !== null && this.pluginName !== ''),
     switchMap(() => this.cpm.getPlugin(this.pluginName))
   ).subscribe(p => {
     this.contentPlugin = p;

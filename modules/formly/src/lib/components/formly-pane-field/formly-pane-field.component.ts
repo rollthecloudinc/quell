@@ -13,7 +13,7 @@ import { InlineContext } from 'context';
 import { FormlyFieldInstance } from '../../models/formly.models';
 import { DatasourceApiService } from 'datasource';
 import { UrlGeneratorService } from 'durl';
-import { Pane } from 'panels';
+import { Pane, DatasourceContentHandler, PanelResolverService } from 'panels';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -69,6 +69,8 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     private formlyHandlerHelper: FormlyHandlerHelper,
     private urlGeneratorService: UrlGeneratorService ,
     private datasourceApi: DatasourceApiService,
+    private datasourceHandler: DatasourceContentHandler,
+    private panelResolver: PanelResolverService
   ) { }
 
   ngOnInit(): void {
@@ -135,12 +137,24 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   }
 
   makeFilterFunction(i: FormlyFieldInstance): (term: string) => Observable<Array<any>> {
+    const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
+    const dataPane = this.panes.find(p => p.name === i.datasourceBinding.id);
     return (term: string) => of([]).pipe(
       switchMap(s => this.searchChange.pipe(
         filter(v => v === term)
       )),
-      switchMap(() => this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
-      switchMap(s => this.datasourceApi.getData(`${s}`)),
+      /*switchMap(() => this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ]))),
+      switchMap(s => this.datasourceApi.getData(`${s}`)),*/
+      switchMap(() => iif(
+        () => !!i.datasourceBinding,
+        i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
+          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ] ])) : of([])),
+          map(d => d.results)
+        ): of([]),
+        !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ])).pipe(
+          switchMap(s => this.datasourceApi.getData(`${s}`))
+        ) : of([])
+      )),
       map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
     );

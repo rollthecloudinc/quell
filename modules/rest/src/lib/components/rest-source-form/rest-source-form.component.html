@@ -32,7 +32,7 @@
         <mat-form-field *ngIf="param.get('mapping').get('type').value == 'context'" formGroupName="mapping">
           <mat-label>Context</mat-label>
           <mat-select formControlName="context">
-            <mat-option *ngFor="let c of contexts" [value]="c.name">{{ c.name }}</mat-option>
+            <mat-option *ngFor="let c of contexts" [value]="c">{{ c }}</mat-option>
             <!-- <mat-option value="_root">_root</mat-option> -->
             <!-- <mat-option *ngFor="let context of contexts" [value]="context"></mat-option> -->
           </mat-select>
