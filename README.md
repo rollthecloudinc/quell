@@ -6,7 +6,7 @@ Druid is a serverless publishing platform optimized for the modern web using cut
 
 Meet the chief editor and driving force behind entire the entire publishing experience.
 
-![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v3.png)
+![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
 
 Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
 
