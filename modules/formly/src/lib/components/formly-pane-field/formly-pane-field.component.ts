@@ -72,7 +72,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   ) { }
 
   ngOnInit(): void {
-    this.handler.buildFieldConfig(this.settings, new Map<string, any>([ [ 'panes', this.panes ] ])).pipe(
+    this.handler.buildFieldConfig(this.settings, new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ])).pipe(
       switchMap(f => this.handler.toObject(this.settings).pipe(
         map<FormlyFieldInstance, [FormlyFieldConfig, FormlyFieldInstance]>(i => [f, i])
       )),

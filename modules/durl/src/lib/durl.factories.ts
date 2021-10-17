@@ -6,6 +6,7 @@ export const paramPagePluginFactory = () => {
   return new ParamPlugin<string>({ 
     id: 'page',
     title: 'Page',
+    usedContexts: () => of(['_page']),
     condition: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
       return param.flags.findIndex(f => f.enabled && f.name === 'page') > -1 && metadata.has('page');
     },
@@ -32,6 +33,7 @@ export const paramRoutePluginFactory = () => {
   return new ParamPlugin<string>({ 
     id: 'route',
     title: 'Route',
+    usedContexts: () => of(['_route']),
     evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
       const route = metadata.get('_route') as ActivatedRoute;
       return of(route.params[param.mapping.value]);
@@ -43,6 +45,7 @@ export const paramQueryStringPluginFactory = () => {
   return new ParamPlugin<string>({ 
     id: 'querystring',
     title: 'Querystring',
+    usedContexts: () => of(['_page']),
     evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
       const route = metadata.get('_route') as ActivatedRoute;
       return of(route.queryParams[param.mapping.value]);
@@ -54,6 +57,7 @@ export const paramStandardPaginationPluginFactory = () => {
   return new ParamPlugin<string>({ 
     id: 'standardpagination',
     title: 'Standard Pagination',
+    usedContexts: () => of(['_page']),
     condition: ({ param, metadata }: { param: Param, metadata: Map<string, any> })  => {
       return param.flags.findIndex(f => f.enabled && f.name === 'offset') > -1 && metadata.has('limit') && metadata.has('page');
     },

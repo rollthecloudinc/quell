@@ -15,8 +15,8 @@ export class ParamContextExtractorService {
   extractContexts(params: Array<Param>): Observable<Array<string>> {
     return forkJoin(params.map(param => this.ppm.getPlugin(param.mapping.type).pipe(
       switchMap(p => iif(
-        () => !!p.usedContexts,
-        p.usedContexts ? p.usedContexts({ param, metadata: new Map<string, any>([]) }) : of([]),
+        () => !!p && !!p.usedContexts,
+        p ? p.usedContexts ? p.usedContexts({ param, metadata: new Map<string, any>([]) }) : of([]) : of([]),
         of([])
       ))
     ))).pipe(

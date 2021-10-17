@@ -6,7 +6,7 @@ import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelPage, Pane, PanelContentHandler, PanelPageState } from 'panels';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { delay, map, switchMap, take, tap } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
@@ -145,6 +145,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   private schedulePluginChange = new Subject();
   private pluginChangeSub = this.schedulePluginChange.pipe(
+    // filter(p => this.pluginName && this.pluginName !== null && this.pluginName !== ''),
     switchMap(() => this.cpm.getPlugin(this.pluginName))
   ).subscribe(p => {
     this.contentPlugin = p;

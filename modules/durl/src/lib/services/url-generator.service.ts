@@ -90,7 +90,7 @@ export class UrlGeneratorService {
       map(plugins => plugins.find(p => (p.condition && p.condition({ param, metadata }) || (!p.condition && p.id === param.mapping.type)))),
       switchMap<ParamPlugin<string>, Observable<any>>(p => iif(
         () => !!p,
-        p ? p.evalParam({ param, metadata }) : of(),
+        p ? p.evalParam({ param, metadata }) : of(/*param.mapping.value*/),
         of(param.mapping.value)
       ))
     );
