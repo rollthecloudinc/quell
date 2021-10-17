@@ -2,6 +2,28 @@
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology.
 
+# Introduction
+
+Meet the chief editor and driving force behind entire the entire publishing experience.
+
+![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v3.png)
+
+Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
+
+* Markdown and HTML content
+* Query and refine API datasets
+* Upload media assets
+* Extend with custom external JavaScript
+* Form building and data storage 
+* Conditional content display
+* Customizable CSS styling
+* Page Nesting and Embedding
+* Material design styles
+* Extensible via plugin architecture
+* Authentication and authorization
+* Customizable data storage and access restrictions
+* Ruesable change detection aware variable definitions
+
 ### Intentions
 
 This project will be the most powerful, sophisticated open source authoring suite available for modern digital publishing.
@@ -67,31 +89,9 @@ In addition to Angular Druid also uses many nodejs projects.
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
 
-# Introduction
-
-Meet the chief editor and driving force behind entire the entire publishing experience.
-
-![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v2.png)
-
-Highly inspired by Drupal panels. The Druid editor provides a suite of extensible authoring capabilities. 
-
-* Markdown and HTML content
-* Query and refine API datasets
-* Upload media assets
-* Extend with custom external JavaScript
-* Form building and data storage 
-* Conditional content display
-* Customizable CSS styling
-* Page Nesting and Embedding
-* Material design styles
-* Extensible via plugin architecture
-* Authentication and authorization
-* Customizable data storage and access restrictions
-* Ruesable change detection aware variable definitions
+# Examples
 
 The examples provided below is a small subset of the editors capabilities.
-
-# Examples
 
 Classified Ads Fully Interactive Browser
 ![Rendered Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_page_render_abc.png)
