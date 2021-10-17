@@ -16,7 +16,7 @@ export const selectDatasourcePluginFactory = (attributeSerializer: AttributeSeri
       () => !!dataset,
       of(dataset).pipe(
         map(() => new SelectTransform(attributeSerializer.deserializeAsObject(settings))),
-        map(ds => new Dataset({ results: JSONPath({ path: ds.query, json: dataset }) }))
+        map(ds => new Dataset({ results: JSONPath({ path: ds.query, json: dataset.results }) }))
       ),
       of(new Dataset())
     )
