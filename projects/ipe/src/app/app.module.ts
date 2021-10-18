@@ -54,6 +54,7 @@ import { reducers, metaReducers } from './reducers';
 import { AuthCallbackComponent } from 'auth';
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { TransformModule } from 'transform';
+// import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
@@ -153,6 +154,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ContextModule,
     AuthModule.forRoot(),
     OidcModule.forRoot(),
+    // MonacoEditorModule.forRoot(),
     MediaModule,
     // NxModule.forRoot(),
     EntityDataModule.forRoot({}),

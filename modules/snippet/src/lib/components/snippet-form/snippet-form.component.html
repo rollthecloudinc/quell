@@ -33,11 +33,13 @@
         <as-split-area size="50">
           <div>
             <textarea formControlName="content" [cols]="cols" [rows]="rows"></textarea>
+            <!-- <ngx-monaco-editor [options]="contentEditorOptions"></ngx-monaco-editor> -->
           </div>
         </as-split-area>
         <as-split-area size="50">
           <div>
             <textarea formControlName="jsScript" [cols]="cols" [rows]="rows"></textarea>
+            <!-- <ngx-monaco-editor formControlName="jsScript"></ngx-monaco-editor> -->
           </div>
         </as-split-area>
       </as-split>

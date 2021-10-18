@@ -8,7 +8,8 @@
       "angular-split": "angular-split",
       "material": "material",
       "ngx-json-viewer": "ngx-json-viewer",
-      "ngx-markdown": "ngx-markdown"
+      "ngx-markdown": "ngx-markdown",
+      "ngx-monaco-editor": "ngx-monaco-editor"
     }
   }
 }

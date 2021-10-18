@@ -61,6 +61,8 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
   preview: string;
   isMarkdown = false;
 
+  contentEditorOptions = { theme: 'vs-dark', language: 'text/html' /*, automaticLayout: true*/ };
+
   constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {

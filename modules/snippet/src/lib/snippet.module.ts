@@ -8,6 +8,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MarkdownModule } from 'ngx-markdown';
 import { UtilsModule } from 'utils';
 import { SnippetFormComponent } from './components/snippet-form/snippet-form.component';
+// import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
   declarations: [  
@@ -22,7 +23,8 @@ import { SnippetFormComponent } from './components/snippet-form/snippet-form.com
     MaterialModule,
     NgxJsonViewerModule,
     MarkdownModule,
-    UtilsModule
+    UtilsModule,
+    // MonacoEditorModule
   ],
   exports: [
     SnippetFormComponent
