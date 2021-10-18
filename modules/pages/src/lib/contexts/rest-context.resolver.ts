@@ -25,8 +25,8 @@ export class RestContextResolver implements ContextResolver {
 
   resolve(context: ContextPlugin, data?: any): Observable<any> {
     const rest = new Rest(data);
-    return this.changePipeline(rest.params).pipe(
-      switchMap(() => this.rebuildParams(rest.params)),
+    return (rest.params && Array.isArray(rest.params) && rest.params.length > 0 ? this.changePipeline(rest.params) : of([])).pipe(
+      switchMap(() => rest.params && Array.isArray(rest.params) && rest.params.length > 0 ? this.rebuildParams(rest.params) : of([])),
       map<Array<Param>, [Array<Param>, Map<string, any>]>(params => [params, new Map<string, any>([ [ 'tag', uuid.v4() ] ])]),
       switchMap(([params, metadata]) => this.urlGeneratorService.getUrl(rest.url, params, metadata).pipe(
         map<string, [string, Map<string, any>]>(url => [url, metadata])
