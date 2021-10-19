@@ -6,7 +6,7 @@ import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
-import { map, filter, switchMap, take, defaultIfEmpty } from 'rxjs/operators';
+import { map, filter, switchMap, take, defaultIfEmpty, mergeAll } from 'rxjs/operators';
 import { Panel, PanelPage, Pane, LayoutSetting } from '../models/panels.models';
 import { PanelContentHandler } from './panel-content.handler';
 import { RulesResolverService } from 'rules';
@@ -78,37 +78,35 @@ export class DatasourceContentHandler implements ContentHandler {
       switchMap(([ds, dataset, bindings]) => iif(
         () => dataset.results.length !== 0 && bindings.length > 0,
         forkJoin(
-          dataset.results.map(row => from(bindings).pipe(
-            map(binding => (metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)),
-            switchMap(pane => iif(
-              () => pane && pane.rule && pane.rule !== null && pane.rule.condition !== '',
-              pane ? this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
-                map<boolean, [Pane, boolean]>(res => [pane, res])
-              ) : of<[Pane, boolean]>([pane, false]),
-              of(false).pipe(
-                map<boolean, [Pane, boolean]>(b => [pane, b])
-              )
-            )),
-            filter(([_, res]) => res),
-            map(([pane, _]) => pane.name),
-            defaultIfEmpty(bindings[0].id),
-            take(1)
-          ))
+          dataset.results.map(
+            row => forkJoin(
+              bindings.map(binding => of((metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)).pipe(
+                switchMap(pane => iif(
+                  () => pane && pane.rule && pane.rule !== null && pane.rule.condition !== '',
+                  pane ? this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
+                    map<boolean, [Pane, boolean]>(res => [pane, res])
+                  ) : of<[Pane, boolean]>([pane, false]),
+                  of(false).pipe(
+                    map<boolean, [Pane, boolean]>(b => [pane, b])
+                  )
+                )),
+                filter(([_, res]) => res),
+                map(([pane, _]) => pane.name),
+                defaultIfEmpty(binding.id)
+              ))
+            ).pipe(
+              map(groups => groups.reduce<Array<string>>((p, c) => [ ...p, c ], []))
+            )
+          )
         ).pipe(
-          map<Array<string>, [Datasource, Dataset, Array<string>]>(groups => [ds, dataset, groups])
+          map<Array<Array<string>>, [Datasource, Dataset, Array<Array<string>>]>(groups => [ds, dataset, groups ])
         ),
-        new Observable<[Datasource, Dataset, Array<string>]>(obs => {
+        new Observable<[Datasource, Dataset, Array<Array<string>>]>(obs => {
           obs.next([ds, dataset, []]);
           obs.complete();
         })
       )),
-      map(([ds, dataset, paneMappings]) => {
-        return dataset.results.map((row, rowIndex) => {
-          const attachedPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === paneMappings[rowIndex]);
-          const name = uuid.v4();
-          return new Pane({ ...attachedPane, rule: undefined, label: name, contexts: [ ...(metadata.get('contexts') as Array<InlineContext>) ,new InlineContext({ name: "_root", adaptor: 'data', data: row })] });
-        }) as Array<Pane>;
-      }),
+      map(([_, dataset, paneMappings]) => dataset.results.reduce((p, row, rowIndex) => [ ...p, ...(paneMappings[rowIndex] ? paneMappings[rowIndex].map(bId => new Pane({ ...(metadata.get('panes') as Array<Pane>).find(p => p.name === bId), rule: undefined, label: uuid.v4(), contexts: [ ...(metadata.get('contexts') as Array<InlineContext>) ,new InlineContext({ name: "_root", adaptor: 'data', data: row })] })) : []) ], [])),
       map(panes => new Panel({ stylePlugin: undefined, settings: [], panes, columnSetting: new LayoutSetting() })),
       map(panel => this.panelHandler.buildSettings(new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], layoutSetting: new LayoutSetting(), rowSettings: [], panels: [ panel ] }))),
       map(panelSettings => panelSettings.find(s => s.name === 'panels').attributes[0].attributes.find(s => s.name === 'panes').attributes)
