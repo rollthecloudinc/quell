@@ -172,6 +172,16 @@ is the first of many examples to follow using pane states.
 !Important: There seems to be an issue hear. When the pane using a rule is part of the same panel
 for the content that triggers the rule infinite context resolution loop occurs.
 
+Table Recipe
+
+Example of creating a table retaining all features of panel pages.
+
+This uses the new datasource capabilities of multiple viewable content bindings. Each
+column is a separate content binding on the datasource. CSS is than applied to make
+the panel page components appear like a table.
+
+https://dpxmq1mxvsyda.cloudfront.net/dev-enhanced-table-v1
+
 
 Features:
 - Default content like html and markdown.
