@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
@@ -6,7 +6,7 @@ import { InlineContext } from 'context';
 import { STYLE_PLUGIN } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { switchMap, map, filter, debounceTime, tap, delay, takeUntil, startWith } from 'rxjs/operators';
-import { Subscription, Subject, BehaviorSubject, Observable } from 'rxjs';
+import { Subscription, Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { RenderPaneComponent } from '../render-pane/render-pane.component';
@@ -33,7 +33,7 @@ import { RenderPaneComponent } from '../render-pane/render-pane.component';
     '[attr.data-index]': 'indexPosition'
   }
 })
-export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, ControlValueAccessor, Validator  {
+export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges, ControlValueAccessor, Validator  {
 
   static COUNTER = 0;
 
@@ -98,8 +98,17 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
     }
   }, 250);*/
 
+  afterContentInit$ = new Subject();
+  schedulePanelRender = new Subject<string>();
+  readonly rendered$ = new Subject();
+
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
-  cssSub = this.css$.pipe(
+  cssSub = combineLatest([
+    this.css$,
+    this.afterContentInit$,
+    this.rendered$
+  ]).pipe(
+    map(([css]) => css),
     map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition}`)),
     map((css: JSONNode) => [
       this.cssHelper.reduceCss(css, '.pane-', false),
@@ -107,7 +116,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
     ]),
     tap(([_, nestedCss]) => this.filteredCss = nestedCss),
     map(([css, _]) => css),
-    delay(1000)
+    delay(1)
   ).subscribe((css: JSONNode) => {
     /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
     console.log(css);
@@ -144,6 +153,8 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
     this.populatePanesFormArray();
     if(this.stylePlugin !== undefined) {
       this.renderPanelContent();
+    } else {
+      this.rendered$.next();
     }
 
     // clearInterval(this.initialRenderComplete);
@@ -152,7 +163,6 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
   schduleContextChangeSub: Subscription;
   schduleContextChange = new Subject<string>();
 
-  schedulePanelRender = new Subject<string>();
   schedulePanelRenderSub = this.schedulePanelRender.pipe(
     switchMap(p => this.spm.getPlugin(p))
   ).subscribe(stylePlugin => {
@@ -172,6 +182,8 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
     // (componentRef.instance as any).resolvedContexts = this.resolvedContexts;
     (componentRef.instance as any).resolvedContext = this.resolvedContext;
     (componentRef.instance as any).panel = this.panel;
+
+    this.rendered$.next();
   });
 
   resolvedPanes: Array<Pane>;
@@ -259,6 +271,10 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, OnChanges, C
   }
 
   ngAfterViewInit() {
+  }
+
+  ngAfterContentInit() {
+    this.afterContentInit$.next();
   }
 
   writeValue(val: any): void {

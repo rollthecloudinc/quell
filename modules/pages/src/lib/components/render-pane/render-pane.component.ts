@@ -1,11 +1,11 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ElementRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, ViewChild, ComponentFactoryResolver, forwardRef, ComponentRef, HostBinding, ElementRef, Renderer2, AfterContentInit } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPlugin, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { PanelPage, Pane, PanelContentHandler, PanelPageState } from 'panels';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
@@ -35,7 +35,7 @@ import { PaneStateService } from '../../services/pane-state.service';
     '[attr.data-index]': 'indexPosition'
   }
 })
-export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, Validator {
+export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, Validator, AfterContentInit {
 
   @Input()
   pluginName: string;
@@ -81,6 +81,9 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     return `pane-${this.indexPosition}`;
   } 
 
+  readonly afterContentInit$ = new Subject();
+  private schedulePluginChange = new Subject();
+
   contentPlugin: ContentPlugin;
  
   panelPage: PanelPage;
@@ -92,7 +95,12 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   filteredCss: JSONNode;
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
-  cssSub = this.css$.pipe(
+  cssSub = combineLatest([
+    this.css$,
+    this.afterContentInit$,
+    // this.schedulePluginChange
+  ]).pipe(
+    map(([css]) => css),
     map((css: JSONNode) => this.cssHelper.reduceCss(css, `.pane-${this.indexPosition}`)),
     map((css: JSONNode) => [
       this.cssHelper.reduceCss(css, '.panel-page', false),
@@ -100,7 +108,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     ]),
     tap(([_, nestedCss]) => this.filteredCss = nestedCss),
     map(([css, _]) => css),
-    delay(1000)
+    // delay(500)
   ).subscribe(css => {
     const keys = Object.keys(css.children);
     keys.forEach(k => {
@@ -143,7 +151,6 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   // private contentPlugins: Array<ContentPlugin> = [];
 
-  private schedulePluginChange = new Subject();
   private pluginChangeSub = this.schedulePluginChange.pipe(
     filter(() => this.pluginName && this.pluginName !== null && this.pluginName !== ''),
     switchMap(() => this.cpm.getPlugin(this.pluginName))
@@ -211,6 +218,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     } else {
       this.renderPaneContent();
     }*/
+  }
+
+  ngAfterContentInit() {
+    this.afterContentInit$.next();
   }
 
   writeValue(val: any): void {

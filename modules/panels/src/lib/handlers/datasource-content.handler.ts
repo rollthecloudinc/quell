@@ -80,7 +80,7 @@ export class DatasourceContentHandler implements ContentHandler {
         forkJoin(
           dataset.results.map(
             row => forkJoin(
-              bindings.map(binding => of((metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)).pipe(
+              bindings.filter(b => !dataPanes.has(b.id)).map(binding => of((metadata.get('panes') as Array<Pane>).find(p => p.name === binding.id)).pipe(
                 switchMap(pane => iif(
                   () => pane && pane.rule && pane.rule !== null && pane.rule.condition !== '',
                   pane ? this.rulesResolver.evaluate(pane.rule,[ ...(metadata.get('contexts') as Array<InlineContext>), ...(pane.contexts !== undefined ? pane.contexts : []), new InlineContext({ name: "_root", adaptor: 'data', data: row }) ]).pipe(
