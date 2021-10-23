@@ -131,6 +131,10 @@
       "awcog": [
         "dist/awcog/awcog",
         "dist/awcog"
+      ],
+      "crud": [
+        "dist/crud/crud",
+        "dist/crud"
       ]
     }
   },

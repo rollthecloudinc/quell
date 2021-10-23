@@ -2,6 +2,17 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/aws3",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@ngrx/data": "@ngrx/effects",
+      "@ngrx/entity": "@ngrx/entity",
+      "@aws-sdk/client-s3": "@aws-sdk/client-s3",
+      "@aws-sdk/credential-provider-cognito-identity": "@aws-sdk/credential-provider-cognito-identity",
+      "@aws-sdk/client-cognito-identity": "@aws-sdk/client-cognito-identity",
+      "auth": "auth",
+      "gzip-js": "gzip-js",
+      "uuid": "uuid",
+      "crud": "crud"
+    }
   }
 }

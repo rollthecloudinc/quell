@@ -20,7 +20,10 @@
       "token": "token",
       "durl": "durl",
       "rules": "rules",
-      "plugin": "plugin"
+      "plugin": "plugin",
+      "aws3": "aws3",
+      "auth": "auth",
+      "crud": "crud"
     }
   }
 }
