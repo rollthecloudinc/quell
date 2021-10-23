@@ -123,6 +123,14 @@
       "rules": [
         "dist/rules/rules",
         "dist/rules"
+      ],
+      "aws3": [
+        "dist/aws3/aws3",
+        "dist/aws3"
+      ],
+      "awcog": [
+        "dist/awcog/awcog",
+        "dist/awcog"
       ]
     }
   },

@@ -1263,5 +1263,85 @@
           }
         }
       }
+    },
+    "aws3": {
+      "projectType": "library",
+      "root": "modules/aws3",
+      "sourceRoot": "modules/aws3/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/aws3/tsconfig.lib.json",
+            "project": "modules/aws3/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/aws3/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/aws3/src/test.ts",
+            "tsConfig": "modules/aws3/tsconfig.spec.json",
+            "karmaConfig": "modules/aws3/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/aws3/tsconfig.lib.json",
+              "modules/aws3/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "awcog": {
+      "projectType": "library",
+      "root": "modules/awcog",
+      "sourceRoot": "modules/awcog/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/awcog/tsconfig.lib.json",
+            "project": "modules/awcog/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/awcog/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/awcog/src/test.ts",
+            "tsConfig": "modules/awcog/tsconfig.spec.json",
+            "karmaConfig": "modules/awcog/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/awcog/tsconfig.lib.json",
+              "modules/awcog/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
