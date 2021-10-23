@@ -2,6 +2,12 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/awcog",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "@ngrx/effects": "@ngrx/effects",
+      "@ngrx/data": "@ngrx/effects",
+      "js-cookie": "js-cookie",
+      "auth": "auth"
+    }
   }
 }
