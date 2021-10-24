@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
-import { Param, ParamPluginManager, ParamPlugin } from 'dparam';
-import { Observable, of, forkJoin, iif } from 'rxjs';
+import { Param, ParamPluginManager, ParamEvaluatorService } from 'dparam';
+import { Observable, of, forkJoin } from 'rxjs';
 import { map, switchMap, defaultIfEmpty, tap, } from 'rxjs/operators';
 import * as qs from 'qs';
 @Injectable({
@@ -12,7 +12,8 @@ export class UrlGeneratorService {
 
   constructor(
     private routerStore: Store<RouterReducerState>,
-    private paramPluginManager: ParamPluginManager
+    private paramPluginManager: ParamPluginManager,
+    private paramEvaluatorService: ParamEvaluatorService
   ) {}
 
   getUrl(url, params: Array<Param>, metadata: Map<string, any>): Observable<string> {
@@ -29,7 +30,7 @@ export class UrlGeneratorService {
         const mappings = params.reduce<Map<string, Param>>((p, c, i) => new Map([ ...p, [paramNames[i], c ] ]), new Map<string, Param>());
         const path$ = pathPieces.reduce<Array<Observable<string>>>((p, c, i) => {
           if(c.indexOf(':') === 0) {
-            return [ ...p, this.paramValue(mappings.get(c/*.substr(1)*/), meta)];
+            return [ ...p, this.paramEvaluatorService.paramValue(mappings.get(c/*.substr(1)*/), meta)];
           } else {
             return [ ...p, of(pathPieces[i])];
           }
@@ -37,9 +38,9 @@ export class UrlGeneratorService {
         const qs$: Array<Observable<[string, any, boolean]>> = [];
         for(const prop in qsParsed) {
           if(Array.isArray(qsParsed[prop])) {
-            qsParsed[prop].forEach(p => qs$.push(this.paramValue(mappings.get(p), meta).pipe(map(v => [prop, v, true]))));
+            qsParsed[prop].forEach(p => qs$.push(this.paramEvaluatorService.paramValue(mappings.get(p), meta).pipe(map(v => [prop, v, true]))));
           } else if(typeof(qsParsed[prop]) === 'string' && qsParsed[prop].indexOf(':') > -1) {
-            qs$.push(this.paramValue(mappings.get(qsParsed[prop]/*.substr(1)*/), meta).pipe(map(v => [prop, v, false])));
+            qs$.push(this.paramEvaluatorService.paramValue(mappings.get(qsParsed[prop]/*.substr(1)*/), meta).pipe(map(v => [prop, v, false])));
           } else {
             qs$.push(of([prop, qsParsed[prop], Array.isArray(qsParsed[prop])]));
           }
@@ -82,18 +83,6 @@ export class UrlGeneratorService {
       }
     }
     return paramNames;
-  }
-
-  paramValue(param: Param, metadata: Map<string, any>): Observable<string> {
-    return this.paramPluginManager.getPlugins().pipe(
-      map<Map<string, ParamPlugin<string>>, Array<ParamPlugin<string>>>(plugins => Array.from(plugins).map(([_, p]) => p)),
-      map(plugins => plugins.find(p => (p.condition && p.condition({ param, metadata }) || (!p.condition && p.id === param.mapping.type)))),
-      switchMap<ParamPlugin<string>, Observable<any>>(p => iif(
-        () => !!p,
-        p ? p.evalParam({ param, metadata }) : of(/*param.mapping.value*/),
-        of(param.mapping.value)
-      ))
-    );
   }
 
   rebuildQueryString(q: any): any {
