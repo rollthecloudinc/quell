@@ -26,7 +26,7 @@ import { PanelsModule } from 'panels';
 import { FormlyModule } from 'formly';
 import { BridgeModule } from 'bridge';
 import { StateModule } from 'state';
-import { AwcogModule } from 'awcog';
+import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from 'awcog';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -179,6 +179,8 @@ export function markedOptionsFactory(): MarkedOptions {
 
     { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
+
+    { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
     // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
     // { provide: AD_SETTINGS, useValue: new AdSettings(environment.adSettings) },
     // { provide: TAXONOMY_SETTINGS, useValue: new TaxonomySettings(environment.taxonomySettings) },

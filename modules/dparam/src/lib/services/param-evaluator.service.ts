@@ -3,7 +3,11 @@ import { Param } from "../models/param.models";
 import { ParamPluginManager } from '../services/param-plugin-manager.service';
 import { iif, Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
+import { Injectable } from "@angular/core";
 
+@Injectable({
+  providedIn: 'root'
+})
 export class ParamEvaluatorService {
 
   constructor(

@@ -2,16 +2,17 @@ import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { AuthFacade } from 'auth';
+import { CognitoSettings } from 'awcog';
 import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput } from 'crud';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 
-export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade) => {
+export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings) => {
   return new CrudAdaptorPlugin<string>({
     id: 'aws_s3_entity',
     title: 'AWS S3 Entity',
     create: ({ object, identity }: CrudOperationInput) => of({ success: false }).pipe(
-      map(() => buildClient(authFacade)),
+      map(() => buildClient(authFacade, cognitoSettings)),
       switchMap(s3 => identity({ object }).pipe(
         map(({ identity }) => ({ s3, identity }))
       )),
@@ -48,15 +49,13 @@ export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade) => {
   });
 };
 
-// @todo: use config values from somewhere. - prob awcog will host config
-const buildClient = (authFacade: AuthFacade) => new S3Client({
-  region: 'us-east-1',
+const buildClient = (authFacade: AuthFacade, cognitoSettings: CognitoSettings) => new S3Client({
+  region: cognitoSettings.region,
   credentials: fromCognitoIdentityPool({
-    client: new CognitoIdentityClient({ region: 'us-east-1' }),
-    identityPoolId: 'us-east-1:6f5cdc41-35b0-41ca-9f6b-7eca11320942',
-    // userPool: 'us-east-1_z8PhK3D8V',
+    client: new CognitoIdentityClient({ region: cognitoSettings.region }),
+    identityPoolId: cognitoSettings.identityPoolId,
     logins: {
-      'cognito-idp.us-east-1.amazonaws.com/us-east-1_z8PhK3D8V': () => authFacade.getUser$.pipe(map(u => u ? u.id_token : undefined), take(1)).toPromise()
+      [`cognito-idp.${cognitoSettings.region}.amazonaws.com/${cognitoSettings.userPoolId}`]: () => authFacade.getUser$.pipe(map(u => u ? u.id_token : undefined), take(1)).toPromise()
     }
   }),
 });
