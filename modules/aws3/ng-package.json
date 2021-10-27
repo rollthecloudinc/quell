@@ -13,8 +13,8 @@
       "gzip-js": "gzip-js",
       "uuid": "uuid",
       "crud": "crud",
-      "dparam": "dparam",
-      "awcog": "awcog"
+      "awcog": "awcog",
+      "dparam": "dparam"
     }
   }
 }
