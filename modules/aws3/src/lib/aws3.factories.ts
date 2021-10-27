@@ -17,21 +17,17 @@ export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognito
       switchMap(s3 => identity({ object }).pipe(
         map(({ identity }) => ({ s3, identity }))
       )),
-      switchMap(({ s3, identity }) => params && params.length !== 0 ? forkJoin(params.map(p => paramsEvaluatorService.paramValue(p, new Map<string, any>()))).pipe(
-        tap(ep => console.log(ep)),
-        map(() => ({ s3, identity }))
-      ): of({ s3, identity })),
-      map(({ s3, identity }) => {
-        // additional params needed here. - name builder, bucket, key 
-        // const name = ep.prefix + '/' + identity + '.json';
-        const name = 'panelpages/' + identity + '.json';
-        // const content = gzip.zip(JSON.stringify(entity), { name });
+      switchMap(({ s3, identity }) => params && Object.keys(params).length !== 0 ? forkJoin(Object.keys(params).map(name => paramsEvaluatorService.paramValue(params[name], new Map<string, any>()).pipe(map(v => ({ [name]: v }))))).pipe(
+        map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
+        map(options => ({ s3, identity, options }))
+      ): of({ s3, identity, options: {} })),
+      map(({ s3, identity, options }) => {
+        const name = options.prefix + identity + '.json';
         const command = new PutObjectCommand({
-          Bucket: 'classifieds-ui-dev', // ep.bucket
+          Bucket: options.bucket,
           Key: name,
           Body: JSON.stringify(object),
-          ContentType: 'application/json',
-          //ContentEncoding: 'gzip'
+          ContentType: 'application/json'
         });
         return { s3, command };
       }),

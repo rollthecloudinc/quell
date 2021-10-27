@@ -1,11 +1,12 @@
 import { EntityCollectionDataService, DefaultDataService, DefaultDataServiceConfig, HttpUrlGenerator, EntityDefinitionService, EntityDefinition } from "@ngrx/data";
 import { Update } from "@ngrx/entity";
-import { Observable, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
 import { map, switchMap } from "rxjs/operators";
 import * as uuid from 'uuid';
 import { CrudEntityMetadata } from "../models/entity-metadata.models";
+import { Param } from "dparam";
 // import { Param } from "dparam";
 
 export class CrudDataService<T> extends DefaultDataService<T> implements EntityCollectionDataService<T> {
@@ -21,22 +22,35 @@ export class CrudDataService<T> extends DefaultDataService<T> implements EntityC
     super(entityName, http, httpUrlGenerator, config);
   }
 
-  add(entity: T): Observable<T> {
+  add(object: T): Observable<T> {
 
     // return of(entity);
 
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-    console.log('crud def');
-    console.log(metadata.crud);
+    // console.log('crud def');
+    // console.log(metadata.crud);
 
-    // const plugin = Object.keys(metadata.crud).pop();
+    const adaptors = Object.keys(metadata.crud);
+    const operations$ = adaptors.map(
+      a => this.crud.getPlugin(a).pipe(
+        map(p => ({ p, params: metadata.crud[a].params ? Object.keys(metadata.crud[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: metadata.crud[a].params[name], context: undefined, testValue: metadata.crud[a].params[name] } }) }), {}) : {} })),
+        switchMap(({ p, params }) => p.create({ object, params, identity: () => of({ identity: uuid.v4() }) }))
+      )
+    );
 
-    // execute each defined plugin, first convert params object to true param array and pass to operation.
+    return forkJoin(operations$).pipe(
+      map(() => object)
+    );
+
+    /* 
+    const plugin = Object.keys(metadata.crud).pop();
+
+    execute each defined plugin, first convert params object to true param array and pass to operation.
 
     return this.crud.getPlugin('aws_s3_entity').pipe(
       switchMap(p => p.create({ object: entity, identity: ({ object }) => of({ identity: uuid.v4() }) })),
       map(() => entity)
-    );
+    );*/
 
   }
   update(update: Update<T>): Observable<T> {

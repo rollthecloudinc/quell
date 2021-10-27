@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 export type CrudIdentityProvider = ({ object }: { object: any }) => Observable<{ identity: any }>;
 
 export type CrudOperationResponse = { success: boolean };
-export type CrudOperationInput = { object: any, identity: CrudIdentityProvider, params?: Array<Param> };
+export type CrudOperationInput = { object: any, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
 
 export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
   create: ({ object, identity }: CrudOperationInput) => Observable<CrudOperationResponse>;
