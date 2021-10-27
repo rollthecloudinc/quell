@@ -14,8 +14,8 @@ import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 import { PanelPageState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
-import { S3DataService, Aws3Module } from 'aws3';
-import { CrudAdaptorPluginManager, CrudModule } from 'crud';
+import { Aws3Module } from 'aws3';
+import { CrudAdaptorPluginManager, CrudModule, CrudDataService } from 'crud';
 // import { PanelsStateContextResolver } from './contexts/panels-state-context.resolver';
 import { ContextPluginManager } from 'context';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
@@ -65,14 +65,15 @@ export class PanelsModule {
     http: HttpClient,
     pluralizer: Pluralizer,
     dataServiceConfig: DefaultDataServiceConfig,
-    crud: CrudAdaptorPluginManager
+    crud: CrudAdaptorPluginManager,
+    entityDefinitionService: EntityDefinitionService,
     /*ctxm: ContextPluginManager,
     panelsStateContextResolver: PanelsStateContextResolver*/
   ) {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save
-    entityDataService.registerService('PanelPage', new S3DataService<PanelPage>('PanelPage', http, new DefaultHttpUrlGenerator(pluralizer), crud, dataServiceConfig));
+    entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
     contentPlugins.forEach(p => cpm.register(p));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));

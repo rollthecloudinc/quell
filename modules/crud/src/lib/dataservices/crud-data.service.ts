@@ -1,24 +1,37 @@
-import { EntityCollectionDataService, DefaultDataService, DefaultDataServiceConfig, HttpUrlGenerator } from "@ngrx/data";
+import { EntityCollectionDataService, DefaultDataService, DefaultDataServiceConfig, HttpUrlGenerator, EntityDefinitionService, EntityDefinition } from "@ngrx/data";
 import { Update } from "@ngrx/entity";
 import { Observable, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
 import { map, switchMap } from "rxjs/operators";
-import  * as uuid from 'uuid';
-import { CrudAdaptorPluginManager } from "crud";
+import * as uuid from 'uuid';
+import { CrudEntityMetadata } from "../models/entity-metadata.models";
+// import { Param } from "dparam";
 
-export class S3DataService<T> extends DefaultDataService<T> implements EntityCollectionDataService<T> {
+export class CrudDataService<T> extends DefaultDataService<T> implements EntityCollectionDataService<T> {
 
   constructor(
     entityName: string,
     protected http: HttpClient,
     protected httpUrlGenerator: HttpUrlGenerator,
     protected crud: CrudAdaptorPluginManager,
+    protected entityDefinitionService: EntityDefinitionService,
     config?: DefaultDataServiceConfig
   ) {
     super(entityName, http, httpUrlGenerator, config);
   }
 
   add(entity: T): Observable<T> {
+
+    // return of(entity);
+
+    const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
+    console.log('crud def');
+    console.log(metadata.crud);
+
+    // const plugin = Object.keys(metadata.crud).pop();
+
+    // execute each defined plugin, first convert params object to true param array and pass to operation.
 
     return this.crud.getPlugin('aws_s3_entity').pipe(
       switchMap(p => p.create({ object: entity, identity: ({ object }) => of({ identity: uuid.v4() }) })),
@@ -65,4 +78,5 @@ export class S3DataService<T> extends DefaultDataService<T> implements EntityCol
     });*/
 
   }
+
 }

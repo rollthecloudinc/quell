@@ -5,7 +5,9 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "plugin": "plugin",
-      "utils": "utils"
+      "utils": "utils",
+      "@ngrx/data": "@ngrx/data",
+      "uuid": "uuid"
     }
   }
 }

@@ -4,24 +4,30 @@ import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-id
 import { AuthFacade } from 'auth';
 import { CognitoSettings } from 'awcog';
 import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput } from 'crud';
-import { Observable, of } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { ParamEvaluatorService } from 'dparam';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
-export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings) => {
+export const s3EntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService) => {
   return new CrudAdaptorPlugin<string>({
     id: 'aws_s3_entity',
     title: 'AWS S3 Entity',
-    create: ({ object, identity }: CrudOperationInput) => of({ success: false }).pipe(
+    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
       map(() => buildClient(authFacade, cognitoSettings)),
       switchMap(s3 => identity({ object }).pipe(
         map(({ identity }) => ({ s3, identity }))
       )),
+      switchMap(({ s3, identity }) => params && params.length !== 0 ? forkJoin(params.map(p => paramsEvaluatorService.paramValue(p, new Map<string, any>()))).pipe(
+        tap(ep => console.log(ep)),
+        map(() => ({ s3, identity }))
+      ): of({ s3, identity })),
       map(({ s3, identity }) => {
         // additional params needed here. - name builder, bucket, key 
+        // const name = ep.prefix + '/' + identity + '.json';
         const name = 'panelpages/' + identity + '.json';
         // const content = gzip.zip(JSON.stringify(entity), { name });
         const command = new PutObjectCommand({
-          Bucket: 'classifieds-ui-dev',
+          Bucket: 'classifieds-ui-dev', // ep.bucket
           Key: name,
           Body: JSON.stringify(object),
           ContentType: 'application/json',
