@@ -66,6 +66,7 @@ In addition to Angular Druid also uses many nodejs projects.
 * css-json | https://www.npmjs.com/package/cssjson
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
+* idb-keyval | https://github.com/jakearchibald/idb-keyval
 
 # Examples
 
