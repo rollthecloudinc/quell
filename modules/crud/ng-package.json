@@ -8,7 +8,8 @@
       "utils": "utils",
       "@ngrx/data": "@ngrx/data",
       "uuid": "uuid",
-      "dparam": "dparam"
+      "dparam": "dparam",
+      "json-rules-engine": "json-rules-engine"
     }
   }
 }

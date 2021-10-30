@@ -263,7 +263,7 @@ export class PagesModule {
     bpm.getPlugin('pages_form').subscribe(p => p.build());
 
     // Experimental - form testing
-    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
+    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService));
 
     crud.register(formSerializationEntityCrudAdaptorPluginFactory(paramEvaluatorService, formService));
   }
