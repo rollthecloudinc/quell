@@ -13,7 +13,8 @@ export interface CrudEntityConfiguration {
 }
 
 export interface CrudEntityConfigurationPlugin {
-  params: CrudEntityConfigurationParams;
+  params?: CrudEntityConfigurationParams;
+  plugins?: CrudEntityConfiguration;
 }
 
 export interface CrudEntityConfigurationParams {

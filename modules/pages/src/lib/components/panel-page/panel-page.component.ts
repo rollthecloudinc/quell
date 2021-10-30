@@ -118,6 +118,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   // private contentPlugins: Array<ContentPlugin> = [];
 
   private panelPageService: EntityCollectionService<PanelPage>;
+  private panelPageFormService: EntityCollectionService<PanelPageForm>;
 
   private schedulePageFetch = new Subject();
   private pageFetchSub = this.schedulePageFetch.pipe(
@@ -226,6 +227,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   ) {
     // this.contentPlugins = contentPlugins;
     this.panelPageService = es.getEntityCollectionService('PanelPage');
+    this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
   }
 
   ngOnInit(): void {
@@ -345,9 +347,12 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   }
 
   submit() {
-    const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
+    const panelPageForm = new PanelPageForm({ ...this.pageForm.value, id: uuid.v4() });
     console.log(panelPageForm);
     console.log(this.formService.serializeForm(panelPageForm));
+    this.panelPageFormService.add(panelPageForm).subscribe(() => {
+      alert('panel page form added!');
+    });
   }
 
   renderLayoutRenderer(layout: string) {

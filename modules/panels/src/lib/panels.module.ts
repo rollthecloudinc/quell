@@ -73,7 +73,7 @@ export class PanelsModule {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save
-    entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
+    // entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
     contentPlugins.forEach(p => cpm.register(p));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));

@@ -31,7 +31,7 @@ import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
-import { ParamPlugin, Param } from 'dparam';
+import { ParamPlugin, Param, ParamEvaluatorService } from 'dparam';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { TokenizerService } from 'token';
 import { FormService } from './services/form.service';
@@ -39,6 +39,7 @@ import { PanelPageForm } from './models/form.models';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { combineLatest, merge, of } from 'rxjs';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
+import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from 'crud';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -220,4 +221,15 @@ export const pagesFormBridgeFactory = (formService: FormService) => {
       }
     }
   }); 
+};
+
+export const formSerializationEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamEvaluatorService, formService: FormService) => {
+  return new CrudAdaptorPlugin<string>({
+    id: 'panelpageform_serialize',
+    title: 'Panelpageform Serialize',
+    create: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: formService.serializeForm(new PanelPageForm(object)) }),
+    read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    update: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false })
+  });
 };

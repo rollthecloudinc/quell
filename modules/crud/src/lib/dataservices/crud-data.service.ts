@@ -1,11 +1,12 @@
 import { EntityCollectionDataService, DefaultDataService, DefaultDataServiceConfig, HttpUrlGenerator, EntityDefinitionService, EntityDefinition } from "@ngrx/data";
 import { Update } from "@ngrx/entity";
-import { forkJoin, Observable, of } from "rxjs";
+import { forkJoin, iif, Observable, of } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
 import { map, switchMap } from "rxjs/operators";
 import * as uuid from 'uuid';
-import { CrudEntityMetadata } from "../models/entity-metadata.models";
+import { CrudEntityConfiguration, CrudEntityMetadata } from "../models/entity-metadata.models";
+import { CrudOperations } from '../models/crud.models';
 import { Param } from "dparam";
 // import { Param } from "dparam";
 
@@ -30,17 +31,27 @@ export class CrudDataService<T> extends DefaultDataService<T> implements EntityC
     // console.log('crud def');
     // console.log(metadata.crud);
 
-    const adaptors = Object.keys(metadata.crud);
+    // quick and dirty add an id. This needs to be more flexible.
+    // (object as any).id = uuid.v4(); // or require called to set id?
+
+    return this.evaluatePlugins({ object, plugins: metadata.crud, op: 'create' });
+
+    /*const adaptors = Object.keys(metadata.crud);
     const operations$ = adaptors.map(
       a => this.crud.getPlugin(a).pipe(
         map(p => ({ p, params: metadata.crud[a].params ? Object.keys(metadata.crud[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: metadata.crud[a].params[name], context: undefined, testValue: metadata.crud[a].params[name] } }) }), {}) : {} })),
-        switchMap(({ p, params }) => p.create({ object, params, identity: () => of({ identity: uuid.v4() }) }))
+        switchMap(({ p, params }) => p.create({ object, params, identity: ({ object }) => of({ identity: object.id }) })),
+        switchMap(res => iif(
+          () => metadata.crud[a].plugins && Object.keys(metadata.crud[a].plugins).length !== 0,
+          metadata.crud[a].plugins && Object.keys(metadata.crud[a].plugins).length !== 0 ? this.evaluatePlugins({ plugins: crud[a].plugins, res }) : of (res),
+          of(res)
+        ))
       )
     );
 
     return forkJoin(operations$).pipe(
       map(() => object)
-    );
+    );*/
 
     /* 
     const plugin = Object.keys(metadata.crud).pop();
@@ -91,6 +102,24 @@ export class CrudDataService<T> extends DefaultDataService<T> implements EntityC
       });
     });*/
 
+  }
+
+  evaluatePlugins({ object, plugins, op, parentObject }: { object: any, plugins: CrudEntityConfiguration, op: CrudOperations, parentObject?: any }): Observable<T> {
+    const adaptors = Object.keys(plugins);
+    const operations$ = adaptors.map(
+      a => this.crud.getPlugin(a).pipe(
+        map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
+        switchMap(({ p, params }) => p.create({ object, parentObject, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
+        switchMap(res => iif(
+          () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
+          plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? this.evaluatePlugins({ plugins: plugins[a].plugins, object: res.entity ? res.entity : object, parentObject: res.originalEntity ? res.originalEntity : object, op }) : of (res),
+          of(res)
+        ))
+      )
+    );
+    return forkJoin(operations$).pipe(
+      map(() => object)
+    );
   }
 
 }

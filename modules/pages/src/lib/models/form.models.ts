@@ -43,12 +43,14 @@ export class PanePropsFormPayload {
 }
 
 export class PanelPageForm {
+  id: string;
   name: string;
   title: string;
   derivativeId: string;
   panels: Array<PanelPageFormPanel> = [];
   constructor(data?: PanelPageForm) {
     if(data) {
+      this.id = data.id;
       this.name = data.name;
       this.title = data.title;
       this.derivativeId = data.derivativeId;

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PanelPage } from 'panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'classifieds-ui-create-panel-page',
@@ -21,6 +22,7 @@ export class CreatePanelPageComponent implements OnInit {
 
   onSubmit(panelPage: PanelPage) {
     console.log(panelPage);
+    panelPage.id = uuid.v4(); // For now just do this here.
     this.panelPageService.add(panelPage).subscribe(() => {
       alert('panel page created');
     });

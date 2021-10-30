@@ -52,6 +52,7 @@
     "entities": "^3.0.1",
     "fast-xml-parser": "^3.20.3",
     "gzip-js": "^0.3.2",
+    "idb-keyval": "^6.0.3",
     "js-cookie": "^2.2.1",
     "json-rules-engine": "^5.0.4",
     "jsonpath-plus": "^4.0.0",

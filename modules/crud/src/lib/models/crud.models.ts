@@ -2,16 +2,18 @@ import { Param } from 'dparam';
 import { Plugin } from 'plugin';
 import { Observable } from 'rxjs';
 
-export type CrudIdentityProvider = ({ object }: { object: any }) => Observable<{ identity: any }>;
+export type CrudOperations = 'create' | 'read' | 'update' | 'delete';
 
-export type CrudOperationResponse = { success: boolean };
-export type CrudOperationInput = { object: any, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
+export type CrudIdentityProvider = ({ object, parentObject }: { object: any, parentObject?: any }) => Observable<{ identity: any }>;
+
+export type CrudOperationResponse = { success: boolean, entity?: any, originalEntity?: any };
+export type CrudOperationInput = { object: any, parentObject?: any, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
 
 export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
-  create: ({ object, identity }: CrudOperationInput) => Observable<CrudOperationResponse>;
-  read: ({ object, identity }: CrudOperationInput) => Observable<CrudOperationResponse>;
-  update: ({ object, identity }: CrudOperationInput) => Observable<CrudOperationResponse>;
-  delete: ({ object, identity }: CrudOperationInput) => Observable<CrudOperationResponse>;
+  create: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
+  read: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
+  update: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
+  delete: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
   constructor(data?: CrudAdaptorPlugin<T>) {
     super(data)
     if (data) {

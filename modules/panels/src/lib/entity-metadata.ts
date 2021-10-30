@@ -11,7 +11,8 @@ export const entityMetadata: CrudEntityMetadataMap = {
       aws_s3_entity: {
         params: {
           bucket: 'classifieds-ui-dev',
-          prefix: 'panelpages/'
+          prefix: 'panelpages/',
+          serialize: ''
         }
       }
     }

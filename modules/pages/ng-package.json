@@ -39,7 +39,8 @@
       "rest": "rest",
       "snippet": "snippet",
       "rules": "rules",
-      "bridge": "bridge"
+      "bridge": "bridge",
+      "crud": "crud"
     }
   }
 }

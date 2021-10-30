@@ -27,6 +27,7 @@ import { FormlyModule } from 'formly';
 import { BridgeModule } from 'bridge';
 import { StateModule } from 'state';
 import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from 'awcog';
+import { KeyvalModule } from 'keyval';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -164,7 +165,8 @@ export function markedOptionsFactory(): MarkedOptions {
     PagealiasModule,
     FormlyModule,
     TransformModule,
-    AwcogModule
+    AwcogModule,
+    KeyvalModule
     // JsonschemaModule
     // OktaAuthModule
   ],

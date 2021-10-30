@@ -22,8 +22,8 @@ import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginMana
 import { STYLE_PLUGIN } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GridsterModule } from 'angular-gridster2';
-import { EntityDefinitionService } from '@ngrx/data';
-import { HttpClientModule } from '@angular/common/http';
+import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, EntityDataService, EntityDefinitionService, Pluralizer } from '@ngrx/data';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { entityMetadata } from './entity-metadata';
 import { ContentSelectorComponent } from './components/content-selector/content-selector.component';
 import { ContentSelectionHostDirective } from './directives/content-selection-host.directive';
@@ -42,7 +42,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -94,8 +94,10 @@ import { PaneStateContextResolver } from './contexts/pane-state-context.resolver
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { FormService } from './services/form.service';
-import { ParamPluginManager, DparamModule } from 'dparam';
+import { ParamPluginManager, DparamModule, ParamEvaluatorService } from 'dparam';
 import { BridgeBuilderPluginManager, BridgeModule } from 'bridge';
+import { CrudAdaptorPluginManager, CrudDataService } from 'crud';
+import { PanelPageForm } from './models/form.models';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -211,7 +213,14 @@ export class PagesModule {
     formContextResolver: FormContextResolver,
     paneStateContextResolver: PaneStateContextResolver,
     pageStateContextResolver: PageStateContextResolver,
-    bpm: BridgeBuilderPluginManager
+    bpm: BridgeBuilderPluginManager,
+    http: HttpClient,
+    pluralizer: Pluralizer,
+    dataServiceConfig: DefaultDataServiceConfig,
+    crud: CrudAdaptorPluginManager,
+    entityDefinitionService: EntityDefinitionService,
+    entityDataService: EntityDataService,
+    paramEvaluatorService: ParamEvaluatorService
   ) {
     eds.registerMetadataMap(entityMetadata);
 
@@ -253,5 +262,9 @@ export class PagesModule {
     // It doesn't really do any harm calling build though since prototype will just overriden and shouldn't have state anyway.
     bpm.getPlugin('pages_form').subscribe(p => p.build());
 
+    // Experimental - form testing
+    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
+
+    crud.register(formSerializationEntityCrudAdaptorPluginFactory(paramEvaluatorService, formService));
   }
 }
