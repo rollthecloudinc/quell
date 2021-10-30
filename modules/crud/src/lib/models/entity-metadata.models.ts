@@ -1,4 +1,6 @@
 import { EntityMetadata } from "@ngrx/data";
+import { CrudOperations } from "../models/crud.models";
+import { Rule } from "json-rules-engine";
 
 export interface CrudEntityMetadata<T = any, S extends object = {}> extends EntityMetadata<T, S>  {
   crud: CrudEntityConfiguration;
@@ -13,8 +15,11 @@ export interface CrudEntityConfiguration {
 }
 
 export interface CrudEntityConfigurationPlugin {
+  plugin?: string;
   params?: CrudEntityConfigurationParams;
   plugins?: CrudEntityConfiguration;
+  rule?: Rule
+  ops?: Array<CrudOperations>
 }
 
 export interface CrudEntityConfigurationParams {
