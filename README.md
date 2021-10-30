@@ -324,7 +324,7 @@ Change detection aware params that can be used as input to other methods evaluat
 
 Url management helpers and param plugin definitions.
 
-# Rules
+## Rules
 
 Provides services to interface with rules engine and query builder.
 
