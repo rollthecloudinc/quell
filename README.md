@@ -291,3 +291,47 @@ This effectively allows panel pages to be used not only for layout but to create
 and define new entities dynamically using the panel page builder.
 
 In Drupal this is known as "panels everywhere".
+
+## Crud
+
+NgRx extension providing plugin system integration with data services.
+Adds metadata map properties to easily run and configure crud plugins.
+
+## Aw*
+
+Integrations with AWS.
+
+* Cognito
+* s3
+
+## Oidc
+
+Open Connect authentication integration.
+
+## Bridge
+
+Client-side extensibe bridge to facilitate communication between Angular application and external scripts.
+
+## Datasource
+
+Configurable reusable fetch operations using optional form editor.
+
+## Param
+
+Change detection aware params that can be used as input to other methods evaluated at runtime.
+
+## Url
+
+Url management helpers and param plugin definitions.
+
+# Rules
+
+Provides services to interface with rules engine and query builder.
+
+## Transform
+
+Provides data source plugins to transform and mutate datasources.
+
+## Keyval
+
+Provides crud plugin to manage persistence to idb.

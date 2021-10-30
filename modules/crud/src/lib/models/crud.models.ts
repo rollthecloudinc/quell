@@ -9,11 +9,17 @@ export type CrudIdentityProvider = ({ object, parentObject }: { object: any, par
 export type CrudOperationResponse = { success: boolean, entity?: any, originalEntity?: any };
 export type CrudOperationInput = { object: any, parentObject?: any, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
 
+export type CrudCollectionOperationInput = { objects: Iterable<any>, parentObjects?: Iterable<any>, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
+
+export type CrudCollectionOperationResponse = { success: boolean, entities: Iterable<any> };
 export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
   create: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
   read: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
   update: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
   delete: ({ object, identity, parentObject }: CrudOperationInput) => Observable<CrudOperationResponse>;
+  // Query is an extensions to CRUD to support BASIC queries / compatibility with NgRx data service interface.
+  // Complex queries / searches will be managed separate from CRUD.
+  query?: ({ objects, identity, parentObjects }: CrudCollectionOperationInput) => Observable<CrudCollectionOperationResponse>;
   constructor(data?: CrudAdaptorPlugin<T>) {
     super(data)
     if (data) {
@@ -21,6 +27,9 @@ export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
       this.read = data.read;
       this.update = data.update;
       this.delete = data.delete;
+      if (data.query) {
+        this.query = data.query;
+      }
     }
   }
 }
