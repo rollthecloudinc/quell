@@ -1,6 +1,6 @@
 import { AttributeValue } from 'attributes';
 import { Dataset, DatasourcePlugin, DatasourceEditorOptions, Datasource, Rest } from 'datasource';
-import { Observable, of, throwError } from 'rxjs';
+import { iif, Observable, of, throwError } from 'rxjs';
 import { catchError, delay, map, switchMap, timeout } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { AttributeSerializerService } from 'attributes';
@@ -57,11 +57,18 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
       switchMap(options => new Observable(obs => {
         const query = (rule.conditions as AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as AnyConditions).any.filter(c2 => (c2 as ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as ConditionProperties).path.substr(2)}=${(c2 as ConditionProperties).value}`) ], []);
         const identityFact = (rule.conditions as AllConditions).all.reduce((p, c) => !p ? (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity') : p, undefined);
-        obs.next({ options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? '/' + (identityFact as ConditionProperties).value : ''});
+        obs.next({ identityFact, options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? (identityFact as ConditionProperties).value : ''});
         obs.complete();
       })),
-      switchMap(({ options, query, path }) => restfulRequest({ method: 'GET', url: httpUrlGenerator.collectionResource(options.get('entityName') + path, options.has('root') ? options.get('root') : config.root ? config.root : 'api'), options: { params: query }, params: options, http })),
-      map(objects => ({ success: true, entities: objects }))
+      switchMap(({ options, query, path, identityFact }) => iif(
+        () => !!identityFact,
+        restfulRequest({ method: 'GET', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + path, options: { params: query }, params: options, http }).pipe(
+          map(objects => ({ success: true, entities: Array.isArray(objects) ? objects : [ objects ] }))
+        ),
+        restfulRequest({ method: 'GET', url: httpUrlGenerator.collectionResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + path, options: { params: query }, params: options, http }).pipe(
+          map(objects => ({ success: true, entities: objects }))
+        )
+      )),
     ),
   });
 };
