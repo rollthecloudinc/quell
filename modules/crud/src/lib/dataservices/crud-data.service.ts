@@ -30,9 +30,9 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
     return this.evaluatePlugins({ object, plugins: metadata.crud, op: 'create' });
   }
-  update(object: Update<T>): Observable<T> {
+  update(update: Update<T>): Observable<T> {
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-    return this.evaluatePlugins({ object, plugins: metadata.crud, op: 'update' });
+    return this.evaluatePlugins({ object: update.changes, plugins: metadata.crud, op: 'update' });
   }
   upsert(object: T): Observable<T> {
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;

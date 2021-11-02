@@ -33,7 +33,29 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
       }))
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    update: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    update: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }).pipe(
+      switchMap(() => identity({ object, parentObject }).pipe(
+        map(({ identity }) => ({ identity }))
+      )),
+      switchMap(({ identity }) => params && Object.keys(params).length !== 0 ? forkJoin(Object.keys(params).map(name => paramsEvaluatorService.paramValue(params[name], new Map<string, any>()).pipe(map(v => ({ [name]: v }))))).pipe(
+        map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
+        map(options => ({ identity, options }))
+      ): of({ identity, options: {} })),
+      map(({ identity, options }) => ({ name: options.prefix + identity })),
+      switchMap(({ name }) => new Observable<CrudOperationResponse>(obs => {
+        set(name, object).then(res => {
+          console.log('idb write suceeded');
+          console.log(res);
+          obs.next({ success: true });
+          obs.complete();
+        }).catch(e => {
+          console.log('idb write failed')
+          console.log(e);
+          obs.next({ success: false })
+          obs.complete();
+        });
+      }))
+    ),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     // query: ({}: CrudCollectionOperationInput) => of<CrudCollectionOperationResponse>({ success: false, entities: [] })
     query: ({ params, rule, identity }: CrudCollectionOperationInput) => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]]))).pipe(
