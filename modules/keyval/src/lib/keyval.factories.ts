@@ -48,6 +48,8 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
       })),
       switchMap(out => !rule ? of(out) : new Observable<CrudCollectionOperationResponse>(obs => {
         const engine = new Engine();
+        // This should not be here should be setup for default engine but for now whatever.
+        engine.addOperator('startsWith', (fv, jv) => typeof(jv) === 'string' && typeof(fv) === 'string' && jv.indexOf(fv) === 0);
         engine.addRule(rule);
         engine.addFact('identity', (_, almanac) => new Observable(obs2 => {
           almanac.factValue('entity')

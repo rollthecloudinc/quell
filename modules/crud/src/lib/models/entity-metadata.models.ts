@@ -20,8 +20,13 @@ export interface CrudEntityConfigurationPlugin {
   plugins?: CrudEntityConfiguration;
   rule?: Rule
   ops?: Array<CrudOperations>
+  queryMappings?: Map<string, CrudEntityQueryMapping>
 }
 
 export interface CrudEntityConfigurationParams {
   [name: string]: any;
+}
+
+export interface CrudEntityQueryMapping {
+  defaultOperator?: string;
 }

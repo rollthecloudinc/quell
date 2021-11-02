@@ -1,5 +1,5 @@
 //import { EntityMetadataMap } from '@ngrx/data';
-import { CrudEntityMetadataMap } from 'crud';
+import { CrudEntityMetadataMap, CrudEntityQueryMapping } from 'crud';
 
 export const entityMetadata: CrudEntityMetadataMap = {
   PanelPageListItem: {
@@ -8,7 +8,10 @@ export const entityMetadata: CrudEntityMetadataMap = {
       idb_keyval: {
         params: {
           prefix: 'panelpage__'
-        }
+        },
+        queryMappings: new Map<string, CrudEntityQueryMapping>([
+          ['path', { defaultOperator: 'startsWith' }]
+        ])
       }
     }
   },
