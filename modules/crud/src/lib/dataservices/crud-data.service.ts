@@ -7,6 +7,7 @@ import { CrudEntityConfiguration, CrudEntityMetadata } from "../models/entity-me
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
 import { Param } from "dparam";
 import { NestedCondition, Rule } from "json-rules-engine";
+// import * as qs from 'qs';
 export class CrudDataService<T> implements EntityCollectionDataService<T> {
 
   protected _name: string;
@@ -112,8 +113,12 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
       const conditions: Array<NestedCondition> = [];
       // KISS for now - use qs later - move to reusable function probably inside durl. First lets proof it out with one level.
       if (typeof(params) === 'string') {
-        const pieces = params.split('&').map(p => p.split('=', 2));
-        pieces.forEach(([name, value]) => conditions.push({ fact: name === 'identity' ? 'identity' : 'entity', operator: metadata.crud && metadata.crud[plugin] && metadata.crud[plugin].queryMappings && metadata.crud[plugin].queryMappings && metadata.crud[plugin].queryMappings.has(name) && metadata.crud[plugin].queryMappings.get(name).defaultOperator ? metadata.crud[plugin].queryMappings.get(name).defaultOperator : 'equal', value, ...(name === 'identity' ? {} : { path: `$.${name}` }) }));
+        const pieces = params.split('&').map(p => p.split('=', 2)).reduce((p, [name, value]) => new Map<string, Array<any>>([ ...Array.from(p).filter(([k, _]) => k !== name) ,[ name, [ ...(p.has(name) ? p.get(name) : []), value ] ] ]), new Map<string, Array<any>>());
+        pieces.forEach((values, name) => 
+          conditions.push({ 
+            any: values.map(value => ({ fact: name === 'identity' ? 'identity' : 'entity', operator: metadata.crud && metadata.crud[plugin] && metadata.crud[plugin].queryMappings && metadata.crud[plugin].queryMappings && metadata.crud[plugin].queryMappings.has(name) && metadata.crud[plugin].queryMappings.get(name).defaultOperator ? metadata.crud[plugin].queryMappings.get(name).defaultOperator : 'equal', value, ...(name === 'identity' ? {} : { path: `$.${name}` }) }))
+           })
+        );
       }
       const rule = conditions.length > 0 ? new Rule({ conditions: { all: conditions }, event: { type: 'visible' } }) : undefined;
       obs.next({ rule });
