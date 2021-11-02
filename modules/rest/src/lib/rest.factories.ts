@@ -1,12 +1,17 @@
 import { AttributeValue } from 'attributes';
 import { Dataset, DatasourcePlugin, DatasourceEditorOptions, Datasource, Rest } from 'datasource';
-import { of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, delay, map, switchMap, timeout } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { AttributeSerializerService } from 'attributes';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 import { ContentBinding } from 'content';
 import { ParamContextExtractorService } from 'context';
+import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudCollectionOperationResponse, CrudOperationInput, CrudOperationResponse } from 'crud';
+import { Param, ParamEvaluatorService } from 'dparam';
+import { DefaultDataServiceConfig, HttpMethods, HttpUrlGenerator, RequestData } from '@ngrx/data';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { AllConditions, AnyConditions, ConditionProperties, NestedCondition } from 'json-rules-engine';
 
 export const restDatasourcePluginFactory = (
   fetchhelper: RestFetchHelperService,
@@ -27,3 +32,86 @@ export const restDatasourcePluginFactory = (
     )
   });
 };
+
+export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamEvaluatorService, http: HttpClient, httpUrlGenerator: HttpUrlGenerator, config: DefaultDataServiceConfig) => {
+  return new CrudAdaptorPlugin<string>({
+    id: 'rest',
+    title: 'Rest',
+    create: ({ object, params }: CrudOperationInput) => of({ success: false }).pipe(
+      switchMap(() => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]])))),
+      switchMap(options => restfulRequest({ method: 'POST', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api'), data: object || new Error(`No entity to add`) , params: options, http })),
+      map(() => ({ success: true, entity: object }))
+    ),
+    read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    update: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }).pipe(
+      switchMap(() => identity({ object, parentObject })),
+      switchMap(({ identity }) => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]]))).pipe(
+        map(options => ({ identity, options }))
+      )),
+      switchMap(({ identity, options }) => restfulRequest({ method: 'PUT', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + `${identity}`, data: object || new Error(`No entity to add`) , params: options, http })),
+      map(() => ({ success: true, entity: object }))
+    ),
+    delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    query: ({ params, rule }: CrudCollectionOperationInput) => of({ success: false }).pipe(
+      switchMap(() => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]])))),
+      switchMap(options => new Observable(obs => {
+        const query = (rule.conditions as AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as AnyConditions).any.filter(c2 => (c2 as ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as ConditionProperties).path.substr(2)}=${(c2 as ConditionProperties).value}`) ], []);
+        const identityFact = (rule.conditions as AllConditions).all.reduce((p, c) => !p ? (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity') : p, undefined);
+        obs.next({ options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? '/' + (identityFact as ConditionProperties).value : ''});
+        obs.complete();
+      })),
+      switchMap(({ options, query, path }) => restfulRequest({ method: 'GET', url: httpUrlGenerator.collectionResource(options.get('entityName') + path, options.has('root') ? options.get('root') : config.root ? config.root : 'api'), options: { params: query }, params: options, http })),
+      map(objects => ({ success: true, entities: objects }))
+    ),
+  });
+};
+
+export const restfulRequest = ({ method, url, data, options, params, http }: { method: HttpMethods, url: string, data?: any, options?: any, params: Map<string, any>, http: HttpClient }): Observable<any> => {
+  const req: RequestData = { method, url, data, options };
+
+  if (data instanceof Error) {
+    // return handleRestfulError(req)(data);
+  }
+
+  let result$: Observable<ArrayBuffer>;
+
+  switch (method) {
+    case 'DELETE': {
+      result$ = http.delete(url, options);
+      if (params.has('saveDelay')) {
+        result$ = result$.pipe(delay(+params.get('saveDelay')));
+      }
+      break;
+    }
+    case 'GET': {
+      result$ = http.get(url, options);
+      if (params.has('getDelay')) {
+        result$ = result$.pipe(delay(+params.get('getDelay')));
+      }
+      break;
+    }
+    case 'POST': {
+      result$ = http.post(url, data, options);
+      if (params.has('saveDelay')) {
+        result$ = result$.pipe(delay(+params.get('saveDelay')));
+      }
+      break;
+    }
+    // N.B.: It must return an Update<T>
+    case 'PUT': {
+      result$ = http.put(url, data, options);
+      if (params.has('saveDelay')) {
+        result$ = result$.pipe(delay(+params.get('saveDelay')));
+      }
+      break;
+    }
+    default: {
+      const error = new Error('Unimplemented HTTP method, ' + method);
+      result$ = throwError(error);
+    }
+  }
+  if (params.has('timeout')) {
+    result$ = result$.pipe(timeout(+params.get('timeout') + +params.get('saveDelay')));
+  }
+  return result$; /*.pipe(catchError(handleRestfulError(req)));*/
+}

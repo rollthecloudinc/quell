@@ -5,6 +5,12 @@ export const entityMetadata: CrudEntityMetadataMap = {
   PanelPageListItem: {
     entityName: 'PanelPageListItem',
     crud: {
+      rest: {
+        ops: ['query'],
+        params: {
+          entityName: 'PanelPageListItem'
+        }
+      },
       idb_keyval: {
         params: {
           prefix: 'panelpage__'
@@ -19,12 +25,18 @@ export const entityMetadata: CrudEntityMetadataMap = {
     entityName: 'PanelPage',
     crud: {
       /*aws_s3_entity: {
+        ops: ['query'],
         params: {
           bucket: 'classifieds-ui-dev',
-          prefix: 'panelpages/',
-          serialize: ''
+          prefix: 'panelpages/'
         }
-      }*/
+      },*/
+      rest: {
+        ops: ['query'],
+        params: {
+          entityName: 'PanelPage'
+        }
+      },
       idb_keyval: {
         params: {
           prefix: 'panelpage__'

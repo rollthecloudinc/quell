@@ -15,7 +15,9 @@
       "dparam": "dparam",
       "snippet": "snippet",
       "attributes": "attributes",
-      "content": "content"
+      "content": "content",
+      "crud": "crud",
+      "@ngrx/data": "@ngrx/data"
     }
   }
 }

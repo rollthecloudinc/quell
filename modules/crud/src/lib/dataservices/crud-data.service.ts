@@ -70,7 +70,7 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
 
   evaluatePlugins({ object, plugins, op, parentObject }: { object: any, plugins: CrudEntityConfiguration, op: CrudOperations, parentObject?: any }): Observable<T> {
     const adaptors = Object.keys(plugins);
-    const operations$ = adaptors.map(
+    const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
       a => this.crud.getPlugin(a).pipe(
         map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => p[op]({ rule: undefined, object, parentObject, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
@@ -88,7 +88,7 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
 
   evaluateCollectionPlugins({ query, objects, plugins, op, parentObjects }: { query?: QueryParams | string, objects?: Iterable<any>, plugins: CrudEntityConfiguration, op: CrudOperations, parentObjects?: Iterable<any> }): Observable<Array<T>> {
     const adaptors = Object.keys(plugins);
-    const operations$ = adaptors.map(
+    const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
       a => this.crud.getPlugin(a).pipe(
         map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => this.buildQueryRule({ params: query, plugin: a }).pipe(

@@ -10,21 +10,27 @@ import { TokenModule } from 'token';
 import { ParamContextExtractorService } from 'context';
 import { AttributeSerializerService } from 'attributes';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
-import { restDatasourcePluginFactory } from './rest.factories';
+import { restDatasourcePluginFactory, restEntityCrudAdaptorPluginFactory } from './rest.factories';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
+import { CrudAdaptorPluginManager, CrudModule } from 'crud';
+import { ParamEvaluatorService } from 'dparam';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { DefaultDataServiceConfig, HttpUrlGenerator } from '@ngrx/data';
 
 @NgModule({
   declarations: [ RestSourceFormComponent, RestDatasourceComponent ],
   imports: [
     CommonModule,
+    HttpClientModule,
     ReactiveFormsModule,
     MaterialModule,
     AngularSplitModule,
     NgxJsonViewerModule,
     SnippetModule,
     DatasourceModule,
-    TokenModule
+    TokenModule,
+    CrudModule
   ],
   exports: [ RestSourceFormComponent, RestDatasourceComponent ],
   providers: [
@@ -36,8 +42,14 @@ export class RestModule {
     dspm: DatasourcePluginManager,
     fetchHelper: RestFetchHelperService,
     paramContextExtractor: ParamContextExtractorService,
-    attributeSerializer: AttributeSerializerService
+    attributeSerializer: AttributeSerializerService,
+    cpm: CrudAdaptorPluginManager,
+    paramsEvaluatorService: ParamEvaluatorService,
+    http: HttpClient,
+    httpUrlGenerator: HttpUrlGenerator,
+    config: DefaultDataServiceConfig
   ) {
     dspm.register(restDatasourcePluginFactory(fetchHelper, paramContextExtractor, attributeSerializer));
+    cpm.register(restEntityCrudAdaptorPluginFactory(paramsEvaluatorService, http, httpUrlGenerator, config));
   }
 }
