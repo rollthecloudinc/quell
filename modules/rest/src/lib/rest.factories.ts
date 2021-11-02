@@ -78,6 +78,7 @@ export const restfulRequest = ({ method, url, data, options, params, http }: { m
 
   if (data instanceof Error) {
     // return handleRestfulError(req)(data);
+    return of([]);
   }
 
   let result$: Observable<ArrayBuffer>;
@@ -120,5 +121,5 @@ export const restfulRequest = ({ method, url, data, options, params, http }: { m
   if (params.has('timeout')) {
     result$ = result$.pipe(timeout(+params.get('timeout') + +params.get('saveDelay')));
   }
-  return result$; /*.pipe(catchError(handleRestfulError(req)));*/
+  return result$.pipe(catchError(() => of([])));
 }
