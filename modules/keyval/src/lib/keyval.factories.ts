@@ -1,6 +1,6 @@
 import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationResponse, CrudCollectionOperationInput } from 'crud';
 import { Param, ParamEvaluatorService } from 'dparam';
-import { forkJoin, Observable, of } from 'rxjs';
+import { concat, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
 import { set, keys, getMany } from 'idb-keyval';
 import { Engine } from 'json-rules-engine';
@@ -49,20 +49,18 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
       switchMap(out => !rule ? of(out) : new Observable<CrudCollectionOperationResponse>(obs => {
         const engine = new Engine();
         engine.addRule(rule);
-        engine.addFact('id', (params, almanac) => new Observable(obs2 => {
+        engine.addFact('identity', (_, almanac) => new Observable(obs2 => {
           almanac.factValue('entity')
           .then(object => identity({ object }).pipe(map(({ identity }) => identity)).toPromise())
           .then(id => {
             obs2.next(id);
             obs2.complete();
           })
-        }).toPromise());
+        }).toPromise(), { cache: false });
         of(...out.entities).pipe(
-          tap(entity => {
-            engine.removeFact('entity');
-            engine.addFact('entity', entity);
-          }),
           concatMap(entity => new Observable<[any, boolean]>(obs2 => {
+            engine.removeFact('entity');
+            engine.addFact('entity', entity, { cache: false });
             engine.run().then(res => {
               obs2.next([entity, res.events.findIndex(e => e.type === 'visible') > -1]);
               obs2.complete();

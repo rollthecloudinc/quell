@@ -51,10 +51,8 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
   }
 
   getById(id: any): Observable<T> {
-    // @todo: implicit rule for matching id.
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-    // id shouldn't be hard coded here... probably need to get property from meta data...
-    return this.evaluateCollectionPlugins({ rule: new Rule({ conditions: { all: [ { fact: 'id', operator: 'equal', value: id } ] }, event: { type: 'visible' } }), plugins: metadata.crud, op: 'query' }).pipe(
+    return this.evaluateCollectionPlugins({ rule: new Rule({ conditions: { all: [ { fact: 'identity', operator: 'equal', value: id } ] }, event: { type: 'visible' } }), plugins: metadata.crud, op: 'query' }).pipe(
       map(objects => objects && objects.length !== 0 ? objects[0] : undefined)
     );
   }
