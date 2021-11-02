@@ -1,8 +1,9 @@
-import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput } from 'crud';
-import { ParamEvaluatorService } from 'dparam';
+import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationResponse, CrudCollectionOperationInput } from 'crud';
+import { Param, ParamEvaluatorService } from 'dparam';
 import { forkJoin, Observable, of } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
-import { set } from 'idb-keyval';
+import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
+import { set, keys, getMany } from 'idb-keyval';
+import { Engine } from 'json-rules-engine';
 
 export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamEvaluatorService) => {
   return new CrudAdaptorPlugin<string>({
@@ -33,6 +34,49 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     update: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false })
+    delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    // query: ({}: CrudCollectionOperationInput) => of<CrudCollectionOperationResponse>({ success: false, entities: [] })
+    query: ({ params, rule, identity }: CrudCollectionOperationInput) => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]]))).pipe(
+      switchMap(options => new Observable<CrudCollectionOperationResponse>(obs => {
+        keys()
+        .then(keys => keys.filter(k => `${k}`.indexOf(options.get('prefix')) === 0))
+        .then(keys => getMany(keys))
+        .then(entities => {
+          obs.next({ entities, success: true });
+          obs.complete();
+        })
+      })),
+      switchMap(out => !rule ? of(out) : new Observable<CrudCollectionOperationResponse>(obs => {
+        const engine = new Engine();
+        engine.addRule(rule);
+        engine.addFact('id', (params, almanac) => new Observable(obs2 => {
+          almanac.factValue('entity')
+          .then(object => identity({ object }).pipe(map(({ identity }) => identity)).toPromise())
+          .then(id => {
+            obs2.next(id);
+            obs2.complete();
+          })
+        }).toPromise());
+        of(...out.entities).pipe(
+          tap(entity => {
+            engine.removeFact('entity');
+            engine.addFact('entity', entity);
+          }),
+          concatMap(entity => new Observable<[any, boolean]>(obs2 => {
+            engine.run().then(res => {
+              obs2.next([entity, res.events.findIndex(e => e.type === 'visible') > -1]);
+              obs2.complete();
+            });
+          })),
+          filter(([ _, matched ]) => matched),
+          map(([entity]) => entity),
+          reduce((acc, v) => [ ...acc, v ] , []),
+          defaultIfEmpty([])
+        ).subscribe(entities => {
+          obs.next({ ...out, entities });
+          obs.complete();
+        });
+      }))
+    )
   });
 };

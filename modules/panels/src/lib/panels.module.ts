@@ -21,7 +21,7 @@ import { ContextPluginManager } from 'context';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 import { DatasourceModule } from 'datasource';
-import { PanelPage } from './models/panels.models';
+import { PanelPage, PanelPageListItem } from './models/panels.models';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthFacade, AuthModule } from 'auth';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
@@ -62,9 +62,6 @@ export class PanelsModule {
     bpm: BridgeBuilderPluginManager,
     es: EntityServices,
     attributesSerialzer: AttributeSerializerService,
-    http: HttpClient,
-    pluralizer: Pluralizer,
-    dataServiceConfig: DefaultDataServiceConfig,
     crud: CrudAdaptorPluginManager,
     entityDefinitionService: EntityDefinitionService,
     /*ctxm: ContextPluginManager,
@@ -73,7 +70,8 @@ export class PanelsModule {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save
-    // entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', http, new DefaultHttpUrlGenerator(pluralizer), crud, entityDefinitionService, dataServiceConfig));
+    entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', crud, entityDefinitionService));
+    entityDataService.registerService('PanelPageListItem', new CrudDataService<PanelPageListItem>('PanelPageListItem', crud, entityDefinitionService));
     contentPlugins.forEach(p => cpm.register(p));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));

@@ -1,8 +1,8 @@
 import { ParamPlugin } from "../models/param-plugin.models";
 import { Param } from "../models/param.models";
 import { ParamPluginManager } from '../services/param-plugin-manager.service';
-import { iif, Observable, of } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { forkJoin, iif, Observable, of } from "rxjs";
+import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
 
 @Injectable({
@@ -26,4 +26,16 @@ export class ParamEvaluatorService {
     );
   }
 
+  paramValues(params: Map<string, Param>): Observable<Map<string, string>> {
+    return forkJoin(
+      Array.from(params.keys()).map(name => this.paramValue(params.get(name), new Map<string, any>()).pipe(
+        map<string, [string, string]>(v => [ name, v ])
+      ))
+    ).pipe(
+      map(groups => groups.reduce((p, c) => new Map<string, string>([ ...p, c ]), new Map<string, string>())),
+      defaultIfEmpty(new Map<string, string>())
+    );
+  }
+
 }
+

@@ -6,7 +6,8 @@
     "umdModuleIds": {
       "crud": "crud",
       "dparam": "dparam",
-      "idb-keyval": "idb-keyval"
+      "idb-keyval": "idb-keyval",
+      "json-rules-engine": "json-rules-engine"
     }
   }
 }

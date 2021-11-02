@@ -4,7 +4,7 @@ import { forkJoin, iif, Observable, of } from "rxjs";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
 import { map, switchMap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityMetadata } from "../models/entity-metadata.models";
-import { CrudOperations, CrudOperationResponse } from '../models/crud.models';
+import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
 import { Param } from "dparam";
 import { Rule } from "json-rules-engine";
 export class CrudDataService<T> implements EntityCollectionDataService<T> {
@@ -53,7 +53,8 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
   getById(id: any): Observable<T> {
     // @todo: implicit rule for matching id.
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-    return this.evaluateCollectionPlugins({ rule: new Rule({ conditions: { all: [] }, event: undefined }), plugins: metadata.crud, op: 'query' }).pipe(
+    // id shouldn't be hard coded here... probably need to get property from meta data...
+    return this.evaluateCollectionPlugins({ rule: new Rule({ conditions: { all: [ { fact: 'id', operator: 'equal', value: id } ] }, event: { type: 'visible' } }), plugins: metadata.crud, op: 'query' }).pipe(
       map(objects => objects && objects.length !== 0 ? objects[0] : undefined)
     );
   }
@@ -65,7 +66,7 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
     });
     return of(flat);*/
     const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-    return this.evaluateCollectionPlugins({ rule: new Rule({ conditions: { all: [] }, event: undefined }), plugins: metadata.crud, op: 'query' });
+    return this.evaluateCollectionPlugins({ rule: undefined/*new Rule({ conditions: { any: [] }, event: { type: 'visible' } })*/, plugins: metadata.crud, op: 'query' });
   }
 
   evaluatePlugins({ object, plugins, op, parentObject }: { object: any, plugins: CrudEntityConfiguration, op: CrudOperations, parentObject?: any }): Observable<T> {
@@ -86,7 +87,7 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
     );
   }
 
-  evaluateCollectionPlugins({ rule, objects, plugins, op, parentObjects }: { rule: Rule, objects?: Array<any>, plugins: CrudEntityConfiguration, op: CrudOperations, parentObjects?: Array<any> }): Observable<Array<T>> {
+  evaluateCollectionPlugins({ rule, objects, plugins, op, parentObjects }: { rule: Rule, objects?: Iterable<any>, plugins: CrudEntityConfiguration, op: CrudOperations, parentObjects?: Iterable<any> }): Observable<Array<T>> {
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.map(
       a => this.crud.getPlugin(a).pipe(
@@ -94,13 +95,13 @@ export class CrudDataService<T> implements EntityCollectionDataService<T> {
         switchMap(({ p, params }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
         switchMap(res => iif(
           () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
-          plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? this.evaluatePlugins({ plugins: plugins[a].plugins, object: res.entities ? res.entities : objects, parentObject: res.originalEntities ? res.originalEntities : objects, op }) : of (res),
+          plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? this.evaluateCollectionPlugins({ rule, plugins: plugins[a].plugins, objects: res.entities ? res.entities : objects, parentObjects: res.originalEntities ? res.originalEntities : objects, op }) : of (res),
           of(res)
         ))
       )
     );
     return forkJoin(operations$).pipe(
-      map(() => objects)
+      map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], []))
     );
   }
 
