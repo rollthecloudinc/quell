@@ -82,122 +82,15 @@ In addition to Angular Druid also uses many nodejs projects.
 
 ### Live Examples
 
-This will all be replaced with working, live examples soon.
+Marvel Character Browser
 
-The examples provided below is a small subset of the editors capabilities.
+https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334
 
-Classified Ads Fully Interactive Browser
-![Rendered Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/panels_page_render_abc.png)
+![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
-Nesting individual panel pages in one another
-![Nesting](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/nesting_panels_in_one_another.png)
+#
 
-Formly Field panel page
-
-![Formly Kitchen Sink](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_v1_display.png)
-
-State changes to form persisted to store. These changes can than be used to initiate other actions
-on the page. For example, when someone changes a form value trigger a new search of data.
-
-![Formly Kitchen Sink Redux](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_redux.png)
-
-Example of the editor page for formly.
-
-![Formly Kitchen Sink Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchensink_v1_manage.png)
-
-Drag and drop page builder using Angular.
-
-Example Page:
-
-https://dpxmq1mxvsyda.cloudfront.net/adbrowserv9/realestate/691733b2-a9d3-11ea-99f3-7e44960cbab9
-
-- Saving disabled unless page owned by user.
-
-Any page can be followed by manage to view the editor:
-
-https://dpxmq1mxvsyda.cloudfront.net/adbrowserv9/realestate/cbed078f-ab57-11ea-9774-ea79e329ea22/manage
-
-- Save is disabled but one can play around.
-
-Nested ad list:
-
-https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate
-
-Editor for list of ads:
-
-https://dpxmq1mxvsyda.cloudfront.net/adlistv7/realestate/manage
-
-Nested detail view:
-
-https://dpxmq1mxvsyda.cloudfront.net/addetailv3/x/691733b2-a9d3-11ea-99f3-7e44960cbab9
-
-Details view editor:
-
-https://dpxmq1mxvsyda.cloudfront.net/addetailv3/x/691733b2-a9d3-11ea-99f3-7e44960cbab9/manage
-
-backend api: https://github.com/verti-go
-
-List viewable panel pages:
-
-https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1
-
-Manage link:
-
-https://dpxmq1mxvsyda.cloudfront.net/pagebrowser/v1/manage
-
-Formly Kitchen Sink
-
-https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
-
-Manage link to kitchen sink for formly
-
-https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
-
-Formly options are populated using rest api call to marvel api. 
-Future plans to implement other data sources and static options.
-
-Tabs Page with custom labeling using selectors
-
-Formly Kitchen sink v2 (code tabs)
-
-https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v2
-
-Version 2 of formly kitchen sink.
-Adds code tabs using angular material tab component.
-First proof of concept with panel page selecors and style handlers.
-
-https://dpxmq1mxvsyda.cloudfront.net/example-tabs-custom-labels-v1
-
-The first snippet in each tab is selected as the label for the tab.
-This is made possible my the new panel page selection feature.
-The panel page selection "api" eases pane mutations.
-The page selection api is the drivinf force behind selecting a label for the tab.
-The tabs style is the first proof of concept for the selection api and style handlers.
-Style handlers are the other piece of this that can be used to dynamically change the page data structure.
-
-Pane States
-
-https://dpxmq1mxvsyda.cloudfront.net/test-pane-state-media-content-v1
-
-Momentarily see loading text until image loads. Once image loads the loading text is removed.
-This is done using pane states. The media content panel updates its pane state so that
-the outside world in this case a rule can take action like hiding/showing content. This
-is the first of many examples to follow using pane states.
-
-!Important: There seems to be an issue hear. When the pane using a rule is part of the same panel
-for the content that triggers the rule infinite context resolution loop occurs.
-
-Table Recipe
-
-Example of creating a table retaining all features of panel pages.
-
-This uses the new datasource capabilities of multiple viewable content bindings. Each
-column is a separate content binding on the datasource. CSS is than applied to make
-the panel page components appear like a table.
-
-https://dpxmq1mxvsyda.cloudfront.net/dev-enhanced-table-v1
-
-# Catalog
+### Catalog
 
 Catalog of Druid libraries.
 
