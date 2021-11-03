@@ -30,6 +30,8 @@ Demos and recipes for using specific features will follow.
 
 NOTE: The live demo is an early stage alpha at best.
 
+HINT: Live examples below can provide insight into capabilities of platform and implementation.
+
 ### Intentions
 
 The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
