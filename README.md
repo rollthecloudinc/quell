@@ -85,6 +85,7 @@ In addition to Angular Druid also uses many nodejs projects.
 Marvel Character Browser
 
 https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334
+https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
