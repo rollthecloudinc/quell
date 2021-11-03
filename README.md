@@ -84,6 +84,8 @@ In addition to Angular Druid also uses many nodejs projects.
 
 Marvel Character Browser
 
+View and search characters in the Marvel universe.
+
 https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334
 https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
 
