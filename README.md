@@ -78,7 +78,9 @@ In addition to Angular Druid also uses many nodejs projects.
 * js-cookie | https://www.npmjs.com/package/js-cookie
 * idb-keyval | https://github.com/jakearchibald/idb-keyval
 
-# Examples
+### Live Examples
+
+This will all be replaced with working, live examples soon.
 
 The examples provided below is a small subset of the editors capabilities.
 
