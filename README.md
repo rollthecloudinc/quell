@@ -18,6 +18,14 @@ Druid is a serverless publishing platform optimized for the modern web using cut
 * Customizable data storage and access restrictions
 * Ruesable change detection aware variable definitions
 
+The live demo app can be found at the link below.
+
+https://dpxmq1mxvsyda.cloudfront.net/pages/create-panel-page
+
+Saved pages are currently saved to index db.
+
+Demos and recipes for using specific features will follow.
+
 ### Intentions
 
 The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
