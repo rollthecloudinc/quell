@@ -95,6 +95,19 @@ https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/101
 
 #
 
+Formly Kitchen Sink
+
+Build forms and save submissions.
+
+https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
+https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
+
+![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
+
+![idb](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_v1_idb.png)
+
+#
+
 ### Catalog
 
 Catalog of Druid libraries.
