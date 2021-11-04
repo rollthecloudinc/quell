@@ -58,6 +58,8 @@ export class FormlyFieldEditorComponent implements OnInit {
       this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
       this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
       this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
+      // this.formGroup.get('datasourceOptions').setValue(i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions);
+      this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
       setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
     });
     this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);

@@ -42,6 +42,7 @@ export class DatasourceOptionsComponent implements ControlValueAccessor, Validat
 
   datasourceOptionsSub = this.datasourceOptions$.subscribe(ds => {
     this.formGroup.setValue(ds);
+    this.formGroup.updateValueAndValidity();
   });
 
   public onTouched: () => void = () => {};

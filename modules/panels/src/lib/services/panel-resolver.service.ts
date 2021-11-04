@@ -119,7 +119,8 @@ export class PanelResolverService {
         panes.reduce<Array<Observable<Array<Pane>>>>((p, c) => {
           const plugin = plugins.get(c.contentPlugin);
           if(plugin.handler !== undefined && plugin.handler.isDynamic(c.settings)) {
-            return [ ...p, forkJoin([
+            // data panes that are used in bindings will not be displayed.
+            return [ ...p, plugin.handler.isData(c.settings) && bindings.findIndex(n => n === c.name) !== -1 ? of([]) :  forkJoin([
               this.staticPanes(panes),
               this.dataPanes(panes)
             ]).pipe(

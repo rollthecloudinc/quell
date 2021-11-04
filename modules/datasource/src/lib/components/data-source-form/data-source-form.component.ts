@@ -1,5 +1,8 @@
-import { Component, forwardRef, OnInit } from '@angular/core';
+import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { BehaviorSubject } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'classifieds-ui-data-source-form',
@@ -20,14 +23,31 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 })
 export class DataSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 
+  @Input() set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
+
+  settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
+
   formGroup = this.fb.group({
     data: this.fb.control('')
+  });
+
+  settingsSub = this.settings$.pipe(
+    map(s => s ? this.attributeSerializer.deserializeAsObject(s) : undefined)
+  ).subscribe(ds => {
+    if (ds && ds.data) {
+      this.formGroup.get('data').setValue(ds.data);
+    } else {
+      this.formGroup.get('data').setValue('');
+    }
   });
 
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private attributeSerializer: AttributeSerializerService
   ) {}
 
   ngOnInit() {

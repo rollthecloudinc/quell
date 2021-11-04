@@ -55,6 +55,17 @@ export class AttributeSerializerService {
         computedValue: undefined,
         attributes: attrValues
       });
+    } else if (obj instanceof Date) {
+      // store as string for now.
+      return new AttributeValue({
+        name: prop,
+        type: AttributeTypes.Date,
+        displayName: prop,
+        value: obj.toJSON(),
+        intValue: undefined,
+        computedValue: obj.toJSON(),
+        attributes: []
+      });
     } else {
       const attrValues: Array<AttributeValue>  = [];
       for(const p in obj) {
@@ -119,6 +130,9 @@ export class AttributeSerializerService {
             obj = [ ...obj, this.deserialize(attrValue.attributes[i]) ];
           }
         }
+        break;
+      case AttributeTypes.Date:
+        obj = attrValue.value !== undefined && attrValue.value !== '' ? new Date(attrValue.value) : undefined;
         break;
       default:
     }

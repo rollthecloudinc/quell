@@ -7,7 +7,8 @@ export enum AttributeTypes {
   Complex,
   Float,
   Array,
-  Bool
+  Bool,
+  Date
 }
 
 export class AttributeWidget<T = string> extends Plugin<T> {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
-import { Observable, of } from 'rxjs';
+import { iif, Observable, of } from 'rxjs';
 import { FormlyFieldInstance } from '../models/formly.models';
 import { switchMap } from 'rxjs/operators';
 import { FormlyFieldConfig } from '@ngx-formly/core';
@@ -41,7 +41,18 @@ export class FormlyFieldContentHandler implements ContentHandler {
 
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
     // return of([ new ContentBinding({ id: 'ad', type: 'context' }) ]);
-    return of([]);
+    // return of([]);
+    if (type === 'pane') {
+      return this.toObject(settings).pipe(
+        switchMap(i => iif(
+          () => i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null,
+          of([ i.datasourceBinding ]),
+          of([])
+        ))
+      );
+    } else {
+      return of([]);
+    }
   }
 
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
