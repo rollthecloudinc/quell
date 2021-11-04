@@ -108,7 +108,7 @@ https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
 #
 
-Theory Product Page ~(early prottype)~
+Theory Product Page (early prototype)
 
 Create complex detail pages for things like products with configurable options.
 
