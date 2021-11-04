@@ -97,11 +97,7 @@ https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/101
 
 Formly Kitchen Sink
 
-Build forms using Formly components and save submissions by calling rest apis, using provided adaptors, or creating own adaptor. The demo writes to index db.
-
-Formly components are integrated with data source mechanism to consume any api or sdk. All option components such as; select, radio group, autocomplete can populate from any data source in the system or custom built.
-
-Formly components can also be easily intermixed with none formly form components and included on the page with any other content side by side.
+Build forms and process submissions.
 
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
