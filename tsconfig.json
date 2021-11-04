@@ -139,6 +139,10 @@
       "keyval": [
         "dist/keyval/keyval",
         "dist/keyval"
+      ],
+      "diety": [
+        "dist/diety/diety",
+        "dist/diety"
       ]
     }
   },

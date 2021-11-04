@@ -10,15 +10,15 @@ export const entityMetadata: CrudEntityMetadataMap = {
         params: {
           entityName: 'PanelPageListItem'
         }
-      }
-      /*idb_keyval: { demo only
+      },
+      idb_keyval: {
         params: {
           prefix: 'panelpage__'
         },
         queryMappings: new Map<string, CrudEntityQueryMapping>([
           ['path', { defaultOperator: 'startsWith' }]
         ])
-      }*/
+      }
     }
   },
   PanelPage: {
@@ -32,16 +32,16 @@ export const entityMetadata: CrudEntityMetadataMap = {
         }
       },*/
       rest: {
-        // ops: ['query'],
+        ops: ['query'],
         params: {
           entityName: 'PanelPage'
         }
       },
-      /*idb_keyval: { // demo only
+      idb_keyval: { // demo only
         params: {
           prefix: 'panelpage__'
         }
-      }*/
+      }
     }
   },
   PanelPageState: {

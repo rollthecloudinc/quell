@@ -1423,5 +1423,45 @@
           }
         }
       }
+    },
+    "diety": {
+      "projectType": "library",
+      "root": "modules/diety",
+      "sourceRoot": "modules/diety/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/diety/tsconfig.lib.json",
+            "project": "modules/diety/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/diety/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/diety/src/test.ts",
+            "tsConfig": "modules/diety/tsconfig.spec.json",
+            "karmaConfig": "modules/diety/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/diety/tsconfig.lib.json",
+              "modules/diety/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
