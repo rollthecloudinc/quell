@@ -30,7 +30,7 @@ import { AuthFacade, AuthModule } from 'auth';
   declarations: [PanelPageLinkedlistComponent, PanelEditorComponent, PanelSelectorComponent, DatasourceEditorComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
+    // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

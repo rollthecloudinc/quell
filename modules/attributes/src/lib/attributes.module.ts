@@ -18,7 +18,7 @@ import { AttributeWidget } from './models/attributes.models';
 import { WidgetPluginManager } from './services/widget-plugin-manager.service';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, HttpClientModule, HttpClientJsonpModule /*, CitiesModule */ ],
+  imports: [CommonModule, ReactiveFormsModule, MaterialModule, /*HttpClientModule,*/ HttpClientJsonpModule /*, CitiesModule */ ],
   declarations: [
     AttributesBuilderComponent,
     AttributeWidgetComponent,

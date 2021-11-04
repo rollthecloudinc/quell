@@ -132,7 +132,7 @@ const routes = [
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule,
+    // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

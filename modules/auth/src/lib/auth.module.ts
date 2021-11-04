@@ -12,7 +12,7 @@ import { AuthCallbackComponent } from './components/auth-callback/auth-callback.
   declarations: [ AuthCallbackComponent ],
   imports: [
     CommonModule,
-    HttpClientModule,
+    // HttpClientModule,
     StoreModule.forFeature(fromAuth.AUTH_FEATURE_KEY, fromAuth.reducer),
     // EffectsModule.forFeature([AuthEffects])
   ],

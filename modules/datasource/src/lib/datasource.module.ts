@@ -23,7 +23,7 @@ import { DataSourceFormComponent } from './components/data-source-form/data-sour
   ],
   imports: [
     CommonModule,
-    HttpClientModule,
+    // HttpClientModule,
     ReactiveFormsModule,
     MaterialModule,
     DurlModule
