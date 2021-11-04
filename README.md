@@ -108,6 +108,14 @@ https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
 #
 
+Theory Product Page
+
+Create complex detail pages for things like products with configurable options.
+
+![page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/theory_product_page_demo.png)
+
+#
+
 ### Catalog
 
 Catalog of Druid libraries.
