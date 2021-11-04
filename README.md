@@ -108,9 +108,11 @@ https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
 #
 
-Theory Product Page (early prototype)
+Theory Product Page (preview / early prototype)
 
 Create complex detail pages for things like products with configurable options.
+
+(links coming soon)
 
 ![page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/theory_product_page_demo.png)
 
