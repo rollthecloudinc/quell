@@ -101,6 +101,8 @@ Build forms using Formly components and save submissions by calling rest apis, u
 
 Formly components are integrated with data source mechanism to consume any api or sdk. All option components such as; select, radio group, autocomplete can populate from any data source in the system or custom built.
 
+Formly components can also be easily intermixed with none formly form components and included on the page with any other content side by side.
+
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
