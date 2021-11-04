@@ -102,7 +102,7 @@ Build forms using Formly components.
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
-[!Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
+![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
 
 #
 
