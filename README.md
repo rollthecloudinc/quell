@@ -97,7 +97,7 @@ https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/101
 
 Formly Kitchen Sink
 
-Build forms using Formly components and save submissions to various stores such as s3, index db, etc. Storage is extensible via plugins.
+Build forms using Formly components and save submissions by calling rest apis, using provided adaptors, or creating own adaptor. The demo writes to index db.
 
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
