@@ -1424,38 +1424,38 @@
         }
       }
     },
-    "diety": {
+    "deity": {
       "projectType": "library",
-      "root": "modules/diety",
-      "sourceRoot": "modules/diety/src",
+      "root": "modules/deity",
+      "sourceRoot": "modules/deity/src",
       "prefix": "lib",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "modules/diety/tsconfig.lib.json",
-            "project": "modules/diety/ng-package.json"
+            "tsConfig": "modules/deity/tsconfig.lib.json",
+            "project": "modules/deity/ng-package.json"
           },
           "configurations": {
             "production": {
-              "tsConfig": "modules/diety/tsconfig.lib.prod.json"
+              "tsConfig": "modules/deity/tsconfig.lib.prod.json"
             }
           }
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "modules/diety/src/test.ts",
-            "tsConfig": "modules/diety/tsconfig.spec.json",
-            "karmaConfig": "modules/diety/karma.conf.js"
+            "main": "modules/deity/src/test.ts",
+            "tsConfig": "modules/deity/tsconfig.spec.json",
+            "karmaConfig": "modules/deity/karma.conf.js"
           }
         },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "modules/diety/tsconfig.lib.json",
-              "modules/diety/tsconfig.spec.json"
+              "modules/deity/tsconfig.lib.json",
+              "modules/deity/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

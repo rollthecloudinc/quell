@@ -140,9 +140,9 @@
         "dist/keyval/keyval",
         "dist/keyval"
       ],
-      "diety": [
-        "dist/diety/diety",
-        "dist/diety"
+      "deity": [
+        "dist/deity/deity",
+        "dist/deity"
       ]
     }
   },

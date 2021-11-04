@@ -6,4 +6,4 @@ import { NgModule } from '@angular/core';
   ],
   exports: []
 })
-export class DietyModule { }
+export class deityModule { }
