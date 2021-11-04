@@ -97,7 +97,7 @@ https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/101
 
 Formly Kitchen Sink
 
-Build forms and process submissions.
+Build forms and save submissions.
 
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
