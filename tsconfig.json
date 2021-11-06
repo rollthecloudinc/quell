@@ -147,6 +147,10 @@
       "powder": [
         "dist/powder/powder",
         "dist/powder"
+      ],
+      "flash": [
+        "dist/flash/flash",
+        "dist/flash"
       ]
     }
   },

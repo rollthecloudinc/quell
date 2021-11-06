@@ -1503,5 +1503,45 @@
           }
         }
       }
+    },
+    "flash": {
+      "projectType": "library",
+      "root": "modules/flash",
+      "sourceRoot": "modules/flash/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/flash/tsconfig.lib.json",
+            "project": "modules/flash/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/flash/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/flash/src/test.ts",
+            "tsConfig": "modules/flash/tsconfig.spec.json",
+            "karmaConfig": "modules/flash/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/flash/tsconfig.lib.json",
+              "modules/flash/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
