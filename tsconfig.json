@@ -159,6 +159,10 @@
       "stock": [
         "dist/stock/stock",
         "dist/stock"
+      ],
+      "barrel": [
+        "dist/barrel/barrel",
+        "dist/barrel"
       ]
     }
   },
