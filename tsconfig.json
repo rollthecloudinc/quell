@@ -155,6 +155,10 @@
       "lock": [
         "dist/lock/lock",
         "dist/lock"
+      ],
+      "stock": [
+        "dist/stock/stock",
+        "dist/stock"
       ]
     }
   },
