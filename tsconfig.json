@@ -151,6 +151,10 @@
       "flash": [
         "dist/flash/flash",
         "dist/flash"
+      ],
+      "lock": [
+        "dist/lock/lock",
+        "dist/lock"
       ]
     }
   },

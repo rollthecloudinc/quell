@@ -1543,5 +1543,45 @@
           }
         }
       }
+    },
+    "lock": {
+      "projectType": "library",
+      "root": "modules/lock",
+      "sourceRoot": "modules/lock/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/lock/tsconfig.lib.json",
+            "project": "modules/lock/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/lock/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/lock/src/test.ts",
+            "tsConfig": "modules/lock/tsconfig.spec.json",
+            "karmaConfig": "modules/lock/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/lock/tsconfig.lib.json",
+              "modules/lock/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
