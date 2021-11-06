@@ -1463,5 +1463,45 @@
           }
         }
       }
+    },
+    "powder": {
+      "projectType": "library",
+      "root": "modules/powder",
+      "sourceRoot": "modules/powder/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/powder/tsconfig.lib.json",
+            "project": "modules/powder/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/powder/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/powder/src/test.ts",
+            "tsConfig": "modules/powder/tsconfig.spec.json",
+            "karmaConfig": "modules/powder/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/powder/tsconfig.lib.json",
+              "modules/powder/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }

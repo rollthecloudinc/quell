@@ -143,6 +143,10 @@
       "deity": [
         "dist/deity/deity",
         "dist/deity"
+      ],
+      "powder": [
+        "dist/powder/powder",
+        "dist/powder"
       ]
     }
   },
