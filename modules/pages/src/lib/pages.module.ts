@@ -12,7 +12,7 @@ import { QueryBuilderModule } from 'angular2-query-builder';
 import { MediaModule } from 'media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from 'utils';
 import { TokenizerService, TokenModule } from 'token';
-import { AttributesModule } from 'attributes';
+import { AttributeSerializerService, AttributesModule } from 'attributes';
 import { LayoutModule } from 'layout';
 import { RestModule } from 'rest';
 import { SnippetModule } from 'snippet';
@@ -42,7 +42,7 @@ import { PanelPageRouterComponent } from './components/panel-page-router/panel-p
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory, formDatasourcePluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -98,6 +98,9 @@ import { ParamPluginManager, DparamModule, ParamEvaluatorService } from 'dparam'
 import { BridgeBuilderPluginManager, BridgeModule } from 'bridge';
 import { CrudAdaptorPluginManager, CrudDataService } from 'crud';
 import { PanelPageForm } from './models/form.models';
+import { FormDatasourceFormComponent } from './components/form-datasource-form/form-datasource-form.component';
+import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
+import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -158,9 +161,10 @@ const routes = [
     RestModule,
     SnippetModule,
     DparamModule,
-    BridgeModule
+    BridgeModule,
+    DatasourceModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -220,7 +224,9 @@ export class PagesModule {
     crud: CrudAdaptorPluginManager,
     entityDefinitionService: EntityDefinitionService,
     entityDataService: EntityDataService,
-    paramEvaluatorService: ParamEvaluatorService
+    paramEvaluatorService: ParamEvaluatorService,
+    dpm: DatasourcePluginManager,
+    attributeSerializer: AttributeSerializerService
   ) {
     eds.registerMetadataMap(entityMetadata);
 
@@ -266,5 +272,7 @@ export class PagesModule {
     entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService));
 
     crud.register(formSerializationEntityCrudAdaptorPluginFactory(paramEvaluatorService, formService));
+
+    dpm.register(formDatasourcePluginFactory(attributeSerializer, pageBuilderFacade, formService));
   }
 }

@@ -2,11 +2,11 @@ import { SnippetContentHandler } from './handlers/snippet-content.handler';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { MediaContentHandler } from './handlers/media-content.handler';
 // import { PanelContentHandler } from './handlers/panel-content.handler';
-import { ContentPlugin } from 'content';
+import { ContentBinding, ContentPlugin } from 'content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from 'context';
-import { Dataset } from 'datasource';
+import { Dataset, DatasourceFormComponent, DatasourcePlugin } from 'datasource';
 import { PanelPageState, PanelState , PaneState, StylePlugin } from 'panels';
-import { AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
@@ -32,14 +32,16 @@ import { PaneStateContextResolver } from './contexts/pane-state-context.resolver
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 import { ParamPlugin, Param, ParamEvaluatorService } from 'dparam';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { TokenizerService } from 'token';
 import { FormService } from './services/form.service';
-import { PanelPageForm } from './models/form.models';
+import { FormDatasource, PanelPageForm } from './models/form.models';
 import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { combineLatest, merge, of } from 'rxjs';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from 'crud';
+import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
+import { JSONPath } from 'jsonpath-plus';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -232,4 +234,26 @@ export const formSerializationEntityCrudAdaptorPluginFactory = (paramsEvaluatorS
     update: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false })
   });
+};
+
+export const formDatasourcePluginFactory = (attributeSerializer: AttributeSerializerService, pageBuilderFacade: PageBuilderFacade, formService: FormService) => {
+  return new DatasourcePlugin<string>({ 
+    id: 'form', 
+    title: 'Form', 
+    editor: FormDatasourceComponent,
+    fetch: ({ settings }: { settings: Array<AttributeValue>, dataset?: Dataset }) => of(new Dataset()).pipe(
+      map(() => new FormDatasource(attributeSerializer.deserializeAsObject(settings))),
+      switchMap(ds =>  pageBuilderFacade.getForm$(ds.name).pipe(
+        map(form => [ds, form ? form : new PanelPageForm()]),
+        defaultIfEmpty([ds, new PanelPageForm()]),
+        take(1)
+      )),
+      map(([ds, form]) => [ds, formService.serializeForm(form as PanelPageForm)]),
+      map(([ds, json]) => new Dataset({ results: JSONPath({ path: `$.${ds.field}.*`, json }) }))
+    ),
+    getBindings: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => of([]).pipe(
+      map(() => new FormDatasource(attributeSerializer.deserializeAsObject(settings))),
+      map(ds => [ new ContentBinding({ id: `form__${ds.name}`, type: 'context' }) ])
+    )
+  })
 };

@@ -30,7 +30,7 @@ export const entityMetadata: CrudEntityMetadataMap = {
             }
           }
         }
-      },
+      }
       /*idb_keyval: {
         params: {
           prefix: 'panelpageform__'

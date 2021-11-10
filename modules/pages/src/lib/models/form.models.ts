@@ -92,3 +92,14 @@ export class PanelPageFormPane {
     }
   }
 }
+
+export class FormDatasource {
+  name: string;
+  field: string;
+  constructor(data?: FormDatasource) {
+    if (data) {
+      this.name = data.name;
+      this.field = data.field;
+    }
+  }
+}
