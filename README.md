@@ -54,6 +54,11 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 * Magento | https://magento.com/
 * Modx | https://modx.com/
 
+### Initiatives
+
+* Core/Druid | The core platform providing all the modules for the build and render of panel pages.
+* Sparkle | Collection of modules to deliver decentralized, graph integration motivated by collection of various metric categories.
+
 ### Notable Mentions
 
 This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
