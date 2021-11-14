@@ -75,7 +75,9 @@ export const paramPluginFactory = (
           )
         )
       ) : of();
-    }
+    },
+    // At the very least it uses itself, right?
+    usedContexts: ({ param, metadata }: { param: Param, metadata: Map<string, any> }) => of([ param.mapping.context ])
   });
 }
 

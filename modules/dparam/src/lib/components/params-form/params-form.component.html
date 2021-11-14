@@ -1,0 +1,26 @@
+<div *ngFor="let param of formArray.controls; let i = index" [formGroup]="param">
+  <div>{{ paramName(i) }}</div>
+  <mat-form-field formGroupName="mapping">
+    <mat-label>Type</mat-label>
+    <mat-select required formControlName="type">
+      <mat-option *ngFor="let p of (paramPlugins$ | async) | keyvalue" [value]="p.value.id">{{ p.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field *ngIf="param.get('mapping').get('type').value == 'context'" formGroupName="mapping">
+    <mat-label>Context</mat-label>
+    <mat-select formControlName="context">
+      <mat-option *ngFor="let c of contexts" [value]="c">{{ c }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field formGroupName="mapping">
+    <input matInput formControlName="value" placeholder="value" required>
+  </mat-form-field>
+  <mat-form-field formGroupName="mapping">
+    <input matInput formControlName="testValue" placeholder="Test Value" required>
+  </mat-form-field>
+  <div formArrayName="flags">
+    <div *ngFor="let flag of param.get('flags').controls; let j = index" [formGroupName]="j">
+      <mat-checkbox formControlName="enabled">{{ flagsAsArray[j] }}</mat-checkbox>
+    </div>
+  </div>
+</div>

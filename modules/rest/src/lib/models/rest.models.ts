@@ -5,7 +5,7 @@ import { Snippet } from "snippet";
 export class Rest {
   url: string;
   renderer: Renderer;
-  params: Array<Param>;
+  params: Array<Param> = [];
   body?: Snippet;
   method?: string;
   constructor(data?: Rest) {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DefaultDataServiceConfig } from '@ngrx/data';
 import { Observable, of } from 'rxjs';
-import { map, tap, delay } from 'rxjs/operators';
+import { map, tap, delay, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,7 @@ export class DatasourceApiService {
       return of(this.cache.get(url)).pipe(delay(0));
     } else {
       return this.http.get<Array<any>>(`${url}`).pipe(
+        catchError(() => of([])),
         map(data => Array.isArray(data) ? data: [data]),
         tap(data => this.cache.set(url, data))
       );

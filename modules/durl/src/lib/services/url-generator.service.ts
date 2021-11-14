@@ -20,11 +20,11 @@ export class UrlGeneratorService {
     const { selectCurrentRoute } = getSelectors((state: any) => state.router);
     return this.routerStore.pipe(
       select(selectCurrentRoute),
-      map(route => [route, url, url.indexOf('?')]),
+      map(route => [route, url, url ? url.indexOf('?') : -1]),
       map(([route, url, index]) => [route, (index > -1 ? url.substring(0, index) : url), (index > -1 ? url.substring(index + 1) : '')]),
       switchMap(([route, path, queryString]) => {
         const qsParsed = qs.parse(queryString);
-        const pathPieces: Array<string> = path.split('/');
+        const pathPieces: Array<string> = path ? path.split('/') : [];
         const meta = new Map<string, any>([ ...metadata, ['_route', route] ]);
         const paramNames = this.paramNames(url);
         const mappings = params.reduce<Map<string, Param>>((p, c, i) => new Map([ ...p, [paramNames[i], c ] ]), new Map<string, Param>());
@@ -71,9 +71,9 @@ export class UrlGeneratorService {
   }
 
   paramNames(url: string): Array<string> {
-    const indexPos = url.indexOf('?');
-    const pathParsed = ((indexPos > -1 ? url.substring(0, indexPos) : url) as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
-    const parsed = { ...pathParsed, ...qs.parse(url.substring(url.indexOf('?') + 1)) };
+    const indexPos = url ? url.indexOf('?') : -1;
+    const pathParsed = ((indexPos > -1 ? url.substring(0, indexPos) : url ? url : '') as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
+    const parsed = { ...pathParsed, ...qs.parse(url ? url.substring(url.indexOf('?') + 1) : '') };
     const paramNames = [];
     for(const param in parsed) {
       if(Array.isArray(parsed[param])) {

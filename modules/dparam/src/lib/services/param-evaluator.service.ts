@@ -4,6 +4,7 @@ import { ParamPluginManager } from '../services/param-plugin-manager.service';
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
+import { TokenizerService } from "token";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,8 @@ import { Injectable } from "@angular/core";
 export class ParamEvaluatorService {
 
   constructor(
-    private paramPluginManager: ParamPluginManager
+    private paramPluginManager: ParamPluginManager,
+    private tokenizerService: TokenizerService
   ) {}
 
   paramValue(param: Param, metadata: Map<string, any>): Observable<string> {
@@ -22,7 +24,8 @@ export class ParamEvaluatorService {
         () => !!p,
         p ? p.evalParam({ param, metadata }) : of(/*param.mapping.value*/),
         of(param.mapping.value)
-      ))
+      )),
+      map(v => param.mapping.value && typeof(v) === 'string' && this.tokenizerService.discoverTokens(v).length === 0 ? v : param.mapping.testValue)
     );
   }
 

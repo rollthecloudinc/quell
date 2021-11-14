@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject, Optional, Output, EventEmitter } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService, ValueComputerService } from 'attributes';
 import { InlineContext } from 'context';
 import { Pane } from 'panels';
 import { debounceTime } from 'rxjs/operators';
@@ -63,8 +63,18 @@ export class FormlyFieldRendererComponent implements OnInit {
     });
   }
 
+  private input;
   onSearchChange(input: string) {
-    this.stateChange.next({ autocomplete: { input } });
+    this.input = input;
+    this.state = { value: this.value, autocomplete: { input } };
+    this.stateChange.emit({ value: this.value, autocomplete: { input } });
+  }
+
+  private value;
+  onValueChange(value: any) {
+    this.value = value;
+    this.state = { value, autocomplete: { input: this.input } };
+    this.stateChange.emit({ value, autocomplete: { input: this.input } });
   }
 
 }

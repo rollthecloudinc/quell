@@ -35,11 +35,14 @@ export class PanelResolverService {
    */
   usedContexts(panes: Array<Pane>): Observable<Array<string>> {
     return this.panesPlugins(panes).pipe(
-      switchMap(plugins => forkJoin(
+      switchMap(plugins => this.dataPanes(panes).pipe(
+        map(dataPanes => ({ plugins, dataPanes }))
+      )),
+      switchMap(({ plugins, dataPanes }) => forkJoin(
         panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
           const plugin = plugins.get(c.contentPlugin);
           if(plugin.handler !== undefined) {
-            return [ ...p, plugin.handler.getBindings(c.settings, 'context').pipe(
+            return [ ...p, plugin.handler.getBindings(c.settings, 'context', new Map<string, any>([ [ 'dataPanes', dataPanes ] ])).pipe(
               map(cb => cb.map(b => b.id))
             ) ];
           } else {

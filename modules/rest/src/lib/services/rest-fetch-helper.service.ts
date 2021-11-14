@@ -3,7 +3,7 @@ import { AttributeValue, AttributeSerializerService } from "attributes";
 import { Dataset, DatasourceApiService } from "datasource";
 import { UrlGeneratorService } from "durl";
 import { Observable, of } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { filter, map, switchMap } from "rxjs/operators";
 import { SnippetParserService } from "snippet";
 import { Rest } from '../models/rest.models';
 
@@ -24,6 +24,7 @@ export class RestFetchHelperService {
       switchMap(r => this.urlGenerator.getUrl(r.url, r.params, metadata).pipe(
         map(url => new Rest({ ...r, url }))
       )),
+      filter(r => r.url && r.url.trim() !== '' && r.url.indexOf('http') > -1),
       switchMap<Rest, Observable<Dataset>>(r => {
         const method = r.method ? r.method : 'get';
         switch(method) {

@@ -44,7 +44,7 @@ export class PaneStateService {
         map(d => [s, p, d])
       )),
       switchMap(([s, p, d]) => this.panelPageStateService.collection$.pipe(
-        select(this.selectById(p.id)),
+        select(this.selectById({ id: p.id })),
         map(ps => [s, new PanelPageState(ps ? ps : { id: p.id, panels: [] }), d]),
         take(1)
       )),

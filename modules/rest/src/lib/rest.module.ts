@@ -14,7 +14,7 @@ import { restDatasourcePluginFactory, restEntityCrudAdaptorPluginFactory } from 
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 import { CrudAdaptorPluginManager, CrudModule } from 'crud';
-import { ParamEvaluatorService } from 'dparam';
+import { DparamModule, ParamEvaluatorService } from 'dparam';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultDataServiceConfig, HttpUrlGenerator } from '@ngrx/data';
 import { TokenInterceptor } from 'oidc';
@@ -31,7 +31,8 @@ import { TokenInterceptor } from 'oidc';
     SnippetModule,
     DatasourceModule,
     TokenModule,
-    CrudModule
+    CrudModule,
+    DparamModule
   ],
   exports: [ RestSourceFormComponent, RestDatasourceComponent ],
   providers: [

@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Dataset } from 'datasource';
+import { Dataset, Datasource, DatasourcePluginManager } from 'datasource';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { iif, Observable, of } from 'rxjs';
 import { FormlyFieldInstance } from '../models/formly.models';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyHandlerHelper } from '../services/formly-handler-helper.service';
+import { DatasourceContentHandler, Pane } from 'panels';
 @Injectable()
 export class FormlyFieldContentHandler implements ContentHandler {
 
   constructor(
     private attributeSerializer: AttributeSerializerService,
-    private formlyHandlerHelper: FormlyHandlerHelper
+    private formlyHandlerHelper: FormlyHandlerHelper,
+    private datasourceHandler: DatasourceContentHandler,
+    private dpm: DatasourcePluginManager
   ) { }
 
   handleFile(file: File): Observable<Array<AttributeValue>> {
@@ -50,6 +53,34 @@ export class FormlyFieldContentHandler implements ContentHandler {
           of([])
         ))
       );
+      return of([]);
+    } else if (type === 'context') {
+      // Needs to include datasource panes bindings as well.
+      /*return this.toObject(settings).pipe(
+        map(i => ({ i, dsPane: metadata && i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? (metadata.get('dataPanes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id) : undefined })),
+        switchMap(({ dsPane }) => iif(
+          () => !!dsPane,
+          this.datasourceHandler.toObject(dsPane.settings).pipe(
+            switchMap(bindedDatasource => iif(
+              // Params from rest need to be hoisted into the datasource - this is a legacy work-around new datasources will have params in datasource object not nested.
+              () => bindedDatasource.plugin === 'rest',
+              of(this.attributeSerializer.deserializeAsObject(bindedDatasource.settings)).pipe(
+                map(bSettings => ({ bindedDatasource: new Datasource({ ...bindedDatasource, params: bSettings.params }) }))
+              ),
+              of({ bindedDatasource })
+            )),
+            map(({ bindedDatasource }) => ({ dsPane: new Pane({ ...dsPane, settings: this.attributeSerializer.serialize(bindedDatasource, 'root').attributes }) })),
+          ),
+          of({ dsPane })
+        )),
+        switchMap(({ dsPane }) => iif(
+          () => !!dsPane,
+          dsPane ? this.datasourceHandler.getBindings(dsPane.settings, type, metadata) : of([]),
+          of([])
+        )),
+        tap(bindings => console.log('formly field context bindings', bindings))
+      );*/
+      return of([]);
     } else {
       return of([]);
     }
@@ -78,7 +109,7 @@ export class FormlyFieldContentHandler implements ContentHandler {
   }
 
   stateDefinition(settings: Array<AttributeValue>): Observable<any> {
-    return of({ autocomplete: { input: '' } });
+    return of({ autocomplete: { input: '' }, value: undefined });
   }
 
   editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {

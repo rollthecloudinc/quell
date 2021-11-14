@@ -57,6 +57,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   @Output()
   searchChange = new EventEmitter<string>();
 
+  @Output()
+  valueChange = new EventEmitter<any>();
+
   settingsFormArray = this.fb.array([]);
   proxyGroup = this.fb.group({});
 
@@ -69,6 +72,8 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   bridgeSub = this.proxyGroup.valueChanges.pipe(
     debounceTime(500)
   ).subscribe(v => {
+    //console.log('proxy value', v);
+    this.valueChange.emit(v.value);
     this.settingsFormArray.clear();
     const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v.value, 'value'));
     this.settingsFormArray.push(newGroup);
@@ -117,7 +122,10 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
         ...f,
         templateOptions: {
           ...f.templateOptions,
-          ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {})
+          ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {}),
+          change: (field, e) => {
+            console.log('value change', field.form.controls.value.value);
+          }
         }
       }, i]))
     ),

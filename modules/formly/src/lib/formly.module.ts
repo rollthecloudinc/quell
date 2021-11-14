@@ -11,6 +11,7 @@ import { FormlyFieldRendererComponent } from './components/formly-field-renderer
 import { FormlyFieldSelectorComponent } from './components/formly-field-selector/formly-field-selector.component';
 import { FormlyPaneFieldComponent } from './components/formly-pane-field/formly-pane-field.component';
 import { FormlyAutocompleteComponent } from './components/formly-autocomplete/formly-autocomplete.component';
+import { FormlyRepeatingSectionComponent } from './components/formly-repeating-section/formly-repeating-section.component';
 import { formlyFieldContentPluginFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -27,7 +28,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldRendererComponent,
     FormlyFieldSelectorComponent,
     FormlyPaneFieldComponent,
-    FormlyAutocompleteComponent
+    FormlyAutocompleteComponent,
+    FormlyRepeatingSectionComponent
   ],
   imports: [
     CommonModule,
@@ -40,6 +42,11 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
           name: 'autocomplete',
           component: FormlyAutocompleteComponent,
           wrappers: ['form-field'],
+        },
+        {
+          name: 'repeat',
+          component: FormlyRepeatingSectionComponent,
+          // wrappers: ['form-field'],
         }
       ]
     }),
@@ -57,7 +64,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldRendererComponent,
     FormlyFieldSelectorComponent,
     FormlyPaneFieldComponent,
-    FormlyAutocompleteComponent
+    FormlyAutocompleteComponent,
+    FormlyRepeatingSectionComponent
   ],
   providers: [
     FormlyFieldContentHandler

@@ -53,7 +53,14 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   resolvedContext = {};
 
   @Input()
-  contextChanged: { name: string; };
+  set contextChanged(contextChanged: { name: string; }) {
+    // this.schduleContextChange.next(contextChanged.name);
+  }
+
+  @Input()
+  set contextsChanged(contextsChanged: Array<string>) {
+    contextsChanged.map(c => this.schduleContextChange.next(c));
+  }
 
   @Input()
   indexPosition: number;
@@ -231,7 +238,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     if(this.panel !== undefined && this.panelHost !== undefined) {
       console.log(`panel render init [${this.panel.name}`);
       this.panelResolverService.usedContexts(this.panel.panes).pipe(
-        map(ctx => ctx.filter(c => c !== '_page' && c !== '_root' && c !== '.')),
+        map(ctx => ctx.filter(c => c !== '_page' && c !== '_root' && c !== '.' && c.indexOf('panestate-' + this.ancestoryWithSelf.join('-')) !== 0)),
         tap(ctx => console.log(`contexts [${this.panel.name}]: ${ctx.join(',')}`)),
         switchMap(ctx => this.schduleContextChange.pipe(
           tap(contextChanged => console.log(`detected change [${this.panel.name}]: ${contextChanged}`)),
@@ -259,9 +266,9 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     if(changes.resolvedContext && changes.resolvedContext.previousValue === undefined) {
       this.scheduleRender.next([this.panel.panes, this.contexts, this.resolvedContext]);
     }
-    if(changes.contextChanged && changes.contextChanged.currentValue !== undefined) {
+    /*if(changes.contextChanged && changes.contextChanged.currentValue !== undefined) {
       this.schduleContextChange.next(changes.contextChanged.currentValue.name);
-    }
+    }*/
     if (changes.ancestory || changes.indexPosition) {
       const ancestoryWithSelf = [ ...(changes.ancestory.currentValue ? changes.ancestory.currentValue :  this.ancestory ? this.ancestory : []), ...( changes.indexPosition.currentValue !== undefined && changes.indexPosition.currentValue !== null? [ changes.indexPosition.currentValue ] : this.indexPosition ? [ this.indexPosition ] : [] ) ];
       if (ancestoryWithSelf.length !== this.ancestoryWithSelf.length || this.ancestoryWithSelf.filter((n, index) => ancestoryWithSelf[index] !== n).length !== 0) {

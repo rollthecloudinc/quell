@@ -1,14 +1,12 @@
 import { Component, OnInit, forwardRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
-import { Param, ParamPluginManager } from 'dparam';
-import { InlineContext } from 'context';
-import { NEVER, Subject, Subscription, of } from 'rxjs';
+import { Subject, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
 import { DatasourceApiService } from 'datasource';
 import * as qs from 'qs';
 import { TokenizerService } from 'token';
-import { Snippet } from 'snippet';
+import { Rest } from '../../models/rest.models';
 
 @Component({
   selector: 'classifieds-ui-rest-source-form',
@@ -33,39 +31,33 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   dataChange = new EventEmitter<any>();
 
   @Input()
-  set restSource(restSource: { url: string; params: Array<Param>, method?: string, body?: Snippet }) {
-    if(restSource !== undefined) {
-      this.sourceForm.get('url').setValue(restSource.url);
-      this.sourceForm.get('method').setValue(restSource.method ? restSource.method : '');
-      this.sourceForm.get('body').setValue(restSource.body ? { ...restSource.body, jsScript: '' } : '');
-      setTimeout(() => this.sourceForm.get('params').setValue(restSource && restSource.params ? restSource.params : []), 500);
-    }
+  set restSource(restSource: Rest) {
+    this.restSource$.next(restSource);
   };
 
   @Input()
   contexts: Array<string> = [];
-  // contexts: Array<string> = [];
-
-  flags = new Map<string, string>();
 
   sourceForm = this.fb.group({
     url: this.fb.control('', Validators.required),
-    params: this.fb.array([]),
+    params: this.fb.control([]),
     body: this.fb.control(''),
     method: this.fb.control('get', [ Validators.required ])
   });
 
   jsonData: Array<any>;
   tokens: Map<string, any>;
+  paramsParsed: any;
+
+  readonly restSource$ = new BehaviorSubject<Rest>(new Rest());
 
   componentDestroyed = new Subject();
-
-  paramPlugins$ = this.ppm.getPlugins();
 
   refreshData$ = new Subject();
   refreshSubscription = this.refreshData$.pipe(
     map(() => this.generateUrl()),
     tap(url => console.log(url)),
+    filter(url => url && url.trim() !== ''),
     switchMap((url: string) => this.datasourceApi.getData(url).pipe(
       catchError((e: HttpErrorResponse) => {
         console.log(e);
@@ -78,62 +70,41 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     this.dataChange.emit(data);
   });
 
-  private paramsMap = new Map<string, number>()
+  private readonly urlChangeSub = this.sourceForm.get('url').valueChanges.pipe(
+    debounceTime(500),
+    filter(url => url && url.trim() !== ''),
+    map(url => [url, url.indexOf('?')]),
+    map(([url, index]) => [(index > -1 ? url.substring(0, index) : url), (index > -1 ? url.substring(index + 1) : '')])
+  ).subscribe(([path, queryString]) => {
+    const pathParsed = (path as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
+    const parsed = { ...(pathParsed as any), ...qs.parse(queryString) };
+    this.paramsParsed = parsed;
+  });
+
+  private readonly restSourceSub = this.restSource$.pipe(
+    tap(r => {
+      if (r) {
+        this.sourceForm.get('url').setValue(r.url);
+        this.sourceForm.get('method').setValue(r.method ? r.method : '');
+        this.sourceForm.get('body').setValue(r.body ? { ...r.body, jsScript: '' } : '');
+      } else {
+        this.sourceForm.get('url').setValue('');
+        this.sourceForm.get('method').setValue('');
+        this.sourceForm.get('body').setValue('');
+      }
+    })
+  ).subscribe();
 
   public onTouched: () => void = () => {};
-
-  get params(): FormArray {
-    return this.sourceForm.get('params') as FormArray;
-  }
-
-  get flagsAsArray(): Array<string> {
-    const flags = [];
-    this.flags.forEach((f, k) => {
-      flags.push(k);
-    });
-    return flags;
-  }
 
   constructor(
     private fb: FormBuilder, 
     private datasourceApi: DatasourceApiService,
-    private tokenizerService: TokenizerService,
-    private ppm: ParamPluginManager
+    private tokenizerService: TokenizerService
   ) {
-    this.flags.set('page', 'Page');
-    this.flags.set('limit', 'Limit');
-    this.flags.set('offset', 'Offset');
-    this.flags.set('searchString', 'Search String');
   }
 
   ngOnInit(): void {
-    this.sourceForm.get('url').valueChanges.pipe(
-      debounceTime(500),
-      map(url => [url, url.indexOf('?')]),
-      map(([url, index]) => [(index > -1 ? url.substring(0, index) : url), (index > -1 ? url.substring(index + 1) : '')])
-      // map(([path, queryString]) => [path.indexOf('/'), path, queryString])
-    ).subscribe(([path, queryString]) => {
-      console.log(path);
-      console.log((path as string).split('/'));
-      const pathParsed = (path as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
-      const parsed = { ...(pathParsed as any), ...qs.parse(queryString) };
-      console.log(parsed);
-      const savedParams = this.params.value;
-      console.log(savedParams);
-      this.params.clear();
-      let index = 0;
-      const paramMapCopy = new Map<string, number>([ ...this.paramsMap ]);
-      this.paramsMap = new Map<string, number>();
-      for(const param in parsed) {
-        if(Array.isArray(parsed[param])) {
-          parsed[param].forEach(p => this.buildParams(p, index, paramMapCopy, savedParams));
-          index++;
-        } else if(parsed[param].indexOf(':') === 0) {
-          this.buildParams(parsed[param], index, paramMapCopy, savedParams);
-          index++;
-        }
-      }
-    });
     this.sourceForm.valueChanges.pipe(
       debounceTime(1000)
     ).subscribe(() => {
@@ -173,57 +144,14 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     return this.sourceForm.valid ? null : { invalidForm: {valid: false, message: "source is invalid"}};
   }
 
-  buildParams(param: string, index: number, paramMapCopy: Map<string, number>, savedParams: any) {
-    console.log(`build param ${param}`);
-    this.paramsMap.set(param, index);
-    this.params.push(this.fb.group({
-      mapping: this.fb.group({
-        type: this.fb.control('', Validators.required),
-        value: this.fb.control('', Validators.required),
-        testValue: this.fb.control(''),
-        context: this.fb.control('')
-      }),
-      flags: this.fb.array(this.flagsAsArray.map(k => this.fb.group({
-        name: k,
-        enabled: this.fb.control(false)
-      })))
-    }));
-    if(paramMapCopy.has(param) && paramMapCopy.get(param) === index) {
-      this.params.at(index).setValue(savedParams[index]);
-    }
-  }
+  /*refreshData() {
 
-  paramName(index: number) {
-    const url = this.sourceForm.get('url').value;
-    const indexPos = url.indexOf('?');
-    const pathParsed = ((indexPos > -1 ? url.substring(0, indexPos) : url) as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
-    const parsed = { ...pathParsed, ...qs.parse(url.substring(url.indexOf('?') + 1)) };
-    let i = 0;
-    for(const param in parsed) {
-      if(Array.isArray(parsed[param])) {
-        for(let j = 0; j < parsed[param].length; j++) {
-          if(index === i) {
-            return parsed[param][j];
-          }
-          i++;
-        }
-      } else if(parsed[param].indexOf(':') === 0) {
-        if(i === index) {
-          return parsed[param];
-        }
-        i++;
-      }
-    }
-  }
-
-  refreshData() {
-
-  }
+  }*/
 
   generateUrl(): string {
     console.log('generate url');
     const url = this.sourceForm.get('url').value;
-    const [path, queryString] = url.split('?', 2);
+    const [path, queryString] = url ? url.split('?', 2) : ['',''];
     const qsParsed = qs.parse(queryString);
     const qsOverrides = {};
     const pathPieces = path.split('/');
@@ -232,10 +160,10 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     let pathParams = 0;
     for(let i = 0; i < len; i++) {
       if(pathPieces[i].indexOf(':') === 0) {
-        if(!this.params.at(pathParams)) {
+        if(!this.sourceForm.get('params').value[pathParams]) {
           return '';
         }
-        const mapping = this.params.at(pathParams).get('mapping');
+        const mapping = this.sourceForm.get('params').value[pathParams].mapping;
         rebuildUrl.push(mapping.value.type === 'static' ? mapping.value.value : mapping.value.testValue);
         pathParams++;
       } else {
@@ -244,11 +172,11 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
     }
     for(const prop in qsParsed) {
       if(qsParsed[prop].indexOf(':') > -1) {
-        if(!this.params.at(pathParams)) {
+        if(!this.sourceForm.get('params').value[pathParams]) {
           return '';
         }
-        const mapping = this.params.at(pathParams).get('mapping');
-        qsOverrides[prop] = mapping.value.type === 'static' ? mapping.value.value : mapping.value.testValue;
+        const mapping = this.sourceForm.get('params').value[pathParams].mapping;
+        qsOverrides[prop] = mapping.type === 'static' ? mapping.value : mapping.testValue;
         pathParams++;
       }
     }

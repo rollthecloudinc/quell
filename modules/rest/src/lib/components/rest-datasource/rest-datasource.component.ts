@@ -6,6 +6,7 @@ import { Rest } from '../../models/rest.models';
 @Component({
   selector: 'classifieds-ui-rest-datasource',
   template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [restSource]="restSource" [contexts]="contexts"></classifieds-ui-rest-source-form></ng-container>`,
+  // template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [settings]="settings" [contexts]="contexts"></classifieds-ui-rest-source-form></ng-container>`,
 })
 export class RestDatasourceComponent {
   @Input() set settings(settings: Array<AttributeValue>) {
@@ -17,4 +18,8 @@ export class RestDatasourceComponent {
     private attributeSerializer: AttributeSerializerService,
     public controlContainer: ControlContainer
   ) {}
+  /*@Input() settings: Array<AttributeValue> = [];
+  constructor(
+    public controlContainer: ControlContainer
+  ) {}*/
 }

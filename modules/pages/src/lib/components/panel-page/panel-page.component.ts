@@ -11,7 +11,7 @@ import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -81,6 +81,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   resolvedContext = {};
 
   contextChanged: { name: string };
+  contextsChanged: Array<string> = [];
   layoutRendererRef: ComponentRef<any>;
   //contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
   //resolvedContext$ = new BehaviorSubject<any>({});
@@ -337,11 +338,16 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
       this.resolvedContext = resolvedContext;
       console.log(this.resolvedContext);
       this.resolveSub = this.inlineContextResolver.resolveMergedSingle(this.contexts).pipe(
-        skip(globalPlugins.length + (this.contexts ? this.contexts.length : 0))
-      ).subscribe(([cName, cValue]) => {
-        console.log(`context changed [${this.panelPage.name}]: ${cName}`);
-        this.contextChanged = { name: cName };
-        this.resolvedContext = { ...this.resolvedContext, [cName]: cValue };
+        skip(globalPlugins.length + (this.contexts ? this.contexts.length : 0)),
+        //tap(() => setTimeout(() => this.contextsChanged = []))
+        bufferTime(1)
+      ).subscribe(/*([cName, cValue])*/buffered => {
+        //console.log(`context changed [${this.panelPage.name}]: ${cName}`);
+        //this.contextChanged = { name: cName };
+        //this.contextsChanged = [ ...this.contextsChanged, cName ];
+        this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
+        // this.resolvedContext = { ...this.resolvedContext, [cName]: cValue };
+        this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
       });
     });
   }
