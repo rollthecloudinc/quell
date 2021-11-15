@@ -9,7 +9,11 @@
       "@ngrx/data": "@ngrx/data",
       "uuid": "uuid",
       "dparam": "dparam",
-      "json-rules-engine": "json-rules-engine"
+      "json-rules-engine": "json-rules-engine",
+      "attributes": "attributes",
+      "context": "context",
+      "datasource": "datasource",
+      "material": "material"
     }
   }
 }

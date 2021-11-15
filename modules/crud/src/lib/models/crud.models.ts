@@ -34,3 +34,16 @@ export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
     }
   }
 }
+
+export class CrudAdaptorDatasource {
+  adaptorName: string;
+  params?: Array<Param> = [];
+  constructor(data?: CrudAdaptorDatasource) {
+    if (data) {
+      this.adaptorName = data.adaptorName;
+      if (data.params && Array.isArray(data.params)) {
+        this.params = data.params.map(p => new Param(p));
+      }
+    }
+  }
+}
