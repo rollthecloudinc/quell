@@ -5,7 +5,7 @@ import { forkJoin, of } from "rxjs";
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 import { ParamContextExtractorService } from "context";
 import { CrudAdaptorPluginManager } from "./services/crud-adaptor-plugin-manager.service";
-import { map, switchMap } from "rxjs/operators";
+import { map, switchMap, take } from "rxjs/operators";
 import { CrudAdaptorDatasource } from "./models/crud.models";
 import { UrlGeneratorService } from "durl";
 import { Param, ParamEvaluatorService } from "dparam";
@@ -34,12 +34,11 @@ export const crudAdaptorDatasourcePluginFactory = (
         paramEvaluatorService.paramValues(ds.options.reduce((p, c, i) => new Map<string, Param>([ ...p, [ optionNames[i], c ] ]), new Map<string, Param>())).pipe(
           map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
         ),
-        ds.paramsString && ds.paramsString !== '' ? urlGenerator.getUrl('?' + ds.paramsString, ds.params, metadata) : of(undefined)
+        ds.paramsString && ds.paramsString !== '' ? urlGenerator.getUrl('?' + ds.paramsString, ds.params, metadata).pipe(take(1)) : of(undefined)
       ]).pipe(
         map(([ options, query ]) => ({ plugin, options, query }))
       )),
-      switchMap(({ plugin, options, query }) => crudDataHelper.evaluateCollectionPlugins({ plugins: { [plugin.id]: { params: options } }, op: 'query', query })),
-      // map(res => new Dataset({ res.items }))
+      switchMap(({ plugin, options, query }) => crudDataHelper.evaluateCollectionPlugins({ plugins: { [plugin.id]: { params: options } }, op: 'query', query: query ? query.substr(1) : query })),
       map(results => new Dataset({ results }))
     ),
     editorOptions: () => of(new DatasourceEditorOptions({ fullscreen: true })),
