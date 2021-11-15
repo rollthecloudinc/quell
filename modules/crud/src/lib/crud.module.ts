@@ -11,6 +11,7 @@ import { MaterialModule } from 'material';
 import { CrudAdaptorDatasourceFormComponent } from './components/crud-adaptor-datasource-form/crud-adaptor-datasource-form.component';
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 import { crudAdaptorDatasourcePluginFactory } from './crud.factories';
+import { CrudDataHelperService } from './services/crud-data-helper.service';
 
 @NgModule({
   declarations: [
@@ -36,8 +37,10 @@ export class CrudModule {
     cpm: CrudAdaptorPluginManager,
     paramContextExtractor: ParamContextExtractorService,
     attributeSerializer: AttributeSerializerService,
-    paramEvaluatorService: ParamEvaluatorService
+    paramEvaluatorService: ParamEvaluatorService,
+    crudDataHelper: CrudDataHelperService,
+    urlGenerator: UrlGeneratorService
   ) {
-    dpm.register(crudAdaptorDatasourcePluginFactory(paramContextExtractor, attributeSerializer, cpm, paramEvaluatorService));
+    dpm.register(crudAdaptorDatasourcePluginFactory(paramContextExtractor, attributeSerializer, cpm, paramEvaluatorService, crudDataHelper, urlGenerator));
   }
 }

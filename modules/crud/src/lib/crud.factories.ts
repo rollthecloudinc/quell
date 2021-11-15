@@ -9,12 +9,15 @@ import { map, switchMap } from "rxjs/operators";
 import { CrudAdaptorDatasource } from "./models/crud.models";
 import { UrlGeneratorService } from "durl";
 import { Param, ParamEvaluatorService } from "dparam";
+import { CrudDataHelperService } from "./services/crud-data-helper.service";
 
 export const crudAdaptorDatasourcePluginFactory = (
   paramContextExtractor: ParamContextExtractorService,
   attributeSerializer: AttributeSerializerService,
   cpm: CrudAdaptorPluginManager,
-  paramEvaluatorService: ParamEvaluatorService
+  paramEvaluatorService: ParamEvaluatorService,
+  crudDataHelper: CrudDataHelperService,
+  urlGenerator: UrlGeneratorService
 ) => {
   return new DatasourcePlugin<string>({ 
     id: 'crud_adaptor', 
@@ -26,21 +29,18 @@ export const crudAdaptorDatasourcePluginFactory = (
       switchMap(ds => cpm.getPlugin(ds.adaptorName).pipe(
         map(plugin => ({ plugin, ds }))
       )),
-      map(({ plugin, ds }) => ({ plugin, ds, optionNames: ds.optionsString.split('&').filter(v => v.indexOf('=:') === 0).map(v => v.split('=', 2)[1]) })),
-      map(({ plugin, ds, optionNames }) => ({ plugin, ds, optionNames, paramNames: ds.paramsString.split('&').filter(v => v.indexOf('=:') === 0).map(v => v.split('=', 2)[1]) })),
-      switchMap(({ plugin, ds, optionNames, paramNames }) => forkJoin([
+      map(({ plugin, ds }) => ({ plugin, ds, optionNames: ds.optionsString ? ds.optionsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
+      switchMap(({ plugin, ds, optionNames }) => forkJoin([
         paramEvaluatorService.paramValues(ds.options.reduce((p, c, i) => new Map<string, Param>([ ...p, [ optionNames[i], c ] ]), new Map<string, Param>())).pipe(
-          map(params => Array.from(params).reduce((p, [v, k]) =>  ({ ...p, [k]: v }), {}))
+          map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
         ),
-        paramEvaluatorService.paramValues(ds.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-          map(params => Array.from(params).reduce((p, [v, k]) =>  ({ ...p, [k]: v }), {}))
-        )
+        ds.paramsString && ds.paramsString !== '' ? urlGenerator.getUrl('?' + ds.paramsString, ds.params, metadata) : of(undefined)
       ]).pipe(
-        map(([ options, params ]) => ({ plugin, options, params }))
+        map(([ options, query ]) => ({ plugin, options, query }))
       )),
-      // switchMap(({ plugin, options, params }) => plugin.query()),
+      switchMap(({ plugin, options, query }) => crudDataHelper.evaluateCollectionPlugins({ plugins: { [plugin.id]: { params: options } }, op: 'query', query })),
       // map(res => new Dataset({ res.items }))
-      map(() => new Dataset())
+      map(results => new Dataset({ results }))
     ),
     editorOptions: () => of(new DatasourceEditorOptions({ fullscreen: true })),
     getBindings: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => of([])/*.pipe(
