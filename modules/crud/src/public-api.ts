@@ -9,3 +9,4 @@ export * from './lib/dataservices/crud-data.service';
 export * from './lib/models/entity-metadata.models';
 export * from './lib/components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 export * from './lib/components/crud-adaptor-datasource-form/crud-adaptor-datasource-form.component';
+export * from './lib/services/crud-data-helper.service';

@@ -96,7 +96,7 @@ import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { FormService } from './services/form.service';
 import { ParamPluginManager, DparamModule, ParamEvaluatorService } from 'dparam';
 import { BridgeBuilderPluginManager, BridgeModule } from 'bridge';
-import { CrudAdaptorPluginManager, CrudDataService } from 'crud';
+import { CrudAdaptorPluginManager, CrudDataHelperService, CrudDataService } from 'crud';
 import { PanelPageForm } from './models/form.models';
 import { FormDatasourceFormComponent } from './components/form-datasource-form/form-datasource-form.component';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
@@ -226,7 +226,8 @@ export class PagesModule {
     entityDataService: EntityDataService,
     paramEvaluatorService: ParamEvaluatorService,
     dpm: DatasourcePluginManager,
-    attributeSerializer: AttributeSerializerService
+    attributeSerializer: AttributeSerializerService,
+    crudDataHelper: CrudDataHelperService
   ) {
     eds.registerMetadataMap(entityMetadata);
 
@@ -269,7 +270,7 @@ export class PagesModule {
     bpm.getPlugin('pages_form').subscribe(p => p.build());
 
     // Experimental - form testing
-    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService));
+    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
 
     crud.register(formSerializationEntityCrudAdaptorPluginFactory(paramEvaluatorService, formService));
 

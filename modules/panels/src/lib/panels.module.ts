@@ -15,7 +15,7 @@ import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-sel
 import { PanelPageState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
 import { Aws3Module } from 'aws3';
-import { CrudAdaptorPluginManager, CrudModule, CrudDataService } from 'crud';
+import { CrudAdaptorPluginManager, CrudModule, CrudDataService, CrudDataHelperService } from 'crud';
 // import { PanelsStateContextResolver } from './contexts/panels-state-context.resolver';
 import { ContextPluginManager } from 'context';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
@@ -66,12 +66,13 @@ export class PanelsModule {
     entityDefinitionService: EntityDefinitionService,
     /*ctxm: ContextPluginManager,
     panelsStateContextResolver: PanelsStateContextResolver*/
+    crudDataHelper: CrudDataHelperService
   ) {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save
-    entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', crud, entityDefinitionService));
-    entityDataService.registerService('PanelPageListItem', new CrudDataService<PanelPageListItem>('PanelPageListItem', crud, entityDefinitionService));
+    entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', crud, entityDefinitionService, crudDataHelper));
+    entityDataService.registerService('PanelPageListItem', new CrudDataService<PanelPageListItem>('PanelPageListItem', crud, entityDefinitionService, crudDataHelper));
     contentPlugins.forEach(p => cpm.register(p));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));

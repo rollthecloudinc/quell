@@ -14,7 +14,8 @@
       "context": "context",
       "datasource": "datasource",
       "material": "material",
-      "qs": "qs"
+      "qs": "qs",
+      "durl": "durl"
     }
   }
 }
