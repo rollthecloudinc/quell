@@ -24,6 +24,6 @@ export class DparamModule {
     ppm: ParamPluginManager
   ) {
     // For now kill this.
-    // ppm.register(staticParamFactory());
+    ppm.register(staticParamFactory());
   }
 }

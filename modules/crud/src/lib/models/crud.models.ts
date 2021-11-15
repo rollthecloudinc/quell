@@ -37,10 +37,18 @@ export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {
 
 export class CrudAdaptorDatasource {
   adaptorName: string;
+  optionsString: string;
+  paramsString: string;
+  options?: Array<Param> = [];
   params?: Array<Param> = [];
   constructor(data?: CrudAdaptorDatasource) {
     if (data) {
       this.adaptorName = data.adaptorName;
+      this.optionsString = data.optionsString ? data.optionsString : undefined;
+      this.paramsString = data.paramsString ? data.paramsString : undefined;
+      if (data.options && Array.isArray(data.options)) {
+        this.options = data.options.map(o => new Param(o));
+      }
       if (data.params && Array.isArray(data.params)) {
         this.params = data.params.map(p => new Param(p));
       }

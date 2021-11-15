@@ -2,9 +2,9 @@ import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { Param } from 'dparam';
-import { BehaviorSubject } from 'rxjs';
-import { debounceTime, filter, map } from 'rxjs/operators';
-import * as qs from 'qs'
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { debounceTime, delay, filter, map, tap } from 'rxjs/operators';
+import * as qs from 'qs';
 import { CrudAdaptorDatasource } from '../../models/crud.models';
 
 @Component({
@@ -33,35 +33,70 @@ export class CrudAdaptorDatasourceFormComponent implements OnInit, ControlValueA
     this.settings$.next(settings);
   }
 
+  optionsParsed: any;
   paramsParsed: any;
 
   settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
+  readonly datasource$ = new BehaviorSubject<CrudAdaptorDatasource>(undefined);
+  readonly optionValues$ = new BehaviorSubject<Array<Param>>([]);
   readonly paramValues$ = new BehaviorSubject<Array<Param>>([]);
 
   formGroup = this.fb.group({
     adaptorName: this.fb.control(''),
-    //queryString: this.fb.control(''),
+    optionsString: this.fb.control(''),
+    paramsString: this.fb.control(''),
+    options: this.fb.control([]),
     params: this.fb.control([])
   });
 
   settingsSub = this.settings$.pipe(
-    map(s => s ? new CrudAdaptorDatasource (this.attributeSerializer.deserializeAsObject(s)) : undefined)
+    map(s => s ? new CrudAdaptorDatasource (this.attributeSerializer.deserializeAsObject(s)) : undefined),
+    tap(ds => setTimeout(() => this.datasource$.next(ds)))
   ).subscribe(ds => {
     if (ds) {
-      // this.formGroup.get('entityName').setValue(ds.entityName);
-      // this.formGroup.get('queryString').setValue(ds.queryString);
+      this.formGroup.get('adaptorName').setValue(ds.adaptorName);
+      this.formGroup.get('optionsString').setValue(ds.optionsString ? ds.optionsString : '');
+      this.formGroup.get('paramsString').setValue(ds.paramsString ? ds.paramsString : '');
     } else {
-      // this.formGroup.get('entityName').setValue('');
-      // this.formGroup.get('queryString').setValue('');
+      this.formGroup.get('adaptorName').setValue('');
+      this.formGroup.get('optionsString').setValue('');
+      this.formGroup.get('paramsString').setValue('');
+      setTimeout(() => this.optionValues$.next([]), 2);
+      setTimeout(() => this.optionValues$.next([]), 2);
     }
   });
 
-  /*private readonly queryStringChangeSub = this.formGroup.get('queryString').valueChanges.pipe(
+  private readonly datasourceOptionsSub = combineLatest([
+    this.datasource$,
+    this.formGroup.get('optionsString').valueChanges
+  ]).pipe(
+    filter(([ds]) => ds !== undefined),
+    delay(1),
+    tap(([ds]) => this.optionValues$.next(ds.options))
+  ).subscribe();
+
+  private readonly datasourceParamsSub = combineLatest([
+    this.datasource$,
+    this.formGroup.get('paramsString').valueChanges
+  ]).pipe(
+    filter(([ds]) => ds !== undefined),
+    delay(1),
+    tap(([ds]) => this.paramValues$.next(ds.params))
+  ).subscribe();
+
+  private readonly optionsStringChangeSub = this.formGroup.get('optionsString').valueChanges.pipe(
     debounceTime(500)
-  ).subscribe(queryString => {
-    const parsed = qs.parse('?' + queryString);
+  ).subscribe(optionsString => {
+    const parsed = qs.parse('?' + optionsString);
+    this.optionsParsed = parsed;
+  });
+
+  private readonly paramsStringChangeSub = this.formGroup.get('paramsString').valueChanges.pipe(
+    debounceTime(500)
+  ).subscribe(paramsString => {
+    const parsed = qs.parse('?' + paramsString);
     this.paramsParsed = parsed;
-  });*/
+  });
 
   public onTouched: () => void = () => {};
 

@@ -13,7 +13,8 @@
       "attributes": "attributes",
       "context": "context",
       "datasource": "datasource",
-      "material": "material"
+      "material": "material",
+      "qs": "qs"
     }
   }
 }
