@@ -5,7 +5,14 @@
     "entryFile": "src/public-api.ts",
     "umdModuleIds": {
       "material": "material",
-      "attributes": "attributes"
+      "attributes": "attributes",
+      "context": "context",
+      "datasource": "datasource",
+      "dparam": "dparam",
+      "content": "content",
+      "qs": "qs",
+      "durl": "durl",
+      "@ngrx/data": "@ngrx/data"
     }
   }
 }

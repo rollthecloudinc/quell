@@ -55,8 +55,8 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
     query: ({ params, rule }: CrudCollectionOperationInput) => of({ success: false }).pipe(
       switchMap(() => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]])))),
       switchMap(options => new Observable(obs => {
-        const query = (rule.conditions as AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as AnyConditions).any.filter(c2 => (c2 as ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as ConditionProperties).path.substr(2)}=${(c2 as ConditionProperties).value}`) ], []);
-        const identityFact = (rule.conditions as AllConditions).all.reduce((p, c) => !p ? (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity') : p, undefined);
+        const query = rule ? (rule.conditions as AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as AnyConditions).any.filter(c2 => (c2 as ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as ConditionProperties).path.substr(2)}=${(c2 as ConditionProperties).value}`) ], []) : [];
+        const identityFact = rule ? (rule.conditions as AllConditions).all.reduce((p, c) => !p ? (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity') : p, undefined) : undefined;
         obs.next({ identityFact, options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? (identityFact as ConditionProperties).value : ''});
         obs.complete();
       })),

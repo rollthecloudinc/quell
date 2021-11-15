@@ -1,8 +1,10 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { Param } from 'dparam';
 import { BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { debounceTime, filter, map } from 'rxjs/operators';
+import * as qs from 'qs'
 
 @Component({
   selector: 'classifieds-ui-entity-datasource-form',
@@ -23,24 +25,41 @@ import { map } from 'rxjs/operators';
 })
 export class EntityDataSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 
+  @Input()
+  contexts: Array<string> = [];
+
   @Input() set settings(settings: Array<AttributeValue>) {
     this.settings$.next(settings);
   }
 
+  paramsParsed: any;
+
   settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
+  readonly paramValues$ = new BehaviorSubject<Array<Param>>([]);
 
   formGroup = this.fb.group({
-    data: this.fb.control('')
+    entityName: this.fb.control(''),
+    queryString: this.fb.control(''),
+    params: this.fb.control([])
   });
 
   settingsSub = this.settings$.pipe(
-    //map(s => s ? this.attributeSerializer.deserializeAsObject(s) : undefined)
+    map(s => s ? this.attributeSerializer.deserializeAsObject(s) : undefined)
   ).subscribe(ds => {
-    /*if (ds && ds.data) {
-      this.formGroup.get('data').setValue(ds.data);
+    if (ds) {
+      this.formGroup.get('entityName').setValue(ds.entityName);
+      this.formGroup.get('queryString').setValue(ds.queryString);
     } else {
-      this.formGroup.get('data').setValue('');
-    }*/
+      this.formGroup.get('entityName').setValue('');
+      this.formGroup.get('queryString').setValue('');
+    }
+  });
+
+  private readonly queryStringChangeSub = this.formGroup.get('queryString').valueChanges.pipe(
+    debounceTime(500)
+  ).subscribe(queryString => {
+    const parsed = qs.parse('?' + queryString);
+    this.paramsParsed = parsed;
   });
 
   public onTouched: () => void = () => {};
@@ -77,7 +96,7 @@ export class EntityDataSourceFormComponent implements OnInit, ControlValueAccess
   }
 
   validate(c: AbstractControl): ValidationErrors | null{
-    return this.formGroup.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
+    return this.formGroup.valid ? null : this.formGroup.errors;
   }
 
 }
