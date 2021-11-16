@@ -1,19 +1,19 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { EntityServices, EntityCollectionService } from '@ngrx/data';
+import { EntityServices, EntityCollectionService, EntityCollection } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { StyleLoaderService } from 'utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from 'context';
-import { PanelPage, Pane, LayoutSetting, PanelsContextService } from 'panels';
+import { PanelPage, Pane, LayoutSetting, PanelsContextService, PanelPageState } from 'panels';
 import { PanelPageForm } from '../../models/form.models';
 import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
-import { Store, select } from '@ngrx/store';
+import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';
@@ -120,6 +120,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
 
   private panelPageService: EntityCollectionService<PanelPage>;
   private panelPageFormService: EntityCollectionService<PanelPageForm>;
+  private panelPageStateService: EntityCollectionService<PanelPageState>;
 
   private schedulePageFetch = new Subject();
   private pageFetchSub = this.schedulePageFetch.pipe(
@@ -229,6 +230,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     // this.contentPlugins = contentPlugins;
     this.panelPageService = es.getEntityCollectionService('PanelPage');
     this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
+    this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
   }
 
   ngOnInit(): void {
@@ -359,6 +361,28 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     this.panelPageFormService.add(panelPageForm).subscribe(() => {
       alert('panel page form added!');
     });
+
+
+    // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
+    // Experimental only - state forms
+    /*const selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
+    const selectById = ({ id }: { id: string }) => createSelector(
+      selectEntities,
+      entities => entities[id] ? entities[id] : undefined
+    );
+    this.pageBuilderFacade.getPageInfo$.pipe(
+      tap(p => {
+        console.log('page info', p);
+        // console.log('panel page as form', new PanelPageForm({ panels: this.panelPage.panels.map() }));
+      }),
+      switchMap(p => this.panelPageStateService.collection$.pipe(
+        select(selectById({ id: p.id }))
+      )),
+      tap(s => {
+        console.log('panel page state', s);
+      })
+    ).subscribe();*/
+
   }
 
   renderLayoutRenderer(layout: string) {

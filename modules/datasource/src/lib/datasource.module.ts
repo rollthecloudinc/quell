@@ -9,9 +9,11 @@ import { DatasourceOptionsComponent } from './components/datasource-options/data
 import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';
 import { DatasourceRendererHostDirective }  from './directives/datasource-renderer-host.directive';
 import { DataDatasourceComponent } from './components/data-datasource/data-datasource.component';
-import { dataDatasourcePluginFactory } from './datasource.factories';
+import { dataDatasourcePluginFactory, datasourceDatasourcePluginFactory } from './datasource.factories';
 import { DatasourcePluginManager } from './services/datasource-plugin-manager.service';
 import { DataSourceFormComponent } from './components/data-source-form/data-source-form.component';
+import { DatasourceSourceComponent } from './components/datasource-source/datasource-source.component';
+import { DatasourceSourceFormComponent } from './components/datasource-source-form/datasource-source-form.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { DataSourceFormComponent } from './components/data-source-form/data-sour
     DatasourceFormComponent,
     DatasourceRendererHostDirective,
     DataDatasourceComponent,
-    DataSourceFormComponent
+    DataSourceFormComponent,
+    DatasourceSourceComponent,
+    DatasourceSourceFormComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +37,9 @@ import { DataSourceFormComponent } from './components/data-source-form/data-sour
     DatasourceFormComponent,
     DatasourceRendererHostDirective,
     DataDatasourceComponent,
-    DataSourceFormComponent
+    DataSourceFormComponent,
+    DatasourceSourceComponent,
+    DatasourceSourceFormComponent
   ]
 })
 export class DatasourceModule { 
@@ -42,7 +48,8 @@ export class DatasourceModule {
     attributeSerializer: AttributeSerializerService
   ) {
     [
-      dataDatasourcePluginFactory(attributeSerializer)
+      dataDatasourcePluginFactory(attributeSerializer),
+      datasourceDatasourcePluginFactory(attributeSerializer)
     ].forEach(p => dpm.register(p));
   }
 }
