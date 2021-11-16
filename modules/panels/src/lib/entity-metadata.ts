@@ -24,19 +24,19 @@ export const entityMetadata: CrudEntityMetadataMap = {
   PanelPage: {
     entityName: 'PanelPage',
     crud: {
-      /*aws_s3_entity: {
-        ops: ['query'],
+      aws_s3_entity: {
+        // ops: ['query'],
         params: {
           bucket: 'classifieds-ui-dev',
           prefix: 'panelpages/'
         }
-      },*/
-      rest: {
+      }
+      /*rest: {
         // ops: ['query'],
         params: {
           entityName: 'PanelPage'
         }
-      },
+      },*/
       /*idb_keyval: { // demo only
         params: {
           prefix: 'panelpage__'

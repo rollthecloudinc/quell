@@ -11,6 +11,8 @@ import { Dataset, DatasourcePlugin } from 'datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentBinding } from 'content';
+import { DatasourceResolver } from './resolvers/datasource.resolver';
+import { DatasourceContextEditorComponent } from './components/datasource-context-editor/datasource-context-editor.component';
 
 export const routeContextFactory = (resolver: RouteResolver) => {
   const baseObject = {
@@ -93,7 +95,7 @@ export const contextDatasourceFactory = (
       map(() => new ContextDatasource(attributeSerializer.deserializeAsObject(settings))),
       map(ds => (metadata.get('contexts') as Array<InlineContext>).find(c => c.name === ds.name)),
       switchMap(inlineContext => inlineContextResolver.resolve(inlineContext).pipe(
-        map(v => new Dataset({ results: Array.isArray(v) ? v : [v] })),
+        map(v => v instanceof Dataset ? v : new Dataset({ results: Array.isArray(v) ? v : [v] })),
         take(1)
       ))
     ),
@@ -102,4 +104,11 @@ export const contextDatasourceFactory = (
       map(ds => [ new ContentBinding({ id: ds.name, type: 'context' }) ])
     )
   });
+};
+
+export const datasourceContextFactory = (resolver: DatasourceResolver) => {
+  const baseObject = {
+    dataset: new Dataset(),
+  };
+  return new ContextPlugin<string>({ id: "datasource", name: 'datasource', title: 'Datasource', baseObject, resolver, editorComponent: DatasourceContextEditorComponent });
 };

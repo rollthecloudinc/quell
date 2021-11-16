@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 import { Type } from '@angular/core';
-import { Rest } from 'datasource';
+import { Datasource, Rest } from 'datasource';
 import { Snippet } from 'snippet';
 import { Plugin } from 'plugin';
 
@@ -46,6 +46,7 @@ export class InlineContext {
   snippet?: Snippet;
   data?: any;
   tokens?: Map<string, any>;
+  datasource?: Datasource;
   constructor(data?: InlineContext) {
     this.name = data.name;
     this.adaptor = data.adaptor;
@@ -60,6 +61,8 @@ export class InlineContext {
       this.data = data.data;
     } else if(this.adaptor === 'token') {
       this.tokens = new Map([ ...data.tokens ]);
+    } else if (this.adaptor === 'datasource') {
+      this.datasource = new Datasource(data.datasource);
     }
   }
 }

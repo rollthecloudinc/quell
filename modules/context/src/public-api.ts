@@ -11,3 +11,4 @@ export * from './lib/components/context-datasource-form/context-datasource-form.
 export * from './lib/services/resolved-context-plugin-manager.service';
 export * from './lib/models/resolved-context.models';
 export * from './lib/services/param-context-extractor.service';
+export * from './lib/components/datasource-context-editor/datasource-context-editor.component';

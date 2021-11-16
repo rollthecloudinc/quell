@@ -21,7 +21,7 @@ export class CreatePanelPageComponent implements OnInit {
   }
 
   onSubmit(panelPage: PanelPage) {
-    console.log(panelPage);
+    console.log('create panel page', panelPage);
     panelPage.id = uuid.v4(); // For now just do this here.
     this.panelPageService.add(panelPage).subscribe(() => {
       alert('panel page created');

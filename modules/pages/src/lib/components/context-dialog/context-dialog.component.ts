@@ -36,6 +36,10 @@ export class ContextDialogComponent implements OnInit, AfterViewInit  {
           setTimeout(() => {
             (this.contextFormComp.componentRef.instance.restSourceFormComp as any).restSource = { url: this.data.context.rest.url, params: this.data.context.rest.params };
           });
+        } else if (this.data.context.plugin === 'datasource') {
+          setTimeout(() => {
+            (this.contextFormComp.componentRef.instance.datasourceFormComp as any).datasource = this.data.context.datasource;
+          });
         }
       });
     }
