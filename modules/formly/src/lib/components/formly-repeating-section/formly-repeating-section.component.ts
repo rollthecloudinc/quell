@@ -6,4 +6,6 @@ import { FieldArrayType } from '@ngx-formly/core';
   styleUrls: ['./formly-repeating-section.component.scss'],
   templateUrl: './formly-repeating-section.component.html'
 })
-export class FormlyRepeatingSectionComponent extends FieldArrayType {}
+export class FormlyRepeatingSectionComponent extends FieldArrayType {
+
+}

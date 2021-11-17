@@ -12,7 +12,7 @@ import { FormlyFieldSelectorComponent } from './components/formly-field-selector
 import { FormlyPaneFieldComponent } from './components/formly-pane-field/formly-pane-field.component';
 import { FormlyAutocompleteComponent } from './components/formly-autocomplete/formly-autocomplete.component';
 import { FormlyRepeatingSectionComponent } from './components/formly-repeating-section/formly-repeating-section.component';
-import { formlyFieldContentPluginFactory } from './formly.factories';
+import { formlyFieldContentPluginFactory, formlyRepeatingStyleFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RestModule } from 'rest';
@@ -21,6 +21,8 @@ import { DurlModule } from 'durl';
 import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
+import { FormlyRepeatingRendererComponent } from './components/formly-repeating-renderer/formly-repeating-renderer.component';
+import { StylePluginManager } from 'panels';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldSelectorComponent,
     FormlyPaneFieldComponent,
     FormlyAutocompleteComponent,
-    FormlyRepeatingSectionComponent
+    FormlyRepeatingSectionComponent,
+    FormlyRepeatingRendererComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +68,8 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
     FormlyFieldSelectorComponent,
     FormlyPaneFieldComponent,
     FormlyAutocompleteComponent,
-    FormlyRepeatingSectionComponent
+    FormlyRepeatingSectionComponent,
+    FormlyRepeatingRendererComponent
   ],
   providers: [
     FormlyFieldContentHandler
@@ -74,8 +78,10 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 export class FormlyModule { 
   constructor(
     cpm: ContentPluginManager,
-    handler: FormlyFieldContentHandler
+    handler: FormlyFieldContentHandler,
+    spm: StylePluginManager
   ) {
     cpm.register(formlyFieldContentPluginFactory(handler));
+    spm.register(formlyRepeatingStyleFactory());
   }
 }
