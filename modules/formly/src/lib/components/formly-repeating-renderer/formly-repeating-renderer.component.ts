@@ -1,12 +1,12 @@
 import { Component, Input, Optional } from '@angular/core';
-import { ControlContainer, FormBuilder } from '@angular/forms';
+import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { Pane, Panel } from 'panels';
-import { BehaviorSubject, forkJoin } from 'rxjs';
-import { debounceTime, defaultIfEmpty, map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { debounceTime, defaultIfEmpty, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 
 @Component({
@@ -30,7 +30,9 @@ export class FormlyRepeatingRendererComponent {
   }
 
   @Input()
-  originPanes: Array<Pane>;
+  set originPanes(originPanes: Array<Pane>) {
+    this.originPanes$.next(originPanes);
+  }
 
   @Input()
   originMappings: Array<number> = [];
@@ -43,6 +45,7 @@ export class FormlyRepeatingRendererComponent {
 
   readonly panes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly panel$ = new BehaviorSubject<Panel>(new Panel());
+  readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   fields: FormlyFieldConfig[] = [];
   model: any = {
     items: []
@@ -51,24 +54,35 @@ export class FormlyRepeatingRendererComponent {
 
   private readonly bridgeSub = this.proxyGroup.valueChanges.pipe(
     debounceTime(500)
-  ).subscribe(v => {
+  ).subscribe(values => {
+    // (this.controlContainer.control.get('settings') as FormArray).clear();
+    (this.controlContainer.control as FormArray).clear();
+    const len = values.length;
+    for (let i = 0; i < len ;i++) {
+      const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize({ settings: values[i] }, 'pane'));
+      (this.controlContainer.control as FormArray).push(newGroup);
+    }
     //console.log('proxy value', v);
     /*this.valueChange.emit(v.value);
-    this.settingsFormArray.clear();
-    const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v.value, 'value'));
-    this.settingsFormArray.push(newGroup);*/
-    console.log('repeating section value', v);
+    this.settingsFormArray.clear();*/
+    console.log('repeating section value', values);
+    // const newGroups = values.map(v => this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v)));
+    // newGroups.forEach(newGroup => (this.controlContainer.control.get('settings') as FormArray).push(newGroup));
   });
 
   private readonly panesSub = this.panes$.pipe(
-    switchMap(panes => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin }))))).pipe(
+    switchMap(panes => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i }))))).pipe(
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, panes }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i, panes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f }))))).pipe(
-      defaultIfEmpty([])
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f })), take(1)))).pipe(
+      tap(groups => {
+        console.log('field groups', groups);
+      }),
+      defaultIfEmpty([]),
+      take(1)
     )),
     // withLatestFrom(this.panel$),
     switchMap(groups => this.panel$.pipe(
@@ -86,6 +100,7 @@ export class FormlyRepeatingRendererComponent {
             // fieldGroup: groups.map(({ f, i, pane }) => ({ ...f, key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key }))
             fieldGroup: groups.map(({ f, i, pane }) => ({
               key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key,
+              wrappers: [ ...(f.wrappers ? f.wrappers : []), 'imaginary-pane' ],
               fieldGroup: [f]
             }))
           }

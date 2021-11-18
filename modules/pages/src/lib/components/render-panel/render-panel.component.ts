@@ -180,7 +180,14 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
     (componentRef.instance as any).settings = this.panel.settings;
-    (componentRef.instance as any).panes = this.resolvedPanes;
+    /**
+     * I think this is an oversight. The current code is passing ALL the panes
+     * as the panes array. I believe that change was recently made to facilitate
+     * new behavior. I just don't think this was ever updated... Updating now
+     * and we will see how it goes.
+     */
+    // (componentRef.instance as any).panes = this.resolvedPanes;
+    (componentRef.instance as any).panes = this.panel.panes;
     (componentRef.instance as any).originPanes = this.panel.panes;
     (componentRef.instance as any).originMappings = this.originMappings;
     (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));

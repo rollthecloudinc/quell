@@ -9,3 +9,4 @@ export * from './lib/components/formly-pane-field/formly-pane-field.component';
 export * from './lib/components/formly-autocomplete/formly-autocomplete.component';
 export * from './lib/components/formly-repeating-section/formly-repeating-section.component';
 export * from './lib/components/formly-repeating-renderer/formly-repeating-renderer.component';
+export * from './lib/components/formly-field-wrapper/formly-field-wrapper.component';

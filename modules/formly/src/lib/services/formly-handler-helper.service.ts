@@ -81,7 +81,7 @@ export class FormlyHandlerHelper {
 
   mapDataOptions(instance: FormlyFieldInstance, data: Array<any>): Observable<Array<any>> {
     return of([instance, data]).pipe(
-      map<[FormlyFieldInstance, Array<any>], [FormlyFieldInstance, Array<any>, Array<Map<string, any>>]>(([i, d]) => [i, d, d.map(r => this.tokenizerService.generateGenericTokens(r))]),
+      map<[FormlyFieldInstance, Array<any>], [FormlyFieldInstance, Array<any>, Array<Map<string, any>>]>(([i, d]) => [i, d, d ? d.map(r => this.tokenizerService.generateGenericTokens(r)) : []]),
       map<[FormlyFieldInstance, Array<any>, Array<Map<string, any>>], Array<any>>(([i, d, tokens]) => tokens.map(t => this.mapDataItem(i, t))),
       // map(([d, tokens, mapping]) => tokens.map((t,i) => new SelectOption({ dataItem: d.results[i], value: mapping.value === '[.]'  ? this.attributeSerializer.serialize(d.results[i], 'value') : this.attributeSerializer.serialize(this.tokenizerService.replaceTokens(mapping.value, t), 'value'), label: this.tokenizerService.replaceTokens(mapping.label, t) })))
     );

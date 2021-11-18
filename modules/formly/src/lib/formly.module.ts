@@ -23,6 +23,7 @@ import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 import { FormlyRepeatingRendererComponent } from './components/formly-repeating-renderer/formly-repeating-renderer.component';
 import { StylePluginManager } from 'panels';
+import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/formly-field-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { StylePluginManager } from 'panels';
     FormlyPaneFieldComponent,
     FormlyAutocompleteComponent,
     FormlyRepeatingSectionComponent,
-    FormlyRepeatingRendererComponent
+    FormlyRepeatingRendererComponent,
+    FormlyFieldWrapperComponent
   ],
   imports: [
     CommonModule,
@@ -50,7 +52,10 @@ import { StylePluginManager } from 'panels';
           name: 'repeat',
           component: FormlyRepeatingSectionComponent,
           // wrappers: ['form-field'],
-        }
+        },
+      ],
+      wrappers: [
+        { name: 'imaginary-pane', component: FormlyFieldWrapperComponent },
       ]
     }),
     FormlyMaterialModule,
@@ -69,7 +74,8 @@ import { StylePluginManager } from 'panels';
     FormlyPaneFieldComponent,
     FormlyAutocompleteComponent,
     FormlyRepeatingSectionComponent,
-    FormlyRepeatingRendererComponent
+    FormlyRepeatingRendererComponent,
+    FormlyFieldWrapperComponent
   ],
   providers: [
     FormlyFieldContentHandler
