@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RenderPaneComponent } from './render-pane.component';
 
@@ -6,7 +6,7 @@ describe('RenderPaneComponent', () => {
   let component: RenderPaneComponent;
   let fixture: ComponentFixture<RenderPaneComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RenderPaneComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PanelPropsDialogComponent } from './pane-props-dialog.component';
 
@@ -6,7 +6,7 @@ describe('PanePropsDialogComponent', () => {
   let component: PanePropsDialogComponent;
   let fixture: ComponentFixture<PanePropsDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PanePropsDialogComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VirtualListPanelRendererComponent } from './virtual-list-panel-renderer.component';
 
@@ -6,7 +6,7 @@ describe('VirtualListPanelRendererComponent', () => {
   let component: VirtualListPanelRendererComponent;
   let fixture: ComponentFixture<VirtualListPanelRendererComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VirtualListPanelRendererComponent ]
     })

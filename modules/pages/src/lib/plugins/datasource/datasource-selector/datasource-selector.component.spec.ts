@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DatasourceSelectorComponent } from './datasource-selector.component';
 
@@ -6,7 +6,7 @@ describe('DatasourceSelectorComponent', () => {
   let component: DatasourceSelectorComponent;
   let fixture: ComponentFixture<DatasourceSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ DatasourceSelectorComponent ]
     })

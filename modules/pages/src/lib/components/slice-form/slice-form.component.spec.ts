@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SliceFormComponent } from './slice-form.component';
 
@@ -6,7 +6,7 @@ describe('SliceFormComponent', () => {
   let component: SliceFormComponent;
   let fixture: ComponentFixture<SliceFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SliceFormComponent ]
     })

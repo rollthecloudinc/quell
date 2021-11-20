@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ResponsiveStepperComponent } from './responsive-stepper.component';
 
@@ -6,7 +6,7 @@ describe('ResponsiveStepperComponent', () => {
   let component: ResponsiveStepperComponent;
   let fixture: ComponentFixture<ResponsiveStepperComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ResponsiveStepperComponent ]
     })

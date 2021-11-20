@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SnippetEditor2Component } from './snippet-editor2.component';
 
@@ -6,7 +6,7 @@ describe('SnippetEditor2Component', () => {
   let component: SnippetEditor2Component;
   let fixture: ComponentFixture<SnippetEditor2Component>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SnippetEditor2Component ]
     })

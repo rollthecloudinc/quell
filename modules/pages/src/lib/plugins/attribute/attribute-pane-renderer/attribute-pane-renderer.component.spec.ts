@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AttributePaneRendererComponent } from './attribute-pane-renderer.component';
 
@@ -6,7 +6,7 @@ describe('AttributePaneRendererComponent', () => {
   let component: AttributePaneRendererComponent;
   let fixture: ComponentFixture<AttributePaneRendererComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AttributePaneRendererComponent ]
     })

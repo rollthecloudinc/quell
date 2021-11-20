@@ -3,7 +3,7 @@ import { ReactiveFormsModule  } from '@angular/forms';
 import { FormlyModule as RealFormlyModule }  from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { ContentPluginManager } from 'content';
+import { ContentModule, ContentPluginManager } from 'content';
 import { MaterialModule } from 'material';
 import { FormlyFieldContentHandler } from './handlers/formly-field-content.handler';
 import { FormlyFieldEditorComponent } from './components/formly-field-editor/formly-field-editor.component';
@@ -63,6 +63,7 @@ import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/f
     FormlyMatNativeSelectModule,
     FormlyMatToggleModule,
     FormlyMatSliderModule,
+    ContentModule,
     RestModule,
     DatasourceModule,
     DurlModule

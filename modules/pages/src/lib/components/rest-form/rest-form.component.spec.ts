@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { RestFormComponent } from './rest-form.component';
 
@@ -6,7 +6,7 @@ describe('RestFormComponent', () => {
   let component: RestFormComponent;
   let fixture: ComponentFixture<RestFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ RestFormComponent ]
     })

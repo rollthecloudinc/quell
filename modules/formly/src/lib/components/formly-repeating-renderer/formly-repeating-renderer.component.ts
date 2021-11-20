@@ -1,6 +1,6 @@
 import { Component, Input, Optional } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
-import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions  } from '@ngx-formly/core';
 import { FormlyValueChangeEvent } from '@ngx-formly/core/lib/components/formly.field.config';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
@@ -60,9 +60,9 @@ export class FormlyRepeatingRendererComponent {
     items: []
   };
   readonly proxyGroup = this.fb.group({});
-  readonly options: FormlyFormOptions = {
+  /*readonly options: FormlyFormOptions = {
     fieldChanges: this.fieldChanges$
-  };
+  };*/
 
   private readonly bridgeSub = this.proxyGroup.valueChanges.pipe(
     debounceTime(500)
@@ -133,16 +133,20 @@ export class FormlyRepeatingRendererComponent {
               /*options: {
                 fieldChanges: this.fieldChanges$
               },*/
-              templateOptions: {
+              /*templateOptions: {
                 change: (field: FormlyFieldConfig, event?: any) => this.change$.next({ field, event })
-              },
+              },*/
               fieldGroup: [{
                 ...f,
+                parsers: [
+                  ...(f.parsers ? f.parsers : []),
+                  (v: any) => console.log('parser log change', v)
+                ],
                 templateOptions: {
                   ...f.templateOptions,
                   change: (field: FormlyFieldConfig, event?: any) => {
-                    console.log('change it', field, event);
-                    this.change$.next({ field, event });
+                    // console.log('change it', field, event);
+                    // this.change$.next({ field, event });
                   }
                 }
               }]
@@ -153,17 +157,17 @@ export class FormlyRepeatingRendererComponent {
     })
   ).subscribe();
 
-  private readonly fieldChangesSub = this.fieldChanges$.pipe(
+  /*private readonly fieldChangesSub = this.fieldChanges$.pipe(
     tap(e => {
       console.log('field changed', e);
     })
-  ).subscribe();
+  ).subscribe();*/
 
-  private readonly changeSub = this.change$.pipe(
+  /*private readonly changeSub = this.change$.pipe(
     tap(({ field, event }) => {
       console.log('changed', field, event);
     })
-  ).subscribe();
+  ).subscribe();*/
 
   constructor(
     private fb: FormBuilder,

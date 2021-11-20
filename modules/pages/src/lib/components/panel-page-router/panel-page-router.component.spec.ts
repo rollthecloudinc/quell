@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PanelPageRouterComponent } from './panel-page-router.component';
 
@@ -6,7 +6,7 @@ describe('PanelPageRouterComponent', () => {
   let component: PanelPageRouterComponent;
   let fixture: ComponentFixture<PanelPageRouterComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PanelPageRouterComponent ]
     })

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ContextDialogComponent } from './context-dialog.component';
 
@@ -6,7 +6,7 @@ describe('ContextDialogComponent', () => {
   let component: ContextDialogComponent;
   let fixture: ComponentFixture<ContextDialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ContextDialogComponent ]
     })

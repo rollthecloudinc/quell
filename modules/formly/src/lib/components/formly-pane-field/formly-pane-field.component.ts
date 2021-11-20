@@ -126,7 +126,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
           ...f.templateOptions,
           ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {}),
           change: (field, e) => {
-            console.log('value change', field.form.controls.value.value);
+            // console.log('value change', field.form.controls.value.value);
           }
         }
       }, i]))

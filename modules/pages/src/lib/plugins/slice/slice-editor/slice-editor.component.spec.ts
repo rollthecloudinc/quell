@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SliceEditorComponent } from './slice-editor.component';
 
@@ -6,7 +6,7 @@ describe('SliceEditorComponent', () => {
   let component: SliceEditorComponent;
   let fixture: ComponentFixture<SliceEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SliceEditorComponent ]
     })

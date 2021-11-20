@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { StyleSelectorComponent } from './style-selector.component';
 
@@ -6,7 +6,7 @@ describe('StyleSelectorComponent', () => {
   let component: StyleSelectorComponent;
   let fixture: ComponentFixture<StyleSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ StyleSelectorComponent ]
     })
