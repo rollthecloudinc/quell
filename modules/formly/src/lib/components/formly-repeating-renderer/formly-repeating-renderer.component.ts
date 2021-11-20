@@ -1,11 +1,11 @@
 import { Component, Input, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder } from '@angular/forms';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { Pane, Panel } from 'panels';
-import { BehaviorSubject, combineLatest, forkJoin, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
 import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 
@@ -66,9 +66,6 @@ export class FormlyRepeatingRendererComponent {
       defaultIfEmpty([])
     )),
     switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f })), take(1)))).pipe(
-      tap(groups => {
-        console.log('field groups', groups);
-      }),
       defaultIfEmpty([]),
       take(1)
     )),
@@ -90,6 +87,7 @@ export class FormlyRepeatingRendererComponent {
             fieldGroup: groups.map(({ f, i, pane }, indexPosition) => ({
               key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key,
               wrappers: [ ...(f.wrappers ? f.wrappers : []), 'imaginary-pane' ],
+              pane: pane,
               panelAncestory: ancestory,
               indexPosition,
               fieldGroup: [{
@@ -106,7 +104,6 @@ export class FormlyRepeatingRendererComponent {
     private fb: FormBuilder,
     private cpm: ContentPluginManager,
     private formlyHandlerHelper: FormlyHandlerHelper,
-    private attributeSerializer: AttributeSerializerService,
     @Optional() public controlContainer?: ControlContainer
   ) {
   }
