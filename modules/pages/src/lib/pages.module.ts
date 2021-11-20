@@ -19,7 +19,7 @@ import { SnippetModule } from 'snippet';
 import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager, ResolvedContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
-import { STYLE_PLUGIN } from 'style';
+// import { STYLE_PLUGIN } from 'style';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GridsterModule } from 'angular-gridster2';
 import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, EntityDataService, EntityDefinitionService, Pluralizer } from '@ngrx/data';
@@ -88,7 +88,7 @@ import { TablePanelRendererComponent } from './plugins/style/table-panel-rendere
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 import { PageStateFormComponent } from './components/page-state-form/page-state-form.component';
-import { PanelsModule, PanelContentHandler, StylePlugin, StylePluginManager } from 'panels';
+import { PanelsModule, PanelContentHandler, StylePlugin, StylePluginManager, STYLE_PLUGIN } from 'panels';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';

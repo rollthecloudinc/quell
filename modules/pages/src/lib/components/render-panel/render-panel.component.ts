@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit, AfterContentInit, ComponentRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
-import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager } from 'panels';
+import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager, STYLE_PLUGIN } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
-import { STYLE_PLUGIN } from 'style';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { switchMap, map, filter, debounceTime, tap, delay, takeUntil, startWith } from 'rxjs/operators';
 import { Subscription, Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
@@ -30,7 +29,7 @@ import { RenderPaneComponent } from '../render-pane/render-pane.component';
   ],
   host: {
     '[class.panel]': 'true',
-    '[attr.data-index]': 'indexPosition'
+    '[attr.data-index]': 'indexPosition$.value'
   }
 })
 export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges, ControlValueAccessor, Validator  {
@@ -63,10 +62,14 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   }
 
   @Input()
-  indexPosition: number;
+  set indexPosition(indexPosition: number) {
+    this.indexPosition$.next(indexPosition);
+  }
 
   @Input()
-  ancestory: Array<number> = [];
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
 
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
@@ -76,7 +79,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   heightChange = new EventEmitter<number>();
 
   @HostBinding('class') get indexPositionClass() {
-    return `panel-${this.indexPosition}`;
+    return `panel-${this.indexPosition$.value}`;
   }
 
   @ViewChildren(RenderPaneComponent) renderedPanes: QueryList<RenderPaneComponent>;
@@ -107,6 +110,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
 
   afterContentInit$ = new Subject();
   schedulePanelRender = new Subject<string>();
+  componentRef: ComponentRef<any>;
   readonly rendered$ = new Subject();
 
   css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
@@ -116,7 +120,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.rendered$
   ]).pipe(
     map(([css]) => css),
-    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition}`)),
+    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition$.value}`)),
     map((css: JSONNode) => [
       this.cssHelper.reduceCss(css, '.pane-', false),
       css
@@ -179,6 +183,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     viewContainerRef.clear();
 
     const componentRef = viewContainerRef.createComponent(componentFactory);
+    this.componentRef = componentRef;
     (componentRef.instance as any).settings = this.panel.settings;
     /**
      * I think this is an oversight. The current code is passing ALL the panes
@@ -192,10 +197,11 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     (componentRef.instance as any).originMappings = this.originMappings;
     (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (componentRef.instance as any).displayType = this.displayType;
-    (componentRef.instance as any).ancestory = this.ancestoryWithSelf;
+    (componentRef.instance as any).ancestory = this.ancestoryWithSelf$.value;
     // (componentRef.instance as any).resolvedContexts = this.resolvedContexts;
     (componentRef.instance as any).resolvedContext = this.resolvedContext;
     (componentRef.instance as any).panel = this.panel;
+    (componentRef.instance as any).indexPosition = this.indexPosition$.value;
 
     this.rendered$.next();
   });
@@ -203,7 +209,10 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   resolvedPanes: Array<Pane>;
   originMappings: Array<number> = [];
   resolvedContexts: Array<any> = [];
-  ancestoryWithSelf: Array<number> = [];
+  // ancestoryWithSelf: Array<number> = [];
+  readonly ancestoryWithSelf$ = new BehaviorSubject<Array<number>>([]);
+  readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly indexPosition$ = new BehaviorSubject<number>(undefined);
 
   resolveContextsSub: Subscription;
 
@@ -218,6 +227,15 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
 
   @ViewChild(PaneContentHostDirective, { static: true }) panelHost: PaneContentHostDirective;
   @ViewChild('panes', { static: true }) paneContainer: ElementRef;
+
+  private readonly ancestorySub = combineLatest([
+    this.ancestory$,
+    this.indexPosition$
+  ]).pipe(
+    tap(([ancestory, indexPosition]) => {
+      this.ancestoryWithSelf$.next([ ...ancestory, indexPosition ]);
+    })
+  ).subscribe();
 
   get panesArray(): FormArray {
     return this.panelForm.get('panes') as FormArray;
@@ -245,7 +263,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     if(this.panel !== undefined && this.panelHost !== undefined) {
       console.log(`panel render init [${this.panel.name}`);
       this.panelResolverService.usedContexts(this.panel.panes).pipe(
-        map(ctx => ctx.filter(c => c !== '_page' && c !== '_root' && c !== '.' && c.indexOf('panestate-' + this.ancestoryWithSelf.join('-')) !== 0)),
+        map(ctx => ctx.filter(c => c !== '_page' && c !== '_root' && c !== '.' && c.indexOf('panestate-' + this.ancestoryWithSelf$.value.join('-')) !== 0)),
         tap(ctx => console.log(`contexts [${this.panel.name}]: ${ctx.join(',')}`)),
         switchMap(ctx => this.schduleContextChange.pipe(
           tap(contextChanged => console.log(`detected change [${this.panel.name}]: ${contextChanged}`)),
@@ -263,7 +281,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
         this.scheduleRender.next([this.panel.panes, this.contexts, this.resolvedContext]);
       });
     }
-    this.ancestoryWithSelf = [ ...(this.ancestory ? this.ancestory: []), ...( this.indexPosition !== undefined && this.indexPosition !== null? [ this.indexPosition ] : [] ) ];
+    // this.ancestoryWithSelf = [ ...(this.ancestory ? this.ancestory: []), ...( this.indexPosition !== undefined && this.indexPosition !== null? [ this.indexPosition ] : [] ) ];
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -276,12 +294,12 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     /*if(changes.contextChanged && changes.contextChanged.currentValue !== undefined) {
       this.schduleContextChange.next(changes.contextChanged.currentValue.name);
     }*/
-    if (changes.ancestory || changes.indexPosition) {
+    /*if (changes.ancestory || changes.indexPosition) {
       const ancestoryWithSelf = [ ...(changes.ancestory.currentValue ? changes.ancestory.currentValue :  this.ancestory ? this.ancestory : []), ...( changes.indexPosition.currentValue !== undefined && changes.indexPosition.currentValue !== null? [ changes.indexPosition.currentValue ] : this.indexPosition ? [ this.indexPosition ] : [] ) ];
       if (ancestoryWithSelf.length !== this.ancestoryWithSelf.length || this.ancestoryWithSelf.filter((n, index) => ancestoryWithSelf[index] !== n).length !== 0) {
         this.ancestoryWithSelf = ancestoryWithSelf;
       }
-    }
+    }*/
   }
 
   ngAfterViewInit() {

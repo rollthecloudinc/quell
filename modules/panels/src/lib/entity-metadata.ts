@@ -30,13 +30,13 @@ export const entityMetadata: CrudEntityMetadataMap = {
           bucket: 'classifieds-ui-dev',
           prefix: 'panelpages/'
         }
-      }
-      /*rest: {
+      },
+      rest: {
         // ops: ['query'],
         params: {
           entityName: 'PanelPage'
         }
-      },*/
+      },
       /*idb_keyval: { // demo only
         params: {
           prefix: 'panelpage__'

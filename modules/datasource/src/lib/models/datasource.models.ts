@@ -50,7 +50,7 @@ export class Renderer {
   data: Snippet;
   query: string;
   trackBy: string;
-  bindings: Array<ContentBinding>;
+  bindings: Array<ContentBinding>;  // Add DatasourceContentBinding - extends ContentBinding | datasource: - embedded datasource
   constructor(data?: Renderer) {
     if(data) {
       this.type = data.type;

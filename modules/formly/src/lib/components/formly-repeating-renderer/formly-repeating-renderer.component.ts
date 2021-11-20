@@ -1,11 +1,12 @@
 import { Component, Input, Optional } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
-import { FormlyFieldConfig } from '@ngx-formly/core';
+import { FormlyFieldConfig, FormlyFormOptions } from '@ngx-formly/core';
+import { FormlyValueChangeEvent } from '@ngx-formly/core/lib/components/formly.field.config';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { Pane, Panel } from 'panels';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { BehaviorSubject, combineLatest, forkJoin, Subject } from 'rxjs';
 import { debounceTime, defaultIfEmpty, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 
@@ -35,6 +36,11 @@ export class FormlyRepeatingRendererComponent {
   }
 
   @Input()
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
+
+  @Input()
   originMappings: Array<number> = [];
 
   @Input()
@@ -46,15 +52,33 @@ export class FormlyRepeatingRendererComponent {
   readonly panes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly panel$ = new BehaviorSubject<Panel>(new Panel());
   readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
+  readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly fieldChanges$ = new Subject<FormlyValueChangeEvent>();
+  readonly change$ = new Subject<{ field: any; event: any }>();
   fields: FormlyFieldConfig[] = [];
   model: any = {
     items: []
   };
-  proxyGroup = this.fb.group({});
+  readonly proxyGroup = this.fb.group({});
+  readonly options: FormlyFormOptions = {
+    fieldChanges: this.fieldChanges$
+  };
 
   private readonly bridgeSub = this.proxyGroup.valueChanges.pipe(
     debounceTime(500)
   ).subscribe(values => {
+
+    // - pane
+    // -- panel page
+    // --- panel
+    // ---- pane
+    // ---- pane
+    // - pane
+    // -- panel page
+    // --- panel 
+    // ---- pane
+    // ---- pane
+
     // (this.controlContainer.control.get('settings') as FormArray).clear();
     (this.controlContainer.control as FormArray).clear();
     const len = values.length;
@@ -85,10 +109,13 @@ export class FormlyRepeatingRendererComponent {
       take(1)
     )),
     // withLatestFrom(this.panel$),
-    switchMap(groups => this.panel$.pipe(
-      map(panel => ({ groups, panel }))
+    switchMap(groups => combineLatest([
+      this.panel$,
+      this.ancestory$
+    ]).pipe(
+      map(([panel, ancestory]) => ({ groups, panel, ancestory }))
     )),
-    tap(({ groups, panel }) => {
+    tap(({ groups, panel, ancestory }) => {
       this.fields = [
         {
           key: panel.name && panel.name !== '' ? panel.name : 'items',
@@ -98,14 +125,43 @@ export class FormlyRepeatingRendererComponent {
           },
           fieldArray: {
             // fieldGroup: groups.map(({ f, i, pane }) => ({ ...f, key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key }))
-            fieldGroup: groups.map(({ f, i, pane }) => ({
+            fieldGroup: groups.map(({ f, i, pane }, indexPosition) => ({
               key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key,
               wrappers: [ ...(f.wrappers ? f.wrappers : []), 'imaginary-pane' ],
-              fieldGroup: [f]
+              panelAncestory: ancestory,
+              indexPosition,
+              /*options: {
+                fieldChanges: this.fieldChanges$
+              },*/
+              templateOptions: {
+                change: (field: FormlyFieldConfig, event?: any) => this.change$.next({ field, event })
+              },
+              fieldGroup: [{
+                ...f,
+                templateOptions: {
+                  ...f.templateOptions,
+                  change: (field: FormlyFieldConfig, event?: any) => {
+                    console.log('change it', field, event);
+                    this.change$.next({ field, event });
+                  }
+                }
+              }]
             }))
           }
         }
       ];
+    })
+  ).subscribe();
+
+  private readonly fieldChangesSub = this.fieldChanges$.pipe(
+    tap(e => {
+      console.log('field changed', e);
+    })
+  ).subscribe();
+
+  private readonly changeSub = this.change$.pipe(
+    tap(({ field, event }) => {
+      console.log('changed', field, event);
     })
   ).subscribe();
 

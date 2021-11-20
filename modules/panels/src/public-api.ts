@@ -27,3 +27,4 @@ export * from './lib/services/style-plugin-manager.service';
 export * from './lib/services/style-resolver.service';
 export * from './lib/models/style.models';
 export * from './lib/services/pane-datasource.service';
+export * from './lib/panels.tokens';
