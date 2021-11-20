@@ -11,11 +11,8 @@ import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
-import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
-import { selectDataset } from '../features/page-builder/page-builder.selectors';
-import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { TokenizerService } from 'token';
-import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler  } from 'panels';
+import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler, PageBuilderFacade, selectDataset, PageBuilderPartialState } from 'panels';
 import { UrlGeneratorService } from 'durl';
 
 @Injectable()

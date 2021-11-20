@@ -28,10 +28,10 @@ import { entityMetadata } from './entity-metadata';
 import { ContentSelectorComponent } from './components/content-selector/content-selector.component';
 import { ContentSelectionHostDirective } from './directives/content-selection-host.directive';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
-import { StoreModule } from '@ngrx/store';
+/*import { StoreModule } from '@ngrx/store';
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 import { EffectsModule } from '@ngrx/effects';
-import { PageBuilderEffects } from './features/page-builder/page-builder.effects';
+import { PageBuilderEffects } from './features/page-builder/page-builder.effects';*/
 import { EditablePaneComponent } from './components/editable-pane/editable-pane.component';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { ContentEditorComponent } from './components/content-editor/content-editor.component';
@@ -88,16 +88,14 @@ import { TablePanelRendererComponent } from './plugins/style/table-panel-rendere
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
 import { PageStateFormComponent } from './components/page-state-form/page-state-form.component';
-import { PanelsModule, PanelContentHandler, StylePlugin, StylePluginManager, STYLE_PLUGIN } from 'panels';
+import { PanelsModule, PanelContentHandler, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, FormService } from 'panels';
 import { TabsStyleHandler } from './handlers/style/tabs-style.handler';
 import { PaneStateContextResolver } from './contexts/pane-state-context.resolver';
 import { PageStateContextResolver } from './contexts/page-state-context.resolver';
-import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
-import { FormService } from './services/form.service';
 import { ParamPluginManager, DparamModule, ParamEvaluatorService } from 'dparam';
 import { BridgeBuilderPluginManager, BridgeModule } from 'bridge';
 import { CrudAdaptorPluginManager, CrudDataHelperService, CrudDataService } from 'crud';
-import { PanelPageForm } from './models/form.models';
+// import { PanelPageForm } from './models/form.models';
 import { FormDatasourceFormComponent } from './components/form-datasource-form/form-datasource-form.component';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
@@ -155,8 +153,8 @@ const routes = [
     NgxGalleryModule,
     QueryBuilderModule,
     // TaxonomyModule,
-    StoreModule.forFeature(fromPageBuilder.pageBuilderFeatureKey, fromPageBuilder.reducer),
-    EffectsModule.forFeature([PageBuilderEffects]),
+    // StoreModule.forFeature(fromPageBuilder.pageBuilderFeatureKey, fromPageBuilder.reducer),
+    // EffectsModule.forFeature([PageBuilderEffects]),
     PanelsModule,
     RestModule,
     SnippetModule,
@@ -270,7 +268,7 @@ export class PagesModule {
     bpm.getPlugin('pages_form').subscribe(p => p.build());
 
     // Experimental - form testing
-    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
+    //entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
 
     crud.register(formSerializationEntityCrudAdaptorPluginFactory(paramEvaluatorService, formService));
 

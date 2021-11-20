@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EntityServices } from '@ngrx/data';
 import { ContextResolver, ContextPlugin } from 'context';
-import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState } from 'panels';
+import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from 'panels';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
 import { JSONPath } from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { PanelPageStateSlice } from '../models/page.models';
 
 @Injectable()
 export class PageStateContextResolver implements ContextResolver {

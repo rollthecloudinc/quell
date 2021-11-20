@@ -5,10 +5,11 @@ import { AttributeSerializerService, AttributeValue } from "attributes";
 import { ContentPlugin } from "content";
 import merge from "deepmerge-json";
 import { JSONPath } from "jsonpath-plus";
-import { PanelPageState, PaneState, PanelStateArchitectService } from "panels";
 import { Observable, of } from "rxjs";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { PageBuilderFacade } from "../features/page-builder/page-builder.facade";
+import { PanelStateArchitectService } from './panel-state-architect.service';
+import { PanelPageState, PaneState } from '../models/state.models';
 
 @Injectable({
   providedIn: 'root'

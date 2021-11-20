@@ -6,9 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
 import { StyleLoaderService } from 'utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from 'context';
-import { PanelPage, Pane, LayoutSetting, PanelsContextService, PanelPageState } from 'panels';
-import { PanelPageForm } from '../../models/form.models';
-import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
+import { PanelPage, Pane, LayoutSetting, PanelsContextService, PanelPageState, PanelPageForm, PageBuilderFacade, FormService } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime } from 'rxjs/operators';
@@ -20,7 +18,6 @@ import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { AttributeSerializerService } from 'attributes';
-import { FormService } from '../../services/form.service';
 @Component({
   selector: 'classifieds-ui-panel-page',
   templateUrl: './panel-page.component.html',

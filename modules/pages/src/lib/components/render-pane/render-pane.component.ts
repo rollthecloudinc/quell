@@ -4,14 +4,12 @@ import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPlugin, ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { PanelPage, Pane, PanelContentHandler, PanelPageState } from 'panels';
+import { PanelPage, Pane, PanelContentHandler, PanelPageState, PageBuilderFacade, PaneStateService } from 'panels';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { JSONNode } from 'cssjson';
 import { CssHelperService } from '../../services/css-helper.service';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
-import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
-import { PaneStateService } from '../../services/pane-state.service';
 
 @Component({
   selector: 'classifieds-ui-render-pane',

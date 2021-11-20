@@ -1,14 +1,8 @@
 import { createAction, props } from '@ngrx/store';
-import { ContentInstance } from 'content';
 import { Rest, Dataset } from 'datasource';
-import { PanelPage } from 'panels';
+import { PanelPage } from '../../models/panels.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
-
-export const addContentInstance = createAction(
-  '[PageBuilder] Add Content Instance',
-  props<{ contentInstance: ContentInstance }>()
-);
 
 export const loadRestData = createAction(
   '[PageBuilder] Load Rest Data',

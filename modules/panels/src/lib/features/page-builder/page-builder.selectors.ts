@@ -5,8 +5,6 @@ export const selectPageBuilderState = createFeatureSelector<fromPageBuilder.Stat
   fromPageBuilder.pageBuilderFeatureKey
 );
 
-export const selectContentInstance = createSelector(selectPageBuilderState, state => state.contentInstance);
-
 export const selectDataset = (tag: string) => createSelector(selectPageBuilderState, state => {
   const index = state.dataTags.findIndex(t => t === tag);
   if(index > -1) {

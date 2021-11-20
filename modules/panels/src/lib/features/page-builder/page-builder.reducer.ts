@@ -1,15 +1,13 @@
 import { Action, createReducer, on } from '@ngrx/store';
 import * as PageBuilderActions from './page-builder.actions';
-import { ContentInstance } from 'content';
 import { Dataset } from 'datasource';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';
-import { PanelPage } from 'panels';
+import { PanelPage } from '../../models/panels.models';
 
 export const pageBuilderFeatureKey = 'pageBuilder';
 
 export interface State {
-  contentInstance: ContentInstance
   dataTags: Array<string>;
   datasets: Array<Array<Dataset>>;
   pageInfo: PanelPageStateSlice;
@@ -24,7 +22,6 @@ export interface PageBuilderPartialState {
 }
 
 export const initialState: State = {
-  contentInstance: undefined,
   dataTags: [],
   datasets: [],
   pageInfo: undefined,
@@ -55,7 +52,6 @@ const pageBuilderReducer = createReducer(
       return { ...state, formNames: [ ...state.formNames, action.name ], forms: [ ...state.forms, action.form ] };
     }
   }),
-  on(PageBuilderActions.addContentInstance, (state, action) => ({ ...state, contentInstance: action.contentInstance })),
   on(PageBuilderActions.setPageInfo, (state, action ) => {
     return ({ ...state, pageInfo: action.info !== undefined ? new PanelPageStateSlice(action.info) : undefined });
   }),

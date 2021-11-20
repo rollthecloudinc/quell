@@ -23,7 +23,12 @@
       "plugin": "plugin",
       "aws3": "aws3",
       "auth": "auth",
-      "crud": "crud"
+      "crud": "crud",
+      "@ngrx/effects": "@ngrx/effects",
+      "@ngrx/store": "@ngrx/store",
+      "jsonpath-plus": "jsonpath-plus",
+      "snippet": "snippet",
+      "deepmerge-json": "deepmerge-json"
     }
   }
 }

@@ -5,7 +5,7 @@ import { MediaContentHandler } from './handlers/media-content.handler';
 import { ContentBinding, ContentPlugin } from 'content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from 'context';
 import { Dataset, DatasourceFormComponent, DatasourcePlugin } from 'datasource';
-import { PanelPageState, PanelState , PaneState, StylePlugin } from 'panels';
+import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade } from 'panels';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
@@ -34,9 +34,6 @@ import { PageStateEditorComponent } from './components/page-state-editor/page-st
 import { ParamPlugin, Param, ParamEvaluatorService } from 'dparam';
 import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { TokenizerService } from 'token';
-import { FormService } from './services/form.service';
-import { FormDatasource, PanelPageForm } from './models/form.models';
-import { PageBuilderFacade } from './features/page-builder/page-builder.facade';
 import { combineLatest, merge, of } from 'rxjs';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
 import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from 'crud';

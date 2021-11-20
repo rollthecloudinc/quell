@@ -5,7 +5,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from 'content';
-import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN } from 'panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from 'panels';
 import { TokenizerService } from 'token';
 import { SITE_NAME } from 'utils';
 // import { STYLE_PLUGIN } from 'style';
@@ -23,7 +23,6 @@ import { StyleSelectorComponent } from '../style-selector/style-selector.compone
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
 import { Rule as NgRule } from 'angular2-query-builder';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
-import { PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from '../../models/form.models';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
 import { PanePropsDialogComponent } from '../pane-props-dialog/pane-props-dialog.component';
@@ -31,7 +30,6 @@ import { NgTemplateOutlet } from '@angular/common';
 // import { timeStamp } from 'console';
 // import { InlineContextResolverService } from '../../services/inline-context-resolver.service';
 import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.directive';
-import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
 import { paneStateContextFactory } from '../../pages.factories';
 import { PaneStateContextResolver } from '../../contexts/pane-state-context.resolver';
 

@@ -24,6 +24,11 @@ import { DatasourceModule } from 'datasource';
 import { PanelPage, PanelPageListItem } from './models/panels.models';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthFacade, AuthModule } from 'auth';
+import { PanelPageForm } from './models/form.models';
+import { PageBuilderEffects } from './features/page-builder/page-builder.effects';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
@@ -33,6 +38,8 @@ import { AuthFacade, AuthModule } from 'auth';
     // HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    StoreModule.forFeature(fromPageBuilder.pageBuilderFeatureKey, fromPageBuilder.reducer),
+    EffectsModule.forFeature([PageBuilderEffects]),
     MaterialModule,
     DatasourceModule,
     AuthModule,
@@ -77,5 +84,7 @@ export class PanelsModule {
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));
     // console.log('register panel page state');
+    // Experimental - form testing
+    entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
   }
 }

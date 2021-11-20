@@ -1,7 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PanelPage } from 'panels';
-import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
+import { PanelPage, PageBuilderFacade } from 'panels';
 import { take } from 'rxjs/operators';
 import { InlineContext } from 'context';
 import { PageStateFormComponent } from '../page-state-form/page-state-form.component';

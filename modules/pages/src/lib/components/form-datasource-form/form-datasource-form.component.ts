@@ -3,7 +3,7 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormDatasource } from '../../models/form.models';
+import { FormDatasource } from 'panels';
 
 @Component({
   selector: 'classifieds-ui-form-datasource-form',

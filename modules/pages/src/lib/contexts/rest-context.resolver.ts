@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ContextResolver, ContextPlugin } from 'context';
 import { InlineContext } from 'context';
-import { PageBuilderPartialState } from '../features/page-builder/page-builder.reducer';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subject, of, merge } from 'rxjs';
 import { filter, take, switchMap, tap, map } from 'rxjs/operators';
 import { UrlGeneratorService } from 'durl';
 import { Rest } from 'datasource';
 import { Param } from 'dparam'
-import { selectDataset, selectPageInfo } from '../features/page-builder/page-builder.selectors';
-import { PageBuilderFacade } from '../features/page-builder/page-builder.facade';
+import { PageBuilderFacade, selectDataset, selectPageInfo, PageBuilderPartialState } from 'panels';
 import * as uuid from 'uuid';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 

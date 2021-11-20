@@ -3,10 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { PanelPage } from 'panels';
+import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from 'panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
-import { PageBuilderFacade } from '../../features/page-builder/page-builder.facade';
-import { PanelPageStateSlice } from '../../models/page.models';
 
 @Component({
   selector: 'classifieds-ui-panel-page-router',
