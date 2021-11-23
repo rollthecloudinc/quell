@@ -6,6 +6,7 @@ npm run build attributes
 npm run build alias
 npm run build token
 npm run build content
+npm run build snippet
 npm run build plugin
 npm run build rules
 npm run build keyval
