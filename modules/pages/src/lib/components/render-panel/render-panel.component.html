@@ -1,11 +1,21 @@
-<div class="render-panel" #panes>
+<div [formGroup]="panelForm" class="render-panel" #panes>
   <ng-container><ng-template classifiedsUiPaneContentHost></ng-template></ng-container>
+  <!-- <ng-container [ngSwitch]="displayType">
+    <ng-container *ngSwitchCase="'form'">
+      <ng-container [formGroup]="panelForm">
+        <ng-template classifiedsUiPaneContentHost></ng-template>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'page'">
+      <ng-container><ng-template classifiedsUiPaneContentHost></ng-template></ng-container>
+    </ng-container>
+  </ng-container> -->
   <!-- is fxFlex needed here? - verify other pages -->
   <!-- removing fxFlex breaks design of adbrowserv9 -->
   <div *ngIf="!stylePlugin && resolvedPanes">
     <ng-container [ngSwitch]="displayType">
       <ng-container *ngSwitchCase="'form'">
-        <div [formGroup]="panelForm">
+        <div>
           <div formArrayName="panes">
             <classifieds-ui-render-pane *ngFor="let pane of resolvedPanes; let j = index" [formControlName]="j" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [displayType]="displayType" [resolvedContext]="pane.resolvedContext" [indexPosition]="j" [css]="filteredCss" [ancestory]="ancestoryWithSelf$.value" [panes]="panel.panes"></classifieds-ui-render-pane>
           </div>

@@ -1,13 +1,16 @@
 import { Component, Input, Optional } from '@angular/core';
-import { ControlContainer, FormBuilder } from '@angular/forms';
+import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
+import { EntityCollectionService, EntityServices } from '@ngrx/data';
+import { select } from '@ngrx/store';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
-import { AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
-import { Pane, Panel } from 'panels';
-import { BehaviorSubject, combineLatest, forkJoin } from 'rxjs';
+import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService } from 'panels';
+import { BehaviorSubject, combineLatest, forkJoin, Subject } from 'rxjs';
 import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
+import { JSONPath } from "jsonpath-plus";
 
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
@@ -52,11 +55,13 @@ export class FormlyRepeatingRendererComponent {
   readonly panel$ = new BehaviorSubject<Panel>(new Panel());
   readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly init$ = new Subject();
   fields: FormlyFieldConfig[] = [];
   model: any = {
     items: []
   };
   readonly proxyGroup = this.fb.group({});
+  private panelPageStateService: EntityCollectionService<PanelPageState>;
 
   private readonly panesSub = this.panes$.pipe(
     switchMap(panes => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes }))))).pipe(
@@ -100,12 +105,54 @@ export class FormlyRepeatingRendererComponent {
     })
   ).subscribe();
 
+  private readonly forwardStateToForm = combineLatest([
+    this.pageBuilderFacade.getPageInfo$,
+    this.panel$,
+    this.ancestory$,
+    this.init$
+  ]).pipe(
+    map(([p, panel, ancestory]) => ({ p, panel, ancestory })),
+    switchMap(({ p, panel, ancestory }) => this.panelPageStateService.collection$.pipe(
+      select(this.paneStateService.selectById({ id: p.id })),
+      map(ps => new PanelPageState(ps ? ps : { id: p.id, panels: [] })),
+      tap(s => {
+        const path= '$.' + ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
+        const panelState = JSONPath({ path, json: s })[0];
+        const nestedPage = new PanelPage({ id: '', title: '', name: '', layoutType: '', displayType: '', gridItems: [], layoutSetting: undefined, rowSettings: undefined,  panels: [new Panel({ label: '', name: '', settings: undefined, stylePlugin: '', columnSetting: undefined, panes: panel.panes.filter(pane => pane.contentPlugin === 'formly_field') })] });
+        const rebuiltPanel = new Panel({ ...panel, panes: panelState ? panelState.panes.map(() => new Pane({ name: panel.name, label: panel.label, contentPlugin: 'panel', nestedPage: new PanelPage(nestedPage), settings: this.attributeSerializer.serialize(nestedPage, 'root').attributes })) : [] });
+        this.formStateConverter.convertPanelToForm(panelState ? panelState : new PanelState(), rebuiltPanel).subscribe(panelForm => {
+          const paneControlArray = this.controlContainer.control.get('panes') as FormArray;
+          this.formGroupConverter.makeFormGroupFromPanel(rebuiltPanel, panelForm).subscribe(panelFormGroup => {
+            paneControlArray.clear();
+            const paneControls = panelFormGroup.get('panes') as FormArray;
+            const len = paneControls.length;
+            for (let i = 0; i < len ; i++) {
+              paneControlArray.push(paneControls.at(i));
+            }
+          });
+        });
+      })
+    ))
+  ).subscribe();
+
   constructor(
     private fb: FormBuilder,
     private cpm: ContentPluginManager,
     private formlyHandlerHelper: FormlyHandlerHelper,
+    private paneStateService: PaneStateService,
+    private pageBuilderFacade: PageBuilderFacade,
+    private formStateConverter: FormStateConverterService,
+    private attributeSerializer: AttributeSerializerService,
+    private formService: FormService,
+    private formGroupConverter: FormGroupConverterService,
+    es: EntityServices,
     @Optional() public controlContainer?: ControlContainer
   ) {
+    this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
+  }
+
+  ngOnInit() {
+    this.init$.next();
   }
 
 }

@@ -18,8 +18,8 @@ export class PaneStateService {
 
   private panelPageStateService: EntityCollectionService<PanelPageState>;
 
-  private selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
-  private selectById = ({ id }: { id: string }) => createSelector(
+  readonly selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
+  readonly selectById = ({ id }: { id: string }) => createSelector(
     this.selectEntities,
     entities => entities[id] ? entities[id] : undefined
   );
