@@ -32,10 +32,11 @@ export class DatasourceEditorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
+    const panesArray = this.data.panelFormGroup.get('panes') as FormArray;
+    this.bindableOptions = panesArray.controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
     this.contexts = this.data.contexts.map(c => c.name);
-    if (this.data.panelIndex !== undefined) {
-      const settings = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
+    if (this.data.panelIndex !== undefined && this.data.paneIndex < panesArray.length) {
+      const settings = panesArray.at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
       this.datasourceHandler.toObject(settings).subscribe(ds => {
         this.datasource = ds;
       });

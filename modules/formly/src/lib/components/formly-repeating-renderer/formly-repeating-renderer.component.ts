@@ -6,11 +6,14 @@ import { FormlyFieldConfig  } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
-import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService } from 'panels';
-import { BehaviorSubject, combineLatest, forkJoin, Subject } from 'rxjs';
+import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from 'panels';
+import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
 import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 import { JSONPath } from "jsonpath-plus";
+import { UrlGeneratorService } from 'durl';
+import { DatasourceApiService } from 'datasource';
+import { FormlyFieldInstance } from '../../models/formly.models';
 
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
@@ -96,7 +99,11 @@ export class FormlyRepeatingRendererComponent {
               panelAncestory: ancestory,
               indexPosition,
               fieldGroup: [{
-                ...f
+                ...f,
+                templateOptions: {
+                  ...f.templateOptions,
+                  ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', panel.panes ]]) }) } : {}),
+                }
               }]
             }))
           }
@@ -145,6 +152,10 @@ export class FormlyRepeatingRendererComponent {
     private attributeSerializer: AttributeSerializerService,
     private formService: FormService,
     private formGroupConverter: FormGroupConverterService,
+    private urlGeneratorService: UrlGeneratorService ,
+    private datasourceApi: DatasourceApiService,
+    private datasourceHandler: DatasourceContentHandler,
+    private panelResolver: PanelResolverService,
     es: EntityServices,
     @Optional() public controlContainer?: ControlContainer
   ) {
@@ -153,6 +164,25 @@ export class FormlyRepeatingRendererComponent {
 
   ngOnInit() {
     this.init$.next();
+  }
+
+  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): (term: string) => Observable<Array<any>> {
+    //const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
+    const dataPane = this.panes.find(p => p.name === i.datasourceBinding.id);
+    return (term: string) => of([]).pipe(
+      switchMap(() => iif(
+        () => !!i.datasourceBinding,
+        i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
+          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ], [ 'contexts', this.contexts ] ])) : of([])),
+          map(d => d.results)
+        ): of([]),
+        !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ])).pipe(
+          switchMap(s => this.datasourceApi.getData(`${s}`))
+        ) : of([])
+      )),
+      map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
+      switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
+    );
   }
 
 }

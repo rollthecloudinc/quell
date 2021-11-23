@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { MaterialModule } from 'material';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
@@ -17,13 +17,13 @@ import { CrudAdaptorPluginManager, CrudModule } from 'crud';
 import { DparamModule, ParamEvaluatorService } from 'dparam';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultDataServiceConfig, HttpUrlGenerator } from '@ngrx/data';
-import { TokenInterceptor } from 'oidc';
 
 @NgModule({
   declarations: [ RestSourceFormComponent, RestDatasourceComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,
+    FormsModule,
     ReactiveFormsModule,
     MaterialModule,
     AngularSplitModule,

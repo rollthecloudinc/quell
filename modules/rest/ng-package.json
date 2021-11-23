@@ -17,8 +17,7 @@
       "attributes": "attributes",
       "content": "content",
       "crud": "crud",
-      "@ngrx/data": "@ngrx/data",
-      "oidc": "odic"
+      "@ngrx/data": "@ngrx/data"
     }
   }
 }
