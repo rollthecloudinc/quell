@@ -17,14 +17,14 @@
       <ng-container *ngSwitchCase="'form'">
         <div>
           <div formArrayName="panes">
-            <classifieds-ui-render-pane *ngFor="let pane of resolvedPanes; let j = index" [formControlName]="j" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [displayType]="displayType" [resolvedContext]="pane.resolvedContext" [indexPosition]="j" [css]="filteredCss" [ancestory]="ancestoryWithSelf$.value" [panes]="panel.panes"></classifieds-ui-render-pane>
+            <classifieds-ui-render-pane *ngFor="let pane of resolvedPanes; let j = index" [formControlName]="j" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [displayType]="displayType" [resolvedContext]="pane.resolvedContext" [indexPosition]="j" [css]="filteredCss" [ancestory]="ancestoryWithSelf$.value" [panes]="panes" [originPanes]="originPanes"></classifieds-ui-render-pane>
           </div>
         </div>
       </ng-container>
       <ng-container *ngSwitchCase="'page'">
         <!-- is fxFlex needed here? - verify other pages -->
         <!-- removing fxFlex breaks design of adbrowserv9 -->
-        <classifieds-ui-render-pane *ngFor="let pane of resolvedPanes; let j = index" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [linkedPageId]="pane.linkedPageId" [displayType]="displayType" [resolvedContext]="pane.resolvedContext" [indexPosition]="j" [css]="filteredCss" [ancestory]="ancestoryWithSelf$.value" [panes]="panel.panes"></classifieds-ui-render-pane>
+        <classifieds-ui-render-pane *ngFor="let pane of resolvedPanes; let j = index" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [originPane]="panel.panes[originMappings[j]]" [contexts]="pane.contexts" [linkedPageId]="pane.linkedPageId" [displayType]="displayType" [resolvedContext]="pane.resolvedContext" [indexPosition]="j" [css]="filteredCss" [ancestory]="ancestoryWithSelf$.value" [panes]="panes" [originPanes]="originPanes"></classifieds-ui-render-pane>
       </ng-container>
     </ng-container>
   </div>

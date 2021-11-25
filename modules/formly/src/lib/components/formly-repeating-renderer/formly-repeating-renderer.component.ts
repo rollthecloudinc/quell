@@ -46,10 +46,12 @@ export class FormlyRepeatingRendererComponent {
   }
 
   @Input()
-  originMappings: Array<number> = [];
+  set contexts(contexts: Array<InlineContext>) {
+    this.contexts$.next(contexts);
+  }
 
   @Input()
-  contexts: Array<InlineContext>;
+  originMappings: Array<number> = [];
 
   @Input()
   resolvedContext = {};
@@ -58,6 +60,7 @@ export class FormlyRepeatingRendererComponent {
   readonly panel$ = new BehaviorSubject<Panel>(new Panel());
   readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
   readonly init$ = new Subject();
   fields: FormlyFieldConfig[] = [];
   model: any = {
@@ -66,24 +69,28 @@ export class FormlyRepeatingRendererComponent {
   readonly proxyGroup = this.fb.group({});
   private panelPageStateService: EntityCollectionService<PanelPageState>;
 
-  private readonly panesSub = this.panes$.pipe(
-    switchMap(panes => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes }))))).pipe(
+  private readonly panesSub = combineLatest(
+    this.panes$,
+    this.originPanes$
+  ).pipe(
+    switchMap(([panes, originPanes]) => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin, panes }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i, panes }))))).pipe(
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, panes, originPanes }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f })), take(1)))).pipe(
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes, originPanes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f, panes, originPanes })), take(1)))).pipe(
       defaultIfEmpty([]),
       take(1)
     )),
     switchMap(groups => combineLatest([
       this.panel$,
-      this.ancestory$
+      this.ancestory$,
+      this.contexts$
     ]).pipe(
-      map(([panel, ancestory]) => ({ groups, panel, ancestory }))
+      map(([panel, ancestory, contexts]) => ({ groups, panel, ancestory, contexts }))
     )),
-    tap(({ groups, panel, ancestory }) => {
+    tap(({ groups, panel, ancestory, contexts }) => {
       this.fields = [
         {
           key: panel.name && panel.name !== '' ? panel.name : 'items',
@@ -92,7 +99,7 @@ export class FormlyRepeatingRendererComponent {
             addText: 'Add another',
           },
           fieldArray: {
-            fieldGroup: groups.map(({ f, i, pane }, indexPosition) => ({
+            fieldGroup: groups.map(({ f, i, pane, panes, originPanes }, indexPosition) => ({
               key: i.key && i.key  !== '' ? i.key : pane.name && pane.name !== '' ? pane.name : f.key,
               wrappers: [ ...(f.wrappers ? f.wrappers : []), 'imaginary-pane' ],
               pane: pane,
@@ -102,7 +109,7 @@ export class FormlyRepeatingRendererComponent {
                 ...f,
                 templateOptions: {
                   ...f.templateOptions,
-                  ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', panel.panes ]]) }) } : {}),
+                  ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', [ ...originPanes, ...panes ] ], [ 'contexts', contexts ] ]) }) } : {}),
                 }
               }]
             }))
@@ -168,15 +175,15 @@ export class FormlyRepeatingRendererComponent {
 
   makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): (term: string) => Observable<Array<any>> {
     //const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
-    const dataPane = this.panes.find(p => p.name === i.datasourceBinding.id);
+    const dataPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id);
     return (term: string) => of([]).pipe(
       switchMap(() => iif(
         () => !!i.datasourceBinding,
         i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
-          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ], [ 'contexts', this.contexts ] ])) : of([])),
+          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ] ])) : of([])),
           map(d => d.results)
         ): of([]),
-        !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ])).pipe(
+        !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, metadata).pipe(
           switchMap(s => this.datasourceApi.getData(`${s}`))
         ) : of([])
       )),

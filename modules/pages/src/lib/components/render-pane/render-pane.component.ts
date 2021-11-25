@@ -71,6 +71,9 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   @Input()
   panes: Array<Pane> = [];
 
+  @Input()
+  originPanes: Array<Pane> = [];
+
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
   }

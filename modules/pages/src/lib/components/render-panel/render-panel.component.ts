@@ -96,6 +96,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   });
 
   panes: Array<Pane>;
+  originPanes: Array<Pane>;
 
   filteredCss: JSONNode;
   
@@ -150,12 +151,17 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
   scheduleRenderSub = this.scheduleRender.pipe(
     tap(() => console.log(`schdule renderer before [${this.panel.name}]`)),
-    switchMap(([panes, contexts, resolvedContext]) => this.panelResolverService.resolvePanes({ panes, contexts, resolvedContext })),
-    switchMap(({ resolvedPanes, originMappings/*, resolvedContexts */ }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings /*, resolvedContexts */ })),
+    switchMap(([panes, contexts, resolvedContext]) => this.panelResolverService.resolvePanes({ panes, contexts, resolvedContext }).pipe(
+      map(({ resolvedPanes, originMappings/*, resolvedContexts */ }) => ({ resolvedPanes, originMappings, panes }))
+    )),
+    switchMap(({ panes, resolvedPanes, originMappings/*, resolvedContexts */ }) => this.styleResolverService.alterResolvedPanes({ panel: this.panel, resolvedPanes, originMappings /*, resolvedContexts */ }).pipe(
+      map(({ resolvedPanes, originMappings/*, resolvedContexts */ }) => ({ panes, resolvedPanes, originMappings }))
+    )),
     tap(() => console.log(`schdule renderer after [${this.panel.name}]`)),
-  ).subscribe(({ resolvedPanes, originMappings/*, resolvedContexts*/ }) => {
+  ).subscribe(({ panes, resolvedPanes, originMappings/*, resolvedContexts*/ }) => {
     console.log(`render panel: ${this.panel.name}`);
     this.resolvedPanes = resolvedPanes;
+    this.originPanes = panes;
     this.originMappings = originMappings;
     // this.resolvedContexts = resolvedContexts;
     if(this.paneContainer && this.stylePlugin === undefined) {
@@ -191,8 +197,9 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
      * new behavior. I just don't think this was ever updated... Updating now
      * and we will see how it goes.
      */
-    // (componentRef.instance as any).panes = this.resolvedPanes;
-    (componentRef.instance as any).panes = this.panel.panes;
+    (componentRef.instance as any).panes = this.resolvedPanes;
+    // This breaks pages because none visible panes will attempt to be rendered.
+    //(componentRef.instance as any).panes = this.panel.panes;
     (componentRef.instance as any).originPanes = this.panel.panes;
     (componentRef.instance as any).originMappings = this.originMappings;
     (componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
