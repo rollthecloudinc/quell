@@ -63,5 +63,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 
   // This is required to use bson library since it is depdendent on nodejs lib that uses global.
-// (window as any).global = window;
+(window as any).global = window;
 // (window as any).global.Buffer = (window as any).global.Buffer || require('buffer').Buffer;

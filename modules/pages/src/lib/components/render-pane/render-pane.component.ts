@@ -268,6 +268,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     (this.componentRef.instance as any).name = this.name;
     (this.componentRef.instance as any).label = this.label;
     (this.componentRef.instance as any).panes = this.panes;
+    (this.componentRef.instance as any).originPanes = this.originPanes;
     (this.componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (this.componentRef.instance as any).displayType = this.displayType;
     (this.componentRef.instance as any).resolvedContext = this.resolvedContext;

@@ -39,9 +39,6 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   contexts: Array<InlineContext> = [];
 
   @Input()
-  panes: Array<Pane> = [];
-
-  @Input()
   tokens: Map<string, any>;
 
   @Input()
@@ -52,6 +49,16 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   @Input()
   set settings(settings: Array<AttributeValue>) {
     this.settings$.next(settings);
+  }
+
+  @Input()
+  set panes(panes: Array<Pane>) {
+    this.panes$.next(panes);
+  }
+
+  @Input()
+  set originPanes(originPanes: Array<Pane>) {
+    this.originPanes$.next(originPanes);
   }
 
   @Output()
@@ -67,6 +74,8 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   afterViewInit$ = new Subject();
   resolvedContext$ = new BehaviorSubject<any>(undefined);
   settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
+  readonly panes$ = new BehaviorSubject<Array<Pane>>([]);
+  readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   // snippet$ = new BehaviorSubject<Snippet>(undefined);
 
   bridgeSub = this.proxyGroup.valueChanges.pipe(
@@ -106,9 +115,12 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
 
   settingsSub = combineLatest([
     this.settings$,
+    this.panes$,
+    this.originPanes$,
     this.init$
   ]).pipe(
-    switchMap(([settings]) => this.handler.buildFieldConfig(settings, new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ])).pipe(
+    map(([settings, panes, originPanes]) => ({ settings, metadata: new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', this.contexts ] ]) })),
+    switchMap(({ settings, metadata }) => this.handler.buildFieldConfig(settings, metadata).pipe(
       switchMap(f => this.handler.toObject(settings).pipe(
         map<FormlyFieldInstance, [FormlyFieldConfig, FormlyFieldInstance]>(i => [f, i])
       )),
@@ -124,7 +136,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
         ...f,
         templateOptions: {
           ...f.templateOptions,
-          ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction(i) } : {}),
+          ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata }) } : {}),
           change: (field, e) => {
             // console.log('value change', field.form.controls.value.value);
           }
@@ -198,9 +210,9 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     }
   }
 
-  makeFilterFunction(i: FormlyFieldInstance): (term: string) => Observable<Array<any>> {
-    const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
-    const dataPane = this.panes.find(p => p.name === i.datasourceBinding.id);
+  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): (term: string) => Observable<Array<any>> {
+    //const metadata = new Map<string, any>([ [ 'panes', [ ...(this.panes && Array.isArray(this.panes) ? this.panes : []), ...(this.originPanes && Array.isArray(this.originPanes) ? this.originPanes : []) ] ], [ 'contexts', this.contexts ] ]);
+    const dataPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id);
     return (term: string) => of([]).pipe(
       switchMap(s => this.searchChange.pipe(
         filter(v => v === term)

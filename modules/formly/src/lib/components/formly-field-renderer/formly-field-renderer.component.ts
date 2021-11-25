@@ -24,6 +24,9 @@ export class FormlyFieldRendererComponent implements OnInit {
   panes: Array<Pane> = [];
 
   @Input()
+  originPanes: Array<Pane> = [];
+
+  @Input()
   appearance = 'legacy';
 
   @Input()
