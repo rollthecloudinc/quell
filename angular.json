@@ -527,18 +527,28 @@
               "sourceMap": false,
               "optimization": true
             },
-            "local.dev": {
+            "dev.local": {
               "outputHashing": "media",
               "bundleDependencies": true,
               "fileReplacements": [
                 {
                   "replace": "projects/ipe/src/environments/environment.ts",
-                  "with": "projects/ipe/src/environments/environment.local.dev.ts"
+                  "with": "projects/ipe/src/environments/environment.dev.local.ts"
                 }
               ],
               "sourceMap": false,
               "optimization": true
             }
+          }
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "browserTarget": "ipe:build",
+            "serverTarget": "ipe:server:dev"
+          },
+          "configurations": {
+            "production": {}
           }
         }
       }

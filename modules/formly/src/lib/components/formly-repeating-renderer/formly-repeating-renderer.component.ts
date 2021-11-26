@@ -79,7 +79,7 @@ export class FormlyRepeatingRendererComponent {
     switchMap(groups => forkJoin(groups.map(({ pane, plugin, panes, originPanes }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes, originPanes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', panes ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f, panes, originPanes })), take(1)))).pipe(
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes, originPanes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f, panes, originPanes })), take(1)))).pipe(
       defaultIfEmpty([]),
       take(1)
     )),
@@ -109,7 +109,7 @@ export class FormlyRepeatingRendererComponent {
                 ...f,
                 templateOptions: {
                   ...f.templateOptions,
-                  ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', [ ...originPanes, ...panes ] ], [ 'contexts', contexts ] ]) }) } : {}),
+                  ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', contexts ] ]) }) } : {}),
                 }
               }]
             }))
