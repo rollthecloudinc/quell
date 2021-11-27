@@ -69,10 +69,10 @@ export class FormlyRepeatingRendererComponent {
   readonly proxyGroup = this.fb.group({});
   private panelPageStateService: EntityCollectionService<PanelPageState>;
 
-  private readonly panesSub = combineLatest(
+  private readonly panesSub = combineLatest([
     this.panes$,
     this.originPanes$
-  ).pipe(
+  ]).pipe(
     switchMap(([panes, originPanes]) => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),

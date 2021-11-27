@@ -541,6 +541,30 @@
             }
           }
         },
+        "lambda": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "optimization": false,
+            "outputPath": "dist/ipe/lambda",
+            "main": "projects/ipe/src/main.lambda.ts",
+            "tsConfig": "projects/ipe/tsconfig.lambda.json",
+            "externalDependencies": [
+              "../server/main"
+            ]
+          },
+          "configurations": {
+            "dev": {
+              "optimization": true,
+              "extractLicenses": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/ipe/src/environments/environment.ts",
+                  "with": "projects/ipe/src/environments/environment.dev.ts"
+                }
+              ]
+            }
+          }
+        },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "options": {

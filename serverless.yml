@@ -1,0 +1,30 @@
+service: ipe # Name whatever as you like!
+plugins:
+  - serverless-apigw-binary
+  - serverless-offline
+provider:
+  name: aws
+  runtime: nodejs12.x
+  memorySize: 512
+  timeout: 10
+  # stage: ${opt:stage, 'dev'}
+package:
+  exclude: # By default exclude all files
+    - ./**
+  include: # Then start adding the relevant files/folder to package
+    - 'dist/**'
+    #- 'dist/ipe/server/**'
+    #- 'dist/ipe/lambda/**'
+    #- 'dist/ipe/**'
+custom:
+  apigwBinary: # Library to add support for api gateway binary types
+    types:
+      - '*/*'
+  serverless-offline:
+    noPrependStageInUrl: true
+functions:
+  api:
+    handler: dist/ipe/lambda/main.handler # A file lambda.js will hold fn handler
+    events:
+      - http: GET {proxy+}
+      - http: GET /

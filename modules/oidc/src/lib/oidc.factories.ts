@@ -33,6 +33,10 @@ export const initAuthFactory = (userManager: UserManager, authFacade: AuthFacade
 
 export const authWebStorageFactory = (clientSettings: ClientSettings, platformId: Object, injector: Injector, transferState: TransferState) => {
   const svc = new AuthWebStorageService(clientSettings, platformId, transferState);
+  /**
+   * @todo: This is only thing breaking lambda. For some reason this causes lambda to fail.
+   * However, once commented out lambda runs fine but loose auth context on server.
+   */
   if(isPlatformServer(platformId)) {
     svc.request = injector.get(REQUEST);
     // svc.response = injector.get(RESPONSE);
