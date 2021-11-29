@@ -14,6 +14,7 @@ import { JSONPath } from "jsonpath-plus";
 import { UrlGeneratorService } from 'durl';
 import { DatasourceApiService } from 'datasource';
 import { FormlyFieldInstance } from '../../models/formly.models';
+import { Mapping, Param } from 'dparam';
 
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
@@ -180,7 +181,7 @@ export class FormlyRepeatingRendererComponent {
       switchMap(() => iif(
         () => !!i.datasourceBinding,
         i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
-          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ] ])) : of([])),
+          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ], [ 'inputparams', new Map<string, Param>([ [ 'term', new Param({ flags: [], mapping: new Mapping({ value: term, testValue: term, type: 'static', context: undefined, }) }) ] ]) ] ])) : of([])),
           map(d => d.results)
         ): of([]),
         !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, metadata).pipe(

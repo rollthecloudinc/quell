@@ -15,6 +15,7 @@ import { DatasourceApiService } from 'datasource';
 import { UrlGeneratorService } from 'durl';
 import { Pane, DatasourceContentHandler, PanelResolverService } from 'panels';
 import { TokenizerService } from 'token';
+import { Mapping, Param } from 'dparam';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',
@@ -220,7 +221,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
       switchMap(() => iif(
         () => !!i.datasourceBinding,
         i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
-          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ] ])) : of([])),
+          switchMap(dataPanes => dataPane ? this.datasourceHandler.fetchDynamicData(dataPane.settings, new Map<string, any>([ ...metadata, [ 'dataPanes', dataPanes ], [ 'inputparams', new Map<string, Param>([ [ 'term', new Param({ flags: [], mapping: new Mapping({ value: term, type: 'static', testValue: term, context: undefined }) }) ] ]) ] ])) : of([])),
           map(d => d.results)
         ): of([]),
         !i.datasourceBinding ? this.urlGeneratorService.getUrl(i.rest.url, i.rest.params, new Map<string, any>([ [ 'contexts', this.contexts ] ])).pipe(

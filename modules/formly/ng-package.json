@@ -21,7 +21,8 @@
       "@ngx-formly/material/toggle": "@ngx-formly/material/toggle",
       "@ngx-formly/material/slider": "@ngx-formly/material/slider",
       "@ngrx/data": "@ngrx/data",
-      "@ngrx/store": "@ngrx/store"
+      "@ngrx/store": "@ngrx/store",
+      "dparam": "dparam"
     }
   }
 }
