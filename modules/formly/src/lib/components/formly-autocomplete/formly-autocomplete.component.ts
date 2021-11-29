@@ -21,7 +21,7 @@ export class FormlyAutocompleteComponent extends FieldType implements OnInit, Af
     this.filter = this.formControl.valueChanges
       .pipe(
         startWith(''),
-        switchMap(term => this.to.filter(term)),
+        switchMap(term => this.to.filter({ term, field: this.field })),
       );
   }
 

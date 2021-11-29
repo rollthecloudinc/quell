@@ -173,10 +173,10 @@ export class FormlyRepeatingRendererComponent {
     this.init$.next();
   }
 
-  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): (term: string) => Observable<Array<any>> {
+  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({ term: string, field: FormlyFieldConfig }) => Observable<Array<any>> {
     //const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
     const dataPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id);
-    return (term: string) => of([]).pipe(
+    return ({ term, field }: { term: string, field: FormlyFieldConfig }) => of([]).pipe(
       switchMap(() => iif(
         () => !!i.datasourceBinding,
         i.datasourceBinding ? this.panelResolver.dataPanes(metadata.get('panes') as Array<Pane>).pipe(
