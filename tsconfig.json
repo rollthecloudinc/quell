@@ -84,6 +84,10 @@
         "dist/formly/formly",
         "dist/formly"
       ],
+      "here": [
+        "dist/here/here",
+        "dist/here"
+      ],
       "rest": [
         "dist/rest/rest",
         "dist/rest"

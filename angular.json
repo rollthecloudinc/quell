@@ -1736,5 +1736,45 @@
           }
         }
       }
+    },
+    "here": {
+      "projectType": "library",
+      "root": "modules/here",
+      "sourceRoot": "modules/here/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/here/tsconfig.lib.json",
+            "project": "modules/here/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/here/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/here/src/test.ts",
+            "tsConfig": "modules/here/tsconfig.spec.json",
+            "karmaConfig": "modules/here/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/here/tsconfig.lib.json",
+              "modules/here/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
