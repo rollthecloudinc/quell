@@ -55,6 +55,7 @@
     "fast-xml-parser": "^3.21.1",
     "gzip-js": "^0.3.2",
     "idb-keyval": "^6.0.3",
+    "inflected": "^2.1.0",
     "js-cookie": "^2.2.1",
     "json-rules-engine": "^5.3.0",
     "jsonpath-plus": "^4.0.0",

@@ -28,7 +28,8 @@
       "@ngrx/store": "@ngrx/store",
       "jsonpath-plus": "jsonpath-plus",
       "snippet": "snippet",
-      "deepmerge-json": "deepmerge-json"
+      "deepmerge-json": "deepmerge-json",
+      "inflected": "inflected"
     }
   }
 }

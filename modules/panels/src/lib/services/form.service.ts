@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AttributeSerializerService } from 'attributes';
 import { PanelPageForm, PanelPageFormPane } from '../models/form.models';
-
+import { pluralize } from 'inflected';
 @Injectable({
   providedIn: 'root'
 })
@@ -16,9 +16,9 @@ export class FormService {
       const dsValues = new Map<string, Array<any>>();
       for(let j = 0; j < len2; j++) {
         const serializedValue = this.serializeFormPane(form.panels[i].panes[j]);
-        if (form.panels[i].panes[j].name && form.panels[i].panes[j].name !== null && value[form.panels[i].panes[j].name]) {
+        if (form.panels[i].panes[j].name && form.panels[i].panes[j].name !== null && (value[form.panels[i].panes[j].name] || form.panels[i].panes[j].name === pluralize(form.panels[i].panes[j].name) )) {
           if (!dsValues.has(form.panels[i].panes[j].name)) {
-            dsValues.set(form.panels[i].panes[j].name, [ value[form.panels[i].panes[j].name] ]);
+            dsValues.set(form.panels[i].panes[j].name, typeof(value[form.panels[i].panes[j].name]) !== 'undefined' ? [ value[form.panels[i].panes[j].name] ] : [] );
           }
           const arrayValues = dsValues.get(form.panels[i].panes[j].name);
           dsValues.set(form.panels[i].panes[j].name, [ ...arrayValues, serializedValue ]);
