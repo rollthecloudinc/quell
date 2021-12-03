@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin } from 'datasource';
+import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from 'datasource';
 import { InlineContext } from 'context';
 import { SITE_NAME } from 'utils';
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
@@ -20,7 +20,8 @@ export class DatasourceContentHandler implements ContentHandler {
     private panelHandler: PanelContentHandler,
     private attributeSerializer: AttributeSerializerService,
     private rulesResolver: RulesResolverService,
-    private dpm: DatasourcePluginManager
+    private dpm: DatasourcePluginManager,
+    private datasourceEvalutator: DatasourceEvaluator
   ) { }
 
   handleFile(file: File): Observable<Array<AttributeValue>> {
@@ -43,11 +44,15 @@ export class DatasourceContentHandler implements ContentHandler {
   }
   fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
     const dataPanes = metadata.has('dataPanes') ? new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p])) : new Map<string, any>([]);
+    const datasources = new Map<string, Datasource>((Array.from(dataPanes).map(([k, v]) => [ k, new Datasource(this.attributeSerializer.deserializeAsObject(v.settings)) ])));
     return this.toObject(settings).pipe(
+      switchMap(ds => this.datasourceEvalutator.evalDatasource({ datasource: ds, metadata, datasources }))
+    );
+    /*return this.toObject(settings).pipe(
       switchMap(ds => this.dpm.getPlugin(ds.plugin).pipe(
         map<DatasourcePlugin<string>, [Datasource, DatasourcePlugin<string>]>(p => [ds, p])
       )),
-      switchMap(([ds, p]) => p.fetch({ settings: ds.settings, metadata }).pipe(
+      switchMap(([ds, p]) => p.fetch({ settings: ds.settings, metadata, datasource: ds }).pipe(
         map<Dataset, [Datasource, Dataset]>(d => [ds, d])
       )),
       switchMap(([ds, dataset]) => 
@@ -55,16 +60,16 @@ export class DatasourceContentHandler implements ContentHandler {
           ds.renderer.bindings.reduce<Array<Observable<Datasource>>>((p, c) => [ ...p, ...(dataPanes.has(c.id) ? [ this.toObject(dataPanes.get(c.id).settings) ] : []) ], [])
         ).pipe(
           switchMap(datasources => datasources.reduce<Observable<Dataset>>((p, c) => p.pipe(
-            switchMap<Dataset, Observable<[DatasourcePlugin<string>, Dataset]>>(dataset2 => this.dpm.getPlugin(c.plugin).pipe(
-              map(dsp => [dsp, dataset2])
+            switchMap<Dataset, Observable<[DatasourcePlugin<string>, Dataset, Datasource]>>(dataset2 => this.dpm.getPlugin(c.plugin).pipe(
+              map(dsp => [dsp, dataset2, c])
             )),
-            switchMap(([dsp, dataset2]) => dsp.fetch({ settings: c.settings, dataset: dataset2, metadata }))
+            switchMap(([dsp, dataset2, nestedDatasource]) => dsp.fetch({ settings: c.settings, dataset: dataset2, metadata, datasource: nestedDatasource }))
           ), of(dataset))),
           map(dataset => dataset),
           defaultIfEmpty(dataset)
         )
       )
-    );
+    );*/
   }
   buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>> {
     const dataPanes = new Map<string, Pane>((metadata.get('dataPanes') as Array<Pane>).map(p => [p.name, p]));

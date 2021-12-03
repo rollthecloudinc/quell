@@ -21,6 +21,7 @@
               <mat-option *ngFor="let bo of bindableOptions" [value]="bo">{{ bo }}</mat-option>
             </mat-select>
           </mat-form-field>
+          <button type="button" (click)="removeBinding(i)">Remove</button>
         </div>
       </div>
     </div>

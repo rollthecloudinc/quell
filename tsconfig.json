@@ -96,6 +96,10 @@
         "dist/state/state",
         "dist/state"
       ],
+      "loop": [
+        "dist/loop/loop",
+        "dist/loop"
+      ],
       "durl": [
         "dist/durl/durl",
         "dist/durl"

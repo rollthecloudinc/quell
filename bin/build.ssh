@@ -25,6 +25,7 @@ npm run build state
 npm run build material
 npm run build layout
 npm run build datasource
+rpm run build loop
 npm run build rest
 npm run build pagealias
 npm run build panels

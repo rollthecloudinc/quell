@@ -161,4 +161,8 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     }));
   }
 
+  removeBinding(index: number) {
+    this.bindings.removeAt(index);
+  }
+
 }

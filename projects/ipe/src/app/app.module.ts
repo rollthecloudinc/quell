@@ -57,6 +57,7 @@ import { AuthCallbackComponent } from 'auth';
 import { PlaygroundComponent } from './components/playground/playground.component';
 import { TransformModule } from 'transform';
 import { DeityModule } from 'deity';
+import { LoopModule } from 'loop';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
@@ -168,7 +169,8 @@ export function markedOptionsFactory(): MarkedOptions {
     TransformModule,
     AwcogModule,
     KeyvalModule,
-    DeityModule
+    DeityModule,
+    LoopModule
     // JsonschemaModule
     // OktaAuthModule
   ],

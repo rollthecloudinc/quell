@@ -2,7 +2,7 @@ import { DatasourcePlugin, Dataset } from './models/datasource.models';
 import { DataDatasourceComponent } from './components/data-datasource/data-datasource.component';
 import { of } from 'rxjs';
 import { AttributeSerializerService, AttributeValue } from 'attributes';
-import { map, switchMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DatasourceSourceComponent } from './components/datasource-source/datasource-source.component';
 
 export const dataDatasourcePluginFactory = (

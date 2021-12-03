@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+// import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'material';
 import { DurlModule } from 'durl';
@@ -39,7 +39,7 @@ import { DatasourceSourceFormComponent } from './components/datasource-source-fo
     DataDatasourceComponent,
     DataSourceFormComponent,
     DatasourceSourceComponent,
-    DatasourceSourceFormComponent
+    DatasourceSourceFormComponent,
   ]
 })
 export class DatasourceModule { 
