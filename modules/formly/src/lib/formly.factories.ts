@@ -5,6 +5,7 @@ import { FormlyFieldRendererComponent } from './components/formly-field-renderer
 import { FormlyFieldSelectorComponent } from './components/formly-field-selector/formly-field-selector.component';
 import { StylePlugin } from "panels";
 import { FormlyRepeatingRendererComponent } from "./components/formly-repeating-renderer/formly-repeating-renderer.component";
+import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 
 export const formlyFieldContentPluginFactory = (handler: FormlyFieldContentHandler) => {
   return new ContentPlugin<string>({
@@ -18,5 +19,5 @@ export const formlyFieldContentPluginFactory = (handler: FormlyFieldContentHandl
 }
 
 export const formlyRepeatingStyleFactory = () => {
-  return new StylePlugin<string>({ id: 'formly_repeating', name: 'formly_repeating', title: 'Formly Repeating', editorComponent: undefined, renderComponent: FormlyRepeatingRendererComponent });
+  return new StylePlugin<string>({ id: 'formly_repeating', name: 'formly_repeating', title: 'Formly Repeating', editorComponent: FormlyRepeatingEditorComponent, renderComponent: FormlyRepeatingRendererComponent });
 };

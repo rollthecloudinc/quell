@@ -105,8 +105,14 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     // this.settingsFormArray.clear();
     if (instance.value && instance.value !== null && instance.value !== '') {
       this.model = { value: this.replaceTokens(instance.value) };
-      // const extraTokens = this.tokenizerService.discoverTokens(this.model.value);
+      const extraTokens = this.tokenizerService.discoverTokens(this.model.value, true);
       // console.log('extra tokens', extraTokens);
+      /**
+       * For now if there are any tokens still inside clear the data.
+       */
+      if (extraTokens.length !== 0) {
+        this.model = { value: this.tokenizerService.replaceTokens(instance.value, new Map<string, any>(Array.from(extraTokens).map(k => [k, '']))) };
+      }
       /*const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(instance.value, 'value'));
       this.settingsFormArray.push(newGroup);*/
     } else {

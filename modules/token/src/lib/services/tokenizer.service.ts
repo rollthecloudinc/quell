@@ -83,7 +83,7 @@ export class TokenizerService {
     return matched;
   }
 
-  discoverTokens(v: string): Array<string> {
+  discoverTokens(v: string, full = false): Array<string> {
     const m = v.match(/(\[(?:\[??[^\[]*?\]))/g);
     if(m === null) {
       return [];
@@ -97,7 +97,7 @@ export class TokenizerService {
       if(p.findIndex(p => p === firstPiece) !== -1) {
         return p;
       }
-      return [ ...p, firstPiece ];
+      return [ ...p, full ? c.substr(1, c.length - 2)  : firstPiece ];
     }, []);
     return matches;
   }

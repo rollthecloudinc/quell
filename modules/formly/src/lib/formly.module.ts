@@ -24,6 +24,7 @@ import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 import { FormlyRepeatingRendererComponent } from './components/formly-repeating-renderer/formly-repeating-renderer.component';
 import { StylePluginManager } from 'panels';
 import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/formly-field-wrapper.component';
+import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/f
     FormlyAutocompleteComponent,
     FormlyRepeatingSectionComponent,
     FormlyRepeatingRendererComponent,
-    FormlyFieldWrapperComponent
+    FormlyFieldWrapperComponent,
+    FormlyRepeatingEditorComponent
   ],
   imports: [
     CommonModule,
@@ -76,7 +78,8 @@ import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/f
     FormlyAutocompleteComponent,
     FormlyRepeatingSectionComponent,
     FormlyRepeatingRendererComponent,
-    FormlyFieldWrapperComponent
+    FormlyFieldWrapperComponent,
+    FormlyRepeatingEditorComponent
   ],
   providers: [
     FormlyFieldContentHandler

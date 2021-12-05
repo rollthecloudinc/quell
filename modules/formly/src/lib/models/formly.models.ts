@@ -37,3 +37,12 @@ export class FormlyFieldInstanceOptions {
     }
   }
 }
+
+export class FormlyRepeatingForm {
+  valuesMapping: string;
+  constructor(data: FormlyRepeatingForm) {
+    if (data) {
+      this.valuesMapping = data.valuesMapping;
+    }
+  }
+}

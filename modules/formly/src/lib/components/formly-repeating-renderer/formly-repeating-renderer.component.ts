@@ -8,13 +8,14 @@ import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from 'panels';
 import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
-import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
+import { defaultIfEmpty, distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 import { JSONPath } from "jsonpath-plus";
 import { UrlGeneratorService } from 'durl';
 import { DatasourceApiService } from 'datasource';
-import { FormlyFieldInstance } from '../../models/formly.models';
+import { FormlyFieldInstance, FormlyRepeatingForm } from '../../models/formly.models';
 import { Mapping, Param } from 'dparam';
+import { TokenizerService } from 'token';
 
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
@@ -24,7 +25,9 @@ import { Mapping, Param } from 'dparam';
 export class FormlyRepeatingRendererComponent {
 
   @Input()
-  settings: Array<AttributeValue> = [];
+  set settings(settings: Array<AttributeValue>) {
+    this.settings$.next(settings);
+  }
 
   @Input()
   set panes(panes: Array<Pane>) {
@@ -52,16 +55,20 @@ export class FormlyRepeatingRendererComponent {
   }
 
   @Input()
-  originMappings: Array<number> = [];
+  set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
 
   @Input()
-  resolvedContext = {};
+  originMappings: Array<number> = [];
 
   readonly panes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly panel$ = new BehaviorSubject<Panel>(new Panel());
   readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+  readonly resolvedContext$ = new BehaviorSubject<any>(undefined);
+  readonly settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
   readonly init$ = new Subject();
   fields: FormlyFieldConfig[] = [];
   model: any = {
@@ -114,6 +121,12 @@ export class FormlyRepeatingRendererComponent {
                 }
               }]
             }))
+          },
+          hooks: {
+            onInit: field => field.formControl.valueChanges.pipe(
+              distinctUntilChanged(),
+              tap(value => console.log(value)),
+            ),
           }
         }
       ];
@@ -150,6 +163,41 @@ export class FormlyRepeatingRendererComponent {
     ))
   ).subscribe();
 
+  private readonly populateDefaultValues = combineLatest([
+    this.settings$.pipe(
+      map(s => s ? new FormlyRepeatingForm(this.attributeSerializer.deserializeAsObject(s)) : undefined)
+    ),
+    this.resolvedContext$,
+    this.panel$
+  ]).pipe(
+    map(([ s, rc, p ]) => ({ s, rc, p })),
+    map(({ s, rc, p }) => {
+      if (rc && s && s.valuesMapping && s.valuesMapping.trim() !== '') {
+        const items = JSONPath({ path: `$.${s.valuesMapping}.*`, json: rc });
+        return { items, s, p }
+      } else {
+        return { items: [], p };
+      }
+    }),
+    tap(({ items, p }) => {
+      /**
+       * This approach is completely different from a normal field using tokens.
+       * However, it seems to work well and at the moment I can't think of a problem with it. It
+       * does limit the flexibility a bit in terms of mapping values to unconvential structures.
+       */
+      const len = items.length;
+      const itemsModel = [];
+      const itemsKey = p.name && p.name !== '' ? p.name : 'items';
+      for (let i = 0; i < len; i++) {
+        const itemModel = {};
+        const itemKeys = Object.keys(items[i]);
+        itemKeys.forEach(k => itemModel[k] = { value: items[i][k] });
+        itemsModel.push(itemModel);
+      }
+      this.model = { [itemsKey]: itemsModel };
+    })
+  ).subscribe()
+
   constructor(
     private fb: FormBuilder,
     private cpm: ContentPluginManager,
@@ -164,6 +212,7 @@ export class FormlyRepeatingRendererComponent {
     private datasourceApi: DatasourceApiService,
     private datasourceHandler: DatasourceContentHandler,
     private panelResolver: PanelResolverService,
+    private tokenizerService: TokenizerService,
     es: EntityServices,
     @Optional() public controlContainer?: ControlContainer
   ) {
