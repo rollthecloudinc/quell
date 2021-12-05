@@ -81,13 +81,13 @@ export class FormlyRepeatingRendererComponent {
     this.panes$,
     this.originPanes$
   ]).pipe(
-    switchMap(([panes, originPanes]) => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes, originPanes }))))).pipe(
+    switchMap(([panes, originPanes]) => forkJoin(panes.filter(pane => pane.contentPlugin === 'formly_field' || pane.contentPlugin === 'panel').map(pane => this.cpm.getPlugin(pane.contentPlugin).pipe(map(plugin => ({ pane, plugin, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),
     switchMap(groups => forkJoin(groups.map(({ pane, plugin, panes, originPanes }) => plugin.handler.toObject(pane.settings).pipe(map(i => ({ pane, plugin, i, panes, originPanes }))))).pipe(
       defaultIfEmpty([])
     )),
-    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes, originPanes }) => this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f, panes, originPanes })), take(1)))).pipe(
+    switchMap(groups => forkJoin(groups.map(({ pane, plugin, i, panes, originPanes }) => pane.contentPlugin === 'panel' ? of({ pane, plugin, i, panes, originPanes, f: { type: 'panelpage', panelpage: i } }) : this.formlyHandlerHelper.buildFieldConfig(i, new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', this.contexts ] ])).pipe(map(f => ({ pane, plugin, i, f, panes, originPanes })), take(1)))).pipe(
       defaultIfEmpty([]),
       take(1)
     )),

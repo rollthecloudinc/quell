@@ -136,6 +136,10 @@
         "dist/aws3/aws3",
         "dist/aws3"
       ],
+      "render": [
+        "dist/render/render",
+        "dist/render"
+      ],
       "awcog": [
         "dist/awcog/awcog",
         "dist/awcog"

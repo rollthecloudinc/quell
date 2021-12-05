@@ -25,6 +25,8 @@ import { FormlyRepeatingRendererComponent } from './components/formly-repeating-
 import { StylePluginManager } from 'panels';
 import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/formly-field-wrapper.component';
 import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
+import { FormlyPanelPageComponent } from './components/formly-panel-page/formly-panel-page.component';
+import { RenderModule } from 'render';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { FormlyRepeatingEditorComponent } from './components/formly-repeating-ed
     FormlyRepeatingSectionComponent,
     FormlyRepeatingRendererComponent,
     FormlyFieldWrapperComponent,
-    FormlyRepeatingEditorComponent
+    FormlyRepeatingEditorComponent,
+    FormlyPanelPageComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +58,11 @@ import { FormlyRepeatingEditorComponent } from './components/formly-repeating-ed
           component: FormlyRepeatingSectionComponent,
           // wrappers: ['form-field'],
         },
+        {
+          name: 'panelpage',
+          component: FormlyPanelPageComponent,
+          // wrappers: ['form-field'],
+        }
       ],
       wrappers: [
         { name: 'imaginary-pane', component: FormlyFieldWrapperComponent },
@@ -68,7 +76,8 @@ import { FormlyRepeatingEditorComponent } from './components/formly-repeating-ed
     ContentModule,
     RestModule,
     DatasourceModule,
-    DurlModule
+    DurlModule,
+    RenderModule
   ],
   exports: [
     FormlyFieldEditorComponent,
@@ -79,7 +88,8 @@ import { FormlyRepeatingEditorComponent } from './components/formly-repeating-ed
     FormlyRepeatingSectionComponent,
     FormlyRepeatingRendererComponent,
     FormlyFieldWrapperComponent,
-    FormlyRepeatingEditorComponent
+    FormlyRepeatingEditorComponent,
+    FormlyPanelPageComponent
   ],
   providers: [
     FormlyFieldContentHandler

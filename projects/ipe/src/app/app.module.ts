@@ -58,6 +58,7 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { TransformModule } from 'transform';
 import { DeityModule } from 'deity';
 import { LoopModule } from 'loop';
+import { RenderModule } from 'render';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
@@ -164,6 +165,7 @@ export function markedOptionsFactory(): MarkedOptions {
     EntityDataModule.forRoot({}),
     AliasModule,
     PanelsModule,
+    RenderModule,
     PagealiasModule,
     FormlyModule,
     TransformModule,

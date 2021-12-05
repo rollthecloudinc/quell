@@ -11,3 +11,4 @@ export * from './lib/components/formly-repeating-section/formly-repeating-sectio
 export * from './lib/components/formly-repeating-renderer/formly-repeating-renderer.component';
 export * from './lib/components/formly-field-wrapper/formly-field-wrapper.component';
 export * from './lib/components/formly-repeating-editor/formly-repeating-editor.component';
+export * from './lib/components/formly-panel-page/formly-panel-page.component';

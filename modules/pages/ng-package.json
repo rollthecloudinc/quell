@@ -40,7 +40,8 @@
       "snippet": "snippet",
       "rules": "rules",
       "bridge": "bridge",
-      "crud": "crud"
+      "crud": "crud",
+      "render": "render"
     }
   }
 }

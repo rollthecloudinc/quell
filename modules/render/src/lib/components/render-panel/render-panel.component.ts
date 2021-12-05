@@ -1,13 +1,12 @@
 import { Component, OnInit, Input, ComponentFactoryResolver, Inject, ViewChild, OnChanges, SimpleChanges, ElementRef, Output, EventEmitter, forwardRef, HostBinding, ViewEncapsulation, Renderer2, ViewChildren, QueryList, AfterViewInit, AfterContentInit, ComponentRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
-import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager, STYLE_PLUGIN } from 'panels';
+import { Panel, Pane, PanelResolverService, StyleResolverService, StylePlugin, StylePluginManager, STYLE_PLUGIN, CssHelperService } from 'panels';
 import { CONTENT_PLUGIN, ContentPlugin } from 'content';
 import { InlineContext } from 'context';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { switchMap, map, filter, debounceTime, tap, delay, takeUntil, startWith } from 'rxjs/operators';
 import { Subscription, Subject, BehaviorSubject, Observable, combineLatest } from 'rxjs';
 import { JSONNode } from 'cssjson';
-import { CssHelperService } from '../../services/css-helper.service';
 import { RenderPaneComponent } from '../render-pane/render-pane.component';
 
 @Component({

@@ -4,7 +4,7 @@ import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, DefaultPluralizer, E
 import { entityMetadata } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { NoopDataService } from 'utils';
+import { EMBEDDABLE_COMPONENT, NoopDataService } from 'utils';
 import { MaterialModule } from 'material';
 import { AttributeSerializerService } from 'attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';
@@ -32,7 +32,7 @@ import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
-  declarations: [PanelPageLinkedlistComponent, PanelEditorComponent, PanelSelectorComponent, DatasourceEditorComponent],
+  declarations: [PanelPageLinkedlistComponent, PanelEditorComponent, PanelSelectorComponent, DatasourceEditorComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,

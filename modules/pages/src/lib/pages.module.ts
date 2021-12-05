@@ -36,8 +36,6 @@ import { EditablePaneComponent } from './components/editable-pane/editable-pane.
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { ContentEditorComponent } from './components/content-editor/content-editor.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
-import { PanelPageComponent } from './components/panel-page/panel-page.component';
-import { RenderPaneComponent } from './components/render-pane/render-pane.component';
 import { PanelPageRouterComponent } from './components/panel-page-router/panel-page-router.component';
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
@@ -57,7 +55,6 @@ import { RenderingEditorComponent } from './components/rendering-editor/renderin
 import { StyleSelectorComponent } from './components/style-selector/style-selector.component';
 import { GalleryEditorComponent } from './plugins/style/gallery-editor/gallery-editor.component';
 import { GalleryPanelRendererComponent } from './plugins/style/gallery-panel-renderer/gallery-panel-renderer.component';
-import { RenderPanelComponent } from './components/render-panel/render-panel.component';
 import { DatasourceSelectorComponent } from './plugins/datasource/datasource-selector/datasource-selector.component';
 import { RestEditorComponent } from './plugins/rest/rest-editor/rest-editor.component';
 import { RestFormComponent } from './components/rest-form/rest-form.component';
@@ -83,7 +80,6 @@ import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel
 import { PanePropsDialogComponent } from './components/pane-props-dialog/pane-props-dialog.component';
 import { PluginConfigurationManager, PluginConfig } from 'plugin';
 import { LayoutEditorHostDirective } from './directives/layout-editor-host.directive';
-import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';
 import { PageStateEditorComponent } from './components/page-state-editor/page-state-editor.component';
@@ -99,6 +95,7 @@ import { CrudAdaptorPluginManager, CrudDataHelperService, CrudDataService } from
 import { FormDatasourceFormComponent } from './components/form-datasource-form/form-datasource-form.component';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
+import { RenderModule } from 'render';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -160,9 +157,10 @@ const routes = [
     SnippetModule,
     DparamModule,
     BridgeModule,
-    DatasourceModule
+    DatasourceModule,
+    RenderModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageComponent, RenderPanelComponent, RenderPaneComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, LayoutRendererHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -172,7 +170,6 @@ const routes = [
     PageStateContextResolver,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
-    { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageRouterComponent, multi: true},
     { provide: SnippetContentHandler, useClass: SnippetContentHandler },
     { provide: AttributeContentHandler, useClass: AttributeContentHandler },
