@@ -115,6 +115,8 @@ export class FormlyRepeatingRendererComponent {
               indexPosition,
               fieldGroup: [{
                 ...f,
+                panelAncestory: ancestory,
+                indexPosition,
                 templateOptions: {
                   ...f.templateOptions,
                   ...(i.type === 'autocomplete' ? { filter: this.makeFilterFunction({ i, metadata: new Map<string, any>([ [ 'panes', [ ...(panes && Array.isArray(panes) ? panes : []), ...(originPanes && Array.isArray(originPanes) ? originPanes : []) ] ], [ 'contexts', contexts ] ]) }) } : {}),
@@ -146,7 +148,7 @@ export class FormlyRepeatingRendererComponent {
       tap(s => {
         const path= '$.' + ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
         const panelState = JSONPath({ path, json: s })[0];
-        const nestedPage = new PanelPage({ id: '', title: '', name: '', layoutType: '', displayType: '', gridItems: [], layoutSetting: undefined, rowSettings: undefined,  panels: [new Panel({ label: '', name: '', settings: undefined, stylePlugin: '', columnSetting: undefined, panes: panel.panes.filter(pane => pane.contentPlugin === 'formly_field') })] });
+        const nestedPage = new PanelPage({ id: '', title: '', name: '', layoutType: '', displayType: '', gridItems: [], layoutSetting: undefined, rowSettings: undefined,  panels: [new Panel({ label: '', name: '', settings: undefined, stylePlugin: '', columnSetting: undefined, panes: panel.panes /*panes: panel.panes.filter(pane => pane.contentPlugin === 'formly_field')*/ })] });
         const rebuiltPanel = new Panel({ ...panel, panes: panelState ? panelState.panes.map(() => new Pane({ name: panel.name, label: panel.label, contentPlugin: 'panel', nestedPage: new PanelPage(nestedPage), settings: this.attributeSerializer.serialize(nestedPage, 'root').attributes })) : [] });
         this.formStateConverter.convertPanelToForm(panelState ? panelState : new PanelState(), rebuiltPanel).subscribe(panelForm => {
           const paneControlArray = this.controlContainer.control.get('panes') as FormArray;

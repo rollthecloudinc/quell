@@ -8,12 +8,13 @@ import { PanelPage } from 'panels';
 })
 export class FormlyPanelPageComponent extends FieldType implements OnInit, AfterViewInit {
 
-  get panelPage(): PanelPage {
-    return (this.field as any).panelPage;
-  }
+  panelPage: PanelPage;
+  ancestoryWithSelf: Array<number> = [];
 
   ngOnInit() {
     super.ngOnInit();
+    this.panelPage = (this.field as any).panelpage;
+    this.ancestoryWithSelf = [ ...(this.field as any).panelAncestory, +this.field.parent.parent.key, 0, (this.field as any).indexPosition ];
   }
 
   ngAfterViewInit() {
