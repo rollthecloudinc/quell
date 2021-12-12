@@ -3,6 +3,7 @@ import 'zone.js/dist/zone-node';
 export { ngExpressEngine } from '@nguniversal/express-engine'; 
 export { enableProdMode } from '@angular/core';
 export { AppServerModule } from './app/app.server.module';
+export { renderModule, renderModuleFactory } from '@angular/platform-server';
 
 // import { renderModule, renderModuleFactory } from '@angular/platform-server';
 // import { environment } from './environments/environment';
@@ -14,6 +15,7 @@ import * as express from 'express';
 // const { ngExpressEngine, AppServerModule, enableProdMode } = require('../../../dist/ipe/server/main');
 import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode } from '@angular/core';
+import { REQUEST } from '@nguniversal/express-engine/tokens';
 // const winston  = require('winston');
 // const  { Loggly } = require('winston-loggly-bulk');
 const cookieParser = require('cookie-parser');
@@ -47,7 +49,10 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    res.render(indexHtml, { req, providers: [
+      { provide: APP_BASE_HREF, useValue: req.baseUrl },
+      // { provide: REQUEST, useValue: req }
+    ]});
   });
 
   return server;

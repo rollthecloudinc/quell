@@ -59,6 +59,7 @@ import { TransformModule } from 'transform';
 import { DeityModule } from 'deity';
 import { LoopModule } from 'loop';
 import { RenderModule } from 'render';
+import { FormsModule as DruidFormsModule } from 'forms';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
@@ -172,7 +173,8 @@ export function markedOptionsFactory(): MarkedOptions {
     AwcogModule,
     KeyvalModule,
     DeityModule,
-    LoopModule
+    LoopModule,
+    DruidFormsModule
     // JsonschemaModule
     // OktaAuthModule
   ],

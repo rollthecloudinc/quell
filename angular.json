@@ -1816,5 +1816,45 @@
           }
         }
       }
+    },
+    "forms": {
+      "projectType": "library",
+      "root": "modules/forms",
+      "sourceRoot": "modules/forms/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/forms/tsconfig.lib.json",
+            "project": "modules/forms/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/forms/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/forms/src/test.ts",
+            "tsConfig": "modules/forms/tsconfig.spec.json",
+            "karmaConfig": "modules/forms/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/forms/tsconfig.lib.json",
+              "modules/forms/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }

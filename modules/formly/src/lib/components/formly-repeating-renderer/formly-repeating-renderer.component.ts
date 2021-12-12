@@ -16,7 +16,6 @@ import { DatasourceApiService } from 'datasource';
 import { FormlyFieldInstance, FormlyRepeatingForm } from '../../models/formly.models';
 import { Mapping, Param } from 'dparam';
 import { TokenizerService } from 'token';
-
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
   styleUrls: ['./formly-repeating-renderer.component.scss'],
@@ -149,8 +148,9 @@ export class FormlyRepeatingRendererComponent {
         const path= '$.' + ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
         const panelState = JSONPath({ path, json: s })[0];
         const nestedPage = new PanelPage({ id: '', title: '', name: '', layoutType: '', displayType: '', gridItems: [], layoutSetting: undefined, rowSettings: undefined,  panels: [new Panel({ label: '', name: '', settings: undefined, stylePlugin: '', columnSetting: undefined, panes: panel.panes /*panes: panel.panes.filter(pane => pane.contentPlugin === 'formly_field')*/ })] });
-        const rebuiltPanel = new Panel({ ...panel, panes: panelState ? panelState.panes.map(() => new Pane({ name: panel.name, label: panel.label, contentPlugin: 'panel', nestedPage: new PanelPage(nestedPage), settings: this.attributeSerializer.serialize(nestedPage, 'root').attributes })) : [] });
-        this.formStateConverter.convertPanelToForm(panelState ? panelState : new PanelState(), rebuiltPanel).subscribe(panelForm => {
+        /*const rebuiltPanel = new Panel({ ...panel, panes: panelState ? panelState.panes.map(() => new Pane({ name: panel.name, label: panel.label, contentPlugin: 'panel', nestedPage: new PanelPage(nestedPage), settings: this.attributeSerializer.serialize(nestedPage, 'root').attributes })) : [] });
+
+        this.formStateConverter.convertPanelToForm({ panel: panelState ? panelState : new PanelState(), panel2: rebuiltPanel, ancestory }).subscribe(panelForm => {
           const paneControlArray = this.controlContainer.control.get('panes') as FormArray;
           this.formGroupConverter.makeFormGroupFromPanel(rebuiltPanel, panelForm).subscribe(panelFormGroup => {
             paneControlArray.clear();
@@ -160,6 +160,24 @@ export class FormlyRepeatingRendererComponent {
               paneControlArray.push(paneControls.at(i));
             }
           });
+        });*/
+
+        // In progress logic to support nested panel pages inside formly repeating panel.
+        this.rebuildPanel({ panel, panelState }).subscribe(rebuiltPanel => {
+          console.log('rebuilt panel', rebuiltPanel);
+
+          this.formStateConverter.convertPanelToForm({ panel: panelState ? panelState : new PanelState(), panel2: rebuiltPanel, ancestory }).subscribe(panelForm => {
+            const paneControlArray = this.controlContainer.control.get('panes') as FormArray;
+            this.formGroupConverter.makeFormGroupFromPanel(rebuiltPanel, panelForm).subscribe(panelFormGroup => {
+              paneControlArray.clear();
+              const paneControls = panelFormGroup.get('panes') as FormArray;
+              const len = paneControls.length;
+              for (let i = 0; i < len ; i++) {
+                paneControlArray.push(paneControls.at(i));
+              }
+            });
+          });
+
         });
       })
     ))
@@ -241,6 +259,23 @@ export class FormlyRepeatingRendererComponent {
       )),
       map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
+    );
+  }
+
+  rebuildPanel({ panel, panelState }: { panel: Panel, panelState: PanelState }): Observable<Panel> {
+    return forkJoin(panelState ? panelState.panes.map((pane, index) => panel.panes[index].contentPlugin === 'panel' ? this.rebuildFromPanelPage({ panelPage: new PanelPage(this.attributeSerializer.deserializeAsObject(panel.panes[index].settings)), pane: panel.panes[index], panelPageState: panelState && panelState.panes[index] ? panelState.panes[index].nestedPage : undefined }) : of(panel.panes[index]) ): []).pipe(
+      map(panes => new PanelPage({ id: '', title: '', name: '', layoutType: '', displayType: '', gridItems: [], layoutSetting: undefined, rowSettings: undefined,  panels: [new Panel({ label: panel.label, name: panel.name, settings: undefined, stylePlugin: panel.stylePlugin, columnSetting: undefined, panes })] })),
+      map(nestedPage => new Panel({ ...panel, panes: panelState ? panelState.panes.map(() => new Pane({ name: panel.name, label: panel.label, contentPlugin: 'panel', nestedPage, settings: this.attributeSerializer.serialize(nestedPage, 'root').attributes })) : [] })),
+      defaultIfEmpty(new Panel(panel))
+    )
+  }
+
+  rebuildFromPanelPage({ panelPageState, panelPage, pane }: { panelPageState: PanelPageState, panelPage: PanelPage, pane: Pane }): Observable<Pane> {
+    return forkJoin(
+      panelPage.panels.map(((panel, index) => panel.stylePlugin === 'formly_repeating' ? this.rebuildPanel({ panel, panelState: panelPageState ? panelPageState.panels[index] : undefined }) : of(panel))),
+    ).pipe(
+      map(panels => new Pane({ ...pane, nestedPage: new PanelPage({ ...panelPage, panels: panels.map(p => new Panel(p)) }) })),
+      defaultIfEmpty(new Pane({ ...pane, nestedPage: new PanelPage(panelPage) }))
     );
   }
 

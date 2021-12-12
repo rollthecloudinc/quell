@@ -58,7 +58,9 @@ export class ContentSelectorComponent implements OnInit {
       }
     } else {
       (this.data.panelForm.get('panes') as FormArray).push(this.fb.group({
-        contentProvider: this.plugin.id,
+        contentPlugin: this.fb.control(this.plugin.id),
+        name: this.fb.control(''),
+        label: this.fb.control(''),
         settings: this.fb.array([])
       }));
     }
