@@ -5,6 +5,8 @@ import { FormSelectComponent } from './components/form-select/form-select.compon
 import { FormInputHandler } from "./handlers/form-input.handler";
 import { FormSelectHandler } from "./handlers/form-select.handler";
 import { FormSectionComponent } from './components/form-section/form-section.component';
+import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
+import { FormTextareaHandler } from './handlers/form-textarea.handler';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormInputHandler }) => {
   return new ContentPlugin<string>({
@@ -24,6 +26,17 @@ export const formSelectPluginFactory = ({ handler }: { handler: FormSelectHandle
     selectionComponent: undefined,
     editorComponent: undefined,
     renderComponent: FormSelectComponent,
+    handler
+  })
+}
+
+export const formTextareaPluginFactory = ({ handler }: { handler: FormTextareaHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_textarea',
+    title: 'Form Textarea',
+    selectionComponent: undefined,
+    editorComponent: undefined,
+    renderComponent: FormTextareaComponent,
     handler
   })
 }

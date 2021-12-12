@@ -6,17 +6,20 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formInputPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory } from './forms.factories';
+import { formInputPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formTextareaPluginFactory } from './forms.factories';
 import { FormInputHandler } from './handlers/form-input.handler';
 import { FormSelectHandler } from './handlers/form-select.handler';
 import { FormSectionComponent } from './components/form-section/form-section.component';
+import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
+import { FormTextareaHandler } from './handlers/form-textarea.handler';
 
 @NgModule({
   declarations: [
     FormInputComponent,
     FormSelectComponent,
-    FormSectionComponent
+    FormSectionComponent,
+    FormTextareaComponent
   ],
   imports: [
     CommonModule,
@@ -26,12 +29,13 @@ import { RenderModule } from 'render';
   ],
   exports: [
     FormInputComponent,
-    FormSelectComponent
+    FormSelectComponent,
+    FormSectionComponent
   ],
   providers: [
     FormInputHandler,
     FormSelectHandler,
-    FormSectionComponent
+    FormTextareaHandler
   ]
 })
 export class FormsModule { 
@@ -39,11 +43,13 @@ export class FormsModule {
     cpm: ContentPluginManager,
     spm: StylePluginManager,
     inputHandler: FormInputHandler,
-    selectHandler: FormSelectHandler
+    selectHandler: FormSelectHandler,
+    textareaHandler: FormTextareaHandler
   ) {
     [
       formInputPluginFactory({ handler: inputHandler }),
-      formSelectPluginFactory({ handler: selectHandler })
+      formSelectPluginFactory({ handler: selectHandler }),
+      formTextareaPluginFactory({ handler: textareaHandler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

@@ -9,3 +9,4 @@ export * from './lib/handlers/form-input.handler';
 export * from './lib/handlers/form-select.handler';
 export * from './lib/components/form-element-base/form-element-base.component';
 export * from './lib/components/form-section/form-section.component';
+export * from './lib/components/form-textarea/form-textarea.component';
