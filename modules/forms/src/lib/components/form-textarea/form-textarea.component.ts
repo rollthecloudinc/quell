@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from 'attributes';
-import { FormElementBase } from "../form-element-base/form-element-base.component";
+import { OptionsResolverService } from "../../services/options-resolver.services";
+import { FormElementBase } from "../form-element-base/form-element-base.directive";
 
 @Component({
   selector: 'druid-forms-form-textarea',
@@ -15,9 +16,10 @@ export class FormTextareaComponent extends FormElementBase {
 
   constructor(
     attributeSerializer: AttributeSerializerService,
+    optionsResolverService: OptionsResolverService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, controlContainer);
+    super(attributeSerializer, optionsResolverService, controlContainer);
   }
 
 }

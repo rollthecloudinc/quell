@@ -1,7 +1,8 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from 'attributes';
-import { FormElementBase } from "../form-element-base/form-element-base.component";
+import { FormElementBase } from "../form-element-base/form-element-base.directive";
+import { OptionsResolverService } from '../../services/options-resolver.services';
 
 @Component({
   selector: 'druid-forms-form-input',
@@ -12,9 +13,10 @@ export class FormInputComponent extends FormElementBase {
 
   constructor(
     attributeSerializer: AttributeSerializerService,
+    optionsResolverService: OptionsResolverService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, controlContainer);
+    super(attributeSerializer, optionsResolverService, controlContainer);
   }
 
 }

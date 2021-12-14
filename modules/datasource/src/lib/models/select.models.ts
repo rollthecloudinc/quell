@@ -1,7 +1,8 @@
 import { AttributeValue } from "attributes";
 
 export class SelectOption {
-  value: AttributeValue;
+  // value: AttributeValue;
+  value: any;
   label: string;
   dataItem: any;
   constructor(data?: SelectOption) {
@@ -9,7 +10,8 @@ export class SelectOption {
       this.label = data.label;
       this.dataItem = data.dataItem;
       if(data.value !== undefined) {
-        this.value = new AttributeValue(data.value);
+        // this.value = new AttributeValue(data.value);
+        this.value = data.value;
       }
     }
   }

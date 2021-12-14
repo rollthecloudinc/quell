@@ -2,40 +2,39 @@ import { ContentPlugin } from "content"
 import { StylePlugin } from "panels";
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { FormInputHandler } from "./handlers/form-input.handler";
-import { FormSelectHandler } from "./handlers/form-select.handler";
+import { FormElementHandler } from "./handlers/form-element.handler";
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
-import { FormTextareaHandler } from './handlers/form-textarea.handler';
+import { FormElementEditorComponent } from "./components/form-element-editor/form-element-editor.component";
 
-export const formInputPluginFactory = ({ handler }: { handler: FormInputHandler }) => {
+export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
     id: 'form_input',
     title: 'Form Input',
     selectionComponent: undefined,
-    editorComponent: undefined,
+    editorComponent: FormElementEditorComponent,
     renderComponent: FormInputComponent,
     handler
   })
 }
 
-export const formSelectPluginFactory = ({ handler }: { handler: FormSelectHandler }) => {
+export const formSelectPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
     id: 'form_select',
     title: 'Form Select',
     selectionComponent: undefined,
-    editorComponent: undefined,
+    editorComponent: FormElementEditorComponent,
     renderComponent: FormSelectComponent,
     handler
   })
 }
 
-export const formTextareaPluginFactory = ({ handler }: { handler: FormTextareaHandler }) => {
+export const formTextareaPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
     id: 'form_textarea',
     title: 'Form Textarea',
     selectionComponent: undefined,
-    editorComponent: undefined,
+    editorComponent: FormElementEditorComponent,
     renderComponent: FormTextareaComponent,
     handler
   })

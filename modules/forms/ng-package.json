@@ -9,7 +9,9 @@
       "datasource": "datasource",
       "attributes": "attributes",
       "panels": "panels",
-      "render": "render"
+      "render": "render",
+      "jsonpath-plus": "jsonpath-plus",
+      "token": "token"
     }
   }
 }

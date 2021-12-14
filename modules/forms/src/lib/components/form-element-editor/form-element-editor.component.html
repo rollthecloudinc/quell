@@ -1,0 +1,33 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+  <mat-dialog-content fxLayout="column">
+    <!-- <div>
+      <mat-form-field>
+        <input matInput placeholder="Key" formControlName="key" required>
+      </mat-form-field>
+      <mat-form-field formGroupName="options">
+        <input matInput placeholder="label" formControlName="label">
+      </mat-form-field>
+    </div> -->
+
+    <div>
+      <mat-form-field>
+        <mat-label>Value</mat-label>
+        <input matInput formControlName="value">
+      </mat-form-field>
+    </div>
+
+    <!-- <classifieds-ui-rest-source-form formControlName="rest" [restSource]="rest" [contexts]="contexts"></classifieds-ui-rest-source-form> -->
+
+    <mat-form-field formGroupName="datasourceBinding">
+      <mat-label>Datasource</mat-label>
+      <mat-select required formControlName="id">
+        <mat-option *ngFor="let bo of bindableOptions" [value]="bo">{{ bo }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <classifieds-ui-datasource-options formControlName="datasourceOptions" [datasourceOptions]="datasourceOptions"></classifieds-ui-datasource-options>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close>Save</button>
+  </mat-dialog-actions>
+</form>

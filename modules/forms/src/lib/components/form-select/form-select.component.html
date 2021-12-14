@@ -1,8 +1,5 @@
 <mat-form-field>
   <mat-select [formControl]="formControl">
-    <mat-option value="get">GET</mat-option>
-    <mat-option value="post">POST</mat-option>
-    <mat-option value="put">PUT</mat-option>
-    <mat-option value="delete">DELETE</mat-option>
+    <mat-option *ngFor="let opt of (options$ | async); let i = index" [value]="opt.value">{{ opt.label }}</mat-option>
   </mat-select>
 </mat-form-field>
