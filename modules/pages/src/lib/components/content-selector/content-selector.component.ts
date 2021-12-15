@@ -49,7 +49,7 @@ export class ContentSelectorComponent implements OnInit {
         this.plugin.handler.editorOptions([]).subscribe(o => {
           const dialogRef = this.dialog.open(
             this.plugin.editorComponent, 
-            { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded },
+            { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, pane: undefined, paneIndex: undefined, contexts: this.data.contexts, contentAdded: this.data.contentAdded, plugin },
             ...(o.fullscreen ? { maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' } : {})
           });
         });

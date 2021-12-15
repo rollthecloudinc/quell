@@ -2,10 +2,10 @@ import { Component, Directive, Input, OnInit } from "@angular/core";
 import { ControlContainer, FormArray, FormControl } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from "attributes";
 import { SelectOption } from "datasource";
-import { FormSettings } from "../../models/form.models";
+import { FormSettings } from "../models/form.models";
 import { BehaviorSubject, combineLatest, iif, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
-import { OptionsResolverService } from "../../services/options-resolver.services";
+import { OptionsResolverService } from "../services/options-resolver.services";
 import { Pane } from "panels";
 import { InlineContext } from "context";
 

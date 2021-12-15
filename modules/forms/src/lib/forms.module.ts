@@ -6,20 +6,22 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formInputPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formTextareaPluginFactory } from './forms.factories';
+import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formTextareaPluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
 import { FormElementHandler } from './handlers/form-element.handler';
 import { FormElementEditorComponent } from './components/form-element-editor/form-element-editor.component';
 import { DatasourceModule } from 'datasource';
+import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
 @NgModule({
   declarations: [
     FormInputComponent,
     FormSelectComponent,
     FormSectionComponent,
     FormTextareaComponent,
-    FormElementEditorComponent
+    FormElementEditorComponent,
+    FormRadiogroupComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { DatasourceModule } from 'datasource';
     FormInputComponent,
     FormSelectComponent,
     FormSectionComponent,
-    FormElementEditorComponent
+    FormElementEditorComponent,
+    FormRadiogroupComponent
   ]
 })
 export class FormsModule { 
@@ -45,7 +48,8 @@ export class FormsModule {
     [
       formInputPluginFactory({ handler }),
       formSelectPluginFactory({ handler }),
-      formTextareaPluginFactory({ handler })
+      formTextareaPluginFactory({ handler }),
+      formRadiogroupPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

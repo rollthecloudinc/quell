@@ -2,6 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from 'attributes';
+import { ContentPlugin } from 'content';
 import { InlineContext } from 'context';
 import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from 'datasource';
 import { Pane } from 'panels';
@@ -19,6 +20,8 @@ export class FormElementEditorComponent implements OnInit {
 
   // rest = mockRest;
   datasourceOptions = mockDatasourceOptions;
+  protected paneIndex: number;
+  protected pane: Pane;
 
   @Input() bindableOptions: Array<string> = [];
 
@@ -38,31 +41,46 @@ export class FormElementEditorComponent implements OnInit {
   });
 
   get paneGroup(): AbstractControl {
-    return (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex);
+    return (this.data.panelFormGroup.get('panes') as FormArray).at(this.paneIndex);
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext>, plugin: ContentPlugin },
     private dialogRef: MatDialogRef<FormElementEditorComponent>,
     private fb: FormBuilder,
     private handler: FormElementHandler,
     private attributeSerializer: AttributeSerializerService
   ) {
     // this.contexts = data.contexts;
+    this.paneIndex = data.paneIndex;
+    this.pane = data.pane;
   }
 
   ngOnInit(): void {
-    this.handler.toObject(this.data.pane.settings).subscribe(i => {
-      // this.formGroup.get('type').setValue(i.type);
-      // this.formGroup.get('key').setValue(i.key);
-      this.formGroup.get('value').setValue(i.value);
-      // this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
-      // this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
-      this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
-      // this.formGroup.get('datasourceOptions').setValue(i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions);
-      this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
-      // setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
-    });
+    if (this.data.pane) {
+      this.handler.toObject(this.data.pane.settings).subscribe(i => {
+        // this.formGroup.get('type').setValue(i.type);
+        // this.formGroup.get('key').setValue(i.key);
+        this.formGroup.get('value').setValue(i.value);
+        // this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
+        // this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
+        this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
+        // this.formGroup.get('datasourceOptions').setValue(i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions);
+        this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
+        // setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
+      });
+    } else {
+      (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+        contentPlugin: this.data.plugin.id,
+        name: new FormControl(''),
+        label: new FormControl(''),
+        rule: new FormControl(''),
+        settings: this.fb.array([])
+      }));
+      this.paneIndex = (this.data.panelFormGroup.get('panes') as FormArray).length - 1;
+      this.pane = new Pane((this.data.panelFormGroup.get('panes') as FormArray).at(this.paneIndex).value);
+    }
+
     this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
     // this.contexts = this.data.contexts.map(c => c.name);
     /*if (this.data.panelIndex !== undefined) {

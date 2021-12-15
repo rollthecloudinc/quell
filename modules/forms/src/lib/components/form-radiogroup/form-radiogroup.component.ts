@@ -5,14 +5,11 @@ import { OptionsResolverService } from "../../services/options-resolver.services
 import { FormElementBase } from "../../directives/form-element-base.directive";
 
 @Component({
-  selector: 'druid-forms-form-textarea',
-  styleUrls: ['./form-textarea.component.scss'],
-  templateUrl: './form-textarea.component.html'
+  selector: 'druid-forms-form-radiogroup',
+  styleUrls: ['./form-radiogroup.component.scss'],
+  templateUrl: './form-radiogroup.component.html'
 })
-export class FormTextareaComponent extends FormElementBase {
-
-  cols = 20;
-  rows = 20;
+export class FormRadiogroupComponent extends FormElementBase {
 
   constructor(
     attributeSerializer: AttributeSerializerService,

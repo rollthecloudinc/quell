@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from 'attributes';
-import { FormElementBase } from "../form-element-base/form-element-base.directive";
+import { FormElementBase } from "../../directives/form-element-base.directive";
 import { OptionsResolverService } from '../../services/options-resolver.services';
 
 @Component({

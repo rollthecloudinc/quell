@@ -2,7 +2,7 @@ import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from 'attributes';
 import { OptionsResolverService } from "../../services/options-resolver.services";
-import { FormElementBase } from "../form-element-base/form-element-base.directive";
+import { FormElementBase } from "../../directives/form-element-base.directive";
 
 @Component({
   selector: 'druid-forms-form-select',
