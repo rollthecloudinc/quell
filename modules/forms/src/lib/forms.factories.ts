@@ -9,6 +9,8 @@ import { FormElementEditorComponent } from "./components/form-element-editor/for
 import { FormRadiogroupComponent } from "./components/form-radiogroup/form-radiogroup.component";
 import { FormSliderComponent } from "./components/form-slider/form-slider.component";
 import { FormToggleComponent } from "./components/form-toggle/form-toggle.component";
+import { FormCheckboxComponent } from "./components/form-checkbox/form-checkbox.component";
+import { FormDatepickerComponent } from "./components/form-datepicker/form-datepicker.component";
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -72,6 +74,28 @@ export const formTogglePluginFactory = ({ handler }: { handler: FormElementHandl
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormToggleComponent,
+    handler
+  })
+}
+
+export const formCheckboxPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_checkbox',
+    title: 'Form Checkbox',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormCheckboxComponent,
+    handler
+  })
+}
+
+export const formDatepickerPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_datepicker',
+    title: 'Form Datepicker',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormDatepickerComponent,
     handler
   })
 }

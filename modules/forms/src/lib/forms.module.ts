@@ -6,7 +6,7 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
+import { formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
@@ -16,6 +16,8 @@ import { DatasourceModule } from 'datasource';
 import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
 import { FormSliderComponent } from './components/form-slider/form-slider.component';
 import { FormToggleComponent } from './components/form-toggle/form-toggle.component';
+import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.component';
+import { FormDatepickerComponent } from './components/form-datepicker/form-datepicker.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -25,7 +27,9 @@ import { FormToggleComponent } from './components/form-toggle/form-toggle.compon
     FormElementEditorComponent,
     FormRadiogroupComponent,
     FormSliderComponent,
-    FormToggleComponent
+    FormToggleComponent,
+    FormCheckboxComponent,
+    FormDatepickerComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +46,9 @@ import { FormToggleComponent } from './components/form-toggle/form-toggle.compon
     FormElementEditorComponent,
     FormRadiogroupComponent,
     FormSliderComponent,
-    FormToggleComponent
+    FormToggleComponent,
+    FormCheckboxComponent,
+    FormDatepickerComponent
   ]
 })
 export class FormsModule { 
@@ -57,7 +63,9 @@ export class FormsModule {
       formTextareaPluginFactory({ handler }),
       formRadiogroupPluginFactory({ handler }),
       formSliderPluginFactory({ handler }),
-      formTogglePluginFactory({ handler })
+      formTogglePluginFactory({ handler }),
+      formCheckboxPluginFactory({ handler }),
+      formDatepickerPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

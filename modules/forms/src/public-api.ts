@@ -14,3 +14,5 @@ export * from './lib/services/options-resolver.services';
 export * from './lib/components/form-radiogroup/form-radiogroup.component';
 export * from './lib/components/form-slider/form-slider.component';
 export * from './lib/components/form-toggle/form-toggle.component';
+export * from './lib/components/form-checkbox/form-checkbox.component';
+export * from './lib/components/form-datepicker/form-datepicker.component';
