@@ -6,7 +6,7 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory } from './forms.factories';
+import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
@@ -15,6 +15,7 @@ import { FormElementEditorComponent } from './components/form-element-editor/for
 import { DatasourceModule } from 'datasource';
 import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
 import { FormSliderComponent } from './components/form-slider/form-slider.component';
+import { FormToggleComponent } from './components/form-toggle/form-toggle.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -23,7 +24,8 @@ import { FormSliderComponent } from './components/form-slider/form-slider.compon
     FormTextareaComponent,
     FormElementEditorComponent,
     FormRadiogroupComponent,
-    FormSliderComponent
+    FormSliderComponent,
+    FormToggleComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +41,8 @@ import { FormSliderComponent } from './components/form-slider/form-slider.compon
     FormSectionComponent,
     FormElementEditorComponent,
     FormRadiogroupComponent,
-    FormSliderComponent
+    FormSliderComponent,
+    FormToggleComponent
   ]
 })
 export class FormsModule { 
@@ -53,7 +56,8 @@ export class FormsModule {
       formSelectPluginFactory({ handler }),
       formTextareaPluginFactory({ handler }),
       formRadiogroupPluginFactory({ handler }),
-      formSliderPluginFactory({ handler })
+      formSliderPluginFactory({ handler }),
+      formTogglePluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

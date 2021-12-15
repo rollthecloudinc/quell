@@ -8,6 +8,7 @@ import { FormTextareaComponent } from './components/form-textarea/form-textarea.
 import { FormElementEditorComponent } from "./components/form-element-editor/form-element-editor.component";
 import { FormRadiogroupComponent } from "./components/form-radiogroup/form-radiogroup.component";
 import { FormSliderComponent } from "./components/form-slider/form-slider.component";
+import { FormToggleComponent } from "./components/form-toggle/form-toggle.component";
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -60,6 +61,17 @@ export const formSliderPluginFactory = ({ handler }: { handler: FormElementHandl
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormSliderComponent,
+    handler
+  })
+}
+
+export const formTogglePluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_toggle',
+    title: 'Form Toggle',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormToggleComponent,
     handler
   })
 }
