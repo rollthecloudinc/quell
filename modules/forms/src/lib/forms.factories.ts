@@ -7,6 +7,7 @@ import { FormSectionComponent } from './components/form-section/form-section.com
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { FormElementEditorComponent } from "./components/form-element-editor/form-element-editor.component";
 import { FormRadiogroupComponent } from "./components/form-radiogroup/form-radiogroup.component";
+import { FormSliderComponent } from "./components/form-slider/form-slider.component";
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -48,6 +49,17 @@ export const formTextareaPluginFactory = ({ handler }: { handler: FormElementHan
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormTextareaComponent,
+    handler
+  })
+}
+
+export const formSliderPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_slider',
+    title: 'Form Slider',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormSliderComponent,
     handler
   })
 }

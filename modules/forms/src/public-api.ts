@@ -12,3 +12,4 @@ export * from './lib/components/form-textarea/form-textarea.component';
 export * from './lib/components/form-element-editor/form-element-editor.component';
 export * from './lib/services/options-resolver.services';
 export * from './lib/components/form-radiogroup/form-radiogroup.component';
+export * from './lib/components/form-slider/form-slider.component';

@@ -6,7 +6,7 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formTextareaPluginFactory } from './forms.factories';
+import { formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
@@ -14,6 +14,7 @@ import { FormElementHandler } from './handlers/form-element.handler';
 import { FormElementEditorComponent } from './components/form-element-editor/form-element-editor.component';
 import { DatasourceModule } from 'datasource';
 import { FormRadiogroupComponent } from './components/form-radiogroup/form-radiogroup.component';
+import { FormSliderComponent } from './components/form-slider/form-slider.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -21,7 +22,8 @@ import { FormRadiogroupComponent } from './components/form-radiogroup/form-radio
     FormSectionComponent,
     FormTextareaComponent,
     FormElementEditorComponent,
-    FormRadiogroupComponent
+    FormRadiogroupComponent,
+    FormSliderComponent
   ],
   imports: [
     CommonModule,
@@ -36,7 +38,8 @@ import { FormRadiogroupComponent } from './components/form-radiogroup/form-radio
     FormSelectComponent,
     FormSectionComponent,
     FormElementEditorComponent,
-    FormRadiogroupComponent
+    FormRadiogroupComponent,
+    FormSliderComponent
   ]
 })
 export class FormsModule { 
@@ -49,7 +52,8 @@ export class FormsModule {
       formInputPluginFactory({ handler }),
       formSelectPluginFactory({ handler }),
       formTextareaPluginFactory({ handler }),
-      formRadiogroupPluginFactory({ handler })
+      formRadiogroupPluginFactory({ handler }),
+      formSliderPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()
