@@ -1,8 +1,8 @@
 import { Param } from './models/param.models';
 import { ParamPlugin } from './models/param-plugin.models';
-import { of } from 'rxjs';
+import { iif, of } from 'rxjs';
 import { ParamEvaluatorService } from './services/param-evaluator.service';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 
 // This needs to be able to resolve dynamic flagged values. -- I forgot what this means...
 export const staticParamFactory = () => {
@@ -19,7 +19,11 @@ export const inputParamFactory = (paramEvaluatorService: ParamEvaluatorService) 
     title: 'Input Param',
     evalParam: ({ param, metadata }: { param: Param, metadata: Map<string, any> }) => of(param.mapping.value).pipe(
       map(name => metadata.has('inputparams') && metadata.get('inputparams').has(name) ? metadata.get('inputparams').get(name) : undefined),
-      switchMap(param => param ? paramEvaluatorService.paramValue(param, metadata) : of(param.mapping.testValue))
+      switchMap(paramMatch => iif(
+        () => paramMatch !== undefined,
+        paramMatch !== undefined ? paramEvaluatorService.paramValue(paramMatch, metadata) : of(param.mapping.testValue),
+        of(param.mapping.testValue)
+      ))
     )
   });
 };
