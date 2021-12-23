@@ -1,0 +1,7 @@
+<mat-form-field>
+  <mat-label>Autocomplete</mat-label>
+  <input matInput [matAutocomplete]="autocomplete" [formControl]="proxyControl">
+  <mat-autocomplete #autocomplete="matAutocomplete" [displayWith]="displayAuto" (optionSelected)="optionSelected$.next($event)">
+    <mat-option *ngFor="let opt of (options$ | async); let i = index" [value]="opt">{{ opt.label }}</mat-option>
+  </mat-autocomplete>
+</mat-form-field>

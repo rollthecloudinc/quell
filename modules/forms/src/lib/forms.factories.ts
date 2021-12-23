@@ -11,6 +11,7 @@ import { FormSliderComponent } from "./components/form-slider/form-slider.compon
 import { FormToggleComponent } from "./components/form-toggle/form-toggle.component";
 import { FormCheckboxComponent } from "./components/form-checkbox/form-checkbox.component";
 import { FormDatepickerComponent } from "./components/form-datepicker/form-datepicker.component";
+import { FormAutocompleteComponent } from "./components/form-autocomplete/form-autocomplete.component";
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -96,6 +97,17 @@ export const formDatepickerPluginFactory = ({ handler }: { handler: FormElementH
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormDatepickerComponent,
+    handler
+  })
+}
+
+export const formAutocompletePluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_autocomplete',
+    title: 'Form Autocomplete',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormAutocompleteComponent,
     handler
   })
 }

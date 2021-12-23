@@ -11,7 +11,8 @@
       "panels": "panels",
       "render": "render",
       "jsonpath-plus": "jsonpath-plus",
-      "token": "token"
+      "token": "token",
+      "dparam": "dparam"
     }
   }
 }

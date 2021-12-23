@@ -6,7 +6,7 @@ import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
+import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from 'render';
@@ -18,6 +18,7 @@ import { FormSliderComponent } from './components/form-slider/form-slider.compon
 import { FormToggleComponent } from './components/form-toggle/form-toggle.component';
 import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.component';
 import { FormDatepickerComponent } from './components/form-datepicker/form-datepicker.component';
+import { FormAutocompleteComponent } from './components/form-autocomplete/form-autocomplete.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -29,7 +30,8 @@ import { FormDatepickerComponent } from './components/form-datepicker/form-datep
     FormSliderComponent,
     FormToggleComponent,
     FormCheckboxComponent,
-    FormDatepickerComponent
+    FormDatepickerComponent,
+    FormAutocompleteComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +50,8 @@ import { FormDatepickerComponent } from './components/form-datepicker/form-datep
     FormSliderComponent,
     FormToggleComponent,
     FormCheckboxComponent,
-    FormDatepickerComponent
+    FormDatepickerComponent,
+    FormAutocompleteComponent
   ]
 })
 export class FormsModule { 
@@ -65,7 +68,8 @@ export class FormsModule {
       formSliderPluginFactory({ handler }),
       formTogglePluginFactory({ handler }),
       formCheckboxPluginFactory({ handler }),
-      formDatepickerPluginFactory({ handler })
+      formDatepickerPluginFactory({ handler }),
+      formAutocompletePluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()
