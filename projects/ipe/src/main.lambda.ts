@@ -20,6 +20,7 @@ import * as compression from 'compression';
 // import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 const cookieParser = require('cookie-parser');
+const proxy = require('express-http-proxy');
 
 // Serveless stuff.
 const serverlessExpress = require('@vendia/serverless-express');
@@ -73,6 +74,14 @@ export function app() {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  // Open search AWS proxy
+  server.use('/opensearch', proxy('https://search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com', {
+    proxyReqOptDecorator: proxyReqOpts => {
+      proxyReqOpts.headers['host'] = 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com';
+      return proxyReqOpts;
+    }
+  }));
 
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });
