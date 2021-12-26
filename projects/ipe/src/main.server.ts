@@ -19,6 +19,7 @@ import { REQUEST } from '@nguniversal/express-engine/tokens';
 // const winston  = require('winston');
 // const  { Loggly } = require('winston-loggly-bulk');
 const cookieParser = require('cookie-parser');
+const proxy = require('express-http-proxy');
 
 // @todo: Required for https to function locally. Need to revisit on prod environment.
 // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
@@ -39,6 +40,14 @@ export function app() {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+  // Open search AWS proxy
+  server.use('/opensearch', proxy('https://search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com', {
+    proxyReqOptDecorator: proxyReqOpts => {
+      proxyReqOpts.headers['host'] = 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com';
+      return proxyReqOpts;
+    }
+  }));
 
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Inject, OnInit } from "@angular/core";
 /*import { EntityCollectionService, EntityServices } from "@ngrx/data";
 import { AttributeValue } from "attributes";
 import { Pane, PanelPage, PanelContentHandler, Panel, PanelsModule } from "panels";
@@ -6,6 +6,72 @@ import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";*/
 import { PanelsSelectorService, PanelsLoaderService } from 'panels';
 import { JSONPath } from 'jsonpath-plus';
+
+import { SignatureV4 } from "@aws-sdk/signature-v4";
+import { HttpRequest } from "@aws-sdk/protocol-http";
+import { Sha256 } from "@aws-crypto/sha256-js";
+import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
+import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
+import { CognitoSettings, COGNITO_SETTINGS } from 'awcog';
+import { map, take, tap } from "rxjs/operators";
+import { AuthFacade } from "auth";
+import { HttpClient } from "@angular/common/http";
+// import { NodeHttpHandler } from "@aws-sdk/node-http-handler";
+// import { Client } from '@elastic/elasticsearch'
+// import { createAWSConnection, awsGetCredentials } from '@acuris/aws-es-connection';
+
+interface CreateSignHttpRequestParams {
+  body?: string;
+  headers?: Record<string, string>;
+  hostname: string;
+  method?: string;
+  path?: string;
+  port?: number;
+  protocol?: string;
+  query?: Record<string, string>;
+  service: string;
+  cognitoSettings: CognitoSettings,
+  authFacade: AuthFacade
+}
+
+export async function createSignedHttpRequest({
+  body,
+  headers,
+  hostname,
+  method = "GET",
+  path = "/",
+  port = 443,
+  protocol = "https:",
+  query,
+  service,
+  cognitoSettings,
+  authFacade
+}: CreateSignHttpRequestParams): Promise<HttpRequest> {
+  const httpRequest = new HttpRequest({
+    body,
+    headers,
+    hostname,
+    method,
+    path,
+    port,
+    protocol,
+    query,
+  });
+  const sigV4Init = {
+    credentials: fromCognitoIdentityPool({
+      client: new CognitoIdentityClient({ region: cognitoSettings.region }),
+      identityPoolId: cognitoSettings.identityPoolId,
+      logins: {
+        [`cognito-idp.${cognitoSettings.region}.amazonaws.com/${cognitoSettings.userPoolId}`]: () => authFacade.getUser$.pipe(map(u => u ? u.id_token : undefined), take(1)).toPromise()
+      }
+    }),
+    region: cognitoSettings.region,
+    service,
+    sha256: Sha256,
+  };
+  const signer = new SignatureV4(sigV4Init);
+  return signer.sign(httpRequest) as Promise<HttpRequest>;
+};
 
 @Component({
   template: `Playground`
@@ -18,7 +84,10 @@ export class PlaygroundComponent implements OnInit {
     // private es: EntityServices,
     // private panelHandler: PanelContentHandler
     private panelsLoaderService: PanelsLoaderService,
-    private panelsSelectorService: PanelsSelectorService
+    private panelsSelectorService: PanelsSelectorService,
+    @Inject(COGNITO_SETTINGS) private cognitoSettings: CognitoSettings,
+    private authFacade: AuthFacade,
+    private http: HttpClient
   ) {
   }
   ngOnInit() {
@@ -40,6 +109,52 @@ export class PlaygroundComponent implements OnInit {
       console.log(this.panelsSelectorService.rebuildPage(p, [ 0, 0, 0, -1 ]));
       console.log(this.panelsSelectorService.rebuildPage(p, [ 1, 1, 1, 1 ]));
     });
+
+    // const nodeHttpHandler = new NodeHttpHandler();
+    const body = JSON.stringify({
+      query: {
+        match_all: {}
+      },
+    });
+    const hostname =
+      // "search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com";
+      // "620rzauxne.execute-api.us-east-1.amazonaws.com";
+      "search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com";
+    const signedHttpRequest = new Promise((resolve, reject) => {
+      createSignedHttpRequest({
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/json",
+          host: hostname,
+          // authority: "classifieds-ui-dev.auth.us-east-1.amazoncognito.com",
+          // "Origin": "http://localhost:4200",
+          // "Access-Control-Allow-Origin": "*",
+          // "Access-Control-Allow-Headers": "*",
+          // "Access-Control-Allow-Methods": "*"
+        },
+        hostname,
+        path: '/classified_ads/_search',
+        // port: 4000,
+        protocol: 'https:',
+        service: "es",
+        cognitoSettings: this.cognitoSettings,
+        authFacade: this.authFacade
+      }).then(signedHttpRequest => {
+        console.log('signedHttpRequest', signedHttpRequest);
+        // return nodeHttpHandler.handle(signedHttpRequest).then();
+        delete signedHttpRequest.headers.host;
+        const url = `/opensearch${signedHttpRequest.path}`;
+        console.log('url', url);
+        this.http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
+          tap(res => resolve(res))
+        ).subscribe();
+        return ''; //this.http.request(signedHttpRequest);
+      });
+    }).then(res => {
+      console.log('completed request', res);
+    });
+
   }
   /*reducePage(pp: PanelPage): Array<Observable<[number, number, PanelPage]>> {
     return pp.panels.reduce((p, c, i) => this.reducePanels(p, c, i), []);
