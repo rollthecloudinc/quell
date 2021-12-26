@@ -17,6 +17,7 @@ npm run build durl
 npm run build dparam
 npm run build awcog
 npm run build aws3
+npm run build owos
 npm run build deity
 npm run build style
 npm run build transform

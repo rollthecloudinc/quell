@@ -32,6 +32,10 @@
         "dist/content/content",
         "dist/content"
       ],
+      "awos": [
+        "dist/awos/awos",
+        "dist/awos"
+      ],
       "token": [
         "dist/token/token",
         "dist/token"

@@ -1856,5 +1856,45 @@
           }
         }
       }
+    },
+    "awos": {
+      "projectType": "library",
+      "root": "modules/awos",
+      "sourceRoot": "modules/awos/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "modules/awos/tsconfig.lib.json",
+            "project": "modules/awos/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/awos/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/awos/src/test.ts",
+            "tsConfig": "modules/awos/tsconfig.spec.json",
+            "karmaConfig": "modules/awos/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "modules/awos/tsconfig.lib.json",
+              "modules/awos/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
     }}
 }
