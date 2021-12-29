@@ -19,6 +19,12 @@ export const entityMetadata: CrudEntityMetadataMap = {
           ['path', { defaultOperator: 'startsWith' }]
         ])
       }*/
+      /*aws_opensearch_entity: {
+        ops: ['create', 'update', 'read', 'delete']
+      },
+      aws_opensearch_template: {
+        ops: ['query']
+      }*/
     }
   },
   PanelPage: {

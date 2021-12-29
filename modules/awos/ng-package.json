@@ -2,6 +2,17 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/awos",
   "lib": {
-    "entryFile": "src/public-api.ts"
+    "entryFile": "src/public-api.ts",
+    "umdModuleIds": {
+      "auth": "auth",
+      "crud": "crud",
+      "awcog": "awcog",
+      "dparam": "dparam",
+      "@aws-sdk/signature-v4": "@aws-sdk/signature-v4",
+      "@aws-sdk/protocol-http": "@aws-sdk/protocol-http",
+      "@aws-crypto/sha256-js": "@aws-crypto/sha256-js",
+      "@aws-sdk/credential-provider-cognito-identity": "@aws-sdk/credential-provider-cognito-identity",
+      "@aws-sdk/client-cognito-identity": "@aws-sdk/client-cognito-identity"
+    }
   }
 }

@@ -29,7 +29,8 @@
       "jsonpath-plus": "jsonpath-plus",
       "snippet": "snippet",
       "deepmerge-json": "deepmerge-json",
-      "inflected": "inflected"
+      "inflected": "inflected",
+      "awos": "awos"
     }
   }
 }

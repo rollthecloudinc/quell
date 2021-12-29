@@ -15,6 +15,7 @@ import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-sel
 import { PanelPageState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
 import { Aws3Module } from 'aws3';
+import { AwosModule } from 'awos';
 import { CrudAdaptorPluginManager, CrudModule, CrudDataService, CrudDataHelperService } from 'crud';
 // import { PanelsStateContextResolver } from './contexts/panels-state-context.resolver';
 import { ContextPluginManager } from 'context';
@@ -44,6 +45,7 @@ import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
     DatasourceModule,
     AuthModule,
     Aws3Module,
+    AwosModule,
     CrudModule
   ],
   exports: [
