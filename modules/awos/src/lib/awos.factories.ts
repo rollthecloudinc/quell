@@ -10,6 +10,7 @@ import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-id
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { HttpClient } from "@angular/common/http";
 import { map, switchMap, take } from "rxjs/operators";
+import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
 
 export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient) => {
   return new CrudAdaptorPlugin<string>({
@@ -24,7 +25,7 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacad
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
         map(options => ({ options }))
       ): of({ options: {} })),
-      map(({ options }) => ({ options, body: JSON.stringify({ id: options.id, params: {} }) })),
+      map(({ options }) => ({ options, body: JSON.stringify({ id: options.id, params: rule ? (rule.conditions as AllConditions).all.reduce((p, c) => ({ ...p, ...(c as AnyConditions).any.reduce((p2, c2) => ({ ...p2, [(c2 as ConditionProperties).path.substr(2)]: decodeURIComponent((c2 as ConditionProperties).value) }), {}) }), {}) : {} }) })),
       switchMap(({ options, body }) => createSignedHttpRequest({
           method: "POST",
           body,
@@ -38,15 +39,19 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacad
           service: "es",
           cognitoSettings: cognitoSettings,
           authFacade: authFacade
-        })
+        }).pipe(
+          map(signedHttpRequest => ({ signedHttpRequest, options }))
+        )
       ),
-      switchMap(signedHttpRequest => {
+      switchMap(( { signedHttpRequest, options }) => {
         delete signedHttpRequest.headers.host;
         const url = `/opensearch${signedHttpRequest.path}`;
         console.log('url', url);
-        return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }); 
+        return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
+          map(res => ({ res, options }))
+        ); 
       }),
-      map(res => ({ entities: [ res ], success: false }))
+      map(({ res, options }) => ({ entities: options.hits && res && (res as any).hits && ((res as any).hits as any).hits ? ((res as any).hits as any).hits.map(h => options.source ? (h as any)._source : h) : [ res ], success: true })),
     )
   });
 };

@@ -4,7 +4,7 @@ import { AuthFacade, AuthModule } from 'auth';
 import { CognitoSettings, COGNITO_SETTINGS } from 'awcog';
 import { CrudAdaptorPluginManager, CrudModule } from 'crud';
 import { ParamEvaluatorService } from 'dparam';
-import { opensearchEntityCrudAdaptorPluginFactory, opensearchTemplateCrudAdaptorPluginFactory } from './awos.feactories';
+import { opensearchEntityCrudAdaptorPluginFactory, opensearchTemplateCrudAdaptorPluginFactory } from './awos.factories';
 
 @NgModule({
   declarations: [
