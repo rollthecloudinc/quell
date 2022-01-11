@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { GridLayoutComponent, LayoutPluginManager } from 'layout';
-import { StyleLoaderService } from 'utils';
+import { AsyncApiCallHelperService, StyleLoaderService } from 'utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from 'context';
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
@@ -121,7 +121,8 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
 
   private schedulePageFetch = new Subject();
   private pageFetchSub = this.schedulePageFetch.pipe(
-    switchMap(() => this.panelPageService.getByKey(this.id)),
+    tap(() => console.log('schedue page fetch')),
+    switchMap(() => /*this.asyncApiCallHelperSvc.doTask(*/this.panelPageService.getByKey(this.id).toPromise()/*)*/),
     switchMap(p =>
       this.cpm.getPlugins(
         p.panels.reduce<Array<string>>((contentPlugins, c) => {
@@ -222,8 +223,10 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     private attributeSerializer: AttributeSerializerService,
     private formService: FormService,
     private panelsContextService: PanelsContextService,
+    private asyncApiCallHelperSvc: AsyncApiCallHelperService,
     es: EntityServices,
   ) {
+    console.log('panel page constructor');
     // this.contentPlugins = contentPlugins;
     this.panelPageService = es.getEntityCollectionService('PanelPage');
     this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
@@ -231,6 +234,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   }
 
   ngOnInit(): void {
+    console.log('panel page init');
     /*if(!this.nested) {
       console.log('hookup');
       const nav$ = fromEvent(this.el.nativeElement, 'click').pipe(
@@ -250,6 +254,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('panel page changes');
     if (this.nested) {
       console.log('panel page on changes');
       console.log(changes);
@@ -270,8 +275,10 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
   }
 
   ngAfterViewInit() {
+    console.log('panel page after view init');
     if(this.id !== undefined) {
       // this.fetchPage();
+      console.log('panel page view init schedulePageFetch.next()');
       this.schedulePageFetch.next();
     } else if(this.panelPage !== undefined) {
       console.log('populate from array');

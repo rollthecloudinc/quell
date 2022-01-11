@@ -16,6 +16,7 @@ import { CognitoSettings, COGNITO_SETTINGS } from 'awcog';
 import { map, take, tap } from "rxjs/operators";
 import { AuthFacade } from "auth";
 import { HttpClient } from "@angular/common/http";
+import { AsyncApiCallHelperService } from "utils";
 // import { NodeHttpHandler } from "@aws-sdk/node-http-handler";
 // import { Client } from '@elastic/elasticsearch'
 // import { createAWSConnection, awsGetCredentials } from '@acuris/aws-es-connection';
@@ -74,9 +75,13 @@ export async function createSignedHttpRequest({
 };
 
 @Component({
-  template: `Playground`
+  selector: "druid-playground",
+  templateUrl: `playground.component.html`
 })
 export class PlaygroundComponent implements OnInit {
+
+  hits: Array<any> = [];
+
   /*get panelPageService(): EntityCollectionService<PanelPage> {
     return this.es.getEntityCollectionService('PanelPage');
   }*/
@@ -87,7 +92,8 @@ export class PlaygroundComponent implements OnInit {
     private panelsSelectorService: PanelsSelectorService,
     @Inject(COGNITO_SETTINGS) private cognitoSettings: CognitoSettings,
     private authFacade: AuthFacade,
-    private http: HttpClient
+    private http: HttpClient,
+    private asyncApiCallHelperSvc: AsyncApiCallHelperService
   ) {
   }
   ngOnInit() {
@@ -100,7 +106,7 @@ export class PlaygroundComponent implements OnInit {
       console.log(this.rebuildPage(p, [ 0, 0, 0, -1 ]));
       console.log(this.rebuildPage(p, [ 1, 1, 1, 1 ]));
     });*/
-    this.panelsLoaderService.getByKey('183fbb6c-4fc7-11eb-a003-aa11747f279e').subscribe(p => {
+    /*this.panelsLoaderService.getByKey('183fbb6c-4fc7-11eb-a003-aa11747f279e').subscribe(p => {
       console.log(p);
       const result = JSONPath({ path: '$.panels[0].panes[0].nestedPage.panels[0].panes[0]', json: p });
       // select nested page
@@ -108,7 +114,7 @@ export class PlaygroundComponent implements OnInit {
       console.log(result);
       console.log(this.panelsSelectorService.rebuildPage(p, [ 0, 0, 0, -1 ]));
       console.log(this.panelsSelectorService.rebuildPage(p, [ 1, 1, 1, 1 ]));
-    });
+    });*/
 
     // const nodeHttpHandler = new NodeHttpHandler();
     const body = JSON.stringify({
@@ -120,7 +126,7 @@ export class PlaygroundComponent implements OnInit {
       // "search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com";
       // "620rzauxne.execute-api.us-east-1.amazonaws.com";
       "search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com";
-    const signedHttpRequest = new Promise((resolve, reject) => {
+    this.asyncApiCallHelperSvc.doTask(new Promise((resolve, reject) => {
       createSignedHttpRequest({
         method: "POST",
         body,
@@ -148,12 +154,15 @@ export class PlaygroundComponent implements OnInit {
         console.log('url', url);
         this.http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
           tap(res => resolve(res))
-        ).subscribe();
+        ).subscribe(res => {
+          this.hits = (res as any).hits.hits.map(h => h._source);
+          setTimeout(() => resolve(res));
+        });
         return ''; //this.http.request(signedHttpRequest);
       });
-    }).then(res => {
-      console.log('completed request', res);
-    });
+    })).pipe(
+      tap(res => console.log('completed request', res))
+    );
 
   }
   /*reducePage(pp: PanelPage): Array<Observable<[number, number, PanelPage]>> {

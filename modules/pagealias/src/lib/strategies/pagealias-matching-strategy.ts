@@ -23,7 +23,7 @@ export class PagealiasMatchingStrategy implements AliasMatchingStrategy {
   }
 
   match(state: RouterStateSnapshot): Observable<boolean> {
-    const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
+    const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}` : `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
     return this.panelPageListItemsService.getWithQuery(matchPathQuery).pipe(
       catchError(e => {
         return of([]);
@@ -31,6 +31,10 @@ export class PagealiasMatchingStrategy implements AliasMatchingStrategy {
       map(pages => pages.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
       map(m => !!m || state.url.indexOf('pages') > -1)
     )
+  }
+
+  encodePathComponent(v: string): string {
+    return `{"term":{"path.keyword":{"value":"${v}"}}}`;
   }
 
 }

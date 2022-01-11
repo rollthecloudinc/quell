@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Inject, NgModule } from '@angular/core';
+import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, DefaultPluralizer, EntityCollectionDataService, EntityDataService, EntityDefinitionService, EntityServices, Pluralizer } from '@ngrx/data';
-import { entityMetadata } from './entity-metadata';
+import { entityMetadataFactory } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, NoopDataService } from 'utils';
@@ -64,6 +64,7 @@ import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 })
 export class PanelsModule { 
   constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
     eds: EntityDefinitionService,
     cpm: ContentPluginManager,
@@ -77,6 +78,7 @@ export class PanelsModule {
     panelsStateContextResolver: PanelsStateContextResolver*/
     crudDataHelper: CrudDataHelperService
   ) {
+    const entityMetadata = entityMetadataFactory(platformId);
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save

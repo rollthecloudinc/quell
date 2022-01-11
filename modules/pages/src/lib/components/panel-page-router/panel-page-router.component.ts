@@ -5,6 +5,7 @@ import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from 'panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
+import { AsyncApiCallHelperService } from 'utils';
 
 @Component({
   selector: 'classifieds-ui-panel-page-router',
@@ -21,6 +22,7 @@ export class PanelPageRouterComponent implements OnInit {
     private route: ActivatedRoute,
     private pageBuilderFacade: PageBuilderFacade,
     private routerStore: Store<RouterReducerState>,
+    private asyncApiCallHelperSvc: AsyncApiCallHelperService,
     es: EntityServices
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
@@ -30,10 +32,13 @@ export class PanelPageRouterComponent implements OnInit {
     //console.log(`route page page: ${this.panelPageId}`);
     const { selectCurrentRoute } = getSelectors((state: any) => state.router);
     this.route.paramMap.pipe(
+      tap(() => console.log('param map panelPageId')),
       map(p => p.get('panelPageId')),
       filter(id => id !== undefined),
       distinctUntilChanged(),
-      switchMap(id => this.panelPageService.getByKey(id)),
+      tap(() => console.log('panel page router before page getByKey')),
+      switchMap(id => /*this.asyncApiCallHelperSvc.doTask(*/this.panelPageService.getByKey(id).toPromise()/*)*/),
+      tap(() => console.log('panel page router after page getByKey')),
       withLatestFrom(this.routerStore.pipe(
         select(selectCurrentRoute),
         map(route => route.params),
@@ -46,6 +51,7 @@ export class PanelPageRouterComponent implements OnInit {
       this.panelPageId = panelPage.id;
     });
     this.route.paramMap.pipe(
+      tap(() => console.log('param map page builder facade info')),
       withLatestFrom(this.pageBuilderFacade.getPageInfo$),
       filter(([p, pageInfo]) => pageInfo !== undefined && p.get('panelPageId') !== undefined && p.get('panelPageId') === pageInfo.id),
       switchMap(([p, pageInfo]) => this.routerStore.pipe(

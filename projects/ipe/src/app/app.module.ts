@@ -14,7 +14,7 @@ import { AuthModule, LogoutInterceptor} from 'auth';
 // Auth implementation - open connect/oauth
 import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from 'oidc';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
-import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME } from 'utils';
+import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME, HOST_NAME, PROTOCOL } from 'utils';
 import { MaterialModule } from 'material';
 // import { LOGGING_SETTINGS, LoggingSettings, LoggingModule, HttpErrorInterceptor, GlobalErrorHandler } from '@classifieds-ui/logging';
 import { TokenModule } from 'token';
@@ -60,6 +60,7 @@ import { DeityModule } from 'deity';
 import { LoopModule } from 'loop';
 import { RenderModule } from 'render';
 import { FormsModule as DruidFormsModule } from 'forms';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
@@ -122,6 +123,7 @@ export function markedOptionsFactory(): MarkedOptions {
     BrowserAnimationsModule,
     FlexLayoutModule,
     NgxJsonViewerModule,
+    TransferHttpCacheModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,
       markedOptions: {

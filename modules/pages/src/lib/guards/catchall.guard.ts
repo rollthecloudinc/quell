@@ -24,14 +24,15 @@ export class CatchAllGuard implements CanActivate {
     this.panelPageListItemsService = es.getEntityCollectionService('PanelPageListItem');
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<UrlTree> {
 
     return new Promise(res => {
-      const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
+      const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(this.siteName)}`;
       forkJoin([
         iif(
           () => !this.routesLoaded,
-          this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}`).pipe(
+          this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}&path={"wildcard":{"path.keyword":{"value":"*"}}}`).pipe(
+            tap(() => console.log('loaded page list items')),
             map(pp => pp.filter(p => p.path !== undefined && p.path !== '')),
             map(pp => pp.map(o => new PanelPage(o)).sort((a, b) => {
               if(a.path.split('/').length === b.path.split('/').length) {
@@ -44,6 +45,7 @@ export class CatchAllGuard implements CanActivate {
               pp.forEach(p => {
                 target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent });
                 target.unshift({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });
+                console.log(`panels matcher: ${p.path}`);
               });
               this.routesLoaded = true;
             }),
@@ -55,6 +57,7 @@ export class CatchAllGuard implements CanActivate {
           catchError(e => {
             return of([]);
           }),
+          tap(() => console.log('loaded specific matched')),
           map(pages => pages.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
           map(panelPage => {
             const argPath = state.url.substr(1).split('/').slice(panelPage.path.split('/').length - 1).join('/');
@@ -64,9 +67,11 @@ export class CatchAllGuard implements CanActivate {
       ]).pipe(
         map(([pp, [panelPage, argPath]]) => [panelPage, argPath])
       ).subscribe(([panelPage, argPath]) => {
-        res(false);
+        const targetUrl = `${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`;
+        const urlTree = this.router.parseUrl(targetUrl);
         console.log(`panels garud navigate: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
-        this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, /* Removed unsupported properties by Angular migration: queryParams, fragment. */ {});
+        // this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, /* Removed unsupported properties by Angular migration: queryParams, fragment. */ {});
+        res(urlTree);
       });
     });
   }
@@ -111,6 +116,10 @@ export class CatchAllGuard implements CanActivate {
         return null;
       }
     };
+  }
+
+  encodePathComponent(v: string): string {
+    return `{"term":{"path.keyword":{"value":"${v}"}}}`;
   }
 
 }

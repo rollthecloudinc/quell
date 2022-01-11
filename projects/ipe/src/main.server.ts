@@ -16,6 +16,7 @@ import * as express from 'express';
 import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
+import { HOST_NAME, PROTOCOL } from 'utils';
 // const winston  = require('winston');
 // const  { Loggly } = require('winston-loggly-bulk');
 const cookieParser = require('cookie-parser');
@@ -41,10 +42,11 @@ export function app() {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Open search AWS proxy
-  server.use('/opensearch', proxy('https://search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com', {
+  // aws service proxy
+  server.use('/awproxy', proxy(req => `https://${req.originalUrl.split('/')[3]}.${ req.originalUrl.split('/').length > 4 && req.originalUrl.split('/')[4].match(/^us\-(east|west)-[0-9]+$/gi) ? `${req.originalUrl.split('/')[4]}.` : '' }${req.originalUrl.split('/')[2]}.amazonaws.com` , {
+    proxyReqPathResolver: req => '/' + req.url.split('/').slice(4).join('/'),
     proxyReqOptDecorator: proxyReqOpts => {
-      proxyReqOpts.headers['host'] = 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com';
+      proxyReqOpts.headers['host'] = `${proxyReqOpts.path.split('/')[2]}.${ proxyReqOpts.path.split('/').length > 3 && proxyReqOpts.path.split('/')[3].match(/^us\-(east|west)\-[0-9]+$/gi) ? `${proxyReqOpts.path.split('/')[3]}.` : '' }${proxyReqOpts.path.split('/')[1]}.amazonaws.com`;
       return proxyReqOpts;
     }
   }));
@@ -52,6 +54,7 @@ export function app() {
   // Example Express Rest API endpoints
   // app.get('/api/**', (req, res) => { });
   // Serve static files from /browser
+  // This is only needed in local dev environment remote environment should always use cdn.
   server.get('*.*', express.static(distFolder, {
     maxAge: '1y'
   }));
@@ -60,6 +63,8 @@ export function app() {
   server.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [
       { provide: APP_BASE_HREF, useValue: req.baseUrl },
+      { provide: HOST_NAME, useValue: req.headers.host },
+      { provide: PROTOCOL, useValue: 'http' },
       // { provide: REQUEST, useValue: req }
     ]});
   });

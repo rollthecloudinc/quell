@@ -2,6 +2,7 @@ service: ipe # Name whatever as you like!
 plugins:
   # - serverless-apigw-binary
   - serverless-offline
+  - serverless-prune-plugin
 provider:
   name: aws
   runtime: nodejs12.x

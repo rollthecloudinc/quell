@@ -11,8 +11,9 @@ import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { HttpClient } from "@angular/common/http";
 import { map, switchMap, take } from "rxjs/operators";
 import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
+import { isPlatformServer } from "@angular/common";
 
-export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient) => {
+export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient, hostName?: string, protocol?: string) => {
   return new CrudAdaptorPlugin<string>({
     id: 'aws_opensearch_template',
     title: 'AWS Opensearch Template',
@@ -31,9 +32,12 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacad
           body,
           headers: {
             "Content-Type": "application/json",
-            host: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
+            // host: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
+            host: `${options.domain}.${options.region}.es.amazonaws.com`,
+            // host: hostName
           },
-          hostname: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
+          // hostname: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
+          hostname: `${options.domain}.${options.region}.es.amazonaws.com`,
           path: `/${options.index}/_search/template`,
           protocol: 'https:',
           service: "es",
@@ -44,8 +48,11 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (authFacade: AuthFacad
         )
       ),
       switchMap(( { signedHttpRequest, options }) => {
-        delete signedHttpRequest.headers.host;
-        const url = `/opensearch${signedHttpRequest.path}`;
+        // if (!isPlatformServer(platformId)) {
+          delete signedHttpRequest.headers.host;
+        // }
+        // const url = `${ isPlatformServer(platformId) ? '' : '/opensearch' }${signedHttpRequest.path}`;
+        const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/es/${options.domain}/${options.region}${signedHttpRequest.path}`;
         console.log('url', url);
         return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
           map(res => ({ res, options }))

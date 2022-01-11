@@ -14,7 +14,11 @@
       "uuid": "uuid",
       "crud": "crud",
       "awcog": "awcog",
-      "dparam": "dparam"
+      "dparam": "dparam",
+      "utils": "utils",
+      "@aws-sdk/signature-v4": "@aws-sdk/signature-v4",
+      "@aws-sdk/protocol-http": "@aws-sdk/protocol-http",
+      "@aws-crypto/sha256-js": "@aws-crypto/sha256-js"
     }
   }
 }

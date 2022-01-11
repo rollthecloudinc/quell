@@ -15,7 +15,7 @@ export class TokenInterceptor implements HttpInterceptor {
     return this.authFacade.token$/*this.getAccessToken()*/.pipe(
       take(1),
       concatMap(t => {
-        if (t && req.url.indexOf('cloudfront') === -1 && req.url.indexOf('cloudinary') === -1 && req.url.indexOf('carquery') === -1 && req.url.indexOf('gateway.marvel.com') === -1 && req.url.indexOf('hereapi.com') === -1 && req.url.indexOf('/opensearch') === -1) {
+        if (t && req.url.indexOf('cloudfront') === -1 && req.url.indexOf('cloudinary') === -1 && req.url.indexOf('carquery') === -1 && req.url.indexOf('gateway.marvel.com') === -1 && req.url.indexOf('hereapi.com') === -1 && req.url.indexOf('/opensearch') === -1 && req.url.indexOf('/s3') === -1 && req.url.indexOf('/awproxy') === -1) {
           const authReq = req.clone({
             // headers: req.headers.set('Authorization', `Bearer ${t}`)
             headers: req.headers.set('Authorization', t)

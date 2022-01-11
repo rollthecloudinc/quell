@@ -7,3 +7,4 @@ export * from './lib/pipes/numeral.pipe';
 export * from './lib/services/module-loader.service';
 export * from './lib/services/style-loader.service';
 export * from './lib/dataservices/noop-data.service';
+export * from './lib/services/async-api-call-helper.service';

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { EMBEDDABLE_COMPONENT } from 'utils';
+import { EMBEDDABLE_COMPONENT, UtilsModule } from 'utils';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { PanelPageComponent } from './components/panel-page/panel-page.component';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
@@ -16,6 +16,7 @@ import { PanelsModule } from 'panels';
     CommonModule,
     // HttpClientModule,
     FormsModule,
+    UtilsModule,
     ReactiveFormsModule,
     PanelsModule,
     LayoutModule
