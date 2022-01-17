@@ -383,7 +383,6 @@
             "main": "projects/ipe/src/main.ts",
             "polyfills": "projects/ipe/src/polyfills.ts",
             "tsConfig": "projects/ipe/tsconfig.app.json",
-            "aot": true,
             "assets": [
               "projects/ipe/src/favicon.ico",
               "projects/ipe/src/assets"
@@ -399,7 +398,13 @@
               "node_modules/prismjs/components/prism-json.min.js",
               "node_modules/prismjs/components/prism-typescript.min.js",
               "node_modules/prismjs/components/prism-css.min.js"
-            ]
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -429,7 +434,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -500,7 +506,9 @@
           "options": {
             "outputPath": "dist/ipe/server",
             "main": "projects/ipe/src/main.server.ts",
-            "tsConfig": "projects/ipe/tsconfig.server.json"
+            "tsConfig": "projects/ipe/tsconfig.server.json",
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -539,7 +547,8 @@
               "sourceMap": false,
               "optimization": true
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "lambda": {
           "builder": "@angular-devkit/build-angular:server",
@@ -550,7 +559,8 @@
             "tsConfig": "projects/ipe/tsconfig.lambda.json",
             "externalDependencies": [
               "../server/main"
-            ]
+            ],
+            "sourceMap": true
           },
           "configurations": {
             "dev": {
@@ -563,7 +573,8 @@
                 }
               ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",

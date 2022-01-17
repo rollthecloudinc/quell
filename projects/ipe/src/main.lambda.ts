@@ -1,5 +1,5 @@
 // import 'localstorage-polyfill';
-import 'zone.js/dist/zone-node';
+import 'zone.js/node';
 import * as express from 'express';
 
 // servelewss includes

@@ -1,4 +1,4 @@
-import 'zone.js/dist/zone-node';
+import 'zone.js/node';
 
 export { ngExpressEngine } from '@nguniversal/express-engine'; 
 export { enableProdMode } from '@angular/core';
