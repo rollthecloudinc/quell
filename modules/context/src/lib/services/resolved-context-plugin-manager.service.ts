@@ -19,7 +19,7 @@ export class ResolvedContextPluginManager extends BasePluginManager<ResolvedCont
     const hasPlugin = this.pluginInstances.has(plugin.id);
     super.register(plugin);
     if (!hasPlugin) {
-      this.add$.next();
+      this.add$.next(undefined);
     }
   }
 }

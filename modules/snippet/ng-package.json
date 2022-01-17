@@ -2,14 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/snippet",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "utils": "utils",
-      "angular-split": "angular-split",
-      "material": "material",
-      "ngx-json-viewer": "ngx-json-viewer",
-      "ngx-markdown": "ngx-markdown",
-      "ngx-monaco-editor": "ngx-monaco-editor"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

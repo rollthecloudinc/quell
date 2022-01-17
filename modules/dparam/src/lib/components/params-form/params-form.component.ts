@@ -111,7 +111,7 @@ export class ParamsFormComponent implements ControlValueAccessor, Validator {
   }
 
   ngOnInit() {
-    this.init$.next();
+    this.init$.next(undefined);
   }
 
   writeValue(val: any): void {

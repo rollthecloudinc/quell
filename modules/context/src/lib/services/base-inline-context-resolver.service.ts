@@ -123,7 +123,7 @@ export abstract class BaseInlineContextResolverService {
     );*/
     return this.rcm.getPlugins().pipe(
       switchMap(() => this.rcm.add$.pipe(
-        defaultIfEmpty()
+        defaultIfEmpty(undefined)
       )),
       switchMap(() => this.rcm.getPlugins()),
       switchMap(plugins => combineLatest([

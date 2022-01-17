@@ -140,9 +140,12 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     // This breaks adbrowser because it results in infinite recursion :(
     switchMap(([p, isDynamic]) => iif<[PanelPage, boolean, Array<InlineContext>], [PanelPage, boolean, Iterable<InlineContext>]>(
       () => !this.nested,
-      !this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
+      /*!this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
         map(paneContexts => [p, isDynamic, paneContexts])
-      ): of([p, isDynamic, []]),
+      ): of([p, isDynamic, []]),*/
+      this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
+        map(paneContexts => [p, isDynamic, Array.from(paneContexts)])
+      ),
       of([p, isDynamic, []])
     ))
     // placeholder for now...
@@ -262,7 +265,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     if(!this.nested && !changes.id.firstChange && changes.id.previousValue !== changes.id.currentValue) {
       // this.fetchPage();
       console.log(`fetch page`);
-      this.schedulePageFetch.next();
+      this.schedulePageFetch.next(undefined);
     }
     if (this.layoutRendererRef && changes.panelPage && changes.panelPage.currentValue !== changes.panelPage.previousValue) {
       console.log(`assign panel page to renderer ref - passthur`);
@@ -279,7 +282,7 @@ export class PanelPageComponent implements OnInit, OnChanges, AfterViewInit, Con
     if(this.id !== undefined) {
       // this.fetchPage();
       console.log('panel page view init schedulePageFetch.next()');
-      this.schedulePageFetch.next();
+      this.schedulePageFetch.next(undefined);
     } else if(this.panelPage !== undefined) {
       console.log('populate from array');
       this.populatePanelsFormArray();

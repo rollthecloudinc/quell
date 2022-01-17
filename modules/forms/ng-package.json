@@ -2,17 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/forms",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "content": "content",
-      "material": "material",
-      "datasource": "datasource",
-      "attributes": "attributes",
-      "panels": "panels",
-      "render": "render",
-      "jsonpath-plus": "jsonpath-plus",
-      "token": "token",
-      "dparam": "dparam"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

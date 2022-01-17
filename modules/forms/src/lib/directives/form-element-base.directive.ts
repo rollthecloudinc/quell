@@ -72,7 +72,7 @@ export abstract class FormElementBase implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.init$.next();
+    this.init$.next(undefined);
   }
 
   settingsToObject(s: any): FormSettings {

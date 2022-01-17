@@ -191,7 +191,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   ngOnInit(): void {
     this.ancestoryWithSelf = [ ...(this.ancestory ? this.ancestory: []), ...( this.indexPosition !== undefined && this.indexPosition !== null? [ this.indexPosition ] : [] ) ];
-    this.schedulePluginChange.next();
+    this.schedulePluginChange.next(undefined);
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
     this.paneForm.get('name').setValue(this.name);
@@ -211,7 +211,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
         this.ancestoryWithSelf = ancestoryWithSelf;
       }
     }
-    this.schedulePluginChange.next();
+    this.schedulePluginChange.next(undefined);
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
     this.paneForm.get('name').setValue(this.name);
@@ -225,7 +225,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   }
 
   ngAfterContentInit() {
-    this.afterContentInit$.next();
+    this.afterContentInit$.next(undefined);
   }
 
   writeValue(val: any): void {

@@ -2,13 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/utils",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "content": "content",
-      "@ngrx/entity": "@ngrx/entity",
-      "@ngrx/data": "@ngrx/data",
-      "durl": "durl",
-      "numeral": "numeral"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

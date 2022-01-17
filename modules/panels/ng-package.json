@@ -2,35 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/panels",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "@ngrx/data": "@ngrx/data",
-      "utils": "utils",
-      "attributes": "attributes",
-      "context": "context",
-      "layout": "layout",
-      "alias": "alias",
-      "qs": "qs",
-      "angular2-query-builder": "angular2-query-builder",
-      "material": "material",
-      "content": "content",
-      "uuid": "uuid",
-      "datasource": "datasource",
-      "bridge": "bridge",
-      "token": "token",
-      "durl": "durl",
-      "rules": "rules",
-      "plugin": "plugin",
-      "aws3": "aws3",
-      "auth": "auth",
-      "crud": "crud",
-      "@ngrx/effects": "@ngrx/effects",
-      "@ngrx/store": "@ngrx/store",
-      "jsonpath-plus": "jsonpath-plus",
-      "snippet": "snippet",
-      "deepmerge-json": "deepmerge-json",
-      "inflected": "inflected",
-      "awos": "awos"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

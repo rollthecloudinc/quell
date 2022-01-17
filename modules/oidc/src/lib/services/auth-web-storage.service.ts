@@ -33,7 +33,7 @@ export class AuthWebStorageService {
       if(sessionStorage.getItem(this.tokenKey)) {
         this.setItem(this.tokenKey, sessionStorage.getItem(this.tokenKey));
       } else if(this.transferState.hasKey(AUTH_KEY)) {
-        const value = this.transferState.get(AUTH_KEY, undefined);
+        const value = this.transferState.get<string>(AUTH_KEY, undefined);
         if(value) {
           this.setItem(this.tokenKey, value);
         }
@@ -59,7 +59,7 @@ export class AuthWebStorageService {
       });
       if(token.access_token) {
         this.data[this.tokenKey] = JSON.stringify(token);
-        this.transferState.set(AUTH_KEY, JSON.stringify({ ...token, expires_at: expires }));
+        this.transferState.set<string>(AUTH_KEY, JSON.stringify({ ...token, expires_at: expires }));
       }
     }
   }

@@ -170,7 +170,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     if(this.stylePlugin !== undefined) {
       this.renderPanelContent();
     } else {
-      this.rendered$.next();
+      this.rendered$.next(undefined);
     }
 
     // clearInterval(this.initialRenderComplete);
@@ -209,7 +209,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     (componentRef.instance as any).panel = this.panel;
     (componentRef.instance as any).indexPosition = this.indexPosition$.value;
 
-    this.rendered$.next();
+    this.rendered$.next(undefined);
   });
 
   resolvedPanes: Array<Pane>;
@@ -312,7 +312,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   }
 
   ngAfterContentInit() {
-    this.afterContentInit$.next();
+    this.afterContentInit$.next(undefined);
   }
 
   writeValue(val: any): void {

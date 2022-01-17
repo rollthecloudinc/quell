@@ -2,21 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/context",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "material": "material",
-      "@ngrx/store": "@ngrx/store",
-      "@ngrx/router-store": "@ngrx/router-store",
-      "content": "content",
-      "datasource": "datasource",
-      "plugin": "plugin",
-      "uuid": "uuid",
-      "utils": "utils",
-      "bridge": "bridge",
-      "dparam": "dparam",
-      "token": "token",
-      "snippet": "snippet",
-      "attributes": "attributes"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

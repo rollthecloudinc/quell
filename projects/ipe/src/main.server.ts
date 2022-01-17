@@ -17,6 +17,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { HOST_NAME, PROTOCOL } from 'utils';
+import { join } from 'path';
 // const winston  = require('winston');
 // const  { Loggly } = require('winston-loggly-bulk');
 const cookieParser = require('cookie-parser');

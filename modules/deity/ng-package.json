@@ -2,17 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/deity",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "material": "material",
-      "attributes": "attributes",
-      "context": "context",
-      "datasource": "datasource",
-      "dparam": "dparam",
-      "content": "content",
-      "qs": "qs",
-      "durl": "durl",
-      "@ngrx/data": "@ngrx/data"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

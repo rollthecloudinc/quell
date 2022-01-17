@@ -109,12 +109,12 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
       debounceTime(1000)
     ).subscribe(() => {
       console.log('refresh data')
-      this.refreshData$.next();
+      this.refreshData$.next(undefined);
     });
   }
 
   ngOnDestroy() {
-    this.componentDestroyed.next();
+    this.componentDestroyed.next(undefined);
     this.componentDestroyed.complete();
   }
 

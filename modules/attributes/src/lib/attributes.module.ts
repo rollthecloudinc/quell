@@ -18,40 +18,39 @@ import { AttributeWidget } from './models/attributes.models';
 import { WidgetPluginManager } from './services/widget-plugin-manager.service';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, MaterialModule, /*HttpClientModule,*/ HttpClientJsonpModule /*, CitiesModule */ ],
-  declarations: [
-    AttributesBuilderComponent,
-    AttributeWidgetComponent,
-    AttributeWidgetDirective,
-    TextWidgetComponent,
-    MinMaxWidgetComponent,
-    AttributePipe
-    /*, YmmSelectorComponent, CitySelectorComponent*/
-  ],
-  exports: [AttributesBuilderComponent, AttributePipe, AttributeWidgetComponent],
-  entryComponents: [ TextWidgetComponent, MinMaxWidgetComponent /*, YmmSelectorComponent*/ ],
-  providers: [
-    {
-      provide: ATTRIBUTE_WIDGET,
-      useFactory: attrFactories.textFactory,
-      multi: true
-    },
-    {
-      provide: ATTRIBUTE_WIDGET,
-      useFactory: attrFactories.minmaxFactory,
-      multi: true
-    },
-    /*{
-      provide: ATTRIBUTE_WIDGET,
-      useFactory: attrFactories.ymmFactory,
-      multi: true
-    },
-    {
-      provide: ATTRIBUTE_WIDGET,
-      useFactory: attrFactories.cityFactory,
-      multi: true
-    }*/
-  ]
+    imports: [CommonModule, ReactiveFormsModule, MaterialModule, /*HttpClientModule,*/ HttpClientJsonpModule /*, CitiesModule */],
+    declarations: [
+        AttributesBuilderComponent,
+        AttributeWidgetComponent,
+        AttributeWidgetDirective,
+        TextWidgetComponent,
+        MinMaxWidgetComponent,
+        AttributePipe
+        /*, YmmSelectorComponent, CitySelectorComponent*/
+    ],
+    exports: [AttributesBuilderComponent, AttributePipe, AttributeWidgetComponent],
+    providers: [
+        {
+            provide: ATTRIBUTE_WIDGET,
+            useFactory: attrFactories.textFactory,
+            multi: true
+        },
+        {
+            provide: ATTRIBUTE_WIDGET,
+            useFactory: attrFactories.minmaxFactory,
+            multi: true
+        },
+        /*{
+          provide: ATTRIBUTE_WIDGET,
+          useFactory: attrFactories.ymmFactory,
+          multi: true
+        },
+        {
+          provide: ATTRIBUTE_WIDGET,
+          useFactory: attrFactories.cityFactory,
+          multi: true
+        }*/
+    ]
 })
 export class AttributesModule {
   constructor(

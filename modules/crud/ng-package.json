@@ -2,20 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/crud",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "plugin": "plugin",
-      "utils": "utils",
-      "@ngrx/data": "@ngrx/data",
-      "uuid": "uuid",
-      "dparam": "dparam",
-      "json-rules-engine": "json-rules-engine",
-      "attributes": "attributes",
-      "context": "context",
-      "datasource": "datasource",
-      "material": "material",
-      "qs": "qs",
-      "durl": "durl"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

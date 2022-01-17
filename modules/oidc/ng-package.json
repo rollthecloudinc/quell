@@ -2,15 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/oidc",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "@ngrx/effects": "@ngrx/effects",
-      "js-cookie": "js-cookie",
-      "numeral": "numeral",
-      "oidc-client": "oidc-client",
-      "@nguniversal/express-engine/tokens": "@nguniversal/express-engine/tokens",
-      "@ngrx/data": "@ngrx/data",
-      "auth": "auth"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

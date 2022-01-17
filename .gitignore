@@ -38,6 +38,7 @@ log.txt
 .history/*
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage

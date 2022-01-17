@@ -18,7 +18,7 @@ export const userManagerFactory = (clientSettings: ClientSettings, authWebStorag
 
 export const initAuthFactory = (userManager: UserManager, authFacade: AuthFacade, platformId: Object) => {
   return () => {
-    return new Promise(res => {
+    return new Promise<void>(res => {
       userManager.getUser().then(u => {
         if(u) {
           authFacade.setUser(u);

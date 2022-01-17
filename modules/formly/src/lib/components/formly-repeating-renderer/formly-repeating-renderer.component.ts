@@ -240,7 +240,7 @@ export class FormlyRepeatingRendererComponent {
   }
 
   ngOnInit() {
-    this.init$.next();
+    this.init$.next(undefined);
   }
 
   makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({ term: string, field: FormlyFieldConfig }) => Observable<Array<any>> {

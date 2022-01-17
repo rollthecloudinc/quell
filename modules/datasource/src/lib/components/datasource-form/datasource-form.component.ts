@@ -116,7 +116,7 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
   }
 
   ngAfterViewInit() {
-    this.afterViewInit$.next();
+    this.afterViewInit$.next(undefined);
   }
 
   renderPlugin(plugin: DatasourcePlugin<string>) {

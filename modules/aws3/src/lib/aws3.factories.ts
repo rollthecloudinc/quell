@@ -156,9 +156,9 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
           }),
           tap(({ res }) => console.log(`panelpage id ${(res as any).id}`)),
           map(({ res }) => ({ entities: [ res ], success: true }))
-        )
+        ),
         // Only implemented for GetObject (single object by identity) at the moment.
-        // of({ entities: [], success: false })
+        of({ entities: [], success: false })
       ))
     )
   });

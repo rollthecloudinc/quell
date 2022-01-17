@@ -173,11 +173,11 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   ) { }
 
   ngOnInit(): void {
-    this.init$.next();
+    this.init$.next(undefined);
   }
 
   ngAfterViewInit() {
-    this.afterViewInit$.next();
+    this.afterViewInit$.next(undefined);
   }
 
   writeValue(val: any): void {

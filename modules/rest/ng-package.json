@@ -2,22 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/rest",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "qs": "qs",
-      "datasource": "datasource",
-      "context": "context",
-      "material": "material",
-      "angular-split": "angular-split",
-      "ngx-json-viewer": "ngx-json-viewer",
-      "token": "token",
-      "durl": "durl",
-      "dparam": "dparam",
-      "snippet": "snippet",
-      "attributes": "attributes",
-      "content": "content",
-      "crud": "crud",
-      "@ngrx/data": "@ngrx/data"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

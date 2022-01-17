@@ -118,7 +118,7 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
   }
 
   onDocRendered() {
-    this.docRendered$.next();
+    this.docRendered$.next(undefined);
   }
 
 }

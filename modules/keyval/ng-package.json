@@ -2,12 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/keyval",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "crud": "crud",
-      "dparam": "dparam",
-      "idb-keyval": "idb-keyval",
-      "json-rules-engine": "json-rules-engine"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }

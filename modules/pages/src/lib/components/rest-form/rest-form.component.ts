@@ -62,7 +62,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
       }
       setTimeout(() => {
         this.restSource = { url: rest.url, params: rest.params, method: rest.method ? rest.method : '', body: rest.body ? { ...rest.body, jsScript: ''  } : '' };
-        this.sourceForm.refreshData$.next();
+        this.sourceForm.refreshData$.next(undefined);
       });
     }
   }

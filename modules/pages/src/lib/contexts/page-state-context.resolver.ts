@@ -77,7 +77,7 @@ export class PageStateContextResolver implements ContextResolver {
           map(state => new PanelPageState({ ...state, panels: state.panels.map(p => new PanelState({ ...p, panes: p.panes.map(p2 => new PaneState({ ...p2, state: this.attributeSerializer.serialize({ displayAssociatedPane: 'y' }, 'root') })) }))  })),
           map<PanelPageState, [PanelPageState, string]>(state => [state, query])
         ),
-        of([ps ? ps : this.emptyPaneState, query])
+        of([ps /*? ps : this.emptyPaneState*/, query])
       )),
       tap(([state, _]) => {
         console.log('rebuilt state from realtime page');

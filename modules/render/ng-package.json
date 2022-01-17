@@ -2,19 +2,6 @@
   "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../dist/render",
   "lib": {
-    "entryFile": "src/public-api.ts",
-    "umdModuleIds": {
-      "layout": "layout",
-      "attributes": "attributes",
-      "utils": "utils",
-      "panels": "panels",
-      "angular-gridster2": "angular-gridster2",
-      "context": "context",
-      "@ngrx/router-store": "@ngrx/router-store",
-      "@ngrx/store": "@ngrx/store",
-      "uuid": "uuid",
-      "content": "content",
-      "@ngrx/data": "@ngrx/data"
-    }
+    "entryFile": "src/public-api.ts"
   }
 }
