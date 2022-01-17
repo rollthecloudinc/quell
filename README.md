@@ -60,6 +60,7 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 
 * Core/Druid | The core platform providing all the modules for the build and render of panel pages.
 * Sparkle | Collection of modules to deliver decentralized, graph integration motivated by collection of various metric categories.
+* Druid as a module federation orchestration platform like what kubernetes is to docker but in the mirco-frontend world.
 
 ### Notable Mentions
 
