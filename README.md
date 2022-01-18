@@ -18,6 +18,8 @@ Druid is a serverless publishing platform optimized for the modern web using cut
 * Customizable data storage and access restrictions
 * Ruesable change detection aware variable definitions
 
+### Micro-Frontend Orchestration
+
 Druid will also be used as an orchestration platform for micro frontends compiled to JavaScript or jypter notebooks. This is an active initative high up on the priority list.
 
 ### Live Demo
