@@ -18,6 +18,10 @@ Druid is a serverless publishing platform optimized for the modern web using cut
 * Customizable data storage and access restrictions
 * Ruesable change detection aware variable definitions
 
+### Micro-Frontend Orchestration
+
+Druid will also be used as an orchestration platform for micro frontends compiled to JavaScript or jypter notebooks. This is an active initative high up on the priority list.
+
 ### Live Demo
 
 In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid core provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
