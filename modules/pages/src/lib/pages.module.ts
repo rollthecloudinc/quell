@@ -96,6 +96,7 @@ import { FormDatasourceFormComponent } from './components/form-datasource-form/f
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 import { RenderModule } from 'render';
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -135,6 +136,7 @@ const routes = [
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    FlexLayoutServerModule,
     AngularSplitModule,
     RouterModule.forChild(routes),
     NgxJsonViewerModule,

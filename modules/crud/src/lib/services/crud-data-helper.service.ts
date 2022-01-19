@@ -47,7 +47,7 @@ export class CrudDataHelperService {
         switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
         switchMap(res => iif(
           () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
-          this.evaluateCollectionPlugins({ query, plugins: plugins[a].plugins, objects: res.entities ? res.entities : objects, parentObjects: res.originalEntities ? res.originalEntities : objects, op }),
+          this.evaluateCollectionPlugins({ query, plugins: plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? plugins[a].plugins : {}, objects: res.entities ? res.entities : objects, parentObjects: res.originalEntities ? res.originalEntities : objects, op }),
           of(res)
         ))
       )

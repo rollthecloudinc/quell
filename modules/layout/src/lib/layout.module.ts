@@ -22,6 +22,7 @@ import { GridlessLayoutRendererComponent } from './components/gridless-layout-re
 import { SplitLayoutEditorComponent } from './components/split-layout-editor/split-layout-editor.component';
 import { FlexLayoutRendererComponent } from './components/flex-layout-renderer/flex-layout-renderer.component';
 import { GridLayoutEditorComponent } from './components/grid-layout-editor/grid-layout.editor.component';
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { GridLayoutEditorComponent } from './components/grid-layout-editor/grid-
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
+    FlexLayoutServerModule,
     AngularSplitModule,
     GridsterModule,
     NgxDropzoneModule,
