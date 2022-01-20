@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import * as numeral from 'numeral';
+import { toNumber } from "number-string";
 
 @Pipe({
   name: 'numeral'
@@ -10,7 +10,9 @@ export class NumeralPipe implements PipeTransform {
     if(value === undefined || value === '') {
       return;
     }
-    return numeral(value).format(format);
+    // @todo: reimplment format.
+    // return toNumber(`${value}`).format(format);
+    return toNumber(`${value}`);
   }
 
 }

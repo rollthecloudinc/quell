@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
 import { AttributeValue, AttributeTypes } from '../models/attributes.models';
 import { ValueComputerService } from '../services/value-computer.service';
-import * as numeral from 'numeral';
+import { toNumber } from "number-string";
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +115,7 @@ export class AttributeSerializerService {
         break;
       case AttributeTypes.Number:
       case AttributeTypes.Float:
-        obj = attrValue.value !== undefined && attrValue.value !== '' ? numeral(attrValue.value.trim()).value() : undefined;
+        obj = attrValue.value !== undefined && attrValue.value !== '' && attrValue.value !== 'undefined' ? attrValue.value !== '0' ? toNumber(attrValue.value.trim()) : 0 : undefined;
         break;
       case AttributeTypes.Text:
         obj = attrValue.value;

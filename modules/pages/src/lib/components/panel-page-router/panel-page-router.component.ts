@@ -45,6 +45,7 @@ export class PanelPageRouterComponent implements OnInit {
         take(1)
       ))
     ).subscribe(([panelPage, args]) => {
+      console.log(`panel page object`, panelPage);
       console.log('route page');
       const realPath = '/pages/panelpage/' + panelPage.id;
       this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ id: panelPage.id, realPath, path: panelPage.path, args }));

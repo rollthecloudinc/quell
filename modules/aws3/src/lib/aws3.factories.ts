@@ -145,7 +145,7 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
               delete signedHttpRequest.headers.host;
             // }
             // const url = `${ isPlatformServer(platformId) ? '' : '/opensearch' }${signedHttpRequest.path}`;
-            const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/s3/${options.bucket}/${signedHttpRequest.path}`;
+            const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/s3/${options.bucket}${signedHttpRequest.path}`;
             console.log('url', url);
             return asyncApiCallHelperSvc.doTask(http.get(url, { headers: signedHttpRequest.headers, withCredentials: true }).toPromise()).pipe(
               map(res => ({ res, options }))

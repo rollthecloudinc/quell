@@ -64,7 +64,7 @@
     "ngx-json-viewer": "^3.0.2",
     "ngx-markdown": "^13.0.0",
     "ngx-monaco-editor": "^12.0.0",
-    "numeral": "^2.0.6",
+    "number-string": "^2.0.1",
     "oidc-client": "^1.11.5",
     "qs": "^6.10.3",
     "rxjs": "~7.5.2",

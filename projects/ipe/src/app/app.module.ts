@@ -61,7 +61,7 @@ import { LoopModule } from 'loop';
 import { RenderModule } from 'render';
 import { FormsModule as DruidFormsModule } from 'forms';
 import { TransferHttpCacheModule } from '@nguniversal/common';
-import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+// import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 const routes = [
@@ -123,7 +123,7 @@ export function markedOptionsFactory(): MarkedOptions {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    FlexLayoutServerModule,
+    // FlexLayoutServerModule,
     NgxJsonViewerModule,
     TransferHttpCacheModule,
     MarkdownModule.forRoot({

@@ -8,7 +8,7 @@ import { INgxGalleryOptions, INgxGalleryImage, NgxGalleryAnimation } from '@kolk
 
 @Component({
   selector: 'classifieds-ui-gallery-panel-renderer',
-  templateUrl: './gallery-panel-renderer.component.html',
+  templateUrl: './gallery-panel-renderer-empty.component.html',
   styleUrls: ['./gallery-panel-renderer.component.scss']
 })
 export class GalleryPanelRendererComponent implements OnInit {

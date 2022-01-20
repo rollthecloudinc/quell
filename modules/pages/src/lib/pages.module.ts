@@ -20,7 +20,7 @@ import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager, ResolvedContextPluginManager } from 'context';
 // import { TaxonomyModule } from 'taxonomy';
 // import { STYLE_PLUGIN } from 'style';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery';
+// import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import { GridsterModule } from 'angular-gridster2';
 import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, EntityDataService, EntityDefinitionService, Pluralizer } from '@ngrx/data';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -96,7 +96,7 @@ import { FormDatasourceFormComponent } from './components/form-datasource-form/f
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 import { RenderModule } from 'render';
-import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+// import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -136,7 +136,7 @@ const routes = [
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
-    FlexLayoutServerModule,
+    // FlexLayoutServerModule,
     AngularSplitModule,
     RouterModule.forChild(routes),
     NgxJsonViewerModule,
@@ -149,7 +149,7 @@ const routes = [
     AttributesModule,
     MediaModule,
     LayoutModule,
-    NgxGalleryModule,
+    // NgxGalleryModule,
     QueryBuilderModule,
     // TaxonomyModule,
     // StoreModule.forFeature(fromPageBuilder.pageBuilderFeatureKey, fromPageBuilder.reducer),
@@ -162,7 +162,7 @@ const routes = [
     DatasourceModule,
     RenderModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, GalleryPanelRendererComponent, DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -187,7 +187,7 @@ const routes = [
     // { provide: CONTENT_PLUGIN, useFactory: panelContentPluginFactory, multi: true, deps: [ PanelContentHandler ] }, -> moved to panels module
     { provide: CONTENT_PLUGIN, useFactory: restContentPluginFactory, multi: true, deps: [ RestContentHandler ]  },
     { provide: CONTENT_PLUGIN, useFactory: sliceContentPluginFactory, multi: true, deps: [ SliceContentHandler ]  },
-    { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
+    // { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useFactory: tabsStylePluginFactory, multi: true, deps: [ TabsStyleHandler ] },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }

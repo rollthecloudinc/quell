@@ -78,7 +78,13 @@ export function app() {
 
   // aws service proxy
   server.use('/awproxy', proxy(req => `https://${req.originalUrl.split('/')[3]}.${ req.originalUrl.split('/').length > 4 && req.originalUrl.split('/')[4].match(/^us\-(east|west)-[0-9]+$/gi) ? `${req.originalUrl.split('/')[4]}.` : '' }${req.originalUrl.split('/')[2]}.amazonaws.com` , {
-    proxyReqPathResolver: req => '/' + req.url.split('/').slice(4).join('/'),
+    proxyReqPathResolver: req => {
+      console.log(`current request path: ${req.url}`);
+      console.log('split', req.url.split('/'));
+      const newPath = '/' + (req.url.split('/').length > 3 && req.url.split('/')[3].match(/^us\-(east|west)-[0-9]+$/gi) ? req.url.split('/').slice(4).join('/') : req.url.split('/').slice(3).join('/'));
+      console.log(`new request path: ${newPath}`);
+      return newPath;
+    },
     proxyReqOptDecorator: proxyReqOpts => {
       proxyReqOpts.headers['host'] = `${proxyReqOpts.path.split('/')[2]}.${ proxyReqOpts.path.split('/').length > 3 && proxyReqOpts.path.split('/')[3].match(/^us\-(east|west)\-[0-9]+$/gi) ? `${proxyReqOpts.path.split('/')[3]}.` : '' }${proxyReqOpts.path.split('/')[1]}.amazonaws.com`;
       return proxyReqOpts;
