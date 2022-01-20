@@ -1,2 +1,2 @@
-<classifieds-ui-dynamic-content-viewer *ngIf="contentType == 'text/markdown'" [content]="(content$ | async) | markdown" (docRendered)="onDocRendered()"></classifieds-ui-dynamic-content-viewer>
+<classifieds-ui-dynamic-content-viewer *ngIf="contentType == 'text/markdown'" [content]="content$ | async" (docRendered)="onDocRendered()"></classifieds-ui-dynamic-content-viewer>
 <classifieds-ui-dynamic-content-viewer *ngIf="contentType == 'text/html'" [content]="content$ | async" (docRendered)="onDocRendered()"></classifieds-ui-dynamic-content-viewer>

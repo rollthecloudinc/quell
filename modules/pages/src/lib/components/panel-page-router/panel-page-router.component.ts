@@ -37,6 +37,7 @@ export class PanelPageRouterComponent implements OnInit {
       filter(id => id !== undefined),
       distinctUntilChanged(),
       tap(() => console.log('panel page router before page getByKey')),
+      // @todo: This universal rendering...
       switchMap(id => /*this.asyncApiCallHelperSvc.doTask(*/this.panelPageService.getByKey(id).toPromise()/*)*/),
       tap(() => console.log('panel page router after page getByKey')),
       withLatestFrom(this.routerStore.pipe(

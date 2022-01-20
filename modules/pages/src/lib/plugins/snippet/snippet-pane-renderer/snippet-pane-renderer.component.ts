@@ -6,7 +6,7 @@ import { Snippet } from 'snippet';
 import { InlineContext } from 'context';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
-
+import { MarkdownService } from 'ngx-markdown';
 @Component({
   selector: 'classifieds-ui-snippet-pane-renderer',
   templateUrl: './snippet-pane-renderer.component.html',
@@ -66,13 +66,16 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
     }
     this.contentType = snippet.contentType;
     this.snippet$.next(snippet);
-    this.content$.next(this.replaceTokens(snippet.content));
+    const replacedTokens = this.replaceTokens(snippet.content);
+    const compiledContent = snippet.contentType.indexOf('markdown') !== -1 ? this.markdownService.compile(replacedTokens) : replacedTokens;
+    this.content$.next(compiledContent);
   });
 
   constructor(
     private hostEl: ElementRef,
     private handler: SnippetContentHandler,
-    private tokenizerService: TokenizerService
+    private tokenizerService: TokenizerService,
+    private markdownService: MarkdownService
   ) { }
 
   ngOnInit(): void {
