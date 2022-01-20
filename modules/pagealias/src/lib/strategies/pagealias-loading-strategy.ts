@@ -25,7 +25,7 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
     return this.routesLoaded;
   }
   load(): Observable<boolean> {
-    return this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}&path={"wildcard":{"path.keyword":{"value":"*"}}}`).pipe(
+    return this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName})"}}}`)}&path=${encodeURIComponent(`{"wildcard":{"path.keyword":{"value":"*"}}}`)}`).pipe(
       map(pp => pp.filter(p => p.path !== undefined && p.path !== '')),
       map(pp => pp.map(o => new PanelPage(o)).sort((a, b) => {
         if(a.path.split('/').length === b.path.split('/').length) {
