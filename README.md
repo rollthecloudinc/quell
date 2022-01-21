@@ -113,6 +113,8 @@ Formly Kitchen Sink
 
 Build forms and save submissions.
 
+NOTE: The initial intention was to use formly for building forms. After much work and frustration this was abandoned. One of the primary reasons of abandoning formly was the way the components were built required a lot of work arounds and hacks to integrate well with panels, and converting panel forms to trimmed down realistic domain objects. The decision to finally abandon formly was made when it seemed nearly impossible to realize repeating nested forms. The successor of the for all intents and purposes dead formly module is the forms module. The intention of the forms module is support all the same features of formly but using an architecture that better aligns with panels drastically simplifying form components, repeating sections, and nested forms even within repeating sections.
+
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
 https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
 
