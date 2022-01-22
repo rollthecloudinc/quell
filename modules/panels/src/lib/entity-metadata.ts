@@ -32,7 +32,9 @@ export const entityMetadataFactory = (platformId: Object): CrudEntityMetadataMap
                 prefix: 'panelpage__'
               },
               queryMappings: new Map<string, CrudEntityQueryMapping>([
-                ['path', { defaultOperator: 'startsWith' }]
+                // ['path', { defaultOperator: 'startsWith' }]
+                ['site', { defaultOperator: 'term||wildcard' }],
+                ['path', { defaultOperator: 'term||wildcard' }]
               ])
             }
           }
@@ -46,7 +48,7 @@ export const entityMetadataFactory = (platformId: Object): CrudEntityMetadataMap
       entityName: 'PanelPage',
       crud: {
         aws_s3_entity: {
-          // ops: ['query'],
+          ops: ['query'],
           params: {
             bucket: 'classifieds-ui-dev',
             prefix: 'panelpages/'

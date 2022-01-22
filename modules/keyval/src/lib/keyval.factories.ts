@@ -3,7 +3,8 @@ import { Param, ParamEvaluatorService } from 'dparam';
 import { concat, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
 import { set, keys, getMany } from 'idb-keyval';
-import { Engine } from 'json-rules-engine';
+import { ConditionProperties, Engine } from 'json-rules-engine';
+import { JSONPath } from 'jsonpath-plus';
 
 export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamEvaluatorService) => {
   return new CrudAdaptorPlugin<string>({
@@ -72,6 +73,11 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
         const engine = new Engine();
         // This should not be here should be setup for default engine but for now whatever.
         engine.addOperator('startsWith', (fv, jv) => typeof(jv) === 'string' && typeof(fv) === 'string' && jv.indexOf(fv) === 0);
+        engine.addOperator('term||wildcard', (fv: string, jv: string) => {
+          const jsonValue = JSON.parse(decodeURIComponent(jv));
+          const terms = JSONPath({ path: `$.term.*.value.@string()`, json: jsonValue, flatten: true });
+          return jsonValue.wildcard !== undefined || (jsonValue.term && terms.lengh !== 0 && terms[0] === fv);
+        });
         engine.addRule(rule);
         engine.addFact('identity', (_, almanac) => new Observable(obs2 => {
           almanac.factValue('entity')

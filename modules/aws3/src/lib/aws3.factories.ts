@@ -7,7 +7,7 @@ import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudColle
 import { ParamEvaluatorService } from 'dparam';
 import { AllConditions, AnyConditions, ConditionProperties } from 'json-rules-engine';
 import { forkJoin, iif, Observable, of } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { SignatureV4 } from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
@@ -148,14 +148,15 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
             const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/s3/${options.bucket}${signedHttpRequest.path}`;
             console.log('url', url);
             return asyncApiCallHelperSvc.doTask(http.get(url, { headers: signedHttpRequest.headers, withCredentials: true }).toPromise()).pipe(
+              catchError(() => of(undefined)),
               map(res => ({ res, options }))
             );
             /*return http.get(url, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
               map(res => ({ res, options }))
             );*/
           }),
-          tap(({ res }) => console.log(`panelpage id ${(res as any).id}`)),
-          map(({ res }) => ({ entities: [ res ], success: true }))
+          tap(({ res }) => console.log(`panelpage id ${res ? (res as any).id : 'undefined'}`)),
+          map(({ res }) => ({ entities: res ? [ res ] : [], success: res ? true : false }))
         ),
         // Only implemented for GetObject (single object by identity) at the moment.
         of({ entities: [], success: false })
