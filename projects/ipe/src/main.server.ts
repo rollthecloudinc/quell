@@ -1,8 +1,9 @@
 import 'zone.js/node';
 
-//export { ngExpressEngine } from '@nguniversal/express-engine'; 
+export { ngExpressEngine } from '@nguniversal/express-engine'; 
 export { enableProdMode } from '@angular/core';
-// export { AppServerModule } from './app/app.server.module';
+export { AppServerModule } from './app/app.server.module';
+export { HOST_NAME, PROTOCOL } from 'utils';
 // export { renderModule, renderModuleFactory } from '@angular/platform-server';
 
 // import { renderModule, renderModuleFactory } from '@angular/platform-server';

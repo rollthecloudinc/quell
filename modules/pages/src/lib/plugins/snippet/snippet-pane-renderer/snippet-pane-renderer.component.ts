@@ -67,7 +67,7 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
     this.contentType = snippet.contentType;
     this.snippet$.next(snippet);
     const replacedTokens = this.replaceTokens(snippet.content);
-    const compiledContent = snippet.contentType.indexOf('markdown') !== -1 ? this.markdownService.compile(replacedTokens) : replacedTokens;
+    const compiledContent = snippet.contentType && snippet.contentType.indexOf('markdown') !== -1 ? this.markdownService.compile(replacedTokens) : replacedTokens;
     this.content$.next(compiledContent);
   });
 

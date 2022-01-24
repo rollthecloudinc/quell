@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent } from '@angular/common/http';
+import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 // import { OktaAuthService } from '@okta/okta-angular';
 import { AuthFacade } from 'auth';
 import { Observable } from 'rxjs';
@@ -15,14 +15,20 @@ export class TokenInterceptor implements HttpInterceptor {
     return this.authFacade.token$/*this.getAccessToken()*/.pipe(
       take(1),
       concatMap(t => {
+        let headers = req.headers;
+        if (req.url.indexOf('/awproxy') !== -1) {
+          // headers = headers.delete('cookie');
+        }
         if (t && req.url.indexOf('cloudfront') === -1 && req.url.indexOf('cloudinary') === -1 && req.url.indexOf('carquery') === -1 && req.url.indexOf('gateway.marvel.com') === -1 && req.url.indexOf('hereapi.com') === -1 && req.url.indexOf('/opensearch') === -1 && req.url.indexOf('/s3') === -1 && req.url.indexOf('/awproxy') === -1) {
+          headers = headers.set('Authorization', t)
           const authReq = req.clone({
             // headers: req.headers.set('Authorization', `Bearer ${t}`)
-            headers: req.headers.set('Authorization', t)
+            headers
           });
           return next.handle(authReq)
         } else {
-          return next.handle(req);
+          const cReq = req.clone({ headers });
+          return next.handle(cReq);
         }
       })
     );

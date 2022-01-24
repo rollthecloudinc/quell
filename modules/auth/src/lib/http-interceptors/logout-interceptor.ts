@@ -16,7 +16,8 @@ export class LogoutInterceptor implements HttpInterceptor {
       tap({
         error: (e: HttpErrorResponse) => {
           if(e.status === 401) {
-            this.authFacade.logout();
+            // This breaks the server application remove for now.
+            // this.authFacade.logout();
             // alert('You have been automatically logged out due to inactivity. Please login again.');
             //this.router.navigateByUrl('/');
           }

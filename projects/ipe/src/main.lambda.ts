@@ -10,7 +10,7 @@ import 'mime-types';
 import 'mime-db';
 
 // const { ngExpressEngine, AppServerModule, enableProdMode } = require('../../../dist/ipe/server/main');
-const { ngExpressEngine, AppServerModule, enableProdMode } = require('../server/main');
+const { ngExpressEngine, AppServerModule, enableProdMode, HOST_NAME, PROTOCOL } = require('../server/main');
 import { APP_BASE_HREF } from '@angular/common';
 //const winston  = require('winston');
 //const  { Loggly } = require('winston-loggly-bulk');
@@ -19,9 +19,24 @@ import { APP_BASE_HREF } from '@angular/common';
 import * as compression from 'compression';
 // import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
-import { HOST_NAME, PROTOCOL } from 'utils';
 const cookieParser = require('cookie-parser');
 const proxy = require('express-http-proxy');
+
+const opentelemetry = require("@opentelemetry/sdk-node");
+const { getNodeAutoInstrumentations } = require("@opentelemetry/auto-instrumentations-node");
+const { MeterProvider, ConsoleMetricExporter } = require('@opentelemetry/sdk-metrics-base');
+
+const sdk = new opentelemetry.NodeSDK({
+  traceExporter: new opentelemetry.tracing.ConsoleSpanExporter(),
+  instrumentations: [getNodeAutoInstrumentations()]
+});
+
+sdk.start()
+
+const meter = new MeterProvider({
+  exporter: new ConsoleMetricExporter(),
+  interval: 1000,
+}).getMeter('your-meter-name');
 
 // Serveless stuff.
 const serverlessExpress = require('@vendia/serverless-express');
@@ -101,10 +116,12 @@ export function app() {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
+    console.log('request object', req);
+    console.log('host: ', req.headers.host);
     res.render(indexHtml, { req, providers: [
       { provide: APP_BASE_HREF, useValue: req.baseUrl },
       { provide: HOST_NAME, useValue: req.headers.host },
-      { provide: PROTOCOL, useValue: 'http' },
+      { provide: PROTOCOL, useValue: 'https' },
     ] });
   });
 
