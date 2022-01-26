@@ -30,7 +30,7 @@ In Druid layout, content, and data exist as one forming a multi-dimensional, sym
 
 The live demo app can be found at the link below.
 
-https://dpxmq1mxvsyda.cloudfront.net/pages/create-panel-page
+https://e4cq5a4vfc.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 Saved pages are currently saved to index db.
 
@@ -102,8 +102,8 @@ Marvel Character Browser
 
 View and search characters in the Marvel universe.
 
-* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334
-* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
+* https://e4cq5a4vfc.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://e4cq5a4vfc.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
@@ -115,8 +115,8 @@ Build forms and save submissions.
 
 NOTE: The initial intention was to use formly for building forms. After much work and frustration this was abandoned. One of the primary reasons of abandoning formly was the way the components were built required a lot of work arounds and hacks to integrate well with panels, and converting panel forms to trimmed down realistic domain objects. The decision to finally abandon formly was made when it seemed nearly impossible to realize repeating nested forms. The successor of the for all intents and purposes dead formly module is the forms module. The intention of the forms module is support all the same features of formly but using an architecture that better aligns with panels drastically simplifying form components, repeating sections, and nested forms even inside repeating sections also vice versa. Many of the form component offerings of formly have been realized in forms already including repeating sections and nested forms using nested panels. The major feature that has not been completed only thought through is validation. That being said the below demo still accurrately depicts the form component offerings but uses the formly module integration instead of the forms module integration.
 
-* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
-* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
+* https://e4cq5a4vfc.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://e4cq5a4vfc.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
 
