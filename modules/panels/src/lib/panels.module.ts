@@ -22,7 +22,7 @@ import { ContextPluginManager } from 'context';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 import { DatasourceModule } from 'datasource';
-import { PanelPage, PanelPageListItem } from './models/panels.models';
+import { PanelPage, PanelPageListItem, PanelsSettings } from './models/panels.models';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthFacade, AuthModule } from 'auth';
 import { PanelPageForm } from './models/form.models';
@@ -30,6 +30,7 @@ import { PageBuilderEffects } from './features/page-builder/page-builder.effects
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
+import { PANELS_SETTINGS } from './panels.tokens';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
@@ -66,6 +67,7 @@ export class PanelsModule {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin<string>>,
+    @Inject(PANELS_SETTINGS) panelsSettings: PanelsSettings,
     eds: EntityDefinitionService,
     cpm: ContentPluginManager,
     entityDataService: EntityDataService,
@@ -78,7 +80,7 @@ export class PanelsModule {
     panelsStateContextResolver: PanelsStateContextResolver*/
     crudDataHelper: CrudDataHelperService
   ) {
-    const entityMetadata = entityMetadataFactory(platformId);
+    const entityMetadata = entityMetadataFactory(platformId, panelsSettings);
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService('PanelPageState', new NoopDataService<PanelPageState>('PanelPageState'));
     // Just for testing - data service will be configurable. - different service for separate ops ie. search vs. save

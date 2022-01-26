@@ -1,8 +1,9 @@
 //import { EntityMetadataMap } from '@ngrx/data';
 import { isPlatformServer } from '@angular/common';
 import { CrudEntityMetadataMap, CrudEntityQueryMapping } from 'crud';
+import { PanelsSettings } from './models/panels.models';
 
-export const entityMetadataFactory = (platformId: Object): CrudEntityMetadataMap => {
+export const entityMetadataFactory = (platformId: Object, panelsSettings: PanelsSettings): CrudEntityMetadataMap => {
   return {
     PanelPageListItem: {
       entityName: 'PanelPageListItem',
@@ -20,7 +21,8 @@ export const entityMetadataFactory = (platformId: Object): CrudEntityMetadataMap
             index: 'classified_panelpages',
             hits: true,
             source: true,
-            domain: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq',
+            // domain: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq',
+            domain: panelsSettings.openSearchDomain,
             region: 'us-east-1'
           }
         },
@@ -50,7 +52,8 @@ export const entityMetadataFactory = (platformId: Object): CrudEntityMetadataMap
         aws_s3_entity: {
           ops: ['query'],
           params: {
-            bucket: 'classifieds-ui-dev',
+            // bucket: 'classifieds-ui-dev',
+            bucket: panelsSettings.s3Bucket,
             prefix: 'panelpages/'
           }
         },

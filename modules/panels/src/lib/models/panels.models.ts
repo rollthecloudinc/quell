@@ -42,6 +42,17 @@ export interface PanelsEditor {
 
 }
 
+export class PanelsSettings {
+  openSearchDomain: string;
+  s3Bucket: string;
+  constructor(data?: PanelsSettings) {
+    if(data) {
+      this.openSearchDomain = data.openSearchDomain;
+      this.s3Bucket = data.s3Bucket;
+    }
+  }
+}
+
 export class PanelPage {
   id: string;
   name?: string;

@@ -22,7 +22,7 @@ import { ContextModule } from 'context';
 import { ContentModule } from 'content';
 import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from 'alias';
 import { PagealiasModule } from 'pagealias';
-import { PanelsModule } from 'panels';
+import { PanelsModule, PanelsSettings, PANELS_SETTINGS } from 'panels';
 import { FormlyModule } from 'formly';
 import { BridgeModule } from 'bridge';
 import { StateModule } from 'state';
@@ -193,6 +193,7 @@ export function markedOptionsFactory(): MarkedOptions {
 
     { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
+    { provide: PANELS_SETTINGS, useValue: new PanelsSettings(environment.panelsSettings) },
 
     { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
     // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
