@@ -66,7 +66,7 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 * Magento | https://magento.com/
 * Modx | https://modx.com/
 
-Learn and discover new more efficient ways to efficiently build well architected modern browser experiences. Reveal noteworhty discoveries and provide demostrations to augment sharing knowledge of those realizations.
+Learn and discover new more efficient ways to build well architected modern browser experiences. Reveal noteworhty discoveries and provide demostrations to augment sharing knowledge of those realizations.
 
 ### Initiatives
 
