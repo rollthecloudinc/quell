@@ -60,14 +60,11 @@ The well has run dry with sophisticated, powerful modern tools for authoring con
 
 ### Motivations
 
-## Legacy CMSs
 This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
 
 * Drupal | https://www.drupal.org/
 * Magento | https://magento.com/
 * Modx | https://modx.com/
-
-## Improvment
 
 Learn and discover new more efficient ways to efficiently build well architected modern browser experiences. Reveal noteworhty discoveries and provide demostrations to augment sharing knowledge of those realizations.
 
