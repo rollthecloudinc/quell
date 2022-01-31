@@ -24,13 +24,17 @@ Druid will also be used as an orchestration platform for micro frontends compile
 
 The first part of this is upgrading to Angular v13 which is currently in progress and nearly complete. Once that is done some of the newer webpack features can be utilized to provide module federation capabilities through a v13 compatible module federation webpack integration library.
 
+### d2a Architecture
+
+d2a programming is a change in the way browser based applications communicate with services. Traditionally there has been a false desire to create a middle layer of restful APIs or micro-services. However, with the evolution of the cloud and especially the innovations of AWS no longer this is necessary. Instead the costs and complexity of applications can be decreased while actively increasing scalability using secure, direct communication with services in the cloud in the browser alone. The entire monolithic or complex ecosystem of complex containerized micro-services can be replaced with d2a. This frees up an organizations ability to focus on user experiences rather than architecting unnecessary domain modeled middle-men between the browser and cloud services. This is realized through signed http requests. All outgoing http requests can be signed to securely communicate with outside services such as aws. Applications built on this model allow organizations to focus completely on front-end development and aws cloud instead of managing complex, convoluted containers in kubernetes for which there is no desire or need.
+
 ### Live Demo
 
 In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid core provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
 
 The live demo app can be found at the link below.
 
-https://dpxmq1mxvsyda.cloudfront.net/pages/create-panel-page
+https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 Saved pages are currently saved to index db.
 
@@ -62,11 +66,14 @@ This project is inspired by older CMS platforms. Specifically given extensive wo
 * Magento | https://magento.com/
 * Modx | https://modx.com/
 
+Learn and discover new more efficient ways to build well architected modern browser experiences. Reveal noteworhty discoveries and provide demostrations to augment sharing knowledge of those realizations.
+
 ### Initiatives
 
 * Core/Druid | The core platform providing all the modules for the build and render of panel pages.
 * Sparkle | Collection of modules to deliver decentralized, graph integration motivated by collection of various metric categories.
 * Druid as a module federation orchestration platform like what kubernetes is to docker but in the micro-frontend world.
+* Promote d2a programming model using demos to pave the pathway of education and understanding
 
 ### Notable Mentions
 
@@ -102,8 +109,8 @@ Marvel Character Browser
 
 View and search characters in the Marvel universe.
 
-* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334
-* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
@@ -115,8 +122,8 @@ Build forms and save submissions.
 
 NOTE: The initial intention was to use formly for building forms. After much work and frustration this was abandoned. One of the primary reasons of abandoning formly was the way the components were built required a lot of work arounds and hacks to integrate well with panels, and converting panel forms to trimmed down realistic domain objects. The decision to finally abandon formly was made when it seemed nearly impossible to realize repeating nested forms. The successor of the for all intents and purposes dead formly module is the forms module. The intention of the forms module is support all the same features of formly but using an architecture that better aligns with panels drastically simplifying form components, repeating sections, and nested forms even inside repeating sections also vice versa. Many of the form component offerings of formly have been realized in forms already including repeating sections and nested forms using nested panels. The major feature that has not been completed only thought through is validation. That being said the below demo still accurrately depicts the form component offerings but uses the formly module integration instead of the forms module integration.
 
-* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1
-* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
 
