@@ -7,13 +7,15 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js"
   },
   "browser": {
     "vm": false
   },
   "private": true,
   "dependencies": {
+    "@angular-architects/module-federation": "^14.0.1",
     "@angular/animations": "~13.1.2",
     "@angular/cdk": "^13.1.2",
     "@angular/cdk-experimental": "^13.1.2",

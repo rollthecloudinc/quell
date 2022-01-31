@@ -171,7 +171,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
       }
     }
     for(const prop in qsParsed) {
-      if(qsParsed[prop].indexOf(':') > -1) {
+      if(typeof(qsParsed[prop]) === 'string' && (qsParsed[prop] as string).indexOf(':') > -1) {
         if(!this.sourceForm.get('params').value[pathParams]) {
           return '';
         }

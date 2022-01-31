@@ -14,7 +14,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             entityName: 'PanelPageListItem'
           }
         },*/
-        aws_opensearch_template: {
+        /*aws_opensearch_template: {
           ops: ['query'],
           params: {
             id: 'panelpagelistitems',
@@ -25,7 +25,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             domain: panelsSettings.openSearchDomain,
             region: 'us-east-1'
           }
-        },
+        },*/
         ...(isPlatformServer(platformId) ?
           {} :
           {
@@ -49,14 +49,14 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
     PanelPage: {
       entityName: 'PanelPage',
       crud: {
-        aws_s3_entity: {
+        /*aws_s3_entity: {
           ops: ['query'],
           params: {
             // bucket: 'classifieds-ui-dev',
             bucket: panelsSettings.s3Bucket,
             prefix: 'panelpages/'
           }
-        },
+        },*/
         /*rest: {
           // ops: ['query'],
           params: {

@@ -38,9 +38,9 @@ export class UrlGeneratorService {
         const qs$: Array<Observable<[string, any, boolean]>> = [];
         for(const prop in qsParsed) {
           if(Array.isArray(qsParsed[prop])) {
-            qsParsed[prop].forEach(p => qs$.push(this.paramEvaluatorService.paramValue(mappings.get(p), meta).pipe(map(v => [prop, v, true]))));
-          } else if(typeof(qsParsed[prop]) === 'string' && qsParsed[prop].indexOf(':') > -1) {
-            qs$.push(this.paramEvaluatorService.paramValue(mappings.get(qsParsed[prop]/*.substr(1)*/), meta).pipe(map(v => [prop, v, false])));
+            (qsParsed[prop] as Array<any>).forEach(p => qs$.push(this.paramEvaluatorService.paramValue(mappings.get(p), meta).pipe(map(v => [prop, v, true]))));
+          } else if(typeof(qsParsed[prop]) === 'string' && (qsParsed[prop] as string).indexOf(':') > -1) {
+            qs$.push(this.paramEvaluatorService.paramValue(mappings.get((qsParsed[prop] as string)/*.substr(1)*/), meta).pipe(map(v => [prop, v, false])));
           } else {
             qs$.push(of([prop, qsParsed[prop], Array.isArray(qsParsed[prop])]));
           }
