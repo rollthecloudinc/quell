@@ -26,7 +26,7 @@ The first part of this is upgrading to Angular v13 which is currently in progres
 
 * alienalias: Map router path to micro front-end
 * tractorbeam: Load new functionaility into editor at runtime from remote Angular modules.
-* outsider: Embed micro front-end apps as content pages inside editor
+* outsider: Embed micro front-end apps as content panes inside editor
 
 ### d2a Architecture
 
