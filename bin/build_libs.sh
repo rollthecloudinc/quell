@@ -23,6 +23,7 @@ npm run build awos
 npm run build deity
 npm run build style
 npm run build transform
+npm run build outsider
 npm run build panels
 npm run build layout
 npm run build state
