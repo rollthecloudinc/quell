@@ -1393,6 +1393,37 @@
 					}
 				}
 			}
+		},
+		"alienalias": {
+			"projectType": "library",
+			"root": "modules/alienalias",
+			"sourceRoot": "modules/alienalias/src",
+			"prefix": "lib",
+			"architect": {
+				"build": {
+					"builder": "@angular-devkit/build-angular:ng-packagr",
+					"options": {
+						"project": "modules/alienalias/ng-package.json"
+					},
+					"configurations": {
+						"production": {
+							"tsConfig": "modules/alienalias/tsconfig.lib.prod.json"
+						},
+						"development": {
+							"tsConfig": "modules/alienalias/tsconfig.lib.json"
+						}
+					},
+					"defaultConfiguration": "production"
+				},
+				"test": {
+					"builder": "@angular-devkit/build-angular:karma",
+					"options": {
+						"main": "modules/alienalias/src/test.ts",
+						"tsConfig": "modules/alienalias/tsconfig.spec.json",
+						"karmaConfig": "modules/alienalias/karma.conf.js"
+					}
+				}
+			}
 		}
 	}
 }

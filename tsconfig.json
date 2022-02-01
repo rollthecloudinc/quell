@@ -20,6 +20,10 @@
         "dist/attributes/attributes",
         "dist/attributes"
       ],
+      "alienalias": [
+        "dist/alienalias/alienalias",
+        "dist/alienalias"
+      ],
       "material": [
         "dist/material/material",
         "dist/material"

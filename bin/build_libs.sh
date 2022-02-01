@@ -6,6 +6,7 @@ npm run build material
 npm run build attributes
 npm run build content
 npm run build alias
+npm run build alienalias
 npm run build token
 npm run build snippet
 npm run build bridge
