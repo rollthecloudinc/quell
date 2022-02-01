@@ -184,6 +184,10 @@
         "dist/lock/lock",
         "dist/lock"
       ],
+      "tractorbeam": [
+        "dist/tractorbeam/tractorbeam",
+        "dist/tractorbeam"
+      ],
       "stock": [
         "dist/stock/stock",
         "dist/stock"
