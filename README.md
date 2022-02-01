@@ -24,6 +24,10 @@ Druid will also be used as an orchestration platform for micro frontends compile
 
 The first part of this is upgrading to Angular v13 which is currently in progress and nearly complete. Once that is done some of the newer webpack features can be utilized to provide module federation capabilities through a v13 compatible module federation webpack integration library.
 
+* alienalias: Map router path to micro front-end
+* tractorbeam: Load new functionaility into editor at runtime from remote Angular modules.
+* outsider: Embed micro front-end apps as content pages inside editor
+
 ### d2a Architecture
 
 d2a programming is a change in the way browser based applications communicate with services. Traditionally there has been a false desire to create a middle layer of restful APIs or micro-services. However, with the evolution of the cloud and especially the innovations of AWS no longer this is necessary. Instead the costs and complexity of applications can be decreased while actively increasing scalability using secure, direct communication with services in the cloud in the browser alone. The entire monolithic or complex ecosystem of complex containerized micro-services can be replaced with d2a. This frees up an organizations ability to focus on user experiences rather than architecting unnecessary domain modeled middle-men between the browser and cloud services. This is realized through signed http requests. All outgoing http requests can be signed to securely communicate with outside services such as aws. Applications built on this model allow organizations to focus completely on front-end development and aws cloud instead of managing complex, convoluted containers in kubernetes for which there is no desire or need.
