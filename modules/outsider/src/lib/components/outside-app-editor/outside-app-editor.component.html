@@ -1,0 +1,19 @@
+<form [formGroup]="formGroup" (ngSubmit)="submit()">
+
+  <div>
+    <mat-form-field>
+      <mat-label>Remote Entry</mat-label>
+      <input matInput formControlName="remoteEntry" required>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Module Name</mat-label>
+      <input matInput formControlName="moduleName" required>
+    </mat-form-field>
+  </div>
+
+  <button type="submit" mat-raised-button color="primary" mat-dialog-close>Save</button>
+
+</form>
