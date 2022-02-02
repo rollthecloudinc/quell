@@ -62,6 +62,7 @@ import { RenderModule } from 'render';
 import { FormsModule as DruidFormsModule } from 'forms';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
+import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from 'alienalias';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -70,14 +71,14 @@ const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
   { path: 'playground', component: PlaygroundComponent },
   // Module federation experimentation
-  {
+  /*{
     path: 'flights',
     loadChildren: () => loadRemoteModule({
       type: 'module',
       remoteEntry: 'http://localhost:3000/remoteEntry.js',
       exposedModule: './Module'
     }).then(m => m.FlightsModule)
-  },
+  },*/
   // { path: 'implicit/callback', component: OktaCallbackComponent },
   // { path: 'chat', loadChildren: () => import('@classifieds-ui/chat').then(m => m.ChatModule) },
   // { path: 'ads', loadChildren: () => import('@classifieds-ui/ads').then(m => m.AdsModule) },
@@ -190,6 +191,7 @@ export function markedOptionsFactory(): MarkedOptions {
     DeityModule,
     LoopModule,
     DruidFormsModule
+    // AlienaliasModule
     // JsonschemaModule
     // OktaAuthModule
   ],
@@ -205,6 +207,7 @@ export function markedOptionsFactory(): MarkedOptions {
     { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
     { provide: PANELS_SETTINGS, useValue: new PanelsSettings(environment.panelsSettings) },
+    { provide: ALIENALIAS_SETTINGS, useValue: new AlienaliasSettings(environment.alienaliasSettings) },
 
     { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
     // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
