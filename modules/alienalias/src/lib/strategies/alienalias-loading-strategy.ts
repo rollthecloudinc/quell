@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, of } from "rxjs";
 import { AliasLoadingStrategy } from 'alias';
-import { catchError, map, tap } from "rxjs/operators";
+import { catchError, defaultIfEmpty, map, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
 import { AlienAlias } from "../models/alienalias.models";
@@ -52,7 +52,9 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
           // target.children.push({ matcher: this.createEditMatcher(p), component: PagealiasRouterComponent /*EditPanelPageComponent*/ });
           this.router.config.unshift({ 
             matcher: this.createMatcher(a),
+            // path: a.path,
             loadChildren: () => {
+              console.log(`loading remote module remote entry ${a.remoteEntry} module ${a.moduleName}`);
               return loadRemoteModule({
                 type: 'module',
                 // remoteEntry: 'http://localhost:3000/remoteEntry.js',
@@ -65,7 +67,8 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
         this.routesLoaded = true;
       }),
       tap(() => console.log('alien alias routes loaded')),
-      map(() => true)
+      map(() => true),
+      defaultIfEmpty(true)
     );
     // return of(true);
   }
@@ -76,8 +79,8 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
         console.log(`matcher matched: ${a.path}`);
         const pathLen = a.path.substr(1).split('/').length;
         return {
-          consumed: url,
-          posParams: url.reduce<{}>((p, c, index) => {
+          consumed: [ url[0] ],
+          /*posParams: url.reduce<{}>((p, c, index) => {
             if(index === 0) {
               return { ...p, alienAliasId: new UrlSegment(a.id , {}) }
             } else if(index > pathLen - 1) {
@@ -85,7 +88,7 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
             } else {
               return { ...p };
             }
-          }, {})
+          }, {})*/
         };
       } else {
         return null;

@@ -190,8 +190,8 @@ export function markedOptionsFactory(): MarkedOptions {
     KeyvalModule,
     DeityModule,
     LoopModule,
-    DruidFormsModule
-    // AlienaliasModule
+    DruidFormsModule,
+     AlienaliasModule
     // JsonschemaModule
     // OktaAuthModule
   ],
@@ -222,7 +222,10 @@ export function markedOptionsFactory(): MarkedOptions {
     // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
 
-    { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }
+    { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
+
+    // { provide: HOST_NAME, useValue: /*req.headers.host*/ 'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com' },
+    // { provide: PROTOCOL, useValue: 'https' },
   ],
   bootstrap: [AppComponent]
 })

@@ -53,7 +53,9 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
           delete signedHttpRequest.headers.host;
         // }
         // const url = `${ isPlatformServer(platformId) ? '' : '/opensearch' }${signedHttpRequest.path}`;
+        // Te,p disable for mod federation - easier to debug in browser
         const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/es/${options.domain}/${options.region}${signedHttpRequest.path}`;
+        // const url = `${protocol}://${hostName}/awproxy/es/${options.domain}/${options.region}${signedHttpRequest.path}`;
         console.log('url', url);
         return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
           map(res => ({ res, options }))

@@ -71,7 +71,7 @@ export function app() {
   server.get('*', (req, res) => {
     res.render(indexHtml, { req, providers: [
       { provide: APP_BASE_HREF, useValue: req.baseUrl },
-      { provide: HOST_NAME, useValue: req.headers.host },
+      { provide: HOST_NAME, useValue: req.headers.host /*'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com'*/ },
       { provide: PROTOCOL, useValue: 'http' },
       // { provide: REQUEST, useValue: req }
     ]});

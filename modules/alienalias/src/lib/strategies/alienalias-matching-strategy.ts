@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { iif, Observable, of } from "rxjs";
 import { AliasMatchingStrategy } from 'alias';
-import { catchError, map, switchMap, tap } from "rxjs/operators";
+import { catchError, defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot } from '@angular/router';
 import { HttpParams } from "@angular/common/http";
@@ -27,7 +27,8 @@ export class AlienaliasMatchingStrategy implements AliasMatchingStrategy {
         return of([]);
       }),
       map(aa => aa.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
-      map(m => !!m)
+      map(m => !!m),
+      defaultIfEmpty(false)
     )
   }
 

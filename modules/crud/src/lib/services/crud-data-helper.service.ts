@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { QueryParams } from "@ngrx/data";
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
-import { map, switchMap } from "rxjs/operators";
+import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
 import { Param } from "dparam";
@@ -53,7 +53,8 @@ export class CrudDataHelperService {
       )
     );
     return forkJoin(operations$).pipe(
-      map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], []))
+      map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], [])),
+      defaultIfEmpty([])
     );
   }
 
