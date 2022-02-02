@@ -79,7 +79,7 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
         console.log(`matcher matched: ${a.path}`);
         const pathLen = a.path.substr(1).split('/').length;
         return {
-          consumed: [ url[0] ],
+          consumed: [ url[0] /* @todo: consume number of pieces in a.path */ ],
           /*posParams: url.reduce<{}>((p, c, index) => {
             if(index === 0) {
               return { ...p, alienAliasId: new UrlSegment(a.id , {}) }

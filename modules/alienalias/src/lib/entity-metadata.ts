@@ -8,9 +8,9 @@ export const entityMetadataFactory = (platformId: Object, alienaliasSettings: Al
     AlienAlias: {
       entityName: 'AlienAlias',
       crud: {
-        ...(isPlatformServer(platformId) ?
-        {} :
-        { 
+        //...(isPlatformServer(platformId) ?
+        // {} :
+        //{ 
           aws_opensearch_template: {
             ops: ['query'],
             params: {
@@ -21,8 +21,8 @@ export const entityMetadataFactory = (platformId: Object, alienaliasSettings: Al
               domain: alienaliasSettings.openSearchDomain,
               region: 'us-east-1'
             }
-          }
-        }),
+          },
+        //}),
         ...(isPlatformServer(platformId) ?
           {} :
           {
