@@ -87,6 +87,7 @@ One of the primary reasons Angular has been choosen for this project is due to t
 
 * Angular Material | https://material.angular.io/
 * NgRx | https://ngrx.io/
+* Module Federation | https://www.npmjs.com/package/@angular-architects/module-federation
 * Formly | https://formly.dev/
 * Ngx Markdown | https://www.npmjs.com/package/ngx-markdown
 * Angular Split | https://angular-split.github.io/
