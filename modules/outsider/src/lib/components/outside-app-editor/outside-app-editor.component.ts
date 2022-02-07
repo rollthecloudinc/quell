@@ -22,7 +22,8 @@ export class OutsideAppEditorComponent implements OnInit {
 
   formGroup = this.fb.group({
     remoteEntry: this.fb.control('', [ Validators.required ]),
-    moduleName: this.fb.control('', [ Validators.required ])
+    exposedModule: this.fb.control('', [ Validators.required ]),
+    componentName: this.fb.control('', [ Validators.required ])
   });
 
   get paneGroup(): AbstractControl {
@@ -44,7 +45,8 @@ export class OutsideAppEditorComponent implements OnInit {
     if (this.data.pane) {
       this.handler.toObject(this.data.pane.settings).subscribe(o => {
         this.formGroup.get('remoteEntry').setValue(o.remoteEntry);
-        this.formGroup.get('moduleName').setValue(o.moduleName);
+        this.formGroup.get('exposedModule').setValue(o.exposedModule);
+        this.formGroup.get('componentName').setValue(o.componentName);
       });
     } else {
       (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
