@@ -1,5 +1,5 @@
 {
-  "name": "oidc",
+  "name": "@ng-druid/oidc",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.5",

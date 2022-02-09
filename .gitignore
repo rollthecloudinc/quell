@@ -54,3 +54,6 @@ Thumbs.db
 
 # environment files
 projects/ipe/src/environments/*
+
+# npm config
+.npmrc

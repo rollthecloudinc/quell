@@ -1,5 +1,5 @@
 {
-  "name": "render",
+  "name": "@ng-druid/render",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^11.2.14",

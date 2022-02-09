@@ -1,5 +1,5 @@
 {
-  "name": "layout",
+  "name": "@ng-druid/layout",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.5",

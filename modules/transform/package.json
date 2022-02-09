@@ -1,5 +1,5 @@
 {
-  "name": "transform",
+  "name": "@ng-druid/transform",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.5",

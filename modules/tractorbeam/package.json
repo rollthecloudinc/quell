@@ -1,5 +1,5 @@
 {
-  "name": "tractorbeam",
+  "name": "@ng-druid/tractorbeam",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^13.1.0",

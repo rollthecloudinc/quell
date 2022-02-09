@@ -6,7 +6,6 @@ npm run build material
 npm run build attributes
 npm run build content
 npm run build alias
-npm run build alienalias
 npm run build token
 npm run build snippet
 npm run build bridge
@@ -17,6 +16,7 @@ npm run build context
 npm run build rules
 npm run build crud
 npm run build tractorbeam
+npm run build alienalias
 npm run build keyval
 npm run build awcog
 npm run build aws3

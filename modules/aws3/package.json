@@ -1,5 +1,5 @@
 {
-  "name": "aws3",
+  "name": "@ng-druid/aws3",
   "version": "0.0.1",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
