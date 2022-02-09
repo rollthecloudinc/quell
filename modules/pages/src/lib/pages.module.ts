@@ -27,7 +27,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { entityMetadata } from './entity-metadata';
 import { ContentSelectorComponent } from './components/content-selector/content-selector.component';
 import { ContentSelectionHostDirective } from './directives/content-selection-host.directive';
-import { PaneContentHostDirective } from './directives/pane-content-host.directive';
 /*import { StoreModule } from '@ngrx/store';
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 import { EffectsModule } from '@ngrx/effects';
@@ -96,6 +95,7 @@ import { FormDatasourceComponent } from './components/form-datasource/form-datas
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 import { RenderModule } from 'render';
 import { PanelpageModule } from 'panelpage';
+import { EditablepaneModule } from 'editablepane';
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
@@ -161,9 +161,10 @@ const routes = [
     BridgeModule,
     DatasourceModule,
     RenderModule,
-    PanelpageModule
+    PanelpageModule,
+    EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,

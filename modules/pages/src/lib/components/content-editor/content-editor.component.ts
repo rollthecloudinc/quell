@@ -18,7 +18,7 @@ import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.c
 import { Observable, forkJoin, iif, of, BehaviorSubject, Subject } from 'rxjs';
 import { debounceTime, delay, filter, map, tap, switchMap, take } from 'rxjs/operators';
 // import { PanelContentHandler } from '../../handlers/panel-content.handler';
-import { EditablePaneComponent } from '../editable-pane/editable-pane.component';
+import { EditablePaneComponent } from 'editablepane';
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
 import { Rule as NgRule } from 'angular2-query-builder';
