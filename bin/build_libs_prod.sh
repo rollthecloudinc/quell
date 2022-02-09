@@ -31,6 +31,7 @@ ng run state:build:production
 ng run layout:build:production
 ng run loop:build:production
 ng run rest:build:production
+ng run panelpage:build:production
 ng run render:build:production
 ng run media:build:production
 ng run pages:build:production

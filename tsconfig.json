@@ -320,6 +320,14 @@
         "dist/keyval/keyval",
         "dist/keyval"
       ],
+      "@ng-druid/panelpage": [
+        "dist/panelpage/panelpage",
+        "dist/panelpage"
+      ],
+      "panelpage": [
+        "dist/panelpage/panelpage",
+        "dist/panelpage"
+      ],
       "@ng-druid/deity": [
         "dist/deity/deity",
         "dist/deity"

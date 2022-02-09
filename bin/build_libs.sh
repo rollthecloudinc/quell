@@ -31,6 +31,7 @@ npm run build state
 npm run build layout
 npm run build loop
 npm run build rest
+npm run build panelpage
 npm run build render
 npm run build media
 npm run build pages

@@ -1,5 +1,6 @@
 <ng-container [ngSwitch]="panelPage?.layoutType">
-  <ng-container *ngSwitchCase="'grid'">
+  <!-- breaks dependency on render-panel necessary to avoid cyclic reference from render module -->
+  <!-- <ng-container *ngSwitchCase="'grid'">
     <ng-container [ngSwitch]="panelPage?.displayType">
       <ng-container *ngSwitchCase="'form'">
         <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
@@ -19,7 +20,7 @@
         </classifieds-ui-grid-layout>
       </ng-container>
     </ng-container>
-  </ng-container>
+  </ng-container> -->
   <ng-container *ngSwitchCase="'gridless'">
     <ng-container [ngSwitch]="panelPage?.displayType">
       <ng-container *ngSwitchCase="'form'">

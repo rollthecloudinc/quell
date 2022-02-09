@@ -27,6 +27,7 @@ import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/f
 import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 import { FormlyPanelPageComponent } from './components/formly-panel-page/formly-panel-page.component';
 import { RenderModule } from 'render';
+import { PanelpageModule } from 'panelpage';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { RenderModule } from 'render';
     RestModule,
     DatasourceModule,
     DurlModule,
-    RenderModule
+    RenderModule,
+    PanelpageModule
   ],
   exports: [
     FormlyFieldEditorComponent,
