@@ -34,6 +34,7 @@ npm run build rest
 npm run build panelpage
 npm run build render
 npm run build media
+npm run build editablepane
 npm run build pages
 npm run build pagealias
 npm run build formly

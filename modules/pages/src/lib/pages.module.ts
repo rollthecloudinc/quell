@@ -32,7 +32,6 @@ import { PaneContentHostDirective } from './directives/pane-content-host.directi
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 import { EffectsModule } from '@ngrx/effects';
 import { PageBuilderEffects } from './features/page-builder/page-builder.effects';*/
-import { EditablePaneComponent } from './components/editable-pane/editable-pane.component';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { ContentEditorComponent } from './components/content-editor/content-editor.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
@@ -96,6 +95,7 @@ import { FormDatasourceFormComponent } from './components/form-datasource-form/f
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 import { RenderModule } from 'render';
+import { PanelpageModule } from 'panelpage';
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
@@ -160,7 +160,8 @@ const routes = [
     DparamModule,
     BridgeModule,
     DatasourceModule,
-    RenderModule
+    RenderModule,
+    PanelpageModule
   ],
   declarations: [ContentSelectorComponent, ContentSelectionHostDirective, PaneContentHostDirective, EditablePaneComponent, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent],
   providers: [

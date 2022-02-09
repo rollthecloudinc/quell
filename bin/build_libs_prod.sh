@@ -34,6 +34,7 @@ ng run rest:build:production
 ng run panelpage:build:production
 ng run render:build:production
 ng run media:build:production
+ng run editablepane:build:production
 ng run pages:build:production
 ng run pagealias:build:production
 ng run formly:build:production
