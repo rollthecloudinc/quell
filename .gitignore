@@ -57,3 +57,5 @@ projects/ipe/src/environments/*
 
 # npm config
 .npmrc
+.npmrc-local
+.npmrc-github

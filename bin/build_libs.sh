@@ -28,7 +28,6 @@ npm run build outsider
 npm run build panels
 npm run build layout
 npm run build state
-npm run build layout
 npm run build loop
 npm run build rest
 npm run build panelpage

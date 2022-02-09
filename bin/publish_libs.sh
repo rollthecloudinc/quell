@@ -28,7 +28,6 @@ npm publish dist/outsider
 npm publish dist/panels
 npm publish dist/layout
 npm publish dist/state
-npm publish dist/layout
 npm publish dist/loop
 npm publish dist/rest
 npm publish dist/panelpage

@@ -28,7 +28,6 @@ ng run outsider:build:production
 ng run panels:build:production
 ng run layout:build:production
 ng run state:build:production
-ng run layout:build:production
 ng run loop:build:production
 ng run rest:build:production
 ng run panelpage:build:production
