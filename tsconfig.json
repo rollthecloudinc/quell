@@ -268,14 +268,6 @@
         "dist/transform/transform",
         "dist/transform"
       ],
-      "@ng-druid/editablepane": [
-        "dist/editablepane/editablepane",
-        "dist/editablepane"
-      ],
-      "editablepane": [
-        "dist/editablepane/editablepane",
-        "dist/editablepane"
-      ],
       "transform": [
         "dist/transform/transform",
         "dist/transform"
@@ -327,14 +319,6 @@
       "keyval": [
         "dist/keyval/keyval",
         "dist/keyval"
-      ],
-      "@ng-druid/panelpage": [
-        "dist/panelpage/panelpage",
-        "dist/panelpage"
-      ],
-      "panelpage": [
-        "dist/panelpage/panelpage",
-        "dist/panelpage"
       ],
       "@ng-druid/deity": [
         "dist/deity/deity",

@@ -64,6 +64,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from 'alienalias';
 import { OutsiderModule } from 'outsider';
+// import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
@@ -183,6 +184,7 @@ export function markedOptionsFactory(): MarkedOptions {
     EntityDataModule.forRoot({}),
     AliasModule,
     PanelsModule,
+    // PanelpageModule,
     RenderModule,
     PagealiasModule,
     FormlyModule,
