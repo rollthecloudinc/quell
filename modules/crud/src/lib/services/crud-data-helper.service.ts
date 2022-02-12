@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { QueryParams } from "@ngrx/data";
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
-import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
+import { defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
 import { Param } from "dparam";
@@ -37,6 +37,7 @@ export class CrudDataHelperService {
   }
 
   evaluateCollectionPlugins<T>({ query, objects, plugins, op, parentObjects }: { query?: QueryParams | string, objects?: Iterable<any>, plugins: CrudEntityConfiguration, op: CrudOperations, parentObjects?: Iterable<any> }): Observable<Array<T>> {
+    console.log('evaluate collection plugins');
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
       a => this.crud.getPlugin(a).pipe(
@@ -44,15 +45,22 @@ export class CrudDataHelperService {
         switchMap(({ p, params }) => this.buildQueryRule({ params: query, config: plugins[a] }).pipe(
           map(({ rule }) => ({ p, params, rule }))
         )),
-        switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
+        tap(({ params, rule }) => console.log('right before collection plugin query', params, rule)),
+        switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) }).pipe(
+          tap(() => console.log('end of crud query call'))
+        )),
+        tap(res => console.log('right before nested collection plugins', res)),
         switchMap(res => iif(
           () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
           this.evaluateCollectionPlugins({ query, plugins: plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? plugins[a].plugins : {}, objects: res.entities ? res.entities : objects, parentObjects: res.originalEntities ? res.originalEntities : objects, op }),
-          of(res)
-        ))
-      )
+          of(res).pipe(
+            tap(res => console.log('evaludate collection plugins unnested result', res))
+          )
+        )),
+        tap(res => console.log('end of op', res))
+      ),
     );
-    return forkJoin(operations$).pipe(
+    return operations$.length === 1 ? operations$[0].pipe(map<CrudCollectionOperationResponse, Array<T>>(c => [ ...c.entities ])) : forkJoin(operations$).pipe(
       map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], [])),
       defaultIfEmpty([])
     );

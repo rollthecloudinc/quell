@@ -24,7 +24,7 @@ export class CatchAllGuard implements CanActivate {
     this.panelPageListItemsService = es.getEntityCollectionService('PanelPageListItem');
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<UrlTree> {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<UrlTree | boolean> {
 
     return new Promise(res => {
       const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
@@ -71,6 +71,7 @@ export class CatchAllGuard implements CanActivate {
         const urlTree = this.router.parseUrl(targetUrl);
         console.log(`panels garud navigate: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
         // this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, /* Removed unsupported properties by Angular migration: queryParams, fragment. */ {});
+        // res(true);
         res(urlTree);
       });
     });

@@ -38,6 +38,8 @@ export class PanelPageRouterComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => console.log('panel page router before page getByKey')),
       // @todo: This universal rendering...
+      tap(id => console.log(`matched id: ${id}`)),
+      tap(id => this.panelPageId = id),
       switchMap(id => /*this.asyncApiCallHelperSvc.doTask(*/this.panelPageService.getByKey(id).toPromise()/*)*/),
       tap(() => console.log('panel page router after page getByKey')),
       withLatestFrom(this.routerStore.pipe(
@@ -50,7 +52,7 @@ export class PanelPageRouterComponent implements OnInit {
       console.log('route page');
       const realPath = '/pages/panelpage/' + panelPage.id;
       this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ id: panelPage.id, realPath, path: panelPage.path, args }));
-      this.panelPageId = panelPage.id;
+      // this.panelPageId = panelPage.id;
     });
     this.route.paramMap.pipe(
       tap(() => console.log('param map page builder facade info')),

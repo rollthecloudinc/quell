@@ -2,7 +2,7 @@ import { AuthFacade } from "auth";
 import { CognitoSettings } from "awcog";
 import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudOperationInput, CrudOperationResponse } from "crud";
 import { ParamEvaluatorService } from "dparam";
-import { forkJoin, Observable, of } from "rxjs";
+import { firstValueFrom, forkJoin, from, Observable, of } from "rxjs";
 import { SignatureV4 } from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
@@ -78,6 +78,8 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
   });
 };
 
+// This should all be moved in either aw util module or awsig module.
+// Could also decouple signature from vendor for reuse accross vendors that signed v4 urls can be used.
 interface CreateSignHttpRequestParams {
   body?: string;
   headers?: Record<string, string>;
@@ -104,8 +106,8 @@ const createSignedHttpRequest = ({
   service,
   cognitoSettings,
   authFacade
-}: CreateSignHttpRequestParams): Observable<HttpRequest> => new Observable<HttpRequest>(obs => {
-  const httpRequest = new HttpRequest({
+}: CreateSignHttpRequestParams): Observable<HttpRequest> => of(
+  new HttpRequest({
     body,
     headers,
     hostname,
@@ -114,22 +116,33 @@ const createSignedHttpRequest = ({
     port,
     protocol,
     query,
-  });
-  const sigV4Init = {
-    credentials: fromCognitoIdentityPool({
-      client: new CognitoIdentityClient({ region: cognitoSettings.region }),
-      identityPoolId: cognitoSettings.identityPoolId,
-      logins: {
-        [`cognito-idp.${cognitoSettings.region}.amazonaws.com/${cognitoSettings.userPoolId}`]: () => authFacade.getUser$.pipe(map(u => u ? u.id_token : undefined), take(1)).toPromise()
+  }
+)).pipe(
+  tap(() => console.log('.marker({ event: BEGIN , context: os, entity: sig , op: signv4 , meta: {  } })')),
+  switchMap(req => from(
+    (new SignatureV4(
+      {
+        credentials: fromCognitoIdentityPool({
+          client: new CognitoIdentityClient({ region: cognitoSettings.region }),
+          identityPoolId: cognitoSettings.identityPoolId,
+          logins: {
+            [`cognito-idp.${cognitoSettings.region}.amazonaws.com/${cognitoSettings.userPoolId}`]: () => firstValueFrom(authFacade.getUser$.pipe(map(u => u ? u.id_token : undefined)))
+          }
+        }),
+        region: cognitoSettings.region,
+        service,
+        sha256: Sha256,
       }
-    }),
-    region: cognitoSettings.region,
-    service,
-    sha256: Sha256,
-  };
-  const signer = new SignatureV4(sigV4Init);
-  (signer.sign(httpRequest) as Promise<HttpRequest>).then(signedRequest => {
-    obs.next(signedRequest);
-    obs.complete();
-  });
-});
+    )).sign(req)
+      .then(
+        signedReq => {
+          console.log('.marker({ event: RESOLVED, entity: os , op: signv4 , meta: {  } })');
+          return signedReq;
+        }
+      )
+  ).pipe(
+    take(1)
+  )),
+  map(req => req as HttpRequest),
+  tap(() => console.log('.marker({ event: END , context: os, entity: sig , op: signv4 , meta: {  } })')),
+);
