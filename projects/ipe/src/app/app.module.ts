@@ -194,8 +194,8 @@ export function markedOptionsFactory(): MarkedOptions {
     DeityModule,
     LoopModule,
     DruidFormsModule,
-     AlienaliasModule,
-     OutsiderModule
+    // AlienaliasModule, // @todo: for now to avoid routing errors while working on ssr issues.
+    OutsiderModule
     // JsonschemaModule
     // OktaAuthModule
   ],

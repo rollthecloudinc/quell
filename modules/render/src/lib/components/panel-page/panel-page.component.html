@@ -64,7 +64,7 @@
 <ng-template #renderPanelTpl let-i="i">
   <ng-container [formGroup]="pageForm">
     <ng-container formArrayName="panels">
-      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPageCached.panels[i]" [nested]="nested$.value" [contexts]="contexts$.value" [resolvedContext]="resolvedContextCached" [contextChanged]="contextChanged" [contextsChanged]="contextsChanged" [displayType]="panelPageCached.displayType" [indexPosition]="i" [css]="filteredCss" [ancestory]="ancestory$.value"></classifieds-ui-render-panel>
+      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPageCached.panels[i]" [nested]="nested$.value" [contexts]="contexts$.value" [resolvedContext]="resolvedContext" [contextsChanged]="contextsChanged" [displayType]="panelPageCached.displayType" [indexPosition]="i" [css]="filteredCss" [ancestory]="ancestory$.value"></classifieds-ui-render-panel>
     </ng-container>
   </ng-container>
 </ng-template>

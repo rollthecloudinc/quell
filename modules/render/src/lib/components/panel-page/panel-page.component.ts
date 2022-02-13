@@ -9,7 +9,7 @@ import { /*ContextManagerService, */ InlineContext, ContextPluginManager, Inline
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -43,7 +43,7 @@ import { isPlatformServer } from '@angular/common';
     },
   ]
 })
-export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAccessor, Validator {
+export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, ControlValueAccessor, Validator {
 
   @Input()
   set id(id: string) {
@@ -76,18 +76,15 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
   }
 
   @Input()
-  set resolvedContext(resolvedContext: {}) {
-    this.resolvedContext$.next(resolvedContext);
-  }
+  resolvedContext = {}
 
-  contextChanged: { name: string };
   contextsChanged: Array<string> = [];
   layoutRendererRef: ComponentRef<any>;
   panelPageCached: PanelPage;
-  resolvedContextCached = {};
 
   readonly onInit$ = new Subject();
   readonly afterViewInit$ = new Subject();
+  readonly afterContentInit$ = new Subject();
   readonly renderLayout$ = new Subject<PanelPage>();
 
   readonly id$ = new BehaviorSubject<string>(undefined);
@@ -95,7 +92,6 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
   readonly nested$ = new BehaviorSubject<boolean>(false);
   readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
-  readonly resolvedContext$ = new BehaviorSubject<{}>({});
 
   filteredCss: JSONNode;
 
@@ -138,6 +134,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
     this.id$,
     this.panelPage$
   ]).pipe(
+    distinctUntilChanged(),
     map(([ id, panelPage ]) => ({ id, panelPage })),
     filter(({ id, panelPage }) => !!id || !!panelPage),
     switchMap(({ id, panelPage }) => iif(
@@ -178,11 +175,15 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
       ),
       of({ panelPage, isDynamic, contexts: [] })
     )),
+    /*switchMap(({ panelPage, isDynamic }) => this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
+      map(paneContexts => ({ panelPage, isDynamic, contexts: Array.from(paneContexts) }))
+    )),*/
     tap(({ panelPage, isDynamic, contexts }) => {
       this.hookupFormChange({ panelPage });
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;
       this.renderLayout$.next(panelPage);
+      // this.panelPage$.next(panelPage);
       this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
@@ -196,7 +197,8 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
 
   readonly hookupContextSub = combineLatest(
     this.contexts$,
-    this.nested$
+    // this.nested$,
+    this.afterContentInit$
   ).pipe(
     // filter(([ _, nested ]) => !nested),
     map(([ contexts ]) => contexts),
@@ -212,15 +214,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
       }
     }),
     tap(({ contexts, resolvedContext, globalPlugins }) => {
-      const sum = globalPlugins.length + (contexts ? contexts.length : 0);
-      this.resolvedContext$.next(resolvedContext);
-      this.resolvedContextCached = resolvedContext;
+      this.resolvedContext = resolvedContext;
       this.resolveSub = this.inlineContextResolver.resolveMergedSingle(contexts).pipe(
-        skip(sum),
-        bufferTime(1)
+        skip(globalPlugins.length + (contexts ? contexts.length : 0)),
+        isPlatformServer(this.platformId) ? toArray() : bufferTime(1)
       ).subscribe(buffered => {
         this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
-        this.resolvedContextCached = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), resolvedContext);
+        this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
       });
     })
   ).subscribe();
@@ -229,6 +229,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
     this.renderLayout$,
     this.afterViewInit$
   ]).pipe(
+    delay(1),
     map(([ panelPage ]) => ({ panelPage })),
     switchMap(({ panelPage }) => this.lpm.getPlugin(panelPage.layoutType).pipe(
       map(plugin => ({ panelPage, plugin }))
@@ -236,12 +237,12 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
     tap(() => console.log('start render layout')),
     map(({ plugin, panelPage }) => ({ panelPage, plugin, viewContainerRef: this.layoutRendererHost.viewContainerRef })),
     tap(({ viewContainerRef }) => viewContainerRef.clear()),
-    map(({ plugin, viewContainerRef, panelPage }) => ({ panelPage, layoutRendererRef: this.ngZone.runOutsideAngular(() => viewContainerRef.createComponent(plugin.renderer/*EmptyLayoutComponent*/)) })),
+    map(({ plugin, viewContainerRef, panelPage }) => ({ panelPage, layoutRendererRef: viewContainerRef.createComponent(plugin.renderer) })),
+    tap(({ layoutRendererRef }) => this.layoutRendererRef = layoutRendererRef),
     tap(({ layoutRendererRef, panelPage })=> {
       (layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
       (layoutRendererRef.instance as any).panelPage = panelPage;
     }),
-    tap(({ layoutRendererRef }) => this.layoutRendererRef = layoutRendererRef),
     tap(() => console.log('end render layout'))
   ).subscribe();
 
@@ -287,6 +288,10 @@ export class PanelPageComponent implements OnInit, AfterViewInit, ControlValueAc
 
   ngAfterViewInit() {
     this.afterViewInit$.next(undefined);
+  }
+
+  ngAfterContentInit() {
+    this.afterContentInit$.next(undefined);
   }
 
   populatePanelsFormArray({ panelPage }: { panelPage: PanelPage }) {
