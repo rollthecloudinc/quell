@@ -1,31 +1,45 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { HttpMethods } from "@ngrx/data";
 import { AttributeValue, AttributeSerializerService } from "attributes";
 import { Dataset, DatasourceApiService } from "datasource";
 import { UrlGeneratorService } from "durl";
 import { Observable, of } from "rxjs";
-import { filter, map, switchMap } from "rxjs/operators";
+import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
 import { SnippetParserService } from "snippet";
 import { Rest } from '../models/rest.models';
+import { restfulRequest } from "../rest.factories";
 
 @Injectable()
 export class RestFetchHelperService {
   
   constructor(
     private attrbuteSerializer: AttributeSerializerService,
-    private datasourceApi: DatasourceApiService,
+    // private datasourceApi: DatasourceApiService,
+    private http: HttpClient,
     private snippetParserService: SnippetParserService,
     private urlGenerator: UrlGeneratorService
   ) {}
 
   fetchDataset({ settings, metadata }: { settings: Array<AttributeValue>, metadata: Map<string, any> }): Observable<Dataset> {
     return of(new Dataset()).pipe(
+      tap(() => console.log('START rest fetch')),
       map(() => this.attrbuteSerializer.deserializeAsObject(settings)),
       map<any, Rest>(s => new Rest(s)),
       switchMap(r => this.urlGenerator.getUrl(r.url, r.params, metadata).pipe(
         map(url => new Rest({ ...r, url }))
       )),
       filter(r => r.url && r.url.trim() !== '' && r.url.indexOf('http') > -1),
-      switchMap<Rest, Observable<Dataset>>(r => {
+      switchMap(r => restfulRequest({ url: r.url, method: r.method.toUpperCase() === 'POST' ? 'POST' : 'GET', http: this.http, params: new Map<string, any>() }).pipe(
+        catchError(() => of([])),
+        map(data => Array.isArray(data) ? data: [data]),
+        // tap(data => this.cache.set(url, data))
+        map(results => new Dataset({ results }))
+      )),
+      tap(() => console.log('END rest fetch'))
+
+      // phase out
+      /*switchMap<Rest, Observable<Dataset>>(r => {
         const method = r.method ? r.method : 'get';
         switch(method) {
           case 'post':
@@ -41,7 +55,9 @@ export class RestFetchHelperService {
               map(results => new Dataset({ results }))
             );
         }
-      })
+
+      })*/
+
     );
   }
 

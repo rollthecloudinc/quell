@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
@@ -9,7 +9,7 @@ import { /*ContextManagerService, */ InlineContext, ContextPluginManager, Inline
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -43,7 +43,9 @@ import { isPlatformServer } from '@angular/common';
     },
   ]
 })
-export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, ControlValueAccessor, Validator {
+export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
+
+  static registredContextListeners = new Set<string>();
 
   @Input()
   set id(id: string) {
@@ -92,6 +94,8 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   readonly nested$ = new BehaviorSubject<boolean>(false);
   readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+
+  private readonly instanceUniqueIdentity = uuid.v4()
 
   filteredCss: JSONNode;
 
@@ -215,13 +219,27 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     }),
     tap(({ contexts, resolvedContext, globalPlugins }) => {
       this.resolvedContext = resolvedContext;
+      const short$ = new Subject<void>();
+      if (isPlatformServer(this.platformId)) {
+        const interval = setInterval(() => {
+          if (PanelPageComponent.registredContextListeners.size === 0) {
+            short$.next();
+            short$.complete();
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
       this.resolveSub = this.inlineContextResolver.resolveMergedSingle(contexts).pipe(
         skip(globalPlugins.length + (contexts ? contexts.length : 0)),
-        isPlatformServer(this.platformId) ? toArray() : bufferTime(1)
-      ).subscribe(buffered => {
-        this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
-        this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
-      });
+        tap(() => PanelPageComponent.registredContextListeners.add(this.instanceUniqueIdentity)),
+        bufferTime(1),
+        tap(buffered => {
+          this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
+          this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
+        }),
+        tap(() => PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity)),
+        isPlatformServer(this.platformId) ? takeUntil(short$) : tap(() => {})
+      ).subscribe();
     })
   ).subscribe();
 
@@ -292,6 +310,10 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   ngAfterContentInit() {
     this.afterContentInit$.next(undefined);
+  }
+
+  ngOnDestroy() {
+    PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
   }
 
   populatePanelsFormArray({ panelPage }: { panelPage: PanelPage }) {
