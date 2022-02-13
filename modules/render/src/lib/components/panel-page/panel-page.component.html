@@ -1,4 +1,4 @@
-<ng-container [ngSwitch]="panelPage?.layoutType">
+<!-- <ng-container [ngSwitch]="panelPage?.layoutType"> -->
   <!-- breaks dependency on render-panel necessary to avoid cyclic reference from render module -->
   <!-- <ng-container *ngSwitchCase="'grid'">
     <ng-container [ngSwitch]="panelPage?.displayType">
@@ -21,7 +21,7 @@
       </ng-container>
     </ng-container>
   </ng-container> -->
-  <ng-container *ngSwitchCase="'gridless'">
+  <!-- <ng-container *ngSwitchCase="'gridless'">
     <ng-container [ngSwitch]="panelPage?.displayType">
       <ng-container *ngSwitchCase="'form'">
         <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
@@ -53,15 +53,18 @@
       </ng-container>
     </ng-container>
   </ng-container>
-</ng-container>
+</ng-container> -->
 
 <!-- kiss for now -->
 <!-- <button (click)="submit()" type="submit">Submit</button> -->
 
+<!-- form group support needed but for now lets experiment. -->
+<ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
+
 <ng-template #renderPanelTpl let-i="i">
   <ng-container [formGroup]="pageForm">
     <ng-container formArrayName="panels">
-      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [contextsChanged]="contextsChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [css]="filteredCss" [ancestory]="ancestory"></classifieds-ui-render-panel>
+      <classifieds-ui-render-panel [formControlName]="i" [panel]="panelPageCached.panels[i]" [nested]="nested$.value" [contexts]="contexts$.value" [resolvedContext]="resolvedContextCached" [contextChanged]="contextChanged" [contextsChanged]="contextsChanged" [displayType]="panelPageCached.displayType" [indexPosition]="i" [css]="filteredCss" [ancestory]="ancestory$.value"></classifieds-ui-render-panel>
     </ng-container>
   </ng-container>
 </ng-template>

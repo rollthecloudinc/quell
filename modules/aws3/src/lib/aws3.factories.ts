@@ -201,7 +201,7 @@ const createS3SignedHttpRequest = ({
     query,
   }
 )).pipe(
-  tap(() => console.log('.marker({ event: BEGIN , entity: s3 , op: signv4 , meta: {  } })')),
+  tap(() => console.log('.marker({ event: BEGIN , context: s3, entity: sig , op: signv4 , meta: {  } })')),
   switchMap(req => from(
     (new SignatureV4(
       {
@@ -224,8 +224,9 @@ const createS3SignedHttpRequest = ({
         }
       )
   ).pipe(
+    tap(() => console.log('.marker({ /s3/sign/after/sig })')),
     take(1)
   )),
   map(req => req as HttpRequest),
-  tap(() => console.log('.marker({ event: END , entity: s3 , op: signv4 , meta: {  } })')),
+  tap(() => console.log('.marker({ event: END , context: s3, entity: sig , op: signv4 , meta: {  } })')),
 );

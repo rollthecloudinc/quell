@@ -36,10 +36,10 @@ export class PagealiasRedirectHandler implements AliasRedirectHandler {
           return [panelPage, argPath];
         }),
       ).subscribe(([panelPage, argPath]) => {
-        // this.router.onSameUrlNavigation.reload;
-        // this.router.navigate(['reload']);
+        // this.router.onSameUrlNavigation;
+        this.router.navigate([ 'reload' ]);
         // console.log(`nagigvate to: ${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`);
-        this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, /* Removed unsupported properties by Angular migration: queryParams, fragment. */ {})
+        // this.router.navigateByUrl(`${panelPage.path}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, /* Removed unsupported properties by Angular migration: queryParams, fragment. */ {})
         // this.router.navigateByUrl(`/pages/panelpage/${panelPage.id}${argPath === '' ? '' : `/${argPath}`}?${qs.stringify(route.queryParams)}`, {queryParams: { ...((route as ActivatedRouteSnapshot).queryParams) }, fragment: (route as ActivatedRouteSnapshot).fragment })
       });
     }

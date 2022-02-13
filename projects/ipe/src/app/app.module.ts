@@ -64,6 +64,7 @@ import { TransferHttpCacheModule } from '@nguniversal/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from 'alienalias';
 import { OutsiderModule } from 'outsider';
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -137,7 +138,6 @@ export function markedOptionsFactory(): MarkedOptions {
     ReactiveFormsModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    // FlexLayoutServerModule,
     NgxJsonViewerModule,
     TransferHttpCacheModule,
     MarkdownModule.forRoot({

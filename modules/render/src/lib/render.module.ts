@@ -9,10 +9,11 @@ import { LayoutRendererHostDirective } from './directives/layout-renderer-host.d
 import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent } from './components/panel-page/panel-page.component';
 import { LayoutModule } from 'layout';
 import { PanelsModule } from 'panels';
+import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
-  declarations: [PaneContentHostDirective, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent ],
+  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,
@@ -26,7 +27,8 @@ import { PanelsModule } from 'panels';
   exports: [
     RenderPanelComponent,
     RenderPaneComponent,
-    PanelPageComponent
+    PanelPageComponent,
+    EmptyLayoutComponent
   ]
 })
 export class RenderModule { 

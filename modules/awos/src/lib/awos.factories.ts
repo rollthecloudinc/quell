@@ -141,6 +141,7 @@ const createSignedHttpRequest = ({
         }
       )
   ).pipe(
+    tap(() => console.log('.marker({ /os/sign/after/sig })')),
     take(1)
   )),
   map(req => req as HttpRequest),

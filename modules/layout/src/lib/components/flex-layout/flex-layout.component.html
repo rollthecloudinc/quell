@@ -1,15 +1,17 @@
 <div fxFill [fxLayout]="direction">
-  <div *for="totalRows; let i = index" [fxFlex]="rowFlex(i)"> <!-- this needs flex 1 -->
-    <div [fxLayout]="rowDirection(i)" [ngStyle]="{ height: '100%' }"> <!-- needs height 100% or fxFill -->
+  <div *for="totalRows; let i = index" [fxFlex]="rowFlex(i)">
+    <div [fxLayout]="rowDirection(i)" [ngStyle]="{ height: '100%' }">
       <div *for="totalColumns(i); let j = index" [fxFlex]="dashboard[itemIndex(i, j)].cols">
         <p hidden>row: {{ i }} | column: {{ j }} | size: {{ dashboard[itemIndex(i, j)].cols }}</p>
-        <div class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)"> <!-- height 100% -->
+        <div class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)">
           <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Here is the flex layout. -->
 
 <!--
 flex on row indirectly - could be "expand"?

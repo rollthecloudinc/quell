@@ -43,7 +43,7 @@ export class CatchAllGuard implements CanActivate {
             tap(pp => {
               const target = (this.router.config[0] as any)._loadedConfig.routes;
               pp.forEach(p => {
-                target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent });
+                target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
                 target.unshift({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });
                 console.log(`panels matcher: ${p.path}`);
               });
