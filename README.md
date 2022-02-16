@@ -1,9 +1,8 @@
 ## D r u i d
 
-Potion and Angular resources to stand up web experiences on five principles.
+Potion and resources to stand up web experiences on five principles.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
 
 # Dependability
 
@@ -31,13 +30,15 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Platform
 
-Arm builders with extensible editor for rapid realization of druid web experiences.
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
+
+Arm builders with extensible editor for rapid realization of druid web experiences using Angular.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 # Catalog
 
-Provide vast ecosystem of modules supporting editor capabilities and druid.
+Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
 
 ## Security
 
