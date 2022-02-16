@@ -1,6 +1,6 @@
 ## D r u i d
 
-Web potion to build apps on five core principles.
+Web potion and resources to realize web experiences standing on five core principles.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
