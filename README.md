@@ -24,6 +24,8 @@ Low dependance on specific infrastructure configurations or environments.
 
 W e b A p p
 
+Focused on the rapid realization of COMPLEX web experiences based on these core principles shown in the demo screen captures below.
+
 ![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
