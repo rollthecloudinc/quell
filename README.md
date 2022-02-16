@@ -47,8 +47,8 @@ Druid is heavily inspired by the past…
 ## Panels
 # Magento
 ## Attributes
-# ModX
-## Publishing
+# Wordpress
+## ACF
 
 
 
