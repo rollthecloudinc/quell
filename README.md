@@ -62,21 +62,121 @@ Create a form.
 * Wordpress
 * ModX
 
-## Features
+This document provides categorical feature overview of key players within druid core.
 
-* Markdown and HTML content
-* Query and refine API datasets
-* Upload media assets
-* Extend with custom external JavaScript
-* Form building and data storage 
-* Conditional content display
-* Customizable CSS styling
-* Page Nesting and Embedding
-* Material design styles
-* Extensible via plugin architecture
-* Authentication and authorization
-* Customizable data storage and access restrictions
-* Ruesable change detection aware variable definitions
+## Catalog
+
+### S e c u r i t y
+
+Modules that provide critical security capabilities.
+
+### Auth
+
+* auth
+* odic
+
+### E x t e n s i b i l i t y
+
+Modules that play a key role in external programmatic customization without hacking core.
+
+### Plugin
+
+* plugin
+
+### Context
+
+* context
+
+### Meta
+
+* attributes
+
+### Parsing
+
+* dparam
+* durl
+* token
+
+### R o u t i n g
+
+Modules responsible for routing requests to the appropriate module and component.
+
+### Alias
+
+* alias
+
+Implementations:
+
+* pagealias
+* alienalias
+
+### P e r s i s t e n c e
+
+Internal framework for saving data across multiple storages using a clear, well defined interface.
+
+### Refinery
+
+* refinery
+
+Implementations:
+* crud
+
+### Crud
+
+* crud
+
+Implementations
+* aws3
+* awos
+* rest
+
+### S e a r c h
+
+Internal framework for querying data across multiple storages using a clear, well defined interface.
+
+### Datasource
+
+* datasource
+
+Implementations:
+* transform
+* crud
+* loop
+* rest
+
+### S t o r a g e
+
+Crud based implementations to easily store information in the cloud or otherwise.
+
+### AWS
+
+* awcog
+* awos
+* aws3
+
+### O r c h e s t r a t i o n
+
+### Module Federation
+
+Modules that facilitate using Druid as a shell and embedding independent applications and modules.
+
+* alienalias
+* outsider
+* tractorbeam
+
+### P u b l i s h i n g
+
+Modules that make it possible for site builders to create Angular pages without coding.
+
+### PanelPage
+
+* panels
+* render
+* panelpage
+* editablepane
+* pages
+* pagealias
+* layout
 
 ## Mentions
 
