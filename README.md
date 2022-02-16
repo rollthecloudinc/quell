@@ -39,7 +39,7 @@ Druid can be used for:
 * Web App Building
 * Website Creation
 
-The inspiration of Druid is the past…
+Druid is heavily inspired by the past…
 
 # Drupal
 ## Plugin
