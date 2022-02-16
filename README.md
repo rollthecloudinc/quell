@@ -26,22 +26,20 @@ W e b A p p
 
 Platform is the tool kit for creating web apps based on above fundemental principles.
 
-Focused on the radid delivery of web experiences:
+## Demos
 
-https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* Rendered Page : https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 
-Realized via a powerful, extensible editor.
+* Content Editor : https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
-https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
-
-Druid can be used for:
+## Usages
 
 * Content Publishing
 * Micro-frontend Orchestration
 * Web App Building
 * Website Creation
 
-Druid is heavily inspired by the past…
+## Inspirations
 
 * Drupal
 * Magento
