@@ -32,6 +32,8 @@ Realized via a powerful, extensible editor.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
+Druid can be used as a complete publishing platform, micro-frontend orchestration shell, or repository of useful modules to add to on owns project.
+
 ### Features
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
