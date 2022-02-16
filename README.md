@@ -24,11 +24,13 @@ Low dependance on specific infrastructure configurations or environments.
 
 W e b A p p
 
-Focused on the rapid realization of COMPLEX web experiences based on these core principles shown in the demo screen captures below.
+Focused on the radid delivery of web experiences:
 
-![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
+https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 
-![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
+Realized via a powerful, extensible editor.
+
+https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ### Features
 
