@@ -30,13 +30,13 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Platform
 
-Arm those interested with an extensible editor for rapid realization of web experiences based on the druid potion.
+Arm builders with extensible editor for rapid realization of druid web experiences.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 # Catalog
 
-Provide vast ecosystem of modules supporting editor capabilities and druid potion.
+Provide vast ecosystem of modules supporting editor capabilities and druid.
 
 ## Security
 
@@ -130,7 +130,7 @@ Crud based implementations to easily store information in the cloud or otherwise
 
 ### Module Federation
 
-Modules that facilitate using Druid as a shell and embedding independent applications and modules.
+Modules that facilitate using platform as a shell and embedding independent applications and modules.
 
 * alienalias
 * outsider
@@ -138,7 +138,7 @@ Modules that facilitate using Druid as a shell and embedding independent applica
 
 ## Publishing
 
-Modules that make it possible for site builders to create Angular pages without coding.
+Modules that make it possible for site builders to create pages without coding.
 
 ### PanelPage
 
