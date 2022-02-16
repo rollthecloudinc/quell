@@ -30,7 +30,11 @@ W e b A p p
 
 # Platform
 
-Vast ecosystem of modules alongside powerful content editor for realizing web experiences based on the above principles.
+Extensible content editor supported by a vast ecosystem of modules for realizing web experiences based on the above principles.
+
+https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
+
+NOTE: Panel pages for demo are saved to index db.
 
 # Demos
 
