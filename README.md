@@ -32,7 +32,12 @@ Realized via a powerful, extensible editor.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
-Druid can be used as a complete publishing platform, micro-frontend orchestration shell, or repository of useful modules to add to on owns project.
+Druid can be used for:
+
+* Content Publishing
+* Micro-frontend Orchestration
+* Web App Building
+* Website Creation
 
 ### Features
 
