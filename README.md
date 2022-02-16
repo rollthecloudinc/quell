@@ -36,7 +36,7 @@ https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 # Catalog
 
-Provide vast ecosystem of modiles to support functionality of editor and base principles.
+Provide vast ecosystem of modules supporting editor capabilities and base principles.
 
 ## Security
 
