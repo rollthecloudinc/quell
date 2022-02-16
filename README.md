@@ -24,13 +24,15 @@ Low dependance on specific infrastructure configurations or environments.
 
 W e b A p p
 
-## Demos
+## Summary
 
 Platform is a tool kit and editor for building web apps based on the above prinnciples. In the Druid platform layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid platform provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
 
+## Demos
+
 ### Search
 
-Search marvels characters.
+Search marvel characters.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
