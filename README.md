@@ -30,14 +30,16 @@ Platform is the tool kit for creating web apps based on above fundemental princi
 
 In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid platform provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
 
-### Marvel Character Browser
+### Search
 
 Search marvels characters.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
-### Build Forms
+### Forms
+
+Create a form.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
