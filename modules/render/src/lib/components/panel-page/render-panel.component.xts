@@ -1,0 +1,303 @@
+/**
+ * Putting render pane inside the same file is a documented work around for the
+ * below angular partial compilation issue.
+ * 
+ * https://angular.io/errors/NG3003
+ */
+ @Component({
+  selector: 'classifieds-ui-render-panel',
+  templateUrl: './render-panel.component.html',
+  styleUrls: ['./render-panel.component.scss'],
+  // encapsulation: ViewEncapsulation.ShadowDom,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => RenderPanelComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => RenderPanelComponent),
+      multi: true
+    },
+  ],
+  host: {
+    '[class.panel]': 'true',
+    '[attr.data-index]': 'indexPosition$.value'
+  }
+})
+export class RenderPanelComponent implements ControlValueAccessor, Validator  {
+
+  static COUNTER = 0;
+
+  @Input()
+  set panel(panel: Panel) {
+    this.panel$.next(panel);
+  }
+
+  @Input()
+  set contexts(contexts: Array<InlineContext>) {
+    this.contexts$.next(contexts);
+  }
+
+  @Input()
+  set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
+
+  @Input()
+  set contextsChanged(contextsChanged: Array<string>) {
+    this.contextsChanged$.next(contextsChanged);
+    // contextsChanged.map(c => this.scheduleContextChange$.next(c));
+  }
+
+  @Input()
+  set indexPosition(indexPosition: number) {
+    this.indexPosition$.next(indexPosition);
+  }
+
+  @Input()
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
+
+  @Input() set css(css: JSONNode) {
+    this.css$.next(css);
+  }
+
+  @Input()
+  nested = false;
+
+  @Input()
+  displayType: string;
+
+  @Output()
+  heightChange = new EventEmitter<number>();
+
+  @HostBinding('class') get indexPositionClass() {
+    return `panel-${this.indexPosition$.value}`;
+  }
+
+  @ViewChildren(RenderPaneComponent) renderedPanes: QueryList<RenderPaneComponent>;
+
+  panelForm = this.fb.group({
+    name: this.fb.control(''),
+    label: this.fb.control(''),
+    panes: this.fb.array([])
+  });
+
+  panelFormSub = this.panelForm.valueChanges.subscribe(v => {
+    console.log('paneL form value');
+    console.log(v);
+  });
+
+  panes: Array<Pane>;
+  originPanes: Array<Pane>;
+  filteredCss: JSONNode;
+  componentRef: ComponentRef<any>;
+  resolvedPanes: Array<Pane>;
+  originMappings: Array<number> = [];
+  resolvedContexts: Array<any> = [];
+  resolveContextsSub: Subscription;
+  // stylePlugin: string;
+
+  @ViewChild(PaneContentHostDirective, { static: true }) panelHost: PaneContentHostDirective;
+  @ViewChild('panes', { static: true }) paneContainer: ElementRef;
+
+  readonly afterContentInit$ = new Subject();
+
+  readonly schedulePanelRender$ = new Subject<string>();
+  readonly scheduleRender$ = new Subject<void>();
+  readonly rendered$ = new Subject();
+
+  schduleContextChangeSub: Subscription;
+  scheduleContextChange$ = new Subject<string>();
+
+  readonly panel$ = new BehaviorSubject<Panel>(undefined);
+  readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+  readonly resolvedContext$ = new BehaviorSubject<any>({});
+  readonly contextsChanged$ = new BehaviorSubject<Array<string>>([]);
+  readonly ancestoryWithSelf$ = new BehaviorSubject<Array<number>>([]);
+  readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly indexPosition$ = new BehaviorSubject<number>(undefined);
+  readonly css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
+
+  private counter: number;
+
+  cssSub = combineLatest([
+    this.css$,
+    this.afterContentInit$,
+    this.rendered$
+  ]).pipe(
+    map(([css]) => css),
+    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition$.value}`)),
+    map((css: JSONNode) => [
+      this.cssHelper.reduceCss(css, '.pane-', false),
+      css
+    ]),
+    tap(([_, nestedCss]) => this.filteredCss = nestedCss),
+    map(([css, _]) => css),
+    delay(1)
+  ).subscribe((css: JSONNode) => {
+    /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
+    console.log(css);
+    this.filteredCss = css;*/
+    const keys = Object.keys(css.children);
+    keys.forEach(k => {
+      console.log(`search: ${k}`);
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : this.hostEl.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      const rules = Object.keys(css.children[k].attributes);
+      for (let i = 0; i < len; i++) {
+        rules.forEach(p => {
+          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+          this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
+        });
+      }
+    });
+  });
+
+  readonly scheduleRenderSub = this.scheduleRender$.pipe(
+    switchMap(() => combineLatest([ this.panel$, this.contexts$, this.resolvedContext$ ])),
+    map(([ panel, contexts, resolvedContext ]) => ({ panel, contexts, resolvedContext })),
+    filter(({ panel }) => !!panel),
+    tap(({ panel }) => console.log(`schdule renderer before [${panel.name}]`)),
+    switchMap(({ panel, contexts, resolvedContext }) => this.panelResolverService.resolvePanes({ panes: panel.panes, contexts, resolvedContext }).pipe(
+      map(({ resolvedPanes, originMappings }) => ({ resolvedPanes, originMappings, panel, panes: panel.panes }))
+    )),
+    switchMap(({ panel, panes, resolvedPanes, originMappings }) => this.styleResolverService.alterResolvedPanes({ panel, resolvedPanes, originMappings }).pipe(
+      map(({ resolvedPanes, originMappings }) => ({ panel, panes, resolvedPanes, originMappings }))
+    )),
+    tap(({ panel }) => console.log(`schdule renderer after [${panel.name}]`)),
+  ).subscribe(({ panel, panes, resolvedPanes, originMappings }) => {
+    console.log(`render panel: ${panel.name}`);
+    this.resolvedPanes = resolvedPanes;
+    this.originPanes = panes;
+    this.originMappings = originMappings;
+    this.populatePanesFormArray();
+    if(panel.stylePlugin !== undefined) {
+      this.schedulePanelRender$.next(panel.stylePlugin);
+    } else {
+      this.rendered$.next(undefined);
+    }
+  });
+
+  readonly usedContextsSub = this.panel$.pipe(
+    filter(panel => !!panel),
+    distinctUntilChanged(),
+    withLatestFrom(this.contexts$),
+    withLatestFrom(this.resolvedContext$),
+    map(([ [panel, contexts], resolvedContext ]) => ({ panel, contexts, resolvedContext })),
+    switchMap(({ panel, contexts, resolvedContext }) => combineLatest([
+        this.contextsChanged$.pipe(
+          distinctUntilChanged()
+        ),
+        this.panelResolverService.usedContexts(panel.panes)
+      ]).pipe(
+        map(([ contextChanged, ctx ]) => ({ panel, contexts, resolvedContext, contextChanged, ctx: ctx.filter(c => c !== '_page' && c !== '_root' && c !== '.' && c.indexOf('panestate-' + this.ancestoryWithSelf$.value.join('-')) !== 0) }))
+      )
+    ),
+    tap(({ ctx, contextChanged }) => console.log(`unfiltered`, ctx, contextChanged)),
+    filter(({ ctx, contextChanged }) => Array.isArray(ctx) && ctx.findIndex(c => contextChanged.findIndex(c2 => c === c2) !== -1) !== -1),
+    tap(({ ctx, contextChanged }) => console.log(`filtered`, ctx, contextChanged)),
+    debounceTime(100),
+    tap(({ panel, ctx, contextChanged, }) => {
+      console.log(`Context changed [${panel.name}]: ${contextChanged}`);
+      console.log(`contexts detected [${panel.name}]: ${(ctx as Array<string>).join(',')}`);
+      this.scheduleRender$.next();
+    })
+  ).subscribe();
+
+  schedulePanelRenderSub = this.schedulePanelRender$.pipe(
+    switchMap(p => this.spm.getPlugin(p))
+  ).subscribe((stylePlugin: StylePlugin) => {
+
+    const viewContainerRef = this.panelHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    const componentRef = viewContainerRef.createComponent(stylePlugin.renderComponent);
+    this.componentRef = componentRef;
+    (componentRef.instance as any).settings = this.panel$.value.settings;
+    /**
+     * I think this is an oversight. The current code is passing ALL the panes
+     * as the panes array. I believe that change was recently made to facilitate
+     * new behavior. I just don't think this was ever updated... Updating now
+     * and we will see how it goes.
+     */
+    (componentRef.instance as any).panes = this.resolvedPanes;
+    // This breaks pages because none visible panes will attempt to be rendered.
+    //(componentRef.instance as any).panes = this.panel.panes;
+    (componentRef.instance as any).originPanes = this.panel$.value.panes;
+    (componentRef.instance as any).originMappings = this.originMappings;
+    (componentRef.instance as any).contexts = this.contexts$.value.map(c => new InlineContext(c));
+    (componentRef.instance as any).displayType = this.displayType;
+    (componentRef.instance as any).ancestory = this.ancestoryWithSelf$.value;
+    // (componentRef.instance as any).resolvedContexts = this.resolvedContexts;
+    (componentRef.instance as any).resolvedContext = this.resolvedContext$.value;
+    (componentRef.instance as any).panel = this.panel$.value;
+    (componentRef.instance as any).indexPosition = this.indexPosition$.value;
+
+    this.rendered$.next(undefined);
+  });
+
+  readonly ancestorySub = combineLatest([
+    this.ancestory$,
+    this.indexPosition$
+  ]).pipe(
+    tap(([ancestory, indexPosition]) => {
+      this.ancestoryWithSelf$.next([ ...ancestory, indexPosition ]);
+    })
+  ).subscribe();
+
+  public onTouched: () => void = () => {};
+
+  get panesArray(): FormArray {
+    return this.panelForm.get('panes') as FormArray;
+  }
+
+  constructor(
+    private hostEl: ElementRef,
+    private renderer2: Renderer2,
+    private fb: FormBuilder,
+    private panelResolverService: PanelResolverService,
+    private spm: StylePluginManager,
+    private cssHelper: CssHelperService,
+    private styleResolverService: StyleResolverService
+  ) {
+    this.counter = RenderPanelComponent.COUNTER++;
+  }
+
+  writeValue(val: any): void {
+    if (val) {
+      this.panelForm.setValue(val, { emitEvent: false });
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.panelForm.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.panelForm.disable()
+    } else {
+      this.panelForm.enable()
+    }
+  }
+
+  validate(c: AbstractControl): ValidationErrors | null{
+    return this.panelForm.valid ? null : { invalidForm: {valid: false, message: "panel are invalid"}};
+  }
+
+  populatePanesFormArray() {
+    this.panesArray.clear();
+    this.resolvedPanes.forEach((p, i) => {
+      this.panesArray.push(this.fb.control(''));
+    });
+  }
+
+}

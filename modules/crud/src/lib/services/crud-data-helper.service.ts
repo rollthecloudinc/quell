@@ -45,17 +45,15 @@ export class CrudDataHelperService {
         switchMap(({ p, params }) => this.buildQueryRule({ params: query, config: plugins[a] }).pipe(
           map(({ rule }) => ({ p, params, rule }))
         )),
-        tap(({ params, rule }) => console.log('right before collection plugin query', params, rule)),
+        // tap(({ params, rule }) => console.log('right before collection plugin query', params, rule)),
         switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) }).pipe(
           tap(() => console.log('end of crud query call'))
         )),
-        tap(res => console.log('right before nested collection plugins', res)),
+        // tap(res => console.log('right before nested collection plugins', res)),
         switchMap(res => iif(
           () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
           this.evaluateCollectionPlugins({ query, plugins: plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0 ? plugins[a].plugins : {}, objects: res.entities ? res.entities : objects, parentObjects: res.originalEntities ? res.originalEntities : objects, op }),
-          of(res).pipe(
-            tap(res => console.log('evaludate collection plugins unnested result', res))
-          )
+          of(res)
         )),
         tap(res => console.log('end of op', res))
       ),

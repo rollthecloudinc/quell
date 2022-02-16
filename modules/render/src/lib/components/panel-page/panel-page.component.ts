@@ -9,7 +9,7 @@ import { /*ContextManagerService, */ InlineContext, ContextPluginManager, Inline
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from 'panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -688,7 +688,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
  * 
  * https://angular.io/errors/NG3003
  */
-@Component({
+ @Component({
   selector: 'classifieds-ui-render-panel',
   templateUrl: './render-panel.component.html',
   styleUrls: ['./render-panel.component.scss'],
