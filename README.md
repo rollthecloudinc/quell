@@ -28,34 +28,34 @@ W e b A p p
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
-## Platform
+# Platform
 
 Vast ecosystem of modules alongside powerful content editor for realizing web experiences based on the above principles.
 
-## Demos
+# Demos
 
-### Search
+## Search
 
 Search marvel characters.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
-### Forms
+## Forms
 
 Create a form.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
 
-## Usages
+# Usages
 
 * Content Publishing
 * Micro-frontend Orchestration
 * Web App Building
 * Website Creation
 
-## Inspirations
+# Inspirations
 
 * Drupal
 * Magento
@@ -64,9 +64,9 @@ Create a form.
 
 This document provides categorical feature overview of key players within druid core.
 
-## Catalog
+# Catalog
 
-### s e c u r i t y
+## Security
 
 Modules that provide critical security capabilities.
 
@@ -75,7 +75,7 @@ Modules that provide critical security capabilities.
 * auth
 * odic
 
-### e x t e n s i b i l i t y
+## Extensibility
 
 Modules that play a key role in external programmatic customization without hacking core.
 
@@ -97,7 +97,7 @@ Modules that play a key role in external programmatic customization without hack
 * durl
 * token
 
-### r o u t i n g
+## Routing
 
 Modules responsible for routing requests to the appropriate module and component.
 
@@ -110,7 +110,7 @@ Implementations:
 * pagealias
 * alienalias
 
-### p e r s i s t e n c e
+### Persistence
 
 Internal framework for saving data across multiple storages using a clear, well defined interface.
 
@@ -130,7 +130,7 @@ Implementations
 * awos
 * rest
 
-### s e a r c h
+## Search
 
 Internal framework for querying data across multiple storages using a clear, well defined interface.
 
@@ -144,7 +144,7 @@ Implementations:
 * loop
 * rest
 
-### s t o r a g e
+## Storage
 
 Crud based implementations to easily store information in the cloud or otherwise.
 
@@ -154,7 +154,7 @@ Crud based implementations to easily store information in the cloud or otherwise
 * awos
 * aws3
 
-### o r c h e s t r a t i o n
+## Orchestration
 
 ### Module Federation
 
@@ -164,7 +164,7 @@ Modules that facilitate using Druid as a shell and embedding independent applica
 * outsider
 * tractorbeam
 
-### p u b l i s h i n g
+## Publishing
 
 Modules that make it possible for site builders to create Angular pages without coding.
 
@@ -178,7 +178,7 @@ Modules that make it possible for site builders to create Angular pages without 
 * pagealias
 * layout
 
-## Mentions
+# Mentions
 
 * Angular Material | https://material.angular.io/
 * NgRx | https://ngrx.io/
