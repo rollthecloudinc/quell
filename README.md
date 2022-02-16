@@ -30,13 +30,13 @@ W e b A p p
 
 # Platform
 
-Arm those interested with an extensible editor for rapid realization of web experiences based on the above principles.
+Arm those interested with an extensible editor for rapid realization of web experiences based on the druid potion.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 # Catalog
 
-Provide vast ecosystem of modules supporting editor capabilities and base principles.
+Provide vast ecosystem of modules supporting editor capabilities and druid potion.
 
 ## Security
 
