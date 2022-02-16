@@ -4,11 +4,11 @@ Potion and resources to stand up web experiences on five principles.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
-# Dependable
+# Dependability
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-# Responsive
+# Responsiveness
 
 performant, optimized
 
@@ -20,7 +20,7 @@ delightful experience for everyone involved from user to developer.
 
 Low-cost without sacrifice.
 
-# Durable
+# Durablility
 
 Low dependance on specific infrastructure configurations or environments.
 
