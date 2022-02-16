@@ -30,10 +30,9 @@ npm publish dist/layout
 npm publish dist/state
 npm publish dist/loop
 npm publish dist/rest
-npm publish dist/panelpage
 npm publish dist/render
 npm publish dist/media
-npm publish dist/editablepane
+# npm publish dist/editablepane
 npm publish dist/pages
 npm publish dist/pagealias
 npm publish dist/formly

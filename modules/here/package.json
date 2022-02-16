@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/here",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^11.2.14",
