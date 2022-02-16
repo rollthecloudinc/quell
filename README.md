@@ -76,10 +76,6 @@ Create a form.
 
 ## Mentions
 
-This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
-
-One of the primary reasons Angular has been choosen for this project is due to the rich ecosystem of modules developed by community. Many of those projects have been used to optimize development quality, performance, efficiency, and maintainance.
-
 * Angular Material | https://material.angular.io/
 * NgRx | https://ngrx.io/
 * Module Federation | https://www.npmjs.com/package/@angular-architects/module-federation
@@ -89,9 +85,6 @@ One of the primary reasons Angular has been choosen for this project is due to t
 * ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
 * Flex Layout | https://github.com/angular/flex-layout
 * Ngx Json Viewer | https://www.npmjs.com/package/ngx-json-viewer
-
-In addition to Angular Druid also uses many nodejs projects.
-
 * jsonpath-plus | https://www.npmjs.com/package/jsonpath-plus
 * json-rules-engine | https://www.npmjs.com/package/json-rules-engine
 * oidc-client | https://www.npmjs.com/package/oidc-client
