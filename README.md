@@ -66,7 +66,7 @@ This document provides categorical feature overview of key players within druid 
 
 ## Catalog
 
-### S e c u r i t y
+### s e c u r i t y
 
 Modules that provide critical security capabilities.
 
@@ -75,7 +75,7 @@ Modules that provide critical security capabilities.
 * auth
 * odic
 
-### E x t e n s i b i l i t y
+### e x t e n s i b i l i t y
 
 Modules that play a key role in external programmatic customization without hacking core.
 
@@ -97,7 +97,7 @@ Modules that play a key role in external programmatic customization without hack
 * durl
 * token
 
-### R o u t i n g
+### r o u t i n g
 
 Modules responsible for routing requests to the appropriate module and component.
 
@@ -110,7 +110,7 @@ Implementations:
 * pagealias
 * alienalias
 
-### P e r s i s t e n c e
+### p e r s i s t e n c e
 
 Internal framework for saving data across multiple storages using a clear, well defined interface.
 
@@ -130,7 +130,7 @@ Implementations
 * awos
 * rest
 
-### S e a r c h
+### s e a r c h
 
 Internal framework for querying data across multiple storages using a clear, well defined interface.
 
@@ -144,7 +144,7 @@ Implementations:
 * loop
 * rest
 
-### S t o r a g e
+### s t o r a g e
 
 Crud based implementations to easily store information in the cloud or otherwise.
 
@@ -154,7 +154,7 @@ Crud based implementations to easily store information in the cloud or otherwise
 * awos
 * aws3
 
-### O r c h e s t r a t i o n
+### o r c h e s t r a t i o n
 
 ### Module Federation
 
@@ -164,7 +164,7 @@ Modules that facilitate using Druid as a shell and embedding independent applica
 * outsider
 * tractorbeam
 
-### P u b l i s h i n g
+### p u b l i s h i n g
 
 Modules that make it possible for site builders to create Angular pages without coding.
 
