@@ -62,8 +62,6 @@ Create a form.
 * Wordpress
 * ModX
 
-This document provides categorical feature overview of key players within druid core.
-
 # Catalog
 
 ## Security
