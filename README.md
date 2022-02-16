@@ -1,6 +1,6 @@
 ## D r u i d
 
-Is a…
+Potion to create…
 
 # Dependable
 
