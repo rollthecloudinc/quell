@@ -30,7 +30,7 @@ W e b A p p
 
 ## Platform
 
-Toolkit of modules alongside powerful content editor for realizing web experiences based on the above principles.
+Vast ecosystem of modules alongside powerful content editor for realizing web experiences based on the above principles.
 
 ## Demos
 
