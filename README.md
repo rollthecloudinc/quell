@@ -24,8 +24,6 @@ Low dependance on specific infrastructure configurations or environments.
 
 W e b A p p
 
-Platform is the tool kit for creating web apps based on above fundemental principles.
-
 ## Demos
 
 In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid platform provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
