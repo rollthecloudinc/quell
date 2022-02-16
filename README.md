@@ -2,6 +2,34 @@
 
 ![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
 
+## D r u i d
+
+Is a…
+
+# Dependable
+
+Highly available, infinitely scalable with low-latency across all tiers.
+
+# Responsive
+
+performant, optimized
+
+# User Centric
+
+delightful experience for everyone involved from user to developer.
+
+# Inexpensive
+
+Low-cost without sacrifice.
+
+# Durable
+
+Low dependance on specific infrastructure configurations or environments.
+
+W e b A p p
+
+### Features
+
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
 
 * Markdown and HTML content
