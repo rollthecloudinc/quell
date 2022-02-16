@@ -58,7 +58,7 @@ Create a form.
 * Wordpress
 * ModX
 
-### Features
+## Features
 
 * Markdown and HTML content
 * Query and refine API datasets
@@ -74,7 +74,7 @@ Create a form.
 * Customizable data storage and access restrictions
 * Ruesable change detection aware variable definitions
 
-### Mentions
+## Mentions
 
 This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
 
