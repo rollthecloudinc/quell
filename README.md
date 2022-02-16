@@ -39,6 +39,15 @@ Druid can be used for:
 * Web App Building
 * Website Creation
 
+The inspiration of Druid is the past…
+
+# Drupal
+# Magento
+# Wordpress
+# ModX
+
+
+
 ### Features
 
 Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
