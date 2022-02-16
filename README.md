@@ -2,7 +2,7 @@
 
 Potion to create…
 
-!(https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.svg)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.svg)
 
 # Dependable
 
