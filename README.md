@@ -30,41 +30,13 @@ W e b A p p
 
 # Platform
 
-Extensible content editor supported by a vast ecosystem of modules for realizing web experiences based on the above principles.
+Empower others to build for the web based on the above princles. 
+
+* Arm site builders with extensible content editor
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
-NOTE: Panel pages for demo are saved to index db.
-
-# Demos
-
-## Search
-
-Search marvel characters.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
-
-## Forms
-
-Create a form.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
-# Usages
-
-* Content Publishing
-* Micro-frontend Orchestration
-* Web App Building
-* Website Creation
-
-# Inspirations
-
-* Drupal
-* Magento
-* Wordpress
-* ModX
+* Provide developers with vast ecosystem of modules
 
 # Catalog
 
@@ -179,6 +151,36 @@ Modules that make it possible for site builders to create Angular pages without 
 * pages
 * pagealias
 * layout
+
+# Demos
+
+## Search
+
+Search marvel characters.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+## Forms
+
+Create a form.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
+
+# Usages
+
+* Content Publishing
+* Micro-frontend Orchestration
+* Web App Building
+* Website Creation
+
+# Inspirations
+
+* Drupal
+* Magento
+* Wordpress
+* ModX
 
 # Mentions
 
