@@ -24,6 +24,8 @@ Low dependance on specific infrastructure configurations or environments.
 
 W e b A p p
 
+Platform is the tool kit for creating web apps based on above fundemental principles.
+
 Focused on the radid delivery of web experiences:
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
