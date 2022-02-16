@@ -1,8 +1,9 @@
 ## D r u i d
 
-Potion and resources to stand up web experiences on five principles.
+Potion and Angular resources to stand up web experiences on five principles.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
 
 # Dependability
 
