@@ -30,15 +30,13 @@ W e b A p p
 
 # Platform
 
-Empower others to build for the web based on the above princles. 
-
-* Arm site builders with extensible content editor
+Arm those interested with an extensible editor for rapid realization of web experiences based on the above principles.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
-* Provide developers with vast ecosystem of modules
-
 # Catalog
+
+Provide vast ecosystem of modiles to support functionality of editor and base principles.
 
 ## Security
 
