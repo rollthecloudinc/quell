@@ -41,21 +41,12 @@ Druid can be used for:
 
 Druid is heavily inspired by the past…
 
-# Drupal
-## Plugin
-## Entities
-## Panels
-# Magento
-## Attributes
-## Pages
-# Wordpress
-## ACF
-
-
+* Drupal
+* Magento
+* Wordpress
+* ModX
 
 ### Features
-
-Druid is a serverless publishing platform optimized for the modern web using cutting edge technology. Highly inspired by Drupal panels. Druid provides a suite of extensible authoring capabilities. 
 
 * Markdown and HTML content
 * Query and refine API datasets
