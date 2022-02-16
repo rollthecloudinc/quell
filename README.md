@@ -42,9 +42,13 @@ Druid can be used for:
 The inspiration of Druid is the past…
 
 # Drupal
+## Plugin
+## Entities
+## Panels
 # Magento
-# Wordpress
+## Attributes
 # ModX
+## Publishing
 
 
 
