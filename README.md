@@ -28,9 +28,19 @@ Platform is the tool kit for creating web apps based on above fundemental princi
 
 ## Demos
 
-* Rendered Page : https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid platform provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
 
-* Content Editor : https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+### Marvel Character Browser
+
+Search marvels characters.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+### Build Forms
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
 
 ## Usages
 
@@ -62,53 +72,6 @@ Platform is the tool kit for creating web apps based on above fundemental princi
 * Customizable data storage and access restrictions
 * Ruesable change detection aware variable definitions
 
-### Live Demo
-
-In Druid layout, content, and data exist as one forming a multi-dimensional, symbiotic relationship. Content publishers are empowered to layout and design content through a library of open source, extensible plugins. The Druid core provides plugins for arranging, uploading, and styling a diverse range web experiences. The web experiences which the platform supports is dynamic in nature and can be extended by creating custom plugins outside of the platform source code. The foundation of the publishing experience is panel pages. Panel pages are the fundamental entity from which all content is birthed. The delivery of that content rests in the hands of interconnected cloud resources.
-
-The live demo app can be found at the link below.
-
-https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
-
-Saved pages are currently saved to index db.
-
-Demos and recipes for using specific features will follow.
-
-NOTE: The live demo is an early stage alpha at best.
-
-HINT: Live examples below can provide insight into capabilities of platform and implementation.
-
-### Intentions
-
-The well has run dry with sophisticated, powerful modern tools for authoring content across multiple marketing and business outlets. Druid will fill that void providing the new swift army knife of content development.
-
-* Personal blog
-* Small personal websites
-* One-off landing pages
-* Ecommerce website
-* Professional business website(s)
-* Web applications
-* Development prototyping
-* Email generation
-* PDF generation
-
-### Motivations
-
-This project is inspired by older CMS platforms. Specifically given extensive work history using Drupal and Magento many of the concepts accross each of those platforms have been adapted for the serverless modern web. 
-
-* Drupal | https://www.drupal.org/
-* Magento | https://magento.com/
-* Modx | https://modx.com/
-
-Learn and discover new more efficient ways to build well architected modern browser experiences. Reveal noteworhty discoveries and provide demostrations to augment sharing knowledge of those realizations.
-
-### Initiatives
-
-* Core/Druid | The core platform providing all the modules for the build and render of panel pages.
-* Sparkle | Collection of modules to deliver decentralized, graph integration motivated by collection of various metric categories.
-* Druid as a module federation orchestration platform like what kubernetes is to docker but in the micro-frontend world.
-* Promote d2a programming model using demos to pave the pathway of education and understanding
-
 ### Notable Mentions
 
 This project would not be possible without the previous work of many. Druid uses many other open source projects to deliver a sleek, sophisticated publishing experience. The most noteworthy of those is Angular – https://angular.io/. The foundation for the entire suite is built on top of this modern web building framework developed by Google with global support ecosystem.
@@ -137,37 +100,3 @@ In addition to Angular Druid also uses many nodejs projects.
 * deepmerge-json | https://www.npmjs.com/package/deepmerge-json
 * js-cookie | https://www.npmjs.com/package/js-cookie
 * idb-keyval | https://github.com/jakearchibald/idb-keyval
-
-### Live Examples
-
-Marvel Character Browser
-
-View and search characters in the Marvel universe.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
-
-![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
-
-#
-
-Formly Kitchen Sink
-
-Build forms and save submissions.
-
-NOTE: The initial intention was to use formly for building forms. After much work and frustration this was abandoned. One of the primary reasons of abandoning formly was the way the components were built required a lot of work arounds and hacks to integrate well with panels, and converting panel forms to trimmed down realistic domain objects. The decision to finally abandon formly was made when it seemed nearly impossible to realize repeating nested forms. The successor of the for all intents and purposes dead formly module is the forms module. The intention of the forms module is support all the same features of formly but using an architecture that better aligns with panels drastically simplifying form components, repeating sections, and nested forms even inside repeating sections also vice versa. Many of the form component offerings of formly have been realized in forms already including repeating sections and nested forms using nested panels. The major feature that has not been completed only thought through is validation. That being said the below demo still accurrately depicts the form component offerings but uses the formly module integration instead of the forms module integration.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
-![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/demo_kitchen_sink_formly_v1.png)
-
-![idb](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/formly_kitchen_sink_v1_idb.png)
-
-#
-
-### Catalog
-
-Catalog of Druid libraries.
-
-https://github.com/ng-druid/platform/wiki/Catalog
