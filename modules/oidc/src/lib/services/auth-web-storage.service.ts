@@ -101,7 +101,7 @@ export class AuthWebStorageService {
   getCookie(key: string): string {
     if(this.isBrowser) {
       return Cookies.get(key);
-    } else {
+    } else if (this.req) {
       return this.req.cookies[key] ?? '';
     }
   }

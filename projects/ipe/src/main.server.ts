@@ -4,6 +4,7 @@ export { ngExpressEngine } from '@nguniversal/express-engine';
 export { enableProdMode } from '@angular/core';
 export { AppServerModule } from './app/app.server.module';
 export { HOST_NAME, PROTOCOL } from 'utils';
+export { renderModule } from '@angular/platform-server';
 // export { renderModule, renderModuleFactory } from '@angular/platform-server';
 
 // import { renderModule, renderModuleFactory } from '@angular/platform-server';
@@ -73,7 +74,9 @@ export function app() {
       { provide: APP_BASE_HREF, useValue: req.baseUrl },
       { provide: HOST_NAME, useValue: req.headers.host /*'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com'*/ },
       { provide: PROTOCOL, useValue: 'http' },
-      // { provide: REQUEST, useValue: req }
+      // { provide: HOST_NAME, useValue: 'localhost:4000' /*'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com'*/ },
+      // { provide: PROTOCOL, useValue: 'http' },
+      { provide: REQUEST, useValue: req }
     ]});
   });
 

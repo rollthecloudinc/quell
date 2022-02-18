@@ -38,7 +38,12 @@ export const authWebStorageFactory = (clientSettings: ClientSettings, platformId
    * However, once commented out lambda runs fine but loose auth context on server.
    */
   if(isPlatformServer(platformId)) {
-    svc.request = injector.get(REQUEST);
+    try {
+      svc.request = injector.get(REQUEST);
+    } catch (e) {
+
+    }
+    // svc.request = injector.injector.get(REQUEST);
     // svc.response = injector.get(RESPONSE);
   }
   svc.init();

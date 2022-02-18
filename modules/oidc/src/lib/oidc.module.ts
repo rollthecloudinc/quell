@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Injector, ModuleWithProviders, NgModule, PLATFORM_ID } from '@angular/core';
+import { APP_INITIALIZER, Inject, Injector, ModuleWithProviders, NgModule, Optional, PLATFORM_ID } from '@angular/core';
 import { EntityDefinitionService } from '@ngrx/data';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthWebStorageService } from './services/auth-web-storage.service';
@@ -9,7 +9,6 @@ import { CLIENT_SETTINGS } from './oidc.tokens';
 import { TransferState } from '@angular/platform-browser';
 import { UserManager } from 'oidc-client';
 import { AuthFacade, AuthModule } from 'auth';
-
 @NgModule({
   declarations: [],
   imports: [
@@ -19,7 +18,9 @@ import { AuthFacade, AuthModule } from 'auth';
   exports: []
 })
 export class OidcModule {
-  constructor(eds: EntityDefinitionService) {
+  constructor(
+    eds: EntityDefinitionService
+  ) {
     eds.registerMetadataMap(entityMetadata);
   }
   static forRoot(): ModuleWithProviders<OidcModule> {

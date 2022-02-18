@@ -9,13 +9,17 @@ export class BridgeBuilderService {
         private bpm: BridgeBuilderPluginManager
     ) {}
     build() {
-        console.log('build bridge...');
-        this.bpm.getPlugins().subscribe(plugins => {
-            Array.from(plugins).forEach(([k, p]) => {
-                p.build();
-                console.log('bridge build: ' + k);
+        try {
+            console.log('build bridge...');
+            this.bpm.getPlugins().subscribe(plugins => {
+                Array.from(plugins).forEach(([k, p]) => {
+                    p.build();
+                    console.log('bridge build: ' + k);
+                });
             });
-        });
-        console.log('bridge built.');
+            console.log('bridge built.');
+        } catch (e) {
+
+        }
     }
 }
