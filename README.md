@@ -48,6 +48,10 @@ The brand new druid classifieds site will be built here.
 
 https://github.com/classifieds-dev/classifieds-ui
 
+The architectural vison of the druid classifieds project can be viewed here.
+
+https://github.com/classifieds-dev/classifieds-ui/wiki/Architectural-Vision
+
 # Catalog
 
 Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
