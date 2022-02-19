@@ -36,6 +36,18 @@ Arm builders with extensible editor for rapid realization of druid web experienc
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
+# Origin
+
+The origin of druid was birthed from the desire to easily enable users to customize ad data entry and search experience. The original plan was to create a dedicated classifieds ad site that would fulfil this purpose. However, the decision was made to put that on hold to build an editor completely separate from ads,generic enough to not only support data entry but complete website generation using Angular.
+
+The old Angular project can be found here.
+
+https://github.com/classifieds-dev/classifiedsui-old
+
+The brand new druid classifieds site will be built here.
+
+https://github.com/classifieds-dev/classifieds-ui
+
 # Catalog
 
 Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
