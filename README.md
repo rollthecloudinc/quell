@@ -100,7 +100,7 @@ Implementations:
 * pagealias
 * alienalias
 
-### Persistence
+## Persistence
 
 Internal framework for saving data across multiple storages using a clear, well defined interface.
 
