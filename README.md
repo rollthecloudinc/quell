@@ -26,7 +26,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Experiments
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
 
 ## Search
 
