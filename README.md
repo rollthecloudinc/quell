@@ -4,8 +4,6 @@
 
 Solutions to stand up modern web experiences on five core standards.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
-
 ## Dependability
 
 Highly available, infinitely scalable with low-latency across all tiers.
