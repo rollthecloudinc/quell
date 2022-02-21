@@ -1,8 +1,8 @@
-## D r u i d
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
+# D r u i d
 
 Solutions to stand up modern web experiences on five core standards.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 ## Dependability
 
