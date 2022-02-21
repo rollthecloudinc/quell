@@ -1,5 +1,7 @@
 # d r u i d
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
+
 Solutions to stand up modern web experiences on five core standards.
 
 ## dependability
