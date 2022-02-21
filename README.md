@@ -160,7 +160,7 @@ Modules that facilitate using platform as a shell and embedding independent appl
 
 Modules that make it possible for publishers to easily share content with an audience.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/ship.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forge.png)
 
 ### PanelPage
 
