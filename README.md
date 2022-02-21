@@ -178,32 +178,3 @@ Create a form.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
-# Inspirations
-
-* Drupal
-* Magento
-* Wordpress
-* ModX
-
-# Mentions
-
-* Angular Material | https://material.angular.io/
-* NgRx | https://ngrx.io/
-* Module Federation | https://www.npmjs.com/package/@angular-architects/module-federation
-* Formly | https://formly.dev/
-* Ngx Markdown | https://www.npmjs.com/package/ngx-markdown
-* Angular Split | https://angular-split.github.io/
-* ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
-* Flex Layout | https://github.com/angular/flex-layout
-* Ngx Json Viewer | https://www.npmjs.com/package/ngx-json-viewer
-* jsonpath-plus | https://www.npmjs.com/package/jsonpath-plus
-* json-rules-engine | https://www.npmjs.com/package/json-rules-engine
-* oidc-client | https://www.npmjs.com/package/oidc-client
-* numeral | http://numeraljs.com/
-* qs | https://www.npmjs.com/package/qs
-* css-select | https://www.npmjs.com/package/css-select
-* css-json | https://www.npmjs.com/package/cssjson
-* deepmerge-json | https://www.npmjs.com/package/deepmerge-json
-* js-cookie | https://www.npmjs.com/package/js-cookie
-* idb-keyval | https://github.com/jakearchibald/idb-keyval
