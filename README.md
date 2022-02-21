@@ -1,4 +1,4 @@
-# D r u i d
+# d r u i d
 
 Solutions to stand up modern web experiences on five core standards.
 
