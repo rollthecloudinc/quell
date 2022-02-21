@@ -148,7 +148,7 @@ Modules that facilitate using platform as a shell and embedding independent appl
 
 ## Publishing
 
-Modules that make it possible for site builders to create pages without coding.
+Modules that make it possible for publishers to easily share content with an audience.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/ship.png)
 
