@@ -26,7 +26,7 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
-# The Lab
+# Lab
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
