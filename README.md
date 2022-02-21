@@ -24,6 +24,13 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
+# Usages
+
+* Content Publishing
+* Micro-frontend Orchestration
+* Web App Building
+* Website Creation
+
 # Solutions
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
@@ -171,13 +178,6 @@ Create a form.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
-# Usages
-
-* Content Publishing
-* Micro-frontend Orchestration
-* Web App Building
-* Website Creation
 
 # Inspirations
 
