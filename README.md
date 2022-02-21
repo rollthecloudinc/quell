@@ -4,11 +4,11 @@
 
 Solutions to stand up modern web experiences on five core standards.
 
-## dependability
+## dependable
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-## responsiveness
+## responsive
 
 performant, optimized
 
@@ -20,7 +20,7 @@ delightful experience for everyone involved from user to developer.
 
 Low-cost without sacrifice.
 
-## durablility
+## durable
 
 Low dependance on specific infrastructure configurations or environments.
 
