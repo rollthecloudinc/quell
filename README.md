@@ -44,17 +44,6 @@ Create a form.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
-## Security
-
-Modules that provide critical security capabilities.
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/emergency.png)
-
-### Auth
-
-* auth
-* odic
-
 ## Extensibility
 
 Modules that play a key role in external programmatic customization without hacking core.
@@ -78,6 +67,17 @@ Modules that play a key role in external programmatic customization without hack
 * dparam
 * durl
 * token
+
+## Security
+
+Modules that provide critical security capabilities.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/emergency.png)
+
+### Auth
+
+* auth
+* odic
 
 ## Routing
 
