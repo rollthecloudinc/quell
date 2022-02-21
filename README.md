@@ -31,6 +31,22 @@ Low dependance on specific infrastructure configurations or environments.
 * Web App Building
 * Website Creation
 
+# Demos
+
+## Search
+
+Search marvel characters.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+## Forms
+
+Create a form.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
+
 # Solutions
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
@@ -162,19 +178,3 @@ Modules that make it possible for publishers to easily share content with an aud
 * pages
 * pagealias
 * layout
-
-# Demos
-
-## Search
-
-Search marvel characters.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
-
-## Forms
-
-Create a form.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
