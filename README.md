@@ -6,11 +6,11 @@ Potion to stand up web experiences on five standards.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
-# Dependability
+## Dependability
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-# Responsiveness
+## Responsiveness
 
 performant, optimized
 
@@ -18,11 +18,11 @@ performant, optimized
 
 delightful experience for everyone involved from user to developer.
 
-# Inexpensive
+## Inexpensive
 
 Low-cost without sacrifice.
 
-# Durablility
+## Durablility
 
 Low dependance on specific infrastructure configurations or environments.
 
