@@ -34,9 +34,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
-
-Arm builders with extensible editor for rapid realization of druid web experiences using Angular.
+Labatory for building druid Angular web experiences.
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
