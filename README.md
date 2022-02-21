@@ -28,9 +28,9 @@ Low dependance on specific infrastructure configurations or environments.
 
 # The Lab
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
-
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 # Modules
 
@@ -67,9 +67,9 @@ Modules that play a key role in external programmatic customization without hack
 
 ## Routing
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/route.png)
-
 Modules responsible for routing requests to the appropriate module and component.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/route.png)
 
 ### Alias
 
@@ -82,9 +82,9 @@ Implementations:
 
 ## Persistence
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery.png)
-
 Internal framework for saving data across multiple storages using a clear, well defined interface.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery.png)
 
 ### Refinery
 
@@ -104,9 +104,9 @@ Implementations
 
 ## Search
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/rescue.png)
-
 Internal framework for querying data across multiple storages using a clear, well defined interface.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/rescue.png)
 
 ### Datasource
 
@@ -120,9 +120,9 @@ Implementations:
 
 ## Storage
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/plane.png)
-
 Crud based implementations to easily store information in the cloud or otherwise.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/plane.png)
 
 ### AWS
 
