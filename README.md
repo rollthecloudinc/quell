@@ -120,6 +120,8 @@ Implementations:
 
 ## Storage
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/plane.png)
+
 Crud based implementations to easily store information in the cloud or otherwise.
 
 ### AWS
