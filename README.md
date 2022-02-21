@@ -47,6 +47,8 @@ Modules that provide critical security capabilities.
 
 Modules that play a key role in external programmatic customization without hacking core.
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bridge.png)
+
 ### Plugin
 
 * plugin
@@ -145,8 +147,6 @@ Modules that facilitate using platform as a shell and embedding independent appl
 ## Publishing
 
 Modules that make it possible for site builders to create pages without coding.
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bridge.png)
 
 ### PanelPage
 
