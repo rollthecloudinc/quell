@@ -1,3 +1,5 @@
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forest.png)
+
 ## D r u i d
 
 Potion and resources to stand up web experiences on five principles.
