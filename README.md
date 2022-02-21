@@ -136,6 +136,8 @@ Crud based implementations to easily store information in the cloud or otherwise
 
 Modules that facilitate using platform as a shell and embedding independent applications and modules.
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/flowers.png)
+
 * alienalias
 * outsider
 * tractorbeam
