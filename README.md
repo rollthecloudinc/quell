@@ -38,6 +38,8 @@ https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 Modules that provide critical security capabilities.
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/emergency.png)
+
 ### Auth
 
 * auth
