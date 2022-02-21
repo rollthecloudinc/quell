@@ -84,7 +84,7 @@ Implementations:
 
 Internal framework for saving data across multiple storages using a clear, well defined interface.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery2.png)
 
 ### Refinery
 
