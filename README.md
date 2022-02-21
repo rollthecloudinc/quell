@@ -4,23 +4,23 @@ Solutions to stand up modern web experiences on five core standards.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
-## Dependability
+## dependability
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-## Responsiveness
+## responsiveness
 
 performant, optimized
 
-## User Centric
+## user centric
 
 delightful experience for everyone involved from user to developer.
 
-## Inexpensive
+## inexpensive
 
 Low-cost without sacrifice.
 
-## Durablility
+## durablility
 
 Low dependance on specific infrastructure configurations or environments.
 
