@@ -14,7 +14,7 @@ Highly available, infinitely scalable with low-latency across all tiers.
 
 performant, optimized
 
-# User Centric
+## User Centric
 
 delightful experience for everyone involved from user to developer.
 
