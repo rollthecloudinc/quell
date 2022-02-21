@@ -1,6 +1,6 @@
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forest.png)
-
 ## D r u i d
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forest.png)
 
 Solutions to stand up modern web experiences on five core standards.
 
