@@ -34,8 +34,6 @@ https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 # Modules
 
-Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
-
 ## Security
 
 Modules that provide critical security capabilities.
