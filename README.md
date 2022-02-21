@@ -75,6 +75,8 @@ Modules that play a key role in external programmatic customization without hack
 
 ## Routing
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/route.png)
+
 Modules responsible for routing requests to the appropriate module and component.
 
 ### Alias
