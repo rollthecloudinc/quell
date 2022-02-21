@@ -24,14 +24,14 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
-# Usages
+# Use
 
 * Content Publishing
 * Micro-frontend Orchestration
 * Web App Building
 * Website Creation
 
-# Demos
+# Experiments
 
 ## Search
 
