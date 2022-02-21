@@ -1,6 +1,8 @@
 ## D r u i d
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forest.png)
+https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 Solutions to stand up modern web experiences on five core standards.
 
@@ -23,12 +25,6 @@ Low-cost without sacrifice.
 ## Durablility
 
 Low dependance on specific infrastructure configurations or environments.
-
-# Lab
-
-https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 # Solutions
 
