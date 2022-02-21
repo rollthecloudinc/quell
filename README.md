@@ -32,7 +32,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Lab
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab2.png)
 
 Create Angular web experiences.
 
