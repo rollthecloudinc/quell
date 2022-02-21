@@ -82,6 +82,8 @@ Implementations:
 
 ## Persistence
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery.png)
+
 Internal framework for saving data across multiple storages using a clear, well defined interface.
 
 ### Refinery
