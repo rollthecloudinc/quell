@@ -2,7 +2,7 @@
 
 ## D r u i d
 
-Potion to stand up web experiences on five standards.
+Solutions to stand up modern web experiences on five core standards.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
@@ -32,7 +32,7 @@ https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
-# Modules
+# Solutions
 
 ## Security
 
