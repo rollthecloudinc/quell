@@ -26,17 +26,13 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
-![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
-
-![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
-
-# Lab
+# The Lab
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
-# Potions
+# Modules
 
 Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
 
