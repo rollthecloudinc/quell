@@ -2,8 +2,6 @@
 
 Solutions to stand up modern web experiences on five core standards.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
-
 ## dependability
 
 Highly available, infinitely scalable with low-latency across all tiers.
@@ -25,6 +23,8 @@ Low-cost without sacrifice.
 Low dependance on specific infrastructure configurations or environments.
 
 # Experiments
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 ## Search
 
