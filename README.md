@@ -32,7 +32,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Lab
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab3.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab4.png)
 
 https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
 
