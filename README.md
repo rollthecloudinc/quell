@@ -32,6 +32,8 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Platform
 
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
+
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
 
 Arm builders with extensible editor for rapid realization of druid web experiences using Angular.
