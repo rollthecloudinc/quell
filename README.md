@@ -106,7 +106,7 @@ Implementations
 
 Internal framework for querying data across multiple storages using a clear, well defined interface.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/rescue.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/emergency.png)
 
 ### Datasource
 
