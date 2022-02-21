@@ -2,7 +2,7 @@
 
 ## D r u i d
 
-Potion and resources to stand up web experiences on five principles.
+Potion to stand up web experiences on five standards.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
