@@ -141,9 +141,7 @@ Modules that make for killer breathtaking experiences.
 * pagealias
 * layout
 
-# Experiments
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
+# Demos
 
 ## Search
 
