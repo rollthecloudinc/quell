@@ -80,9 +80,9 @@ Modules with far reaching wingspan enabling travel over long distance.
 
 ## Routing
 
-Modules responsible for routing requests to the appropriate module and component.
+Modules that make switching between different pages monkeys play.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/route.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/monkeys.png)
 
 ### Alias
 
