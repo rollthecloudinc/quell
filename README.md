@@ -27,7 +27,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 ## Security
 
-Modules always watching out for safety and security of the pack.
+Watch out for safety and security of the pack.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
 
