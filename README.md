@@ -45,9 +45,9 @@ Create a form.
 
 ## Security
 
-Modules that provide critical security capabilities.
+Modules that have your back always watching out for safety and security of the pack.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/emergency.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
 
 ### Auth
 
