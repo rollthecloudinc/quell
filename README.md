@@ -56,7 +56,7 @@ Modules that have your back always watching out for safety and security of the p
 
 ## Extensibility
 
-Modules that play a key role in external programmatic customization without hacking core.
+Modules that enable flight and long distance travel.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bridge.png)
 
