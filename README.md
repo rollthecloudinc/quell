@@ -4,23 +4,23 @@
 
 Transform web experiences to stand tall and grasp tight based on the following quality standards.
 
-## dependable
+## Dependable
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-## responsive
+## Responsive
 
 performant, optimized
 
-## user centric
+## User Centric
 
 delightful experience for everyone involved from user to developer.
 
-## inexpensive
+## Inexpensive
 
 Low-cost without sacrifice.
 
-## durable
+## Durable
 
 Low dependance on specific infrastructure configurations or environments.
 
