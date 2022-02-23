@@ -131,18 +131,6 @@ Implementations:
 * loop
 * rest
 
-## Storage
-
-Crud based implementations to easily store information in the cloud or otherwise.
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/plane.png)
-
-### AWS
-
-* awcog
-* awos
-* aws3
-
 ## Orchestration
 
 Modules that enable swimming alongside one another with ease and consistency as one.
