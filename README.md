@@ -56,7 +56,7 @@ Modules that have your back always watching out for safety and security of the p
 
 ## Extensibility
 
-Modules that enable flight and long distance travel.
+Modules with far reaching wingspan enabling travel over long distance.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bridge.png)
 
