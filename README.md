@@ -1,5 +1,3 @@
-# d r u i d
-
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
 
 Transform web experiences to stand tall and grasp tight based on the following quality standards.
