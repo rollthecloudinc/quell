@@ -2,7 +2,7 @@
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
 
-Solutions to stand up modern web experiences on five core standards.
+Transform web experiences to stand tall and grasp tight based on the following quality standards.
 
 ## dependable
 
