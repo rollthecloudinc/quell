@@ -95,9 +95,9 @@ Implementations:
 
 ## Persistence
 
-Modules with teeth that hold tight and move quickly to wherever it needs to go.
+Modules with sharp teeth that hold tight and move quickly between land and sea.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery2.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
 ### Refinery
 
