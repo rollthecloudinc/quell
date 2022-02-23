@@ -45,7 +45,7 @@ Create a form.
 
 ## Security
 
-Modules that have your back always watching out for safety and security of the pack.
+Modules always watching out for safety and security of the pack.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
 
@@ -56,7 +56,7 @@ Modules that have your back always watching out for safety and security of the p
 
 ## Extensibility
 
-Modules with far reaching wingspan enabling travel over long distance.
+Modules with far reaching wing span enabling travel over long distance.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/eagle2.png)
 
