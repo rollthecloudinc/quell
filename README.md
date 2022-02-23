@@ -82,7 +82,7 @@ Modules with far reaching wingspan enabling travel over long distance.
 
 Modules that move quickly with authority between separate tree branches.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/monkeys.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
 
 ### Alias
 
