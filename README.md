@@ -92,9 +92,9 @@ Implementations
 
 ## Search
 
-Internal framework for querying data across multiple storages using a clear, well defined interface.
+Modules that make it easy to Soar over, take hold and consume data.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/rescue2.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
 
 ### Datasource
 
