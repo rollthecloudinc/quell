@@ -81,13 +81,6 @@ Modules with sharp teeth that hold tight and move captures quickly with consiste
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
-### Refinery
-
-* refinery
-
-Implementations:
-* crud
-
 ### Crud
 
 * crud
