@@ -95,7 +95,7 @@ Implementations:
 
 ## Persistence
 
-Internal framework for saving data across multiple storages using a clear, well defined interface.
+Modules with teeth that hold tight and move quickly to wherever it needs to go.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/refinery2.png)
 
