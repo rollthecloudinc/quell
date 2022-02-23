@@ -157,9 +157,9 @@ Modules that facilitate using platform as a shell and embedding independent appl
 
 ## Publishing
 
-Modules that make killer, breathtaking experiences.
+Modules that make for killer breathtaking experiences.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/forge.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/whale.png)
 
 ### PanelPage
 
