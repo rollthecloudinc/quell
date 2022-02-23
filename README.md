@@ -145,9 +145,9 @@ Crud based implementations to easily store information in the cloud or otherwise
 
 ## Orchestration
 
-Modules that facilitate using platform as a shell and embedding independent applications and modules.
+Modules that enable swimming alongside one another with ease and consistency as one.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/facility3.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/dolphines.png)
 
 ### Module Federation
 
