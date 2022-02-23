@@ -38,7 +38,7 @@ Modules always watching out for safety and security of the pack.
 
 ## Extensibility
 
-Modules with far reaching wing span enabling travel over long distance.
+Far reaching wing span enabling travel over long distance.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/eagle2.png)
 
@@ -62,7 +62,7 @@ Modules with far reaching wing span enabling travel over long distance.
 
 ## Routing
 
-Modules that move quickly between separate pages.
+Move users quickly to their destination.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
 
@@ -77,7 +77,7 @@ Implementations:
 
 ## Persistence
 
-Modules with sharp teeth that hold tight and move captures quickly with consistency.
+Move data quickly with consistency.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
@@ -92,7 +92,7 @@ Implementations
 
 ## Search
 
-Modules that make it easy to soar over, take hold and consume data.
+Soar over, take hold and consume data.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
 
@@ -108,7 +108,7 @@ Implementations:
 
 ## Orchestration
 
-Modules that enable swimming alongside one another with ease and consistency as one.
+Swim alongside one another with ease and consistency as one.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/dolphines.png)
 
@@ -120,7 +120,7 @@ Modules that enable swimming alongside one another with ease and consistency as 
 
 ## Publishing
 
-Modules that make for killer breathtaking experiences.
+Realize killer breathtaking experiences.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/whale.png)
 
