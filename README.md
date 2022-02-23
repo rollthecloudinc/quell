@@ -62,7 +62,7 @@ Modules with far reaching wing span enabling travel over long distance.
 
 ## Routing
 
-Modules that move quickly with authority between separate tree branches.
+Modules that move quickly between separate pages.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
 
