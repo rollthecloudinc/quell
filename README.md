@@ -22,24 +22,6 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
-# Experiments
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
-
-## Search
-
-Search marvel characters.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
-
-## Forms
-
-Create a form.
-
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
 # Solutions
 
 
@@ -158,3 +140,21 @@ Modules that make for killer breathtaking experiences.
 * pages
 * pagealias
 * layout
+
+# Experiments
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lab.png)
+
+## Search
+
+Search marvel characters.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+## Forms
+
+Create a form.
+
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
+* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
