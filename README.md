@@ -95,7 +95,7 @@ Implementations:
 
 ## Persistence
 
-Modules with sharp teeth that hold tight and move quickly between land and sea.
+Modules with sharp teeth that hold tight and move captures quickly with consistency.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
