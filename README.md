@@ -92,7 +92,7 @@ Implementations
 
 ## Search
 
-Modules that make it easy to Soar over, take hold and consume data.
+Modules that make it easy to soar over, take hold and consume data.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
 
