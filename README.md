@@ -145,14 +145,14 @@ Modules that make for killer breathtaking experiences.
 
 ## Search
 
-Search marvel characters.
+Marvel character browser built entirely with panel pages.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ## Forms
 
-Create a form.
+Data entry form built entirely with panel pages.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
