@@ -80,7 +80,7 @@ Modules with far reaching wingspan enabling travel over long distance.
 
 ## Routing
 
-Modules that make switching between different pages monkeys play.
+Modules that move quickly with authority between separate tree branches.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/monkeys.png)
 
