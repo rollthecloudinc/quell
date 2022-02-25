@@ -13,7 +13,7 @@ import { map, switchMap, take, tap } from "rxjs/operators";
 import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
 import { isPlatformServer } from "@angular/common";
 
-export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient, hostName?: string, protocol?: string) => {
+export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient) => {
   return new CrudAdaptorPlugin<string>({
     id: 'aws_opensearch_template',
     title: 'AWS Opensearch Template',

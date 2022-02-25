@@ -18,8 +18,6 @@ import { APP_BASE_HREF } from '@angular/common';
 })
 export class Aws3Module { 
   constructor(
-    @Optional() @Inject(HOST_NAME) hostName: string,
-    @Optional() @Inject(PROTOCOL) protocol: string,
     @Inject(COGNITO_SETTINGS) cognitoSettings: CognitoSettings,
     @Inject(PLATFORM_ID) platformId: Object,
     cpm: CrudAdaptorPluginManager,
@@ -28,6 +26,6 @@ export class Aws3Module {
     http: HttpClient,
     asyncApiCallHelperSvc: AsyncApiCallHelperService
   ) {
-    cpm.register(s3EntityCrudAdaptorPluginFactory(platformId, authFacade, cognitoSettings, paramsEvaluatorService, http, asyncApiCallHelperSvc, hostName, protocol));
+    cpm.register(s3EntityCrudAdaptorPluginFactory(platformId, authFacade, cognitoSettings, paramsEvaluatorService, http, asyncApiCallHelperSvc));
   }
 }

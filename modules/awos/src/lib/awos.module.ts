@@ -20,8 +20,6 @@ import { HOST_NAME, PROTOCOL } from 'utils';
 })
 export class AwosModule { 
   constructor(
-    @Optional() @Inject(HOST_NAME) hostName: string,
-    @Optional() @Inject(PROTOCOL) protocol: string,
     @Inject(COGNITO_SETTINGS) cognitoSettings: CognitoSettings,
     @Inject(PLATFORM_ID) platformId: Object,
     cpm: CrudAdaptorPluginManager,
@@ -29,7 +27,7 @@ export class AwosModule {
     paramsEvaluatorService: ParamEvaluatorService,
     http: HttpClient
   ) {
-    cpm.register(opensearchTemplateCrudAdaptorPluginFactory(platformId, authFacade, cognitoSettings, paramsEvaluatorService, http, hostName, protocol));
+    cpm.register(opensearchTemplateCrudAdaptorPluginFactory(platformId, authFacade, cognitoSettings, paramsEvaluatorService, http));
     cpm.register(opensearchEntityCrudAdaptorPluginFactory(authFacade, cognitoSettings, paramsEvaluatorService));
   }
 }
