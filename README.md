@@ -1,48 +1,35 @@
-## D r u i d
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
 
-Potion and resources to stand up web experiences on five principles.
+Transform web experiences to stand tall and grasp tight based on the following quality standards.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
-
-# Dependability
+## Dependable
 
 Highly available, infinitely scalable with low-latency across all tiers.
 
-# Responsiveness
+## Responsive
 
 performant, optimized
 
-# User Centric
+## User Centric
 
 delightful experience for everyone involved from user to developer.
 
-# Inexpensive
+## Inexpensive
 
 Low-cost without sacrifice.
 
-# Durablility
+## Durable
 
 Low dependance on specific infrastructure configurations or environments.
 
-![Editor](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_new_design_bw_v4.png)
+# Modules
 
-![Page](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/marvel-character-browser-v1.png)
-
-# Platform
-
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity_ng.png)
-
-Arm builders with extensible editor for rapid realization of druid web experiences using Angular.
-
-https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/pages/create-panel-page
-
-# Catalog
-
-Provide vast ecosystem of Angular modules supporting editor capabilities and druid.
 
 ## Security
 
-Modules that provide critical security capabilities.
+Watch out for safety and security of the pack.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
 
 ### Auth
 
@@ -51,7 +38,9 @@ Modules that provide critical security capabilities.
 
 ## Extensibility
 
-Modules that play a key role in external programmatic customization without hacking core.
+Far reaching wing span enabling travel over long distance.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/eagle2.png)
 
 ### Plugin
 
@@ -73,7 +62,9 @@ Modules that play a key role in external programmatic customization without hack
 
 ## Routing
 
-Modules responsible for routing requests to the appropriate module and component.
+Move users quickly to their destination.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
 
 ### Alias
 
@@ -84,16 +75,11 @@ Implementations:
 * pagealias
 * alienalias
 
-### Persistence
+## Persistence
 
-Internal framework for saving data across multiple storages using a clear, well defined interface.
+Move data quickly with consistency.
 
-### Refinery
-
-* refinery
-
-Implementations:
-* crud
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
 ### Crud
 
@@ -106,7 +92,9 @@ Implementations
 
 ## Search
 
-Internal framework for querying data across multiple storages using a clear, well defined interface.
+Soar over, take hold and consume data.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
 
 ### Datasource
 
@@ -118,21 +106,13 @@ Implementations:
 * loop
 * rest
 
-## Storage
-
-Crud based implementations to easily store information in the cloud or otherwise.
-
-### AWS
-
-* awcog
-* awos
-* aws3
-
 ## Orchestration
 
-### Module Federation
+Swim alongside one another with ease and consistency as one.
 
-Modules that facilitate using platform as a shell and embedding independent applications and modules.
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/dolphines.png)
+
+### Module Federation
 
 * alienalias
 * outsider
@@ -140,7 +120,9 @@ Modules that facilitate using platform as a shell and embedding independent appl
 
 ## Publishing
 
-Modules that make it possible for site builders to create pages without coding.
+Realize killer breathtaking experiences.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/whale.png)
 
 ### PanelPage
 
@@ -156,50 +138,14 @@ Modules that make it possible for site builders to create pages without coding.
 
 ## Search
 
-Search marvel characters.
+Marvel character browser built entirely with panel pages.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ## Forms
 
-Create a form.
+Data entry form built entirely with panel pages.
 
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
 * https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
-
-# Usages
-
-* Content Publishing
-* Micro-frontend Orchestration
-* Web App Building
-* Website Creation
-
-# Inspirations
-
-* Drupal
-* Magento
-* Wordpress
-* ModX
-
-# Mentions
-
-* Angular Material | https://material.angular.io/
-* NgRx | https://ngrx.io/
-* Module Federation | https://www.npmjs.com/package/@angular-architects/module-federation
-* Formly | https://formly.dev/
-* Ngx Markdown | https://www.npmjs.com/package/ngx-markdown
-* Angular Split | https://angular-split.github.io/
-* ng2 Query Builder | https://zebzhao.github.io/Angular-QueryBuilder/
-* Flex Layout | https://github.com/angular/flex-layout
-* Ngx Json Viewer | https://www.npmjs.com/package/ngx-json-viewer
-* jsonpath-plus | https://www.npmjs.com/package/jsonpath-plus
-* json-rules-engine | https://www.npmjs.com/package/json-rules-engine
-* oidc-client | https://www.npmjs.com/package/oidc-client
-* numeral | http://numeraljs.com/
-* qs | https://www.npmjs.com/package/qs
-* css-select | https://www.npmjs.com/package/css-select
-* css-json | https://www.npmjs.com/package/cssjson
-* deepmerge-json | https://www.npmjs.com/package/deepmerge-json
-* js-cookie | https://www.npmjs.com/package/js-cookie
-* idb-keyval | https://github.com/jakearchibald/idb-keyval
