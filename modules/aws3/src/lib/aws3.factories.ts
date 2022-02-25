@@ -135,7 +135,7 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
         }).pipe(
           tap(() => console.log('.marker({ event: AFTER , entity: s3 , op: query , meta: { action: createSignedRequest } })')),
           tap(signedHttpRequest => delete signedHttpRequest.headers.host),
-          map(signedHttpRequest => ({ signedHttpRequest, options, url: `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` /*`https://${options.bucket}.s3.amazonaws.com`*/ : '' }${ `/awproxy/s3/${(options as any).bucket}` }${signedHttpRequest.path}` })),
+          map(signedHttpRequest => ({ signedHttpRequest, options, url: `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` /*`https://${options.bucket}.s3.amazonaws.com`*/ : `${protocol}://${hostName}` }${ `/awproxy/s3/${(options as any).bucket}` }${signedHttpRequest.path}` })),
           tap(() => console.log('.marker({ event: BEFORE , entity: crud , op: query , meta: { http: get } })')),
           switchMap(({ signedHttpRequest, url }) => http.get(url, { headers: signedHttpRequest.headers, withCredentials: true })),
           tap(() => console.log('.marker({ event: AFTER , entity: s3 , op: query , meta: { http: get } })')),

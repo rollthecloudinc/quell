@@ -8,7 +8,7 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
 import { isPlatformServer } from "@angular/common";
@@ -33,11 +33,8 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
           body,
           headers: {
             "Content-Type": "application/json",
-            // host: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
             host: `${options.domain}.${options.region}.es.amazonaws.com`,
-            // host: hostName
           },
-          // hostname: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq.us-east-1.es.amazonaws.com',
           hostname: `${options.domain}.${options.region}.es.amazonaws.com`,
           path: `/${options.index}/_search/template`,
           protocol: 'https:',
@@ -49,17 +46,11 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
         )
       ),
       switchMap(( { signedHttpRequest, options }) => {
-        // if (!isPlatformServer(platformId)) {
-          delete signedHttpRequest.headers.host;
-        // }
-        // const url = `${ isPlatformServer(platformId) ? '' : '/opensearch' }${signedHttpRequest.path}`;
-        // Te,p disable for mod federation - easier to debug in browser
-        const url = `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` : '' }/awproxy/es/${options.domain}/${options.region}${signedHttpRequest.path}`;
-        // const url = `${protocol}://${hostName}/awproxy/es/${options.domain}/${options.region}${signedHttpRequest.path}`;
-        console.log('url', url);
-        return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: true }).pipe(
+        delete signedHttpRequest.headers.host;
+        const url = `https://${options.domain}.${options.region}.es.amazonaws.com/${options.index}/_search/template`;
+        return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
           map(res => ({ res, options }))
-        ); 
+        );
       }),
       map(({ res, options }) => ({ entities: options.hits && res && (res as any).hits && ((res as any).hits as any).hits ? ((res as any).hits as any).hits.map(h => options.source ? (h as any)._source : h) : [ res ], success: true })),
     )
@@ -132,6 +123,7 @@ const createSignedHttpRequest = ({
         region: cognitoSettings.region,
         service,
         sha256: Sha256,
+        applyChecksum: false
       }
     )).sign(req)
       .then(

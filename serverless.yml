@@ -8,7 +8,13 @@ provider:
   runtime: nodejs14.x
   memorySize: 512
   timeout: 20
-  #httpApi:
+  httpApi:
+    #cors:
+      #allowCredentials: true
+      #allowedOrigins:
+        #- https://*
+        #- http://*
+
     #cors: true
   # stage: ${opt:stage, 'dev'}
 package:

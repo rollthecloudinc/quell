@@ -228,6 +228,11 @@ export function markedOptionsFactory(): MarkedOptions {
 
     { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
 
+        /* These are required only for pre-rendering - quick hack to make work for now */
+    //{ provide: APP_BASE_HREF, useValue: 'http://localhost:4000/' },
+    //{ provide: HOST_NAME, useValue: 'g6cljn4j35.execute-api.us-east-1.amazonaws.com' },
+    //{ provide: PROTOCOL, useValue: 'https' },
+
     // { provide: HOST_NAME, useValue: /*req.headers.host*/ 'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com' },
     // { provide: PROTOCOL, useValue: 'https' },
   ],
