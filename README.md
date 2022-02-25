@@ -1,6 +1,6 @@
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
 
-Druid is a cloud optimized content publishing framework based on the below five core standards.
+Druid is a cloud optimized content publishing framework based on the below five core standards. Featuring a suite of modules to conquer any web experience whether it be with code or without. Druid has it covered!
 
 ## Dependable
 
