@@ -1,6 +1,6 @@
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
 
-Transform web experiences to stand tall and grasp tight based on the following quality standards.
+Druid is a cloud optimized content publishing framework based on the below five core standards.
 
 ## Dependable
 
