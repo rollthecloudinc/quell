@@ -24,7 +24,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Modules
 
-Druid is made up of a combination of modules when combined enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero to low cost cloud hosting.
+Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero to low cost cloud hosting.
 
 ## Security
 
