@@ -65,7 +65,7 @@ Far reaching wing span enabling travel over long distance.
 
 Move users quickly to their destination.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/elephants.png)
 
 ### Alias
 
