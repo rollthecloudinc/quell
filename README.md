@@ -142,11 +142,11 @@ Realize killer breathtaking experiences.
 Marvel character browser built entirely with panel pages.
 
 * https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
-* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334/manage
+* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ## Forms
 
 Data entry form built entirely with panel pages.
 
 * https://ng-druid.github.io/formly/kitchensink/v1
-* https://ng-druid.github.io/formly/kitchensink/v1/manage
+* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
