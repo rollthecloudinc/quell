@@ -1,6 +1,6 @@
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/bear.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
 
-Transform web experiences to stand tall and grasp tight based on the following quality standards.
+Druid is a cloud optimized content publishing framework based on the below five core standards. Featuring a suite of modules to conquer any web experience whether it be with code or without. Druid has it covered!
 
 ## Dependable
 
@@ -24,6 +24,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Modules
 
+Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
 
 ## Security
 
@@ -64,7 +65,7 @@ Far reaching wing span enabling travel over long distance.
 
 Move users quickly to their destination.
 
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/lemur.png)
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/elephants.png)
 
 ### Alias
 
@@ -140,12 +141,12 @@ Realize killer breathtaking experiences.
 
 Marvel character browser built entirely with panel pages.
 
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
+* https://dpxmq1mxvsyda.cloudfront.net/dev-test-virtual-list-flex-v1/character/1011334/manage
 
 ## Forms
 
 Data entry form built entirely with panel pages.
 
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1
-* https://uhf0kayrs4.execute-api.us-east-1.amazonaws.com/formly/kitchensink/v1/manage
+* https://ng-druid.github.io/formly/kitchensink/v1
+* https://dpxmq1mxvsyda.cloudfront.net/formly/kitchensink/v1/manage
