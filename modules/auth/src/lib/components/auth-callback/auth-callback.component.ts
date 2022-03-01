@@ -26,7 +26,7 @@ export class AuthCallbackComponent implements OnInit {
 
     //if(isPlatformBrowser(this.platformId)) {
       this.authFacade.completeAuthentication();
-      this.router.navigate(['/'], { queryParams: { cacheBuster: uuidv4() }});
+      this.router.navigate(['/playground'], { queryParams: { cacheBuster: uuidv4() }});
     //}
 
   }

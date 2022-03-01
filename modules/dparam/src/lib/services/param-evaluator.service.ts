@@ -40,5 +40,26 @@ export class ParamEvaluatorService {
     );
   }
 
+  resolveParams({ params }: { params: { [name:string]: Param } }) {
+    return switchMap(() => iif(
+      () => Object.keys(params).length > 1,
+      forkJoin(
+        Object.keys(params).map(name => this.paramValue(params[name], new Map<string, any>()).pipe(
+          map(v => ({ [name]: v }))
+        ))
+      ).pipe(
+        map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
+        map(options => ({ options }))         
+      ),
+      iif(
+        () => Object.keys(params).length !== 0,
+        this.paramValue(Object.keys(params).length !== 0 ? params[Object.keys(params)[0]] : new Param(), new Map<string, any>()).pipe(
+          map(optionValue => ({ options: { [Object.keys(params)[0]]: optionValue } }))
+        ),
+        of({ options: {} })
+      )
+    ));
+  }
+
 }
 

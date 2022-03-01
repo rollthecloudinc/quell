@@ -19,7 +19,7 @@ export class TokenInterceptor implements HttpInterceptor {
         if (req.url.indexOf('/awproxy') !== -1) {
           // headers = headers.delete('cookie');
         }
-        if (t && req.url.indexOf('cloudfront') === -1 && req.url.indexOf('cloudinary') === -1 && req.url.indexOf('carquery') === -1 && req.url.indexOf('gateway.marvel.com') === -1 && req.url.indexOf('hereapi.com') === -1 && req.url.indexOf('/opensearch') === -1 && req.url.indexOf('/s3') === -1 && req.url.indexOf('/awproxy') === -1) {
+        if (t && req.url.indexOf('cloudfront') === -1 && req.url.indexOf('cloudinary') === -1 && req.url.indexOf('carquery') === -1 && req.url.indexOf('gateway.marvel.com') === -1 && req.url.indexOf('hereapi.com') === -1 && req.url.indexOf('.es.') === -1 && req.url.indexOf('.s3.') === -1 && req.url.indexOf('/awproxy') === -1) {
           headers = headers.set('Authorization', t)
           const authReq = req.clone({
             // headers: req.headers.set('Authorization', `Bearer ${t}`)

@@ -26,7 +26,16 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             region: 'us-east-1'
           }
         },
-        ...(isPlatformServer(platformId) ?
+        aws_opensearch_entity: {
+          ops: ['create'],
+          params: {
+            index: 'classified_panelpages',
+            // domain: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq',
+            domain: panelsSettings.openSearchDomain,
+            region: 'us-east-1'
+          }
+        },
+        /*...(isPlatformServer(platformId) ?
           {} :
           {
             idb_keyval: {
@@ -40,7 +49,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
               ])
             }
           }
-        ),
+        ),*/
         /*aws_opensearch_entity: {
           ops: ['create', 'update', 'read', 'delete']
         },*/
@@ -50,20 +59,20 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
       entityName: 'PanelPage',
       crud: {
         aws_s3_entity: {
-          ops: ['query'],
+          ops: ['query', 'create'],
           params: {
             // bucket: 'classifieds-ui-dev',
             bucket: panelsSettings.s3Bucket,
             prefix: 'panelpages/'
           }
-        },
+        }
         /*rest: {
           // ops: ['query'],
           params: {
             entityName: 'PanelPage'
           }
         },*/
-        ...(isPlatformServer(platformId) ? 
+        /*...(isPlatformServer(platformId) ? 
           {} :
           {
             idb_keyval: { // demo only
@@ -72,7 +81,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
               }
             }
           }
-        )
+        )*/
       }
     },
     PanelPageState: {

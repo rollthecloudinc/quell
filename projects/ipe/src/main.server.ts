@@ -73,7 +73,7 @@ export function app() {
     res.render(indexHtml, { req, providers: [
       { provide: APP_BASE_HREF, useValue: req.baseUrl },
       { provide: HOST_NAME, useValue: req.headers.host /*'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com'*/ },
-      { provide: PROTOCOL, useValue: 'http' },
+      { provide: PROTOCOL, useValue: 'https' },
       // { provide: HOST_NAME, useValue: 'localhost:4000' /*'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com'*/ },
       // { provide: PROTOCOL, useValue: 'http' },
       { provide: REQUEST, useValue: req }

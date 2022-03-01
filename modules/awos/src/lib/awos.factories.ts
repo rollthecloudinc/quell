@@ -57,11 +57,40 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
   });
 };
 
-export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService) => {
+export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient) => {
   return new CrudAdaptorPlugin<string>({
     id: 'aws_opensearch_entity',
     title: 'AWS Opensearch Entity',
-    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }),
+    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
+      paramsEvaluatorService.resolveParams({ params }),
+      switchMap(({ options }) => identity({ object }).pipe(
+        map(({ identity }) => ({ identity, options })),
+      )),
+      switchMap(({ options, identity }) => createSignedHttpRequest({
+        method: "PUT",
+        body: JSON.stringify(object),
+        headers: {
+          "Content-Type": "application/json",
+          host: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
+        },
+        hostname: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
+        path: `/${(options as any).index}/_doc/${identity}`,
+        protocol: 'https:',
+        service: "es",
+        cognitoSettings: cognitoSettings,
+        authFacade: authFacade
+      }).pipe(
+        map(signedHttpRequest => ({ signedHttpRequest, options, identity }))
+      )),
+      switchMap(( { signedHttpRequest, options, identity }) => {
+        delete signedHttpRequest.headers.host;
+        const url = `https://${(options as any).domain}.${(options as any).region}.es.amazonaws.com/${(options as any).index}/_doc/${identity}`;
+        return http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
+          map(res => ({ res, options }))
+        );
+      }),
+      map(() => ({ success: true }))
+    ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     update: ({ object, identity, params }: CrudOperationInput) => of({ success: false }),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
