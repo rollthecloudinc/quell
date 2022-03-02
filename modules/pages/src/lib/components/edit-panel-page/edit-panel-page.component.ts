@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PanelPage } from 'panels';
+import { PanelPage, PanelPageListItem } from 'panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { ActivatedRoute } from '@angular/router';
 import { map, filter, distinctUntilChanged, switchMap } from 'rxjs/operators';
@@ -14,9 +14,11 @@ export class EditPanelPageComponent implements OnInit {
   panelPage: PanelPage;
 
   private panelPageService: EntityCollectionService<PanelPage>;
+  private panelPageListItemService: EntityCollectionService<PanelPageListItem>;
 
   constructor(private route: ActivatedRoute, es: EntityServices) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
+    this.panelPageListItemService = es.getEntityCollectionService('PanelPageListItem');
   }
 
   ngOnInit(): void {
@@ -36,6 +38,10 @@ export class EditPanelPageComponent implements OnInit {
     // console.log(panelPage);
     this.panelPageService.update(new PanelPage({ ...panelPage, id: this.panelPage.id })).subscribe(() => {
       alert('panel page updated');
+      const panelPageListItem = new PanelPageListItem({ ...panelPage, id: this.panelPage.id });
+      this.panelPageListItemService.update(panelPageListItem).subscribe(() => {
+        console.log('panel page list item created');
+      });
     });
   }
 

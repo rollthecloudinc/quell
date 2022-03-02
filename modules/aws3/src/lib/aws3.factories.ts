@@ -48,38 +48,30 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     update: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
-      map(() => buildClient(authFacade, cognitoSettings)),
-      switchMap(s3 => identity({ object }).pipe(
-        map(({ identity }) => ({ s3, identity }))
+      paramsEvaluatorService.resolveParams({ params }),
+      switchMap(({ options }) => identity({ object }).pipe(
+        map(({ identity }) => ({ identity, options })),
       )),
-      switchMap(({ s3, identity }) => params && Object.keys(params).length !== 0 ? forkJoin(Object.keys(params).map(name => paramsEvaluatorService.paramValue(params[name], new Map<string, any>()).pipe(map(v => ({ [name]: v }))))).pipe(
-        map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
-        map(options => ({ s3, identity, options }))
-      ): of({ s3, identity, options: {} })),
-      map(({ s3, identity, options }) => {
-        const name = options.prefix + identity + '.json';
-        const command = new PutObjectCommand({
-          Bucket: options.bucket,
-          Key: name,
-          Body: JSON.stringify(object),
-          ContentType: 'application/json',
-          CacheControl: `ETag: ${uuid.v4()}` // cache could be part of adaptor options - for now KISS
-        });
-        return { s3, command };
-      }),
-      switchMap(({ s3, command }) => new Observable<CrudOperationResponse>(obs => {
-        s3.send(command).then(res => {
-          console.log('sent');
-          console.log(res);
-          obs.next({ success: true });
-          obs.complete();
-        }).catch(e => {
-          console.log('error')
-          console.log(e);
-          obs.next({ success: false })
-          obs.complete();
-        });
-      }))
+      switchMap(({ options, identity }) => createS3SignedHttpRequest({
+        method: "PUT",
+        body: JSON.stringify(object),
+        headers: {
+          "Content-Type": "application/json",
+          host: `${(options as any).bucket}.s3.amazonaws.com`,
+        },
+        hostname: `${(options as any).bucket}.s3.amazonaws.com`,
+        path: `${(options as any).prefix}${identity}.json`,
+        protocol: 'https:',
+        service: "s3",
+        cognitoSettings: cognitoSettings,
+        authFacade: authFacade
+      }).pipe(
+        map(signedHttpRequest => ({ signedHttpRequest, options }))
+      )),
+      tap(({ signedHttpRequest }) => delete signedHttpRequest.headers.host),
+      map(({ signedHttpRequest, options }) => ({ signedHttpRequest, options, url: `https://${(options as any).bucket}.s3.amazonaws.com${signedHttpRequest.path}` })),
+      switchMap(({ signedHttpRequest, url }) => http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false })),
+      map(() => ({ success: true }))
     ),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     query: ({ rule, params }: CrudCollectionOperationInput) => of({ entities: [], success: false }).pipe(

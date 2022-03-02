@@ -88,9 +88,10 @@ export const splitLayoutFactory = (): LayoutPlugin<string>  => {
   return new LayoutPlugin<string>({ id: 'split', title: 'Split', editor: SplitLayoutEditorComponent, renderer: FlexLayoutRendererComponent, settings });
 };
 
-export const gridLayoutFactory = (): LayoutPlugin<string>  => {
+// obsolete
+/*export const gridLayoutFactory = (): LayoutPlugin<string>  => {
   return new LayoutPlugin<string>({ id: 'grid', title: 'Grid', editor: GridLayoutEditorComponent, renderer: undefined, settings: new Map<string, Array<Attribute>>() });
-};
+};*/
 
 export const gridlessLayoutFactory = (): LayoutPlugin<string>  => {
   return new LayoutPlugin<string>({ id: 'gridless', title: 'Gridless', editor: GridlessLayoutEditorComponent, renderer: GridlessLayoutRendererComponent, settings: new Map<string, Array<Attribute>>() });

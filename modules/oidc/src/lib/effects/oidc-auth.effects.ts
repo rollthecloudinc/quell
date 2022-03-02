@@ -56,7 +56,7 @@ export class OidcAuthEffects {
       ofEntityOp([EntityOp.QUERY_ALL_SUCCESS]),
       tap(action => console.log(action.payload.data)),
       tap(action => {
-        action.payload.data.forEach(c => Cookies.set(c.name, c.value, { expires: new Date(new Date().getTime() + 1 * 3600 * 1000) }));
+        // action.payload.data.forEach(c => Cookies.set(c.name, c.value, { expires: new Date(new Date().getTime() + 1 * 3600 * 1000) }));
       })
     ),
     { dispatch: false }

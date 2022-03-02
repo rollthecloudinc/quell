@@ -355,7 +355,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   contentForm = this.fb.group({
     name: this.fb.control(''),
     title: this.fb.control(''),
-    layoutType: this.fb.control('', Validators.required),
+    layoutType: this.fb.control('split', Validators.required),
     displayType: this.fb.control('page', Validators.required),
     panels: this.fb.array([])
   });

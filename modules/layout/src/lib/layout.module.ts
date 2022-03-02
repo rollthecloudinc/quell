@@ -16,7 +16,7 @@ import { SplitLayoutComponent } from './components/split-layout/split-layout.com
 import { LayoutFormComponent } from './components/layout-form/layout-form.component';
 import { LayoutDialogComponent } from './components/layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from './services/layout-plugin-manager.service';
-import { splitLayoutFactory, gridLayoutFactory, gridlessLayoutFactory } from './layout.factories';
+import { splitLayoutFactory, gridlessLayoutFactory } from './layout.factories';
 import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
 import { GridlessLayoutRendererComponent } from './components/gridless-layout-renderer/gridless-layout-renderer.component';
 import { SplitLayoutEditorComponent } from './components/split-layout-editor/split-layout-editor.component';
@@ -69,7 +69,7 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 })
 export class LayoutModule {
   constructor(lpm: LayoutPluginManager) {
-    [splitLayoutFactory(), gridLayoutFactory(), gridlessLayoutFactory()].forEach(p => {
+    [splitLayoutFactory(), gridlessLayoutFactory()].forEach(p => {
       lpm.register(p);
     });
   }

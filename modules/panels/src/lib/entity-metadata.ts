@@ -27,7 +27,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
           }
         },
         aws_opensearch_entity: {
-          ops: ['create'],
+          ops: ['create', 'update'],
           params: {
             index: 'classified_panelpages',
             // domain: 'search-classifieds-ui-dev-eldczuhq3vesgpjnr3vie6cagq',
@@ -59,7 +59,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
       entityName: 'PanelPage',
       crud: {
         aws_s3_entity: {
-          ops: ['query', 'create'],
+          ops: ['query', 'create', 'update'],
           params: {
             // bucket: 'classifieds-ui-dev',
             bucket: panelsSettings.s3Bucket,
