@@ -137,7 +137,7 @@ Realize killer breathtaking experiences.
 * layout
 
 Articles:
-* Toggling Pane Visibility | https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility
+* [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
 
 # Demos
 
