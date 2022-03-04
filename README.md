@@ -137,7 +137,7 @@ Realize killer breathtaking experiences.
 
 # Demos
 
-## Module Federation
+## Shell App
 
 Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
 
