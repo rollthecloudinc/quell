@@ -107,6 +107,9 @@ Implementations:
 * loop
 * rest
 
+Articles:
+* Datasources Explained | https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource
+
 ## Orchestration
 
 Swim alongside one another with ease and consistency as one.
@@ -129,11 +132,12 @@ Realize killer breathtaking experiences.
 
 * panels
 * render
-* panelpage
-* editablepane
 * pages
 * pagealias
 * layout
+
+Articles:
+* Toggling Pane Visibility | https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility
 
 # Demos
 
