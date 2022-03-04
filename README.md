@@ -108,7 +108,7 @@ Implementations:
 * rest
 
 Articles:
-* Datasources Explained | https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource
+* [Datasources Explained](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource)
 
 ## Orchestration
 
