@@ -148,6 +148,10 @@ Read about the micro-frontend revolution here.
 
 https://www.angulararchitects.io/en/aktuelles/the-microfrontend-revolution-part-2-module-federation-with-angular/
 
+The code for the micro-frontend apps can be found in a sidecar repo here.
+
+https://github.com/ng-druid/workflow-designer
+
 ## Search
 
 Marvel character browser built entirely with panel pages.
