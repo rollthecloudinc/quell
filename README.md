@@ -141,8 +141,8 @@ Realize killer breathtaking experiences.
 
 Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
 
-https://ng-druid.github.io/workflow-designer-v2
-https://ng-druid.github.io/workflow-designer-v2/manage
+* https://ng-druid.github.io/workflow-designer-v2
+* https://ng-druid.github.io/workflow-designer-v2/manage
 
 Read about the micro-frontend revolution here.
 
