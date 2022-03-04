@@ -156,7 +156,7 @@ The code for the micro-frontend apps can be found in a sidecar repo here.
 
 https://github.com/ng-druid/workflow-designer
 
-## Search
+## Consume
 
 Marvel character browser built entirely with panel pages.
 
