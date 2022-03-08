@@ -107,6 +107,9 @@ Implementations:
 * loop
 * rest
 
+Articles:
+* [Datasources Explained](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource)
+
 ## Orchestration
 
 Swim alongside one another with ease and consistency as one.
@@ -129,11 +132,12 @@ Realize killer breathtaking experiences.
 
 * panels
 * render
-* panelpage
-* editablepane
 * pages
 * pagealias
 * layout
+
+Articles:
+* [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
 
 # Demos
 
@@ -152,16 +156,16 @@ The code for the micro-frontend apps can be found in a sidecar repo here.
 
 https://github.com/ng-druid/workflow-designer
 
-## Search
-
-Marvel character browser built entirely with panel pages.
-
-* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
-* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334/manage
-
 ## Collect
 
 Data entry form built entirely with panel pages.
 
 * https://ng-druid.github.io/formly/kitchensink/v1
 * https://ng-druid.github.io/formly/kitchensink/v1/manage
+
+## Consume
+
+Marvel character browser built entirely with panel pages.
+
+* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
+* https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334/manage
