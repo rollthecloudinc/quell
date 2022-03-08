@@ -65,6 +65,7 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from 'alienalias';
 import { OutsiderModule } from 'outsider';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+import { TractorbeamModule } from 'tractorbeam';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -195,7 +196,8 @@ export function markedOptionsFactory(): MarkedOptions {
     LoopModule,
     DruidFormsModule,
     // AlienaliasModule, // @todo: for now to avoid routing errors while working on ssr issues.
-    OutsiderModule
+    OutsiderModule,
+    TractorbeamModule
     // JsonschemaModule
     // OktaAuthModule
   ],

@@ -59,7 +59,10 @@
 <!-- <button (click)="submit()" type="submit">Submit</button> -->
 
 <!-- form group support needed but for now lets experiment. -->
-<ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
+<div [formGroup]="pageForm">
+  <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
+</div>
+<!-- <button type="button" (click)="submit()">Submit</button> -->
 
 <ng-template #renderPanelTpl let-i="i">
   <ng-container [formGroup]="pageForm">
