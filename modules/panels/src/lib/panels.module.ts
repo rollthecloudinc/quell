@@ -5,7 +5,7 @@ import { entityMetadataFactory } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, NoopDataService } from '@ng-druid/utils';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { AttributeSerializerService } from 'attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';
 import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory } from './panels.factories';

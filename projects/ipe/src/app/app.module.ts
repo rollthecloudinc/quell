@@ -15,7 +15,7 @@ import { AuthModule, LogoutInterceptor} from 'auth';
 import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from 'oidc';
 import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
 import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME, HOST_NAME, PROTOCOL } from 'utils';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 // import { LOGGING_SETTINGS, LoggingSettings, LoggingModule, HttpErrorInterceptor, GlobalErrorHandler } from '@classifieds-ui/logging';
 import { TokenModule } from 'token';
 import { ContextModule } from 'context';

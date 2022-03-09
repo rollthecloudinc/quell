@@ -2,7 +2,7 @@ import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { BridgeBuilderPluginManager } from 'bridge';
 import { ParamPluginManager } from 'dparam';
 import { TokenModule } from 'token';

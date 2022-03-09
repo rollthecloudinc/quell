@@ -4,7 +4,7 @@ import { ParamPluginManager } from './services/param-plugin-manager.service';
 import { ParamsFormComponent } from './components/params-form/params-form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { ParamEvaluatorService } from './services/param-evaluator.service';
 @NgModule({
   declarations: [

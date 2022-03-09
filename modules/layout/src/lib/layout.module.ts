@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularSplitModule } from 'angular-split';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { GridsterModule } from 'angular-gridster2';
 import { AttributesModule } from 'attributes';
 import { TokenModule } from 'token';

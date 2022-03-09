@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { DatasourceModule, DatasourcePluginManager } from 'datasource';
 import { AngularSplitModule } from 'angular-split';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';

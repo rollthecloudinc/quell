@@ -2,7 +2,7 @@ import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 // import { CitiesModule } from 'cities';
 import { AttributesBuilderComponent } from './components/attributes-builder/attributes-builder.component';
 import { AttributeWidgetComponent } from './components/attribute-widget/attribute-widget.component';

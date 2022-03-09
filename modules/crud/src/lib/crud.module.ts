@@ -7,7 +7,7 @@ import { CrudAdaptorPluginManager } from './services/crud-adaptor-plugin-manager
 import { DatasourcePluginManager } from 'datasource';
 import { DparamModule, ParamEvaluatorService } from 'dparam';
 import { UrlGeneratorService } from 'durl';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { CrudAdaptorDatasourceFormComponent } from './components/crud-adaptor-datasource-form/crud-adaptor-datasource-form.component';
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 import { crudAdaptorDatasourcePluginFactory } from './crud.factories';

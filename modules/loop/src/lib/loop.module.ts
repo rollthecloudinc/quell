@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { AttributeSerializerService } from 'attributes';
 import { ContextModule } from 'context';
 import { DatasourcePluginManager, DatasourceEvaluator, DatasourceModule } from 'datasource';

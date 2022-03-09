@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { ContextModule, ContextPluginManager } from 'context';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { ContextModuleEditorComponent } from './components/context-module-editor/context-module-editor.component';
 import { ContextModuleFormComponent } from './components/context-module-form/context-module-form.component';
 import { PageBuilderBeamEffects } from './effects/page-builder-beam.effects';

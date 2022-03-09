@@ -6,7 +6,7 @@ import { MarkdownModule, MarkdownComponent } from 'ngx-markdown';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularSplitModule } from 'angular-split';
 import { NgxDropzoneModule } from 'ngx-dropzone';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { MediaModule } from 'media';

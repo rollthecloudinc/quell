@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 // import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { DurlModule } from 'durl';
 import { AttributeSerializerService } from 'attributes';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';

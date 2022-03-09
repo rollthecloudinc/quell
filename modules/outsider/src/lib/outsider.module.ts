@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ContentPluginManager } from 'content';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { OutsideAppEditorComponent } from './components/outside-app-editor/outside-app-editor.component';
 import { OutsideAppRendererComponent } from './components/outside-app-renderer/outside-app-renderer.component';
 import { OutsideAppContentHandler } from './handlers/outside-app-content.handler';

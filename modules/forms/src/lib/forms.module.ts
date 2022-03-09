@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule, FormsModule as NgFormsModule } from '@angular/forms';
-import { MaterialModule } from 'material';
+import { MaterialModule } from '@ng-druid/material';
 import { ContentPluginManager } from 'content';
 import { StylePluginManager } from 'panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
