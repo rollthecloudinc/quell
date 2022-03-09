@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ng-druid/material';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContextModule } from 'context';
 import { DatasourcePluginManager, DatasourceEvaluator, DatasourceModule } from 'datasource';
 import { loopDatasourcePluginFactory } from './loop.factories';

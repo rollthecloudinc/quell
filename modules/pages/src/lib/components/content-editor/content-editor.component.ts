@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Va
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from 'content';
 import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from 'panels';
 import { TokenizerService } from 'token';

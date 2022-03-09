@@ -12,7 +12,7 @@ import { QueryBuilderModule } from 'angular2-query-builder';
 import { MediaModule } from 'media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from '@ng-druid/utils';
 import { TokenizerService, TokenModule } from 'token';
-import { AttributeSerializerService, AttributesModule } from 'attributes';
+import { AttributeSerializerService, AttributesModule } from '@ng-druid/attributes';
 import { LayoutModule } from 'layout';
 import { RestModule } from 'rest';
 import { SnippetModule } from 'snippet';

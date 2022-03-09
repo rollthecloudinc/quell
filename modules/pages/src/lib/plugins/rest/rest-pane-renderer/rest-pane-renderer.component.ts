@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as uuid from 'uuid';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
 import { Subject } from 'rxjs';
 import { switchMap, filter, tap } from 'rxjs/operators';

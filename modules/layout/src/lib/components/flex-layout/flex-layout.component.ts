@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
 import { LayoutSetting } from 'panels';
-import { AttributeMatcherService } from 'attributes';
+import { AttributeMatcherService } from '@ng-druid/attributes';
 
 @Component({
   selector: 'classifieds-ui-flex-layout',

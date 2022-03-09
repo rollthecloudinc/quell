@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { Rest } from 'datasource';
 import { InlineContext } from 'context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';

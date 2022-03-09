@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EntityCache, EntityCollection, EntityCollectionService, EntityServices } from '@ngrx/data';
 import { createSelector, select, Store } from '@ngrx/store';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContextResolver, ContextPlugin } from 'context';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

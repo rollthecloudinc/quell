@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeValue, AttributeSerializerService, AttributeTypes } from 'attributes';
+import { AttributeValue, AttributeSerializerService, AttributeTypes } from '@ng-druid/attributes';
 import { Pane, Panel, PanelPage, PanelPageSelector, PanelsLoaderService, PanelsSelectorService, StyleHandler } from 'panels';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, map, tap } from 'rxjs/operators';

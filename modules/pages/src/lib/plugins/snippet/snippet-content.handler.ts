@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, Snippet } from 'content';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { TokenizerService } from 'token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

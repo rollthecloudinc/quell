@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContextModule, ParamContextExtractorService } from 'context';
 import { CrudAdaptorPluginManager } from './services/crud-adaptor-plugin-manager.service';
 import { DatasourcePluginManager } from 'datasource';

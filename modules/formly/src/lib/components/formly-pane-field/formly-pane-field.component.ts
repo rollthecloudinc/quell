@@ -3,7 +3,7 @@ import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, Compone
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { JSONPath } from 'jsonpath-plus';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';

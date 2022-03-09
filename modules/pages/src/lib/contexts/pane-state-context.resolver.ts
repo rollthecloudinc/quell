@@ -5,7 +5,7 @@ import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateCon
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { createSelector, select } from '@ngrx/store';
 
 @Injectable()

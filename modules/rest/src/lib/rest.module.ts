@@ -8,7 +8,7 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { SnippetModule } from 'snippet';
 import { TokenModule } from 'token';
 import { ParamContextExtractorService } from 'context';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 import { restDatasourcePluginFactory, restEntityCrudAdaptorPluginFactory } from './rest.factories';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';

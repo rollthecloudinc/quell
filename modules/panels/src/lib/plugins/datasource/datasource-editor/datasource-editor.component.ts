@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { InlineContext } from 'context';
 import { Datasource } from 'datasource';
 import { DatasourceContentHandler } from '../../../handlers/datasource-content.handler';

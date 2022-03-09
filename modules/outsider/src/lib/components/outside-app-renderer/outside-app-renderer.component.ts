@@ -1,7 +1,7 @@
 import { loadRemoteModule } from "@angular-architects/module-federation";
 import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/core";
 // import { ControlContainer } from "@angular/forms";
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { InlineContext } from "context";
 import { BehaviorSubject, map, Observable, skip, switchMap, tap } from "rxjs";
 import { OutsideAppSettings } from "../../models/outsider.models";

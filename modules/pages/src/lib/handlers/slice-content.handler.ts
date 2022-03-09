@@ -5,7 +5,7 @@ import { InlineContext, InlineContextResolverService } from 'context';
 import { TokenizerService } from 'token';
 import { MediaFile } from 'media';
 import { SITE_NAME } from '@ng-druid/utils';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { FilesService, MediaFile } from 'media';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

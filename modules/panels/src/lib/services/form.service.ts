@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { PanelPageForm, PanelPageFormPane } from '../models/form.models';
 import { pluralize } from 'inflected';
 @Injectable({

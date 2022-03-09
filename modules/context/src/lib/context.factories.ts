@@ -9,7 +9,7 @@ import { InlineContextResolverService } from './services/inline-context-resolver
 import { TokenizerService } from 'token';
 import { Dataset, DatasourcePlugin } from 'datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { ContentBinding } from 'content';
 import { DatasourceResolver } from './resolvers/datasource.resolver';
 import { DatasourceContextEditorComponent } from './components/datasource-context-editor/datasource-context-editor.component';

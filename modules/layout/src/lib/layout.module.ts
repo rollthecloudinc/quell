@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from '@ng-druid/material';
 import { GridsterModule } from 'angular-gridster2';
-import { AttributesModule } from 'attributes';
+import { AttributesModule } from '@ng-druid/attributes';
 import { TokenModule } from 'token';
 import { UtilsModule } from '@ng-druid/utils';
 import { NgxDropzoneModule } from 'ngx-dropzone';

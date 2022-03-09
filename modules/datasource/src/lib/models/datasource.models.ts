@@ -3,7 +3,7 @@ import { Snippet } from 'snippet';
 import { Param } from 'dparam';
 import { Plugin } from '@ng-druid/plugin';
 import { Type } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { Observable, of } from 'rxjs';
 
 export class DatasourcePlugin<T = string> extends Plugin<T>  {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { Rest } from '../../models/rest.models';
 
 @Component({

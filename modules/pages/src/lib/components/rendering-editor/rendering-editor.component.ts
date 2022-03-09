@@ -5,7 +5,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { Pane } from 'pages';
 import { Pane } from 'panels';
 import { TokenizerService } from 'token';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';
 
 @Component({

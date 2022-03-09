@@ -6,7 +6,7 @@ import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, NoopDataService } from '@ng-druid/utils';
 import { MaterialModule } from '@ng-druid/material';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';
 import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory } from './panels.factories';
 import { PanelContentHandler } from './handlers/panel-content.handler';

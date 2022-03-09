@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LayoutPlugin } from '../../models/layout.models';
-import { AttributeValue, ValueComputerService } from 'attributes';
+import { AttributeValue, ValueComputerService } from '@ng-druid/attributes';
 
 @Component({
   selector: 'druid-layout-dialog',

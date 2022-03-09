@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { of, Observable } from 'rxjs';
 import { PanelPage, Pane, Panel, LayoutSetting } from '../models/panels.models';
 

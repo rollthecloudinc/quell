@@ -5,7 +5,7 @@ import { LayoutSetting } from 'panels';
 import { filter, switchMap } from 'rxjs/operators';
 import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 @Component({
   selector: 'classifieds-ui-split-layout',
   templateUrl: './split-layout.component.html',

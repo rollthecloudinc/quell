@@ -11,7 +11,7 @@ import { entityMetadata } from './entity-metadata';
 import { NoopDataService } from '@ng-druid/utils';
 import { GlobalState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 
 @NgModule({
   declarations: [

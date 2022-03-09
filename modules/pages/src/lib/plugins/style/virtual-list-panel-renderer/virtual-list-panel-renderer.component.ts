@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { TokenizerService } from 'token';
 import { InlineContext } from 'context';
 import { Pane, Panel, PanelResolverService, StyleResolverService, PaneDatasourceService } from 'panels';

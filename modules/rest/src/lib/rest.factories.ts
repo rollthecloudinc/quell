@@ -1,9 +1,9 @@
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { Dataset, DatasourcePlugin, DatasourceEditorOptions, Datasource, Rest } from 'datasource';
 import { iif, Observable, of, throwError } from 'rxjs';
 import { catchError, delay, map, switchMap, timeout } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 import { ContentBinding } from 'content';
 import { ParamContextExtractorService } from 'context';

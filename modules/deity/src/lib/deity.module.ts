@@ -5,7 +5,7 @@ import { EntityDataSourceFormComponent } from './components/entity-datasource-fo
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@ng-druid/material';
 import { ContextModule, ParamContextExtractorService } from 'context';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { DatasourcePluginManager } from 'datasource';
 import { entityDatasourcePluginFactory } from './deity.factories';
 import { DparamModule } from 'dparam';

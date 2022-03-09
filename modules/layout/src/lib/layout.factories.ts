@@ -1,5 +1,5 @@
 import { LayoutPlugin } from './models/layout.models';
-import { Attribute, AttributeTypes } from 'attributes';
+import { Attribute, AttributeTypes } from '@ng-druid/attributes';
 import { GridlessLayoutEditorComponent } from './components/gridless-layout-editor/gridless-layout-editor.component';
 import { GridlessLayoutRendererComponent } from './components/gridless-layout-renderer/gridless-layout-renderer.component';
 import { SplitLayoutEditorComponent } from './components/split-layout-editor/split-layout-editor.component';

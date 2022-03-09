@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Dataset } from 'datasource';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { iif, Observable, of } from 'rxjs';
 import { OutsideAppSettings } from '../models/outsider.models';
 import { switchMap } from 'rxjs/operators';

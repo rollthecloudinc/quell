@@ -2,7 +2,7 @@ import { Dataset, DatasourcePlugin } from 'datasource';
 import { TransformSelectComponent } from './components/transform-select/transform-select.component';
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { iif, of } from 'rxjs';
-import { AttributeValue, AttributeSerializerService } from 'attributes';
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { map } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';
 import { SelectTransform } from './models/transform.models';

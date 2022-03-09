@@ -16,7 +16,7 @@ import { LayoutRendererHostDirective } from '../../directives/layout-renderer-ho
 import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { CrudDataHelperService, CrudEntityMetadata } from 'crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';

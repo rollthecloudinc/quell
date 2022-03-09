@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 

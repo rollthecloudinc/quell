@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 
 @Component({
   selector: 'classifieds-ui-datasource-source',

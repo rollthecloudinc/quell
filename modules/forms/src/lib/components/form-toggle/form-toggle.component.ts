@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { OptionsResolverService } from "../../services/options-resolver.services";
 import { FormElementBase } from "../../directives/form-element-base.directive";
 

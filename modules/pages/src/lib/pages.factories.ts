@@ -6,7 +6,7 @@ import { ContentBinding, ContentPlugin } from 'content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from 'context';
 import { Dataset, DatasourceFormComponent, DatasourcePlugin } from 'datasource';
 import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade } from 'panels';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';

@@ -8,7 +8,7 @@ import { ParamPluginManager } from 'dparam';
 import { TokenModule } from 'token';
 import { SnippetModule } from 'snippet';
 import { CONTEXT_PLUGIN } from './context.tokens';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { routeContextFactory, contextBridgeFactory, paramPluginFactory, contextDatasourceFactory, datasourceContextFactory } from './context.factories';
 import { RouteResolver } from './resolvers/route.resolver';
 import { ContextFormComponent } from './components/context-form/context-form.component';

@@ -3,7 +3,7 @@ import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 import { select } from '@ngrx/store';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
-import { AttributeSerializerService, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { ContentPluginManager } from 'content';
 import { InlineContext } from 'context';
 import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from 'panels';

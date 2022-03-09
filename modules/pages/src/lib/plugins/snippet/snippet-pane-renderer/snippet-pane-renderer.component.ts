@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, AfterContentInit, ElementRef } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { TokenizerService } from 'token';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 import { Snippet } from 'snippet';

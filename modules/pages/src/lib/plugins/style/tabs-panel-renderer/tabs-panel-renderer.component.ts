@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeSerializerService, AttributeTypes, AttributeValue } from 'attributes';
+import { AttributeSerializerService, AttributeTypes, AttributeValue } from '@ng-druid/attributes';
 import { Pane } from 'panels';
 
 @Component({

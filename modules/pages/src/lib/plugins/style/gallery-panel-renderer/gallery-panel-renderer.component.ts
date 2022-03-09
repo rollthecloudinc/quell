@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { MediaSettings, MEDIA_SETTINGS } from 'media';
 import { Pane } from 'panels';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';

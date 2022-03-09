@@ -7,7 +7,7 @@ import { TransformSelectComponent } from './components/transform-select/transfor
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { selectDatasourcePluginFactory, mergeDatasourcePluginFactory } from './transform.factories';
 import { SelectSourceFormComponent } from './components/select-source-form/select-source-form.component';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 
 @NgModule({
   declarations: [

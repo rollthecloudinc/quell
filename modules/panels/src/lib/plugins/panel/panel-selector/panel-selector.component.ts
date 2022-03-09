@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@angular/forms';
 import * as uuid from 'uuid';
-import { AttributeValue } from 'attributes';
+import { AttributeValue } from '@ng-druid/attributes';
 import { SITE_NAME } from '@ng-druid/utils';
 import { PanelPage, PanelPageListItem, LayoutSetting } from '../../../models/panels.models';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';

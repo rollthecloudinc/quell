@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ng-druid/material';
 import { DurlModule } from 'durl';
-import { AttributeSerializerService } from 'attributes';
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
 import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';
 import { DatasourceRendererHostDirective }  from './directives/datasource-renderer-host.directive';
