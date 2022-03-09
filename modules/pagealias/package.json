@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/pagealias",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
