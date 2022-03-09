@@ -76,7 +76,7 @@ import { RestContextResolver } from './contexts/rest-context.resolver';
 import { FormContextResolver } from './contexts/form-context.resolver';
 import { PanelPropsDialogComponent } from './components/panel-props-dialog/panel-props-dialog.component';
 import { PanePropsDialogComponent } from './components/pane-props-dialog/pane-props-dialog.component';
-import { PluginConfigurationManager, PluginConfig } from 'plugin';
+import { PluginConfigurationManager, PluginConfig } from '@ng-druid/plugin';
 import { LayoutEditorHostDirective } from './directives/layout-editor-host.directive';
 import { TablePanelRendererComponent } from './plugins/style/table-panel-renderer/table-panel-renderer.component';
 import { TabsPanelEditorComponent } from './plugins/style/tabs-panel-editor/tabs-panel-editor.component';

@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Attribute, AttributeValue } from 'attributes';
 
 export class LayoutPlugin<T = string> extends Plugin<T>  {

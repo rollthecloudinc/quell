@@ -2,7 +2,7 @@ import { Observable, of } from 'rxjs';
 import { Type } from '@angular/core';
 import { Datasource, Rest } from 'datasource';
 import { Snippet } from 'snippet';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 
 export interface ContextResolver {
   resolve(ctx: ContextPlugin, data?: any): Observable<any>

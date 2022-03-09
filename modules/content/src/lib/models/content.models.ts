@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { AttributeValue } from 'attributes';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 
 export interface ContentHandler {

@@ -1,7 +1,7 @@
 import { ContentBinding } from 'content';
 import { Snippet } from 'snippet';
 import { Param } from 'dparam';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Type } from '@angular/core';
 import { AttributeValue } from 'attributes';
 import { Observable, of } from 'rxjs';

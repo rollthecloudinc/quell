@@ -1,4 +1,4 @@
-import { Plugin } from 'plugin'
+import { Plugin } from '@ng-druid/plugin'
 import { Observable } from 'rxjs';
 export class ResolvedContextPlugin<T=string> extends Plugin<T> {
   resolve: () => Observable<any>;

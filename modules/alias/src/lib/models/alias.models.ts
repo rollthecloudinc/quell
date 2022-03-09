@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 
 export interface AliasLoadingStrategy {

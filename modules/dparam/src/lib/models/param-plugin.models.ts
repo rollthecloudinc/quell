@@ -1,4 +1,4 @@
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 import { Param } from './param.models';
 

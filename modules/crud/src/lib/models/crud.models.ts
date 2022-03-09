@@ -1,5 +1,5 @@
 import { Param } from 'dparam';
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 import { Rule } from 'json-rules-engine';
 

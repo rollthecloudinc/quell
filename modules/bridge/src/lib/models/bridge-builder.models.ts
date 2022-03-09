@@ -1,4 +1,4 @@
-import { Plugin } from 'plugin';
+import { Plugin } from '@ng-druid/plugin';
 
 export class BridgeBuilderPlugin<T = string> extends Plugin<T>  {
   build: () => void;
