@@ -2,7 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 import { map, switchMap, catchError, tap, filter, defaultIfEmpty } from 'rxjs/operators';
 /*import { PanelPageListItem, PanelPage } from 'panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';

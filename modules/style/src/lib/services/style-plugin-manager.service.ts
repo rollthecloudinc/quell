@@ -1,6 +1,6 @@
 /*import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { ModuleLoaderService } from 'utils';
+import { ModuleLoaderService } from '@ng-druid/utils';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from 'plugin';
 import { StylePlugin } from '../models/style.models';
 

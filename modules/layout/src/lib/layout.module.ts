@@ -7,7 +7,7 @@ import { MaterialModule } from 'material';
 import { GridsterModule } from 'angular-gridster2';
 import { AttributesModule } from 'attributes';
 import { TokenModule } from 'token';
-import { UtilsModule } from 'utils';
+import { UtilsModule } from '@ng-druid/utils';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FlexLayoutComponent } from './components/flex-layout/flex-layout.component';
 import { GridLayoutComponent } from './components/grid-layout/grid-layout.component';

@@ -8,7 +8,7 @@ import { StateContextResolver } from './contexts/state-context.resolver';
 import { stateBridgeFactory, stateContextFactory } from './state.factories';
 import { EntityDataService, EntityDefinitionService, EntityServices } from '@ngrx/data';
 import { entityMetadata } from './entity-metadata';
-import { NoopDataService } from 'utils';
+import { NoopDataService } from '@ng-druid/utils';
 import { GlobalState } from './models/state.models';
 import { BridgeBuilderPluginManager } from 'bridge';
 import { AttributeSerializerService } from 'attributes';

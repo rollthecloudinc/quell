@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { EMBEDDABLE_COMPONENT, UtilsModule } from 'utils';
+import { EMBEDDABLE_COMPONENT, UtilsModule } from '@ng-druid/utils';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
 // import { RenderPanelComponent } from './components/render-panel/render-panel.component';
 // import { RenderPaneComponent } from './components/render-pane/render-pane.component';

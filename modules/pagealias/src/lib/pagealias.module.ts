@@ -3,7 +3,7 @@ import { Inject, NgModule } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityDefinitionService, EntityServices } from '@ngrx/data';
 import { AliasPluginManager } from 'alias';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 import { PagealiasRouterComponent } from './components/pagealias-router/pagealias-router.component';
 // import { entityMetadata } from './entity-metadata';
 import { pagealiasFactory } from './pagealias.factories';

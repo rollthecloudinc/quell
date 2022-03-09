@@ -10,7 +10,7 @@ import { MaterialModule } from 'material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { QueryBuilderModule } from 'angular2-query-builder';
 import { MediaModule } from 'media';
-import { UtilsModule, EMBEDDABLE_COMPONENT  } from 'utils';
+import { UtilsModule, EMBEDDABLE_COMPONENT  } from '@ng-druid/utils';
 import { TokenizerService, TokenModule } from 'token';
 import { AttributeSerializerService, AttributesModule } from 'attributes';
 import { LayoutModule } from 'layout';

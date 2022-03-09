@@ -5,7 +5,7 @@ import { ContentPlugin, ContentPluginManager } from 'content';
 import { MarkdownModule } from 'ngx-markdown';
 import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from 'material';
-import { UtilsModule  } from 'utils';
+import { UtilsModule  } from '@ng-druid/utils';
 import { SnippetEditor2Component } from './snippet-editor2/snippet-editor2.component';
 import { SnippetPaneRenderer2Component } from './snippet-pane-renderer2/snippet-pane-renderer2.component';
 import { SnippetForm2Component } from './snippet-form2/snippet-form2.component';

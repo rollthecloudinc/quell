@@ -4,7 +4,7 @@ import { DefaultDataServiceConfig, DefaultHttpUrlGenerator, DefaultPluralizer, E
 import { entityMetadataFactory } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
-import { EMBEDDABLE_COMPONENT, NoopDataService } from 'utils';
+import { EMBEDDABLE_COMPONENT, NoopDataService } from '@ng-druid/utils';
 import { MaterialModule } from 'material';
 import { AttributeSerializerService } from 'attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';

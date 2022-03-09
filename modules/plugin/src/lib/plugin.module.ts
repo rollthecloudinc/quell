@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UtilsModule } from 'utils';
+import { UtilsModule } from '@ng-druid/utils';
 
 @NgModule({
   declarations: [],

@@ -6,7 +6,7 @@ import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from 'material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MarkdownModule } from 'ngx-markdown';
-import { UtilsModule } from 'utils';
+import { UtilsModule } from '@ng-druid/utils';
 import { SnippetFormComponent } from './components/snippet-form/snippet-form.component';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 

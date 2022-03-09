@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of, ReplaySubject, Subject } from 'rxjs';
-import { ModuleLoaderService } from 'utils';
+import { ModuleLoaderService } from '@ng-druid/utils';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager, Plugin } from 'plugin';
 import { ResolvedContextPlugin } from '../models/resolved-context.models';
 

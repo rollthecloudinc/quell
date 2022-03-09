@@ -4,7 +4,7 @@ import { Dataset } from 'datasource';
 import { InlineContext, InlineContextResolverService } from 'context';
 import { TokenizerService } from 'token';
 import { MediaFile } from 'media';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

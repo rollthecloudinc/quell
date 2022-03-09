@@ -5,7 +5,7 @@ import { CognitoSettings, COGNITO_SETTINGS } from 'awcog';
 import { s3EntityCrudAdaptorPluginFactory } from './aws3.factories';
 import { ParamEvaluatorService } from 'dparam';
 import { HttpClient } from '@angular/common/http';
-import { UtilsModule, AsyncApiCallHelperService, HOST_NAME, PROTOCOL } from 'utils';
+import { UtilsModule, AsyncApiCallHelperService, HOST_NAME, PROTOCOL } from '@ng-druid/utils';
 import { APP_BASE_HREF } from '@angular/common';
 @NgModule({
   declarations: [],

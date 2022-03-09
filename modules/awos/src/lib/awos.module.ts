@@ -6,8 +6,7 @@ import { CrudAdaptorPluginManager, CrudModule } from 'crud';
 import { ParamEvaluatorService } from 'dparam';
 import { opensearchEntityCrudAdaptorPluginFactory, opensearchTemplateCrudAdaptorPluginFactory } from './awos.factories';
 import { APP_BASE_HREF } from '@angular/common';
-import { HOST_NAME, PROTOCOL } from 'utils';
-
+import { HOST_NAME, PROTOCOL } from '@ng-druid/utils';
 @NgModule({
   declarations: [
   ],

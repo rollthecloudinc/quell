@@ -5,7 +5,7 @@ import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'cont
 import { Snippet } from 'snippet';
 import { Rest, Dataset, SelectMapping, SelectOption } from 'datasource';
 import { InlineContext } from 'context';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 import { RulesResolverService } from 'rules';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';

@@ -3,7 +3,7 @@ import { AttributeValue, AttributeSerializerService } from 'attributes';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
 import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from 'datasource';
 import { InlineContext } from 'context';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, mergeAll } from 'rxjs/operators';

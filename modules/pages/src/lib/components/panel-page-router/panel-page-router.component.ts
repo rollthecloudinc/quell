@@ -5,7 +5,7 @@ import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService, EntityDefinitionService } from '@ngrx/data';
 import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from 'panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
-import { AsyncApiCallHelperService } from 'utils';
+import { AsyncApiCallHelperService } from '@ng-druid/utils';
 import { CrudDataHelperService, CrudEntityMetadata } from 'crud';
 
 @Component({

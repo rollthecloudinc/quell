@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { UtilsModule  } from 'utils';
+import { UtilsModule  } from '@ng-druid/utils';
 import { CatchAllGuard } from './guards/catchall.guard';
 import { CatchAllRouterComponent } from './components/catch-all-router/catch-all-router.component';
 

@@ -14,7 +14,7 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
-import { AsyncApiCallHelperService } from 'utils';
+import { AsyncApiCallHelperService } from '@ng-druid/utils';
 
 export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient, asyncApiCallHelperSvc: AsyncApiCallHelperService) => {
   return new CrudAdaptorPlugin<string>({

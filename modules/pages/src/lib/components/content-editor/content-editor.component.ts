@@ -7,7 +7,7 @@ import { AttributeValue } from 'attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from 'content';
 import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from 'panels';
 import { TokenizerService } from 'token';
-import { SITE_NAME } from 'utils';
+import { SITE_NAME } from '@ng-druid/utils';
 // import { STYLE_PLUGIN } from 'style';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from 'context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from 'layout';
