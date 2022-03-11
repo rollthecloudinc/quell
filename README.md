@@ -23,7 +23,7 @@ Low-cost without sacrifice.
 Low dependance on specific infrastructure configurations or environments.
 
 
-# Environment Aware
+# Stack
 
 A+ (Angular + AWS)
 
