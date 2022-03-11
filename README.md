@@ -22,6 +22,15 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
+# Architecture
+
+```mermaid
+flowchart TD
+ druid[druid] --> s3[s3];
+ druid --> os[open search];
+ host[host] --> druid;
+```
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
