@@ -32,9 +32,7 @@ Low energy consumption fit for preservation of the environment.
 * No physical infrastructure
 * No resource hog databases
 
-# Architecture
-
-The core principle of druid is to eliminate unecessary layers of an application.
+# Evolution
 
 ## HTML Site
 
