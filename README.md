@@ -75,6 +75,15 @@ flowchart TD
  druid --> os[open search];
 ```
 
+## Druid+
+
+Druid can further be simplified by removing s3 and open search for applications that don;t require it. Example of these types of apps are smallers sites that don't require data collection or search.
+
+```mermaid
+flowchart TD
+ druid[browser]
+```
+
 # Hosting
 
 Druid sites can be pre-rendered as html files. Once pre-rendered as html files the site can basically be hosted anywhere. All demos at the bottom of this page are hosted as a static pre-rendered github pages site for free in the highly available cloud.
