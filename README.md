@@ -24,7 +24,7 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Architecture
 
-## Traditional Model
+## Traditional
 
 ```mermaid
 flowchart TD
@@ -33,7 +33,7 @@ flowchart TD
  api --> os[open search]
 ```
 
-# Druid Model
+## Druid
 
 ```mermaid
 flowchart TD
