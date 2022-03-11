@@ -38,7 +38,7 @@ The core principle of druid is to eliminate unecessary layers of an application.
 
 ## HTML Site
 
-The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
+The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
 
 ```mermaid
 flowchart TD
