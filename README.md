@@ -22,6 +22,8 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
+When its all said and done Druid is a small, portable web app optimized for the cloud.
+
 # Technology
 
 A+ (Angular + AWS)
