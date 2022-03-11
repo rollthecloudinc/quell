@@ -88,9 +88,7 @@ flowchart TD
 
 # Hosting
 
-## CDN
-
-Sites created with the A+ model are optimized for hosting on a CDN (content delivery network) while maintaing all dynamic capabilities via JavaScript running in the browser.
+Sites can be rendered as static html pages and hosted anywhere from a cdn to a local private filesystem.
 
 ```mermaid
 flowchart TD
