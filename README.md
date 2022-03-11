@@ -49,7 +49,7 @@ flowchart TD
 
 # Hosting
 
-Druid sites can be pre-rendered as html files. Once pre-rendered as html files the site can basically be hosted anywhere.
+Druid sites can be pre-rendered as html files. Once pre-rendered as html files the site can basically be hosted anywhere. All demos at the bottom of this page are hosted as a static pre-rendered github pages site for free in the highly available cloud.
 
 * github pages
 * gitlab pages
