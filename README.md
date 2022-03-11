@@ -38,12 +38,16 @@ The core principle of druid is to eliminate unecessary layers of an application.
 
 ## HTML Site
 
+The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
+
 ```mermaid
 flowchart TD
  site[browser] --> server[server];
 ```
 
 ## Monlithic CMS
+
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS erra of Wordpress, Drupa, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
 
 ```mermaid
 flowchart TD
@@ -54,7 +58,7 @@ flowchart TD
 
 ## Modern MVVM
 
-In modern browser based applications a middle man is used to communicate with a database and/or services in the cloud.
+With the advent of rest apis and advances in JavaScript came the ability to run complete applications in the browser reliably. No more a server was necessary to render html only to serve data via a rest api. To facilitate this modern applications require middle man is used to communicate with a database and/or services in the cloud.
 
 ```mermaid
 flowchart TD
