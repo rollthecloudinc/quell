@@ -56,7 +56,7 @@ flowchart TD
 
 ## Modern MVVM
 
-With the advent of rest apis and advances in JavaScript came the ability to run complete applications in the browser reliably. No more a server was necessary to render html only to serve data via a rest api. To facilitate this modern applications require middle man is used to communicate with a database and/or services in the cloud.
+With the advent of rest apis and advances in JavaScript came the ability to run complete applications in the browser reliably. No more a server was necessary to render html only to serve data via a rest api. In parallel with this tech came the cloud. Many have moved away from clunky traditional databases to highly available, low latency, scalable cloud solutions an industry dominated by aws.
 
 ```mermaid
 flowchart TD
@@ -67,7 +67,7 @@ flowchart TD
 
 ## Druid
 
-Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully embraces all modern advances.
+Druid takes the next step to completely eliminate the server. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully embraces all modern advances.
 
 ```mermaid
 flowchart TD
