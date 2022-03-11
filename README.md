@@ -24,11 +24,21 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Architecture
 
+## Traditional Model
+
 ```mermaid
 flowchart TD
- druid[druid] --> s3[s3];
+ site[browser] --> api[rest api];
+ api --> s3[s3];
+ api --> os[open search]
+```
+
+# Druid Model
+
+```mermaid
+flowchart TD
+ druid[browser] --> s3[s3];
  druid --> os[open search];
- host[host] --> druid;
 ```
 
 # Modules
