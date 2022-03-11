@@ -65,7 +65,7 @@ Double A
 
 Low energy consumption fit for preservation of the environment.
 
-* No Bulky servers
+* No bulky servers
 * No physical infrastructure
 * No resource hog databases
 
