@@ -88,7 +88,7 @@ flowchart TD
 
 # Hosting
 
-Sites can be rendered as static html pages and hosted anywhere from a cdn to a local private filesystem.
+Sites can be rendered as static html pages and hosted anywhere from a cdn to a local private filesystem. This is the driving force behind hosting sites with 0 cost associated.
 
 ```mermaid
 flowchart TD
