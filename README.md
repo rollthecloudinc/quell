@@ -94,6 +94,11 @@ Sites created with the A+ model are optimized for hosting on a CDN (content deli
 flowchart TD
  browser[browser] --> cdn[cdn];
  cdn --> html[html];
+ cdn --> js[javascript];
+ cdn --> css[css];
+ cdn --> images[images]
+ cdn --> video[video]
+ cdn --> audio[audio]
 ```
 
 # Modules
