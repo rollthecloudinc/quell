@@ -36,9 +36,25 @@ Low energy consumption fit for preservation of the environment.
 
 The core principle of druid is to eliminate unecessary layers of an application.
 
-## Traditional
+## HTML Site
 
-In traditional applications a middle man is used to communicate with a database and/or services in the cloud.
+```mermaid
+flowchart TD
+ site[browser] --> server[server];
+```
+
+## Monlithic CMS
+
+```mermaid
+flowchart TD
+ site[browser] --> server[server];
+ server --> app[app];
+ app --> db[database]
+```
+
+## Modern MVVM
+
+In modern browser based applications a middle man is used to communicate with a database and/or services in the cloud.
 
 ```mermaid
 flowchart TD
