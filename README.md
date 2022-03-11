@@ -47,6 +47,16 @@ flowchart TD
  druid --> os[open search];
 ```
 
+# Hosting
+
+Druid sites can be pre-rendered as html files. Once pre-rendered as html files the site can basically be hosted anywhere.
+
+* github pages
+* gitlab pages
+* aws s3 
+* aws s3 + cloudfront
+* any CDN
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
