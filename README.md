@@ -22,6 +22,17 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
+
+# Environment Aware
+
+A+ (Angular + AWS)
+
+Low energy consumption fit for preservation of the environment.
+
+* No bulky servers
+* No physical infrastructure
+* No resource hog databases
+
 # Architecture
 
 The core principle of druid is to eliminate unecessary layers of an application.
@@ -56,16 +67,6 @@ Druid sites can be pre-rendered as html files. Once pre-rendered as html files t
 * aws s3 
 * aws s3 + cloudfront
 * any CDN
-
-# Stack
-
-A+ (Angular + AWS)
-
-Low energy consumption fit for preservation of the environment.
-
-* No bulky servers
-* No physical infrastructure
-* No resource hog databases
 
 # Modules
 
