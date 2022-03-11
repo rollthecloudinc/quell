@@ -1,6 +1,7 @@
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
+import { ModuleLoaderService } from 'utils';
 import { setPage } from 'panels';
 import { Observable, tap } from 'rxjs';
 
@@ -14,7 +15,7 @@ export class PageBuilderBeamEffects {
         console.log('tractor beam capture page', page);
         page.contexts.forEach(c => {
           if (c.plugin === 'module') {
-            new Observable<undefined>(obs => {
+            /*new Observable<undefined>(obs => {
               loadRemoteModule({
                 type: 'module',
                 remoteEntry: c.data.remoteEntry,
@@ -24,7 +25,14 @@ export class PageBuilderBeamEffects {
                 obs.next();
                 obs.complete();
               });
-            }).subscribe();
+            }).subscribe();*/
+            return this.moduleLoaderService.loadModule(
+              () => loadRemoteModule({
+                type: 'module',
+                remoteEntry: c.data.remoteEntry,
+                exposedModule: c.data.exposedModule
+              }).then(m => m.DownloadModule)
+            ).subscribe();
           }
         });
       })
@@ -34,6 +42,7 @@ export class PageBuilderBeamEffects {
 
   constructor(
     private actions$: Actions,
+    private moduleLoaderService: ModuleLoaderService
   ) {
   }
 }
