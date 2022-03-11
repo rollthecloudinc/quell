@@ -22,16 +22,15 @@ Low-cost without sacrifice.
 
 Low dependance on specific infrastructure configurations or environments.
 
-
-# Stack
+# Technology
 
 A+ (Angular + AWS)
 
 Low energy consumption fit for preservation of the environment.
 
-* No bulky servers
-* No physical infrastructure
-* No resource hog databases
+No bulky servers
+No physical infrastructure
+No resource hog databases
 
 # Architecture
 
