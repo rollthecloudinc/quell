@@ -88,13 +88,13 @@ flowchart TD
 
 # Hosting
 
-Druid sites can be pre-rendered as html files. Once pre-rendered as html files the site can basically be hosted anywhere. All demos at the bottom of this page are hosted as a static pre-rendered github pages site for free in the highly available cloud.
+Sites created with the A+ model are optimized for hosting on a CDN (content delivery network) while maintaing all dynamic capabilities via JavaScript running in the browser.
 
-* github pages
-* gitlab pages
-* aws s3 
-* aws s3 + cloudfront
-* any CDN
+```mermaid
+flowchart TD
+ browser[browser] --> cdn[cdn];
+ cdn --> html[html];
+```
 
 # Modules
 
