@@ -77,7 +77,7 @@ flowchart TD
 
 ## Druid+
 
-Druid can further be simplified by removing s3 and open search for applications that don;t require it. Example of these types of apps are smallers sites that don't require data collection or search.
+Druid can further be simplified by removing s3 and open search for experiences that don;t require seach and/or data collection.
 
 ```mermaid
 flowchart TD
