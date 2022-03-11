@@ -77,7 +77,7 @@ flowchart TD
 
 ## Druid+
 
-Druid can further be simplified by removing s3 and open search for experiences that don;t require seach and/or data collection.
+Druid can further be simplified by removing s3 and open search for experiences that don't require seach and/or data collection.
 
 ```mermaid
 flowchart TD
