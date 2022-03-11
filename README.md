@@ -67,7 +67,7 @@ flowchart TD
 
 ## Druid
 
-Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully supports all modern advances.
+Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully embraces all modern advances.
 
 ```mermaid
 flowchart TD
