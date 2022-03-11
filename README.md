@@ -57,6 +57,14 @@ Druid sites can be pre-rendered as html files. Once pre-rendered as html files t
 * aws s3 + cloudfront
 * any CDN
 
+# Stack
+
+Angular + AWS = AA or A++
+
+Double A
+
+Low energy consumption fit for preservation of the environment.
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
