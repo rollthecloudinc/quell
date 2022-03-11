@@ -49,7 +49,7 @@ flowchart TD
 
 ## Druid
 
-Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Apis are already provided by aws for all services like s3 and open search.
+Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis.
 
 ```mermaid
 flowchart TD
