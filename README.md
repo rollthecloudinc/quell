@@ -24,9 +24,11 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Architecture
 
-The core principle of druid is to eliminate unecessary layers of an application. In traditional applications a middle man is used to communicate with a database and/or services in the cloud.
+The core principle of druid is to eliminate unecessary layers of an application.
 
 ## Traditional
+
+In traditional applications a middle man is used to communicate with a database and/or services in the cloud.
 
 ```mermaid
 flowchart TD
