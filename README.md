@@ -65,6 +65,10 @@ Double A
 
 Low energy consumption fit for preservation of the environment.
 
+* No Bulky servers
+* No physical infrastructure
+* No resource hog databases
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
