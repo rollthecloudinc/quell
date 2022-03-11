@@ -57,6 +57,10 @@ Druid sites can be pre-rendered as html files. Once pre-rendered as html files t
 * aws s3 + cloudfront
 * any CDN
 
+# Performance
+
+Nothing will be faster than an application rendered as pure html. Furthermore, the traditional server load for dynamic sites is completely eliminated by having the browser drive the application instead. Coupled with a edge distributed CDN this model will provide the best performance available for users. 
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
