@@ -67,7 +67,7 @@ flowchart TD
  api --> os[open search]
 ```
 
-## Druid
+## Druid (HTML+AWS)
 
 Druid takes the next step to completely eliminate the server. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully embraces all modern advances.
 
@@ -77,7 +77,7 @@ flowchart TD
  druid --> os[open search];
 ```
 
-## Druid-
+## Druid- (HTML)
 
 Druid can further be simplified by removing s3 and open search for experiences that don't require seach and/or data collection.
 
