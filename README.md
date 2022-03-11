@@ -24,6 +24,8 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Architecture
 
+The core principle of druid is to eliminate unecessary layers of an application. In traditional applications a middle man is used to communicate with a database and/or services in the cloud.
+
 ## Traditional
 
 ```mermaid
@@ -34,6 +36,8 @@ flowchart TD
 ```
 
 ## Druid
+
+Druid does away with this middle man. Replaced with secure zero-trust http requests dispatched directly from the server. No server required.
 
 ```mermaid
 flowchart TD
