@@ -59,10 +59,7 @@ Druid sites can be pre-rendered as html files. Once pre-rendered as html files t
 
 # Stack
 
-Angular + AWS = AA or A+
-
-* Double A
-* A Plus
+A+ (Angular + AWS)
 
 Low energy consumption fit for preservation of the environment.
 
