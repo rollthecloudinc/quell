@@ -1,4 +1,4 @@
-Druid is a cloud optimized content publishing framework based on the below five core standards. Featuring a suite of modules to conquer any web experience whether it be with code or without. Druid has it covered!
+Druid is modern content management solution that removes all the complexity of past times slowly killing our environnent. Druid focuses on reducing hardware, infrastructure to allow people to access the same cintent with much lower envuronnental cost.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tiger.png)
 
