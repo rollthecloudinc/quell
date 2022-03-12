@@ -1,4 +1,4 @@
-Druid is modern content management solution that removes all the complexity of past times slowly killing our environnent. Druid focuses on reducing hardware, infrastructure to allow people to access the same content with much lower impact on the environment..
+Druid is modern content management solution that removes all the complexity of past times slowly killing our environnent. Druid focuses on reducing hardware, infrastructure to allow people to access the same content with much lower impact on the environment.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tiger.png)
 
