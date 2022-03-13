@@ -1,4 +1,4 @@
-Distribute the same content without the negative impact on the environment at significantly less overall cost.
+Rapid online content distribution platform providing environmentally responsible 0 server, 0 cost, 0 trust web hosting solutions.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tiger.png)
 
