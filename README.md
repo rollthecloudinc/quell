@@ -220,21 +220,6 @@ Articles:
 
 # Demos
 
-## Orchestrate
-
-Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
-
-* https://ng-druid.github.io/workflow-designer-v2
-* https://ng-druid.github.io/workflow-designer-v2/manage
-
-Read about the micro-frontend revolution here.
-
-https://www.angulararchitects.io/en/aktuelles/the-microfrontend-revolution-part-2-module-federation-with-angular/
-
-The code for the micro-frontend apps can be found in a sidecar repo here.
-
-https://github.com/ng-druid/workflow-designer
-
 ## Collect
 
 Data entry form built entirely with panel pages.
@@ -248,3 +233,10 @@ Marvel character browser built entirely with panel pages.
 
 * https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
 * https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+## Orchestrate
+
+Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
+
+* https://ng-druid.github.io/workflow-designer-v2
+* https://ng-druid.github.io/workflow-designer-v2/manage
