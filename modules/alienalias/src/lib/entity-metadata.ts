@@ -1,6 +1,6 @@
 //import { EntityMetadataMap } from '@ngrx/data';
 import { isPlatformServer } from '@angular/common';
-import { CrudEntityMetadataMap, CrudEntityQueryMapping } from 'crud';
+import { CrudEntityMetadataMap, CrudEntityQueryMapping } from '@ng-druid/crud';
 import { AlienaliasSettings } from './models/alienalias.models';
 
 export const entityMetadataFactory = (platformId: Object, alienaliasSettings: AlienaliasSettings): CrudEntityMetadataMap => {

@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from '@ng-druid/attributes';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
-import { Snippet } from 'snippet';
-import { TokenizerService } from 'token';
+import { Snippet } from '@ng-druid/snippet';
+import { TokenizerService } from '@ng-druid/token';
 
 @Component({
   selector: 'classifieds-ui-attribute-pane-renderer',

@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';
-import { Rest } from 'datasource';
-import { InlineContext } from 'context';
+import { Rest } from '@ng-druid/datasource';
+import { InlineContext } from '@ng-druid/context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from 'panels';
+import { Pane } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-ui-rest-editor',

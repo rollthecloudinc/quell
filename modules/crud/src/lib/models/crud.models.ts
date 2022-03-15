@@ -1,4 +1,4 @@
-import { Param } from 'dparam';
+import { Param } from '@ng-druid/dparam';
 import { Plugin } from '@ng-druid/plugin';
 import { Observable } from 'rxjs';
 import { Rule } from 'json-rules-engine';

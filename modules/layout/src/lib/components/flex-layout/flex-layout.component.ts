@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
-import { LayoutSetting } from 'panels';
+import { LayoutSetting } from '@ng-druid/panels';
 import { AttributeMatcherService } from '@ng-druid/attributes';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Dataset, DatasourcePlugin } from 'datasource';
+import { Dataset, DatasourcePlugin } from '@ng-druid/datasource';
 import { TransformSelectComponent } from './components/transform-select/transform-select.component';
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { iif, of } from 'rxjs';

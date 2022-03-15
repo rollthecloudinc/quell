@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 import { FieldWrapper } from '@ngx-formly/core';
 import { ContentPluginManager } from 'content';
-import { PanelPageState, PaneStateService } from 'panels';
+import { PanelPageState, PaneStateService } from '@ng-druid/panels';
 import { Subject } from 'rxjs';
 import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
 

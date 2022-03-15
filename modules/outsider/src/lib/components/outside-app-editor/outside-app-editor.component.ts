@@ -3,8 +3,8 @@ import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractCon
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContentPlugin } from 'content';
-import { InlineContext } from 'context';
-import { Pane } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { Pane } from '@ng-druid/panels';
 import { OutsideAppContentHandler } from '../../handlers/outside-app-content.handler';
 import { OutsideAppSettings } from '../../models/outsider.models';
 

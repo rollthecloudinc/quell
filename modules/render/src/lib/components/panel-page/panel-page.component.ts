@@ -3,10 +3,10 @@ import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { GridLayoutComponent, LayoutPluginManager } from 'layout';
+import { GridLayoutComponent, LayoutPluginManager } from '@ng-druid/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@ng-druid/utils';
-import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from 'context';
-import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from 'panels';
+import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@ng-druid/context';
+import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@ng-druid/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom } from 'rxjs/operators';
@@ -18,7 +18,7 @@ import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { CrudDataHelperService, CrudEntityMetadata } from 'crud';
+import { CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
 

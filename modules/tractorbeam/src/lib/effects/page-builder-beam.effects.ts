@@ -1,8 +1,8 @@
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { ModuleLoaderService } from 'utils';
-import { setPage } from 'panels';
+import { ModuleLoaderService } from '@ng-druid/utils';
+import { setPage } from '@ng-druid/panels';
 import { Observable, tap } from 'rxjs';
 
 @Injectable()

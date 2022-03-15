@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, Optional } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
-import { LayoutRendererBaseComponent } from 'panels';
+import { LayoutRendererBaseComponent } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-ui-gridless-layout-renderer',

@@ -1,6 +1,6 @@
 /*import { Type } from '@angular/core';
 import { Plugin } from '@ng-druid/plugin';
-import { Pane, Panel } from 'panels';
+import { Pane, Panel } from '@ng-druid/panels';
 import { Observable } from 'rxjs';
 import { AttributeValue } from '@ng-druid/attributes';
 

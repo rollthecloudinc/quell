@@ -1,14 +1,14 @@
 import { AttributeValue } from '@ng-druid/attributes';
-import { Dataset, DatasourcePlugin, DatasourceEditorOptions, Datasource, Rest } from 'datasource';
+import { Dataset, DatasourcePlugin, DatasourceEditorOptions, Datasource, Rest } from '@ng-druid/datasource';
 import { iif, Observable, of, throwError } from 'rxjs';
 import { catchError, delay, map, switchMap, timeout } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 import { ContentBinding } from 'content';
-import { ParamContextExtractorService } from 'context';
-import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudCollectionOperationResponse, CrudOperationInput, CrudOperationResponse } from 'crud';
-import { Param, ParamEvaluatorService } from 'dparam';
+import { ParamContextExtractorService } from '@ng-druid/context';
+import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudCollectionOperationResponse, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
+import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { DefaultDataServiceConfig, HttpMethods, HttpUrlGenerator, RequestData } from '@ngrx/data';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { AllConditions, AnyConditions, ConditionProperties, NestedCondition } from 'json-rules-engine';

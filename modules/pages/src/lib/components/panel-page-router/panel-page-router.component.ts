@@ -3,10 +3,10 @@ import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService, EntityDefinitionService } from '@ngrx/data';
-import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from 'panels';
+import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from '@ng-druid/panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
 import { AsyncApiCallHelperService } from '@ng-druid/utils';
-import { CrudDataHelperService, CrudEntityMetadata } from 'crud';
+import { CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 
 @Component({
   selector: 'classifieds-ui-panel-page-router',

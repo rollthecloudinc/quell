@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 import { Pane } from '../../models/panels.models';
 
 @Component({

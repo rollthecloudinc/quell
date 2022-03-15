@@ -1,7 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, AbstractControl, ValidationErrors } from '@angular/forms';
-import { InlineContext } from 'context';
-import { PanelPage, PanelPageSelector } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { PanelPage, PanelPageSelector } from '@ng-druid/panels';
 import { BehaviorSubject, pipe } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 

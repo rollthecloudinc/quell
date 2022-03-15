@@ -4,7 +4,7 @@ import { MatInput } from '@angular/material/input';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
-import { SelectOption } from 'datasource';
+import { SelectOption } from '@ng-druid/datasource';
 
 @Component({
   selector: 'classifieds-formly-autocomplete',

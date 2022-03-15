@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 // import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ng-druid/material';
-import { DurlModule } from 'durl';
+import { DurlModule } from '@ng-druid/durl';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { DatasourceOptionsComponent } from './components/datasource-options/datasource-options.component';
 import { DatasourceFormComponent } from './components/datasource-form/datasource-form.component';

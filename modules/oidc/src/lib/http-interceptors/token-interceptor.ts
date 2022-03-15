@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpHandler, HttpRequest, HttpEvent, HttpHeaders } from '@angular/common/http';
 // import { OktaAuthService } from '@okta/okta-angular';
-import { AuthFacade } from 'auth';
+import { AuthFacade } from '@ng-druid/auth';
 import { Observable } from 'rxjs';
 import { concatMap, take } from 'rxjs/operators';
 

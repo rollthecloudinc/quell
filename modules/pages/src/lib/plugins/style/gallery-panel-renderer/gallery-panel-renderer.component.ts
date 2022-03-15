@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';
-import { MediaSettings, MEDIA_SETTINGS } from 'media';
-import { Pane } from 'panels';
+import { MediaSettings, MEDIA_SETTINGS } from '@ng-druid/media';
+import { Pane } from '@ng-druid/panels';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { forkJoin } from 'rxjs';
 import { INgxGalleryOptions, INgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';

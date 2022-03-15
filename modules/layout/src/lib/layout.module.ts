@@ -6,7 +6,7 @@ import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from '@ng-druid/material';
 import { GridsterModule } from 'angular-gridster2';
 import { AttributesModule } from '@ng-druid/attributes';
-import { TokenModule } from 'token';
+import { TokenModule } from '@ng-druid/token';
 import { UtilsModule } from '@ng-druid/utils';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FlexLayoutComponent } from './components/flex-layout/flex-layout.component';

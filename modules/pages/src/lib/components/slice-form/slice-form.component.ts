@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { DataSlice } from '../../models/plugin.models';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 
 @Component({
   selector: 'classifieds-ui-slice-form',

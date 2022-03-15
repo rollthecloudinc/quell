@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@ang
 import * as uuid from 'uuid';
 import { AttributeValue } from '@ng-druid/attributes';
 import { SITE_NAME } from '@ng-druid/utils';
-import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from 'panels';
+import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from '@ng-druid/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';

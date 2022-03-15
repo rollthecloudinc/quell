@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContextPluginManager } from 'context';
+import { ContextPluginManager } from '@ng-druid/context';
 import { ContextStateEditorComponent } from './components/context-state-editor/context-state-editor.component';
 import { ContextStateFormComponent } from './components/context-state-form/context-state-form.component';
 import { StateContextResolver } from './contexts/state-context.resolver';
@@ -10,7 +10,7 @@ import { EntityDataService, EntityDefinitionService, EntityServices } from '@ngr
 import { entityMetadata } from './entity-metadata';
 import { NoopDataService } from '@ng-druid/utils';
 import { GlobalState } from './models/state.models';
-import { BridgeBuilderPluginManager } from 'bridge';
+import { BridgeBuilderPluginManager } from '@ng-druid/bridge';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 
 @NgModule({

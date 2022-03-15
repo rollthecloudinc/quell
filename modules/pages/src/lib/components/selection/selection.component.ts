@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormControl, FormGroup, Validator, Validators, AbstractControl, ValidationErrors, FormArray, ControlContainer } from "@angular/forms";
 import { AttributeTypes, AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { TokenizerService } from 'token';
-import { SelectOption, SelectMapping } from 'datasource';
+import { TokenizerService } from '@ng-druid/token';
+import { SelectOption, SelectMapping } from '@ng-druid/datasource';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({

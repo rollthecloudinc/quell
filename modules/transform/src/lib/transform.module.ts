@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@ng-druid/material';
-import { DatasourcePluginManager, DatasourceModule } from 'datasource';
+import { DatasourcePluginManager, DatasourceModule } from '@ng-druid/datasource';
 import { TransformSelectComponent } from './components/transform-select/transform-select.component';
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { selectDatasourcePluginFactory, mergeDatasourcePluginFactory } from './transform.factories';

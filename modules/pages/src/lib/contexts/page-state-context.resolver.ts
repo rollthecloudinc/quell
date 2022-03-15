@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { EntityServices } from '@ngrx/data';
-import { ContextResolver, ContextPlugin } from 'context';
-import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from 'panels';
+import { ContextResolver, ContextPlugin } from '@ng-druid/context';
+import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from '@ng-druid/panels';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Dataset, Datasource, DatasourcePluginManager } from 'datasource';
+import { Dataset, Datasource, DatasourcePluginManager } from '@ng-druid/datasource';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { iif, Observable, of } from 'rxjs';
 import { FormlyFieldInstance } from '../models/formly.models';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { FormlyHandlerHelper } from '../services/formly-handler-helper.service';
-import { DatasourceContentHandler, Pane } from 'panels';
+import { DatasourceContentHandler, Pane } from '@ng-druid/panels';
 @Injectable()
 export class FormlyFieldContentHandler implements ContentHandler {
 

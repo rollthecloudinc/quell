@@ -2,18 +2,18 @@ import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Snippet } from 'snippet';
-import { Rest, Dataset, SelectMapping, SelectOption } from 'datasource';
-import { InlineContext } from 'context';
+import { Snippet } from '@ng-druid/snippet';
+import { Rest, Dataset, SelectMapping, SelectOption } from '@ng-druid/datasource';
+import { InlineContext } from '@ng-druid/context';
 import { SITE_NAME } from '@ng-druid/utils';
-import { RulesResolverService } from 'rules';
+import { RulesResolverService } from '@ng-druid/rules';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
-import { TokenizerService } from 'token';
-import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler, PageBuilderFacade, selectDataset, PageBuilderPartialState } from 'panels';
-import { UrlGeneratorService } from 'durl';
+import { TokenizerService } from '@ng-druid/token';
+import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler, PageBuilderFacade, selectDataset, PageBuilderPartialState } from '@ng-druid/panels';
+import { UrlGeneratorService } from '@ng-druid/durl';
 
 @Injectable()
 export class RestContentHandler implements ContentHandler {

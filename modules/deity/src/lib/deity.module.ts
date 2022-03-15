@@ -4,12 +4,12 @@ import { EntityDatasourceComponent } from './components/entity-datasource/entity
 import { EntityDataSourceFormComponent } from './components/entity-datasource-form/entity-datasource-form.component';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@ng-druid/material';
-import { ContextModule, ParamContextExtractorService } from 'context';
+import { ContextModule, ParamContextExtractorService } from '@ng-druid/context';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { DatasourcePluginManager } from 'datasource';
+import { DatasourcePluginManager } from '@ng-druid/datasource';
 import { entityDatasourcePluginFactory } from './deity.factories';
-import { DparamModule } from 'dparam';
-import { UrlGeneratorService } from 'durl';
+import { DparamModule } from '@ng-druid/dparam';
+import { UrlGeneratorService } from '@ng-druid/durl';
 import { EntityServices } from '@ngrx/data';
 
 @NgModule({

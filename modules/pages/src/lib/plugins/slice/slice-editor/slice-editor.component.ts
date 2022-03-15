@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SliceContentHandler } from '../../../handlers/slice-content.handler';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from 'panels';
+import { Pane } from '@ng-druid/panels';
 import { DataSlice } from '../../../models/plugin.models';
 
 @Component({

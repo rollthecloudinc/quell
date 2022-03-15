@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AliasRedirectHandler } from 'alias';
+import { AliasRedirectHandler } from '@ng-druid/alias';
 import { map } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';

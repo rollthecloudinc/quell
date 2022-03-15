@@ -5,17 +5,17 @@ import { select } from '@ngrx/store';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { ContentPluginManager } from 'content';
-import { InlineContext } from 'context';
-import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from '@ng-druid/panels';
 import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
 import { defaultIfEmpty, distinctUntilChanged, map, switchMap, take, tap } from 'rxjs/operators';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
 import { JSONPath } from "jsonpath-plus";
-import { UrlGeneratorService } from 'durl';
-import { DatasourceApiService } from 'datasource';
+import { UrlGeneratorService } from '@ng-druid/durl';
+import { DatasourceApiService } from '@ng-druid/datasource';
 import { FormlyFieldInstance, FormlyRepeatingForm } from '../../models/formly.models';
-import { Mapping, Param } from 'dparam';
-import { TokenizerService } from 'token';
+import { Mapping, Param } from '@ng-druid/dparam';
+import { TokenizerService } from '@ng-druid/token';
 @Component({
   selector: 'classifieds-formly-repeating-renderer',
   styleUrls: ['./formly-repeating-renderer.component.scss'],

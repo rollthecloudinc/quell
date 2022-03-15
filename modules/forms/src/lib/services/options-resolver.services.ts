@@ -5,7 +5,7 @@ import { map, switchMap } from "rxjs/operators";
 import { TokenizerService } from "token";
 import { FormSettings } from "../models/form.models";
 import { JSONPath } from 'jsonpath-plus';
-import { DatasourceContentHandler, Pane, PanelResolverService } from 'panels';
+import { DatasourceContentHandler, Pane, PanelResolverService } from '@ng-druid/panels';
 import { AttributeSerializerService } from "attributes";
 
 @Injectable({

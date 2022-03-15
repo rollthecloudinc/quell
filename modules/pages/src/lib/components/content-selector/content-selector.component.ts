@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 import { Subject, Observable } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';

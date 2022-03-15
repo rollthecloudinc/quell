@@ -2,7 +2,7 @@ import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { ContentPlugin } from 'content';
-import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
 import { EntityServices } from '@ngrx/data';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';

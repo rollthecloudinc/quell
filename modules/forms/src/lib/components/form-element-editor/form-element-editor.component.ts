@@ -3,9 +3,9 @@ import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractCon
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { ContentPlugin } from 'content';
-import { InlineContext } from 'context';
-import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from 'datasource';
-import { Pane } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@ng-druid/datasource';
+import { Pane } from '@ng-druid/panels';
 import { FormElementHandler } from '../../handlers/form-element.handler';
 import { FormSettings } from '../../models/form.models';
 

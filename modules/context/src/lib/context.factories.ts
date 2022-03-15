@@ -1,13 +1,13 @@
 import { ContextDatasource, ContextPlugin, InlineContext } from './models/context.models';
 import { RouteResolver } from './resolvers/route.resolver';
-import { BridgeBuilderPlugin, PublicApiBridgeService } from 'bridge';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
 import { ContextPluginManager } from './services/context-plugin-manager.service';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { ParamPlugin, Param } from 'dparam';
+import { ParamPlugin, Param } from '@ng-druid/dparam';
 import { iif, of } from 'rxjs';
 import { InlineContextResolverService } from './services/inline-context-resolver.service';
-import { TokenizerService } from 'token';
-import { Dataset, DatasourcePlugin } from 'datasource';
+import { TokenizerService } from '@ng-druid/token';
+import { Dataset, DatasourcePlugin } from '@ng-druid/datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { ContentBinding } from 'content';

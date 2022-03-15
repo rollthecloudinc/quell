@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { iif, Observable, of } from "rxjs";
-import { AliasMatchingStrategy } from 'alias';
+import { AliasMatchingStrategy } from '@ng-druid/alias';
 import { catchError, defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot } from '@angular/router';

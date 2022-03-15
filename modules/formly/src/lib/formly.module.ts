@@ -15,18 +15,18 @@ import { FormlyRepeatingSectionComponent } from './components/formly-repeating-s
 import { formlyFieldContentPluginFactory, formlyRepeatingStyleFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RestModule } from 'rest';
-import { DatasourceModule } from 'datasource';
-import { DurlModule } from 'durl';
+import { RestModule } from '@ng-druid/rest';
+import { DatasourceModule } from '@ng-druid/datasource';
+import { DurlModule } from '@ng-druid/durl';
 import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 import { FormlyRepeatingRendererComponent } from './components/formly-repeating-renderer/formly-repeating-renderer.component';
-import { StylePluginManager } from 'panels';
+import { StylePluginManager } from '@ng-druid/panels';
 import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/formly-field-wrapper.component';
 import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 import { FormlyPanelPageComponent } from './components/formly-panel-page/formly-panel-page.component';
-import { RenderModule } from 'render';
+import { RenderModule } from '@ng-druid/render';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({

@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Snippet } from 'snippet';
-import { Dataset } from 'datasource';
+import { Snippet } from '@ng-druid/snippet';
+import { Dataset } from '@ng-druid/datasource';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { TokenizerService } from 'token';
+import { TokenizerService } from '@ng-druid/token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 

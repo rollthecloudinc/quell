@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PropertiesFormPayload } from 'panels';
+import { PropertiesFormPayload } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-ui-properties-dialog',

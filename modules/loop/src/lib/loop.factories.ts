@@ -1,6 +1,6 @@
 import { AttributeSerializerService, AttributeValue } from "attributes";
 import { InlineContext } from "context";
-import { DatasourceEvaluator, DatasourcePlugin, Dataset, Datasource } from 'datasource';
+import { DatasourceEvaluator, DatasourcePlugin, Dataset, Datasource } from '@ng-druid/datasource';
 import { forkJoin, of } from "rxjs";
 import { defaultIfEmpty, map, switchMap, take } from "rxjs/operators";
 import { LoopDatasourceComponent } from "./components/loop-datasource/loop-datasource.component";

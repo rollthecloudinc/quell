@@ -1,10 +1,10 @@
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
-import { AuthFacade } from 'auth';
-import { CognitoSettings } from 'awcog';
-import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationInput, CrudCollectionOperationResponse } from 'crud';
-import { Param, ParamEvaluatorService } from 'dparam';
+import { AuthFacade } from '@ng-druid/auth';
+import { CognitoSettings } from '@ng-druid/awcog';
+import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationInput, CrudCollectionOperationResponse } from '@ng-druid/crud';
+import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { AllConditions, AnyConditions, ConditionProperties } from 'json-rules-engine';
 import { firstValueFrom, forkJoin, from, iif, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';

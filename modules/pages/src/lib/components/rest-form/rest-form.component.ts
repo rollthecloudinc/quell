@@ -1,11 +1,11 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { FormBuilder, FormArray, Validators } from '@angular/forms';
-import { TokenizerService } from 'token';
-import { Rest } from 'datasource';
-import { Param } from 'dparam';
-import { InlineContext } from 'context';
-import { RestSourceFormComponent } from 'rest';
-import { Snippet } from 'snippet';
+import { TokenizerService } from '@ng-druid/token';
+import { Rest } from '@ng-druid/datasource';
+import { Param } from '@ng-druid/dparam';
+import { InlineContext } from '@ng-druid/context';
+import { RestSourceFormComponent } from '@ng-druid/rest';
+import { Snippet } from '@ng-druid/snippet';
 
 @Component({
   selector: 'classifieds-ui-rest-form',

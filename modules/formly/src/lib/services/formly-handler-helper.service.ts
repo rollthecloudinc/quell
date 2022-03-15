@@ -7,7 +7,7 @@ import { TokenizerService } from "token";
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
 import { UrlGeneratorService } from "durl";
-import { DatasourceContentHandler, Pane, PanelResolverService } from 'panels';
+import { DatasourceContentHandler, Pane, PanelResolverService } from '@ng-druid/panels';
 @Injectable({
   providedIn: 'root'
 })

@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Inject, Optional, Output, EventEmitter } from
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeValue, AttributeSerializerService, ValueComputerService } from '@ng-druid/attributes';
-import { InlineContext } from 'context';
-import { Pane } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { Pane } from '@ng-druid/panels';
 import { debounceTime } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 

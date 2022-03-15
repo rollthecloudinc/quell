@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
 import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from 'content';
-import { InlineContext, InlineContextResolverService } from 'context';
+import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
 import { Pane } from '../models/panels.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
-import { RulesResolverService } from 'rules';
+import { RulesResolverService } from '@ng-druid/rules';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';
 import { of, forkJoin, Observable, iif } from 'rxjs';
 

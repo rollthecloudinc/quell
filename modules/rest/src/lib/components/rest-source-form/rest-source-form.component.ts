@@ -3,9 +3,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Va
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
-import { DatasourceApiService } from 'datasource';
+import { DatasourceApiService } from '@ng-druid/datasource';
 import * as qs from 'qs';
-import { TokenizerService } from 'token';
+import { TokenizerService } from '@ng-druid/token';
 import { Rest } from '../../models/rest.models';
 
 @Component({

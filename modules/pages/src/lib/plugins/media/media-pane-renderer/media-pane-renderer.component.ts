@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject, Input, ViewChild, ElementRef, AfterViewInit, Output, EventEmitter } from '@angular/core';
-import { MEDIA_SETTINGS, MediaSettings, MediaFile } from 'media';
+import { MEDIA_SETTINGS, MediaSettings, MediaFile } from '@ng-druid/media';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { EntityCollectionDataService, EntityCollectionService, EntityServices } from '@ngrx/data';
-import { Pane, PanelPageState } from 'panels';
+import { Pane, PanelPageState } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-ui-media-pane-renderer',

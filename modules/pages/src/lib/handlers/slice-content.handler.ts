@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Dataset } from 'datasource';
-import { InlineContext, InlineContextResolverService } from 'context';
-import { TokenizerService } from 'token';
-import { MediaFile } from 'media';
+import { Dataset } from '@ng-druid/datasource';
+import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
+import { TokenizerService } from '@ng-druid/token';
+import { MediaFile } from '@ng-druid/media';
 import { SITE_NAME } from '@ng-druid/utils';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
 import { MediaContentHandler } from './media-content.handler';
-import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from 'panels';
+import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from '@ng-druid/panels';
 
 @Injectable()
 export class SliceContentHandler implements ContentHandler {

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CrudModule } from 'crud';
+import { CrudModule } from '@ng-druid/crud';
 @NgModule({
   declarations: [],
   imports: [

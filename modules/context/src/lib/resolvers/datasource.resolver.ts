@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ContextResolver } from '../models/context.models';
 import { Observable, of } from 'rxjs';
 import { ContextPlugin } from '../models/context.models';
-import { Dataset, Datasource, DatasourcePluginManager } from 'datasource';
+import { Dataset, Datasource, DatasourcePluginManager } from '@ng-druid/datasource';
 import { defaultIfEmpty, map, switchMap, take } from 'rxjs/operators';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 

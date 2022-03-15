@@ -4,7 +4,7 @@ import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
 import { SITE_NAME } from '@ng-druid/utils';
 import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
-import { PanelPageListItem, PanelPage } from 'panels';
+import { PanelPageListItem, PanelPage } from '@ng-druid/panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';
 import * as qs from 'qs';

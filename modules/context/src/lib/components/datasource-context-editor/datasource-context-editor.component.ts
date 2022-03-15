@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { Datasource, DatasourceFormComponent } from 'datasource';
+import { Datasource, DatasourceFormComponent } from '@ng-druid/datasource';
 import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

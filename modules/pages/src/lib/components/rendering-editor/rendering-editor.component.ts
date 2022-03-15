@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Snippet } from 'snippet';
+import { Snippet } from '@ng-druid/snippet';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { Pane } from 'pages';
-import { Pane } from 'panels';
-import { TokenizerService } from 'token';
+import { Pane } from '@ng-druid/panels';
+import { TokenizerService } from '@ng-druid/token';
 import { AttributeValue } from '@ng-druid/attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';
 

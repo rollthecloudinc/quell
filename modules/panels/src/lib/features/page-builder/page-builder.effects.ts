@@ -6,9 +6,9 @@ import { concatMap, map, catchError, switchMap } from 'rxjs/operators';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
 import { JSONPath } from 'jsonpath-plus';
 
-import { Dataset, Rest, DatasourceApiService } from 'datasource';
+import { Dataset, Rest, DatasourceApiService } from '@ng-druid/datasource';
 import * as PageBuilderActions from './page-builder.actions';
-import { SnippetParserService } from 'snippet';
+import { SnippetParserService } from '@ng-druid/snippet';
 /// import { DatasourceApiService } from '../../services/datasource-api.service';
 
 

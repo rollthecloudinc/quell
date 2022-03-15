@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { EntityCache, EntityCollection, EntityCollectionService, EntityServices } from '@ngrx/data';
 import { createSelector, select, Store } from '@ngrx/store';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { ContextResolver, ContextPlugin } from 'context';
+import { ContextResolver, ContextPlugin } from '@ng-druid/context';
 import { Observable, of } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { GlobalState } from '../models/state.models';

@@ -2,8 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { InlineContext } from 'context';
-import { Pane } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { Pane } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-formly-repeating-editor',

@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PanelPropsFormPayload } from 'panels';
+import { PanelPropsFormPayload } from '@ng-druid/panels';
 
 @Component({
   selector: 'classifieds-ui-panel-props-dialog',

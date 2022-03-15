@@ -2,8 +2,8 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeTypes } from '@ng-druid/attributes';
-import { Pane } from 'panels';
-import { Snippet } from 'snippet';
+import { Pane } from '@ng-druid/panels';
+import { Snippet } from '@ng-druid/snippet';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({

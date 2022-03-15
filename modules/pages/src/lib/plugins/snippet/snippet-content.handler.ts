@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContentHandler, ContentBinding, Snippet } from 'content';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { TokenizerService } from 'token';
+import { TokenizerService } from '@ng-druid/token';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 // import { Dataset } from '../models/datasource.models';

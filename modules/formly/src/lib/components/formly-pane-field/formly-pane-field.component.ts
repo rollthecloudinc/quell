@@ -9,13 +9,13 @@ import { debounceTime, delay, distinctUntilChanged, filter, map, switchMap, take
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyAutocompleteComponent } from '../formly-autocomplete/formly-autocomplete.component';
 import { FormlyHandlerHelper } from '../../services/formly-handler-helper.service';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 import { FormlyFieldInstance } from '../../models/formly.models';
-import { DatasourceApiService } from 'datasource';
-import { UrlGeneratorService } from 'durl';
-import { Pane, DatasourceContentHandler, PanelResolverService } from 'panels';
-import { TokenizerService } from 'token';
-import { Mapping, Param } from 'dparam';
+import { DatasourceApiService } from '@ng-druid/datasource';
+import { UrlGeneratorService } from '@ng-druid/durl';
+import { Pane, DatasourceContentHandler, PanelResolverService } from '@ng-druid/panels';
+import { TokenizerService } from '@ng-druid/token';
+import { Mapping, Param } from '@ng-druid/dparam';
 
 @Component({
   selector: 'classifieds-ui-formly-pane-field',

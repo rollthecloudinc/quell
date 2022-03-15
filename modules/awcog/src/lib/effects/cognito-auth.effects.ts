@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ofEntityType, ofEntityOp, EntityOp, EntityActionFactory } from '@ngrx/data';
 import { map, tap } from 'rxjs/operators';
-import { Cookie, AuthActions } from 'auth';
+import { Cookie, AuthActions } from '@ng-druid/auth';
 import * as Cookies from 'js-cookie';
 
 @Injectable()

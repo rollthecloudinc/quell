@@ -5,7 +5,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { Pane } from 'panels';
+import { Pane } from '@ng-druid/panels';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PanelPage, PanelPageListItem } from 'panels';
+import { PanelPage, PanelPageListItem } from '@ng-druid/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import * as uuid from 'uuid';
 

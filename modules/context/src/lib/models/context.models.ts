@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 import { Type } from '@angular/core';
-import { Datasource, Rest } from 'datasource';
-import { Snippet } from 'snippet';
+import { Datasource, Rest } from '@ng-druid/datasource';
+import { Snippet } from '@ng-druid/snippet';
 import { Plugin } from '@ng-druid/plugin';
 
 export interface ContextResolver {

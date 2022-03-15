@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { iif, Observable, of } from "rxjs";
-import { AliasRedirectHandler } from 'alias';
+import { AliasRedirectHandler } from '@ng-druid/alias';
 import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { PanelPage } from 'panels';
+import { PanelPage } from '@ng-druid/panels';
 import { EntityServices } from "@ngrx/data";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';

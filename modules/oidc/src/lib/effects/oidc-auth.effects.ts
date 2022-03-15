@@ -3,7 +3,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ofEntityType, ofEntityOp, EntityOp, EntityActionFactory } from '@ngrx/data';
 import { UserManager } from 'oidc-client';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { AuthActions } from 'auth';
+import { AuthActions } from '@ng-druid/auth';
 import { Observable } from 'rxjs';
 import * as Cookies from 'js-cookie';
 

@@ -2,7 +2,7 @@ import { CdkDragDrop } from "@angular/cdk/drag-drop"
 import { FormArray } from "@angular/forms"
 import { AttributeValue } from "attributes"
 import { RuleSet } from 'angular2-query-builder';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 
 // Editor behaviors
 export interface PanelsEditor {

@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
-import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from 'datasource';
-import { InlineContext } from 'context';
+import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from '@ng-druid/datasource';
+import { InlineContext } from '@ng-druid/context';
 import { SITE_NAME } from '@ng-druid/utils';
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, mergeAll } from 'rxjs/operators';
 import { Panel, PanelPage, Pane, LayoutSetting } from '../models/panels.models';
 import { PanelContentHandler } from './panel-content.handler';
-import { RulesResolverService } from 'rules';
+import { RulesResolverService } from '@ng-druid/rules';
 @Injectable({
   providedIn: 'root'
 })

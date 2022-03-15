@@ -2,9 +2,9 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { InlineContext } from 'context';
-import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from 'datasource';
-import { Pane } from 'panels';
+import { InlineContext } from '@ng-druid/context';
+import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@ng-druid/datasource';
+import { Pane } from '@ng-druid/panels';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyFieldInstance } from '../../models/formly.models';
 @Component({

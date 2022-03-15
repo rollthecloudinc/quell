@@ -7,8 +7,8 @@ import { PaneContentHostDirective } from './directives/pane-content-host.directi
 // import { RenderPaneComponent } from './components/render-pane/render-pane.component';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent } from './components/panel-page/panel-page.component';
-import { LayoutModule } from 'layout';
-import { PanelsModule } from 'panels';
+import { LayoutModule } from '@ng-druid/layout';
+import { PanelsModule } from '@ng-druid/panels';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
 // import { PanelpageModule } from 'panelpage';
 

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, OnChanges, AfterContentInit, ElementRef } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';
-import { TokenizerService } from 'token';
+import { TokenizerService } from '@ng-druid/token';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
-import { Snippet } from 'snippet';
-import { InlineContext } from 'context';
+import { Snippet } from '@ng-druid/snippet';
+import { InlineContext } from '@ng-druid/context';
 import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { MarkdownService } from 'ngx-markdown';

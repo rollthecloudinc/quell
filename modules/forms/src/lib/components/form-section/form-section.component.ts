@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { Pane } from 'panels';
+import { Pane } from '@ng-druid/panels';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 

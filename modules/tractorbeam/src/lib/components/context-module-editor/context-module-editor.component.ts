@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { InlineContext } from 'context';
+import { InlineContext } from '@ng-druid/context';
 import { ContextModuleFormComponent } from '../context-module-form/context-module-form.component';
 
 @Component({

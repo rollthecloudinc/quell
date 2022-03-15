@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { select, Store } from '@ngrx/store';
-import { Rest } from 'datasource';
+import { Rest } from '@ng-druid/datasource';
 
 import { PageBuilderPartialState } from './page-builder.reducer';
 import { selectPageInfo, selectForm, selectFormNames, selectPage, selectSelectionPath } from './page-builder.selectors';

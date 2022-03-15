@@ -5,9 +5,9 @@ import { RestContentHandler } from '../../../handlers/rest-content-handler.servi
 import { Subject } from 'rxjs';
 import { switchMap, filter, tap } from 'rxjs/operators';
 import { ControlContainer } from '@angular/forms';
-import { SelectOption, SelectMapping } from 'datasource';
-import { Snippet } from 'snippet';
-import { InlineContext } from 'context';
+import { SelectOption, SelectMapping } from '@ng-druid/datasource';
+import { Snippet } from '@ng-druid/snippet';
+import { InlineContext } from '@ng-druid/context';
 
 @Component({
   selector: 'classifieds-ui-rest-pane-renderer',

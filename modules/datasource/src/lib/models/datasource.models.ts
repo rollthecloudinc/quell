@@ -1,6 +1,6 @@
 import { ContentBinding } from 'content';
-import { Snippet } from 'snippet';
-import { Param } from 'dparam';
+import { Snippet } from '@ng-druid/snippet';
+import { Param } from '@ng-druid/dparam';
 import { Plugin } from '@ng-druid/plugin';
 import { Type } from '@angular/core';
 import { AttributeValue } from '@ng-druid/attributes';

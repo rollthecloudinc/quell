@@ -10,24 +10,24 @@ import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
 // Base auth
-import { AuthModule, LogoutInterceptor} from 'auth';
+import { AuthModule, LogoutInterceptor} from '@ng-druid/auth';
 // Auth implementation - open connect/oauth
-import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from 'oidc';
-import { MediaModule, MediaSettings, MEDIA_SETTINGS } from 'media';
-import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME, HOST_NAME, PROTOCOL } from 'utils';
+import { OidcModule, TokenInterceptor, CLIENT_SETTINGS, ClientSettings } from '@ng-druid/oidc';
+import { MediaModule, MediaSettings, MEDIA_SETTINGS } from '@ng-druid/media';
+import { UtilsModule /*, CorrelationInterceptor */, SITE_NAME, HOST_NAME, PROTOCOL } from '@ng-druid/utils';
 import { MaterialModule } from '@ng-druid/material';
 // import { LOGGING_SETTINGS, LoggingSettings, LoggingModule, HttpErrorInterceptor, GlobalErrorHandler } from '@classifieds-ui/logging';
-import { TokenModule } from 'token';
-import { ContextModule } from 'context';
-import { ContentModule } from 'content';
-import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from 'alias';
-import { PagealiasModule } from 'pagealias';
-import { PanelsModule, PanelsSettings, PANELS_SETTINGS } from 'panels';
-import { FormlyModule } from 'formly';
-import { BridgeModule } from 'bridge';
-import { StateModule } from 'state';
-import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from 'awcog';
-import { KeyvalModule } from 'keyval';
+import { TokenModule } from '@ng-druid/token';
+import { ContextModule } from '@ng-druid/context';
+import { ContentModule } from '@ng-druid/content';
+import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from '@ng-druid/alias';
+import { PagealiasModule } from '@ng-druid/pagealias';
+import { PanelsModule, PanelsSettings, PANELS_SETTINGS } from '@ng-druid/panels';
+import { FormlyModule } from '@ng-druid/formly';
+import { BridgeModule } from '@ng-druid/bridge';
+import { StateModule } from '@ng-druid/state';
+import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from '@ng-druid/awcog';
+import { KeyvalModule } from '@ng-druid/keyval';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -53,19 +53,19 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { HomeComponent } from './components/home/home.component';*/
 import { EntityDataModule, DefaultDataServiceConfig } from '@ngrx/data';
 import { reducers, metaReducers } from './reducers';
-import { AuthCallbackComponent } from 'auth';
+import { AuthCallbackComponent } from '@ng-druid/auth';
 import { PlaygroundComponent } from './components/playground/playground.component';
-import { TransformModule } from 'transform';
-import { DeityModule } from 'deity';
-import { LoopModule } from 'loop';
-import { RenderModule } from 'render';
-import { FormsModule as DruidFormsModule } from 'forms';
+import { TransformModule } from '@ng-druid/transform';
+import { DeityModule } from '@ng-druid/deity';
+import { LoopModule } from '@ng-druid/loop';
+import { RenderModule } from '@ng-druid/render';
+import { FormsModule as DruidFormsModule } from '@ng-druid/forms';
 import { TransferHttpCacheModule } from '@nguniversal/common';
 import { loadRemoteModule } from '@angular-architects/module-federation';
-import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from 'alienalias';
-import { OutsiderModule } from 'outsider';
+import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@ng-druid/alienalias';
+import { OutsiderModule } from '@ng-druid/outsider';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
-import { TractorbeamModule } from 'tractorbeam';
+import { TractorbeamModule } from '@ng-druid/tractorbeam';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';

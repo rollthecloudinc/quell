@@ -1,5 +1,5 @@
-import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationResponse, CrudCollectionOperationInput } from 'crud';
-import { Param, ParamEvaluatorService } from 'dparam';
+import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationResponse, CrudCollectionOperationInput } from '@ng-druid/crud';
+import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { concat, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
 import { set, keys, getMany } from 'idb-keyval';

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AttributeValue, AttributeSerializerService, AttributeTypes } from '@ng-druid/attributes';
-import { Pane, Panel, PanelPage, PanelPageSelector, PanelsLoaderService, PanelsSelectorService, StyleHandler } from 'panels';
+import { Pane, Panel, PanelPage, PanelPageSelector, PanelsLoaderService, PanelsSelectorService, StyleHandler } from '@ng-druid/panels';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, map, tap } from 'rxjs/operators';
 import { PanelContentHandler } from '../panel-content.handler';

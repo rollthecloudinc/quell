@@ -1,5 +1,5 @@
-import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse, CrudCollectionOperationInput } from 'crud';
-import { ParamEvaluatorService } from 'dparam';
+import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse, CrudCollectionOperationInput } from '@ng-druid/crud';
+import { ParamEvaluatorService } from '@ng-druid/dparam';
 import { of } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
