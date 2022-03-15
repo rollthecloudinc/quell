@@ -1,6 +1,6 @@
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/druid_identity.png)
+Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
 
-Druid is a cloud optimized content publishing framework based on the below five core standards. Featuring a suite of modules to conquer any web experience whether it be with code or without. Druid has it covered!
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tree_bottom_up.png)
 
 ## Dependable
 
@@ -21,6 +21,89 @@ Low-cost without sacrifice.
 ## Durable
 
 Low dependance on specific infrastructure configurations or environments.
+
+When its all said and done Druid is a small, portable web app optimized for the cloud.
+
+# Technology
+
+A+ (Angular + AWS)
+
+Low energy consumption fit for preservation of the environment.
+
+* No bulky servers
+* No physical infrastructure
+* No resource hog databases
+
+# Evolution
+
+## HTML Site
+
+The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
+
+```mermaid
+flowchart TD
+ site[browser] --> server[server];
+```
+
+## Monlithic CMS
+
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS erra of Wordpress, Drupa, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
+
+```mermaid
+flowchart TD
+ site[browser] --> server[server];
+ server --> app[app];
+ app --> db[database]
+```
+
+## Modern MVVM
+
+With the advent of rest apis and advances in JavaScript came the ability to run complete applications in the browser reliably. No more a server was necessary to render html only to serve data via a rest api. In parallel with this tech came the cloud. Many have moved away from clunky traditional databases to highly available, low latency, scalable cloud solutions an industry dominated by aws.
+
+```mermaid
+flowchart TD
+ site[browser] --> api[rest api];
+ api --> s3[s3];
+ api --> os[open search]
+```
+
+## Druid (HTML+AWS)
+
+Druid takes the next step to completely eliminate the server. Replaced with secure zero-trust http requests dispatched directly from the browser. This model allows organizations to focus on building lightweight, low cost experiences rather than apis. Effectivly coming full circle using only two layers back to the beginning. However, doing so in a way that fully embraces all modern advances.
+
+```mermaid
+flowchart TD
+ druid[browser] --> s3[s3];
+ druid --> os[open search];
+```
+
+## Druid- (HTML)
+
+Druid can further be simplified by removing s3 and open search for experiences that don't require seach and/or data collection.
+
+```mermaid
+flowchart TD
+ druid[browser]
+```
+
+# Hosting
+
+Sites can be rendered as static html pages and hosted anywhere from a cdn to a local private filesystem. This is the driving force behind hosting sites with 0 cost associated.
+
+```mermaid
+flowchart TD
+ browser[browser] --> cdn[cdn];
+ cdn --> html[html];
+ cdn --> js[javascript];
+ cdn --> css[css];
+ cdn --> images[images]
+ cdn --> video[video]
+ cdn --> audio[audio]
+```
+
+# Static+
+
+Druid takes static websites to the next level by providing complete, pre-rendered html pages that include JavaScript. This allows pages to easily indexed for SEO without sacrificing usability. Once the page is rendered for the a user the browser takes over and provides a seamless, modern fluent experience without reloading pages using Angular framework.
 
 # Modules
 
@@ -141,21 +224,6 @@ Articles:
 
 # Demos
 
-## Orchestrate
-
-Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
-
-* https://ng-druid.github.io/workflow-designer-v2
-* https://ng-druid.github.io/workflow-designer-v2/manage
-
-Read about the micro-frontend revolution here.
-
-https://www.angulararchitects.io/en/aktuelles/the-microfrontend-revolution-part-2-module-federation-with-angular/
-
-The code for the micro-frontend apps can be found in a sidecar repo here.
-
-https://github.com/ng-druid/workflow-designer
-
 ## Collect
 
 Data entry form built entirely with panel pages.
@@ -169,3 +237,10 @@ Marvel character browser built entirely with panel pages.
 
 * https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334
 * https://ng-druid.github.io/dev-test-virtual-list-flex-v1/character/1011334/manage
+
+## Orchestrate
+
+Workflow designer micro-frontends from Angular architects hosted inside a druid shell.
+
+* https://ng-druid.github.io/workflow-designer-v2
+* https://ng-druid.github.io/workflow-designer-v2/manage
