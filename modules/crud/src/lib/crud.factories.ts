@@ -1,14 +1,14 @@
-import { AttributeSerializerService, AttributeValue } from "attributes";
-// import { ParamContextExtractorService } from "context";
-import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from "datasource";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+// import { ParamContextExtractorService } from '@ng-druid/context';
+import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
 import { forkJoin, of } from "rxjs";
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
-import { ParamContextExtractorService } from "context";
+import { ParamContextExtractorService } from '@ng-druid/context';
 import { CrudAdaptorPluginManager } from "./services/crud-adaptor-plugin-manager.service";
 import { map, switchMap, take } from "rxjs/operators";
 import { CrudAdaptorDatasource } from "./models/crud.models";
-import { UrlGeneratorService } from "durl";
-import { Param, ParamEvaluatorService } from "dparam";
+import { UrlGeneratorService } from '@ng-druid/durl';
+import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { CrudDataHelperService } from "./services/crud-data-helper.service";
 
 export const crudAdaptorDatasourcePluginFactory = (

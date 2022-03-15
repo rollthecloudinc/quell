@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { InlineContext } from "context";
+import { InlineContext } from '@ng-druid/context';
 import { Pane, PanelPage } from "../models/panels.models";
 import { Observable, of } from "rxjs";
-import { ContentPluginManager } from 'content';
+import { ContentPluginManager } from '@ng-druid/content';
 import { PanelsWalkerService } from "./panels-walker.service";
 import { map, switchMap, take } from "rxjs/operators";
 

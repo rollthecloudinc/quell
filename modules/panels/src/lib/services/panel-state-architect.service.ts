@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AttributeSerializerService } from "attributes";
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { Observable, of } from "rxjs";
 import { PanelPageState, PanelState, PaneState } from "../models/state.models";
 

@@ -7,7 +7,7 @@ import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { CONTENT_PLUGIN, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin } from '@ng-druid/content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 

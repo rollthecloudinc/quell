@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@angular/core';
 import * as uuid from 'uuid';
-import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } from '@ng-druid/content';
 import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
 import { Pane } from '../models/panels.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';

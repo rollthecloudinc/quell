@@ -1,4 +1,4 @@
-import { ContextPlugin } from "context";
+import { ContextPlugin } from '@ng-druid/context';
 import { ContextModuleEditorComponent } from "./components/context-module-editor/context-module-editor.component";
 import { ModuleResolver } from "./resolvers/module.resolver";
 

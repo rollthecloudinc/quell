@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
 import { FormlyTemplateOptions, FormlyFieldConfig } from '@ngx-formly/core';
-import { DatasourceApiService } from "datasource";
+import { DatasourceApiService } from '@ng-druid/datasource';
 import { iif, Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
-import { TokenizerService } from "token";
+import { TokenizerService } from '@ng-druid/token';
 import { FormlyFieldInstance } from "../models/formly.models";
 import { JSONPath } from 'jsonpath-plus';
-import { UrlGeneratorService } from "durl";
+import { UrlGeneratorService } from '@ng-druid/durl';
 import { DatasourceContentHandler, Pane, PanelResolverService } from '@ng-druid/panels';
 @Injectable({
   providedIn: 'root'

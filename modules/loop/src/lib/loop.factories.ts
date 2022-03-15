@@ -1,5 +1,5 @@
-import { AttributeSerializerService, AttributeValue } from "attributes";
-import { InlineContext } from "context";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { InlineContext } from '@ng-druid/context';
 import { DatasourceEvaluator, DatasourcePlugin, Dataset, Datasource } from '@ng-druid/datasource';
 import { forkJoin, of } from "rxjs";
 import { defaultIfEmpty, map, switchMap, take } from "rxjs/operators";

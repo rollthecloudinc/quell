@@ -2,7 +2,7 @@ import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentPlugin } from 'content';
+import { ContentPlugin } from '@ng-druid/content';
 import { InlineContext } from '@ng-druid/context';
 import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@ng-druid/datasource';
 import { Pane } from '@ng-druid/panels';

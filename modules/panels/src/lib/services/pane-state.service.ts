@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { EntityCollection, EntityCollectionService, EntityServices } from "@ngrx/data";
 import { createSelector, select } from "@ngrx/store";
-import { AttributeSerializerService, AttributeValue } from "attributes";
-import { ContentPlugin } from "content";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { ContentPlugin } from '@ng-druid/content';
 import merge from "deepmerge-json";
 import { JSONPath } from "jsonpath-plus";
 import { Observable, of } from "rxjs";

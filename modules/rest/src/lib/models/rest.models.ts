@@ -1,6 +1,6 @@
-import { Renderer } from "datasource";
-import { Param } from "dparam";
-import { Snippet } from "snippet";
+import { Renderer } from '@ng-druid/datasource';
+import { Param } from '@ng-druid/dparam';
+import { Snippet } from '@ng-druid/snippet';
 
 export class Rest {
   url: string;

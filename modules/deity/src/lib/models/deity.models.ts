@@ -1,4 +1,4 @@
-import { Param } from "dparam";
+import { Param } from '@ng-druid/dparam';
 
 export class EntityDatasource {
   entityName: string;

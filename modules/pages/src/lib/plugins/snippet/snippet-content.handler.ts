@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, Snippet } from 'content';
+import { ContentHandler, ContentBinding, Snippet } from '@ng-druid/content';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
 import { TokenizerService } from '@ng-druid/token';
 import { Observable, of } from 'rxjs';

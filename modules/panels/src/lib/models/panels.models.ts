@@ -1,6 +1,6 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop"
 import { FormArray } from "@angular/forms"
-import { AttributeValue } from "attributes"
+import { AttributeValue } from '@ng-druid/attributes'
 import { RuleSet } from 'angular2-query-builder';
 import { InlineContext } from '@ng-druid/context';
 

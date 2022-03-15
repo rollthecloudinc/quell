@@ -5,9 +5,9 @@ import { OptionsResolverService } from "../../services/options-resolver.services
 import { FormElementBase } from "../../directives/form-element-base.directive";
 import { debounceTime, distinctUntilChanged, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { combineLatest, Subject } from "rxjs";
-import { Mapping, Param } from "dparam";
+import { Mapping, Param } from '@ng-druid/dparam';
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
-import { SelectOption } from "datasource";
+import { SelectOption } from '@ng-druid/datasource';
 
 @Component({
   selector: 'druid-forms-form-autocomplete',

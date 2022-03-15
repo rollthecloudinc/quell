@@ -1,5 +1,5 @@
 import { ActivatedRoute } from "@angular/router";
-import { Param, ParamPlugin } from "dparam";
+import { Param, ParamPlugin } from '@ng-druid/dparam';
 import { of } from "rxjs";
 
 export const paramPagePluginFactory = () => {

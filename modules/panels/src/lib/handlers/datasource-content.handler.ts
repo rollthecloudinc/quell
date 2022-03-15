@@ -1,6 +1,6 @@
 import { Inject, Injectable } from '@angular/core';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
 import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from '@ng-druid/datasource';
 import { InlineContext } from '@ng-druid/context';
 import { SITE_NAME } from '@ng-druid/utils';

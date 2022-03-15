@@ -4,7 +4,7 @@ import { EntityCollectionService, EntityServices } from '@ngrx/data';
 import { select } from '@ngrx/store';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { ContentPluginManager } from 'content';
+import { ContentPluginManager } from '@ng-druid/content';
 import { InlineContext } from '@ng-druid/context';
 import { PageBuilderFacade, Pane, Panel, PanelPageState, PaneStateService, FormStateConverterService, PanelState, PanelPage, FormService, PanelPageForm, FormGroupConverterService, DatasourceContentHandler, PanelResolverService } from '@ng-druid/panels';
 import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Param, ParamPluginManager } from "dparam";
+import { Param, ParamPluginManager } from '@ng-druid/dparam';
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap } from 'rxjs/operators';
 

@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
 import { Dataset } from '@ng-druid/datasource';
 import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
 import { TokenizerService } from '@ng-druid/token';

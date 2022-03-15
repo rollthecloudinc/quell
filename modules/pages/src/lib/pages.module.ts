@@ -16,7 +16,7 @@ import { AttributeSerializerService, AttributesModule } from '@ng-druid/attribut
 import { LayoutModule } from '@ng-druid/layout';
 import { RestModule } from '@ng-druid/rest';
 import { SnippetModule } from '@ng-druid/snippet';
-import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from 'content';
+import { CONTENT_PLUGIN, ContentPluginManager, ContentPlugin } from '@ng-druid/content';
 import { CONTEXT_PLUGIN, ContextManagerService, ContextModule, ContextPluginManager, ResolvedContextPluginManager } from '@ng-druid/context';
 // import { TaxonomyModule } from 'taxonomy';
 // import { STYLE_PLUGIN } from '@ng-druid/style';

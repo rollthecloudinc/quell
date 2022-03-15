@@ -5,7 +5,7 @@ import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manage
 import { defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
-import { Param } from "dparam";
+import { Param } from '@ng-druid/dparam';
 import { NestedCondition, Rule } from "json-rules-engine";
 
 @Injectable({

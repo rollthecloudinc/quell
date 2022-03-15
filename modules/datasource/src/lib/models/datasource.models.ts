@@ -1,4 +1,4 @@
-import { ContentBinding } from 'content';
+import { ContentBinding } from '@ng-druid/content';
 import { Snippet } from '@ng-druid/snippet';
 import { Param } from '@ng-druid/dparam';
 import { Plugin } from '@ng-druid/plugin';

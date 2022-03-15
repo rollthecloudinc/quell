@@ -5,7 +5,7 @@ import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manage
 import { map, switchMap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityMetadata } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
-import { Param } from "dparam";
+import { Param } from '@ng-druid/dparam';
 import { NestedCondition, Rule } from "json-rules-engine";
 import { CrudDataHelperService } from "../services/crud-data-helper.service";
 // import * as qs from 'qs';

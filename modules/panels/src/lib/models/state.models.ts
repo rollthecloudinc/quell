@@ -1,4 +1,4 @@
-import { AttributeValue } from "attributes";
+import { AttributeValue } from '@ng-druid/attributes';
 
 export class PanelPageState { 
   id: string;

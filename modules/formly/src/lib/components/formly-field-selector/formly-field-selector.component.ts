@@ -3,7 +3,7 @@ import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@ang
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager, AttributeSerializerService } from '@ng-druid/attributes';
-import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@ng-druid/content';
 import { InlineContext } from '@ng-druid/context';
 import { Pane } from '@ng-druid/panels';
 //import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';

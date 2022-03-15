@@ -4,7 +4,7 @@ import { map, switchMap } from "rxjs/operators";
 import { PanelPage, Panel, Pane } from "../models/panels.models";
 import { PanelPageState, PanelState, PaneState } from "../models/state.models";
 import { PanelContentHandler } from '../handlers/panel-content.handler';
-import { AttributeValue } from "attributes";
+import { AttributeValue } from '@ng-druid/attributes';
 
 @Injectable({
   providedIn: 'root'

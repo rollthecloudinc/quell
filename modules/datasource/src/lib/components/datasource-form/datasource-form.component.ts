@@ -5,7 +5,7 @@ import { filter, switchMap, tap } from 'rxjs/operators';
 import { Datasource, DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
-import { ContentBinding } from 'content';
+import { ContentBinding } from '@ng-druid/content';
 import { AttributeValue } from '@ng-druid/attributes';
 
 @Component({

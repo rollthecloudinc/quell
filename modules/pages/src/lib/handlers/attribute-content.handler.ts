@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
 import { Snippet } from '@ng-druid/snippet';
 import { Dataset } from '@ng-druid/datasource';
 import { AttributeValue, AttributeWidget, AttributeTypes } from '@ng-druid/attributes';

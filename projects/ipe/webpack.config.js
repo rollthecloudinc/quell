@@ -46,6 +46,12 @@ module.exports = {
           "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
+          /*"@ng-druid/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
+          "@ng-druid/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
+          "@ng-druid/plugin": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
+          "@ng-druid/material": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
+          "@ng-druid/content": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },*/
+
           ...sharedMappings.getDescriptors()
         })
         

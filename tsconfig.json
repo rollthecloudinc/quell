@@ -17,362 +17,227 @@
     ],
     "paths": {
       "@ng-druid/attributes": [
-        "dist/attributes/attributes",
-        "dist/attributes"
-      ],
-      "attributes": [
+        // "modules/attributes",
         "dist/attributes/attributes",
         "dist/attributes"
       ],
       "@ng-druid/alienalias": [
-        "dist/alienalias/alienalias",
-        "dist/alienalias"
-      ],
-      "alienalias": [
+        // "modules/alienalias",
         "dist/alienalias/alienalias",
         "dist/alienalias"
       ],
       "@ng-druid/material": [
-        "dist/material/material",
-        "dist/material"
-      ],
-      "material": [
+        // "modules/material",
         "dist/material/material",
         "dist/material"
       ],
       "@ng-druid/utils": [
-        "dist/utils/utils",
-        "dist/utils"
-      ],
-      "utils": [
+        // "modules/utils/src",
         "dist/utils/utils",
         "dist/utils"
       ],
       "@ng-druid/content": [
-        "dist/content/content",
-        "dist/content"
-      ],
-      "content": [
+        // "modules/content",
         "dist/content/content",
         "dist/content"
       ],
       "@ng-druid/awos": [
-        "dist/awos/awos",
-        "dist/awos"
-      ],
-      "awos": [
+        // "modules/awos",
         "dist/awos/awos",
         "dist/awos"
       ],
       "@ng-druid/token": [
-        "dist/token/token",
-        "dist/token"
-      ],
-      "token": [
+        // "modules/token",
         "dist/token/token",
         "dist/token"
       ],
       "@ng-druid/context": [
-        "dist/context/context",
-        "dist/context"
-      ],
-      "context": [
+        // "modules/context",
         "dist/context/context",
         "dist/context"
       ],
       "@ng-druid/style": [
-        "dist/style/style",
-        "dist/style"
-      ],
-      "style": [
+        // "modules/style",
         "dist/style/style",
         "dist/style"
       ],
       "@ng-druid/pages": [
-        "dist/pages/pages",
-        "dist/pages"
-      ],
-      "pages": [
+        // "modules/pages",
         "dist/pages/pages",
         "dist/pages"
       ],
       "@ng-druid/media": [
-        "dist/media/media",
-        "dist/media"
-      ],
-      "media": [
+        // "modules/media",
         "dist/media/media",
         "dist/media"
       ],
       "@ng-druid/auth": [
-        "dist/auth/auth",
-        "dist/auth"
-      ],
-      "auth": [
+        // "modules/auth",
         "dist/auth/auth",
         "dist/auth"
       ],
       "@ng-druid/plugin": [
-        "dist/plugin/plugin",
-        "dist/plugin"
-      ],
-      "plugin": [
+        // "modules/plugin",
         "dist/plugin/plugin",
         "dist/plugin"
       ],
       "@ng-druid/datasource": [
-        "dist/datasource/datasource",
-        "dist/datasource"
-      ],
-      "datasource": [
+        // "modules/datasource",
         "dist/datasource/datasource",
         "dist/datasource"
       ],
       "@ng-druid/layout": [
-        "dist/layout/layout",
-        "dist/layout"
-      ],
-      "layout": [
+        // "modules/layout",
         "dist/layout/layout",
         "dist/layout"
       ],
       "@ng-druid/panels": [
-        "dist/panels/panels",
-        "dist/panels"
-      ],
-      "panels": [
+        // "modules/panels",
         "dist/panels/panels",
         "dist/panels"
       ],
       "@ng-druid/alias": [
-        "dist/alias/alias",
-        "dist/alias"
-      ],
-      "alias": [
+        // "modules/alias",
         "dist/alias/alias",
         "dist/alias"
       ],
       "@ng-druid/pagealias": [
-        "dist/pagealias/pagealias",
-        "dist/pagealias"
-      ],
-      "pagealias": [
+        // "modules/pagealias",
         "dist/pagealias/pagealias",
         "dist/pagealias"
       ],
       "@ng-druid/formly": [
-        "dist/formly/formly",
-        "dist/formly"
-      ],
-      "formly": [
+        // "modules/formly",
         "dist/formly/formly",
         "dist/formly"
       ],
       "@ng-druid/forms": [
-        "dist/forms/forms",
-        "dist/forms"
-      ],
-      "forms": [
+        // "modules/forms",
         "dist/forms/forms",
         "dist/forms"
       ],
       "@ng-druid/here": [
-        "dist/here/here",
-        "dist/here"
-      ],
-      "here": [
+        // "modules/here",
         "dist/here/here",
         "dist/here"
       ],
       "@ng-druid/rest": [
-        "dist/rest/rest",
-        "dist/rest"
-      ],
-      "rest": [
+        // "modules/rest",
         "dist/rest/rest",
         "dist/rest"
       ],
       "@ng-druid/bridge": [
-        "dist/bridge/bridge",
-        "dist/bridge"
-      ],
-      "bridge": [
+        // "modules/bridge",
         "dist/bridge/bridge",
         "dist/bridge"
       ],
       "@ng-druid/state": [
-        "dist/state/state",
-        "dist/state"
-      ],
-      "state": [
+        // "modules/state",
         "dist/state/state",
         "dist/state"
       ],
       "@ng-druid/loop": [
-        "dist/loop/loop",
-        "dist/loop"
-      ],
-      "loop": [
+        // "modules/loop",
         "dist/loop/loop",
         "dist/loop"
       ],
       "@ng-druid/durl": [
-        "dist/durl/durl",
-        "dist/durl"
-      ],
-      "durl": [
+        // "modules/durl",
         "dist/durl/durl",
         "dist/durl"
       ],
       "@ng-druid/dparam": [
-        "dist/dparam/dparam",
-        "dist/dparam"
-      ],
-      "dparam": [
+        // "modules/dparam",
         "dist/dparam/dparam",
         "dist/dparam"
       ],
       "@ng-druid/snippet": [
-        "dist/snippet/snippet",
-        "dist/snippet"
-      ],
-      "snippet": [
+        // "modules/snippet",
         "dist/snippet/snippet",
         "dist/snippet"
       ],
       "@ng-druid/outsider": [
-        "dist/outsider/outsider",
-        "dist/outsider"
-      ],
-      "outsider": [
+        // "modules/outsider",
         "dist/outsider/outsider",
         "dist/outsider"
       ],
       "@ng-druid/oidc": [
-        "dist/oidc/oidc",
-        "dist/oidc"
-      ],
-      "oidc": [
+        // "modules/oidc",
         "dist/oidc/oidc",
         "dist/oidc"
       ],
       "@ng-druid/drxdb": [
-        "dist/drxdb/drxdb",
-        "dist/drxdb"
-      ],
-      "drxdb": [
+        // "modules/drxdb",
         "dist/drxdb/drxdb",
         "dist/drxdb"
       ],
       "@ng-druid/transform": [
-        "dist/transform/transform",
-        "dist/transform"
-      ],
-      "transform": [
+        // "modules/transform",
         "dist/transform/transform",
         "dist/transform"
       ],
       "@ng-druid/rules": [
-        "dist/rules/rules",
-        "dist/rules"
-      ],
-      "rules": [
+        // "modules/rules",
         "dist/rules/rules",
         "dist/rules"
       ],
       "@ng-druid/aws3": [
-        "dist/aws3/aws3",
-        "dist/aws3"
-      ],
-      "aws3": [
+        // "modules/aws3",
         "dist/aws3/aws3",
         "dist/aws3"
       ],
       "@ng-druid/render": [
-        "dist/render/render",
-        "dist/render"
-      ],
-      "render": [
+        // "modules/render",
         "dist/render/render",
         "dist/render"
       ],
       "@ng-druid/awcog": [
-        "dist/awcog/awcog",
-        "dist/awcog"
-      ],
-      "awcog": [
+        // "modules/awcog",
         "dist/awcog/awcog",
         "dist/awcog"
       ],
       "@ng-druid/crud": [
-        "dist/crud/crud",
-        "dist/crud"
-      ],
-      "crud": [
+        // "modules/crud",
         "dist/crud/crud",
         "dist/crud"
       ],
       "@ng-druid/keyval": [
-        "dist/keyval/keyval",
-        "dist/keyval"
-      ],
-      "keyval": [
+        // "modules/keyval",
         "dist/keyval/keyval",
         "dist/keyval"
       ],
       "@ng-druid/deity": [
-        "dist/deity/deity",
-        "dist/deity"
-      ],
-      "deity": [
+        // "modules/deity",
         "dist/deity/deity",
         "dist/deity"
       ],
       "@ng-druid/powder": [
-        "dist/powder/powder",
-        "dist/powder"
-      ],
-      "powder": [
+        // "modules/powder",
         "dist/powder/powder",
         "dist/powder"
       ],
       "@ng-druid/flash": [
-        "dist/flash/flash",
-        "dist/flash"
-      ],
-      "flash": [
+        // "modules/flash",
         "dist/flash/flash",
         "dist/flash"
       ],
       "@ng-druid/lock": [
-        "dist/lock/lock",
-        "dist/lock"
-      ],
-      "lock": [
+        // "modules/lock",
         "dist/lock/lock",
         "dist/lock"
       ],
       "@ng-druid/tractorbeam": [
-        "dist/tractorbeam/tractorbeam",
-        "dist/tractorbeam"
-      ],
-      "tractorbeam": [
+        // "modules/tractorbeam",
         "dist/tractorbeam/tractorbeam",
         "dist/tractorbeam"
       ],
       "@ng-druid/stock": [
-        "dist/stock/stock",
-        "dist/stock"
-      ],
-      "stock": [
+        // "modules/stock",
         "dist/stock/stock",
         "dist/stock"
       ],
       "@ng-druid/barrel": [
-        "dist/barrel/barrel",
-        "dist/barrel"
-      ],
-      "barrel": [
+        // "modules/barrel",
         "dist/barrel/barrel",
         "dist/barrel"
       ]

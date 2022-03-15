@@ -1,8 +1,8 @@
 import { EntityServices } from "@ngrx/data";
 import { State } from "@ngrx/store";
-import { AttributeSerializerService, AttributeValue } from "attributes";
-import { BridgeBuilderPlugin, PublicApiBridgeService } from "bridge";
-import { ContextPlugin } from "context";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
+import { ContextPlugin } from '@ng-druid/context';
 import { of } from "rxjs";
 import { catchError, switchMap, tap } from "rxjs/operators";
 import { ContextStateEditorComponent } from "./components/context-state-editor/context-state-editor.component";

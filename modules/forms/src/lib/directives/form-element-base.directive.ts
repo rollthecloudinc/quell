@@ -1,13 +1,13 @@
 import { Component, Directive, Input, OnInit } from "@angular/core";
 import { ControlContainer, FormArray, FormControl } from "@angular/forms";
-import { AttributeSerializerService, AttributeValue } from "attributes";
-import { SelectOption } from "datasource";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { SelectOption } from '@ng-druid/datasource';
 import { FormSettings } from "../models/form.models";
 import { BehaviorSubject, combineLatest, iif, Subject } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
-import { Pane } from "panels";
-import { InlineContext } from "context";
+import { Pane } from '@ng-druid/panels';
+import { InlineContext } from '@ng-druid/context';
 
 @Directive({
   selector: '[druid-forms-form-element-base]'

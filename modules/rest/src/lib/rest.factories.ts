@@ -5,7 +5,7 @@ import { catchError, delay, map, switchMap, timeout } from 'rxjs/operators';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
-import { ContentBinding } from 'content';
+import { ContentBinding } from '@ng-druid/content';
 import { ParamContextExtractorService } from '@ng-druid/context';
 import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudCollectionOperationResponse, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
 import { Param, ParamEvaluatorService } from '@ng-druid/dparam';

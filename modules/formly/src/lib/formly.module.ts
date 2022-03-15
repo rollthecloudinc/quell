@@ -3,7 +3,7 @@ import { ReactiveFormsModule  } from '@angular/forms';
 import { FormlyModule as RealFormlyModule }  from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { ContentModule, ContentPluginManager } from 'content';
+import { ContentModule, ContentPluginManager } from '@ng-druid/content';
 import { MaterialModule } from '@ng-druid/material';
 import { FormlyFieldContentHandler } from './handlers/formly-field-content.handler';
 import { FormlyFieldEditorComponent } from './components/formly-field-editor/formly-field-editor.component';

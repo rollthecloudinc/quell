@@ -1,5 +1,5 @@
-import { ContentBinding } from "content";
-import { DatasourceOptions } from "datasource";
+import { ContentBinding } from '@ng-druid/content';
+import { DatasourceOptions } from '@ng-druid/datasource';
 
 export class FormSettings {
   value?: string;

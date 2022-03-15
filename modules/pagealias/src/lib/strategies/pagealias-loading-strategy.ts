@@ -40,7 +40,7 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         const paths = pp.map(p => p.path);
 
         this.router.config.unshift({ matcher: this.createPageMatcher(paths), loadChildren: () => {
-          return import('pages').then(m => m.PagesModule);
+          return import('@ng-druid/pages').then(m => m.PagesModule);
         } });
 
         //pp.forEach(p => {

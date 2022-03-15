@@ -1,12 +1,12 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { HttpMethods } from "@ngrx/data";
-import { AttributeValue, AttributeSerializerService } from "attributes";
-import { Dataset, DatasourceApiService } from "datasource";
-import { UrlGeneratorService } from "durl";
+import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
+import { Dataset, DatasourceApiService } from '@ng-druid/datasource';
+import { UrlGeneratorService } from '@ng-druid/durl';
 import { Observable, of } from "rxjs";
 import { catchError, filter, map, switchMap, tap } from "rxjs/operators";
-import { SnippetParserService } from "snippet";
+import { SnippetParserService } from '@ng-druid/snippet';
 import { Rest } from '../models/rest.models';
 import { restfulRequest } from "../rest.factories";
 

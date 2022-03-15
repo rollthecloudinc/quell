@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from 'content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
 import { Snippet } from '@ng-druid/snippet';
 import { Rest, Dataset, SelectMapping, SelectOption } from '@ng-druid/datasource';
 import { InlineContext } from '@ng-druid/context';

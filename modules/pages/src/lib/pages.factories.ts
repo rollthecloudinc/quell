@@ -2,7 +2,7 @@ import { SnippetContentHandler } from './handlers/snippet-content.handler';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { MediaContentHandler } from './handlers/media-content.handler';
 // import { PanelContentHandler } from './handlers/panel-content.handler';
-import { ContentBinding, ContentPlugin } from 'content';
+import { ContentBinding, ContentPlugin } from '@ng-druid/content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from '@ng-druid/context';
 import { Dataset, DatasourceFormComponent, DatasourcePlugin } from '@ng-druid/datasource';
 import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade } from '@ng-druid/panels';

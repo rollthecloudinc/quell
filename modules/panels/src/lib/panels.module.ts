@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, NoopDataService } from '@ng-druid/utils';
 import { MaterialModule } from '@ng-druid/material';
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from 'content';
+import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from '@ng-druid/content';
 import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory } from './panels.factories';
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';

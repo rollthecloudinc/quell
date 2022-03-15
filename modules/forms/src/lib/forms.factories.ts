@@ -1,5 +1,5 @@
-import { ContentPlugin } from "content"
-import { StylePlugin } from "panels";
+import { ContentPlugin } from '@ng-druid/content'
+import { StylePlugin } from '@ng-druid/panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormElementHandler } from "./handlers/form-element.handler";

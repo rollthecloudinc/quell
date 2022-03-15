@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementR
 import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
-import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from 'content';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@ng-druid/content';
 import { GridLayoutComponent, LayoutPluginManager } from '@ng-druid/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@ng-druid/utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@ng-druid/context';

@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ContentPlugin, ContentPluginManager } from 'content';
+import { ContentPlugin, ContentPluginManager } from '@ng-druid/content';
 import { MarkdownModule } from 'ngx-markdown';
 import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from '@ng-druid/material';

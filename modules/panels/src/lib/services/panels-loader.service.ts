@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { EntityCollectionService, EntityServices } from "@ngrx/data";
-import { AttributeValue } from "attributes";
+import { AttributeValue } from '@ng-druid/attributes';
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { PanelContentHandler } from "../handlers/panel-content.handler";

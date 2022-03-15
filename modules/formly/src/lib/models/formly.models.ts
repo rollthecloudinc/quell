@@ -1,4 +1,4 @@
-import { ContentBinding } from 'content';
+import { ContentBinding } from '@ng-druid/content';
 import { Rest, DatasourceOptions } from '@ng-druid/datasource';
 export class FormlyFieldInstance {
   type: string;

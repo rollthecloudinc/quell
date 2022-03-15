@@ -1,4 +1,4 @@
-import { AliasPlugin } from "alias";
+import { AliasPlugin } from '@ng-druid/alias';
 
 export class AlienaliasPlugin extends AliasPlugin {
 }

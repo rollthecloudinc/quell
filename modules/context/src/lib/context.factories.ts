@@ -10,7 +10,7 @@ import { TokenizerService } from '@ng-druid/token';
 import { Dataset, DatasourcePlugin } from '@ng-druid/datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { ContentBinding } from 'content';
+import { ContentBinding } from '@ng-druid/content';
 import { DatasourceResolver } from './resolvers/datasource.resolver';
 import { DatasourceContextEditorComponent } from './components/datasource-context-editor/datasource-context-editor.component';
 

@@ -1,13 +1,13 @@
-import { AttributeSerializerService, AttributeValue } from "attributes";
-// import { ParamContextExtractorService } from "context";
-import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from "datasource";
+import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+// import { ParamContextExtractorService } from '@ng-druid/context';
+import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
 import { of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { EntityDatasource } from "./models/deity.models";
 import { EntityDatasourceComponent } from "./components/entity-datasource/entity-datasource.component";
-import { ParamContextExtractorService } from "context";
-import { ContentBinding } from "content";
-import { UrlGeneratorService } from "durl";
+import { ParamContextExtractorService } from '@ng-druid/context';
+import { ContentBinding } from '@ng-druid/content';
+import { UrlGeneratorService } from '@ng-druid/durl';
 import { EntityServices } from "@ngrx/data";
 
 export const entityDatasourcePluginFactory = (

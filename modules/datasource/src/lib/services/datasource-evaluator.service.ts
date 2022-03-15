@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AttributeSerializerService } from "attributes";
+import { AttributeSerializerService } from '@ng-druid/attributes';
 import { forkJoin, Observable, of } from "rxjs";
 import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
 import { Datasource, DatasourcePlugin, Dataset } from "../models/datasource.models";
