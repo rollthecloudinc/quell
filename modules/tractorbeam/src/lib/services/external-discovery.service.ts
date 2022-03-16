@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
-import { defaultIfEmpty, delay, map, switchMap, tap } from 'rxjs/operators';
+import { defaultIfEmpty, delay, map, switchMap, take, tap } from 'rxjs/operators';
 import { ModuleLoaderService } from '@ng-druid/utils';
 import { PluginDiscovery } from '@ng-druid/plugin';
 import { EntityServices } from '@ngrx/data';
@@ -41,6 +41,7 @@ export class ExternalDiscovery implements PluginDiscovery  {
       ),
       tap(() => console.log('completed loading external modules')),
       map(() => true),
+      take(1)
     );
   }
 }
