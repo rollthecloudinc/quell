@@ -166,23 +166,23 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
           return contentPlugins;
         }, [])
       ).pipe(
-        map(contentPlugins => ({ panelPage, isDynamic: panelPage.panels.reduce<Array<Pane>>((panes, panel) => [ ...panes, ...panel.panes ], []).map(pane => contentPlugins.get(pane.contentPlugin).handler?.isDynamic(pane.settings) ).findIndex(d => d === true) !== -1 }))
+        map(() => ({ panelPage }))
       )
     ),
-    switchMap(({ panelPage, isDynamic }) => iif(
+    switchMap(({ panelPage }) => iif(
       () => !this.nested$.value,
       /*!this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
         map(paneContexts => [p, isDynamic, paneContexts])
       ): of([p, isDynamic, []]),*/
       this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
-        map(paneContexts => ({ panelPage, isDynamic, contexts: Array.from(paneContexts) }))
+        map(paneContexts => ({ panelPage, contexts: Array.from(paneContexts) }))
       ),
-      of({ panelPage, isDynamic, contexts: [] })
+      of({ panelPage, contexts: [] })
     )),
     /*switchMap(({ panelPage, isDynamic }) => this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
       map(paneContexts => ({ panelPage, isDynamic, contexts: Array.from(paneContexts) }))
     )),*/
-    tap(({ panelPage, isDynamic, contexts }) => {
+    tap(({ panelPage, contexts }) => {
       this.hookupFormChange({ panelPage });
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;

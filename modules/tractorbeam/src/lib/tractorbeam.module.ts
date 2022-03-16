@@ -9,6 +9,8 @@ import { ContextModuleFormComponent } from './components/context-module-form/con
 import { PageBuilderBeamEffects } from './effects/page-builder-beam.effects';
 import { ModuleResolver } from './resolvers/module.resolver';
 import { moduleContextFactory } from  './tractorbeam.factories';
+import { ExternalDiscovery } from './services/external-discovery.service';
+import { ContentPluginManager } from '@ng-druid/content';
 @NgModule({
   declarations: [
     ContextModuleFormComponent,
@@ -33,8 +35,11 @@ import { moduleContextFactory } from  './tractorbeam.factories';
 export class TractorbeamModule { 
   constructor(
     cpm: ContextPluginManager,
-    moduleResolver: ModuleResolver
+    ccpm: ContentPluginManager,
+    moduleResolver: ModuleResolver,
+    externalDiscovey: ExternalDiscovery
   ) {
+    ccpm.addDiscovery(externalDiscovey);
     cpm.register(moduleContextFactory({ moduleResolver }));
   }
 }

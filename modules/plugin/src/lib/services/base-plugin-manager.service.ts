@@ -18,6 +18,9 @@ export abstract class BasePluginManager<T extends Plugin<Y>, Y> {
   discovery() {
     this.discoveryPipeline.push(new ConfigDiscovery(this.pcm, this.moduleLoader));
   }
+  addDiscovery(d: PluginDiscovery) {
+    this.discoveryPipeline.push(d);
+  }
   register(plugin: T): void {
     this.pluginInstances.set(plugin.id, plugin);
   }

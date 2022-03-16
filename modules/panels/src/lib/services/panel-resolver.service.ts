@@ -94,7 +94,7 @@ export class PanelResolverService {
       switchMap(plugins => forkJoin(
         panes.reduce<Array<Observable<Array<string>>>>((p, c) => {
           const plugin = plugins.get(c.contentPlugin);
-          if(plugin.handler !== undefined) {
+          if(/*plugin &&*/ plugin.handler !== undefined) {
             return [ ...p, plugin.handler.getBindings(c.settings, 'pane').pipe(
               map(c => c.map(c => c.id))
             ) ];
@@ -121,7 +121,7 @@ export class PanelResolverService {
       switchMap(([bindings, plugins]) => forkJoin(
         panes.reduce<Array<Observable<Array<Pane>>>>((p, c) => {
           const plugin = plugins.get(c.contentPlugin);
-          if(plugin.handler !== undefined && plugin.handler.isDynamic(c.settings)) {
+          if(/*plugin &&*/ plugin.handler !== undefined && plugin.handler.isDynamic(c.settings)) {
             // data panes that are used in bindings will not be displayed.
             return [ ...p, plugin.handler.isData(c.settings) && bindings.findIndex(n => n === c.name) !== -1 ? of([]) :  forkJoin([
               this.staticPanes(panes),

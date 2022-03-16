@@ -13,7 +13,7 @@ export class PanelsContextService {
 
   gatherPaneContexts = ({ pane, panelPage, ancestoryWithSelf }: { pane: Pane, panelPage: PanelPage, ancestoryWithSelf: Array<number> }) => this.cpm.getPlugin(pane.contentPlugin).pipe(
     switchMap(p =>
-      p.handler ?
+      /*p &&*/ p.handler ?
       p.handler.stateDefinition(pane.settings)
       : of({})
     ),
