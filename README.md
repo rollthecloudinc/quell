@@ -244,3 +244,10 @@ Workflow designer micro-frontends from Angular architects hosted inside a druid 
 
 * https://ng-druid.github.io/workflow-designer-v2
 * https://ng-druid.github.io/workflow-designer-v2/manage
+
+## Extend
+
+Extension loaded as remote module.
+
+* https://ng-druid.github.io/tractorbeam-test-v3
+* https://ng-druid.github.io/tractorbeam-test-v3/manage
