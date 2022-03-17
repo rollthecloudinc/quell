@@ -31,7 +31,8 @@ export class ContextModuleFormComponent implements OnInit, ControlValueAccessor 
   context$ = new BehaviorSubject<InlineContext>(undefined);
   formGroup = this.fb.group({
     remoteEntry: this.fb.control('', [ Validators.required ]),
-    exposedModule: this.fb.control('', [ Validators.required ])
+    exposedModule: this.fb.control('', [ Validators.required ]),
+    moduleName: this.fb.control('', [ Validators.required ])
   });
 
   public onTouched: () => void = () => {};
@@ -43,12 +44,14 @@ export class ContextModuleFormComponent implements OnInit, ControlValueAccessor 
       if (c) {
         this.formGroup.setValue({
           remoteEntry: c.data.remoteEntry,
-          exposedModule: c.data.exposedModule
+          exposedModule: c.data.exposedModule,
+          moduleName: c.data.moduleName
         });
       } else {
         this.formGroup.setValue({
           remoteEntry: '',
-          exposedModule: ''
+          exposedModule: '',
+          moduleName: ''
         });
       }
     });

@@ -16,23 +16,12 @@ export class PageBuilderBeamEffects {
         console.log('tractor beam capture page', page);
         page.contexts.forEach(c => {
           if (c.plugin === 'module') {
-            /*new Observable<undefined>(obs => {
-              loadRemoteModule({
-                type: 'module',
-                remoteEntry: c.data.remoteEntry,
-                exposedModule: c.data.exposedModule
-              }).then(() => {
-                console.log('tractor loaded', c.name);
-                obs.next();
-                obs.complete();
-              });
-            }).subscribe();*/
             return this.moduleLoaderService.loadModule(
               () => loadRemoteModule({
                 type: 'module',
                 remoteEntry: c.data.remoteEntry,
                 exposedModule: c.data.exposedModule
-              }).then(m => m.DownloadModule)
+              }).then(m => m[c.data.moduleName])
             ).subscribe();
           }
         });
@@ -56,7 +45,7 @@ export class PageBuilderBeamEffects {
                 type: 'module',
                 remoteEntry: c.data.remoteEntry,
                 exposedModule: c.data.exposedModule
-              }).then(m => m.DownloadModule)
+              }).then(m => m[c.data.moduleName])
             ).subscribe();
           }
         });

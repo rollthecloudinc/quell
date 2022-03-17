@@ -18,7 +18,7 @@ export class ModuleResolver implements ContextResolver {
         type: 'module',
         remoteEntry: data.remoteEntry,
         exposedModule: data.exposedModule
-      }).then(m => m.DownloadModule)
+      }).then(m => m[data.moduleName])
     );
     /*return new Observable<undefined>(obs => {
       loadRemoteModule({

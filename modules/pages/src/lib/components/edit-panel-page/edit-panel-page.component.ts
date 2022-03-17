@@ -45,7 +45,7 @@ export class EditPanelPageComponent implements OnInit {
                 type: 'module',
                 remoteEntry: c.data.remoteEntry,
                 exposedModule: c.data.exposedModule
-              }).then(m => m.DownloadModule)
+              }).then(m => m[c.data.moduleName])
             )
           )
         ).pipe(
