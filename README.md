@@ -249,5 +249,5 @@ Workflow designer micro-frontends from Angular architects hosted inside a druid 
 
 Extension loaded as remote module.
 
-https://ng-druid.github.io/tractorbeam-test-v3
-https://ng-druid.github.io/tractorbeam-test-v3/manage
+* https://ng-druid.github.io/tractorbeam-test-v3
+* https://ng-druid.github.io/tractorbeam-test-v3/manage
