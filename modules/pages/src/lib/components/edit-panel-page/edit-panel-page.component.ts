@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { PanelPage, PanelPageListItem } from '@ng-druid/panels';
+import { PageBuilderFacade, PanelPage, PanelPageListItem, PanelPageStateSlice } from '@ng-druid/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { ActivatedRoute } from '@angular/router';
-import { map, filter, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { map, filter, distinctUntilChanged, switchMap, tap, withLatestFrom, take, defaultIfEmpty, delay } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { forkJoin, of } from 'rxjs';
+import { loadRemoteModule } from '@angular-architects/module-federation';
+import { ModuleLoaderService } from '@ng-druid/utils';
 
 @Component({
   selector: 'classifieds-ui-edit-panel-page',
@@ -16,7 +21,13 @@ export class EditPanelPageComponent implements OnInit {
   private panelPageService: EntityCollectionService<PanelPage>;
   private panelPageListItemService: EntityCollectionService<PanelPageListItem>;
 
-  constructor(private route: ActivatedRoute, es: EntityServices) {
+  constructor(
+    private route: ActivatedRoute, 
+    private pageBuilderFacade: PageBuilderFacade,
+    private routerStore: Store<RouterReducerState>,
+    private moduleLoader: ModuleLoaderService,
+    es: EntityServices
+  ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
     this.panelPageListItemService = es.getEntityCollectionService('PanelPageListItem');
   }
@@ -26,8 +37,31 @@ export class EditPanelPageComponent implements OnInit {
       map(p => p.get('panelPageId')),
       filter(id => id !== undefined),
       distinctUntilChanged(),
-      switchMap(id => this.panelPageService.getByKey(id))
-    ).subscribe(panelPage => {
+      switchMap(id => this.panelPageService.getByKey(id)),
+      switchMap(pp => pp ? forkJoin(
+          pp.contexts.filter(c => c.plugin === 'module').map(c => 
+            this.moduleLoader.loadModule(
+              () => loadRemoteModule({
+                type: 'module',
+                remoteEntry: c.data.remoteEntry,
+                exposedModule: c.data.exposedModule
+              }).then(m => m.DownloadModule)
+            )
+          )
+        ).pipe(
+          delay(1),
+          map(() => pp),
+          defaultIfEmpty(pp)
+        ) 
+        : of(pp)
+      ),
+      switchMap(pp => this.routerStore.pipe(
+        select(getSelectors((state: any) => state.router).selectCurrentRoute),
+        map(route => [pp, route.params ]),
+        take(1)
+      )),
+      tap(([ pp, args ]) => this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ id: pp.id, realPath: `/pages/panelpage/${pp.id}`, path: pp.path, args }))),
+    ).subscribe(([ panelPage ]) => {
       console.log(panelPage);
       this.panelPage = panelPage;
     });

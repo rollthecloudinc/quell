@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/loop",
-  "version": "0.0.14",
+  "version": "0.0.21",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^11.2.14",

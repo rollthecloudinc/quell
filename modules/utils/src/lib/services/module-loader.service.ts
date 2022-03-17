@@ -1,5 +1,5 @@
 import { Type, Compiler, Injector, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,10 @@ export class ModuleLoaderService {
         // moduleRef.componentFactoryResolver.resolveComponentFactory(LazyComponent);
         obs.next(true);
         obs.complete();
-      }).catch(() => true);
+      }).catch(() => {
+        obs.next(true);
+        obs.complete();
+      });
     });
     /*mport(module)module().then(m => {
       this.compiler.compileModuleAndAllComponentsAsync(m);
