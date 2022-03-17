@@ -20,7 +20,7 @@ export class ExternalDiscovery implements PluginDiscovery  {
   loadPlugins(): Observable<boolean> {
     return this.pageBuilderFacade.getPageInfo$.pipe(
       tap(() => console.log('started loading external modules')),
-      switchMap(info => this.es.getEntityCollectionService('PanelPage').getByKey(info.id).pipe(
+      switchMap(info => (info && info.id ? this.es.getEntityCollectionService('PanelPage').getByKey(info.id) : of(undefined)).pipe(
         defaultIfEmpty(undefined)
       )),
       switchMap(pp => pp ? forkJoin(
