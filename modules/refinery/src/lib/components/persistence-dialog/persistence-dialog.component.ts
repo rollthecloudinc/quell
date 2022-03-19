@@ -1,6 +1,7 @@
 import { Component, Inject } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { AttributeSerializerService } from "@ng-druid/attributes";
 import { PersistenceFormPayload } from "../../models/refinery.models";
 
 @Component({
@@ -17,12 +18,17 @@ export class PersistenceDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { payload: PersistenceFormPayload },
     private dialogRef: MatDialogRef<PersistenceDialogComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private attributeSerializer: AttributeSerializerService
   ) { }
 
 
   submit() {
-    this.dialogRef.close(new PersistenceFormPayload({ ...this.persistenceForm.value }));
+    const data = this.persistenceForm.value;
+    console.log('persistence form', data);
+    const settings = this.attributeSerializer.serialize(data.dataduct.settings, 'settings');
+    console.log('persistence settings', settings);
+    this.dialogRef.close(new PersistenceFormPayload({ ...this.persistenceForm.value, dataduct: { ...data.dataduct, settings: settings.attributes } }));
   }
 
 }

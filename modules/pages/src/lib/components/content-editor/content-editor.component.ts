@@ -12,7 +12,7 @@ import { SITE_NAME } from '@ng-druid/utils';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from '@ng-druid/context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from '@ng-druid/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { PersistenceDialogComponent } from '@ng-druid/refinery';
+import { PersistenceDialogComponent, PersistenceFormPayload } from '@ng-druid/refinery';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { RenderingEditorComponent } from '../rendering-editor/rendering-editor.component';
@@ -987,7 +987,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   onPersistenceClick() {
-    this.dialog.open(PersistenceDialogComponent, { data: { } });
+    this.dialog.open(PersistenceDialogComponent, { data: { } })
+      .afterClosed()
+      .subscribe((payload?: PersistenceFormPayload) => {
+        console.log('persistence closed', payload);
+      });
   }
 
   panelPanes(index: number): FormArray {

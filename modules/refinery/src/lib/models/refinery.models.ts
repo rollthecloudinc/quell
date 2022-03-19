@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { Plugin } from '@ng-druid/plugin';
+import { AttributeValue } from '@ng-druid/attributes';
 import { Observable } from 'rxjs';
 
 export class DataductPlugin<T = string> extends Plugin<T>  {
@@ -34,15 +35,20 @@ export class PersistenceFormPayload {
   dataduct: PersistenceFormDataduct;
   constructor(data?: PersistenceFormPayload) {
     if (data) {
-      this.dataduct = new PersistenceFormDataduct(this.dataduct);
+      this.dataduct = new PersistenceFormDataduct(data.dataduct);
     }
   }
 }
 
 export class PersistenceFormDataduct {
+  plugin: string;
+  settings: Array<AttributeValue> = [];
   constructor(data?: PersistenceFormDataduct) {
     if (data) {
-
+      this.plugin = data.plugin;
+      if (data.settings && Array.isArray(data.settings)) {
+        this.settings = data.settings.map(s => new AttributeValue(s));
+      }
     }
   }
 }
