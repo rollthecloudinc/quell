@@ -14,6 +14,7 @@ ng run durl:build:production
 ng run datasource:build:production
 ng run context:build:production
 ng run rules:build:production
+ng run refinery:build:production
 ng run crud:build:production
 ng run tractorbeam:build:production
 ng run alienalias:build:production
