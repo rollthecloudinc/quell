@@ -1,0 +1,12 @@
+<div [formGroup]="ductForm">
+
+  <mat-form-field>
+    <mat-label>Plugin</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let duct of ((ducts$ | async) | keyvalue) let i = index" [value]="duct.value.id">{{ duct.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <ng-container><ng-template classifiedsUiDataductRendererHost></ng-template></ng-container>
+
+</div>

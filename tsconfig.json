@@ -240,6 +240,14 @@
         // "modules/barrel",
         "dist/barrel/barrel",
         "dist/barrel"
+      ],
+      "@ng-druid/refinery": [
+        "dist/refinery/refinery",
+        "dist/refinery"
+      ],
+      "refinery": [
+        "dist/refinery/refinery",
+        "dist/refinery"
       ]
     }
   },

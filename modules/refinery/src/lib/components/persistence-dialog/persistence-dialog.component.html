@@ -1,0 +1,12 @@
+<form class="persistence-form" [formGroup]="persistenceForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+      <div fxLayout="column">
+        <classifieds-ui-persistence-form formControlName="dataduct"></classifieds-ui-persistence-form>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!persistenceForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

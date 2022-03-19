@@ -1,7 +1,7 @@
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 // import { ParamContextExtractorService } from '@ng-druid/context';
 import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
-import { forkJoin, of } from "rxjs";
+import { forkJoin, Observable, of } from "rxjs";
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 import { ParamContextExtractorService } from '@ng-druid/context';
 import { CrudAdaptorPluginManager } from "./services/crud-adaptor-plugin-manager.service";
@@ -10,6 +10,7 @@ import { CrudAdaptorDatasource } from "./models/crud.models";
 import { UrlGeneratorService } from '@ng-druid/durl';
 import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { CrudDataHelperService } from "./services/crud-data-helper.service";
+import { DataductPlugin, DuctdataInput, DuctdataOutput } from '@ng-druid/refinery';
 
 export const crudAdaptorDatasourcePluginFactory = (
   paramContextExtractor: ParamContextExtractorService,
@@ -50,3 +51,10 @@ export const crudAdaptorDatasourcePluginFactory = (
     )*/
   });
 };
+
+export const crudDataductPluginFactory = () => new DataductPlugin({
+  id: 'crud',
+  title: 'Crud',
+  editor: CrudAdaptorDatasourceComponent,
+  send: (input: DuctdataInput): Observable<DuctdataOutput> => of(new DuctdataOutput({}))
+});

@@ -10,6 +10,7 @@
       <button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Props</button>
       <button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button>
       <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button>
+      <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button>
       <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onDeleteClick()">Delete</button>
     </mat-menu>
 

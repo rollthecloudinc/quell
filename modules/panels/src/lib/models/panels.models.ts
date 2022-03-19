@@ -39,6 +39,7 @@ export interface PanelsEditor {
   onRowSettingsChange(evt: Array<LayoutSetting>): void
   onColumnSettingsChange(evt: Array<LayoutSetting>): void;
   submit(): void;
+  onPersistenceClick(): void;
 
 }
 

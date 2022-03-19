@@ -7,7 +7,8 @@ import { MaterialModule } from '@ng-druid/material';
 import { ContextModule, ParamContextExtractorService } from '@ng-druid/context';
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { DatasourcePluginManager } from '@ng-druid/datasource';
-import { entityDatasourcePluginFactory } from './deity.factories';
+import { DataductPluginManager } from '@ng-druid/refinery';
+import { entityDatasourcePluginFactory, entityDataductPluginFactory } from './deity.factories';
 import { DparamModule } from '@ng-druid/dparam';
 import { UrlGeneratorService } from '@ng-druid/durl';
 import { EntityServices } from '@ngrx/data';
@@ -33,11 +34,13 @@ import { EntityServices } from '@ngrx/data';
 export class DeityModule { 
   constructor(
     dpm: DatasourcePluginManager,
+    ddpm: DataductPluginManager,
     paramContextExtractor: ParamContextExtractorService,
     attributeSerializer: AttributeSerializerService,
     urlGenerator: UrlGeneratorService,
     es: EntityServices,
   ) {
     dpm.register(entityDatasourcePluginFactory(paramContextExtractor, attributeSerializer, urlGenerator, es));
+    ddpm.register(entityDataductPluginFactory());
   }
 }

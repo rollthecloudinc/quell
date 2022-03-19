@@ -1,7 +1,8 @@
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 // import { ParamContextExtractorService } from '@ng-druid/context';
 import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
-import { of } from "rxjs";
+import { DataductPlugin, DuctdataOutput, DuctdataInput } from '@ng-druid/refinery';
+import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { EntityDatasource } from "./models/deity.models";
 import { EntityDatasourceComponent } from "./components/entity-datasource/entity-datasource.component";
@@ -39,3 +40,10 @@ export const entityDatasourcePluginFactory = (
     )
   });
 };
+
+export const entityDataductPluginFactory = () => new DataductPlugin({
+  id: 'entity',
+  title: 'Entity',
+  editor: EntityDatasourceComponent,
+  send: (input: DuctdataInput): Observable<DuctdataOutput> => of(new DuctdataOutput({}))
+});
