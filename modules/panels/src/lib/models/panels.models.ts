@@ -3,6 +3,7 @@ import { FormArray } from "@angular/forms"
 import { AttributeValue } from '@ng-druid/attributes'
 import { RuleSet } from 'angular2-query-builder';
 import { InlineContext } from '@ng-druid/context';
+import { PersistenceFormPayload } from "@ng-druid/refinery";
 
 // Editor behaviors
 export interface PanelsEditor {
@@ -70,6 +71,7 @@ export class PanelPage {
   rowSettings: Array<LayoutSetting> = [];
   entityPermissions?: PanelPagePermissions = new PanelPagePermissions();
   cssFile?: string;
+  persistence?: PersistenceFormPayload;
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -80,6 +82,7 @@ export class PanelPage {
       this.site = data.site ? data.site : undefined;
       this.userId = data.userId ? data.userId : undefined;
       this.path = data.path ? data.path : undefined;
+      this.persistence = data.persistence ? new PersistenceFormPayload(data.persistence) : undefined;
       if(data.panels) {
         this.panels = data.panels.map(p => new Panel(p));
       }

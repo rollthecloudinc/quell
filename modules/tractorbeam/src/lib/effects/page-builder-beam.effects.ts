@@ -14,17 +14,19 @@ export class PageBuilderBeamEffects {
       ofType(setPage),
       tap(({ page }) => {
         console.log('tractor beam capture page', page);
-        page.contexts.forEach(c => {
-          if (c.plugin === 'module') {
-            return this.moduleLoaderService.loadModule(
-              () => loadRemoteModule({
-                type: 'module',
-                remoteEntry: c.data.remoteEntry,
-                exposedModule: c.data.exposedModule
-              }).then(m => m[c.data.moduleName])
-            ).subscribe();
-          }
-        });
+        if (page.contexts && Array.isArray(page.contexts)) {
+          page.contexts.forEach(c => {
+            if (c.plugin === 'module') {
+              return this.moduleLoaderService.loadModule(
+                () => loadRemoteModule({
+                  type: 'module',
+                  remoteEntry: c.data.remoteEntry,
+                  exposedModule: c.data.exposedModule
+                }).then(m => m[c.data.moduleName])
+              ).subscribe();
+            }
+          });
+        }
       })
     ),
     { dispatch: false }
@@ -38,17 +40,19 @@ export class PageBuilderBeamEffects {
       }),
       switchMap(({ info }) => this.es.getEntityCollectionService('PanelPage').getByKey(info.id)),
       tap(pp => {
-        pp.contexts.forEach(c => {
-          if (c.plugin === 'module') {
-            return this.moduleLoaderService.loadModule(
-              () => loadRemoteModule({
-                type: 'module',
-                remoteEntry: c.data.remoteEntry,
-                exposedModule: c.data.exposedModule
-              }).then(m => m[c.data.moduleName])
-            ).subscribe();
-          }
-        });
+        if (pp.contexts && Array.isArray(pp.contexts)) {
+          pp.contexts.forEach(c => {
+            if (c.plugin === 'module') {
+              return this.moduleLoaderService.loadModule(
+                () => loadRemoteModule({
+                  type: 'module',
+                  remoteEntry: c.data.remoteEntry,
+                  exposedModule: c.data.exposedModule
+                }).then(m => m[c.data.moduleName])
+              ).subscribe();
+            }
+          });
+        }
       })
     ),
     { dispatch: false }

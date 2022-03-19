@@ -345,6 +345,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   dashboard = [];
 
   pageProperties = new PropertiesFormPayload();
+  persistence = new PersistenceFormPayload();
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
@@ -928,6 +929,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       panels: this.panels.value,
       layoutSetting: new LayoutSetting(this.layoutSetting),
       rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs)),
+      persistence: this.persistence,
       entityPermissions: {
         readUserIds: this.pageProperties.readUserIds,
         writeUserIds: [],
@@ -987,10 +989,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   onPersistenceClick() {
-    this.dialog.open(PersistenceDialogComponent, { data: { } })
+    this.dialog.open(PersistenceDialogComponent, { data: { persistence: this.persistence } })
       .afterClosed()
       .subscribe((payload?: PersistenceFormPayload) => {
         console.log('persistence closed', payload);
+        this.persistence = payload ? payload : this.persistence;
       });
   }
 
