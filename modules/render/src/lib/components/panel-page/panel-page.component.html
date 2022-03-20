@@ -1,68 +1,9 @@
-<!-- <ng-container [ngSwitch]="panelPage?.layoutType"> -->
-  <!-- breaks dependency on render-panel necessary to avoid cyclic reference from render module -->
-  <!-- <ng-container *ngSwitchCase="'grid'">
-    <ng-container [ngSwitch]="panelPage?.displayType">
-      <ng-container *ngSwitchCase="'form'">
-        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
-          <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
-            <ng-template #innerGridItem let-i="i">
-              <classifieds-ui-render-panel [formControl]="panelsArray.controls[i]" (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [contextsChanged]="contextsChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [ancestory]="ancestory"></classifieds-ui-render-panel>
-            </ng-template>
-          </classifieds-ui-grid-layout>
-          <button type="submit">Submit</button>
-        </form>
-      </ng-container>
-      <ng-container *ngSwitchCase="'page'">
-        <classifieds-ui-grid-layout [dashboard]="panelPage?.gridItems" [displayMainControls]="false" [displayItemHeader]="false" [options]="options">
-          <ng-template #innerGridItem let-i="i">
-            <classifieds-ui-render-panel fxFlex (heightChange)="onHeightChange($event, i)" [panel]="panelPage.panels[i]" [nested]="nested" [contexts]="contexts" [resolvedContext]="resolvedContext" [contextChanged]="contextChanged" [contextsChanged]="contextsChanged" [displayType]="panelPage.displayType" [indexPosition]="i" [ancestory]="ancestory"></classifieds-ui-render-panel>
-          </ng-template>
-        </classifieds-ui-grid-layout>
-      </ng-container>
-    </ng-container>
-  </ng-container> -->
-  <!-- <ng-container *ngSwitchCase="'gridless'">
-    <ng-container [ngSwitch]="panelPage?.displayType">
-      <ng-container *ngSwitchCase="'form'">
-        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
-          <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-          <button type="submit">Submit</button>
-        </form>
-        <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
-          <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="'page'">
-        <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-  <ng-container *ngSwitchCase="'split'">
-    <ng-container [ngSwitch]="panelPage?.displayType">
-      <ng-container *ngSwitchCase="'form'">
-        <form *ngIf="!nested" [formGroup]="pageForm" (ngSubmit)="submit()">
-          <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-          <button type="submit">Submit</button>
-        </form>
-        <div class="nested-form-wrapper" *ngIf="nested" [formGroup]="pageForm">
-          <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-        </div>
-      </ng-container>
-      <ng-container *ngSwitchCase="'page'">
-        <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
-      </ng-container>
-    </ng-container>
-  </ng-container>
-</ng-container> -->
 
-<!-- kiss for now -->
-<!-- <button (click)="submit()" type="submit">Submit</button> -->
-
-<!-- form group support needed but for now lets experiment. -->
 <div [formGroup]="pageForm">
   <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>
 </div>
-<!-- <button type="button" (click)="submit()">Submit</button> -->
+
+<button *ngIf="persistenceEnabled" type="button" (click)="submit()">Submit</button>
 
 <ng-template #renderPanelTpl let-i="i">
   <ng-container [formGroup]="pageForm">

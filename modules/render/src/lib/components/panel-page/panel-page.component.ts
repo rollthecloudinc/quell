@@ -83,6 +83,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   contextsChanged: Array<string> = [];
   layoutRendererRef: ComponentRef<any>;
   panelPageCached: PanelPage;
+  persistenceEnabled = false;
 
   readonly onInit$ = new Subject();
   readonly afterViewInit$ = new Subject();
@@ -186,6 +187,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       this.hookupFormChange({ panelPage });
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;
+      this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
       this.renderLayout$.next(panelPage);
       // this.panelPage$.next(panelPage);
       this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
