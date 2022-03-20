@@ -2,6 +2,7 @@ import { Component, Inject } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AttributeSerializerService } from "@ng-druid/attributes";
+import { InlineContext } from '@ng-druid/context';
 import { PersistenceFormPayload } from "../../models/refinery.models";
 
 @Component({
@@ -15,12 +16,18 @@ export class PersistenceDialogComponent {
     dataduct: this.fb.control('')
   });
 
+  contexts: Array<InlineContext> = [];
+  persistence = new PersistenceFormPayload();
+
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { payload: PersistenceFormPayload },
+    @Inject(MAT_DIALOG_DATA) private data: { persistence: PersistenceFormPayload, contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<PersistenceDialogComponent>,
     private fb: FormBuilder,
     private attributeSerializer: AttributeSerializerService
-  ) { }
+  ) { 
+    this.contexts = data.contexts;
+    this.persistence = data.persistence;
+  }
 
 
   submit() {

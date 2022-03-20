@@ -4,7 +4,7 @@ import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALID
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { Datasource, DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
 import { ContentBinding } from '@ng-druid/content';
 import { AttributeValue } from '@ng-druid/attributes';
 
@@ -64,7 +64,7 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
     this.formGroup.get('plugin').valueChanges,
     this.afterViewInit$
   ]).pipe(
-    switchMap(([p, _]) => p && p !== '' ? this.dpm.getPlugin(p) : undefined)
+    switchMap(([p, _]) => p && p !== '' ? this.dpm.getPlugin(p) : of(undefined))
   ).subscribe(p => {
     if (p) {
       this.renderPlugin(p);
