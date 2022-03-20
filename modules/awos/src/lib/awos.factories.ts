@@ -17,9 +17,9 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
   return new CrudAdaptorPlugin<string>({
     id: 'aws_opensearch_template',
     title: 'AWS Opensearch Template',
-    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }),
+    create: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    update: ({ object, identity, params }: CrudOperationInput) => of({ success: false }),
+    update: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
     query: ({ rule, params }: CrudCollectionOperationInput) => of({ entities: [], success: false }).pipe(
       switchMap( () => params && Object.keys(params).length !== 0 ? forkJoin(Object.keys(params).map(name => paramsEvaluatorService.paramValue(params[name], new Map<string, any>()).pipe(map(v => ({ [name]: v }))))).pipe(
@@ -61,9 +61,9 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
   return new CrudAdaptorPlugin<string>({
     id: 'aws_opensearch_entity',
     title: 'AWS Opensearch Entity',
-    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
+    create: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }).pipe(
       paramsEvaluatorService.resolveParams({ params }),
-      switchMap(({ options }) => identity({ object }).pipe(
+      switchMap(({ options }) => identity({ object, parentObject }).pipe(
         map(({ identity }) => ({ identity, options })),
       )),
       switchMap(({ options, identity }) => createSignedHttpRequest({
@@ -92,9 +92,9 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
       map(() => ({ success: true }))
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    update: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
+    update: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }).pipe(
       paramsEvaluatorService.resolveParams({ params }),
-      switchMap(({ options }) => identity({ object }).pipe(
+      switchMap(({ options }) => identity({ object, parentObject }).pipe(
         map(({ identity }) => ({ identity, options })),
       )),
       switchMap(({ options, identity }) => createSignedHttpRequest({

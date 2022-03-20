@@ -20,9 +20,9 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
   return new CrudAdaptorPlugin<string>({
     id: 'aws_s3_entity',
     title: 'AWS S3 Entity',
-    create: ({ object, identity, params }: CrudOperationInput) => of({ success: false }).pipe(
+    create: ({ object, identity, params, parentObject }: CrudOperationInput) => of({ success: false }).pipe(
       paramsEvaluatorService.resolveParams({ params }),
-      switchMap(({ options }) => identity({ object }).pipe(
+      switchMap(({ options }) => identity({ object, parentObject }).pipe(
         map(({ identity }) => ({ identity, options })),
       )),
       switchMap(({ options, identity }) => createS3SignedHttpRequest({
