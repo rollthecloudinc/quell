@@ -21,6 +21,7 @@ import { PaneContentHostDirective } from '../../directives/pane-content-host.dir
 import { CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
+import { PersistService } from '@ng-druid/refinery';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -295,6 +296,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private crudDataHelperService: CrudDataHelperService,
     protected entityDefinitionService: EntityDefinitionService,
     private ngZone: NgZone,
+    private persistService: PersistService,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
@@ -343,11 +345,17 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   submit() {
     const panelPageForm = new PanelPageForm({ ...this.pageForm.value, id: uuid.v4() });
+    const data = this.formService.serializeForm(panelPageForm);
     console.log(panelPageForm);
     console.log(this.formService.serializeForm(panelPageForm));
-    this.panelPageFormService.add(panelPageForm).subscribe(() => {
+    /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
       alert('panel page form added!');
-    });
+    });*/
+
+    this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
+      console.log('persisted data');
+    });;
+
     // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
     // Experimental only - state forms
     /*const selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;

@@ -16,9 +16,14 @@ export class DataductPlugin<T = string> extends Plugin<T>  {
 }
 
 export class DuctdataInput {
+  data: any;
+  settings: Array<AttributeValue> = [];
   constructor(data?: DuctdataInput) {
     if (data) {
-
+      this.data = data.data;
+      if (data.settings && Array.isArray(data.settings)) {
+        this.settings = data.settings.map(s => new AttributeValue(s));
+      }
     }
   }
 }

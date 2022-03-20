@@ -22,7 +22,7 @@ export class CrudDataHelperService {
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
       a => this.crud.getPlugin(a).pipe(
-        map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
+        map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: plugins[a].params[name] instanceof Param ? plugins[a].params[name] : new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => p[op]({ rule: undefined, object, parentObject, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
         switchMap<CrudOperationResponse, Observable<CrudOperationResponse>>(res => iif<CrudOperationResponse, CrudOperationResponse>(
           () => plugins[a].plugins && Object.keys(plugins[a].plugins).length !== 0,
@@ -41,7 +41,7 @@ export class CrudDataHelperService {
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
       a => this.crud.getPlugin(a).pipe(
-        map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
+        map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: plugins[a].params[name] instanceof Param ? plugins[a].params[name] : new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => this.buildQueryRule({ params: query, config: plugins[a] }).pipe(
           map(({ rule }) => ({ p, params, rule }))
         )),

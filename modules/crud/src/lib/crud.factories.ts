@@ -5,12 +5,13 @@ import { forkJoin, Observable, of } from "rxjs";
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
 import { ParamContextExtractorService } from '@ng-druid/context';
 import { CrudAdaptorPluginManager } from "./services/crud-adaptor-plugin-manager.service";
-import { map, switchMap, take } from "rxjs/operators";
+import { map, switchMap, take, tap } from "rxjs/operators";
 import { CrudAdaptorDatasource } from "./models/crud.models";
 import { UrlGeneratorService } from '@ng-druid/durl';
 import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
 import { CrudDataHelperService } from "./services/crud-data-helper.service";
 import { DataductPlugin, DuctdataInput, DuctdataOutput } from '@ng-druid/refinery';
+import { CrudEntityConfiguration } from './models/entity-metadata.models';
 
 export const crudAdaptorDatasourcePluginFactory = (
   paramContextExtractor: ParamContextExtractorService,
@@ -52,9 +53,15 @@ export const crudAdaptorDatasourcePluginFactory = (
   });
 };
 
-export const crudDataductPluginFactory = () => new DataductPlugin({
+export const crudDataductPluginFactory = ({ crudDataHelper, attributeSerializer }: { crudDataHelper: CrudDataHelperService, attributeSerializer: AttributeSerializerService }) => new DataductPlugin({
   id: 'crud',
   title: 'Crud',
   editor: CrudAdaptorDatasourceComponent,
-  send: (input: DuctdataInput): Observable<DuctdataOutput> => of(new DuctdataOutput({}))
+  send: (input: DuctdataInput): Observable<DuctdataOutput> => of(new DuctdataOutput({})).pipe(
+    map(() => ({ settings: attributeSerializer.deserializeAsObject(input.settings) })),
+    tap(({ settings }) => console.log('crud data duct', settings)),
+    map(({ settings }) => ({ plugins: { [`${settings.adaptorName}`]: { plugin: `${settings.adaptorName}`, ops: [ 'create'], params: `${settings.optionsString}`.split('&').reduce((p, c, i) => ({ ...p, [c.split('=', 1)[0]]: new Param(settings.options[i]) }), {}) } } as CrudEntityConfiguration })),
+    switchMap(({ plugins }) => crudDataHelper.evaluatePlugins({ object: input.data, plugins, op: 'create', parentObject: undefined })),
+    map(() => new DuctdataOutput({}))
+  )
 });

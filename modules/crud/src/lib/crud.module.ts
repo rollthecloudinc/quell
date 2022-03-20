@@ -44,6 +44,6 @@ export class CrudModule {
     urlGenerator: UrlGeneratorService
   ) {
     dpm.register(crudAdaptorDatasourcePluginFactory(paramContextExtractor, attributeSerializer, cpm, paramEvaluatorService, crudDataHelper, urlGenerator));
-    ddpm.register(crudDataductPluginFactory());
+    ddpm.register(crudDataductPluginFactory({ crudDataHelper, attributeSerializer }));
   }
 }
