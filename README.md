@@ -139,7 +139,7 @@ ds3[druid app]-->va1
 
 # Modules
 
-Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
+Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for 0 server, 0 trust, and 0 cost cloud hosting.
 
 ## Security
 
