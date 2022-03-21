@@ -105,6 +105,25 @@ flowchart TD
 
 Druid takes static websites to the next level by providing complete, pre-rendered html pages that include JavaScript. This allows pages to easily indexed for SEO without sacrificing usability. Once the page is rendered for the a user the browser takes over and provides a seamless, modern fluent experience without reloading pages using Angular framework.
 
+# Architecture
+
+## Micros and Extensions
+
+In druid individual apps are small micro-frontend but share libraries and extensions. Extensions are independent Angular micro-fronends with exposed modules pulled into the main app that extend capabilities via plugins. Plugins which are added via an extension become immediately available in the main app known as the shell.
+
+```mermaid
+flowchart LR
+druid[druid]-->app1[app1];
+druid-->app2[app2];
+druid-->app3[app3];
+app1-->ext1[extension 1]
+app2-->ext1
+app3-->ext2[extension 2]
+ext1-->p1[plugin]
+ext1-->p2[plugin]
+ext2-->p3[plugin]
+```
+
 # Modules
 
 Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
