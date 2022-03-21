@@ -250,6 +250,7 @@ Realize killer breathtaking experiences.
 * pages
 * pagealias
 * layout
+* sheath
 
 Articles:
 * [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
