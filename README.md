@@ -38,16 +38,16 @@ Low energy consumption fit for preservation of the environment.
 
 ## HTML Site
 
-The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
+The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a very stable or reliable option for heavily using in the browser.
 
 ```mermaid
 flowchart TD
  site[browser] --> server[server];
 ```
 
-## Monlithic CMS
+## Monolithic CMS
 
-So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS erra of Wordpress, Drupa, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
 
 ```mermaid
 flowchart TD
@@ -105,9 +105,41 @@ flowchart TD
 
 Druid takes static websites to the next level by providing complete, pre-rendered html pages that include JavaScript. This allows pages to easily indexed for SEO without sacrificing usability. Once the page is rendered for the a user the browser takes over and provides a seamless, modern fluent experience without reloading pages using Angular framework.
 
+# Enterprise Architecture
+
+## Extensions
+
+In druid individual apps are micro-frontends but share libraries and extensions. Extensions are another category of micro-fronends without components. Instead extensions expose modules that are pulled into the main app extending its capabilities via plugins. This methodology allows the main app to be extended without touching the main app code. Furthermore, it enables the next level of reusability to not only packages but complete feature driven extensions that can be loaded at runtime into an app when needed. This is achieved through a recent advancement in the technology space known as module federation. Module federation drives the ability to orchestrate micro-frontends efficently pulling them into a main shell app.
+
+```mermaid
+flowchart LR
+druid[druid]-->app1[app1];
+druid-->app2[app2];
+druid-->app3[app3];
+app1-->ext1[extension 1]
+app2-->ext1
+app3-->ext2[extension 2]
+ext1-->p1[plugin]
+ext1-->p2[plugin]
+ext2-->p3[plugin]
+```
+
+## Framework Agnostic
+
+Druid is not limited to using Angular modules. In druid any JavaScript app that suppots module federation can be pulled into the main shell app. Druid can host React, Vue, Svelte, etc. apps when module federation is supported. Furthermore, druid apps can be nested inside one other using module federation.
+
+```mermaid
+flowchart LR
+ds1[druid app]-->rm1[react app]
+ds2[druid app]-->rm1
+ds2-->rm2[react app]
+ds2-->va1[vue app]
+ds3[druid app]-->va1
+```
+
 # Modules
 
-Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for zero-trust no / low cost cloud hosting.
+Druid modules enable devs, builders and editors to quickly realize usable, modern web experiences optimised for 0 server, 0 trust, and 0 cost cloud hosting.
 
 ## Security
 
@@ -218,6 +250,7 @@ Realize killer breathtaking experiences.
 * pages
 * pagealias
 * layout
+* sheath
 
 Articles:
 * [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
