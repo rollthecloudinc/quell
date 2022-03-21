@@ -105,7 +105,7 @@ flowchart TD
 
 Druid takes static websites to the next level by providing complete, pre-rendered html pages that include JavaScript. This allows pages to easily indexed for SEO without sacrificing usability. Once the page is rendered for the a user the browser takes over and provides a seamless, modern fluent experience without reloading pages using Angular framework.
 
-# Architecture
+# Enterprise Architecture
 
 ## Extensions
 
