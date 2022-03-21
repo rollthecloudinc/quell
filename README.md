@@ -109,7 +109,7 @@ Druid takes static websites to the next level by providing complete, pre-rendere
 
 ## Extensions
 
-In druid individual apps are micro-frontends but share libraries and extensions. Extensions are another category of micro-fronends without components. Instead extensions expose moduiles that are pulled into the main app extending its capabilities via plugins. This methodology allows the main app to be extended without touching the main app code. Furthermore, it enables the next level of reusability to not only packages but complete feature driven extensions that can be loaded at runtime into an app when needed. This is achieved through a recent advancement in the technology space known as module federation. Module federation drives the ability to orchestrate micro-frontends efficently pulling them into a main shell app.
+In druid individual apps are micro-frontends but share libraries and extensions. Extensions are another category of micro-fronends without components. Instead extensions expose modules that are pulled into the main app extending its capabilities via plugins. This methodology allows the main app to be extended without touching the main app code. Furthermore, it enables the next level of reusability to not only packages but complete feature driven extensions that can be loaded at runtime into an app when needed. This is achieved through a recent advancement in the technology space known as module federation. Module federation drives the ability to orchestrate micro-frontends efficently pulling them into a main shell app.
 
 ```mermaid
 flowchart LR
