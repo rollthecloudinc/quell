@@ -38,16 +38,16 @@ Low energy consumption fit for preservation of the environment.
 
 ## HTML Site
 
-The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a vert stable or reliable option for heavily using in the browser.
+The infancy of the web used static HTML served to users via a remote server. The model was fairly simple and straight forward. However, this model did not lend itself to supporting dynamic web experiences. Furhermore, JavaScript was not a very stable or reliable option for heavily using in the browser.
 
 ```mermaid
 flowchart TD
  site[browser] --> server[server];
 ```
 
-## Monlithic CMS
+## Monolithic CMS
 
-So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS erra of Wordpress, Drupa, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
 
 ```mermaid
 flowchart TD
