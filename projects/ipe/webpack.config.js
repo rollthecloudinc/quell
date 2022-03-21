@@ -28,29 +28,18 @@ module.exports = {
     new ModuleFederationPlugin({
         library: { type: "module" },
 
-        // For remotes (please adjust)
-        // name: "ipe",
-        // filename: "remoteEntry.js",
-        // exposes: {
-        //     './Component': './projects/ipe/src/app/app.component.ts',
-        // },        
-        
-        // For hosts (please adjust)
-        /*remotes: {
-          "fedMicroNg": "http://localhost:3000/remoteEntry.js"
-        },*/
-
         shared: share({
           "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/common": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
-          /*"@ng-druid/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
-          "@ng-druid/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
-          "@ng-druid/plugin": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
-          "@ng-druid/material": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },
-          "@ng-druid/content": { singleton: true, strictVersion: true, requiredVersion: '0.0.11' },*/
+          // Uncommenting this results in compilation errors for building project ipe
+          /*"@ng-druid/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@ng-druid/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@ng-druid/plugin": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@ng-druid/material": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@ng-druid/content": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },*/
 
           ...sharedMappings.getDescriptors()
         })
