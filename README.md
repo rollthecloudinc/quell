@@ -107,9 +107,9 @@ Druid takes static websites to the next level by providing complete, pre-rendere
 
 # Architecture
 
-## Micros and Extensions
+## Extensions
 
-In druid individual apps are small micro-frontend but share libraries and extensions. Extensions are independent Angular micro-fronends with exposed modules pulled into the main app that extend capabilities via plugins. Plugins which are added via an extension become immediately available in the main app known as the shell.
+In druid individual apps are micro-frontends but share libraries and extensions. Extensions are another category of micro-fronends without components. Instead extensions expose moduiles that are pulled into the main app extending its capabilities via plugins. This methodology allows the main app to be extended without touching the main app code. Furthermore, it enables the next level of reusability to not only packages but complete feature driven extensions that can be loaded at runtime into an app when needed.
 
 ```mermaid
 flowchart LR
