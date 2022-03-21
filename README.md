@@ -135,7 +135,6 @@ ds2[druid app]-->rm1
 ds2-->rm2[react app]
 ds2-->va1[vue app]
 ds3[druid app]-->va1
-ds3-->ds2
 ```
 
 # Modules
