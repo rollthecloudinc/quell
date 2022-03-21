@@ -1,4 +1,5 @@
 npm publish dist/utils
+npm publish dist/sheath
 npm publish dist/auth
 npm publish dist/oidc
 npm publish dist/plugin

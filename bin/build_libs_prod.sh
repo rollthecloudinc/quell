@@ -1,4 +1,5 @@
 ng run utils:build:production
+ng run sheath:build:production
 ng run auth:build:production
 ng run oidc:build:production
 ng run plugin:build:production

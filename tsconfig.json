@@ -248,6 +248,14 @@
       "refinery": [
         "dist/refinery/refinery",
         "dist/refinery"
+      ],
+      "@ng-druid/sheath": [
+        "dist/sheath/sheath",
+        "dist/sheath"
+      ],
+      "sheath": [
+        "dist/sheath/sheath",
+        "dist/sheath"
       ]
     }
   },

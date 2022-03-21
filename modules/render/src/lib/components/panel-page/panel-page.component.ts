@@ -22,6 +22,7 @@ import { CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
+import { StylizerService } from '@ng-druid/sheath';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -267,6 +268,16 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     tap(() => console.log('end render layout'))
   ).subscribe();
 
+  readonly stylizerSub = this.afterViewInit$.pipe(
+    tap(() => {
+      // @todo: For some reason domElementPath() can't be found...
+      /*this.stylizerService.stylize({ targetNode: this.el.nativeElement, save: ({ mergedCssAsJson }: { mergedCssAsJson: JSONNode }) => {
+        console.log('save css', mergedCssAsJson);
+        return of(undefined);
+      } });*/
+    })
+  ).subscribe();
+
   get panelsArray(): FormArray {
     return this.pageForm.get('panels') as FormArray;
   }
@@ -297,6 +308,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     protected entityDefinitionService: EntityDefinitionService,
     private ngZone: NgZone,
     private persistService: PersistService,
+    private stylizerService: StylizerService,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
