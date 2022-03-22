@@ -1,6 +1,6 @@
-Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
-
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tree_bottom_up.png)
+
+Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
 
 ## Dependable
 
