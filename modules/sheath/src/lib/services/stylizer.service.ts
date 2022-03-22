@@ -16,7 +16,7 @@ export class StylizerService {
       records.forEach(r => {
         if (r.type === 'attributes' && r.attributeName === 'style' && r.target) {
   
-          const path = domElementPath(r.target);
+          const path = domElementPath.default(r.target);
   
           const oldCssAsJson = toJSON(`${path} { ${r.oldValue} }`);
           console.log('oldCssAsJson', oldCssAsJson);

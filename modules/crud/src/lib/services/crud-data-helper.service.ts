@@ -1,17 +1,21 @@
 import { Injectable } from "@angular/core";
 import { QueryParams } from "@ngrx/data";
-import { forkJoin, iif, Observable, of } from "rxjs";
+import { forkJoin, iif, Observable, of, ReplaySubject, Subject } from "rxjs";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
-import { defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
+import { defaultIfEmpty, map, switchMap, take, tap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
-import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
+import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse, CrudAdaptorPlugin, CrudCollectionOperationInput } from '../models/crud.models';
 import { Param } from '@ng-druid/dparam';
 import { NestedCondition, Rule } from "json-rules-engine";
+import { getDiff } from 'recursive-diff';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CrudDataHelperService {
+
+  private cachedCollectionQueries: Array<{ p: CrudAdaptorPlugin<string>, input: CrudCollectionOperationInput, query$: ReplaySubject<CrudCollectionOperationResponse> }> = [];
+  private readonly cachedCollectionIgnore = { p: { create: undefined, update: undefined, delete: undefined, query: undefined, read: undefined }, input: { identity: undefined } };
 
   constructor(
     protected crud: CrudAdaptorPluginManager
@@ -46,7 +50,8 @@ export class CrudDataHelperService {
           map(({ rule }) => ({ p, params, rule }))
         )),
         // tap(({ params, rule }) => console.log('right before collection plugin query', params, rule)),
-        switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) }).pipe(
+        // switchMap(({ p, params, rule }) => p.query({ rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) }).pipe(
+          switchMap(({ p, params, rule }) => this.flightAndCacheAwareCollectionQuery<T>({ p, input: { rule, objects, parentObjects, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) } }).pipe(
           tap(() => console.log('end of crud query call'))
         )),
         // tap(res => console.log('right before nested collection plugins', res)),
@@ -81,6 +86,28 @@ export class CrudDataHelperService {
       obs.next({ rule });
       obs.complete();
     });
+  }
+
+  flightAndCacheAwareCollectionQuery<T>(q: { p: CrudAdaptorPlugin<string>, input: CrudCollectionOperationInput }): Observable<CrudCollectionOperationResponse> {
+    // console.log('flightAndCacheAwareCollectionQuery', q.p, q.input);
+    let matchedIndex = this.cachedCollectionQueries.findIndex(({ p, input }) => {
+      const pDiff = getDiff({ ...q.p, ...this.cachedCollectionIgnore.p }, { ...p, ...this.cachedCollectionIgnore.p });
+      const iDiff = getDiff({ ...q.input, ...this.cachedCollectionIgnore.input }, { ...input, ...this.cachedCollectionIgnore.input });
+      // console.log('pDiff', pDiff);
+      // console.log('iDiff', iDiff);
+      return pDiff.length === 0 && iDiff.length === 0;
+    });
+    if (matchedIndex === -1) {
+      this.cachedCollectionQueries.push({ p: q.p, input: q.input, query$: new ReplaySubject<CrudCollectionOperationResponse>() });
+      matchedIndex = this.cachedCollectionQueries.length - 1;
+      q.p.query(q.input).pipe(
+        tap(res => this.cachedCollectionQueries[matchedIndex].query$.next(res)),
+        take(1)
+      ).subscribe();
+    }
+    return this.cachedCollectionQueries[matchedIndex].query$.pipe(
+      take(1)
+    );
   }
 
 }
