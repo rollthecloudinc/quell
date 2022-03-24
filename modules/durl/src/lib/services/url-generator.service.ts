@@ -47,14 +47,16 @@ export class UrlGeneratorService {
         }
         return forkJoin([
           forkJoin(path$).pipe(
-            map(p => p.join('/')),
+            map(p => p.filter(v => v !== undefined && v !== null && v !== '' && v !== 'undefined').join('/')),
             defaultIfEmpty(path)
           ),
           forkJoin(qs$).pipe(
             tap(q => console.log(q)),
             map(q => q.reduce((p, [n, v, m]) => {
-              if(v === undefined || v === null || v === '') {
-                return p;
+              if(v === undefined || v === null || v === '' || v === 'undefined') {
+                const p2 = { ...p };
+                delete p2[n];
+                return p2;
               } else {
                 return ( m ? { ...p, [n]: [ ...( p[n] !== undefined ? p[n] : [] ) , v ] } : { ...p, [n]: v } );
               }
@@ -90,7 +92,7 @@ export class UrlGeneratorService {
     for(const p in q) {
       if(Array.isArray(q[p])) {
         newQ[p] = [];
-      } else {
+      } else if (p[q] !== undefined && p[q] !== null && p[q] !== '' && p[q] !== 'undefined') {
         newQ[p] = p[q];
       }
     }

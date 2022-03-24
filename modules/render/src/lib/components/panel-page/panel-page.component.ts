@@ -271,10 +271,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   readonly stylizerSub = this.afterViewInit$.pipe(
     tap(() => {
       // @todo: For some reason domElementPath() can't be found...
-      /*this.stylizerService.stylize({ targetNode: this.el.nativeElement, save: ({ mergedCssAsJson }: { mergedCssAsJson: JSONNode }) => {
-        console.log('save css', mergedCssAsJson);
-        return of(undefined);
-      } });*/
+      this.stylizerService.stylize({ targetNode: this.el.nativeElement });
+    })
+  ).subscribe();
+
+  readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
+    tap(({ mergedCssAsJson }) => {
+      console.log('merged css', mergedCssAsJson);
     })
   ).subscribe();
 
