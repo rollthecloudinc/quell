@@ -86,6 +86,19 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
     },
     PanelPageState: {
       entityName: 'PanelPageState'
+    },
+    PanelPageStylesheet: {
+      entityName: 'PanelPageStylesheet',
+      crud: {
+        aws_s3_entity: {
+          ops: ['create', 'update'],
+          params: {
+            // bucket: 'classifieds-ui-dev',
+            bucket: panelsSettings.s3Bucket,
+            prefix: 'media/panelpage__'
+          }
+        }
+      }
     }
   }
 };

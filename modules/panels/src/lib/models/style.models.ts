@@ -3,6 +3,7 @@ import { Plugin } from '@ng-druid/plugin';
 import { Pane, Panel } from '../models/panels.models';
 import { Observable } from 'rxjs';
 import { AttributeValue } from '@ng-druid/attributes';
+import { JSONNode } from 'cssjson';
 
 export interface StyleHandler {
   alterResolvedPanes(
@@ -26,6 +27,17 @@ export class StylePlugin<T = string> extends Plugin<T> {
       if (data.handler) {
         this.handler = data.handler;
       }
+    }
+  }
+}
+
+export class PanelPageStylesheet {
+  id: string;
+  styles: JSONNode;
+  constructor(data?: PanelPageStylesheet) {
+    if (data) {
+      this.id = data.id;
+      this.styles = { ...data.styles };
     }
   }
 }

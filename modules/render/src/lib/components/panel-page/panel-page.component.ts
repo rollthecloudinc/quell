@@ -6,7 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@ng-druid/c
 import { GridLayoutComponent, LayoutPluginManager } from '@ng-druid/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@ng-druid/utils';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@ng-druid/context';
-import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@ng-druid/panels';
+import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService, PanelPageStylesheet } from '@ng-druid/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom } from 'rxjs/operators';
@@ -120,6 +120,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private panelPageService: EntityCollectionService<PanelPage>;
   private panelPageFormService: EntityCollectionService<PanelPageForm>;
   private panelPageStateService: EntityCollectionService<PanelPageState>;
+  private panelPageStylesheetService: EntityCollectionService<PanelPageStylesheet>;
 
   bridgeSub = this.pageForm.valueChanges.pipe(
     filter(() => this.nested$.value),
@@ -270,14 +271,18 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly stylizerSub = this.afterViewInit$.pipe(
     tap(() => {
-      // @todo: For some reason domElementPath() can't be found...
       this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
   ).subscribe();
 
   readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
+    debounceTime(2000),
     tap(({ mergedCssAsJson }) => {
       console.log('merged css', mergedCssAsJson);
+    }),
+    concatMap(({ mergedCssAsJson }) => this.panelPageStylesheetService.add(new PanelPageStylesheet({ id: this.panelPageCached.id, styles: mergedCssAsJson }))),
+    tap(() => {
+      console.log('stylesheet saved.');
     })
   ).subscribe();
 
@@ -317,6 +322,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     this.panelPageService = es.getEntityCollectionService('PanelPage');
     this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
     this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
+    this.panelPageStylesheetService = es.getEntityCollectionService('PanelPageStylesheet');
   }
 
   ngOnInit() {
