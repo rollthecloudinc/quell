@@ -12,6 +12,7 @@ import { FormToggleComponent } from "./components/form-toggle/form-toggle.compon
 import { FormCheckboxComponent } from "./components/form-checkbox/form-checkbox.component";
 import { FormDatepickerComponent } from "./components/form-datepicker/form-datepicker.component";
 import { FormAutocompleteComponent } from "./components/form-autocomplete/form-autocomplete.component";
+import { FormMediaComponent } from './components/form-media/form-media.component';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -108,6 +109,17 @@ export const formAutocompletePluginFactory = ({ handler }: { handler: FormElemen
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormAutocompleteComponent,
+    handler
+  })
+}
+
+export const formMediaPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_media',
+    title: 'Form Media',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormMediaComponent,
     handler
   })
 }

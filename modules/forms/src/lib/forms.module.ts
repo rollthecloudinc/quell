@@ -6,7 +6,7 @@ import { ContentPluginManager } from '@ng-druid/content';
 import { StylePluginManager } from '@ng-druid/panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
+import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formMediaPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from '@ng-druid/render';
@@ -19,6 +19,8 @@ import { FormToggleComponent } from './components/form-toggle/form-toggle.compon
 import { FormCheckboxComponent } from './components/form-checkbox/form-checkbox.component';
 import { FormDatepickerComponent } from './components/form-datepicker/form-datepicker.component';
 import { FormAutocompleteComponent } from './components/form-autocomplete/form-autocomplete.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { FormMediaComponent } from './components/form-media/form-media.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -31,7 +33,8 @@ import { FormAutocompleteComponent } from './components/form-autocomplete/form-a
     FormToggleComponent,
     FormCheckboxComponent,
     FormDatepickerComponent,
-    FormAutocompleteComponent
+    FormAutocompleteComponent,
+    FormMediaComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +42,8 @@ import { FormAutocompleteComponent } from './components/form-autocomplete/form-a
     ReactiveFormsModule,
     MaterialModule,
     RenderModule,
-    DatasourceModule
+    DatasourceModule,
+    NgxDropzoneModule
   ],
   exports: [
     FormInputComponent,
@@ -51,7 +55,8 @@ import { FormAutocompleteComponent } from './components/form-autocomplete/form-a
     FormToggleComponent,
     FormCheckboxComponent,
     FormDatepickerComponent,
-    FormAutocompleteComponent
+    FormAutocompleteComponent,
+    FormMediaComponent
   ]
 })
 export class FormsModule { 
@@ -69,7 +74,8 @@ export class FormsModule {
       formTogglePluginFactory({ handler }),
       formCheckboxPluginFactory({ handler }),
       formDatepickerPluginFactory({ handler }),
-      formAutocompletePluginFactory({ handler })
+      formAutocompletePluginFactory({ handler }),
+      formMediaPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

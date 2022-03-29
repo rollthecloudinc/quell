@@ -3,12 +3,16 @@ export class MediaSettings {
   cloudinaryUrl: string;
   uploadPreset: string;
   imageUrl: string;
+  bucket: string;
+  prefix: string;
   constructor(data?: MediaSettings) {
     if(data) {
       this.endpointUrl = data.endpointUrl;
       this.cloudinaryUrl = data.cloudinaryUrl;
       this.uploadPreset = data.uploadPreset;
       this.imageUrl = data.imageUrl;
+      this.bucket = data.bucket;
+      this.prefix = data.prefix;
     }
   }
 }
@@ -20,6 +24,7 @@ export class MediaFile {
   path: string;
   length: number;
   fileName: string;
+  realPath?: string;
   constructor(data?: MediaFile) {
     if (data) {
       this.id = data.id;
@@ -28,6 +33,7 @@ export class MediaFile {
       this.path = data.path;
       this.fileName = data.fileName;
       this.length = data.length;
+      this.realPath = data.realPath && data.realPath !== '' ? data.realPath : undefined;
     }
   }
 }

@@ -50,7 +50,7 @@ export class PanelSelectorComponent implements OnInit {
 
   onNewSelect() {
     const name = uuid.v4();
-    const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
+    const newPanel = new PanelPage({ id: undefined, layoutType: 'split', displayType: 'page', site: this.siteName, gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
     (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
       contentPlugin: 'panel',
       name: name,

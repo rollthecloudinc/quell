@@ -37,6 +37,7 @@ export abstract class FormElementBase implements OnInit {
   readonly formControl = new FormControl('');
 
   private readonly formControlValueChangesSub = this.formControl.valueChanges.pipe(
+    tap(value => console.log('serialized form value', this.attributeSerializer.serialize(value, 'value'))),
     tap(value => this.controlContainer.control.get('settings').setValue([ this.attributeSerializer.serialize(value, 'value') ]))
   ).subscribe();
 

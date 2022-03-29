@@ -360,7 +360,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   hookupCss({ file }: { file: string }) {
     this.http.get<JSONNode>(file).subscribe(css => {
-      this.filteredCss = css;
+      this.filteredCss = css.styles;
     });
   }
 
@@ -520,7 +520,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   cssSub = combineLatest([
     this.css$,
     this.afterContentInit$,
-    // this.schedulePluginChange
+    this.schedulePluginChange
   ]).pipe(
     map(([css]) => css),
     map((css: JSONNode) => this.cssHelper.reduceCss(css, `.pane-${this.indexPosition}`)),
