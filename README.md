@@ -259,11 +259,7 @@ Articles:
 
 ## Collect
 
-New data entry form using replacing formly elements.
-
-* nested sections
-* repeating sections
-* save displayed in console as object literal but can be persisted to storage like s3.
+New data entry form replacing formly supporting repeating sections, nested sectins, and persistence.
 
 https://ng-druid.github.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e
 https://ng-druid.github.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage
