@@ -259,7 +259,12 @@ Articles:
 
 ## Collect
 
-Data entry form built entirely with panel pages.
+New data entry form replacing formly supporting repeating sections, nested sectins, and persistence.
+
+* https://ng-druid.github.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e
+* https://ng-druid.github.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage
+
+[OLD] Data entry form using formly (deprecated)
 
 * https://ng-druid.github.io/formly/kitchensink/v1
 * https://ng-druid.github.io/formly/kitchensink/v1/manage
