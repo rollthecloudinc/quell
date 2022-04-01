@@ -271,7 +271,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly stylizerSub = this.afterViewInit$.pipe(
     tap(() => {
-      this.stylizerService.stylize({ targetNode: this.el.nativeElement });
+      // this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
   ).subscribe();
 

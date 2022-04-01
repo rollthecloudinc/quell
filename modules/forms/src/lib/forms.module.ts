@@ -6,7 +6,7 @@ import { ContentPluginManager } from '@ng-druid/content';
 import { StylePluginManager } from '@ng-druid/panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formInputPluginFactory, formMediaPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
+import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formHiddenPluginFactory, formInputPluginFactory, formMediaPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from '@ng-druid/render';
@@ -78,7 +78,8 @@ export class FormsModule {
       formCheckboxPluginFactory({ handler }),
       formDatepickerPluginFactory({ handler }),
       formAutocompletePluginFactory({ handler }),
-      formMediaPluginFactory({ handler })
+      formMediaPluginFactory({ handler }),
+      formHiddenPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()
