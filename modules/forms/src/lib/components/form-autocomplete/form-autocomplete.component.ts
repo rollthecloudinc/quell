@@ -8,6 +8,7 @@ import { combineLatest, Subject } from "rxjs";
 import { Mapping, Param } from '@ng-druid/dparam';
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { SelectOption } from '@ng-druid/datasource';
+import { TokenizerService } from "@ng-druid/token";
 
 @Component({
   selector: 'druid-forms-form-autocomplete',
@@ -44,9 +45,10 @@ export class FormAutocompleteComponent extends FormElementBase {
   constructor(
     attributeSerializer: AttributeSerializerService,
     optionsResolverService: OptionsResolverService,
+    tokenizerService: TokenizerService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, controlContainer);
     this.displayAuto = (opt: SelectOption): string => {
       return opt.label;
       // return tokenizerService.replaceTokens(this.selectMapping.label, this.tokenizerService.generateGenericTokens(opt.dataItem));

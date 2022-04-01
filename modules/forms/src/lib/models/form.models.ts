@@ -7,6 +7,7 @@ export class FormSettings {
   datasourceOptions?: DatasourceOptions; 
   constructor(data?: FormSettings) {
     if (data) {
+      this.value = data.value ? data.value : '';
       if (data.datasourceBinding && typeof(data.datasourceBinding) === 'object') {
         this.datasourceBinding = new ContentBinding(data.datasourceBinding);
       }

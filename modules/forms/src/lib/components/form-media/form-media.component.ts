@@ -2,6 +2,7 @@ import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from '@ng-druid/attributes';
 import { FilesService } from "@ng-druid/media";
+import { TokenizerService } from "@ng-druid/token";
 import { NgxDropzoneChangeEvent } from "ngx-dropzone";
 import { map, mergeMap, Subject, tap } from "rxjs";
 import { FormElementBase } from "../../directives/form-element-base.directive";
@@ -33,9 +34,10 @@ export class FormMediaComponent extends FormElementBase {
     attributeSerializer: AttributeSerializerService,
     optionsResolverService: OptionsResolverService,
     filesService: FilesService,
+    tokenizerService: TokenizerService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, controlContainer);
     this.filesService = filesService;
   }
 

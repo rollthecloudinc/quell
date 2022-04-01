@@ -13,6 +13,7 @@ import { FormCheckboxComponent } from "./components/form-checkbox/form-checkbox.
 import { FormDatepickerComponent } from "./components/form-datepicker/form-datepicker.component";
 import { FormAutocompleteComponent } from "./components/form-autocomplete/form-autocomplete.component";
 import { FormMediaComponent } from './components/form-media/form-media.component';
+import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -120,6 +121,17 @@ export const formMediaPluginFactory = ({ handler }: { handler: FormElementHandle
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormMediaComponent,
+    handler
+  })
+}
+
+export const formHiddenPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_hidden',
+    title: 'Form Hidden',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormHiddenComponent,
     handler
   })
 }

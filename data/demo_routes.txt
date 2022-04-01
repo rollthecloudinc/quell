@@ -7,3 +7,7 @@
 /just-a-lonely-snippet-v1/manage
 /workflow-designer-v2
 /workflow-designer-v2/manage
+/tractorbeam-test-v3
+/tractorbeam-test-v3/manage
+/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e
+/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage

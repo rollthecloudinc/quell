@@ -18,3 +18,4 @@ export * from './lib/components/form-checkbox/form-checkbox.component';
 export * from './lib/components/form-datepicker/form-datepicker.component';
 export * from './lib/components/form-autocomplete/form-autocomplete.component';
 export * from './lib/components/form-media/form-media.component';
+export * from './lib/components/form-hidden/form-hidden.component';
