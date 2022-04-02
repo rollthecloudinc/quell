@@ -26,6 +26,6 @@ export class PagealiasModule {
     es: EntityServices
   ) {
     // eds.registerMetadataMap(entityMetadata);
-    apm.register(pagealiasFactory(es, router));
+    apm.register(pagealiasFactory(siteName, es, router));
   }
 }

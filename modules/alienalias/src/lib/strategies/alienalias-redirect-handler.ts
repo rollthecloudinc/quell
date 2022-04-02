@@ -1,22 +1,17 @@
-import { Injectable } from "@angular/core";
 import { AliasRedirectHandler } from '@ng-druid/alias';
 import { map } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import * as qs from 'qs'
-
-@Injectable()
 export class AlienaliasRedirectHandler implements AliasRedirectHandler {
-  siteName = 'ipe'
   get alienAliasService() {
     return this.es.getEntityCollectionService('AlienAlias');
   }
   constructor(
+    private siteName: string,
     private es: EntityServices,
     private router: Router
-    // siteName: string
   ) {
-    // this.siteName = siteName;
   }
 
   redirect(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

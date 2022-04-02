@@ -5,9 +5,9 @@ import { AlienaliasLoadingStrategy } from './strategies/alienalias-loading-strat
 import { AlienaliasMatchingStrategy } from './strategies/alienalias-matching-strategy';
 import { AlienaliasRedirectHandler } from './strategies/alienalias-redirect-handler';
 
-export const alienaliasFactory = (es: EntityServices, router: Router) => {
-  const loadingStrategy = new AlienaliasLoadingStrategy(es, router);
-  const matchingStrategy = new AlienaliasMatchingStrategy(es, router);
-  const redirectHandler = new AlienaliasRedirectHandler(es, router);
+export const alienaliasFactory = (siteName: string, es: EntityServices, router: Router) => {
+  const loadingStrategy = new AlienaliasLoadingStrategy(siteName, es, router);
+  const matchingStrategy = new AlienaliasMatchingStrategy(siteName, es, router);
+  const redirectHandler = new AlienaliasRedirectHandler(siteName, es, router);
   return new AlienaliasPlugin({ id: 'module', title: 'module', loadingStrategy, matchingStrategy, redirectHandler });
 };

@@ -32,7 +32,7 @@ export class AlienaliasModule {
   ) {
     const entityMetadata = entityMetadataFactory(platformId, alienalisSettings);
     eds.registerMetadataMap(entityMetadata);
-    apm.register(alienaliasFactory(es, router));
+    apm.register(alienaliasFactory(siteName, es, router));
     entityDataService.registerService('AlienAlias', new CrudDataService<AlienAlias>('AlienAlias', crud, eds, crudDataHelper));
   }
 }

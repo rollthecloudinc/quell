@@ -1,26 +1,17 @@
-import { Injectable } from "@angular/core";
-import { iif, Observable, of } from "rxjs";
 import { AliasRedirectHandler } from '@ng-druid/alias';
-import { catchError, map, switchMap, tap } from "rxjs/operators";
-import { PanelPage } from '@ng-druid/panels';
+import { map } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
-import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';
-import { HttpParams } from "@angular/common/http";
-import * as qs from 'qs'
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 
-@Injectable()
 export class PagealiasRedirectHandler implements AliasRedirectHandler {
-  siteName = 'ipe'
   get panelPageListItemsService() {
     return this.es.getEntityCollectionService('PanelPageListItem');
   }
   constructor(
+    private siteName: string,
     private es: EntityServices,
     private router: Router
-    // siteName: string
   ) {
-    // this.siteName = siteName;
   }
 
   redirect(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

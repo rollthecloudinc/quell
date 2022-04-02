@@ -5,9 +5,9 @@ import { PagealiasLoadingStrategy } from './strategies/pagealias-loading-strateg
 import { PagealiasMatchingStrategy } from './strategies/pagealias-matching-strategy';
 import { PagealiasRedirectHandler } from './strategies/pagealias-redirect-handler';
 
-export const pagealiasFactory = (es: EntityServices, router: Router) => {
-  const loadingStrategy = new PagealiasLoadingStrategy(es, router);
-  const matchingStrategy = new PagealiasMatchingStrategy(es, router);
-  const redirectHandler = new PagealiasRedirectHandler(es, router);
+export const pagealiasFactory = (siteName: string, es: EntityServices, router: Router) => {
+  const loadingStrategy = new PagealiasLoadingStrategy(siteName, es, router);
+  const matchingStrategy = new PagealiasMatchingStrategy(siteName, es, router);
+  const redirectHandler = new PagealiasRedirectHandler(siteName, es, router);
   return new PagealiasPlugin({ id: 'panels', title: 'Panels', loadingStrategy, matchingStrategy, redirectHandler });
 };

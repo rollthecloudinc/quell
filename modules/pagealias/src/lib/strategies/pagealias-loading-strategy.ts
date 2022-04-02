@@ -1,25 +1,20 @@
-import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { AliasLoadingStrategy } from '@ng-druid/alias';
-import { catchError, map, tap } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 import { PanelPage } from '@ng-druid/panels';
 import { EntityServices } from "@ngrx/data";
-import { Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
-import { PagealiasRouterComponent } from '../components/pagealias-router/pagealias-router.component';
+import { Router, UrlMatcher, UrlSegment } from '@angular/router';
 
-@Injectable()
 export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
-  siteName = 'ipe'
   get panelPageListItemsService() {
     return this.es.getEntityCollectionService('PanelPageListItem');
   }
   constructor(
+    private siteName: string,
     private es: EntityServices,
     private router: Router
-    // siteName: string
   ) {
-    // this.siteName = siteName;
   }
   isLoaded() {
     return this.routesLoaded;

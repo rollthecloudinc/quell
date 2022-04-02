@@ -1,23 +1,17 @@
-import { Injectable } from "@angular/core";
-import { iif, Observable, of } from "rxjs";
+import { Observable, of } from "rxjs";
 import { AliasMatchingStrategy } from '@ng-druid/alias';
-import { catchError, defaultIfEmpty, map, switchMap, tap } from "rxjs/operators";
+import { catchError, defaultIfEmpty, map } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot } from '@angular/router';
-import { HttpParams } from "@angular/common/http";
-
-@Injectable()
 export class AlienaliasMatchingStrategy implements AliasMatchingStrategy {
-  siteName = 'ipe'
   get alienAliasService() {
     return this.es.getEntityCollectionService('AlienAlias');
   }
   constructor(
+    private siteName: string,
     private es: EntityServices,
     private router: Router
-    // siteName: string
   ) {
-    // this.siteName = siteName;
   }
 
   match(state: RouterStateSnapshot): Observable<boolean> {

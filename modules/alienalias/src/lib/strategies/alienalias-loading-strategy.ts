@@ -1,25 +1,20 @@
-import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { AliasLoadingStrategy } from '@ng-druid/alias';
-import { catchError, defaultIfEmpty, map, tap } from "rxjs/operators";
+import { defaultIfEmpty, map, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
-import { Router, RouterStateSnapshot, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
+import { Router, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
 import { AlienAlias } from "../models/alienalias.models";
 import { loadRemoteModule } from "@angular-architects/module-federation";
-
-@Injectable()
 export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
-  siteName = 'ipe'
   get alienAliasService() {
     return this.es.getEntityCollectionService('AlienAlias');
   }
   constructor(
+    private siteName: string,
     private es: EntityServices,
     private router: Router
-    // siteName: string
   ) {
-    // this.siteName = siteName;
   }
   isLoaded() {
     return this.routesLoaded;
