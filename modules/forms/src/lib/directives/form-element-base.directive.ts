@@ -4,11 +4,12 @@ import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes
 import { SelectOption } from '@ng-druid/datasource';
 import { FormSettings } from "../models/form.models";
 import { BehaviorSubject, combineLatest, iif, Observable, Subject } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { map, switchMap, take, tap } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
 import { Pane } from '@ng-druid/panels';
 import { InlineContext } from '@ng-druid/context';
 import { TokenizerService } from "@ng-druid/token";
+import { FormsContextHelperService } from "../services/forms-context-helper.service";
 
 @Directive({
   selector: '[druid-forms-form-element-base]'
@@ -82,8 +83,8 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     this.resolvedContext$,
     this.afterViewInit$
   ]).pipe(
-    map(([ settings ]) => ({ settings })),
-    switchMap(({ settings }) => this.resolveContexts().pipe(
+   map(([ settings, resolvedContext ]) => ({ settings, resolvedContext })),
+    switchMap(({ settings, resolvedContext }) => this.formsContextHelper.resolveContexts({ resolvedContext }).pipe(
       map(tokens => ({ settings, tokens }))
     )),
     tap(({ settings, tokens }) => {
@@ -100,13 +101,15 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
       } else {
         this.formControl.setValue('');
       }
-    })
+    }),
+    take(1)
   ).subscribe();
 
   constructor(
     protected attributeSerializer: AttributeSerializerService,
     protected optionsResolver: OptionsResolverService,
     protected tokenizerService: TokenizerService,
+    protected formsContextHelper: FormsContextHelperService,
     public controlContainer?: ControlContainer
   ) {}
 
@@ -129,19 +132,6 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
       });
     }
     return v;
-  }
-
-  resolveContexts(): Observable<undefined | Map<string, any>> {
-    return new Observable(obs => {
-      let tokens = new Map<string, any>();
-      if(this.resolvedContext$.value) {
-        for(const name in this.resolvedContext$.value) {
-          tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(this.resolvedContext$.value[name], name === '_root' ? '' : name) ]);
-        }
-      }
-      obs.next(tokens);
-      obs.complete();
-    });
   }
 
 }

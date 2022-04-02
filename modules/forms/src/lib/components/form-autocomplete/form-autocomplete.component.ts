@@ -9,7 +9,7 @@ import { Mapping, Param } from '@ng-druid/dparam';
 import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { SelectOption } from '@ng-druid/datasource';
 import { TokenizerService } from "@ng-druid/token";
-
+import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 @Component({
   selector: 'druid-forms-form-autocomplete',
   styleUrls: ['./form-autocomplete.component.scss'],
@@ -46,9 +46,10 @@ export class FormAutocompleteComponent extends FormElementBase {
     attributeSerializer: AttributeSerializerService,
     optionsResolverService: OptionsResolverService,
     tokenizerService: TokenizerService,
+    formsContextHelper: FormsContextHelperService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, tokenizerService, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, controlContainer);
     this.displayAuto = (opt: SelectOption): string => {
       return opt.label;
       // return tokenizerService.replaceTokens(this.selectMapping.label, this.tokenizerService.generateGenericTokens(opt.dataItem));

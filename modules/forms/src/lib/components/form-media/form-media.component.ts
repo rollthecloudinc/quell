@@ -7,6 +7,7 @@ import { NgxDropzoneChangeEvent } from "ngx-dropzone";
 import { map, mergeMap, Subject, tap } from "rxjs";
 import { FormElementBase } from "../../directives/form-element-base.directive";
 import { OptionsResolverService } from '../../services/options-resolver.services';
+import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
   selector: 'druid-forms-form-media',
@@ -35,9 +36,10 @@ export class FormMediaComponent extends FormElementBase {
     optionsResolverService: OptionsResolverService,
     filesService: FilesService,
     tokenizerService: TokenizerService,
+    formsContextHelper: FormsContextHelperService,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, tokenizerService, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, controlContainer);
     this.filesService = filesService;
   }
 
