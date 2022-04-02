@@ -26,7 +26,7 @@ e2e testing site and demos
 
 * domain: rollthecloud.com
 
-Tthe cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
+The cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
 
 # Zingurus
 
