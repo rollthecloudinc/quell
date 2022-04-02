@@ -15,6 +15,12 @@ druid-->youtube
 
 The main druid website.
 
+# Cloud
+
+* domain: rollthecloud.com
+
+Tthe cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
+
 # Ipe
 
 * domain: n/a
