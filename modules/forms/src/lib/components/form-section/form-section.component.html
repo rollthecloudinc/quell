@@ -1,7 +1,7 @@
 <ng-container [formGroup]="controlContainer.control">
   <ng-container formArrayName="panes">
     <div *ngFor="let pane of panes; let i = index">
-      <classifieds-ui-render-pane [formControlName]="i" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [contexts]="pane.contexts" [panes]="panes" [resolvedContext]="pane.resolvedContext"></classifieds-ui-render-pane>
+      <classifieds-ui-render-pane [formControlName]="i" [pluginName]="pane.contentPlugin" [settings]="pane.settings" [name]="pane.name" [label]="pane.label" [contexts]="pane.contexts" [panes]="panes" [resolvedContext]="pane.resolvedContext" [indexPosition]="i" [ancestory]="ancestory"></classifieds-ui-render-pane>
       <button type="button" (click)="remove$.next(i)">Remove</button>
     </div>
   </ng-container>

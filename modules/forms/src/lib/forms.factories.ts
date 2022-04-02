@@ -14,6 +14,7 @@ import { FormDatepickerComponent } from "./components/form-datepicker/form-datep
 import { FormAutocompleteComponent } from "./components/form-autocomplete/form-autocomplete.component";
 import { FormMediaComponent } from './components/form-media/form-media.component';
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
+import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -137,5 +138,5 @@ export const formHiddenPluginFactory = ({ handler }: { handler: FormElementHandl
 }
 
 export const formSectionStylePluginFactory = () => {
-  return new StylePlugin<string>({ id: 'form_section', name: 'form_section', title: 'Form Section', editorComponent: undefined, renderComponent: FormSectionComponent });
+  return new StylePlugin<string>({ id: 'form_section', name: 'form_section', title: 'Form Section', editorComponent: FormSectionEditorComponent, renderComponent: FormSectionComponent });
 };

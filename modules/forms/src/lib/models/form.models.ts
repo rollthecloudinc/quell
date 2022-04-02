@@ -17,3 +17,12 @@ export class FormSettings {
     }
   }
 }
+
+export class FormSectionForm {
+  valuesMapping: string;
+  constructor(data: FormSectionForm) {
+    if (data) {
+      this.valuesMapping = data.valuesMapping;
+    }
+  }
+}

@@ -22,6 +22,7 @@ import { FormAutocompleteComponent } from './components/form-autocomplete/form-a
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FormMediaComponent } from './components/form-media/form-media.component';
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
+import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -36,7 +37,8 @@ import { FormHiddenComponent } from './components/form-hidden/form-hidden.compon
     FormDatepickerComponent,
     FormAutocompleteComponent,
     FormMediaComponent,
-    FormHiddenComponent
+    FormHiddenComponent,
+    FormSectionEditorComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +61,8 @@ import { FormHiddenComponent } from './components/form-hidden/form-hidden.compon
     FormDatepickerComponent,
     FormAutocompleteComponent,
     FormMediaComponent,
-    FormHiddenComponent
+    FormHiddenComponent,
+    FormSectionEditorComponent
   ]
 })
 export class FormsModule { 

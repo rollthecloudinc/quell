@@ -1,9 +1,9 @@
-import { Component, Directive, Input, OnInit, AfterViewInit } from "@angular/core";
-import { ControlContainer, FormArray, FormControl } from "@angular/forms";
+import { Directive, Input, OnInit, AfterViewInit } from "@angular/core";
+import { ControlContainer, FormControl } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { SelectOption } from '@ng-druid/datasource';
 import { FormSettings } from "../models/form.models";
-import { BehaviorSubject, combineLatest, iif, Observable, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
 import { Pane } from '@ng-druid/panels';
@@ -43,6 +43,9 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
   set resolvedContext(resolvedContext: any) {
     this.resolvedContext$.next(resolvedContext);
   }
+
+  @Input()
+  ancestory: Array<number> [];
 
   readonly formControl = new FormControl('');
 
@@ -92,7 +95,10 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         this.tokens = tokens;
       }
       if (settings.value && settings.value !== null && settings.value !== '') {
-        const value = this.replaceTokens(settings.value);
+        if (settings.value.indexOf('.$i.') !== -1 || settings.value.indexOf('.$j.') !== -1 || settings.value.indexOf('.$k.') !== -1) {
+          console.log(settings.value, this.ancestory);
+        }
+        const value = this.replaceTokens(settings.value.replace('.$i.', `.${this.ancestory[this.ancestory.length - 3]}.`));
         this.formControl.setValue(value);
         const extraTokens = this.tokenizerService.discoverTokens(value, true);
         if (extraTokens.length !== 0) {
