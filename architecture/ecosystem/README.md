@@ -1,12 +1,53 @@
+
+# High Level
+
 ```mermaid
-flowchart LR
-druid[druid]-->app1[app1];
-druid-->app2[app2];
-druid-->app3[app3];
-app1-->ext1[extension 1]
-app2-->ext1
-app3-->ext2[extension 2]
-ext1-->p1[plugin]
-ext1-->p2[plugin]
-ext2-->p3[plugin]
+flowchart TB
+druid-->homebase[homebase]
+druid[druid]-->ipe[ipe];
+druid[druid]-->cloud[rollthecloud];
+druid-->zingurus[zingurus]
+druid-->classifieds-ui[classifieds-ui]
+druid-->youtube
+druid-->wordpress
 ```
+# Homebase
+
+* domain: ng-druid.com
+
+The main druid website.
+
+# Ipe
+
+* domain: n/a
+
+e2e testing site and demos
+
+# RollTheCloud
+
+* domain: rollthecloud.com
+
+The cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
+
+# Zingurus
+
+* domain: zingurus.com
+
+Twitter 000 clone.
+
+
+# Classifieds UI
+
+* domain: classifieds-ui.com
+
+Craigslist 000 clone.
+
+This website will also go one step further and provide derivitive ad sites based on specific contexts like realestate, autos, etc. Content type system will be implemented to change data requires for specific ad types. Profiles can also be created to create dedicated ad websites like for a specific real estate firm or dealer.
+
+# Youtube
+
+This needs name and branding but will effectively be a 000 replacement of youtube and tiktok.
+
+# Wordpress
+
+This needs name and branding but will effectively be a 000 replacement of wordpress hosted blogs. Users will be able to easily launch 000 green blogs like Wordpress but without the environmental impact.
