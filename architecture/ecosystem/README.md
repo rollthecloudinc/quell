@@ -5,6 +5,7 @@
 flowchart TB
 druid-->homebase[homebase]
 druid[druid]-->ipe[ipe];
+druid[druid]-->cloud[rollthecloud];
 druid-->zingurus[zingurus]
 druid-->classifieds-ui[classifieds-ui]
 druid-->youtube
@@ -15,17 +16,17 @@ druid-->youtube
 
 The main druid website.
 
-# Cloud
-
-* domain: rollthecloud.com
-
-Tthe cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
-
 # Ipe
 
 * domain: n/a
 
 e2e testing site and demos
+
+# RollTheCloud
+
+* domain: rollthecloud.com
+
+Tthe cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
 
 # Zingurus
 
