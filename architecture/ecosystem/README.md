@@ -10,18 +10,26 @@ druid-->classifieds-ui[classifieds-ui]
 ```
 # Homebase
 
+* domain: ng-druid.com
+
 The main druid website.
 
 # Ipe
+
+* domain: n/a
 
 e2e testing site and demos
 
 # Zingurus
 
+* domain: zingurus.com
+
 Twitter 000 clone.
 
 
 # Classifieds UI
+
+* domain: classifieds-ui.com
 
 Craigslist 000 clone.
 
