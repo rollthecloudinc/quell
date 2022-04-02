@@ -9,6 +9,7 @@ druid[druid]-->cloud[rollthecloud];
 druid-->zingurus[zingurus]
 druid-->classifieds-ui[classifieds-ui]
 druid-->youtube
+druid-->wordpress
 ```
 # Homebase
 
