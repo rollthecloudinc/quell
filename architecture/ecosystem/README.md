@@ -46,3 +46,7 @@ This website will also go one step further and provide derivitive ad sites based
 # Youtube
 
 This needs name and branding but will effectively be a 000 replacement of youtube and tiktok.
+
+# Wordpress
+
+This needs name and branding but will effectively be a 000 replacement of wordpress hosted blogs. Users will be able to easily launch 000 green blogs like Wordpress but without the environmental impact.
