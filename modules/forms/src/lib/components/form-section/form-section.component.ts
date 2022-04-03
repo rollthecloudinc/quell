@@ -72,7 +72,10 @@ export class FormSectionComponent implements OnInit, AfterViewInit {
     tap(({ s }) => console.log(s.valuesMapping, this.ancestory)),
     map(({ s, rc, p }) => {
       if (rc && s && s.valuesMapping && s.valuesMapping.trim() !== '') {
-        const path = s.valuesMapping.replace('[$i]', `[${this.ancestory[this.ancestory.length - 4]}]`);
+        const pieces = s.valuesMapping.split('[$i]');
+        const replacements = pieces.map((_, i) => this.ancestory[(i * 1) + 3]);
+        // const path = s.valuesMapping.replace('[$i]', `[${this.ancestory[this.ancestory.length - 4]}]`);
+        const path = pieces.reduce((prev, c, i) => [ ...prev, (i === 0 ? '' : (i - 1) < replacements.length ? `[${replacements[(i - 1)]}]` : ''), c ], []).join('');
         console.log('path', path);
         const items = JSONPath({ path: `$.${path}.*`, json: rc });
         return { items, s, p }

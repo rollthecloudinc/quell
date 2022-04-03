@@ -98,7 +98,16 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         if (settings.value.indexOf('.$i.') !== -1 || settings.value.indexOf('.$j.') !== -1 || settings.value.indexOf('.$k.') !== -1) {
           console.log(settings.value, this.ancestory);
         }
-        const value = this.replaceTokens(settings.value.replace('.$i.', `.${this.ancestory[this.ancestory.length - 3]}.`));
+
+        const pieces = settings.value.split('$i');
+        const replacements = pieces.map((_, i) => this.ancestory[(i * 1) + 3]);
+        // const path = s.valuesMapping.replace('[$i]', `[${this.ancestory[this.ancestory.length - 4]}]`);
+        const path = pieces.reduce((prev, c, i) => [ ...prev, (i === 0 ? '' : (i - 1) < replacements.length ? `${replacements[(i - 1)]}` : ''), c ], []).join('');
+        console.log('path', path);
+
+        // const value = this.replaceTokens(settings.value.replace('.$i.', `.${this.ancestory[this.ancestory.length - 3]}.`));
+        const value = this.replaceTokens(path);
+
         this.formControl.setValue(value);
         const extraTokens = this.tokenizerService.discoverTokens(value, true);
         if (extraTokens.length !== 0) {
