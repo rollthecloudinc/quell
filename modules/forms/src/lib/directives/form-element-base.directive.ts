@@ -100,7 +100,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         }
 
         const pieces = settings.value.split('$i');
-        const replacements = pieces.map((_, i) => this.ancestory[(i * 1) + 3]);
+        const replacements = pieces.map((_, i) => this.ancestory[(i * 1) + (3 + (i === 0 ? 0 : 3))]);
         // const path = s.valuesMapping.replace('[$i]', `[${this.ancestory[this.ancestory.length - 4]}]`);
         const path = pieces.reduce((prev, c, i) => [ ...prev, (i === 0 ? '' : (i - 1) < replacements.length ? `${replacements[(i - 1)]}` : ''), c ], []).join('');
         console.log('path', path);
