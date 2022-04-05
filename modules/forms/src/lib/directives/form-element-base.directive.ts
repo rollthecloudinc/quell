@@ -10,7 +10,7 @@ import { Pane } from '@ng-druid/panels';
 import { InlineContext } from '@ng-druid/context';
 import { TokenizerService } from "@ng-druid/token";
 import { FormsContextHelperService } from "../services/forms-context-helper.service";
-
+import * as uuid from 'uuid';
 @Directive({
   selector: '[druid-forms-form-element-base]'
 })
@@ -111,7 +111,13 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         this.formControl.setValue(value);
         const extraTokens = this.tokenizerService.discoverTokens(value, true);
         if (extraTokens.length !== 0) {
-          this.formControl.setValue(this.tokenizerService.replaceTokens(settings.value, new Map<string, any>(Array.from(extraTokens).map(k => [k, '']))));
+          if (extraTokens[0].trim().lastIndexOf('.id') === extraTokens[0].trim().length - 3) {
+            this.formControl.setValue(uuid.v4());
+          } /*else if (extraTokens[0].trim().lastIndexOf('.user') === extraTokens[0].trim().length - 5) {
+            this.formControl.setValue('{{ _user.username }}');
+          }*/ else {
+            this.formControl.setValue(this.tokenizerService.replaceTokens(settings.value, new Map<string, any>(Array.from(extraTokens).map(k => [k, ''])))); 
+          }
         }
       } else {
         this.formControl.setValue('');

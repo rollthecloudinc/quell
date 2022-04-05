@@ -365,13 +365,15 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   submit() {
-    const panelPageForm = new PanelPageForm({ ...this.pageForm.value, id: uuid.v4() });
+    const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
     const data = this.formService.serializeForm(panelPageForm);
     console.log(panelPageForm);
     console.log(this.formService.serializeForm(panelPageForm));
     /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
       alert('panel page form added!');
     });*/
+
+    console.log('form data', data);
 
     this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
       console.log('persisted data');
@@ -487,13 +489,14 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   ancestory: Array<number> = [];
 
   @Input()
-  resolvedContext = {};
-
-  @Input()
   panes: Array<Pane> = [];
 
   @Input()
   originPanes: Array<Pane> = [];
+
+  @Input() set resolvedContext(resolvedContext: any) {
+    this.resolvedContext$.next(resolvedContext);
+  }
 
   @Input() set css(css: JSONNode) {
     this.css$.next(css);
@@ -504,11 +507,14 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   } 
 
   readonly afterContentInit$ = new Subject();
+  readonly resolvedContext$ = new BehaviorSubject<any>({});
   private schedulePluginChange = new Subject();
 
   contentPlugin: ContentPlugin;
  
   panelPage: PanelPage;
+
+  embedPanel: PanelPage;
 
   ancestoryWithSelf: Array<number> = [];
 
@@ -589,7 +595,19 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     }
   });
 
+  private embedPanelSub = this.resolvedContext$.pipe(
+    map((rc: any) => {
+      if (rc && rc._root && !this.linkedPageId && this.settings.length === 0) {
+        this.embedPanel = new PanelPage(rc._root);
+      }
+    })
+  ).subscribe();
+
   @ViewChild(PaneContentHostDirective, { static: true }) contentPaneHost: PaneContentHostDirective;
+
+  get dynamicPanel(): PanelPage {
+    return new PanelPage((this.resolvedContext as any)._root);
+  }
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
@@ -692,7 +710,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     (this.componentRef.instance as any).originPanes = this.originPanes;
     (this.componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
     (this.componentRef.instance as any).displayType = this.displayType;
-    (this.componentRef.instance as any).resolvedContext = this.resolvedContext;
+    (this.componentRef.instance as any).resolvedContext = this.resolvedContext$.value;
     (this.componentRef.instance as any).ancestory = this.ancestoryWithSelf;
 
     if ((this.componentRef.instance as any).state && this.contentPlugin.handler) {

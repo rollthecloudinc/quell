@@ -77,6 +77,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
         path: `/${(options as any).index}/_doc/${identity}`,
         protocol: 'https:',
         service: "es",
+        ...{ ...( (options as any).pipeline ? { query: { pipeline: (options as any).pipeline } } : {} ) },
         cognitoSettings: cognitoSettings,
         authFacade: authFacade
       }).pipe(
@@ -85,7 +86,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
       switchMap(( { signedHttpRequest, options, identity }) => {
         delete signedHttpRequest.headers.host;
         const url = `https://${(options as any).domain}.${(options as any).region}.es.amazonaws.com/${(options as any).index}/_doc/${identity}`;
-        return http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
+        return http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false , params: { ...( (options as any).pipeline ? { pipeline: (options as any).pipeline } : {} ) } }).pipe(
           map(res => ({ res, options }))
         );
       }),
@@ -108,6 +109,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
         path: `/${(options as any).index}/_doc/${identity}`,
         protocol: 'https:',
         service: "es",
+        ...{ ...( (options as any).pipeline ? { query: { pipeline: (options as any).pipeline } } : {} ) },
         cognitoSettings: cognitoSettings,
         authFacade: authFacade
       }).pipe(
@@ -116,7 +118,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
       switchMap(( { signedHttpRequest, options, identity }) => {
         delete signedHttpRequest.headers.host;
         const url = `https://${(options as any).domain}.${(options as any).region}.es.amazonaws.com/${(options as any).index}/_doc/${identity}`;
-        return http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
+        return http.put(url, JSON.stringify(object), { headers: signedHttpRequest.headers, withCredentials: false, params: { ...( (options as any).pipeline ? { pipeline: (options as any).pipeline } : {} ) } }).pipe(
           map(res => ({ res, options }))
         );
       }),

@@ -66,7 +66,7 @@
 
 <mat-menu #paneMenu="matMenu">
   <button type="button" mat-menu-item (click)="onEditClick()" [disabled]="locked">Edit</button>
-  <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked">Props</button>
+  <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked && settings.length !== 0">Props</button>
   <button type="button" mat-menu-item (click)="onRulesClick()">Rules</button>
   <button *ngIf="!preview" mat-menu-item type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
   <button *ngIf="preview" mat-menu-item type="button" (click)="onDisablePreviewClick()">Disable Preview</button>

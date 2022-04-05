@@ -83,7 +83,7 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
 
       switchMap(({ identityCondition, options }) => iif(
 
-        () => identityCondition !== undefined && (identityCondition as ConditionProperties).fact === 'identity',
+        () => identityCondition !== undefined && identityCondition && (identityCondition as ConditionProperties).fact === 'identity' && options && (options as any).bucket,
 
         // This could probably be moved into an aw util module to easily build rest queries for any aw service efficently.
         createS3SignedHttpRequest({
@@ -91,10 +91,10 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
           body: undefined,
           headers: {
             "Content-Type": "application/json",
-            host: `${(options as any).bucket}.s3.amazonaws.com`,
+            host: `${options ? (options as any).bucket : ''}.s3.amazonaws.com`,
           },
-          hostname: `${(options as any).bucket}.s3.amazonaws.com`,
-          path: `${(options as any).prefix}${(identityCondition as ConditionProperties).value}.json`,
+          hostname: `${options ? (options as any).bucket : ''}.s3.amazonaws.com`,
+          path: `${options && (options as any).prefix ? (options as any).prefix : ''}${identityCondition ? (identityCondition as ConditionProperties).value : ''}.json`,
           protocol: 'https:',
           service: "s3",
           cognitoSettings: cognitoSettings,

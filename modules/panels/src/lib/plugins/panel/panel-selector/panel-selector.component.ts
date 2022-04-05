@@ -66,6 +66,19 @@ export class PanelSelectorComponent implements OnInit {
     this.panels$ = this.panelPageListItemsService.getWithQuery(`site=${encodeURIComponent(this.siteName)}`);
   }
 
+  onEmbedSelect() {
+    const name = uuid.v4();
+    (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+      contentPlugin: 'panel',
+      name: name,
+      label: name,
+      rule: new FormControl(''),
+      locked: new FormControl(true),
+      settings: this.fb.array([])
+    }));
+    this.bottomSheetRef.dismiss();
+  }
+
   onItemSelect(panel: string) {
     const name = uuid.v4();
     //this.panelPagesService.getByKey(panel).subscribe(p => {

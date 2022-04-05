@@ -1,5 +1,6 @@
 <div fxFlex [formGroup]="paneForm">
   <ng-container><ng-template classifiedsUiPaneContentHost></ng-template></ng-container>
-  <classifieds-ui-panel-page fxFlex *ngIf="pluginName == 'panel' && !linkedPageId" [panelPage]="panelPage" [nested]="true" [contexts]="contexts" [css]="filteredCss" formControlName="settings" [ancestory]="ancestoryWithSelf"></classifieds-ui-panel-page>
+  <classifieds-ui-panel-page fxFlex *ngIf="pluginName == 'panel' && !linkedPageId && settings.length !== 0" [panelPage]="panelPage" [nested]="true" [contexts]="contexts" [css]="filteredCss" formControlName="settings" [ancestory]="ancestoryWithSelf"></classifieds-ui-panel-page>
   <classifieds-ui-panel-page fxFlex *ngIf="pluginName == 'panel' && linkedPageId" [id]="linkedPageId" [nested]="true" [contexts]="contexts" formControlName="settings" [ancestory]="ancestoryWithSelf"></classifieds-ui-panel-page>
+  <classifieds-ui-panel-page fxFlex *ngIf="pluginName == 'panel' && !linkedPageId && settings.length === 0" [panelPage]="embedPanel" [nested]="true" [contexts]="contexts" formControlName="settings" [css]="filteredCss" [ancestory]="ancestoryWithSelf"></classifieds-ui-panel-page>
 </div>
