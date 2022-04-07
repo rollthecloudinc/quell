@@ -63,6 +63,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
   readonly originPanes$ = new BehaviorSubject<Array<Pane>>([]);
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
   readonly resolvedContext$ = new BehaviorSubject<any>(undefined);
+  readonly value$ = new Subject<any>();
 
   protected readonly settingsSub = this.settings$.pipe(
     map(settings => settings ? this.settingsToObject(this.attributeSerializer.deserializeAsObject(settings)) : undefined),
@@ -112,12 +113,27 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         const extraTokens = this.tokenizerService.discoverTokens(value, true);
         if (extraTokens.length !== 0) {
           if (extraTokens[0].trim().lastIndexOf('.id') === extraTokens[0].trim().length - 3) {
-            this.formControl.setValue(uuid.v4());
+            const id = uuid.v4();
+            this.formControl.setValue(id);
+            this.value$.next(id);
           } /*else if (extraTokens[0].trim().lastIndexOf('.user') === extraTokens[0].trim().length - 5) {
             this.formControl.setValue('{{ _user.username }}');
           }*/ else {
-            this.formControl.setValue(this.tokenizerService.replaceTokens(settings.value, new Map<string, any>(Array.from(extraTokens).map(k => [k, ''])))); 
+            const properties = Array.from(tokens).filter(([k]) => k.indexOf(path.substr(1, path.length - 2)) === 0);
+            if (properties.length !== 0) {
+              // Only suppports single depth at the moment.
+              // This is a simple solution to supporting media files.
+              const object = properties.reduce((p, [k, v]) => ({ ...p, [k.substr(k.lastIndexOf('.') + 1)]: v }), {});
+              this.formControl.setValue(object);
+              this.value$.next(object);
+            } else {
+              const v = this.tokenizerService.replaceTokens(settings.value, new Map<string, any>(Array.from(extraTokens).map(k => [k, ''])));
+              this.formControl.setValue(v);
+              this.value$.next(v);
+            }
           }
+        } else {
+          this.value$.next(value);
         }
       } else {
         this.formControl.setValue('');

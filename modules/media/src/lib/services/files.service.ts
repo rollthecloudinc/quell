@@ -37,7 +37,7 @@ export class FilesService {
 
         requests$.push(new Observable<MediaFile>(obs => {
           const id = uuid.v4();
-          const [ _, ext ] = f.name.split('.', 1);
+          const [ _, ext ] = f.name.split('.', 2);
           const fileName = id + (ext ? '.' + ext : '');
           const upload = new Upload({
             client: this.buildClient(),
@@ -57,7 +57,8 @@ export class FilesService {
               path: fileName,
               realPath: this.settings.prefix + fileName,
               length: f.size,
-              fileName: f.name
+              fileName: f.name,
+              extension: ext && ext !== '' ? ext : undefined
             }));
             obs.complete();
           });
@@ -67,6 +68,7 @@ export class FilesService {
     });
     return requests$.length > 0 ? forkJoin(requests$) : of([]);
   }
+
   convertToFiles(mediaFiles: Array<MediaFile>): Observable<Array<File>> {
     const requests$ = mediaFiles.map(f => new Observable<File>(obs => {
       fetch(`${this.settings.imageUrl}/${f.path}`).then(r => {
@@ -77,7 +79,7 @@ export class FilesService {
             reader.readAsDataURL(d);
           }).then((d2: string) => {
             const arrayBufferFromBase64 = this.convertDataURIToBinary(d2);
-            const file = new File([arrayBufferFromBase64], f.fileName, {type: 'image/png' });
+            const file = new File([arrayBufferFromBase64], f.fileName, {type: f.contentType });
             obs.next(file);
             obs.complete();
           });

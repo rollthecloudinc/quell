@@ -18,11 +18,12 @@ import * as cssSelect from 'css-select';
 import { JSONNode } from 'cssjson';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
-import { CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
+import { CrudAdaptorPluginManager, CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
 import { StylizerService } from '@ng-druid/sheath';
+import { camelize } from 'inflected';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -360,7 +361,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   hookupCss({ file }: { file: string }) {
     this.http.get<JSONNode>(file).subscribe(css => {
-      this.filteredCss = css.styles;
+      this.filteredCss = css; //css.styles; - only for sheath
     });
   }
 
@@ -536,7 +537,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     ]),
     tap(([_, nestedCss]) => this.filteredCss = nestedCss),
     map(([css, _]) => css),
-    // delay(500)
+    delay(500)
   ).subscribe(css => {
     const keys = Object.keys(css.children);
     keys.forEach(k => {
@@ -547,6 +548,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
       for (let i = 0; i < len; i++) {
         rules.forEach(p => {
           console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+          // const prop = camelize(p.replace('-', '_'));
           this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
         });
       }
@@ -847,6 +849,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
+    tap(([css]) => console.log('css node', css)),
     map(([css]) => css),
     map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition$.value}`)),
     map((css: JSONNode) => [

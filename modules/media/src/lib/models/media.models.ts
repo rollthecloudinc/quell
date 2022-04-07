@@ -25,6 +25,7 @@ export class MediaFile {
   length: number;
   fileName: string;
   realPath?: string;
+  extension?: string;
   constructor(data?: MediaFile) {
     if (data) {
       this.id = data.id;
@@ -33,6 +34,7 @@ export class MediaFile {
       this.path = data.path;
       this.fileName = data.fileName;
       this.length = data.length;
+      this.extension = data.extension ? data.extension : undefined;
       this.realPath = data.realPath && data.realPath !== '' ? data.realPath : undefined;
     }
   }

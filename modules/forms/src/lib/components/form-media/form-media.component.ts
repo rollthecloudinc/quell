@@ -1,10 +1,10 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from '@ng-druid/attributes';
-import { FilesService } from "@ng-druid/media";
+import { FilesService, MediaFile } from "@ng-druid/media";
 import { TokenizerService } from "@ng-druid/token";
 import { NgxDropzoneChangeEvent } from "ngx-dropzone";
-import { map, mergeMap, Subject, tap } from "rxjs";
+import { filter, map, mergeMap, Subject, switchMap, tap } from "rxjs";
 import { FormElementBase } from "../../directives/form-element-base.directive";
 import { OptionsResolverService } from '../../services/options-resolver.services';
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
@@ -29,6 +29,19 @@ export class FormMediaComponent extends FormElementBase {
     )),
     tap(({ mfs }) => this.formControl.setValue(mfs[0])),
     tap(({ e }) => this.files.push(...e.addedFiles))
+  ).subscribe();
+
+  readonly valueSub = this.value$.pipe(
+    filter(v => typeof(v) === 'object'),
+    map(v => new MediaFile(v)),
+    tap(v => {
+      console.log('populate value', v);
+    }),
+    switchMap(v => this.filesService.convertToFiles([v])),
+    tap(f => {
+      console.log('populate as file', f);
+      this.files = f;
+    })
   ).subscribe();
 
   constructor(
