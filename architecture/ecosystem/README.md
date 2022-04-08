@@ -8,15 +8,15 @@ subgraph Druid
 core
 extensions
 micro-frontends
-rollthecloud[rollthecloud.com]-->core
-rollthecloud-->extensions
-rollthecloud-->micro-frontends
+cloud-->core
+cloud-->extensions
+cloud-->micro-frontends
 end
 subgraph Sites
-dcloud[rollthecloud.com]-->rollthecloud
-druid2[ng-druid.com]-->rollthecloud
-zingurus[zingurus.com]-->rollthecloud
-classifieds-ui[classifieds-ui.com]-->rollthecloud
+dcloud[rollthecloud.com]-->cloud
+druid2[ng-druid.com]-->cloud
+zingurus[zingurus.com]-->cloud
+classifieds-ui[classifieds-ui.com]-->cloud
 end
 subgraph AWS
 gateway-->dcloud
