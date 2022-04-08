@@ -23,6 +23,7 @@ gateway-->dcloud
 gateway-->druid2
 gateway-->zingurus
 gateway-->classifieds-ui
+cognito-->gateway
 opensearch-->gateway
 s3-->gateway
 verti-go-->gateway
