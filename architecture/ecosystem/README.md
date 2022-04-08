@@ -38,4 +38,8 @@ end
 
 ### zingurus.com
 
+Share thoughts, ideas. media with anyone around the world.
+
 ### classifieds-ui.com
+
+Publish ads and create sites for sellings goods and products.
