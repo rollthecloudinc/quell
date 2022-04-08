@@ -34,7 +34,11 @@ end
 
 ### rollthecloud.com
 
+The druid cloud.
+
 ### ng-druid.com
+
+The druid project main website.
 
 ### zingurus.com
 
