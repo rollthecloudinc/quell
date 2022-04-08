@@ -12,7 +12,7 @@ cloud-->core
 cloud-->extensions
 cloud-->micro-frontends
 end
-subgraph Sites
+subgraph Organizations
 dcloud[rollthecloud.com]-->cloud
 druid2[ng-druid.com]-->cloud
 zingurus[zingurus.com]-->cloud
