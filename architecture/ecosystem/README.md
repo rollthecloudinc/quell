@@ -1,4 +1,4 @@
-# rollthecloud
+# RollTheCloud
 
 ```mermaid
 flowchart RL
@@ -9,12 +9,14 @@ subgraph spearhead
 shell-->core
 end
 subgraph rollthecloud
-dcloud-->shell
-zingurus-->shell
-classifieds-ui-->shell
+dcloud[rollthecloud.com]-->shell
+druid2[ng-druid.com]-->shell
+zingurus[zingurus.com]-->shell
+classifieds-ui[classifieds-ui.com]-->shell
 end
 subgraph aws
 gateway-->dcloud
+gateway-->druid2
 gateway-->zingurus
 gateway-->classifieds-ui
 opensearch-->gateway
