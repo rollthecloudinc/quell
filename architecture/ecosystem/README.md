@@ -19,6 +19,8 @@ gateway-->zingurus
 gateway-->classifieds-ui
 opensearch-->gateway
 s3-->gateway
+verti-go-->gateway
+cassandra-->verti-go
 end
 ```
 
