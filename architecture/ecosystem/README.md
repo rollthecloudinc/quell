@@ -34,7 +34,7 @@ end
 
 ### rollthecloud.com
 
-The druid cloud.
+Launch new modern cloud web experiences.
 
 ### ng-druid.com
 
