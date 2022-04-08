@@ -12,6 +12,7 @@ import * as uuid from 'uuid';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { S3Client } from '@aws-sdk/client-s3';
+// import * as mime from 'mime-types';
 @Injectable({
   providedIn: 'root'
 })
@@ -38,7 +39,7 @@ export class FilesService {
         requests$.push(new Observable<MediaFile>(obs => {
           const id = uuid.v4();
           const [ _, ext ] = f.name.split('.', 2);
-          const fileName = id + (ext ? '.' + ext : '');
+          const fileName = id + /*'.' + mime.extension(f.type);*/ (ext ? '.' + ext : '');
           const upload = new Upload({
             client: this.buildClient(),
             params: {
@@ -58,7 +59,7 @@ export class FilesService {
               realPath: this.settings.prefix + fileName,
               length: f.size,
               fileName: f.name,
-              extension: ext && ext !== '' ? ext : undefined
+              extension: /*mime.extension(f.type)*/ ext && ext !== '' ? ext : undefined
             }));
             obs.complete();
           });
@@ -114,6 +115,14 @@ export class FilesService {
         }
       }),
     })
+  }
+
+  isImage({ file }: { file: File }): boolean {
+    return file.type && file.type.indexOf('image/') === 0;
+  }
+
+  isVideo({ file }: { file: File }): boolean {
+    return file.type && file.type.indexOf('video/') === 0;
   }
 
 }

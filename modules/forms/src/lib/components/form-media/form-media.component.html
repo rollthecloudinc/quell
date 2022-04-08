@@ -1,6 +1,14 @@
 <ngx-dropzone (change)="onSelect($event)">
 	<ngx-dropzone-label>Drop it, baby!</ngx-dropzone-label>
-	<ngx-dropzone-preview *ngFor="let f of files" [removable]="true" (removed)="onRemove(f)">
-		<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
-	</ngx-dropzone-preview>
+	<ng-container *ngFor="let f of files">
+		<ngx-dropzone-image-preview *ngIf="isType(f, 'image')" ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
+			<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		</ngx-dropzone-image-preview>
+		<ngx-dropzone-video-preview *ngIf="isType(f, 'video')" ngProjectAs="ngx-dropzone-preview" [file]="f" [removable]="true" (removed)="onRemove(f)">
+			<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		</ngx-dropzone-video-preview>
+		<ngx-dropzone-preview *ngIf="!isType(f, 'image') && !isType(f, 'video')" [removable]="true" (removed)="onRemove(f)">
+			<ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+		</ngx-dropzone-preview>
+	</ng-container> 
 </ngx-dropzone>

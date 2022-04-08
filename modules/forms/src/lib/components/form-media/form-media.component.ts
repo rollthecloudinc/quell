@@ -66,4 +66,15 @@ export class FormMediaComponent extends FormElementBase {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
+  isType(f: File, type: string): boolean {
+    switch(type) {
+        case 'image':
+          return this.filesService.isImage({ file: f });
+        case 'video':
+          return this.filesService.isVideo({ file: f });
+        default:
+          return false;
+    }
+  }
+
 }
