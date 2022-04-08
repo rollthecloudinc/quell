@@ -13,6 +13,13 @@ dcloud-->shell
 zingurus-->shell
 classifieds-ui-->shell
 end
+subgraph aws
+gateway-->dcloud
+gateway-->zingurus
+gateway-->classifieds-ui
+opensearch-->gateway
+s3-->gateway
+end
 ```
 
 
