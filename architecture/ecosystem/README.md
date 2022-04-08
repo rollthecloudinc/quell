@@ -27,6 +27,8 @@ opensearch-->gateway
 s3-->gateway
 verti-go-->gateway
 cassandra-->verti-go
+documentdb-->verti-go
+atlas-->verti-go
 end
 ```
 
