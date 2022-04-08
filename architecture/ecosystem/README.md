@@ -1,5 +1,23 @@
+# Complete
 
-# High Level
+```mermaid
+flowchart RL
+subgraph druid
+core
+end
+subgraph spearhead
+shell-->core
+end
+subgraph rollthecloud
+dcloud-->shell
+zingurus-->shell
+classifieds-ui-->shell
+end
+```
+
+
+
+# High Level (old)
 
 ```mermaid
 flowchart TB
