@@ -26,6 +26,8 @@ gateway-->classifieds-ui
 cognito-->gateway
 opensearch-->gateway
 s3-->gateway
+dynamo-->gateway
+sns-->gateway
 verti-go-->gateway
 cassandra-->verti-go
 documentdb-->verti-go
