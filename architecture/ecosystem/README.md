@@ -6,9 +6,13 @@
 flowchart RL
 subgraph druid
 core
+extensions
+micro-frontends
 end
 subgraph spearhead
 shell-->core
+shell-->extensions
+shell-->micro-frontends
 end
 subgraph rollthecloud
 dcloud[rollthecloud.com]-->shell
