@@ -1,53 +1,54 @@
-
-# High Level
-
-```mermaid
-flowchart TB
-druid-->homebase[homebase]
-druid[druid]-->ipe[ipe];
-druid[druid]-->cloud[rollthecloud];
-druid-->zingurus[zingurus]
-druid-->classifieds-ui[classifieds-ui]
-druid-->youtube
-druid-->wordpress
-```
-# Homebase
-
-* domain: ng-druid.com
-
-The main druid website.
-
-# Ipe
-
-* domain: n/a
-
-e2e testing site and demos
-
 # RollTheCloud
 
-* domain: rollthecloud.com
+## Architecture
 
-The cloud based service to rapidly develop druid sites on shared or dedicated cloud infrastructure.
+```mermaid
+flowchart RL
+subgraph Druid
+core
+extensions
+micro-frontends
+cloud-->core
+cloud-->extensions
+cloud-->micro-frontends
+end
+subgraph Organizations
+dcloud[rollthecloud.com]-->cloud
+druid2[ng-druid.com]-->cloud
+zingurus[zingurus.com]-->cloud
+classifieds-ui[classifieds-ui.com]-->cloud
+end
+subgraph AWS
+gateway-->dcloud
+gateway-->druid2
+gateway-->zingurus
+gateway-->classifieds-ui
+cognito-->gateway
+opensearch-->gateway
+s3-->gateway
+dynamo-->gateway
+sns-->gateway
+verti-go-->gateway
+cassandra-->verti-go
+documentdb-->verti-go
+atlas-->verti-go
+end
+```
 
-# Zingurus
+## Organizations
 
-* domain: zingurus.com
+### rollthecloud.com
 
-Twitter 000 clone.
+Launch new modern cloud web experiences.
 
+### ng-druid.com
 
-# Classifieds UI
+The druid project main website.
 
-* domain: classifieds-ui.com
+### zingurus.com
 
-Craigslist 000 clone.
+Share thoughts, ideas. media with anyone around the world.
 
-This website will also go one step further and provide derivitive ad sites based on specific contexts like realestate, autos, etc. Content type system will be implemented to change data requires for specific ad types. Profiles can also be created to create dedicated ad websites like for a specific real estate firm or dealer.
+### classifieds-ui.com
 
-# Youtube
-
-This needs name and branding but will effectively be a 000 replacement of youtube and tiktok.
-
-# Wordpress
-
-This needs name and branding but will effectively be a 000 replacement of wordpress hosted blogs. Users will be able to easily launch 000 green blogs like Wordpress but without the environmental impact.
+Publish ads and create sites for sellings goods and products.
