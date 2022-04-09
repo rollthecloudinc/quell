@@ -24,7 +24,7 @@ export class FormMediaComponent extends FormElementBase {
 
   readonly selectSub = this.select$.pipe(
     tap(e => console.log(e)),
-    mergeMap(e => this.filesService.bulkUpload([ e.addedFiles[0] ]).pipe(
+    mergeMap(e => this.filesService.bulkUpload({ files: [ e.addedFiles[0] ] }).pipe(
       map(mfs => ({ mfs, e}))
     )),
     tap(({ mfs }) => this.formControl.setValue(mfs[0])),

@@ -24,7 +24,7 @@ export class FilesService {
     private authFacade: AuthFacade, 
   ) {}
 
-  bulkUpload(files: Array<File>): Observable<Array<MediaFile>> {
+  bulkUpload({ files, fileNameOverride }: { files: Array<File>, fileNameOverride?: string }): Observable<Array<MediaFile>> {
     const requests$: Array<Observable<MediaFile>> = [];
     files.forEach(f => {
       if(f) {
@@ -37,7 +37,7 @@ export class FilesService {
         ));*/
 
         requests$.push(new Observable<MediaFile>(obs => {
-          const id = uuid.v4();
+          const id = fileNameOverride ? fileNameOverride : uuid.v4();
           const [ _, ext ] = f.name.split('.', 2);
           const fileName = id + /*'.' + mime.extension(f.type);*/ (ext ? '.' + ext : '');
           const upload = new Upload({

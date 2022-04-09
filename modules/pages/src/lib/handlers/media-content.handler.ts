@@ -14,7 +14,7 @@ export class MediaContentHandler implements ContentHandler {
   constructor(private filesService: FilesService, private attributeSerializer: AttributeSerializerService) { }
 
   handleFile(file: File): Observable<Array<AttributeValue>> {
-    return this.filesService.bulkUpload([file]).pipe(
+    return this.filesService.bulkUpload({ files: [file] }).pipe(
       map(files => this.buildSettings(files[0]))
     );
   }

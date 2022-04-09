@@ -3,6 +3,7 @@ import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-sel
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { ContentPlugin } from '@ng-druid/content';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
+import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
 import { EntityServices } from '@ngrx/data';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -10,6 +11,8 @@ import { PanelPageState, PanelState, PaneState } from './models/state.models';
 import { of } from 'rxjs';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
+import { toCSS } from 'cssjson';
+import { FilesService } from '@ng-druid/media';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
@@ -67,5 +70,22 @@ export const panelsBridgeFactory = (es: EntityServices, attributeSerializer: Att
       }
     }
   }); 
+};
+
+export const panelpageStylesheetToFileCrudAdaptorPluginFactory = (fileService: FilesService) => {
+  return new CrudAdaptorPlugin<string>({
+    id: 'panelpagestylesheet_upload',
+    title: 'panelpagestylesheet_upload',
+    create: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
+      switchMap(({ entity }) => fileService.bulkUpload({ files: [ entity ], fileNameOverride: `panelpage__${object.id}.css` })),
+      map(() => ({ success: true, entity: undefined }))
+    ),
+    read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
+    update: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
+      switchMap(({ entity }) => fileService.bulkUpload({ files: [ entity ], fileNameOverride: `panelpage__${object.id}.css` })),
+      map(() => ({ success: true, entity: undefined }))
+    ),
+    delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false })
+  });
 };
 

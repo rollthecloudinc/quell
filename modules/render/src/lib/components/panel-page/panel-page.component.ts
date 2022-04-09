@@ -5,8 +5,9 @@ import { EntityServices, EntityCollectionService, EntityCollection, EntityDefini
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@ng-druid/content';
 import { GridLayoutComponent, LayoutPluginManager } from '@ng-druid/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@ng-druid/utils';
+import { FilesService, MediaSettings, MEDIA_SETTINGS } from '@ng-druid/media';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@ng-druid/context';
-import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService, PanelPageStylesheet } from '@ng-druid/panels';
+import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@ng-druid/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError } from 'rxjs/operators';
@@ -101,6 +102,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
 
   private readonly instanceUniqueIdentity = uuid.v4()
+  private isStable = false;
 
   filteredCss: JSONNode;
 
@@ -122,7 +124,6 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private panelPageService: EntityCollectionService<PanelPage>;
   private panelPageFormService: EntityCollectionService<PanelPageForm>;
   private panelPageStateService: EntityCollectionService<PanelPageState>;
-  private panelPageStylesheetService: EntityCollectionService<PanelPageStylesheet>;
 
   bridgeSub = this.pageForm.valueChanges.pipe(
     filter(() => this.nested$.value),
@@ -279,14 +280,26 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
     debounceTime(2000),
-    tap(({ mergedCssAsJson }) => {
-      console.log('merged css', mergedCssAsJson);
+    tap(({ stylesheet  }) => {
+      console.log('merged css', stylesheet );
     }),
     filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
-    concatMap(({ mergedCssAsJson }) => this.panelPageStylesheetService.add(new PanelPageStylesheet({ id: this.panelPageCached.id, styles: mergedCssAsJson }))),
+    switchMap(({ stylesheet  }) => this.isStable ? of({ stylesheet  }) : this.ngZone.onStable.asObservable().pipe(
+      map(() => ({ stylesheet  })),
+      take(1)
+    )),
+    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('stylesheet saved.');
     })
+  ).subscribe();
+
+  readonly onStableSub = this.ngZone.onStable.asObservable().pipe(
+    tap(() => this.isStable = true)
+  ).subscribe();
+
+  readonly onUnstableSub = this.ngZone.onUnstable.asObservable().pipe(
+    tap(() => this.isStable = false)
   ).subscribe();
 
   get panelsArray(): FormArray {
@@ -297,6 +310,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(MEDIA_SETTINGS) private mediaSettings: MediaSettings,
     private routerStore: Store<RouterReducerState>,
     private fb: FormBuilder,
     private el: ElementRef,
@@ -320,12 +334,12 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private ngZone: NgZone,
     private persistService: PersistService,
     private stylizerService: StylizerService,
+    private fileService: FilesService,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
     this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
     this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
-    this.panelPageStylesheetService = es.getEntityCollectionService('PanelPageStylesheet');
   }
 
   ngOnInit() {
@@ -367,18 +381,18 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ),
-      this.panelPageStylesheetService.getByKey(id).pipe(
+      this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      )
+      ),
     ]).pipe(
       tap(([ cssFile, managedCss ]) => {
         let css = {};
         if (cssFile) {
           css = merge(css, cssFile);
         }
-        if (managedCss && managedCss.styles) {
-          css = merge(css, managedCss.styles);
+        if (managedCss) {
+          css = merge(css, managedCss);
         }
         this.filteredCss = css;
       })

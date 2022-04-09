@@ -30,14 +30,3 @@ export class StylePlugin<T = string> extends Plugin<T> {
     }
   }
 }
-
-export class PanelPageStylesheet {
-  id: string;
-  styles: JSONNode;
-  constructor(data?: PanelPageStylesheet) {
-    if (data) {
-      this.id = data.id;
-      this.styles = { ...data.styles };
-    }
-  }
-}

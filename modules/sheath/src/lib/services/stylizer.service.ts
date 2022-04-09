@@ -32,13 +32,13 @@ const defaultToJsonArgs = {
 export class StylizerService {
 
   readonly mutate$ = new Subject<{ record: MutationRecord, overlay: Map<string, any> }>();
-  readonly mutated$ = new Subject<{ mergedCssAsJson: JSONNode }>();
+  readonly mutated$ = new Subject<{ stylesheet : string }>();
 
   mutateSub = this.mutate$.pipe(
     filter(({ record }) => record.type === 'attributes' && record.attributeName === 'style' && !!record.target),
     debounceTime(2000),
     switchMap(({ record, overlay }) => this.mapRecord({ record, overlay })),
-    tap(({ mergedCssAsJson }) => this.mutated$.next({ mergedCssAsJson }))
+    tap(({ stylesheet }) => this.mutated$.next({ stylesheet }))
   ).subscribe();
 
   stylize({ targetNode }: { targetNode: Node }): void {
@@ -52,8 +52,8 @@ export class StylizerService {
     observer.observe(targetNode, observerOptions);
   }
 
-  mapRecord({ record, overlay }: { record: MutationRecord, overlay: Map<string, any> }): Observable<{ mergedCssAsJson: JSONNode }> {
-    return new Observable<{ mergedCssAsJson: JSONNode }>(obs => {
+  mapRecord({ record, overlay }: { record: MutationRecord, overlay: Map<string, any> }): Observable<{ stylesheet: string }> {
+    return new Observable<{ stylesheet : string }>(obs => {
 
       const path = domElementPath.default(record.target);
     
@@ -88,10 +88,11 @@ export class StylizerService {
 
       // rules.forEach(r => console.log('rule', r));
 
-      const mergedCssAsJson = this.toJSON(rules.join(''));
+      // const mergedCssAsJson = this.toJSON(rules.join(''));
       // console.log('mergedCssAsJson', mergedCssAsJson);
+      const stylesheet = rules.join('');
 
-      obs.next({ mergedCssAsJson });
+      obs.next({ stylesheet });
       obs.complete();
 
     });

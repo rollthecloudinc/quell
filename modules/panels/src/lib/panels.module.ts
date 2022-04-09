@@ -31,7 +31,6 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 import { PANELS_SETTINGS } from './panels.tokens';
-import { PanelPageStylesheet } from './models/style.models';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
@@ -93,6 +92,5 @@ export class PanelsModule {
     // console.log('register panel page state');
     // Experimental - form testing
     entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
-    entityDataService.registerService('PanelPageStylesheet', new CrudDataService<PanelPageStylesheet>('PanelPageStylesheet', crud, entityDefinitionService, crudDataHelper));
   }
 }
