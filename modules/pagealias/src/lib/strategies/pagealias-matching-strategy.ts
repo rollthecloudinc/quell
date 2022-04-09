@@ -16,7 +16,11 @@ export class PagealiasMatchingStrategy implements AliasMatchingStrategy {
   }
 
   match(state: RouterStateSnapshot): Observable<boolean> {
-    const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}` : `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
+    let url = state.url;
+    if (url.indexOf('?') !== -1) {
+      url = state.url.substr(0, url.indexOf('?'));
+    }
+    const matchPathQuery = 'path=' + url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}` : `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
     return this.panelPageListItemsService.getWithQuery(matchPathQuery).pipe(
       catchError(e => {
         return of([]);

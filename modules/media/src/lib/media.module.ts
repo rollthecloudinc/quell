@@ -1,8 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { ContentPluginManager } from '@ng-druid/content';
+import { MediafilePaneRendererComponent } from './components/mediafile-pane-renderer/mediafile-pane-renderer.component';
+import { mediafileContentPluginFactory } from './media.factories';
 
 @NgModule({
+  declarations: [ MediafilePaneRendererComponent ],
+  exports: [ MediafilePaneRendererComponent ],
   imports: [CommonModule /*, HttpClientModule*/]
 })
-export class MediaModule {}
+export class MediaModule {
+  constructor(
+    cpm: ContentPluginManager
+  ) {
+    cpm.register(mediafileContentPluginFactory());
+  }
+}

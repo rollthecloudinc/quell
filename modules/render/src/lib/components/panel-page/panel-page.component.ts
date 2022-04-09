@@ -9,7 +9,7 @@ import { /*ContextManagerService, */ InlineContext, ContextPluginManager, Inline
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService, PanelPageStylesheet } from '@ng-druid/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -24,6 +24,7 @@ import { isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
 import { StylizerService } from '@ng-druid/sheath';
 import { camelize } from 'inflected';
+import merge from 'deepmerge-json';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -199,7 +200,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
         this.hookupContextChange();
       }*/
       if (panelPage.cssFile && panelPage.cssFile.trim() !== '') {
-        this.hookupCss({ file: panelPage.cssFile.trim() });
+        this.hookupCss({ file: panelPage.cssFile.trim(), id: panelPage.id });
       }
       console.log(`cached panel page: ${panelPage.id}`);
     })
@@ -272,7 +273,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly stylizerSub = this.afterViewInit$.pipe(
     tap(() => {
-      // this.stylizerService.stylize({ targetNode: this.el.nativeElement });
+      this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
   ).subscribe();
 
@@ -281,6 +282,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     tap(({ mergedCssAsJson }) => {
       console.log('merged css', mergedCssAsJson);
     }),
+    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
     concatMap(({ mergedCssAsJson }) => this.panelPageStylesheetService.add(new PanelPageStylesheet({ id: this.panelPageCached.id, styles: mergedCssAsJson }))),
     tap(() => {
       console.log('stylesheet saved.');
@@ -359,10 +361,32 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     });
   }
 
-  hookupCss({ file }: { file: string }) {
+  hookupCss({ file, id }: { file: string, id: string }) {
+    forkJoin([
+      this.http.get<JSONNode>(file).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ),
+      this.panelPageStylesheetService.getByKey(id).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      )
+    ]).pipe(
+      tap(([ cssFile, managedCss ]) => {
+        let css = {};
+        if (cssFile) {
+          css = merge(css, cssFile);
+        }
+        if (managedCss && managedCss.styles) {
+          css = merge(css, managedCss.styles);
+        }
+        this.filteredCss = css;
+      })
+    ).subscribe();
+    /*
     this.http.get<JSONNode>(file).subscribe(css => {
       this.filteredCss = css; //css.styles; - only for sheath
-    });
+    });*/
   }
 
   submit() {

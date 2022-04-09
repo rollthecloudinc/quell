@@ -78,7 +78,10 @@ export class StylizerService {
         const optimizedSelector = pieces.reduce((p, c, i) => c.indexOf('.pane-') !== -1 || c.indexOf('.panel-') !== -1 ? { selector: [ ...p.selector, c.replace(/^(.*?)(\.pane-|\.panel-page|\.panel-)([0-9]*)(.*?)$/,'$2$3') ], chars: p.chars + c.length, lastIndex: p.chars + i + c.length } : { ...p, chars: p.chars + c.length }, { selector: [], chars: 0, lastIndex: 0 });
         if (optimizedSelector.selector.length !== 0) {
           // console.log('after selector', k.slice(optimizedSelector.lastIndex))
-          const rebuiltSelector = optimizedSelector.selector.join(' ') + ' ' + k.slice(optimizedSelector.lastIndex).split('>').join('');
+          let rebuiltSelector = ( optimizedSelector.selector.join(' ') + ' ' + k.slice(optimizedSelector.lastIndex).split('>').join('') ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm,'');
+          if (rebuiltSelector.indexOf('.panel-page') === 0) {
+            rebuiltSelector = rebuiltSelector.substr(12);
+          }
           rules.push(rebuiltSelector + ' { ' + Object.keys(v).reduce((p, c) => `${p}${dasherize(underscore(c))}: ${v[c]};`, ``) + ' }');
         }
       });

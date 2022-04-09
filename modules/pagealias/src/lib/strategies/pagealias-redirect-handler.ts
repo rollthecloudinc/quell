@@ -19,7 +19,11 @@ export class PagealiasRedirectHandler implements AliasRedirectHandler {
       console.log(`redirect: ${state.url}`);
       this.router.navigateByUrl(state.url);
     } else {
-      const matchPathQuery = 'path=' + state.url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
+      let url = state.url;
+      if (url.indexOf('?') !== -1) {
+        url = state.url.substr(0, url.indexOf('?'));
+      }
+      const matchPathQuery = 'path=' + url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
       this.panelPageListItemsService.getWithQuery(matchPathQuery).pipe(
         map(pages => pages.reduce((p, c) => p === undefined ? c : p.path.split('/').length < c.path.split('/').length ? c : p , undefined)),
         map(panelPage => {

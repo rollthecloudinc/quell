@@ -91,7 +91,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
       entityName: 'PanelPageStylesheet',
       crud: {
         aws_s3_entity: {
-          ops: ['create', 'update'],
+          ops: ['create', 'update', 'query'],
           params: {
             // bucket: 'classifieds-ui-dev',
             bucket: panelsSettings.s3Bucket,
