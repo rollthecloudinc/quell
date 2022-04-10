@@ -34,6 +34,10 @@ module.exports = {
           "@angular/common/http": { singleton: true, strictVersion: true, requiredVersion: 'auto' }, 
           "@angular/router": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
 
+          // React experimental
+          //"react": { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+          //"react-dom": { singleton: true, strictVersion: false, requiredVersion: 'auto' },
+
           // Uncommenting this results in compilation errors for building project ipe
           /*"@ng-druid/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
           "@ng-druid/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },

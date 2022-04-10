@@ -3,6 +3,7 @@ import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/co
 // import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { InlineContext } from '@ng-druid/context';
+import { MfeReactComponent } from "@ng-druid/react"; // this will need to be separate - plugin time.
 import { BehaviorSubject, map, Observable, skip, switchMap, tap } from "rxjs";
 import { OutsideAppSettings } from "../../models/outsider.models";
 
@@ -38,17 +39,25 @@ export class OutsideAppRendererComponent {
     skip(1),
     switchMap(s => new Observable<Type<Component>>(obs => {
       loadRemoteModule({
-        type: 'module',
+        /* type: 'module',
         remoteEntry: s.remoteEntry,
-        exposedModule: s.exposedModule
+        exposedModule: s.exposedModule*/
+
+        // react hard-code just get it working
+        type: 'script', // temp for react
+        remoteEntry: 'http://127.0.0.1:8080/remoteEntry.js',
+        exposedModule: './Button',
+        remoteName: 'mfe_react_spear',
       }).then(m => {
-        obs.next(m[s.componentName]);
+        // obs.next(m[s.componentName]);
+        obs.next(m);
         obs.complete();
       });
     })),
     tap(c => {
       this.viewContainer.clear();
-      this.viewContainer.createComponent(c);
+      const comp = this.viewContainer.createComponent(MfeReactComponent);
+      (comp.instance as any).component = c;
     })
   ).subscribe();
 

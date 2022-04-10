@@ -28,6 +28,7 @@ import { BridgeModule } from '@ng-druid/bridge';
 import { StateModule } from '@ng-druid/state';
 import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from '@ng-druid/awcog';
 import { KeyvalModule } from '@ng-druid/keyval';
+import { ReactModule } from '@ng-druid/react';
 // import { CHAT_SETTINGS, ChatSettings } from '@classifieds-ui/chat';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { PROFILE_SETTINGS, ProfileSettings } from '@classifieds-ui/profiles';
@@ -203,7 +204,8 @@ export function markedOptionsFactory(): MarkedOptions {
     TractorbeamModule,
     RefineryModule,
     SheathModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    ReactModule // react integration (experimental)
     // JsonschemaModule
     // OktaAuthModule
   ],

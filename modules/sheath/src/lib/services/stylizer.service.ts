@@ -90,7 +90,7 @@ export class StylizerService {
 
       // const mergedCssAsJson = this.toJSON(rules.join(''));
       // console.log('mergedCssAsJson', mergedCssAsJson);
-      const stylesheet = rules.join('');
+      const stylesheet = rules.join("\n");
 
       obs.next({ stylesheet });
       obs.complete();

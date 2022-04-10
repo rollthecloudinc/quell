@@ -77,6 +77,8 @@
     "number-string": "^2.0.1",
     "oidc-client": "^1.11.5",
     "qs": "^6.10.3",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
     "recursive-diff": "^1.0.8",
     "rxjs": "~7.5.2",
     "selectn": "^1.1.2",

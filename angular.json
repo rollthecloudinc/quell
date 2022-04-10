@@ -1548,6 +1548,37 @@
           }
         }
       }
+    },
+    "react": {
+      "projectType": "library",
+      "root": "modules/react",
+      "sourceRoot": "modules/react/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "modules/react/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/react/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "modules/react/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/react/src/test.ts",
+            "tsConfig": "modules/react/tsconfig.spec.json",
+            "karmaConfig": "modules/react/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }

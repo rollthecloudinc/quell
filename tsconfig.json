@@ -249,6 +249,10 @@
         "dist/refinery/refinery",
         "dist/refinery"
       ],
+      "@ng-druid/react": [
+        "dist/react/react",
+        "dist/react"
+      ],
       "@ng-druid/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"
