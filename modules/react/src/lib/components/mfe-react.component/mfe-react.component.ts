@@ -19,25 +19,14 @@ const containerElementName = 'mfeReactComponent';
 @Component({
   selector: 'druid-mfe-react',
   template: `<span #${containerElementName}></span>`,
-  // styleUrls: ['./MyReactComponent.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
 
-  @Input() public counter = 10;
   @Input() component: React.Component;
-  @Output() public componentClick = new EventEmitter<void>();
 
   constructor() {
-    this.handleDivClicked = this.handleDivClicked.bind(this);
-  }
-
-  public handleDivClicked() {
-    if (this.componentClick) {
-      this.componentClick.emit();
-      this.render();
-    }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,13 +42,6 @@ export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   private render() {
-    const {counter} = this;
-
-    /*ReactDOM.render(<div className={'i-am-classy'}>
-      <MyReactComponent counter={counter} onClick={this.handleDivClicked}/>
-    </div>, this.containerRef.nativeElement);*/
-
-    ReactDOM.hydrate(this.component, this.containerRef.nativeElement);
-
+    ReactDOM.render(this.component(), this.containerRef.nativeElement);
   }
 }

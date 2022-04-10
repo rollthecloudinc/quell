@@ -47,10 +47,10 @@ export class OutsideAppRendererComponent {
         type: 'script', // temp for react
         remoteEntry: 'http://127.0.0.1:8080/remoteEntry.js',
         exposedModule: './Button',
-        remoteName: 'mfe_react_spear',
+        remoteName: 'mfe_react_spear'
       }).then(m => {
         // obs.next(m[s.componentName]);
-        obs.next(m);
+        obs.next(m.default);
         obs.complete();
       });
     })),
