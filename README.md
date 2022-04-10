@@ -124,7 +124,7 @@ ext1-->p2[plugin]
 ext2-->p3[plugin]
 ```
 
-## Framework Agnostic
+## Hybrid Architecture
 
 Druid is not limited to using Angular modules. In druid any JavaScript app that suppots module federation can be pulled into the main shell app. Druid can host React, Vue, Svelte, etc. apps when module federation is supported. Furthermore, druid apps can be nested inside one other using module federation.
 
