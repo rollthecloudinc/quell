@@ -42,6 +42,7 @@ export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   private render() {
-    ReactDOM.render(this.component(), this.containerRef.nativeElement);
+    const c = this.component();
+    ReactDOM.render(c, this.containerRef.nativeElement);
   }
 }
