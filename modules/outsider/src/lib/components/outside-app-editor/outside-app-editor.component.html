@@ -3,6 +3,16 @@
   <div>
     <mat-form-field>
       <mat-label>Remote Entry</mat-label>
+      <mat-select formControlName="type" required>
+        <mat-option value="module">Module</mat-option>
+        <mat-option value="script">Script</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Remote Entry</mat-label>
       <input matInput formControlName="remoteEntry" required>
     </mat-form-field>
   </div>
@@ -18,6 +28,13 @@
     <mat-form-field>
       <mat-label>Component Name</mat-label>
       <input matInput formControlName="componentName" required>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-form-field>
+      <mat-label>Remote Name</mat-label>
+      <input matInput formControlName="remoteName">
     </mat-form-field>
   </div>
 

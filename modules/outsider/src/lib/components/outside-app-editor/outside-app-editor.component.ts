@@ -21,9 +21,11 @@ export class OutsideAppEditorComponent implements OnInit {
   @Input() bindableOptions: Array<string> = [];
 
   formGroup = this.fb.group({
+    type: this.fb.control('module', [ Validators.required ]),
     remoteEntry: this.fb.control('', [ Validators.required ]),
     exposedModule: this.fb.control('', [ Validators.required ]),
-    componentName: this.fb.control('', [ Validators.required ])
+    componentName: this.fb.control('', [ Validators.required ]),
+    remoteName: this.fb.control('',)
   });
 
   get paneGroup(): AbstractControl {
@@ -44,9 +46,11 @@ export class OutsideAppEditorComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.pane) {
       this.handler.toObject(this.data.pane.settings).subscribe(o => {
+        this.formGroup.get('type').setValue(o.type && o.type !== '' ? o.type : 'module');
         this.formGroup.get('remoteEntry').setValue(o.remoteEntry);
         this.formGroup.get('exposedModule').setValue(o.exposedModule);
         this.formGroup.get('componentName').setValue(o.componentName);
+        this.formGroup.get('remoteName').setValue(o.remoteName);
       });
     } else {
       (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({

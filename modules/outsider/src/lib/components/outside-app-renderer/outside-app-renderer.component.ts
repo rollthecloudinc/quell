@@ -38,26 +38,35 @@ export class OutsideAppRendererComponent {
   protected readonly renderAppSub = this.objectSettings$.pipe(
     skip(1),
     switchMap(s => new Observable<Type<Component>>(obs => {
-      loadRemoteModule({
-        /* type: 'module',
-        remoteEntry: s.remoteEntry,
-        exposedModule: s.exposedModule*/
-
-        // react hard-code just get it working
-        type: 'script', // temp for react
-        remoteEntry: 'http://127.0.0.1:8080/remoteEntry.js',
-        exposedModule: './Button',
-        remoteName: 'mfe_react_spear'
-      }).then(m => {
-        // obs.next(m[s.componentName]);
-        obs.next(m.default);
+        loadRemoteModule(
+          !s.type || s.type === 'script' ?
+          {
+            type: 'script', // temp for react
+            remoteEntry: s.remoteEntry, // 'http://127.0.0.1:8080/remoteEntry.js',
+            exposedModule: s.exposedModule,
+            remoteName: s.remoteName // 'mfe_react_spear'
+          } :
+          {
+            type: 'module',
+            remoteEntry: s.remoteEntry,
+            exposedModule: s.exposedModule
+          }
+      ).then(m => {
+        obs.next(m[ s.componentName && s.componentName !== '' ? s.componentName : 'default' ]);
         obs.complete();
       });
-    })),
-    tap(c => {
+    }).pipe(
+      map(c => ({ s, c }))
+    )),
+    tap(({ s, c }) => {
       this.viewContainer.clear();
-      const comp = this.viewContainer.createComponent(MfeReactComponent);
-      (comp.instance as any).component = c;
+      // Just assume scripts are react apps for now. KISS
+      if (!s.type || s.type === 'script') {
+        const comp = this.viewContainer.createComponent(MfeReactComponent);
+        (comp.instance as any).component = c;
+      } else {
+        this.viewContainer.createComponent(c);
+      }
     })
   ).subscribe();
 

@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { MfeReactComponent } from './components/mfe-react.component/mfe-react.component';
+import { MfeReactComponent } from './components/mfe-react-component/mfe-react.component';
 
 @NgModule({
   declarations: [
