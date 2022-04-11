@@ -23,7 +23,7 @@ import { CrudAdaptorPluginManager, CrudDataHelperService, CrudEntityMetadata } f
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
-import { StylizerService } from '@ng-druid/sheath';
+import { StylizerService, ClassifyService } from '@ng-druid/sheath';
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
 
@@ -277,6 +277,12 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     })
   ).subscribe();
 
+  readonly classifySub = this.afterViewInit$.pipe(
+    tap(() => {
+      this.classifyService.classify({ targetNode: this.el.nativeElement });
+    })
+  ).subscribe();
+
   readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
     debounceTime(2000),
     tap(({ stylesheet  }) => {
@@ -291,6 +297,23 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('stylesheet saved.');
+    })
+  ).subscribe();
+
+  readonly classifyMutatedSub = this.classifyService.mutated$.pipe(
+    debounceTime(2000),
+    tap(({ classes  }) => {
+      console.log('merged classes', classes );
+    }),
+    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
+    switchMap(({ classes }) => this.isStable ? of({ classes }) : this.ngZone.onStable.asObservable().pipe(
+      map(() => ({ classes })),
+      take(1)
+    )),
+    // map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
+    // concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    tap(() => {
+      console.log('classes would be saved.');
     })
   ).subscribe();
 
@@ -334,6 +357,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private ngZone: NgZone,
     private persistService: PersistService,
     private stylizerService: StylizerService,
+    private classifyService: ClassifyService,
     private fileService: FilesService,
     es: EntityServices,
   ) {
