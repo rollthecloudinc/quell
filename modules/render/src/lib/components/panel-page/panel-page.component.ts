@@ -103,6 +103,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   private readonly instanceUniqueIdentity = uuid.v4()
   private isStable = false;
+  private managedCssCache = '';
 
   filteredCss: JSONNode;
 
@@ -200,9 +201,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      if (panelPage.cssFile && panelPage.cssFile.trim() !== '') {
-        this.hookupCss({ file: panelPage.cssFile.trim(), id: panelPage.id });
-      }
+      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined, id: panelPage.id });
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -288,6 +287,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       map(() => ({ stylesheet  })),
       take(1)
     )),
+    map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
     concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('stylesheet saved.');
@@ -385,13 +385,19 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ),
+      this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css`).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ),
     ]).pipe(
-      tap(([ cssFile, managedCss ]) => {
+      tap(([ cssFile, managedCss, managedCssRaw ]) => {
         let css = {};
+        this.managedCssCache = '';
         if (cssFile) {
           css = merge(css, cssFile);
         }
         if (managedCss) {
+          this.managedCssCache = managedCssRaw;
           css = merge(css, managedCss);
         }
         this.filteredCss = css;
