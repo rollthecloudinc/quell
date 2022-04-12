@@ -9,7 +9,7 @@ import { Sha256 } from "@aws-crypto/sha256-js";
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { map, switchMap, take, tap } from "rxjs/operators";
+import { catchError, map, switchMap, take, tap } from "rxjs/operators";
 import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
 import { isPlatformServer } from "@angular/common";
 
@@ -125,7 +125,39 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
       map(() => ({ success: true }))
     ),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    query: ({ rule, params }: CrudCollectionOperationInput) => of({ entities: [], success: false })
+    query: ({ rule, params }: CrudCollectionOperationInput) => of({ entities: [], success: false }).pipe(
+      tap(() => {
+        console.log('crud open search query', rule, params);
+      }),
+      paramsEvaluatorService.resolveParams({ params }),
+
+      // This can be moved into crud adaptor and passed as argument.
+      map(({ options }) => ({ options, identityCondition: (rule.conditions as AllConditions).all.map(c => (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity')).find(c => !!c) })),
+      switchMap(({ options, identityCondition }) => createSignedHttpRequest({
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          host: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
+        },
+        hostname: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
+        path: `/${(options as any).index}/_doc/${identityCondition ? (identityCondition as ConditionProperties).value : ''}`,
+        protocol: 'https:',
+        service: "es",
+        cognitoSettings: cognitoSettings,
+        authFacade: authFacade
+      }).pipe(
+        tap(() => console.log('.marker({ event: AFTER , entity: opensearch , op: query , meta: { action: createSignedRequest } })')),
+        tap(signedHttpRequest => delete signedHttpRequest.headers.host),
+        // map(signedHttpRequest => ({ signedHttpRequest, options, url: `${ isPlatformServer(platformId) ? /*'http://localhost:4000'*/ `${protocol}://${hostName}` /*`https://${options.bucket}.s3.amazonaws.com`*/ : `${protocol}://${hostName}` }${ `/awproxy/s3/${(options as any).bucket}` }${signedHttpRequest.path}` })),
+        map(signedHttpRequest => ({ signedHttpRequest, options, url: `https://${(options as any).domain}.${(options as any).region}.es.amazonaws.com${signedHttpRequest.path}` })),
+        tap(() => console.log('.marker({ event: BEFORE , entity: crud , op: query , meta: { http: get } })')),
+        switchMap(({ signedHttpRequest, url }) => http.get(url, { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
+          catchError(() => of(undefined))
+        )),
+        tap(() => console.log('.marker({ event: AFTER , entity: opensearch , op: query , meta: { http: get } })')),
+        map(res => ({ entities: res ? [ res['_source'] ] : [], success: res ? true : false }))
+      )),
+    )
   });
 };
 
