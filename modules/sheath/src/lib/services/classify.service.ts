@@ -2,8 +2,9 @@ import { Injectable } from "@angular/core";
 import domElementPath from 'dom-element-path';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';
-import { debounceTime, filter, Observable, Subject, switchMap, tap } from "rxjs";
+import { catchError, debounceTime, filter, Observable, of, Subject, switchMap, tap } from "rxjs";
 import { ClassClassification } from "../models/classify.models";
+import { isSelectorValid } from "../sheath.helpers";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,12 @@ export class ClassifyService {
   mutateub = this.mutate.pipe(
     filter(({ record }) => record.type === 'attributes' && record.attributeName === 'class' && !!record.target),
     debounceTime(2000),
-    switchMap(({ record, overlay, originals }) => this.mapRecord({ record, overlay, originals })),
+    switchMap(({ record, overlay, originals }) => this.mapRecord({ record, overlay, originals }).pipe(
+      catchError(e => {
+        console.warn(e);
+        return of({ classes: overlay });
+      })
+    )),
     tap(({ classes }) => this.mutated$.next({ classes }))
   ).subscribe();
 
@@ -44,29 +50,39 @@ export class ClassifyService {
         // console.log('after selector', k.slice(optimizedSelector.lastIndex))
         rebuiltSelector = ( optimizedSelector.selector.join(' ') + ' ' + path.slice(optimizedSelector.lastIndex).split('>').join('') ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm,'');
         if (rebuiltSelector.indexOf('.panel-page') === 0) {
-          rebuiltSelector = rebuiltSelector.substr(12);
+          rebuiltSelector = rebuiltSelector.substr(12).trim();
         }
       }
 
       const rebuiltPieces = rebuiltSelector.split(' ');
       const [ lastSelector ] = rebuiltPieces[rebuiltPieces.length - 1].split('.', 1);
-      rebuiltSelector = rebuiltPieces.splice(0, rebuiltPieces.length - 2).join(' ') + ' ' + lastSelector;
+      rebuiltSelector = (rebuiltPieces.splice(0, rebuiltPieces.length - 2).join(' ') + ' ' + lastSelector).trim();
 
-      if(!originals.has(rebuiltSelector)) {
-        originals.set(rebuiltSelector, new Set(record.oldValue.split(' ').map(c => c.trim())));
+      const selectorValid = isSelectorValid(rebuiltSelector);
+      if (selectorValid) {
+
+        if(!originals.has(rebuiltSelector)) {
+          originals.set(rebuiltSelector, new Set(record.oldValue.split(' ').map(c => c.trim())));
+        }
+  
+        const classList = (record.target as any).classList;
+        const classMap = new Map<string, ClassClassification>(Array.from(classList.values()).map(c => [`${c}`, !originals.has(rebuiltSelector) || !originals.get(rebuiltSelector).has(`${c}`) ? ClassClassification.ADD : ClassClassification.KEEP ]));
+        const removed = Array.from(originals.get(rebuiltSelector)).reduce((p, c) => [ Array.from(classList.values()).findIndex(c2 => c2 === c) === -1 ? c : undefined ], []).filter(c => c !== undefined);
+        if (removed.length !== 0) {
+          removed.forEach(c => classMap.set(c, ClassClassification.REMOVE));
+        }
+  
+        overlay.set(rebuiltSelector, classMap);
+  
+        obs.next({ classes: overlay });
+        obs.complete();
+
+      } else {
+
+        obs.error(new Error('Selector invalid "' + rebuiltSelector + '"'));
+        obs.complete();
+
       }
-
-      const classList = (record.target as any).classList;
-      const classMap = new Map<string, ClassClassification>(Array.from(classList.values()).map(c => [`${c}`, !originals.has(rebuiltSelector) || !originals.get(rebuiltSelector).has(`${c}`) ? ClassClassification.ADD : ClassClassification.KEEP ]));
-      const removed = Array.from(originals.get(rebuiltSelector)).reduce((p, c) => [ Array.from(classList.values()).findIndex(c2 => c2 === c) === -1 ? c : undefined ], []).filter(c => c !== undefined);
-      if (removed.length !== 0) {
-        removed.forEach(c => classMap.set(c, ClassClassification.REMOVE));
-      }
-
-      overlay.set(rebuiltSelector, classMap);
-
-      obs.next({ classes: overlay });
-      obs.complete();
 
     });
   }

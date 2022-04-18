@@ -272,12 +272,14 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   ).subscribe();
 
   readonly stylizerSub = this.afterViewInit$.pipe(
+    filter(() => false), // @tofo: Note ready for prime time just yet.
     tap(() => {
       this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
   ).subscribe();
 
   readonly classifySub = this.afterViewInit$.pipe(
+    filter(() => false), // @tofo: Note ready for prime time just yet.
     tap(() => {
       this.classifyService.classify({ targetNode: this.el.nativeElement });
     })
@@ -289,6 +291,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       console.log('merged css', stylesheet );
     }),
     filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
+    filter(() => false), // @tofo: Note ready for prime time just yet.
     switchMap(({ stylesheet  }) => this.isStable ? of({ stylesheet  }) : this.ngZone.onStable.asObservable().pipe(
       map(() => ({ stylesheet  })),
       take(1)
@@ -306,6 +309,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       console.log('merged classes', classes );
     }),
     filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
+    filter(() => false), // @tofo: Note ready for prime time just yet.
     switchMap(({ classes }) => this.isStable ? of({ classes }) : this.ngZone.onStable.asObservable().pipe(
       map(() => ({ classes })),
       take(1)

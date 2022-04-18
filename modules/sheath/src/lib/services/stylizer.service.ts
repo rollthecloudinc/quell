@@ -4,6 +4,7 @@ import { /*toJSON*/ JSONNode } from 'cssjson';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';
 import { debounceTime, filter, Observable, Subject, switchMap, tap } from "rxjs";
+import { isSelectorValid } from "../sheath.helpers";
 
 const selX = /([^\s\;\{\}][^\;\{\}]*)\{/g;
 const endX = /\}/g;
@@ -78,11 +79,16 @@ export class StylizerService {
         const optimizedSelector = pieces.reduce((p, c, i) => c.indexOf('.pane-') !== -1 || c.indexOf('.panel-') !== -1 ? { selector: [ ...p.selector, c.replace(/^(.*?)(\.pane-|\.panel-page|\.panel-)([0-9]*)(.*?)$/,'$2$3') ], chars: p.chars + c.length, lastIndex: p.chars + i + c.length } : { ...p, chars: p.chars + c.length }, { selector: [], chars: 0, lastIndex: 0 });
         if (optimizedSelector.selector.length !== 0) {
           // console.log('after selector', k.slice(optimizedSelector.lastIndex))
-          let rebuiltSelector = ( optimizedSelector.selector.join(' ') + ' ' + k.slice(optimizedSelector.lastIndex).split('>').join('') ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm,'');
+          let rebuiltSelector = ( optimizedSelector.selector.join(' ') + ' ' + k.slice(optimizedSelector.lastIndex).split('>').join('') ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm,'').trim();
           if (rebuiltSelector.indexOf('.panel-page') === 0) {
-            rebuiltSelector = rebuiltSelector.substr(12);
+            rebuiltSelector = rebuiltSelector.substr(12).trim();
           }
-          rules.push(rebuiltSelector + ' { ' + Object.keys(v).reduce((p, c) => `${p}${dasherize(underscore(c))}: ${v[c]};`, ``) + ' }');
+          const selectorValid = isSelectorValid(rebuiltSelector);
+          if (selectorValid) {
+            rules.push(rebuiltSelector + ' { ' + Object.keys(v).reduce((p, c) => c.match(/^[a-zA-Z-]*$/gm) ? `${p}${dasherize(underscore(c))}: ${v[c]};` : p, ``) + ' }');
+          } else {
+            console.warn('Selector invalid "' + rebuiltSelector + '"');
+          }
         }
       });
 
