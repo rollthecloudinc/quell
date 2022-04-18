@@ -38,3 +38,4 @@ ng run pages:build:production
 ng run pagealias:build:production
 ng run formly:build:production
 ng run forms:build:production
+ng run react:build:production

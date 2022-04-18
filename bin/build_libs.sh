@@ -38,3 +38,4 @@ npm run build pages
 npm run build pagealias
 npm run build formly
 npm run build forms
+npm run build react

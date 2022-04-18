@@ -1,6 +1,7 @@
 {
   "name": "@ng-druid/react",
-  "version": "0.0.1",
+  "version": "0.0.30",
+  "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^13.1.0",
     "@angular/core": "^13.1.0"
