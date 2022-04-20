@@ -45,11 +45,11 @@ end
 
 ### RollTheCloud.com
 
-Launch new modern cloud web experiences.
+Nonprofit main site.
 
 ### RollWithDruid.com
 
-The druid cloud.
+Launch new modern cloud web experiences.
 
 ### RollWithZingscom
 
