@@ -59,7 +59,7 @@ Nonprofit virtual business card for easy mobile distribution.
 
 Launch new modern cloud web experiences.
 
-### RollWithZingscom
+### RollWithZings.com
 
 Share thoughts, ideas. media with anyone around the world.
 
