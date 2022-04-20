@@ -13,16 +13,26 @@ cloud-->extensions
 cloud-->micro-frontends
 end
 subgraph Organizations
-dcloud[rollthecloud.com]-->cloud
-druid2[ng-druid.com]-->cloud
-zingurus[zingurus.com]-->cloud
-classifieds-ui[classifieds-ui.com]-->cloud
+dcloud[RollTheCloud.com]-->cloud
+card[Card.RollTheCloud.com]-->cloud
+druid2[RollWithDruid.com]-->cloud
+zingurus[RollWithZings.com]-->cloud
+realestate[RollWithRealestate.com]-->cloud
+autos[RollWithAutos.com]-->cloud
+jobs[RollWithJobs.com]-->cloud
+classifieds[RollWithClassifieds.com]-->cloud
+commerce[RollWithCommerce.com]-->cloud
 end
 subgraph AWS
 gateway-->dcloud
+gateway-->card
 gateway-->druid2
 gateway-->zingurus
-gateway-->classifieds-ui
+gateway-->realestate
+gateway-->autos
+gateway-->jobs
+gateway-->classifieds
+gateway-->commerce
 cognito-->gateway
 opensearch-->gateway
 s3-->gateway
@@ -37,18 +47,38 @@ end
 
 ## Organizations
 
-### rollthecloud.com
+### RollTheCloud.com
+
+Nonprofit main site.
+
+### Card.RollTheCloud.com
+
+Nonprofit virtual business card for easy mobile distribution.
+
+### RollWithDruid.com
 
 Launch new modern cloud web experiences.
 
-### ng-druid.com
-
-The druid project main website.
-
-### zingurus.com
+### RollWithZings.com
 
 Share thoughts, ideas. media with anyone around the world.
 
-### classifieds-ui.com
+### RollWithClassifieds.com
 
 Publish ads and create sites for sellings goods and products.
+
+### RollWithRealestate.com
+
+Publish ads and create sites for sellings homes.
+
+### RollWithAutos.com
+
+Publish ads and create sites for sellings autos.
+
+### RollWithJobs.com
+
+Publish ads and create sites for job listings.
+
+### RollWithCommerce.com
+
+Create ecommerce websites.
