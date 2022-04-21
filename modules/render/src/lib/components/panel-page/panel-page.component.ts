@@ -272,14 +272,14 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   ).subscribe();
 
   readonly stylizerSub = this.afterViewInit$.pipe(
-    filter(() => false), // @tofo: Note ready for prime time just yet.
+    //filter(() => false), // @tofo: Note ready for prime time just yet.
     tap(() => {
       this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
   ).subscribe();
 
   readonly classifySub = this.afterViewInit$.pipe(
-    filter(() => false), // @tofo: Note ready for prime time just yet.
+    //filter(() => false), // @tofo: Note ready for prime time just yet.
     tap(() => {
       this.classifyService.classify({ targetNode: this.el.nativeElement });
     })
@@ -291,12 +291,12 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       console.log('merged css', stylesheet );
     }),
     filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
-    filter(() => false), // @tofo: Note ready for prime time just yet.
+    // filter(() => false), // @tofo: Note ready for prime time just yet.
     switchMap(({ stylesheet  }) => this.isStable ? of({ stylesheet  }) : this.ngZone.onStable.asObservable().pipe(
       map(() => ({ stylesheet  })),
       take(1)
     )),
-    map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
+    map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
     concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('stylesheet saved.');
@@ -309,13 +309,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       console.log('merged classes', classes );
     }),
     filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
-    filter(() => false), // @tofo: Note ready for prime time just yet.
+    // filter(() => false), // @tofo: Note ready for prime time just yet.
     switchMap(({ classes }) => this.isStable ? of({ classes }) : this.ngZone.onStable.asObservable().pipe(
       map(() => ({ classes })),
       take(1)
     )),
-    // map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
-    // concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    //map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
+    //concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('classes would be saved.');
     })
@@ -620,8 +620,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
       for (let i = 0; i < len; i++) {
         rules.forEach(p => {
           console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          // const prop = camelize(p.replace('-', '_'));
-          this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
+          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
         });
       }
     });
@@ -944,7 +944,8 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
       for (let i = 0; i < len; i++) {
         rules.forEach(p => {
           console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          this.renderer2.setStyle(matchedNodes[i], p, css.children[k].attributes[p]);
+          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
         });
       }
     });
