@@ -239,7 +239,14 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       this.resolveSub = this.inlineContextResolver.resolveMergedSingle(contexts).pipe(
         skip(globalPlugins.length + (contexts ? contexts.length : 0)),
         tap(() => PanelPageComponent.registredContextListeners.add(this.instanceUniqueIdentity)),
+        tap(v => console.log('buffer', v)),
         bufferTime(1),
+        tap(buffered => {
+          if (buffered.length === 0) {
+            PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
+          }
+        }),
+        filter(buffered => buffered.length !== 0),
         tap(buffered => {
           this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
           this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
