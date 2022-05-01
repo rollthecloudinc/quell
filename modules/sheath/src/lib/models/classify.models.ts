@@ -3,3 +3,5 @@ export enum ClassClassification {
   ADD,
   REMOVE
 }
+
+export type ClassMap = Map<string, Map<string, ClassClassification>>;

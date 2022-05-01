@@ -3,7 +3,7 @@ import domElementPath from 'dom-element-path';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';
 import { catchError, debounceTime, filter, Observable, of, Subject, switchMap, tap } from "rxjs";
-import { ClassClassification } from "../models/classify.models";
+import { ClassClassification, ClassMap } from "../models/classify.models";
 import { isSelectorValid } from "../sheath.helpers";
 
 @Injectable({
@@ -11,8 +11,8 @@ import { isSelectorValid } from "../sheath.helpers";
 })
 export class ClassifyService {
 
-  readonly mutate = new Subject<{ record: MutationRecord, overlay: Map<string, Map<string, ClassClassification>>, originals: Map<string, Set<string>> }>();
-  readonly mutated$ = new Subject<{ classes: Map<string, Map<string, ClassClassification>>  }>();
+  readonly mutate = new Subject<{ record: MutationRecord, overlay: ClassMap, originals: Map<string, Set<string>> }>();
+  readonly mutated$ = new Subject<{ classes: ClassMap }>();
 
   mutateub = this.mutate.pipe(
     filter(({ record }) => record.type === 'attributes' && record.attributeName === 'class' && !!record.target),
@@ -38,8 +38,8 @@ export class ClassifyService {
     observer.observe(targetNode, observerOptions);
   }
 
-  mapRecord({ record, overlay, originals }: { record: MutationRecord, overlay: Map<string, Map<string, ClassClassification>>, originals: Map<string, Set<string>> }): Observable<{ classes: Map<string, Map<string, ClassClassification>> }> {
-    return new Observable<{ classes: Map<string, Map<string, ClassClassification>> }>(obs => {
+  mapRecord({ record, overlay, originals }: { record: MutationRecord, overlay: ClassMap, originals: Map<string, Set<string>> }): Observable<{ classes: ClassMap }> {
+    return new Observable<{ classes: ClassMap }>(obs => {
 
       const path = domElementPath.default(record.target);
       let rebuiltSelector = '';
@@ -66,13 +66,18 @@ export class ClassifyService {
         }
   
         const classList = (record.target as any).classList;
-        const classMap = new Map<string, ClassClassification>(Array.from(classList.values()).map(c => [`${c}`, !originals.has(rebuiltSelector) || !originals.get(rebuiltSelector).has(`${c}`) ? ClassClassification.ADD : ClassClassification.KEEP ]));
+        // Adding prefix ng - and mat- to exclusion although should probably be more configurable / customizable.
+        const classMap = new Map<string, ClassClassification>(Array.from(classList.values()).map(c => [`${c}`, !originals.has(rebuiltSelector) || (!originals.get(rebuiltSelector).has(`${c}`) && `${c}`.indexOf('ng-') !== 0 && `${c}`.indexOf('mat-') !== 0) ? ClassClassification.ADD : ClassClassification.KEEP ]));
         const removed = Array.from(originals.get(rebuiltSelector)).reduce((p, c) => [ Array.from(classList.values()).findIndex(c2 => c2 === c) === -1 ? c : undefined ], []).filter(c => c !== undefined);
         if (removed.length !== 0) {
           removed.forEach(c => classMap.set(c, ClassClassification.REMOVE));
         }
   
-        overlay.set(rebuiltSelector, classMap);
+        if (classMap.size === 0 && overlay.has(rebuiltSelector)) {
+          overlay.delete(rebuiltSelector);
+        } else if (classMap.size !== 0) {
+          overlay.set(rebuiltSelector, classMap);
+        }
   
         obs.next({ classes: overlay });
         obs.complete();

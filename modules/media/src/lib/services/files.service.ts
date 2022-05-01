@@ -24,7 +24,7 @@ export class FilesService {
     private authFacade: AuthFacade, 
   ) {}
 
-  bulkUpload({ files, fileNameOverride }: { files: Array<File>, fileNameOverride?: string }): Observable<Array<MediaFile>> {
+  bulkUpload({ files, fileNameOverride, nocache }: { files: Array<File>, fileNameOverride?: string, nocache?: boolean }): Observable<Array<MediaFile>> {
     const requests$: Array<Observable<MediaFile>> = [];
     files.forEach(f => {
       if(f) {
@@ -47,6 +47,7 @@ export class FilesService {
               Key: this.settings.prefix + fileName,
               Body: f,
               ContentType: f.type,
+              ...(nocache ? { CacheControl: 'no-cache' } : {})
               //ContentEncoding: 'gzip'
             }
           });

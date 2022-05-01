@@ -23,7 +23,7 @@ import { CrudAdaptorPluginManager, CrudDataHelperService, CrudEntityMetadata } f
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
 import { isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
-import { StylizerService, ClassifyService } from '@ng-druid/sheath';
+import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSelectorValid } from '@ng-druid/sheath';
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
 
@@ -104,10 +104,11 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private readonly instanceUniqueIdentity = uuid.v4()
   private isStable = false;
   private managedCssCache = '';
+  private managedClassesCache = {};
 
-  filteredCss: JSONNode;
+  filteredCss: { css: JSONNode, classes: any };
 
-  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
+  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = this.css$.subscribe(css => {
     this.filteredCss = css;
   });
@@ -201,7 +202,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined, id: panelPage.id });
+      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -304,7 +305,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       take(1)
     )),
     map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
-    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
     tap(() => {
       console.log('stylesheet saved.');
     })
@@ -321,10 +322,12 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       map(() => ({ classes })),
       take(1)
     )),
-    //map(({ stylesheet }) => ({ stylesheet: this.managedCssCache + "\n" + stylesheet })),
-    //concatMap(({ stylesheet }) => this.fileService.bulkUpload({ files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    map(({ classes }) => ({ classes: Array.from(classes.keys()).reduce((p, k) => ({ ...p, [k]: Array.from(classes.get(k).keys()).filter(k2 => classes.get(k).get(k2) !== ClassClassification.KEEP).reduce((p2, k2) => ({ ...p2, [k2]: classes.get(k).get(k2) }), {}) }), {}) })),
+    map(({ classes }) => ({ classes: merge(this.managedClassesCache, classes) })),
+    map(({ classes }) => ({ json: JSON.stringify(classes) })),
+    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes` })),
     tap(() => {
-      console.log('classes would be saved.');
+      console.log('classes saved.');
     })
   ).subscribe();
 
@@ -410,24 +413,29 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     });
   }
 
-  hookupCss({ file, id }: { file: string, id: string }) {
+  hookupCss({ file }: { file: string }) {
     forkJoin([
       this.http.get<JSONNode>(file).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ),
-      this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ),
-      this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css`).pipe(
+      ) : of(undefined),
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ),
+      ) : of(undefined),
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ) : of(undefined),
     ]).pipe(
-      tap(([ cssFile, managedCss, managedCssRaw ]) => {
+      tap(([ cssFile, managedCss, managedCssRaw, classes ]) => {
         let css = {};
         this.managedCssCache = '';
+        this.managedClassesCache = classes;
         if (cssFile) {
           css = merge(css, cssFile);
         }
@@ -435,7 +443,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
           this.managedCssCache = managedCssRaw;
           css = merge(css, managedCss);
         }
-        this.filteredCss = css;
+        this.filteredCss = { css, classes };
       })
     ).subscribe();
     /*
@@ -600,25 +608,50 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   componentRef: ComponentRef<any>;
 
-  filteredCss: JSONNode;
+  filteredCss: { css: JSONNode, classes: any };
 
-  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
+  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ 
+    css: this.cssHelper.makeJsonNode(), 
+    classes: {}
+  });
   cssSub = combineLatest([
     this.css$,
     this.afterContentInit$,
     this.schedulePluginChange
   ]).pipe(
-    map(([css]) => css),
-    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.pane-${this.indexPosition}`)),
-    map((css: JSONNode) => [
+    map(([s]) => s),
+    map(s => ({ css: this.cssHelper.reduceCss(s.css, `.pane-${this.indexPosition}`), classes: this.cssHelper.reduceSelector(s.classes, `.pane-${this.indexPosition}`) })),
+    map(({ css, classes }) => [
       this.cssHelper.reduceCss(css, '.panel-page', false),
-      this.cssHelper.reduceCss(css, '.panel-page')
+      this.cssHelper.reduceCss(css, '.panel-page'),
+      this.cssHelper.reduceSelector(classes, '.panel-page', false),
+      this.cssHelper.reduceSelector(classes, '.panel-page')
     ]),
-    tap(([_, nestedCss]) => this.filteredCss = nestedCss),
-    map(([css, _]) => css),
+    tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
+    map(([css, _, classes, __]) => ({ css, classes })),
     delay(500)
-  ).subscribe(css => {
-    const keys = Object.keys(css.children);
+  ).subscribe(({ css, classes }) => {
+    console.log('reduced classes', classes);
+    const keys = Object.keys(css.children).filter(k => isSelectorValid(k));
+    const classKeys = Object.keys(classes).filter(k => isSelectorValid(k));
+    classKeys.forEach(k => {
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      for (let i = 0; i < len; i++) {
+        const c = classes[classKeys[i]];
+        const cKeys = Object.keys(c);
+        const cLen = cKeys.length;
+        for (let j = 0; j < cLen; j++) {
+          if (c[cKeys[j]] === ClassClassification.REMOVE) {
+            console.log(`remove class ${cKeys[j]}`);
+            this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
+          } else {
+            console.log(`add class ${cKeys[j]}`);
+            this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+          }
+        }
+      }
+    });
     keys.forEach(k => {
       console.log(`search: ${k}`);
       const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
@@ -906,7 +939,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   panes: Array<Pane>;
   originPanes: Array<Pane>;
 
-  filteredCss: JSONNode;
+  filteredCss: { css: JSONNode, classes: any };
   
   /*initialRenderComplete = setInterval(() => {
     console.log(`check pane initial render [${this.panel.name}]`);
@@ -922,26 +955,29 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   componentRef: ComponentRef<any>;
   readonly rendered$ = new Subject();
 
-  css$ = new BehaviorSubject<JSONNode>(this.cssHelper.makeJsonNode());
+  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = combineLatest([
     this.css$,
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
-    tap(([css]) => console.log('css node', css)),
-    map(([css]) => css),
-    map((css: JSONNode) => this.cssHelper.reduceCss(css, `.panel-${this.indexPosition$.value}`)),
-    map((css: JSONNode) => [
+    tap(([s]) => console.log('css node', s.css)),
+    map(([s]) => s),
+    map(s => ({ css: this.cssHelper.reduceCss(s.css, `.panel-${this.indexPosition$.value}`), classes: this.cssHelper.reduceSelector(s.classes, `.panel-${this.indexPosition$.value}`) })),
+    map(({ css, classes }) => [
       this.cssHelper.reduceCss(css, '.pane-', false),
-      css
+      css,
+      this.cssHelper.reduceSelector(classes, '.pane-', false),
+      classes
     ]),
-    tap(([_, nestedCss]) => this.filteredCss = nestedCss),
-    map(([css, _]) => css),
+    tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
+    map(([css, _, classes]) => ({ css, classes })),
     delay(1)
-  ).subscribe((css: JSONNode) => {
+  ).subscribe(({ css, classes }) => {
     /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
     console.log(css);
     this.filteredCss = css;*/
+    console.log('classes', classes);
     const keys = Object.keys(css.children);
     keys.forEach(k => {
       console.log(`search: ${k}`);
