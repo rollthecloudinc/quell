@@ -1,5 +1,7 @@
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tree_bottom_up.png)
 
+Druid closely aligns with the green software movement. Where developers are empowered and educated to build environmentally friendly applications. https://principles.green/
+
 Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
 
 ## Dependable
