@@ -49,7 +49,7 @@ flowchart TD
 
 ## Monolithic CMS
 
-So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex high energy software platforms sucking the environment dry.
 
 ```mermaid
 flowchart TD
