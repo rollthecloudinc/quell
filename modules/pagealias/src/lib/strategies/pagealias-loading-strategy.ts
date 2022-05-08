@@ -28,6 +28,7 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         }
         return a.path.split('/').length > b.path.split('/').length ? -1 : 1;
       })),
+      tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
       tap(pp => {
         // const target = this.router.config.find(r => r.path === '');
 

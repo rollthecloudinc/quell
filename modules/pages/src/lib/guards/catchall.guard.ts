@@ -44,6 +44,7 @@ export class CatchAllGuard implements CanActivate {
               }
               return a.path.split('/').length > b.path.split('/').length ? -1 : 1;
             })),
+            tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
             tap(pp => {
               const target = (this.router.config[0] as any)._loadedConfig.routes;
               pp.forEach(p => {
