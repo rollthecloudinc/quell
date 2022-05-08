@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/barrel",
-  "version": "0.0.32",
+  "version": "0.0.33",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
