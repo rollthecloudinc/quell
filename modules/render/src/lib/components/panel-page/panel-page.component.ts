@@ -26,6 +26,7 @@ import { PersistService } from '@ng-druid/refinery';
 import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSelectorValid } from '@ng-druid/sheath';
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -632,8 +633,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     delay(500)
   ).subscribe(({ css, classes }) => {
     console.log('reduced classes', classes);
-    const keys = Object.keys(css.children).filter(k => isSelectorValid(k));
-    const classKeys = Object.keys(classes).filter(k => isSelectorValid(k));
+    const keys = Object.keys(css.children).filter(k => isSelectorValid({ selector: k, document: this.document }));
+    const classKeys = Object.keys(classes).filter(k => isSelectorValid({ selector: k, document: this.document }));
     classKeys.forEach(k => {
       const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
@@ -724,7 +725,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   }
 
   constructor(
-    // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    @Inject(DOCUMENT) private document: Document,
     private el: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,

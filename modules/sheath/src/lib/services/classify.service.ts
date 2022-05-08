@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
 import domElementPath from 'dom-element-path';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';
@@ -25,6 +26,10 @@ export class ClassifyService {
     )),
     tap(({ classes }) => this.mutated$.next({ classes }))
   ).subscribe();
+
+  constructor(
+    @Inject(DOCUMENT) private document: Document
+  ) {}
 
   classify({ targetNode }: { targetNode: Node }): void {
     const overlay = new Map<string, Map<string, ClassClassification>>();
@@ -58,7 +63,7 @@ export class ClassifyService {
       const [ lastSelector ] = rebuiltPieces[rebuiltPieces.length - 1].split('.', 1);
       rebuiltSelector = (rebuiltPieces.splice(0, rebuiltPieces.length - 2).join(' ') + ' ' + lastSelector).trim();
 
-      const selectorValid = isSelectorValid(rebuiltSelector);
+      const selectorValid = isSelectorValid({ selector: rebuiltSelector, document: this.document });
       if (selectorValid) {
 
         if(!originals.has(rebuiltSelector)) {

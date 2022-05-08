@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/snippet",
-  "version": "0.0.31",
+  "version": "0.0.32",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^10.1.5",

@@ -1,4 +1,5 @@
-import { Injectable } from "@angular/core";
+import { Inject, Injectable } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
 import domElementPath from 'dom-element-path';
 import { /*toJSON*/ JSONNode } from 'cssjson';
 import { camelize, dasherize, underscore } from 'inflected';
@@ -42,6 +43,10 @@ export class StylizerService {
     tap(({ stylesheet }) => this.mutated$.next({ stylesheet }))
   ).subscribe();
 
+  constructor(
+    @Inject(DOCUMENT) private document: Document
+  ) {}
+
   stylize({ targetNode }: { targetNode: Node }): void {
     const overlay = new Map<string, any>();
     const observer = new MutationObserver((records) => {
@@ -83,7 +88,7 @@ export class StylizerService {
           if (rebuiltSelector.indexOf('.panel-page') === 0) {
             rebuiltSelector = rebuiltSelector.substr(12).trim();
           }
-          const selectorValid = isSelectorValid(rebuiltSelector);
+          const selectorValid = isSelectorValid({ selector: rebuiltSelector, document: this.document });
           if (selectorValid) {
             rules.push(rebuiltSelector + ' { ' + Object.keys(v).reduce((p, c) => c.match(/^[a-zA-Z-]*$/gm) ? `${p}${dasherize(underscore(c))}: ${v[c]};` : p, ``) + ' }');
           } else {
