@@ -1,5 +1,7 @@
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tree_bottom_up.png)
 
+Druid closely aligns with the green software movement. Where developers are empowered and educated to build environmentally friendly applications. https://principles.green/
+
 Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
 
 ## Dependable
@@ -47,7 +49,7 @@ flowchart TD
 
 ## Monolithic CMS
 
-So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex software platforms.
+So came along dynamic programming languages/web frameworks like php, ruby, .net, java. This birthed the monolithic CMS era of Wordpress, Drupal, Magento. With this added flexibility much complexity was added. Web sites transformed from simple html pages to large, gigantic complex high energy software platforms sucking the environment dry.
 
 ```mermaid
 flowchart TD
