@@ -21,6 +21,7 @@ npm run build tractorbeam
 npm run build alienalias
 npm run build keyval
 npm run build awcog
+npm run build awrum
 npm run build aws3
 npm run build awos
 npm run build deity

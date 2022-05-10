@@ -21,6 +21,7 @@ ng run tractorbeam:build:production
 ng run alienalias:build:production
 ng run keyval:build:production
 ng run awcog:build:production
+ng run awrum:build:production
 ng run aws3:build:production
 ng run awos:build:production
 ng run deity:build:production

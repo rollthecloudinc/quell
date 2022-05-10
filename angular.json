@@ -1579,6 +1579,37 @@
           }
         }
       }
+    },
+    "awrum": {
+      "projectType": "library",
+      "root": "modules/awrum",
+      "sourceRoot": "modules/awrum/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "modules/awrum/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/awrum/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "modules/awrum/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/awrum/src/test.ts",
+            "tsConfig": "modules/awrum/tsconfig.spec.json",
+            "karmaConfig": "modules/awrum/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }

@@ -21,6 +21,7 @@ npm publish dist/tractorbeam
 npm publish dist/alienalias
 npm publish dist/keyval
 npm publish dist/awcog
+npm publish dist/awrum
 npm publish dist/aws3
 npm publish dist/awos
 npm publish dist/deity

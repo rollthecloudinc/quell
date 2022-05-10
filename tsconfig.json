@@ -253,6 +253,10 @@
         "dist/react/react",
         "dist/react"
       ],
+      "@ng-druid/awrum": [
+        "dist/awrum/awrum",
+        "dist/awrum"
+      ],
       "@ng-druid/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"
