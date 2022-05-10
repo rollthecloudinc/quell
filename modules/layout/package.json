@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/layout",
-  "version": "0.0.34",
+  "version": "0.0.35",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
