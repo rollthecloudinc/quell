@@ -70,6 +70,7 @@ import { TractorbeamModule } from '@ng-druid/tractorbeam';
 import { RefineryModule } from '@ng-druid/refinery';
 import { SheathModule } from '@ng-druid/sheath';
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@ng-druid/awrum';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -224,6 +225,7 @@ export function markedOptionsFactory(): MarkedOptions {
     { provide: ALIENALIAS_SETTINGS, useValue: new AlienaliasSettings(environment.alienaliasSettings) },
 
     { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
+    { provide: CLOUDWATCH_RUM_SETTINGS, useValue: new CloudwatchRumSettings(environment.rumSettings) },
     // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
     // { provide: AD_SETTINGS, useValue: new AdSettings(environment.adSettings) },
     // { provide: TAXONOMY_SETTINGS, useValue: new TaxonomySettings(environment.taxonomySettings) },
@@ -237,6 +239,8 @@ export function markedOptionsFactory(): MarkedOptions {
     { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
 
     { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
+
+    { provide: APP_INITIALIZER, useFactory: initializeRumMonitorFactory, multi: true, deps: [ COGNITO_SETTINGS, CLOUDWATCH_RUM_SETTINGS ] },
 
         /* These are required only for pre-rendering - quick hack to make work for now */
     //{ provide: APP_BASE_HREF, useValue: 'http://localhost:4000/' },

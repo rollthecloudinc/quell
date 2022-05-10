@@ -55,6 +55,7 @@
     "angular-split": "^13.1.0",
     "angular2-query-builder": "^0.6.2",
     "aws-crt": "^1.11.0",
+    "aws-rum-web": "^1.5.0",
     "aws-serverless-express": "^3.4.0",
     "css-select": "^4.2.1",
     "cssjson": "^2.1.3",
