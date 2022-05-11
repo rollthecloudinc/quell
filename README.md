@@ -259,8 +259,6 @@ Articles:
 
 # Demos
 
->> Demos temporarily broken until new deployment of druid for ipe. Routing bug was fixed that is causing the discovery of panel pages based on paths to be be incorrect.
-
 ## Collect
 
 New data entry form replacing formly supporting repeating sections, nested sectins, and persistence.
