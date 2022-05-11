@@ -266,11 +266,6 @@ New data entry form replacing formly supporting repeating sections, nested secti
 * https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e
 * https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage
 
-[OLD] Data entry form using formly (deprecated)
-
-* https://demo.ng-druid.com/formly/kitchensink/v1
-* https://demo.ng-druid.com/formly/kitchensink/v1/manage
-
 ## Consume
 
 Marvel character browser built entirely with panel pages.
