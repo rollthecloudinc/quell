@@ -21,7 +21,7 @@ import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { CrudAdaptorPluginManager, CrudDataHelperService, CrudEntityMetadata } from '@ng-druid/crud';
 import { EmptyLayoutComponent } from '../empty-layout/empty-layout.component';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { PersistService } from '@ng-druid/refinery';
 import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSelectorValid } from '@ng-druid/sheath';
 import { camelize } from 'inflected';
@@ -282,6 +282,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly stylizerSub = this.afterViewInit$.pipe(
     //filter(() => false), // @tofo: Note ready for prime time just yet.
+    filter(() => isPlatformBrowser(this.platformId)),
     tap(() => {
       this.stylizerService.stylize({ targetNode: this.el.nativeElement });
     })
@@ -289,6 +290,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   readonly classifySub = this.afterViewInit$.pipe(
     //filter(() => false), // @tofo: Note ready for prime time just yet.
+    filter(() => isPlatformBrowser(this.platformId)),
     tap(() => {
       this.classifyService.classify({ targetNode: this.el.nativeElement });
     })
