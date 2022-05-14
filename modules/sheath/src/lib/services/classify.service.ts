@@ -20,7 +20,7 @@ export class ClassifyService {
     debounceTime(2000),
     switchMap(({ record, overlay, originals }) => this.mapRecord({ record, overlay, originals }).pipe(
       catchError(e => {
-        console.warn(e);
+        //console.warn(e);
         return of({ classes: overlay });
       })
     )),

@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/datasource",
-  "version": "0.0.37",
+  "version": "0.0.38",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^10.1.5",

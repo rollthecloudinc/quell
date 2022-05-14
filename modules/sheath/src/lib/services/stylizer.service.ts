@@ -92,7 +92,7 @@ export class StylizerService {
           if (selectorValid) {
             rules.push(rebuiltSelector + ' { ' + Object.keys(v).reduce((p, c) => c.match(/^[a-zA-Z-]*$/gm) ? `${p}${dasherize(underscore(c))}: ${v[c]};` : p, ``) + ' }');
           } else {
-            console.warn('Selector invalid "' + rebuiltSelector + '"');
+            //console.warn('Selector invalid "' + rebuiltSelector + '"');
           }
         }
       });
