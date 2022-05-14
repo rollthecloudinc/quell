@@ -203,7 +203,9 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
+      if (isPlatformBrowser(this.platformId)) {
+        this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
+      }
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -622,6 +624,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.afterContentInit$,
     this.schedulePluginChange
   ]).pipe(
+    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.pane-${this.indexPosition}`), classes: this.cssHelper.reduceSelector(s.classes, `.pane-${this.indexPosition}`) })),
     map(({ css, classes }) => [
@@ -728,6 +731,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private el: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -964,6 +968,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
+    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     tap(([s]) => console.log('css node', s.css)),
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.panel-${this.indexPosition$.value}`), classes: this.cssHelper.reduceSelector(s.classes, `.panel-${this.indexPosition$.value}`) })),
@@ -1100,6 +1105,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   constructor(
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
+    @Inject(PLATFORM_ID) private platformId: Object,
     private hostEl: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
