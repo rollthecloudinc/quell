@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/awrum",
-  "version": "0.0.38",
+  "version": "0.0.39",
   "repository": "https://github.com/ng-druid/platform",
   "peerDependencies": {
     "@angular/common": "^11.2.14",
