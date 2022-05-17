@@ -2,6 +2,8 @@
 
 Druid closely aligns with the green software movement. Where developers are empowered and educated to build environmentally friendly applications. https://principles.green/
 
+More details can be found here: https://github.com/ng-druid/platform/wiki/Green-Principles:-Alignment
+
 Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
 
 ## Dependable
