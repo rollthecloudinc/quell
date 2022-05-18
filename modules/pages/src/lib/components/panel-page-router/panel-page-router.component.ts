@@ -47,6 +47,7 @@ export class PanelPageRouterComponent implements OnInit {
     es: EntityServices
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
+    route.data.pipe(take(1)).subscribe(d2 => this.panelPageId = d2.panelPageListItem.id);
   }
 
   ngOnInit(): void {

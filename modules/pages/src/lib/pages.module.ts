@@ -122,6 +122,8 @@ const routes = [
   //{ path: 'pages', children: [
     { path: 'create-panel-page', component: CreatePanelPageComponent },
     { path: 'panelpage/:panelPageId/manage', component: EditPanelPageComponent },
+    // @test
+    { path: 'just-a-lonely-snippet-v1', component: PanelPageRouterComponent },
     { matcher: panePageMatcher, component: PanelPageRouterComponent },
   //]},
   //{ matcher: testPageMatcher, component: PanelPageRouterComponent },

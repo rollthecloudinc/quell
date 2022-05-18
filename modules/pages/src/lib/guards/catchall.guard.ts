@@ -25,7 +25,7 @@ export class CatchAllGuard implements CanActivate {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<UrlTree | boolean> {
-
+    console.log('pages can activate top');
     return new Promise(res => {
       let url = state.url;
       if (url.indexOf('?') !== -1) {
@@ -46,7 +46,9 @@ export class CatchAllGuard implements CanActivate {
             })),
             tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
             tap(pp => {
-              const target = (this.router.config[0] as any)._loadedConfig.routes;
+              // const target = (this.router.config[0] as any)._loadedConfig.routes;
+              // @temp: experimental with hard-coded dynamic routes.
+              const target = (this.router.config.find(r => r.path === 'just-a-lonely-snippet-v1') as any)._loadedConfig.routes;
               pp.forEach(p => {
                 target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
                 target.unshift({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });

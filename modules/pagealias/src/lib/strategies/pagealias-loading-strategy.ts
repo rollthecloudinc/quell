@@ -28,15 +28,20 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         }
         return a.path.split('/').length > b.path.split('/').length ? -1 : 1;
       })),
-      tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
+      //tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
       tap(pp => {
         // const target = this.router.config.find(r => r.path === '');
 
         // const matchers = pp.map(p => [ this.createEditMatcher(p), this.createMatcher(p) ]).reduce<Array<UrlMatcher>>((p, c) => [ ...p, ...c ], []);
         const paths = pp.map(p => p.path);
+        pp.forEach(p => console.log(`path: ${p.path}`));
 
         this.router.config.unshift({ matcher: this.createPageMatcher(paths), loadChildren: () => {
-          return import('@ng-druid/pages').then(m => m.PagesModule);
+          console.log('matched panel page route');
+          return import('@ng-druid/pages').then(m => m.PagesModule).then(m => {
+            console.log('router info', this.router);
+            return m;
+          });
         } });
 
         //pp.forEach(p => {
@@ -98,6 +103,8 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
 
   createPageMatcher(paths: Array<string>): UrlMatcher  {
     return (url: UrlSegment[]) => {
+
+      console.log('attempt match: ' + url.join('/'));
 
       for (let i = 0; i < paths.length; i++) {
         if(('/' + url.map(u => u.path).join('/')).indexOf(paths[i]) === 0) {
