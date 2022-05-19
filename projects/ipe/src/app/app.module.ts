@@ -71,6 +71,7 @@ import { RefineryModule } from '@ng-druid/refinery';
 import { SheathModule } from '@ng-druid/sheath';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@ng-druid/awrum';
+import { PAGES_SETTINGS, PagesSettings } from '@ng-druid/pages';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -223,6 +224,7 @@ export function markedOptionsFactory(): MarkedOptions {
     { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
     { provide: PANELS_SETTINGS, useValue: new PanelsSettings(environment.panelsSettings) },
     { provide: ALIENALIAS_SETTINGS, useValue: new AlienaliasSettings(environment.alienaliasSettings) },
+    { provide: PAGES_SETTINGS, useValue: new PagesSettings({ disableRouting: false }) },
 
     { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
     { provide: CLOUDWATCH_RUM_SETTINGS, useValue: new CloudwatchRumSettings(environment.rumSettings) },

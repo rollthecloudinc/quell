@@ -1,6 +1,6 @@
 {
   "name": "@ng-druid/sheath",
-  "version": "0.0.39",
+  "version": "0.0.40",
   "peerDependencies": {
     "@angular/common": "^13.1.0",
     "@angular/core": "^13.1.0"
