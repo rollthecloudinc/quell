@@ -195,7 +195,9 @@ const routes = [
     { provide: STYLE_PLUGIN, useFactory: tabsStylePluginFactory, multi: true, deps: [ TabsStyleHandler ] },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
-  //exports: [NavigationHostDirective]
+  exports: [
+    PanelPageRouterComponent
+  ]
 })
 export class PagesModule {
   constructor(

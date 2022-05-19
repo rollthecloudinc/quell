@@ -5,7 +5,7 @@ import { MediaContentHandler } from './handlers/media-content.handler';
 import { ContentBinding, ContentPlugin } from '@ng-druid/content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from '@ng-druid/context';
 import { Dataset, DatasourceFormComponent, DatasourcePlugin } from '@ng-druid/datasource';
-import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade } from '@ng-druid/panels';
+import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade, PanelPage } from '@ng-druid/panels';
 import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
@@ -39,6 +39,7 @@ import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
 import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import { JSONPath } from 'jsonpath-plus';
+import { UrlMatcher, UrlSegment } from '@angular/router';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -253,4 +254,46 @@ export const formDatasourcePluginFactory = (attributeSerializer: AttributeSerial
       map(ds => [ new ContentBinding({ id: `form__${ds.name}`, type: 'context' }) ])
     )
   })
+};
+
+export const createMatcher = (panelPage: PanelPage): UrlMatcher => {
+  return (url: UrlSegment[]) => {
+    if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
+      const pathLen = panelPage.path.substr(1).split('/').length;
+      return {
+        consumed: url,
+        posParams: url.reduce<{}>((p, c, index) => {
+          if(index === 0) {
+            return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
+          } else if(index > pathLen - 1) {
+            return { ...p, [`arg${index - pathLen}`]: new UrlSegment(c.path, {}) };
+          } else {
+            return { ...p };
+          }
+        }, {})
+      };
+    } else {
+      return null;
+    }
+  };
+};
+
+export const createEditMatcher = (panelPage: PanelPage): UrlMatcher => {
+  return (url: UrlSegment[]) => {
+    if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0 && url.map(u => u.path).join('/').indexOf('/manage') > -1) {
+      const pathLen = panelPage.path.substr(1).split('/').length;
+      return {
+        consumed: url,
+        posParams: url.reduce<{}>((p, c, index) => {
+          if(index === 0) {
+            return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
+          } else {
+            return { ...p };
+          }
+        }, {})
+      };
+    } else {
+      return null;
+    }
+  };
 };

@@ -3,11 +3,12 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMa
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
 import { SITE_NAME } from '@ng-druid/utils';
-import { map, switchMap, catchError, tap, filter } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import { PanelPageListItem, PanelPage } from '@ng-druid/panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';
 import * as qs from 'qs';
+import { createEditMatcher, createMatcher } from '../pages.factories';
 
 @Injectable()
 export class CatchAllGuard implements CanActivate {
@@ -48,8 +49,8 @@ export class CatchAllGuard implements CanActivate {
             tap(pp => {
               const target = (this.router.config[0] as any)._loadedConfig.routes;
               pp.forEach(p => {
-                target.unshift({ matcher: this.createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
-                target.unshift({ matcher: this.createEditMatcher(p), component: EditPanelPageComponent });
+                target.unshift({ matcher: createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
+                target.unshift({ matcher: createEditMatcher(p), component: EditPanelPageComponent });
                 console.log(`panels matcher: ${p.path}`);
               });
               this.routesLoaded = true;
@@ -80,48 +81,6 @@ export class CatchAllGuard implements CanActivate {
         res(urlTree);
       });
     });
-  }
-
-  createMatcher(panelPage: PanelPage): UrlMatcher {
-    return (url: UrlSegment[]) => {
-      if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
-        const pathLen = panelPage.path.substr(1).split('/').length;
-        return {
-          consumed: url,
-          posParams: url.reduce<{}>((p, c, index) => {
-            if(index === 0) {
-              return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
-            } else if(index > pathLen - 1) {
-              return { ...p, [`arg${index - pathLen}`]: new UrlSegment(c.path, {}) };
-            } else {
-              return { ...p };
-            }
-          }, {})
-        };
-      } else {
-        return null;
-      }
-    };
-  }
-
-  createEditMatcher(panelPage: PanelPage): UrlMatcher {
-    return (url: UrlSegment[]) => {
-      if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0 && url.map(u => u.path).join('/').indexOf('/manage') > -1) {
-        const pathLen = panelPage.path.substr(1).split('/').length;
-        return {
-          consumed: url,
-          posParams: url.reduce<{}>((p, c, index) => {
-            if(index === 0) {
-              return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
-            } else {
-              return { ...p };
-            }
-          }, {})
-        };
-      } else {
-        return null;
-      }
-    };
   }
 
   encodePathComponent(v: string): string {
