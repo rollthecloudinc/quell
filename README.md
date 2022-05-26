@@ -27,7 +27,7 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Rapid Dev
 
-Web experiences can be built without any code using the built in druid Editor. Prototype web experiences created with Druid Editor can be found below.
+Web experiences can be built without any code using the Druid editor. Web pages created with the Druid editor can be found below.
 
 ## Collect
 
