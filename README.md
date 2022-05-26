@@ -2,9 +2,9 @@
 
 Druid is a new kind of publishing platform that will run on 100% renewable energy by 2025. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating servers and infrastructure from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the net 0 web without sacrificing latency, availability, responsiveness, or scalability.
 
-# Explaination
+# Behind the Name
 
-When its all said and done Druid is a small, portable web app optimized for the cloud that follows five core principles.
+A Druid is a small, portable web app optimized for the cloud that follows five core principles.
 
 ## Dependable
 
