@@ -27,6 +27,8 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Demos
 
+Common user experiences built with the Druid editor without any code. Pages are stored as JSON in natural form alongside the application code. When pages are requested they are rendered as an Angular page. Pages can be created and modified without touching an code using the Druid editor. The Druid editor drives rapid development of both simply and complex web experiences.
+
 ## Collect
 
 Build forms to collect any type of information from a user or customer.
