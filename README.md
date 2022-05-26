@@ -27,7 +27,7 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Demos
 
-Demonstrations of pages created without any code using Druid editor.
+Prototype web experiences created with Druid Editor. Pages in Druid can be created and modified without changing or writting any code using the Druid editor.
 
 ## Collect
 
