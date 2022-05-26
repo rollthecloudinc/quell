@@ -28,13 +28,9 @@ Low dependance on specific infrastructure configurations or environments.
 
 # Technology
 
-A+ (Angular + AWS)
+Druids run completely in the browser using the modern Angular framework developed by Google. However, druids can also host micro-frontends that are built with any modern JavaScript stack such as; React, Vue, Svelte, etc.
 
-Low energy consumption fit for preservation of the environment.
-
-* No bulky servers
-* No physical infrastructure
-* No resource hog databases
+Druids run compeltely in the cloud. More specifically the aws cloud that is on track to be powered with 100% renewable energy by 2025. Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
 
 # Evolution
 
