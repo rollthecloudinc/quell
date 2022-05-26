@@ -27,7 +27,7 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Demos
 
-Demonstrations of pages created without any code using the cloud hosted Druid editor.
+Demonstrations of pages created without any code using Druid editor.
 
 ## Collect
 
