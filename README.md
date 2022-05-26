@@ -33,26 +33,26 @@ Common user experiences built with the Druid editor without any code. Pages are 
 
 Build forms to collect any type of information from a user or customer.
 
-* https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e
-* https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage
+* [page](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
+* [editor](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
 
 ## Consume
 
 Create interactive browsing and search experiences.
 
-* https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334
-* https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334/manage
+* [page](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334)
+* [editor](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334/manage)
 
 ## Orchestrate
 
 Use druid as a shell application to orchestrate micro-frontends.
 
-* https://demo.ng-druid.com/workflow-designer-v2
-* https://demo.ng-druid.com/workflow-designer-v2/manage
+* [page](https://demo.ng-druid.com/workflow-designer-v2)
+* [editor](https://demo.ng-druid.com/workflow-designer-v2/manage)
 
 ## Extend
 
 Add capabilities to druid using extensions without hacking core.
 
-* https://demo.ng-druid.com/tractorbeam-test-v3
-* https://demo.ng-druid.com/tractorbeam-test-v3/manage
+* [page](https://demo.ng-druid.com/tractorbeam-test-v3)
+* [page](https://demo.ng-druid.com/tractorbeam-test-v3/manage)
