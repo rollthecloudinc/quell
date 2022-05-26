@@ -1,10 +1,4 @@
-![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/tree_bottom_up.png)
-
-Druid closely aligns with the green software movement. Where developers are empowered and educated to build environmentally friendly applications. https://principles.green/
-
-More details can be found here: https://github.com/ng-druid/platform/wiki/Green-Principles:-Alignment
-
-Rapid online content distribution platform providing environmentally responsible 0 server, 0 trust, 0 cost web hosting solutions.
+Druid is a new kind of publishing platform that will run on 100% renewable energy by 2025. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating servers and infrastructure from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the net 0 web without sacrificing latency, availability, responsiveness, or scalability.
 
 ## Dependable
 
