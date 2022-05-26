@@ -4,7 +4,7 @@ Druid is a new kind of publishing platform that will run on 100% renewable energ
 
 # Explaination
 
-The 6 core principles of druids outlined below.
+When its all said and done Druid is a small, portable web app optimized for the cloud that follows six core principles.
 
 ## Dependable
 
