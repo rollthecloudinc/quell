@@ -17,7 +17,7 @@ Any D R U I D is a small, portable web app optimized for the cloud that follows 
 * D urable
   * Low dependance on specific infrastructure configurations or environments.
 
-# Technology
+# Clean Tech
 
 Druids run completely in the browser using the modern Angular framework developed by Google. However, druids can also host micro-frontends that are built with any modern JavaScript stack such as; React, Vue, Svelte, etc.
 
