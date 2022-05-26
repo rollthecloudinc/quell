@@ -19,9 +19,11 @@ Any D R U I D is a small, portable web app optimized for the cloud that follows 
 
 # Clean Tech
 
-Druids run completely in the browser using the modern Angular framework developed by Google. However, druids can also host micro-frontends that are built with any modern JavaScript stack such as; React, Vue, Svelte, etc.
+Druids run completely in the browser using the modern [Angular framework](https://angular.io/) developed by Google. However, druids can also host micro-frontends that are built with any modern JavaScript stack such as; [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), etc.
 
-Druids run compeltely in the cloud. More specifically the aws cloud that is on track to be powered with 100% renewable energy by 2025. Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
+Druids run compeltely in the cloud. More specifically the [aws cloud](https://aws.amazon.com/) that is on track to be powered with [100% renewable energy by 2025](https://sustainability.aboutamazon.com/). Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
+
+Druid follows the [principles of green software engineering](https://principles.green/).
 
 # Demos
 
