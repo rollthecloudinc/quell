@@ -9,9 +9,9 @@ Any D R U I D is a small, portable web app optimized for the cloud that follows 
 * D ependable
   * Highly available, infinitely scalable with low-latency across all tiers.
 * R esponsive
-  * performant, optimized
+  * Performant, optimized
 * U ser Centric
-  * delightful experience for everyone involved from user to developer.
+  * Delightful experience for everyone involved from user to developer.
 * I nexpensive
   * Low-cost without sacrifice.
 * D urable
