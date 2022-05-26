@@ -14,7 +14,7 @@ A Druid is a small, portable web app optimized for the cloud that follows five c
   * delightful experience for everyone involved from user to developer.
 * I nexpensive
   * Low-cost without sacrifice.
-* Durable
+* D urable
   * Low dependance on specific infrastructure configurations or environments.
 
 # Technology
