@@ -6,25 +6,16 @@ Druid is a new kind of publishing platform that will run on 100% renewable energ
 
 A Druid is a small, portable web app optimized for the cloud that follows five core principles.
 
-## Dependable
-
-Highly available, infinitely scalable with low-latency across all tiers.
-
-## Responsive
-
-performant, optimized
-
-## User Centric
-
-delightful experience for everyone involved from user to developer.
-
-## Inexpensive
-
-Low-cost without sacrifice.
-
-## Durable
-
-Low dependance on specific infrastructure configurations or environments.
+* D ependable
+  * Highly available, infinitely scalable with low-latency across all tiers.
+* R esponsive
+  * performant, optimized
+* U ser Centric
+  * delightful experience for everyone involved from user to developer.
+* I nexpensive
+  * Low-cost without sacrifice.
+* Durable
+  * Low dependance on specific infrastructure configurations or environments.
 
 # Technology
 
