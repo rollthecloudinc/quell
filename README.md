@@ -25,7 +25,7 @@ Druids run compeltely in the cloud. More specifically the [aws cloud](https://aw
 
 Druid follows the [principles of green software engineering](https://principles.green/).
 
-# Demos
+# Prototypes
 
 Pages in Druid can be created and modified without changing or writting any code. Prototype web experiences created with Druid Editor can be found below.
 
