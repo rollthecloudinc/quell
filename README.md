@@ -56,3 +56,7 @@ Add capabilities to druid using extensions without hacking core.
 
 * [Page](https://demo.ng-druid.com/tractorbeam-test-v3)
 * [Editor](https://demo.ng-druid.com/tractorbeam-test-v3/manage)
+
+# Future
+
+Visit the charities [github account](https://github.com/rollthecloudinc) for planned initiatives on druid.
