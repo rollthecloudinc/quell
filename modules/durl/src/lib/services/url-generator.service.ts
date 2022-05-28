@@ -47,7 +47,7 @@ export class UrlGeneratorService {
         }
         return forkJoin([
           forkJoin(path$).pipe(
-            map(p => p.filter(v => v !== undefined && v !== null && v !== '' && v !== 'undefined').join('/')),
+            map(p => p.filter(v => v !== undefined && v !== null && v !== '' && v !== 'undefined').map((v, index) => index === 0 && v.indexOf('http') === 0 ? `${v}/` : v).join('/')),
             defaultIfEmpty(path)
           ),
           forkJoin(qs$).pipe(
