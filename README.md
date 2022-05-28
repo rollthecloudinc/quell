@@ -27,32 +27,38 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Rapid Dev
 
-Web experiences can be built without any code using the Druid editor. Web pages created with the Druid editor can be found below.
+Qucikly releaize simple and complex green web experiences using the druid platform.
 
-## Collect
+## Site Builders
 
-Build forms to collect any type of information from a user or customer.
+Site builders an create green web experiences using the druid editor without knowing how to code.
+
+### Collect
+
+Prototype druid form to collect and store submissions.
 
 * [Page](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
 * [Editor](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
 
-## Consume
+### Consume
 
-Create interactive browsing and search experiences.
+Prototype druid search browser using Marvel API.
 
 * [Page](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334)
 * [Editor](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334/manage)
 
-## Orchestrate
+## Developers
 
-Use druid as a shell application to orchestrate micro-frontends.
+### Orchestrate
+
+Prototype using druid as a shell app to host to Angular architects workflow designer micro-frontends.
 
 * [Page](https://demo.ng-druid.com/workflow-designer-v2)
 * [Editor](https://demo.ng-druid.com/workflow-designer-v2/manage)
 
-## Extend
+### Extend
 
-Add capabilities to druid using extensions without hacking core.
+Prototype using druid to load extension with new content type at runtime from external site.
 
 * [Page](https://demo.ng-druid.com/tractorbeam-test-v3)
 * [Editor](https://demo.ng-druid.com/tractorbeam-test-v3/manage)
