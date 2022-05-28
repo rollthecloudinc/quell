@@ -119,14 +119,12 @@ const panePageMatcher = (url: UrlSegment[]) => {
 }
 
 const routes = [
-  //{ path: 'pages', children: [
+  { path: 'pages', children: [
     { path: 'create-panel-page', component: CreatePanelPageComponent },
     { path: 'panelpage/:panelPageId/manage', component: EditPanelPageComponent },
-    { matcher: panePageMatcher, component: PanelPageRouterComponent },
-  //]},
-  //{ matcher: testPageMatcher, component: PanelPageRouterComponent },
-  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
-  // { path: '**', component: PageControllerComponent, pathMatch: 'full' }
+    //{ matcher: panePageMatcher, component: PanelPageRouterComponent },
+  ]},
+  //{ path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
 ];
 
 @NgModule({
@@ -196,7 +194,9 @@ const routes = [
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
   exports: [
-    PanelPageRouterComponent
+    PanelPageRouterComponent,
+    CatchAllRouterComponent,
+    EditPanelPageComponent
   ]
 })
 export class PagesModule {

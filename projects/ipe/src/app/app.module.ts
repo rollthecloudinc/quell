@@ -22,7 +22,7 @@ import { ContextModule } from '@ng-druid/context';
 import { ContentModule } from '@ng-druid/content';
 import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from '@ng-druid/alias';
 import { PagealiasModule } from '@ng-druid/pagealias';
-import { PanelsModule, PanelsSettings, PANELS_SETTINGS } from '@ng-druid/panels';
+import { PanelPage, PanelsModule, PanelsSettings, PANELS_SETTINGS } from '@ng-druid/panels';
 import { FormlyModule } from '@ng-druid/formly';
 import { BridgeModule } from '@ng-druid/bridge';
 import { StateModule } from '@ng-druid/state';
@@ -71,11 +71,13 @@ import { RefineryModule } from '@ng-druid/refinery';
 import { SheathModule } from '@ng-druid/sheath';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@ng-druid/awrum';
-import { PAGES_SETTINGS, PagesSettings } from '@ng-druid/pages';
+import { PAGES_SETTINGS, PagesSettings, PanelPageRouterComponent, createMatcher, PagesModule } from '@ng-druid/pages';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
+
+const lonelySnippetPage = new PanelPage({ id: 'a04c3022-cc94-4db0-826b-258efde4abab', layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path: '/just-a-lonely-snippet-v1' });
 
 const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
@@ -99,7 +101,8 @@ const routes = [
   } },*/
   // { path: '', children: [] /*, component: HomeComponent*/ },
   //{ path: '**', component: NotFoundComponent }
-  { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
+  { matcher: createMatcher(lonelySnippetPage), component: PanelPageRouterComponent /*, data: { panelPageListItem: lonelySnippetPage }*/ }
+  // { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   //{ path: '', redirectTo: 'pages', pathMatch: "full" }
 ];
 
@@ -207,7 +210,8 @@ export function markedOptionsFactory(): MarkedOptions {
     RefineryModule,
     SheathModule,
     NgxDropzoneModule,
-    ReactModule // react integration (experimental)
+    ReactModule, // react integration (experimental)
+    PagesModule
     // JsonschemaModule
     // OktaAuthModule
   ],
