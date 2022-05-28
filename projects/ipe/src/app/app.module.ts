@@ -71,17 +71,16 @@ import { RefineryModule } from '@ng-druid/refinery';
 import { SheathModule } from '@ng-druid/sheath';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@ng-druid/awrum';
-import { PAGES_SETTINGS, PagesSettings, PanelPageRouterComponent, createMatcher, PagesModule } from '@ng-druid/pages';
+import { panelpages } from '../environments/panelpages';
+import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, PanelPageRouterComponent, PAGES_SETTINGS, PagesSettings } from '@ng-druid/pages';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 
-const lonelySnippetPage = new PanelPage({ id: 'a04c3022-cc94-4db0-826b-258efde4abab', layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path: '/just-a-lonely-snippet-v1' });
-
 const routes = [
   { path: 'auth-callback', component: AuthCallbackComponent },
-  { path: 'playground', component: PlaygroundComponent },
+  // { path: 'playground', component: PlaygroundComponent },
   // Module federation experimentation
   /*{
     path: 'flights',
@@ -101,7 +100,8 @@ const routes = [
   } },*/
   // { path: '', children: [] /*, component: HomeComponent*/ },
   //{ path: '**', component: NotFoundComponent }
-  { matcher: createMatcher(lonelySnippetPage), component: PanelPageRouterComponent /*, data: { panelPageListItem: lonelySnippetPage }*/ }
+  ...panelpages.map(([id, path]) =>  ({ matcher: createEditMatcher(new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path })), component: EditPanelPageComponent, data: { panelPageListItem: new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path }) } })),
+  ...panelpages.map(([id, path]) =>  ({ matcher: createMatcher(new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path })), component: PanelPageRouterComponent, data: { panelPageListItem: new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path }) } }))
   // { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   //{ path: '', redirectTo: 'pages', pathMatch: "full" }
 ];
