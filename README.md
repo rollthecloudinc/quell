@@ -51,7 +51,7 @@ Prototype druid search browser using Marvel API.
 
 ### Orchestrate
 
-Prototype using druid as a shell app to host to Angular architects workflow designer micro-frontends.
+Prototype using druid as a shell app to host Angular architects workflow designer micro-frontends.
 
 * [Page](https://demo.ng-druid.com/workflow-designer-v2)
 * [Editor](https://demo.ng-druid.com/workflow-designer-v2/manage)
