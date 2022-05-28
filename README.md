@@ -27,11 +27,11 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Rapid Dev
 
-Qucikly releaize simple and complex green web experiences using the druid platform.
+Quickly releaize simple and complex green web experiences using the druid platform.
 
 ## Site Builders
 
-Site builders an create green web experiences using the druid editor without knowing how to code.
+Site builders can create green web experiences using the druid editor without knowing how to code.
 
 ### Collect
 
@@ -51,7 +51,7 @@ Prototype druid search browser using Marvel API.
 
 ### Orchestrate
 
-Prototype using druid as a shell app to host to Angular architects workflow designer micro-frontends.
+Prototype using druid as a shell app to host Angular architects workflow designer micro-frontends.
 
 * [Page](https://demo.ng-druid.com/workflow-designer-v2)
 * [Editor](https://demo.ng-druid.com/workflow-designer-v2/manage)
