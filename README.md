@@ -27,7 +27,7 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Rapid Dev
 
-Quickly releaize simple and complex green web experiences using the druid platform.
+Quickly realize simple and complex green web experiences using the druid platform.
 
 ## Site Builders
 
