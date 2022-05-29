@@ -49,7 +49,7 @@ Prototype druid search browser using Marvel API.
 
 ## Developers
 
-Developers can use druid as an app shell to orchestrate micro-frontends built with Angulat, React, Vue, Svelte, etc. Any app compatible with [module federation](https://webpack.js.org/concepts/module-federation/) can be used with druid. In addition, Angular apps can be used as extensions that dynamically extend core through a plugin system without hacking core.
+Developers can use druid as an app shell to orchestrate micro-frontends built with Angular, React, Vue, Svelte, etc. Any app compatible with [module federation](https://webpack.js.org/concepts/module-federation/) can be used with druid. Module federation can also be used to extend the platform without hacking core using extensions.
 
 ### Orchestrate
 
