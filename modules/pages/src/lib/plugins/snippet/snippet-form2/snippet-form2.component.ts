@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-import { Snippet } from '@ng-druid/snippet';
+import { Snippet } from '@rollthecloudinc/snippet';
 
 @Component({
   selector: 'classifieds-ui-snippet-form2',

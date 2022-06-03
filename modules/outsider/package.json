@@ -1,7 +1,7 @@
 {
-  "name": "@ng-druid/outsider",
-  "version": "0.0.45",
-  "repository": "https://github.com/ng-druid/platform",
+  "name": "@rollthecloudinc/outsider",
+  "version": "0.0.46",
+  "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.0",
     "@angular/core": "^13.1.0"

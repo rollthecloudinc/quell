@@ -1,5 +1,5 @@
-import { Param } from '@ng-druid/dparam';
-import { Plugin } from '@ng-druid/plugin';
+import { Param } from '@rollthecloudinc/dparam';
+import { Plugin } from '@rollthecloudinc/plugin';
 import { Observable } from 'rxjs';
 import { Rule } from 'json-rules-engine';
 

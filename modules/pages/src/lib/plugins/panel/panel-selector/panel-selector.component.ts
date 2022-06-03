@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Inject} from '@angular/core';
 import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@angular/forms';
 import * as uuid from 'uuid';
-import { AttributeValue } from '@ng-druid/attributes';
-import { SITE_NAME } from '@ng-druid/utils';
-import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from '@ng-druid/panels';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { SITE_NAME } from '@rollthecloudinc/utils';
+import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from '@rollthecloudinc/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { CONTENT_PLUGIN, ContentPlugin } from '@ng-druid/content';
+import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 

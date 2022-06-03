@@ -1,10 +1,10 @@
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
-import { AuthFacade } from '@ng-druid/auth';
-import { CognitoSettings } from '@ng-druid/awcog';
-import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationInput, CrudCollectionOperationResponse } from '@ng-druid/crud';
-import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
+import { AuthFacade } from '@rollthecloudinc/auth';
+import { CognitoSettings } from '@rollthecloudinc/awcog';
+import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationInput, CrudCollectionOperationResponse } from '@rollthecloudinc/crud';
+import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { AllConditions, AnyConditions, ConditionProperties } from 'json-rules-engine';
 import { firstValueFrom, forkJoin, from, iif, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
-import { AsyncApiCallHelperService } from '@ng-druid/utils';
+import { AsyncApiCallHelperService } from '@rollthecloudinc/utils';
 
 export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient, asyncApiCallHelperSvc: AsyncApiCallHelperService) => {
   return new CrudAdaptorPlugin<string>({

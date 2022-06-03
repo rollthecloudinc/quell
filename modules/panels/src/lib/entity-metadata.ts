@@ -1,6 +1,6 @@
 //import { EntityMetadataMap } from '@ngrx/data';
 import { isPlatformServer } from '@angular/common';
-import { CrudEntityMetadataMap, CrudEntityQueryMapping } from '@ng-druid/crud';
+import { CrudEntityMetadataMap, CrudEntityQueryMapping } from '@rollthecloudinc/crud';
 import { PanelsSettings } from './models/panels.models';
 
 export const entityMetadataFactory = (platformId: Object, panelsSettings: PanelsSettings): CrudEntityMetadataMap => {

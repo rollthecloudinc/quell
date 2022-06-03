@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { Pane, Panel } from '@ng-druid/panels';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { Pane, Panel } from '@rollthecloudinc/panels';
 import { JSONPath } from 'jsonpath-plus';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

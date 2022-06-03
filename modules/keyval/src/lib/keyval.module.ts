@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CrudAdaptorPluginManager, CrudModule } from '@ng-druid/crud';
-import { ParamEvaluatorService } from '@ng-druid/dparam';
+import { CrudAdaptorPluginManager, CrudModule } from '@rollthecloudinc/crud';
+import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { idbEntityCrudAdaptorPluginFactory } from './keyval.factories';
 
 @NgModule({

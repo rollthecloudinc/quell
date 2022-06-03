@@ -3,8 +3,8 @@ import { ReactiveFormsModule  } from '@angular/forms';
 import { FormlyModule as RealFormlyModule }  from '@ngx-formly/core';
 import { FormlyMaterialModule } from '@ngx-formly/material';
 import { FormlyMatDatepickerModule } from '@ngx-formly/material/datepicker';
-import { ContentModule, ContentPluginManager } from '@ng-druid/content';
-import { MaterialModule } from '@ng-druid/material';
+import { ContentModule, ContentPluginManager } from '@rollthecloudinc/content';
+import { MaterialModule } from '@rollthecloudinc/material';
 import { FormlyFieldContentHandler } from './handlers/formly-field-content.handler';
 import { FormlyFieldEditorComponent } from './components/formly-field-editor/formly-field-editor.component';
 import { FormlyFieldRendererComponent } from './components/formly-field-renderer/formly-field-renderer.component';
@@ -15,18 +15,18 @@ import { FormlyRepeatingSectionComponent } from './components/formly-repeating-s
 import { formlyFieldContentPluginFactory, formlyRepeatingStyleFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RestModule } from '@ng-druid/rest';
-import { DatasourceModule } from '@ng-druid/datasource';
-import { DurlModule } from '@ng-druid/durl';
+import { RestModule } from '@rollthecloudinc/rest';
+import { DatasourceModule } from '@rollthecloudinc/datasource';
+import { DurlModule } from '@rollthecloudinc/durl';
 import { FormlyMatNativeSelectModule } from '@ngx-formly/material/native-select';
 import { FormlyMatToggleModule } from '@ngx-formly/material/toggle';
 import { FormlyMatSliderModule } from '@ngx-formly/material/slider';
 import { FormlyRepeatingRendererComponent } from './components/formly-repeating-renderer/formly-repeating-renderer.component';
-import { StylePluginManager } from '@ng-druid/panels';
+import { StylePluginManager } from '@rollthecloudinc/panels';
 import { FormlyFieldWrapperComponent } from './components/formly-field-wrapper/formly-field-wrapper.component';
 import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 import { FormlyPanelPageComponent } from './components/formly-panel-page/formly-panel-page.component';
-import { RenderModule } from '@ng-druid/render';
+import { RenderModule } from '@rollthecloudinc/render';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({

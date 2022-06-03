@@ -1,11 +1,11 @@
 import { Inject, NgModule, Optional, PLATFORM_ID } from '@angular/core';
-import { CrudModule, CrudAdaptorPluginManager } from '@ng-druid/crud';
-import { AuthFacade, AuthModule } from '@ng-druid/auth';
-import { CognitoSettings, COGNITO_SETTINGS } from '@ng-druid/awcog';
+import { CrudModule, CrudAdaptorPluginManager } from '@rollthecloudinc/crud';
+import { AuthFacade, AuthModule } from '@rollthecloudinc/auth';
+import { CognitoSettings, COGNITO_SETTINGS } from '@rollthecloudinc/awcog';
 import { s3EntityCrudAdaptorPluginFactory } from './aws3.factories';
-import { ParamEvaluatorService } from '@ng-druid/dparam';
+import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { HttpClient } from '@angular/common/http';
-import { UtilsModule, AsyncApiCallHelperService, HOST_NAME, PROTOCOL } from '@ng-druid/utils';
+import { UtilsModule, AsyncApiCallHelperService, HOST_NAME, PROTOCOL } from '@rollthecloudinc/utils';
 import { APP_BASE_HREF } from '@angular/common';
 @NgModule({
   declarations: [],

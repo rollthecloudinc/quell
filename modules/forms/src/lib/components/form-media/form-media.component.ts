@@ -1,8 +1,8 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
-import { AttributeSerializerService } from '@ng-druid/attributes';
-import { FilesService, MediaFile } from "@ng-druid/media";
-import { TokenizerService } from "@ng-druid/token";
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { FilesService, MediaFile } from "@rollthecloudinc/media";
+import { TokenizerService } from "@rollthecloudinc/token";
 import { NgxDropzoneChangeEvent } from "ngx-dropzone";
 import { filter, map, mergeMap, Subject, switchMap, tap } from "rxjs";
 import { FormElementBase } from "../../directives/form-element-base.directive";

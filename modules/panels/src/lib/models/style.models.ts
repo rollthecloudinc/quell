@@ -1,8 +1,8 @@
 import { Type } from '@angular/core';
-import { Plugin } from '@ng-druid/plugin';
+import { Plugin } from '@rollthecloudinc/plugin';
 import { Pane, Panel } from '../models/panels.models';
 import { Observable } from 'rxjs';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 import { JSONNode } from 'cssjson';
 
 export interface StyleHandler {

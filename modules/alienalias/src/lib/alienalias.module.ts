@@ -1,9 +1,9 @@
 import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { EntityDataService, EntityDefinitionService, EntityServices } from '@ngrx/data';
-import { AliasPluginManager } from '@ng-druid/alias';
-import { CrudAdaptorPluginManager, CrudDataHelperService, CrudDataService } from '@ng-druid/crud';
-import { SITE_NAME } from '@ng-druid/utils';
+import { AliasPluginManager } from '@rollthecloudinc/alias';
+import { CrudAdaptorPluginManager, CrudDataHelperService, CrudDataService } from '@rollthecloudinc/crud';
+import { SITE_NAME } from '@rollthecloudinc/utils';
 import { ALIENALIAS_SETTINGS } from './alienalias.tokens';
 import { alienaliasFactory } from './alienalias.factories';
 import { entityMetadataFactory } from './entity-metadata';

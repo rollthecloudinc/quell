@@ -1,10 +1,10 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from '@ng-druid/context';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { InlineContext } from '@rollthecloudinc/context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SliceContentHandler } from '../../../handlers/slice-content.handler';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '@ng-druid/panels';
+import { Pane } from '@rollthecloudinc/panels';
 import { DataSlice } from '../../../models/plugin.models';
 
 @Component({

@@ -1,5 +1,5 @@
-import { ContentBinding } from '@ng-druid/content';
-import { DatasourceOptions } from '@ng-druid/datasource';
+import { ContentBinding } from '@rollthecloudinc/content';
+import { DatasourceOptions } from '@rollthecloudinc/datasource';
 
 export class FormSettings {
   value?: string;

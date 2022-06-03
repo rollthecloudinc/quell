@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
-import { LayoutEditorBaseComponent } from '@ng-druid/panels';
+import { LayoutEditorBaseComponent } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-ui-gridless-layout-editor',

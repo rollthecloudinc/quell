@@ -1,7 +1,7 @@
 {
-  "name": "@ng-druid/token",
-  "version": "0.0.45",
-  "repository": "https://github.com/ng-druid/platform",
+  "name": "@rollthecloudinc/token",
+  "version": "0.0.46",
+  "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
     "@angular/core": "^10.1.5"

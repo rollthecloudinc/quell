@@ -1,9 +1,9 @@
-import { ContentBinding } from '@ng-druid/content';
-import { Snippet } from '@ng-druid/snippet';
-import { Param } from '@ng-druid/dparam';
-import { Plugin } from '@ng-druid/plugin';
+import { ContentBinding } from '@rollthecloudinc/content';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { Param } from '@rollthecloudinc/dparam';
+import { Plugin } from '@rollthecloudinc/plugin';
 import { Type } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 import { Observable, of } from 'rxjs';
 
 export class DatasourcePlugin<T = string> extends Plugin<T>  {

@@ -1,8 +1,8 @@
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { ModuleLoaderService } from '@ng-druid/utils';
-import { PanelPage, setPage, setPageInfo } from '@ng-druid/panels';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
+import { PanelPage, setPage, setPageInfo } from '@rollthecloudinc/panels';
 import { Observable, switchMap, tap } from 'rxjs';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 

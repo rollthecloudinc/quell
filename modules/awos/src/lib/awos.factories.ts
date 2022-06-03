@@ -1,7 +1,7 @@
-import { AuthFacade } from '@ng-druid/auth';
-import { CognitoSettings } from '@ng-druid/awcog';
-import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
-import { ParamEvaluatorService } from '@ng-druid/dparam';
+import { AuthFacade } from '@rollthecloudinc/auth';
+import { CognitoSettings } from '@rollthecloudinc/awcog';
+import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudOperationInput, CrudOperationResponse } from '@rollthecloudinc/crud';
+import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { firstValueFrom, forkJoin, from, Observable, of } from "rxjs";
 import { SignatureV4 } from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";

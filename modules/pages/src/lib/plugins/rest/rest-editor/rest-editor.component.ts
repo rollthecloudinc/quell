@@ -1,12 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
-import { Rest } from '@ng-druid/datasource';
-import { InlineContext } from '@ng-druid/context';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { Rest } from '@rollthecloudinc/datasource';
+import { InlineContext } from '@rollthecloudinc/context';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '@ng-druid/panels';
+import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-ui-rest-editor',

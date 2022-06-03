@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { InlineContext } from '@ng-druid/context';
-import { AttributeSerializerService } from '@ng-druid/attributes';
-import { Pane, Panel } from '@ng-druid/panels';
+import { InlineContext } from '@rollthecloudinc/context';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { Pane, Panel } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'druid-tabs-panel-editor',

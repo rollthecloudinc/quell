@@ -39,11 +39,11 @@ module.exports = {
           //"react-dom": { singleton: true, strictVersion: false, requiredVersion: 'auto' },
 
           // Uncommenting this results in compilation errors for building project ipe
-          /*"@ng-druid/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
-          "@ng-druid/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
-          "@ng-druid/plugin": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
-          "@ng-druid/material": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
-          "@ng-druid/content": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },*/
+          /*"@rollthecloudinc/utils": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@rollthecloudinc/attributes": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@rollthecloudinc/plugin": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@rollthecloudinc/material": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },
+          "@rollthecloudinc/content": { singleton: true, strictVersion: true, requiredVersion: '0.0.24' },*/
 
           ...sharedMappings.getDescriptors()
         })

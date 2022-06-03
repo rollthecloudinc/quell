@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AttributeWidget, Attribute, AttributeValue, ATTRIBUTE_WIDGET, AttributeTypes } from '@ng-druid/attributes';
-import { Pane } from '@ng-druid/panels';
+import { AttributeWidget, Attribute, AttributeValue, ATTRIBUTE_WIDGET, AttributeTypes } from '@rollthecloudinc/attributes';
+import { Pane } from '@rollthecloudinc/panels';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 
 @Component({

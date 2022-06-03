@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
-import { StylePlugin, StylePluginManager } from '@ng-druid/panels';
+import { StylePlugin, StylePluginManager } from '@rollthecloudinc/panels';
 import { Observable, Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
-import { InlineContext } from '@ng-druid/context';
+import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
   selector: 'classifieds-ui-style-selector',

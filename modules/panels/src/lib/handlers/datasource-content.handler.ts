@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@angular/core';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from '@ng-druid/datasource';
-import { InlineContext } from '@ng-druid/context';
-import { SITE_NAME } from '@ng-druid/utils';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Rest, Dataset, DatasourcePluginManager, Datasource, DatasourcePlugin, DatasourceEvaluator } from '@rollthecloudinc/datasource';
+import { InlineContext } from '@rollthecloudinc/context';
+import { SITE_NAME } from '@rollthecloudinc/utils';
 import { Observable, of, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, mergeAll } from 'rxjs/operators';
 import { Panel, PanelPage, Pane, LayoutSetting } from '../models/panels.models';
 import { PanelContentHandler } from './panel-content.handler';
-import { RulesResolverService } from '@ng-druid/rules';
+import { RulesResolverService } from '@rollthecloudinc/rules';
 @Injectable({
   providedIn: 'root'
 })

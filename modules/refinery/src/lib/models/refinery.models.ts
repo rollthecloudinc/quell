@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
-import { Plugin } from '@ng-druid/plugin';
-import { AttributeValue } from '@ng-druid/attributes';
+import { Plugin } from '@rollthecloudinc/plugin';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 import { Observable } from 'rxjs';
 
 export class DataductPlugin<T = string> extends Plugin<T>  {

@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from '@ng-druid/attributes';
+import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from '@rollthecloudinc/attributes';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
-import { Snippet } from '@ng-druid/snippet';
-import { TokenizerService } from '@ng-druid/token';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { TokenizerService } from '@rollthecloudinc/token';
 
 @Component({
   selector: 'classifieds-ui-attribute-pane-renderer',

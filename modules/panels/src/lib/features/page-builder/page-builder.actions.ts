@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Rest, Dataset } from '@ng-druid/datasource';
+import { Rest, Dataset } from '@rollthecloudinc/datasource';
 import { PanelPage } from '../../models/panels.models';
 import { PanelPageForm } from '../../models/form.models';
 import { PanelPageStateSlice } from '../../models/page.models';

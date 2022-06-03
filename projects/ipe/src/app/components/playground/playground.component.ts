@@ -4,7 +4,7 @@ import { AttributeValue } from "attributes";
 import { Pane, PanelPage, PanelContentHandler, Panel, PanelsModule } from "panels";
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";*/
-import { PanelsSelectorService, PanelsLoaderService } from '@ng-druid/panels';
+import { PanelsSelectorService, PanelsLoaderService } from '@rollthecloudinc/panels';
 import { JSONPath } from 'jsonpath-plus';
 
 import { SignatureV4 } from "@aws-sdk/signature-v4";
@@ -12,11 +12,11 @@ import { HttpRequest } from "@aws-sdk/protocol-http";
 import { Sha256 } from "@aws-crypto/sha256-js";
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
-import { CognitoSettings, COGNITO_SETTINGS } from '@ng-druid/awcog';
+import { CognitoSettings, COGNITO_SETTINGS } from '@rollthecloudinc/awcog';
 import { map, take, tap } from "rxjs/operators";
-import { AuthFacade } from "@ng-druid/auth";
+import { AuthFacade } from "@rollthecloudinc/auth";
 import { HttpClient } from "@angular/common/http";
-import { AsyncApiCallHelperService } from "@ng-druid/utils";
+import { AsyncApiCallHelperService } from "@rollthecloudinc/utils";
 // import { NodeHttpHandler } from "@aws-sdk/node-http-handler";
 // import { Client } from '@elastic/elasticsearch'
 // import { createAWSConnection, awsGetCredentials } from '@acuris/aws-es-connection';

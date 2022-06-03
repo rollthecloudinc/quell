@@ -1,5 +1,5 @@
 import { Observable, of } from "rxjs";
-import { AliasMatchingStrategy } from '@ng-druid/alias';
+import { AliasMatchingStrategy } from '@rollthecloudinc/alias';
 import { catchError, map } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, RouterStateSnapshot } from '@angular/router';

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Dataset } from '@ng-druid/datasource';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { iif, Observable, of } from 'rxjs';
 import { FormSettings } from '../models/form.models';
 import { switchMap } from 'rxjs/operators';

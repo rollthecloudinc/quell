@@ -1,9 +1,9 @@
 import { loadRemoteModule } from "@angular-architects/module-federation";
 import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/core";
 // import { ControlContainer } from "@angular/forms";
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from '@ng-druid/context';
-import { MfeReactComponent } from "@ng-druid/react"; // this will need to be separate - plugin time.
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { InlineContext } from '@rollthecloudinc/context';
+import { MfeReactComponent } from "@rollthecloudinc/react"; // this will need to be separate - plugin time.
 import { BehaviorSubject, map, Observable, skip, switchMap, tap } from "rxjs";
 import { OutsideAppSettings } from "../../models/outsider.models";
 

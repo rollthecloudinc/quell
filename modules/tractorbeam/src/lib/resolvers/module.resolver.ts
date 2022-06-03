@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { ContextPlugin, ContextResolver } from '@ng-druid/context';
+import { ContextPlugin, ContextResolver } from '@rollthecloudinc/context';
 import { loadRemoteModule } from '@angular-architects/module-federation';
-import { ModuleLoaderService } from '@ng-druid/utils';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Injectable()
 export class ModuleResolver implements ContextResolver {

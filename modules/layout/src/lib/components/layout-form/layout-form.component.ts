@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormBuilder, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
 import { LayoutPlugin } from '../../models/layout.models';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 
 @Component({
   selector: 'druid-layout-form',

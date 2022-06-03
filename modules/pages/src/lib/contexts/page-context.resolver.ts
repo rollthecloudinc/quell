@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContextResolver, ContextPlugin } from '@ng-druid/context';
+import { ContextResolver, ContextPlugin } from '@rollthecloudinc/context';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { PageBuilderFacade } from '@ng-druid/panels';
+import { PageBuilderFacade } from '@rollthecloudinc/panels';
 
 @Injectable()
 export class PageContextResolver implements ContextResolver {

@@ -5,7 +5,7 @@ import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manage
 import { defaultIfEmpty, map, switchMap, take, tap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse, CrudAdaptorPlugin, CrudCollectionOperationInput } from '../models/crud.models';
-import { Param } from '@ng-druid/dparam';
+import { Param } from '@rollthecloudinc/dparam';
 import { NestedCondition, Rule } from "json-rules-engine";
 import { getDiff } from 'recursive-diff';
 

@@ -3,14 +3,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EntityDatasourceComponent } from './components/entity-datasource/entity-datasource.component';
 import { EntityDataSourceFormComponent } from './components/entity-datasource-form/entity-datasource-form.component';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from '@ng-druid/material';
-import { ContextModule, ParamContextExtractorService } from '@ng-druid/context';
-import { AttributeSerializerService } from '@ng-druid/attributes';
-import { DatasourcePluginManager } from '@ng-druid/datasource';
-import { DataductPluginManager } from '@ng-druid/refinery';
+import { MaterialModule } from '@rollthecloudinc/material';
+import { ContextModule, ParamContextExtractorService } from '@rollthecloudinc/context';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { DatasourcePluginManager } from '@rollthecloudinc/datasource';
+import { DataductPluginManager } from '@rollthecloudinc/refinery';
 import { entityDatasourcePluginFactory, entityDataductPluginFactory } from './deity.factories';
-import { DparamModule } from '@ng-druid/dparam';
-import { UrlGeneratorService } from '@ng-druid/durl';
+import { DparamModule } from '@rollthecloudinc/dparam';
+import { UrlGeneratorService } from '@rollthecloudinc/durl';
 import { EntityServices } from '@ngrx/data';
 
 @NgModule({

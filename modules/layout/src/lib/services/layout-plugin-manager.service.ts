@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { ModuleLoaderService } from '@ng-druid/utils';
-import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from '@ng-druid/plugin';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
+import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from '@rollthecloudinc/plugin';
 import { LayoutPlugin } from '../models/layout.models';
 
 @Injectable({

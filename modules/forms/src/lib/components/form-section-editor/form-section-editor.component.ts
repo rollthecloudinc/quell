@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeSerializerService } from '@ng-druid/attributes';
-import { InlineContext } from '@ng-druid/context';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
   selector: 'classifieds-form-section-editor',

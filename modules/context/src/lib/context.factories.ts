@@ -1,16 +1,16 @@
 import { ContextDatasource, ContextPlugin, InlineContext } from './models/context.models';
 import { RouteResolver } from './resolvers/route.resolver';
-import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from '@rollthecloudinc/bridge';
 import { ContextPluginManager } from './services/context-plugin-manager.service';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { ParamPlugin, Param } from '@ng-druid/dparam';
+import { ParamPlugin, Param } from '@rollthecloudinc/dparam';
 import { iif, of } from 'rxjs';
 import { InlineContextResolverService } from './services/inline-context-resolver.service';
-import { TokenizerService } from '@ng-druid/token';
-import { Dataset, DatasourcePlugin } from '@ng-druid/datasource';
+import { TokenizerService } from '@rollthecloudinc/token';
+import { Dataset, DatasourcePlugin } from '@rollthecloudinc/datasource';
 import { ContextDatasourceComponent } from './components/context-datasource/context-datasource.component';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { ContentBinding } from '@ng-druid/content';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { ContentBinding } from '@rollthecloudinc/content';
 import { DatasourceResolver } from './resolvers/datasource.resolver';
 import { DatasourceContextEditorComponent } from './components/datasource-context-editor/datasource-context-editor.component';
 

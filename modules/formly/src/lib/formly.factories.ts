@@ -1,9 +1,9 @@
-import { ContentPlugin } from '@ng-druid/content'
+import { ContentPlugin } from '@rollthecloudinc/content'
 import { FormlyFieldContentHandler } from "./handlers/formly-field-content.handler";
 import { FormlyFieldEditorComponent } from './components/formly-field-editor/formly-field-editor.component';
 import { FormlyFieldRendererComponent } from './components/formly-field-renderer/formly-field-renderer.component';
 import { FormlyFieldSelectorComponent } from './components/formly-field-selector/formly-field-selector.component';
-import { StylePlugin } from '@ng-druid/panels';
+import { StylePlugin } from '@rollthecloudinc/panels';
 import { FormlyRepeatingRendererComponent } from "./components/formly-repeating-renderer/formly-repeating-renderer.component";
 import { FormlyRepeatingEditorComponent } from './components/formly-repeating-editor/formly-repeating-editor.component';
 

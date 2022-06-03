@@ -16,232 +16,232 @@
       "dom"
     ],
     "paths": {
-      "@ng-druid/attributes": [
+      "@rollthecloudinc/attributes": [
         // "modules/attributes",
         "dist/attributes/attributes",
         "dist/attributes"
       ],
-      "@ng-druid/alienalias": [
+      "@rollthecloudinc/alienalias": [
         // "modules/alienalias",
         "dist/alienalias/alienalias",
         "dist/alienalias"
       ],
-      "@ng-druid/material": [
+      "@rollthecloudinc/material": [
         // "modules/material",
         "dist/material/material",
         "dist/material"
       ],
-      "@ng-druid/utils": [
+      "@rollthecloudinc/utils": [
         // "modules/utils/src",
         "dist/utils/utils",
         "dist/utils"
       ],
-      "@ng-druid/content": [
+      "@rollthecloudinc/content": [
         // "modules/content",
         "dist/content/content",
         "dist/content"
       ],
-      "@ng-druid/awos": [
+      "@rollthecloudinc/awos": [
         // "modules/awos",
         "dist/awos/awos",
         "dist/awos"
       ],
-      "@ng-druid/token": [
+      "@rollthecloudinc/token": [
         // "modules/token",
         "dist/token/token",
         "dist/token"
       ],
-      "@ng-druid/context": [
+      "@rollthecloudinc/context": [
         // "modules/context",
         "dist/context/context",
         "dist/context"
       ],
-      "@ng-druid/style": [
+      "@rollthecloudinc/style": [
         // "modules/style",
         "dist/style/style",
         "dist/style"
       ],
-      "@ng-druid/pages": [
+      "@rollthecloudinc/pages": [
         // "modules/pages",
         "dist/pages/pages",
         "dist/pages"
       ],
-      "@ng-druid/media": [
+      "@rollthecloudinc/media": [
         // "modules/media",
         "dist/media/media",
         "dist/media"
       ],
-      "@ng-druid/auth": [
+      "@rollthecloudinc/auth": [
         // "modules/auth",
         "dist/auth/auth",
         "dist/auth"
       ],
-      "@ng-druid/plugin": [
+      "@rollthecloudinc/plugin": [
         // "modules/plugin",
         "dist/plugin/plugin",
         "dist/plugin"
       ],
-      "@ng-druid/datasource": [
+      "@rollthecloudinc/datasource": [
         // "modules/datasource",
         "dist/datasource/datasource",
         "dist/datasource"
       ],
-      "@ng-druid/layout": [
+      "@rollthecloudinc/layout": [
         // "modules/layout",
         "dist/layout/layout",
         "dist/layout"
       ],
-      "@ng-druid/panels": [
+      "@rollthecloudinc/panels": [
         // "modules/panels",
         "dist/panels/panels",
         "dist/panels"
       ],
-      "@ng-druid/alias": [
+      "@rollthecloudinc/alias": [
         // "modules/alias",
         "dist/alias/alias",
         "dist/alias"
       ],
-      "@ng-druid/pagealias": [
+      "@rollthecloudinc/pagealias": [
         // "modules/pagealias",
         "dist/pagealias/pagealias",
         "dist/pagealias"
       ],
-      "@ng-druid/formly": [
+      "@rollthecloudinc/formly": [
         // "modules/formly",
         "dist/formly/formly",
         "dist/formly"
       ],
-      "@ng-druid/forms": [
+      "@rollthecloudinc/forms": [
         // "modules/forms",
         "dist/forms/forms",
         "dist/forms"
       ],
-      "@ng-druid/here": [
+      "@rollthecloudinc/here": [
         // "modules/here",
         "dist/here/here",
         "dist/here"
       ],
-      "@ng-druid/rest": [
+      "@rollthecloudinc/rest": [
         // "modules/rest",
         "dist/rest/rest",
         "dist/rest"
       ],
-      "@ng-druid/bridge": [
+      "@rollthecloudinc/bridge": [
         // "modules/bridge",
         "dist/bridge/bridge",
         "dist/bridge"
       ],
-      "@ng-druid/state": [
+      "@rollthecloudinc/state": [
         // "modules/state",
         "dist/state/state",
         "dist/state"
       ],
-      "@ng-druid/loop": [
+      "@rollthecloudinc/loop": [
         // "modules/loop",
         "dist/loop/loop",
         "dist/loop"
       ],
-      "@ng-druid/durl": [
+      "@rollthecloudinc/durl": [
         // "modules/durl",
         "dist/durl/durl",
         "dist/durl"
       ],
-      "@ng-druid/dparam": [
+      "@rollthecloudinc/dparam": [
         // "modules/dparam",
         "dist/dparam/dparam",
         "dist/dparam"
       ],
-      "@ng-druid/snippet": [
+      "@rollthecloudinc/snippet": [
         // "modules/snippet",
         "dist/snippet/snippet",
         "dist/snippet"
       ],
-      "@ng-druid/outsider": [
+      "@rollthecloudinc/outsider": [
         // "modules/outsider",
         "dist/outsider/outsider",
         "dist/outsider"
       ],
-      "@ng-druid/oidc": [
+      "@rollthecloudinc/oidc": [
         // "modules/oidc",
         "dist/oidc/oidc",
         "dist/oidc"
       ],
-      "@ng-druid/drxdb": [
+      "@rollthecloudinc/drxdb": [
         // "modules/drxdb",
         "dist/drxdb/drxdb",
         "dist/drxdb"
       ],
-      "@ng-druid/transform": [
+      "@rollthecloudinc/transform": [
         // "modules/transform",
         "dist/transform/transform",
         "dist/transform"
       ],
-      "@ng-druid/rules": [
+      "@rollthecloudinc/rules": [
         // "modules/rules",
         "dist/rules/rules",
         "dist/rules"
       ],
-      "@ng-druid/aws3": [
+      "@rollthecloudinc/aws3": [
         // "modules/aws3",
         "dist/aws3/aws3",
         "dist/aws3"
       ],
-      "@ng-druid/render": [
+      "@rollthecloudinc/render": [
         // "modules/render",
         "dist/render/render",
         "dist/render"
       ],
-      "@ng-druid/awcog": [
+      "@rollthecloudinc/awcog": [
         // "modules/awcog",
         "dist/awcog/awcog",
         "dist/awcog"
       ],
-      "@ng-druid/crud": [
+      "@rollthecloudinc/crud": [
         // "modules/crud",
         "dist/crud/crud",
         "dist/crud"
       ],
-      "@ng-druid/keyval": [
+      "@rollthecloudinc/keyval": [
         // "modules/keyval",
         "dist/keyval/keyval",
         "dist/keyval"
       ],
-      "@ng-druid/deity": [
+      "@rollthecloudinc/deity": [
         // "modules/deity",
         "dist/deity/deity",
         "dist/deity"
       ],
-      "@ng-druid/powder": [
+      "@rollthecloudinc/powder": [
         // "modules/powder",
         "dist/powder/powder",
         "dist/powder"
       ],
-      "@ng-druid/flash": [
+      "@rollthecloudinc/flash": [
         // "modules/flash",
         "dist/flash/flash",
         "dist/flash"
       ],
-      "@ng-druid/lock": [
+      "@rollthecloudinc/lock": [
         // "modules/lock",
         "dist/lock/lock",
         "dist/lock"
       ],
-      "@ng-druid/tractorbeam": [
+      "@rollthecloudinc/tractorbeam": [
         // "modules/tractorbeam",
         "dist/tractorbeam/tractorbeam",
         "dist/tractorbeam"
       ],
-      "@ng-druid/stock": [
+      "@rollthecloudinc/stock": [
         // "modules/stock",
         "dist/stock/stock",
         "dist/stock"
       ],
-      "@ng-druid/barrel": [
+      "@rollthecloudinc/barrel": [
         // "modules/barrel",
         "dist/barrel/barrel",
         "dist/barrel"
       ],
-      "@ng-druid/refinery": [
+      "@rollthecloudinc/refinery": [
         "dist/refinery/refinery",
         "dist/refinery"
       ],
@@ -249,15 +249,15 @@
         "dist/refinery/refinery",
         "dist/refinery"
       ],
-      "@ng-druid/react": [
+      "@rollthecloudinc/react": [
         "dist/react/react",
         "dist/react"
       ],
-      "@ng-druid/awrum": [
+      "@rollthecloudinc/awrum": [
         "dist/awrum/awrum",
         "dist/awrum"
       ],
-      "@ng-druid/sheath": [
+      "@rollthecloudinc/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"
       ],

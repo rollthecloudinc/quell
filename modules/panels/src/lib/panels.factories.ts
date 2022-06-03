@@ -1,18 +1,18 @@
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
-import { ContentPlugin } from '@ng-druid/content';
-import { BridgeBuilderPlugin, PublicApiBridgeService } from '@ng-druid/bridge';
-import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@ng-druid/crud';
+import { ContentPlugin } from '@rollthecloudinc/content';
+import { BridgeBuilderPlugin, PublicApiBridgeService } from '@rollthecloudinc/bridge';
+import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@rollthecloudinc/crud';
 import { EntityServices } from '@ngrx/data';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
 import { PanelPageState, PanelState, PaneState } from './models/state.models';
 import { of } from 'rxjs';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 import { toCSS } from 'cssjson';
-import { FilesService } from '@ng-druid/media';
+import { FilesService } from '@rollthecloudinc/media';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({

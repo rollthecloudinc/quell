@@ -1,9 +1,9 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { FormDatasource } from '@ng-druid/panels';
+import { FormDatasource } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-ui-form-datasource-form',

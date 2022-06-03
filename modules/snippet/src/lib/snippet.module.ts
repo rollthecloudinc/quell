@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularSplitModule } from 'angular-split';
-import { MaterialModule } from '@ng-druid/material';
+import { MaterialModule } from '@rollthecloudinc/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 import { MarkdownModule } from 'ngx-markdown';
-import { UtilsModule } from '@ng-druid/utils';
+import { UtilsModule } from '@rollthecloudinc/utils';
 import { SnippetFormComponent } from './components/snippet-form/snippet-form.component';
 // import { MonacoEditorModule } from 'ngx-monaco-editor';
 

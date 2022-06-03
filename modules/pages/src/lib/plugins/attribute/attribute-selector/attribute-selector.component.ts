@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager } from '@ng-druid/attributes';
-import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@ng-druid/content';
+import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager } from '@rollthecloudinc/attributes';
+import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { Pane } from '@ng-druid/panels';
+import { Pane } from '@rollthecloudinc/panels';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 

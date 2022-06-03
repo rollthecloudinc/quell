@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { of, ReplaySubject, Subject } from 'rxjs';
-import { ModuleLoaderService } from '@ng-druid/utils';
-import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager, Plugin } from '@ng-druid/plugin';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
+import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager, Plugin } from '@rollthecloudinc/plugin';
 import { ResolvedContextPlugin } from '../models/resolved-context.models';
 
 @Injectable({

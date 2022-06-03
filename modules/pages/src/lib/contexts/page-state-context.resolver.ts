@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { EntityServices } from '@ngrx/data';
-import { ContextResolver, ContextPlugin } from '@ng-druid/context';
-import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from '@ng-druid/panels';
+import { ContextResolver, ContextPlugin } from '@rollthecloudinc/context';
+import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 
 @Injectable()
 export class PageStateContextResolver implements ContextResolver {

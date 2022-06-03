@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Pane, PanelStyleRendererBaseComponent, PaneDatasourceService  } from '@ng-druid/panels';
-import { TokenizerService } from '@ng-druid/token';
+import { Pane, PanelStyleRendererBaseComponent, PaneDatasourceService  } from '@rollthecloudinc/panels';
+import { TokenizerService } from '@rollthecloudinc/token';
 
 @Component({
   selector: 'lib-table-panel-renderer',

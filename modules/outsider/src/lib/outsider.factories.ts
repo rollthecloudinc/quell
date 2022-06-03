@@ -1,4 +1,4 @@
-import { ContentPlugin } from '@ng-druid/content'
+import { ContentPlugin } from '@rollthecloudinc/content'
 import { OutsideAppEditorComponent } from "./components/outside-app-editor/outside-app-editor.component"
 import { OutsideAppRendererComponent } from "./components/outside-app-renderer/outside-app-renderer.component"
 import { OutsideAppContentHandler } from "./handlers/outside-app-content.handler"

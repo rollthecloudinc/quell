@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { DparamModule, ParamPluginManager } from '@ng-druid/dparam';
+import { DparamModule, ParamPluginManager } from '@rollthecloudinc/dparam';
 import { paramPagePluginFactory, paramSearchStringPluginFactory, paramRoutePluginFactory, paramQueryStringPluginFactory, paramStandardPaginationPluginFactory } from './durl.factories';
 
 @NgModule({

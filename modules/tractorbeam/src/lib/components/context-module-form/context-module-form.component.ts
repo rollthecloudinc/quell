@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { ControlContainer, FormBuilder, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, AbstractControl, ValidationErrors } from '@angular/forms';
-import { InlineContext } from '@ng-druid/context';
+import { InlineContext } from '@rollthecloudinc/context';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({

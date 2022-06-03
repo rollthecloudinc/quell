@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { UtilsModule } from '@ng-druid/utils';
+import { UtilsModule } from '@rollthecloudinc/utils';
 
 @NgModule({
   declarations: [],

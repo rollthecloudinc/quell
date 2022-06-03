@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, Inject, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ContextFormComponent, InlineContext } from '@ng-druid/context';
+import { ContextFormComponent, InlineContext } from '@rollthecloudinc/context';
 @Component({
   selector: 'classifieds-ui-context-dialog',
   templateUrl: './context-dialog.component.html',

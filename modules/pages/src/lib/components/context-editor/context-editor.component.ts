@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { RestSourceFormComponent } from '@ng-druid/rest';
+import { RestSourceFormComponent } from '@rollthecloudinc/rest';
 
 @Component({
   selector: 'classifieds-ui-context-editor',

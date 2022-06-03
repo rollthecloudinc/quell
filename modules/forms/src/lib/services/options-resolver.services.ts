@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { SelectOption } from '@ng-druid/datasource';
+import { SelectOption } from '@rollthecloudinc/datasource';
 import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
-import { TokenizerService } from '@ng-druid/token';
+import { TokenizerService } from '@rollthecloudinc/token';
 import { FormSettings } from "../models/form.models";
 import { JSONPath } from 'jsonpath-plus';
-import { DatasourceContentHandler, Pane, PanelResolverService } from '@ng-druid/panels';
-import { AttributeSerializerService } from '@ng-druid/attributes';
+import { DatasourceContentHandler, Pane, PanelResolverService } from '@rollthecloudinc/panels';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 
 @Injectable({
   providedIn: 'root'

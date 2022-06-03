@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeSerializerService, AttributeTypes, AttributeValue } from '@ng-druid/attributes';
-import { Pane } from '@ng-druid/panels';
+import { AttributeSerializerService, AttributeTypes, AttributeValue } from '@rollthecloudinc/attributes';
+import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-ui-tabs-panel-renderer',

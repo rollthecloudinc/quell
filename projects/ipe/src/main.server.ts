@@ -3,7 +3,7 @@ import 'zone.js/node';
 export { ngExpressEngine } from '@nguniversal/express-engine'; 
 export { enableProdMode } from '@angular/core';
 export { AppServerModule } from './app/app.server.module';
-export { HOST_NAME, PROTOCOL } from '@ng-druid/utils';
+export { HOST_NAME, PROTOCOL } from '@rollthecloudinc/utils';
 export { renderModule } from '@angular/platform-server';
 // export { renderModule, renderModuleFactory } from '@angular/platform-server';
 
@@ -18,7 +18,7 @@ import * as express from 'express';
 import { APP_BASE_HREF } from '@angular/common';
 import { enableProdMode } from '@angular/core';
 import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { HOST_NAME, PROTOCOL } from '@ng-druid/utils';
+import { HOST_NAME, PROTOCOL } from '@rollthecloudinc/utils';
 import { join } from 'path';
 // const winston  = require('winston');
 // const  { Loggly } = require('winston-loggly-bulk');

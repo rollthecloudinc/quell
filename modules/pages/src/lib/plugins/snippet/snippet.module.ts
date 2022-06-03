@@ -1,11 +1,11 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { ContentPlugin, ContentPluginManager } from '@ng-druid/content';
+import { ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { MarkdownModule } from 'ngx-markdown';
 import { AngularSplitModule } from 'angular-split';
-import { MaterialModule } from '@ng-druid/material';
-import { UtilsModule  } from '@ng-druid/utils';
+import { MaterialModule } from '@rollthecloudinc/material';
+import { UtilsModule  } from '@rollthecloudinc/utils';
 import { SnippetEditor2Component } from './snippet-editor2/snippet-editor2.component';
 import { SnippetPaneRenderer2Component } from './snippet-pane-renderer2/snippet-pane-renderer2.component';
 import { SnippetForm2Component } from './snippet-form2/snippet-form2.component';

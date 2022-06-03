@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RuleSet } from 'angular2-query-builder';
 import { Observable } from 'rxjs';
 import { RulesParserService } from './rules-parser.service';
-import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
+import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
 import { Engine } from 'json-rules-engine';
 import { map, tap, switchMap, take } from 'rxjs/operators';
 // we are going to loose forms when doing this.

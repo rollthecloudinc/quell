@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
-import { InlineContext } from '@ng-druid/context';
+import { InlineContext } from '@rollthecloudinc/context';
 import { ContextStateFormComponent } from '../context-state-form/context-state-form.component';
 
 @Component({

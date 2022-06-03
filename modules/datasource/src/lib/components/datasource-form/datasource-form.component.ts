@@ -5,8 +5,8 @@ import { filter, switchMap, tap } from 'rxjs/operators';
 import { Datasource, DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
 import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
-import { ContentBinding } from '@ng-druid/content';
-import { AttributeValue } from '@ng-druid/attributes';
+import { ContentBinding } from '@rollthecloudinc/content';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 
 @Component({
   selector: 'classifieds-ui-datasource-form',

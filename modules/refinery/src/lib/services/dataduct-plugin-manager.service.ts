@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { BasePluginManager, PluginManager, PluginConfigurationManager, PluginDef } from "@ng-druid/plugin";
-import { ModuleLoaderService } from '@ng-druid/utils';
+import { BasePluginManager, PluginManager, PluginConfigurationManager, PluginDef } from "@rollthecloudinc/plugin";
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { of } from "rxjs";
 import { DataductPlugin } from "../models/refinery.models";
 

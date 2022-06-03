@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Dataset } from '@ng-druid/datasource';
-import { InlineContext, InlineContextResolverService } from '@ng-druid/context';
-import { TokenizerService } from '@ng-druid/token';
-import { MediaFile } from '@ng-druid/media';
-import { SITE_NAME } from '@ng-druid/utils';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
+import { TokenizerService } from '@rollthecloudinc/token';
+import { MediaFile } from '@rollthecloudinc/media';
+import { SITE_NAME } from '@rollthecloudinc/utils';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { DataSlice } from '../models/plugin.models';
 import { MediaContentHandler } from './media-content.handler';
-import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from '@ng-druid/panels';
+import { Pane, Panel, PanelPage, LayoutSetting, PanelContentHandler } from '@rollthecloudinc/panels';
 
 @Injectable()
 export class SliceContentHandler implements ContentHandler {

@@ -1,8 +1,8 @@
 /*import { Type } from '@angular/core';
-import { Plugin } from '@ng-druid/plugin';
-import { Pane, Panel } from '@ng-druid/panels';
+import { Plugin } from '@rollthecloudinc/plugin';
+import { Pane, Panel } from '@rollthecloudinc/panels';
 import { Observable } from 'rxjs';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 
 export interface StyleHandler {
   alterResolvedPanes(

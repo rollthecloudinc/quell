@@ -1,8 +1,8 @@
-import { Dataset, DatasourcePlugin } from '@ng-druid/datasource';
+import { Dataset, DatasourcePlugin } from '@rollthecloudinc/datasource';
 import { TransformSelectComponent } from './components/transform-select/transform-select.component';
 import { TransformMergeComponent } from './components/transform-merge/transform-merge.component';
 import { iif, of } from 'rxjs';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { map } from 'rxjs/operators';
 import { JSONPath } from 'jsonpath-plus';
 import { SelectTransform } from './models/transform.models';

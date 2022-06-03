@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
-import { MaterialModule } from '@ng-druid/material';
-import { DatasourceModule, DatasourcePluginManager } from '@ng-druid/datasource';
+import { MaterialModule } from '@rollthecloudinc/material';
+import { DatasourceModule, DatasourcePluginManager } from '@rollthecloudinc/datasource';
 import { AngularSplitModule } from 'angular-split';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { SnippetModule } from '@ng-druid/snippet';
-import { TokenModule } from '@ng-druid/token';
-import { ParamContextExtractorService } from '@ng-druid/context';
-import { AttributeSerializerService } from '@ng-druid/attributes';
+import { SnippetModule } from '@rollthecloudinc/snippet';
+import { TokenModule } from '@rollthecloudinc/token';
+import { ParamContextExtractorService } from '@rollthecloudinc/context';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { RestSourceFormComponent } from './components/rest-source-form/rest-source-form.component';
 import { restDatasourcePluginFactory, restEntityCrudAdaptorPluginFactory } from './rest.factories';
 import { RestDatasourceComponent } from './components/rest-datasource/rest-datasource.component';
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
-import { CrudAdaptorPluginManager, CrudModule } from '@ng-druid/crud';
-import { DparamModule, ParamEvaluatorService } from '@ng-druid/dparam';
+import { CrudAdaptorPluginManager, CrudModule } from '@rollthecloudinc/crud';
+import { DparamModule, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultDataServiceConfig, HttpUrlGenerator } from '@ngrx/data';
 

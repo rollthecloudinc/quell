@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
 import { DisplayGrid, GridsterConfig, GridsterItem, GridsterItemComponentInterface, GridType } from 'angular-gridster2';
-import { LayoutEditorBaseComponent, GridItem } from '@ng-druid/panels';
+import { LayoutEditorBaseComponent, GridItem } from '@rollthecloudinc/panels';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 
 @Component({

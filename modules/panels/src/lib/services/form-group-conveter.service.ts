@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { map, switchMap, tap } from "rxjs/operators";
 import { PanelPageState, PanelState, PaneState } from "../models/state.models";
-import { AttributeSerializerService } from '@ng-druid/attributes';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { PanelPageForm, PanelPageFormPane, PanelPageFormPanel } from "../models/form.models";
 import { Pane, Panel, PanelPage } from "../models/panels.models";
 import { FormArray, FormBuilder, FormGroup } from "@angular/forms";

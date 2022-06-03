@@ -1,7 +1,7 @@
 import { Observable } from "rxjs";
-import { AliasLoadingStrategy } from '@ng-druid/alias';
+import { AliasLoadingStrategy } from '@rollthecloudinc/alias';
 import { map, tap } from "rxjs/operators";
-import { PanelPage } from '@ng-druid/panels';
+import { PanelPage } from '@rollthecloudinc/panels';
 import { EntityServices } from "@ngrx/data";
 import { Router, UrlMatcher, UrlSegment } from '@angular/router';
 
@@ -36,7 +36,7 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
         const paths = pp.map(p => p.path);
 
         this.router.config.unshift({ matcher: this.createPageMatcher(paths), loadChildren: () => {
-          return import('@ng-druid/pages').then(m => m.PagesModule);
+          return import('@rollthecloudinc/pages').then(m => m.PagesModule);
         } });
 
         //pp.forEach(p => {

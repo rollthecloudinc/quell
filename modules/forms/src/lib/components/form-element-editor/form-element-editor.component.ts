@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentPlugin } from '@ng-druid/content';
-import { InlineContext } from '@ng-druid/context';
-import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@ng-druid/datasource';
-import { Pane } from '@ng-druid/panels';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ContentPlugin } from '@rollthecloudinc/content';
+import { InlineContext } from '@rollthecloudinc/context';
+import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@rollthecloudinc/datasource';
+import { Pane } from '@rollthecloudinc/panels';
 import { FormElementHandler } from '../../handlers/form-element.handler';
 import { FormSettings } from '../../models/form.models';
 

@@ -2,7 +2,7 @@
 import { Observable, of, forkJoin } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 // import { PluginDef} from '../models/plugin.models';
-import { ModuleLoaderService } from '@ng-druid/utils';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { ConfigDiscovery } from './config-discovery.service';
 import { PluginConfigurationManager } from './plugin-configuration-manager.service';
 import { PluginDef, Plugin, PluginDiscovery } from '../models/plugin.models';

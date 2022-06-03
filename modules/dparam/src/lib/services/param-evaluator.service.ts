@@ -4,7 +4,7 @@ import { ParamPluginManager } from '../services/param-plugin-manager.service';
 import { forkJoin, iif, Observable, of } from "rxjs";
 import { defaultIfEmpty, map, switchMap } from "rxjs/operators";
 import { Injectable } from "@angular/core";
-import { TokenizerService } from '@ng-druid/token';
+import { TokenizerService } from '@rollthecloudinc/token';
 
 @Injectable({
   providedIn: 'root'

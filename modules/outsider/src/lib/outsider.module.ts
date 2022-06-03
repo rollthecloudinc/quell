@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ContentPluginManager } from '@ng-druid/content';
-import { MaterialModule } from '@ng-druid/material';
+import { ContentPluginManager } from '@rollthecloudinc/content';
+import { MaterialModule } from '@rollthecloudinc/material';
 import { OutsideAppEditorComponent } from './components/outside-app-editor/outside-app-editor.component';
 import { OutsideAppRendererComponent } from './components/outside-app-renderer/outside-app-renderer.component';
 import { OutsideAppContentHandler } from './handlers/outside-app-content.handler';

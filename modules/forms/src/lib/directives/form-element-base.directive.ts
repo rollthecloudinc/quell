@@ -1,14 +1,14 @@
 import { Directive, Input, OnInit, AfterViewInit } from "@angular/core";
 import { ControlContainer, FormControl } from "@angular/forms";
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { SelectOption } from '@ng-druid/datasource';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { SelectOption } from '@rollthecloudinc/datasource';
 import { FormSettings } from "../models/form.models";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
-import { Pane } from '@ng-druid/panels';
-import { InlineContext } from '@ng-druid/context';
-import { TokenizerService } from "@ng-druid/token";
+import { Pane } from '@rollthecloudinc/panels';
+import { InlineContext } from '@rollthecloudinc/context';
+import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../services/forms-context-helper.service";
 import * as uuid from 'uuid';
 @Directive({

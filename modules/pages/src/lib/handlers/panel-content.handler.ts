@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Dataset } from '@ng-druid/datasource';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { of, Observable } from 'rxjs';
-import { PanelPage, Pane, Panel, LayoutSetting } from '@ng-druid/panels';
+import { PanelPage, Pane, Panel, LayoutSetting } from '@rollthecloudinc/panels';
 
 @Injectable({
   providedIn: 'root'

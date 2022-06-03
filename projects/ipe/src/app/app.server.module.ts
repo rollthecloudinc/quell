@@ -4,7 +4,7 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
-import { HOST_NAME, PROTOCOL } from '@ng-druid/utils';
+import { HOST_NAME, PROTOCOL } from '@rollthecloudinc/utils';
 import { APP_BASE_HREF } from '@angular/common';
 // import { Log } from 'oidc-client';
 

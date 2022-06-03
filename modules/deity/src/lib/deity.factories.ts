@@ -1,14 +1,14 @@
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-// import { ParamContextExtractorService } from '@ng-druid/context';
-import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
-import { DataductPlugin, DuctdataOutput, DuctdataInput } from '@ng-druid/refinery';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+// import { ParamContextExtractorService } from '@rollthecloudinc/context';
+import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@rollthecloudinc/datasource';
+import { DataductPlugin, DuctdataOutput, DuctdataInput } from '@rollthecloudinc/refinery';
 import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { EntityDatasource } from "./models/deity.models";
 import { EntityDatasourceComponent } from "./components/entity-datasource/entity-datasource.component";
-import { ParamContextExtractorService } from '@ng-druid/context';
-import { ContentBinding } from '@ng-druid/content';
-import { UrlGeneratorService } from '@ng-druid/durl';
+import { ParamContextExtractorService } from '@rollthecloudinc/context';
+import { ContentBinding } from '@rollthecloudinc/content';
+import { UrlGeneratorService } from '@rollthecloudinc/durl';
 import { EntityServices } from "@ngrx/data";
 
 export const entityDatasourcePluginFactory = (

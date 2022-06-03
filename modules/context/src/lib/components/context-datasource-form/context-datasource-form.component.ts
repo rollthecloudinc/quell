@@ -1,6 +1,6 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { ContextDatasource, InlineContext } from '../../models/context.models';

@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Pane } from '@ng-druid/panels';
-import { AttributeTypes } from '@ng-druid/attributes';
-import { FilesService, MediaFile } from '@ng-druid/media';
+import { Pane } from '@rollthecloudinc/panels';
+import { AttributeTypes } from '@rollthecloudinc/attributes';
+import { FilesService, MediaFile } from '@rollthecloudinc/media';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { switchMap } from 'rxjs/operators';
 

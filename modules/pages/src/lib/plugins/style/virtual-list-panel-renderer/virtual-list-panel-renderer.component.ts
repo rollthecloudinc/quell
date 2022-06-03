@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
-import { TokenizerService } from '@ng-druid/token';
-import { InlineContext } from '@ng-druid/context';
-import { Pane, Panel, PanelResolverService, StyleResolverService, PaneDatasourceService } from '@ng-druid/panels';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { TokenizerService } from '@rollthecloudinc/token';
+import { InlineContext } from '@rollthecloudinc/context';
+import { Pane, Panel, PanelResolverService, StyleResolverService, PaneDatasourceService } from '@rollthecloudinc/panels';
 import { skip, switchMap } from 'rxjs/operators';
 
 @Component({

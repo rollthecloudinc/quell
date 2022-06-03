@@ -1,16 +1,16 @@
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-// import { ParamContextExtractorService } from '@ng-druid/context';
-import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@ng-druid/datasource';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+// import { ParamContextExtractorService } from '@rollthecloudinc/context';
+import { Dataset, DatasourceEditorOptions, DatasourcePlugin } from '@rollthecloudinc/datasource';
 import { forkJoin, Observable, of } from "rxjs";
 import { CrudAdaptorDatasourceComponent } from './components/crud-adaptor-datasource/crud-adaptor-datasource.component';
-import { ParamContextExtractorService } from '@ng-druid/context';
+import { ParamContextExtractorService } from '@rollthecloudinc/context';
 import { CrudAdaptorPluginManager } from "./services/crud-adaptor-plugin-manager.service";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { CrudAdaptorDatasource } from "./models/crud.models";
-import { UrlGeneratorService } from '@ng-druid/durl';
-import { Param, ParamEvaluatorService } from '@ng-druid/dparam';
+import { UrlGeneratorService } from '@rollthecloudinc/durl';
+import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { CrudDataHelperService } from "./services/crud-data-helper.service";
-import { DataductPlugin, DuctdataInput, DuctdataOutput } from '@ng-druid/refinery';
+import { DataductPlugin, DuctdataInput, DuctdataOutput } from '@rollthecloudinc/refinery';
 import { CrudEntityConfiguration } from './models/entity-metadata.models';
 import * as uuid from 'uuid';
 

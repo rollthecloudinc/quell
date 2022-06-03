@@ -1,4 +1,4 @@
-import { CrudEntityMetadataMap } from '@ng-druid/crud';
+import { CrudEntityMetadataMap } from '@rollthecloudinc/crud';
 
 export const entityMetadata: CrudEntityMetadataMap = {
   GridLayout: {

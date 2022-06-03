@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from '@ng-druid/context';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { InlineContext } from '@rollthecloudinc/context';
 import { Pane } from '../../models/panels.models';
 
 @Component({

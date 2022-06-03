@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
-import { TokenizerService } from "@ng-druid/token";
-import { PanelPageForm } from "@ng-druid/panels";
+import { TokenizerService } from "@rollthecloudinc/token";
+import { PanelPageForm } from "@rollthecloudinc/panels";
 import { getDiff } from "recursive-diff";
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 

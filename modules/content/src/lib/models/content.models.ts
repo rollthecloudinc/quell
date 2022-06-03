@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
-import { AttributeValue } from '@ng-druid/attributes';
-import { Plugin } from '@ng-druid/plugin';
+import { AttributeValue } from '@rollthecloudinc/attributes';
+import { Plugin } from '@rollthecloudinc/plugin';
 import { Observable } from 'rxjs';
 
 export interface ContentHandler {

@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Snippet } from '@ng-druid/snippet';
+import { Snippet } from '@rollthecloudinc/snippet';
 import { FormGroup, FormArray, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 // import { Pane } from 'pages';
-import { Pane } from '@ng-druid/panels';
-import { TokenizerService } from '@ng-druid/token';
-import { AttributeValue } from '@ng-druid/attributes';
+import { Pane } from '@rollthecloudinc/panels';
+import { TokenizerService } from '@rollthecloudinc/token';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable, forkJoin, of } from 'rxjs';
 import { defaultIfEmpty, delay, map, switchMap, take, tap } from 'rxjs/operators';
-import { ModuleLoaderService } from '@ng-druid/utils';
-import { PluginDiscovery } from '@ng-druid/plugin';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
+import { PluginDiscovery } from '@rollthecloudinc/plugin';
 import { EntityServices } from '@ngrx/data';
-import { PageBuilderFacade } from '@ng-druid/panels';
+import { PageBuilderFacade } from '@rollthecloudinc/panels';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 
 @Injectable({

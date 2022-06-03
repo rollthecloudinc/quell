@@ -1,4 +1,4 @@
-import { ContentPlugin } from "@ng-druid/content"
+import { ContentPlugin } from "@rollthecloudinc/content"
 import { MediafilePaneRendererComponent } from "./components/mediafile-pane-renderer/mediafile-pane-renderer.component"
 
 export const mediafileContentPluginFactory = () => {

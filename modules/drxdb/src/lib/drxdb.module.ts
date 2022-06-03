@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CrudModule } from '@ng-druid/crud';
+import { CrudModule } from '@rollthecloudinc/crud';
 @NgModule({
   declarations: [],
   imports: [

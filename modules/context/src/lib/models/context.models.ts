@@ -1,8 +1,8 @@
 import { Observable, of } from 'rxjs';
 import { Type } from '@angular/core';
-import { Datasource, Rest } from '@ng-druid/datasource';
-import { Snippet } from '@ng-druid/snippet';
-import { Plugin } from '@ng-druid/plugin';
+import { Datasource, Rest } from '@rollthecloudinc/datasource';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { Plugin } from '@rollthecloudinc/plugin';
 
 export interface ContextResolver {
   resolve(ctx: ContextPlugin, data?: any): Observable<any>

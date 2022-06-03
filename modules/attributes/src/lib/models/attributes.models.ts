@@ -1,5 +1,5 @@
 import { Type } from '@angular/core';
-import { Plugin } from '@ng-druid/plugin';
+import { Plugin } from '@rollthecloudinc/plugin';
 
 export enum AttributeTypes {
   Number,

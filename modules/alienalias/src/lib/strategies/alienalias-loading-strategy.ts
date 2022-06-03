@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { AliasLoadingStrategy } from '@ng-druid/alias';
+import { AliasLoadingStrategy } from '@rollthecloudinc/alias';
 import { defaultIfEmpty, map, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';

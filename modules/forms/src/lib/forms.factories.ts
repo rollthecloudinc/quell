@@ -1,5 +1,5 @@
-import { ContentPlugin } from '@ng-druid/content'
-import { StylePlugin } from '@ng-druid/panels';
+import { ContentPlugin } from '@rollthecloudinc/content'
+import { StylePlugin } from '@rollthecloudinc/panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
 import { FormElementHandler } from "./handlers/form-element.handler";

@@ -1,7 +1,7 @@
 import { Type, Compiler, Injector, Injectable } from '@angular/core';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ModuleLoaderService } from '@ng-druid/utils';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
 // import { PluginDef } from '../models/plugin.models';
 import { PluginConfigurationManager } from './plugin-configuration-manager.service';
 import { PluginDef, PluginDiscovery } from '../models/plugin.models';

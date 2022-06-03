@@ -8,7 +8,7 @@ import { entityMetadata } from './entity-metadata';
 import { CLIENT_SETTINGS } from './oidc.tokens';
 import { TransferState } from '@angular/platform-browser';
 import { UserManager } from 'oidc-client';
-import { AuthFacade, AuthModule } from '@ng-druid/auth';
+import { AuthFacade, AuthModule } from '@rollthecloudinc/auth';
 @NgModule({
   declarations: [],
   imports: [

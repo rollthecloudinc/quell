@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeSerializerService, AttributeValue } from '@ng-druid/attributes';
-import { InlineContext } from '@ng-druid/context';
-import { Datasource } from '@ng-druid/datasource';
+import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { InlineContext } from '@rollthecloudinc/context';
+import { Datasource } from '@rollthecloudinc/datasource';
 import { DatasourceContentHandler } from '../../../handlers/datasource-content.handler';
 import { Subject } from 'rxjs';
 import { Pane } from '../../../models/panels.models';

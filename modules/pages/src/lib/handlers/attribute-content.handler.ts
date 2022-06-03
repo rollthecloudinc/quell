@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Snippet } from '@ng-druid/snippet';
-import { Dataset } from '@ng-druid/datasource';
-import { AttributeValue, AttributeWidget, AttributeTypes } from '@ng-druid/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { AttributeValue, AttributeWidget, AttributeTypes } from '@rollthecloudinc/attributes';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SnippetContentHandler } from './snippet-content.handler';

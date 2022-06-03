@@ -1,13 +1,13 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import * as uuid from 'uuid';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
 import { Subject } from 'rxjs';
 import { switchMap, filter, tap } from 'rxjs/operators';
 import { ControlContainer } from '@angular/forms';
-import { SelectOption, SelectMapping } from '@ng-druid/datasource';
-import { Snippet } from '@ng-druid/snippet';
-import { InlineContext } from '@ng-druid/context';
+import { SelectOption, SelectMapping } from '@rollthecloudinc/datasource';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
   selector: 'classifieds-ui-rest-pane-renderer',

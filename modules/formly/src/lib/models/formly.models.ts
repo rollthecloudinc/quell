@@ -1,5 +1,5 @@
-import { ContentBinding } from '@ng-druid/content';
-import { Rest, DatasourceOptions } from '@ng-druid/datasource';
+import { ContentBinding } from '@rollthecloudinc/content';
+import { Rest, DatasourceOptions } from '@rollthecloudinc/datasource';
 export class FormlyFieldInstance {
   type: string;
   key: string;

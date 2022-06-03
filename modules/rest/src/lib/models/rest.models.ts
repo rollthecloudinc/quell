@@ -1,6 +1,6 @@
-import { Renderer } from '@ng-druid/datasource';
-import { Param } from '@ng-druid/dparam';
-import { Snippet } from '@ng-druid/snippet';
+import { Renderer } from '@rollthecloudinc/datasource';
+import { Param } from '@rollthecloudinc/dparam';
+import { Snippet } from '@rollthecloudinc/snippet';
 
 export class Rest {
   url: string;

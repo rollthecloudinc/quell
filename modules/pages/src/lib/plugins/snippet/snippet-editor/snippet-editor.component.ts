@@ -1,11 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { AttributeTypes } from '@ng-druid/attributes';
-import { Pane } from '@ng-druid/panels';
+import { AttributeTypes } from '@rollthecloudinc/attributes';
+import { Pane } from '@rollthecloudinc/panels';
 // import { Snippet } from '../../../models/plugin.models';
 // import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
-import { Snippet } from '@ng-druid/snippet';
+import { Snippet } from '@rollthecloudinc/snippet';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({

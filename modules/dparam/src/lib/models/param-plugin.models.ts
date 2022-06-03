@@ -1,4 +1,4 @@
-import { Plugin } from '@ng-druid/plugin';
+import { Plugin } from '@rollthecloudinc/plugin';
 import { Observable } from 'rxjs';
 import { Param } from './param.models';
 

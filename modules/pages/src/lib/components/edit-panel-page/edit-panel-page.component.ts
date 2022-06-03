@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PageBuilderFacade, PanelPage, PanelPageListItem, PanelPageStateSlice } from '@ng-druid/panels';
+import { PageBuilderFacade, PanelPage, PanelPageListItem, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { ActivatedRoute } from '@angular/router';
 import { map, filter, distinctUntilChanged, switchMap, tap, withLatestFrom, take, defaultIfEmpty, delay } from 'rxjs/operators';
@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { forkJoin, of } from 'rxjs';
 import { loadRemoteModule } from '@angular-architects/module-federation';
-import { ModuleLoaderService } from '@ng-druid/utils';
+import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Component({
   selector: 'classifieds-ui-edit-panel-page',

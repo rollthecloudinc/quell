@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/material';
-import { PanelPage } from '@ng-druid/panels';
+import { PanelPage } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-formly-panel-page',

@@ -1,4 +1,4 @@
-import { AttributeValue, AttributeTypes } from '@ng-druid/attributes';
+import { AttributeValue, AttributeTypes } from '@rollthecloudinc/attributes';
 
 import { Injectable } from '@angular/core';
 

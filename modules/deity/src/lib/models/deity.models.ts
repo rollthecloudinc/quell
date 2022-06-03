@@ -1,4 +1,4 @@
-import { Param } from '@ng-druid/dparam';
+import { Param } from '@rollthecloudinc/dparam';
 
 export class EntityDatasource {
   entityName: string;

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Dataset } from '@ng-druid/datasource';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { FilesService, MediaFile } from '@ng-druid/media';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { FilesService, MediaFile } from '@rollthecloudinc/media';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 

@@ -1,4 +1,4 @@
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 
 export class DataSlice {
   context: string;

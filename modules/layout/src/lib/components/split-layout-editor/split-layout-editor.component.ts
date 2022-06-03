@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef } from '@angular/core';
 import { ControlContainer } from '@angular/forms';
-import { LayoutEditorBaseComponent, GridItem } from '@ng-druid/panels';
+import { LayoutEditorBaseComponent, GridItem } from '@rollthecloudinc/panels';
 
 @Component({
   selector: 'classifieds-ui-split-layout-editor',

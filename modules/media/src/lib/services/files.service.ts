@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin, of, throwError, firstValueFrom } from 'rxjs';
-import { AuthFacade } from '@ng-druid/auth';
-import { CognitoSettings, COGNITO_SETTINGS } from '@ng-druid/awcog';
+import { AuthFacade } from '@rollthecloudinc/auth';
+import { CognitoSettings, COGNITO_SETTINGS } from '@rollthecloudinc/awcog';
 import { catchError } from 'rxjs/operators';
 import { MEDIA_SETTINGS } from '../media.tokens';
 import { MediaSettings, MediaFile } from '../models/media.models';

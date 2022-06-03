@@ -1,19 +1,19 @@
 import { Inject, Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AttributeValue, AttributeSerializerService } from '@ng-druid/attributes';
-import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@ng-druid/content';
-import { Snippet } from '@ng-druid/snippet';
-import { Rest, Dataset, SelectMapping, SelectOption } from '@ng-druid/datasource';
-import { InlineContext } from '@ng-druid/context';
-import { SITE_NAME } from '@ng-druid/utils';
-import { RulesResolverService } from '@ng-druid/rules';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Snippet } from '@rollthecloudinc/snippet';
+import { Rest, Dataset, SelectMapping, SelectOption } from '@rollthecloudinc/datasource';
+import { InlineContext } from '@rollthecloudinc/context';
+import { SITE_NAME } from '@rollthecloudinc/utils';
+import { RulesResolverService } from '@rollthecloudinc/rules';
 import { SnippetContentHandler } from './snippet-content.handler';
 import { Observable, of, Subject, iif, forkJoin, from } from 'rxjs';
 import * as uuid from 'uuid';
 import { map, filter, switchMap, take, defaultIfEmpty, tap } from 'rxjs/operators';
-import { TokenizerService } from '@ng-druid/token';
-import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler, PageBuilderFacade, selectDataset, PageBuilderPartialState } from '@ng-druid/panels';
-import { UrlGeneratorService } from '@ng-druid/durl';
+import { TokenizerService } from '@rollthecloudinc/token';
+import { Panel, PanelPage, Pane, LayoutSetting, PanelContentHandler, PageBuilderFacade, selectDataset, PageBuilderPartialState } from '@rollthecloudinc/panels';
+import { UrlGeneratorService } from '@rollthecloudinc/durl';
 
 @Injectable()
 export class RestContentHandler implements ContentHandler {

@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
-import { Plugin } from '@ng-druid/plugin';
-import { Attribute, AttributeValue } from '@ng-druid/attributes';
+import { Plugin } from '@rollthecloudinc/plugin';
+import { Attribute, AttributeValue } from '@rollthecloudinc/attributes';
 
 export class LayoutPlugin<T = string> extends Plugin<T>  {
   renderer: Type<any>;

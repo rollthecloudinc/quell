@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ContextPluginManager } from '@ng-druid/context';
+import { ContextPluginManager } from '@rollthecloudinc/context';
 import { ContextStateEditorComponent } from './components/context-state-editor/context-state-editor.component';
 import { ContextStateFormComponent } from './components/context-state-form/context-state-form.component';
 import { StateContextResolver } from './contexts/state-context.resolver';
 import { stateBridgeFactory, stateContextFactory } from './state.factories';
 import { EntityDataService, EntityDefinitionService, EntityServices } from '@ngrx/data';
 import { entityMetadata } from './entity-metadata';
-import { NoopDataService } from '@ng-druid/utils';
+import { NoopDataService } from '@rollthecloudinc/utils';
 import { GlobalState } from './models/state.models';
-import { BridgeBuilderPluginManager } from '@ng-druid/bridge';
-import { AttributeSerializerService } from '@ng-druid/attributes';
+import { BridgeBuilderPluginManager } from '@rollthecloudinc/bridge';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 
 @NgModule({
   declarations: [

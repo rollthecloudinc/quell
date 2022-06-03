@@ -1,9 +1,9 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop"
 import { FormArray } from "@angular/forms"
-import { AttributeValue } from '@ng-druid/attributes'
+import { AttributeValue } from '@rollthecloudinc/attributes'
 import { RuleSet } from 'angular2-query-builder';
-import { InlineContext } from '@ng-druid/context';
-import { PersistenceFormPayload } from "@ng-druid/refinery";
+import { InlineContext } from '@rollthecloudinc/context';
+import { PersistenceFormPayload } from "@rollthecloudinc/refinery";
 
 // Editor behaviors
 export interface PanelsEditor {

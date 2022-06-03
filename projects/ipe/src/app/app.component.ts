@@ -1,8 +1,8 @@
 import { Component, OnInit, EventEmitter, Output, PLATFORM_ID, Inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
-import { AuthFacade } from '@ng-druid/auth';
+import { AuthFacade } from '@rollthecloudinc/auth';
 import { Router } from '@angular/router';
-import { PublicApiBridgeService } from '@ng-druid/bridge';
+import { PublicApiBridgeService } from '@rollthecloudinc/bridge';
 
 declare var bridge: PublicApiBridgeService;
 

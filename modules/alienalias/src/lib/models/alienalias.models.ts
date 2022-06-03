@@ -1,4 +1,4 @@
-import { AliasPlugin } from '@ng-druid/alias';
+import { AliasPlugin } from '@rollthecloudinc/alias';
 
 export class AlienaliasPlugin extends AliasPlugin {
 }

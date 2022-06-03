@@ -1,11 +1,11 @@
 import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { SplitAreaDirective } from 'angular-split';
-import { LayoutSetting } from '@ng-druid/panels';
+import { LayoutSetting } from '@rollthecloudinc/panels';
 import { filter, switchMap } from 'rxjs/operators';
 import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
-import { AttributeValue } from '@ng-druid/attributes';
+import { AttributeValue } from '@rollthecloudinc/attributes';
 @Component({
   selector: 'classifieds-ui-split-layout',
   templateUrl: './split-layout.component.html',
