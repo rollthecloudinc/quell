@@ -1,6 +1,7 @@
 {
   "name": "@rollthecloudinc/sheath",
   "version": "0.0.46",
+  "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.0",
     "@angular/core": "^13.1.0"
