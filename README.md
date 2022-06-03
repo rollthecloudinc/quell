@@ -27,7 +27,7 @@ Druid follows the [principles of green software engineering](https://principles.
 
 # Rapid Dev
 
-Quickly releaize simple and complex green web experiences using the druid platform.
+Quickly realize simple and complex green web experiences using the druid platform.
 
 ## Site Builders
 
@@ -48,6 +48,8 @@ Prototype druid search browser using Marvel API.
 * [Editor](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334/manage)
 
 ## Developers
+
+Developers can use druid as an app shell to orchestrate micro-frontends built with Angular, React, Vue, Svelte, etc. Any app compatible with [module federation](https://webpack.js.org/concepts/module-federation/) can be used with druid. Module federation can also be used to extend the platform without hacking core using extensions. Extensions are Angular micro-frontends developed for the sole purpose of providing new plugin implementations.
 
 ### Orchestrate
 
