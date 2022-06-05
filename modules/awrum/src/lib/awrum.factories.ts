@@ -1,10 +1,11 @@
+import { NgZone } from '@angular/core';
 import { AwsRum, AwsRumConfig } from 'aws-rum-web';
 import { Observable } from 'rxjs';
 import { CloudwatchRumSettings } from './models/rum.models';
 
-export const initializeRumMonitorFactory = (rumSettings: CloudwatchRumSettings): () => Observable<any> => {
+export const initializeRumMonitorFactory = (rumSettings: CloudwatchRumSettings, zone: NgZone): () => Observable<any> => {
   return () => new Observable(obs => {
-    setTimeout(() => {
+    zone.runOutsideAngular(async () => {
       try {
         const config: AwsRumConfig = {
           sessionSampleRate: 1,
