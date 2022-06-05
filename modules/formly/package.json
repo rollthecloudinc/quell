@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/formly",
-  "version": "0.0.47",
+  "version": "0.0.48",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
