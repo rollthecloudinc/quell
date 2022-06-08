@@ -24,7 +24,7 @@ Druids run completely in the browser using the modern [Angular framework](https:
 Druids run compeltely in the cloud. More specifically the [aws cloud](https://aws.amazon.com/) that is on track to be powered with [100% renewable energy by 2025](https://sustainability.aboutamazon.com/). Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
 
 Druid follows the [principles of green software engineering](https://principles.green/).
-Druid is well architected built on principles of aws [sustainability pillar[(https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html).
+Druid is well architected built on principles of aws [sustainability pillar](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html).
 
 # Rapid Dev
 
