@@ -25,6 +25,7 @@ Druids run compeltely in the cloud. More specifically the [aws cloud](https://aw
 
 * Druid follows the [principles of green software engineering](https://principles.green/).
 * Druid is built on [sustainability pillar](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html) of the Amazon Web Services (AWS) [Well-Architected Framework](https://aws.amazon.com/architecture/well-architected).
+* Druid is [serverless](https://github.com/rollthecloudinc/verti-go) favoring [zero trust](https://aws.amazon.com/security/zero-trust/) [signed requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) directly in the browser.
 
 # Rapid Dev
 
