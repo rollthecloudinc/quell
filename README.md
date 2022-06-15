@@ -1,6 +1,8 @@
-# Druid?
+<img width="156" alt="Screen Shot 2022-06-13 at 1 30 58 AM" src="https://user-images.githubusercontent.com/73197190/173286068-e2fbdcab-d4f5-48a5-b95e-4e8460432777.png">
 
-Druid is a new kind of publishing platform that will run on 100% renewable energy by 2025. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating infrastructure like servers and databases from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the net 0 web without sacrificing latency, availability, responsiveness, or scalability.
+# Summary
+
+Druid is a new kind of publishing platform that runs entirely on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating infrastructure like servers and databases from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the net 0 web without sacrificing latency, availability, responsiveness, or scalability.
 
 # Behind the Name
 
@@ -21,9 +23,11 @@ Any D R U I D is a small, portable web app optimized for the cloud that follows 
 
 Druids run completely in the browser using the modern [Angular framework](https://angular.io/) developed by Google. However, druids can also host micro-frontends that are built with any modern JavaScript stack such as; [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), etc.
 
-Druids run compeltely in the cloud. More specifically the [aws cloud](https://aws.amazon.com/) that is on track to be powered with [100% renewable energy by 2025](https://sustainability.aboutamazon.com/). Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
+Druids run compeltely in the sustainable cloud using AWS, Cloudflare, Azure or any static site hosting service. Furthermore, druids eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on serverless technology stacks instead.
 
-Druid follows the [principles of green software engineering](https://principles.green/).
+* Druid follows the [principles of green software engineering](https://principles.green/).
+* Druid is built on [sustainability pillar](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html) of the Amazon Web Services (AWS) [Well-Architected Framework](https://aws.amazon.com/architecture/well-architected).
+* Druid is [serverless](https://github.com/rollthecloudinc/verti-go) favoring [zero trust](https://aws.amazon.com/security/zero-trust/) [signed requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) directly in the browser.
 
 # Rapid Dev
 
