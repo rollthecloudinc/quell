@@ -73,4 +73,4 @@ Prototype using druid to load extension with new content type at runtime from ex
 
 Visit the charities [github account](https://github.com/rollthecloudinc) for planned initiatives on druid.
 
-[Donations welcomed](Donations welcomed](https://www.paypal.com/fundraiser/charity/4587641)
+[Donations welcomed](https://www.paypal.com/fundraiser/charity/4587641)
