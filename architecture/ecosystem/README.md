@@ -9,7 +9,7 @@ azure-->browser
 browser-->newrelic
 ```
 
-## [OLD] Architecture
+## Architecture
 
 ```mermaid
 flowchart RL
