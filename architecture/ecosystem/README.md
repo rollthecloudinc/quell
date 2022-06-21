@@ -3,6 +3,15 @@
 ## Architecture
 
 ```mermaid
+flowchart LR
+github-->azure
+azure-->browser
+browser-->newrelic
+```
+
+## [OLD] Architecture
+
+```mermaid
 flowchart RL
 subgraph Druid
 core
