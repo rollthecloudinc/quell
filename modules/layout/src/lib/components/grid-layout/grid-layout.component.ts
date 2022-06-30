@@ -89,7 +89,7 @@ export class GridLayoutComponent implements OnInit {
   }
 
   refreshGridHeight() {
-    this.gridster.calculateLayout();
+    //this.gridster.calculateLayout();
     // console.log(`main controls: ${this.mainControls.nativeElement.offsetHeight} | cumulative height: ${this.cumulativeHeight}`);
     this.gridHeight = this.cumulativeHeight /* + ( this.displayMainControls ? this.mainControls.nativeElement.offsetHeight : 0 )*/ + (this.gridster.rows * 16);
     // console.log(`adjust height: ${this.gridHeight}`);

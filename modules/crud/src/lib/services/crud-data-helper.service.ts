@@ -25,7 +25,7 @@ export class CrudDataHelperService {
   evaluatePlugins<T>({ object, plugins, op, parentObject }: { object: any, plugins: CrudEntityConfiguration, op: CrudOperations, parentObject?: any }): Observable<T> {
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
-      a => this.crud.getPlugin(a).pipe(
+      a => this.crud.getPlugin(plugins[a].plugin ? plugins[a].plugin : a).pipe(
         map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: plugins[a].params[name] instanceof Param ? plugins[a].params[name] : new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => p[op]({ rule: undefined, object, parentObject, params, identity: ({ object, parentObject }) => of({ identity: object.id ? object.id : parentObject ? parentObject.id : undefined }) })),
         switchMap<CrudOperationResponse, Observable<CrudOperationResponse>>(res => iif<CrudOperationResponse, CrudOperationResponse>(
@@ -44,7 +44,7 @@ export class CrudDataHelperService {
     console.log('evaluate collection plugins');
     const adaptors = Object.keys(plugins);
     const operations$ = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).map(
-      a => this.crud.getPlugin(a).pipe(
+      a => this.crud.getPlugin(plugins[a].plugin ? plugins[a].plugin : a).pipe(
         map(p => ({ p, params: plugins[a].params ? Object.keys(plugins[a].params).reduce((p, name) => ({ ...p, [name]: plugins[a].params[name] instanceof Param ? plugins[a].params[name] : new Param({ flags: [], mapping: { type: 'static', value: plugins[a].params[name], context: undefined, testValue: plugins[a].params[name] } }) }), {}) : {} })),
         switchMap(({ p, params }) => this.buildQueryRule({ params: query, config: plugins[a] }).pipe(
           map(({ rule }) => ({ p, params, rule }))

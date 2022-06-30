@@ -88,7 +88,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.1.2",
-    "@angular/cli": "~13.1.2",
+    "@angular/cli": "^13.1.2",
     "@angular/compiler-cli": "~13.1.2",
     "@angular/language-service": "~13.1.2",
     "@nguniversal/builders": "^13.0.1",
@@ -111,6 +111,7 @@
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "^1.7.0",
     "ng-packagr": "^13.1.2",
+    "ngx-build-plus": "^13.0.0",
     "postcss": "^8.4.12",
     "protractor": "~7.0.0",
     "serverless-apigw-binary": "^0.4.4",

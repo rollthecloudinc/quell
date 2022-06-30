@@ -72,10 +72,6 @@ export class EditPanelPageComponent implements OnInit {
     // console.log(panelPage);
     this.panelPageService.update(new PanelPage({ ...panelPage, id: this.panelPage.id })).subscribe(() => {
       alert('panel page updated');
-      const panelPageListItem = new PanelPageListItem({ ...panelPage, id: this.panelPage.id });
-      this.panelPageListItemService.update(panelPageListItem).subscribe(() => {
-        console.log('panel page list item created');
-      });
     });
   }
 

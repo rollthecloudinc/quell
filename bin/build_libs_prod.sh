@@ -17,7 +17,6 @@ ng run context:build:production
 ng run rules:build:production
 ng run refinery:build:production
 ng run crud:build:production
-ng run tractorbeam:build:production
 ng run alienalias:build:production
 ng run keyval:build:production
 ng run awcog:build:production
@@ -28,9 +27,10 @@ ng run deity:build:production
 ng run style:build:production
 ng run transform:build:production
 ng run react:build:production
-ng run outsider:build:production
 ng run media:build:production
 ng run panels:build:production
+ng run outsider:build:production
+ng run tractorbeam:build:production
 ng run layout:build:production
 ng run state:build:production
 ng run loop:build:production

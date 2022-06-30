@@ -27,10 +27,6 @@ export class CreatePanelPageComponent implements OnInit {
     panelPage.id = uuid.v4(); // For now just do this here.
     this.panelPageService.add(panelPage).subscribe(() => {
       console.log('panel page created');
-      const panelPageListItem = new PanelPageListItem({ ...panelPage });
-      this.panelPageListItemService.add(panelPageListItem).subscribe(() => {
-        console.log('panel page list item created');
-      });
     });
   }
 

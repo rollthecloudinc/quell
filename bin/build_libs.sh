@@ -17,7 +17,6 @@ npm run build context
 npm run build rules
 npm run build refinery
 npm run build crud
-npm run build tractorbeam
 npm run build alienalias
 npm run build keyval
 npm run build awcog
@@ -28,9 +27,10 @@ npm run build deity
 npm run build style
 npm run build transform
 npm run build react
-npm run build outsider
 npm run build media
 npm run build panels
+npm run build outsider
+npm run build tractorbeam
 npm run build layout
 npm run build state
 npm run build loop

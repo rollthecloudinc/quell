@@ -58,20 +58,32 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
     PanelPage: {
       entityName: 'PanelPage',
       crud: {
-        aws_s3_entity: {
+        /*aws_s3_entity: {
           ops: ['query', 'create', 'update'],
           params: {
             // bucket: 'classifieds-ui-dev',
             bucket: panelsSettings.s3Bucket,
             prefix: 'panelpages/'
           }
-        }
-        /*rest: {
-          // ops: ['query'],
+        }*/
+        save: {
+          ops: ['create', 'update'],
+          plugin: 'rest',
           params: {
             entityName: 'PanelPage'
           }
-        },*/
+        },
+        read: {
+          ops: ['query'],
+          plugin: 'rest',
+          params: {
+            entityName: 'PanelPage',
+            root: panelsSettings.objectsRootUrl,
+            // root: 'https://rollthecloudinc.github.io/ipe-objects',
+            // root: '/assets/objects',
+            suffix: '.json'
+          }
+        },
         /*...(isPlatformServer(platformId) ? 
           {} :
           {

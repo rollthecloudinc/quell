@@ -285,7 +285,7 @@
               "node_modules/prismjs/themes/prism-okaidia.css"
             ],
             "scripts": [
-              "node_modules/marked/lib/marked.js",
+              "node_modules/marked/bin/marked.js",
               "node_modules/prismjs/prism.js",
               "node_modules/prismjs/components/prism-json.min.js",
               "node_modules/prismjs/components/prism-typescript.min.js",

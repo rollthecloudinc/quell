@@ -39,7 +39,7 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
     title: 'Rest',
     create: ({ object, params }: CrudOperationInput) => of({ success: false }).pipe(
       switchMap(() => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]])))),
-      switchMap(options => restfulRequest({ method: 'POST', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api'), data: object || new Error(`No entity to add`) , params: options, http })),
+      switchMap(options => restfulRequest({ method: 'POST', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api', true), data: object || new Error(`No entity to add`) , params: options, http })),
       map(() => ({ success: true, entity: object }))
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
@@ -48,7 +48,7 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
       switchMap(({ identity }) => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]]))).pipe(
         map(options => ({ identity, options }))
       )),
-      switchMap(({ identity, options }) => restfulRequest({ method: 'PUT', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + `${identity}`, data: object || new Error(`No entity to add`) , params: options, http })),
+      switchMap(({ identity, options }) => restfulRequest({ method: 'PUT', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api', true) + `${identity}`, data: object || new Error(`No entity to add`) , params: options, http })),
       map(() => ({ success: true, entity: object }))
     ),
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
@@ -62,7 +62,7 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
       })),
       switchMap(({ options, query, path, identityFact }) => iif(
         () => !!identityFact,
-        restfulRequest({ method: 'GET', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + path, options: { params: query }, params: options, http }).pipe(
+        restfulRequest({ method: 'GET', url: httpUrlGenerator.entityResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api', true) + path, options: { params: query }, params: options, http }).pipe(
           map(objects => ({ success: true, entities: Array.isArray(objects) ? objects : [ objects ] }))
         ),
         restfulRequest({ method: 'GET', url: httpUrlGenerator.collectionResource(options.get('entityName'), options.has('root') ? options.get('root') : config.root ? config.root : 'api') + path, options: { params: query }, params: options, http }).pipe(
@@ -92,7 +92,8 @@ export const restfulRequest = ({ method, url, data, options, params, http }: { m
       break;
     }
     case 'GET': {
-      result$ = http.get(url, options);
+      const newUrl = params.has('suffix') ? url +  params.get('suffix') : url; 
+      result$ = http.get(newUrl, options);
       if (params.has('getDelay')) {
         result$ = result$.pipe(delay(+params.get('getDelay')));
       }
