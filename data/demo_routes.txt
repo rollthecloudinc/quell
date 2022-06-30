@@ -1,8 +1,6 @@
 /pages/create-panel-page
 /dev-test-virtual-list-flex-v1/character/1011334
 /dev-test-virtual-list-flex-v1/character/1011334/manage
-/formly/kitchensink/v1
-/formly/kitchensink/v1/manage
 /just-a-lonely-snippet-v1
 /just-a-lonely-snippet-v1/manage
 /workflow-designer-v2
