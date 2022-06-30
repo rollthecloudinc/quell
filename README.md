@@ -2,7 +2,7 @@
 
 # Summary
 
-Druid is a new kind of publishing platform that runs entirely on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating infrastructure like servers and databases from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the [net 0 web](https://github.com/rollthecloudinc/net0web) without sacrificing latency, availability, responsiveness, or scalability.
+Druid is a new kind of publishing platform that runs entirely on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Druid achieves this feat via eliminating infrastructure like servers and databases from the web hosting equation. In contrast to traditional websites druids run completely in the browser and communicate securely directly with resources in the cloud when necessary. Druid is designed to build the web back better on the [druid cloud](https://github.com/rollthecloudinc/druidcloud) without sacrificing latency, availability, responsiveness, or scalability.
 
 # Behind the Name
 
