@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/durl",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^10.1.5",
