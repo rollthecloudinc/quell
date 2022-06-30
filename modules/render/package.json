@@ -1,10 +1,10 @@
 {
   "name": "@rollthecloudinc/render",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
-    "@angular/common": "^11.2.14",
-    "@angular/core": "^11.2.14"
+    "@angular/common": "^13.1.2",
+    "@angular/core": "^13.1.2"
   },
   "dependencies": {
     "tslib": "^2.0.0"

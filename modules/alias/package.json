@@ -1,10 +1,10 @@
 {
   "name": "@rollthecloudinc/alias",
-  "version": "0.0.51",
+  "version": "0.0.52",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
-    "@angular/common": "^10.1.5",
-    "@angular/core": "^10.1.5"
+    "@angular/common": "^13.1.2",
+    "@angular/core": "^13.1.2"
   },
   "dependencies": {
     "tslib": "^2.0.0"
