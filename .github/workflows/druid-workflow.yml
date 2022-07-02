@@ -29,7 +29,7 @@ jobs:
         name: Checkout Objects
         with:
           repository: ${{ inputs.OBJECTS_REPO }}
-          branch: ${{ inputs.TARGET_BRANCH }}
+          ref: ${{ inputs.TARGET_BRANCH }}
           path: "projects/spear/src/assets/objects"
       - name: Delete Objects Git Directory
         run: rm -Rf projects/spear/src/assets/objects/.git
