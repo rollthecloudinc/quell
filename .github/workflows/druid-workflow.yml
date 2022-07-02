@@ -31,7 +31,7 @@ jobs:
         name: Checkout Objects
         with:
           repository: ${{ secrets.OBJECTS_REPO }}
-          ref: ${{ inputs.TARGET_BRANCH }}
+          ref: ${{ secrets.TARGET_BRANCH }}
           path: "projects/spear/src/assets/objects"
           set-safe-directory: false
       - name: Delete Objects Git Directory
