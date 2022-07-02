@@ -24,13 +24,15 @@ jobs:
     environment: ${{ inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
-        name: Checkout
+        name: Checkout Site
       - uses: actions/checkout@v3
-        name: Checkout
+        name: Checkout Objects
         with:
           repository: ${{ inputs.OBJECTS_REPO }}
           branch: ${{ inputs.TARGET_BRANCH }}
           path: "projects/spear/src/assets/objects"
+      - name: Delete Objects Git Directory
+        run: rm -Rf projects/spear/src/assets/objects/.git
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
