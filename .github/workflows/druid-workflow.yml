@@ -25,16 +25,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout Site
-      - run: echo ${{ inputs.OBJECTS_REPO }}
+      - run: echo ${{ secrets.OBJECTS_REPO }}
         name: Print Objects Repo
       - uses: actions/checkout@v3
         name: Checkout Objects
         with:
-          repository: ${{ inputs.OBJECTS_REPO }}
+          repository: ${{ secrets.OBJECTS_REPO }}
           ref: ${{ inputs.TARGET_BRANCH }}
           path: "projects/spear/src/assets/objects"
           set-safe-directory: false
-          token: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - name: Delete Objects Git Directory
         run: rm -Rf projects/spear/src/assets/objects/.git
       - uses: actions/setup-node@v3
