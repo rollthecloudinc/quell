@@ -16,7 +16,7 @@ on:
         required: true
       TARGET_BRANCH:
         required: true
-      OBJECTS_REO:
+      OBJECTS_REPO:
         required: true
 jobs:
   dev-deploy:
