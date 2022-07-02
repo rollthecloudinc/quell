@@ -31,8 +31,9 @@ jobs:
           repository: ${{ inputs.OBJECTS_REPO }}
           ref: ${{ inputs.TARGET_BRANCH }}
           path: "projects/spear/src/assets/objects"
+          set-safe-directory: false
       - name: Delete Objects Git Directory
-        run: rm -Rf ./projects/spear/src/assets/objects/.git
+        run: rm -Rf projects/spear/src/assets/objects/.git
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
