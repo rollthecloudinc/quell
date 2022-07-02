@@ -16,6 +16,8 @@ on:
         required: true
       TARGET_BRANCH:
         required: true
+      OBJECTS_REO:
+        required: true
 jobs:
   dev-deploy:
     runs-on: ubuntu-latest
@@ -23,6 +25,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         name: Checkout
+      - uses: actions/checkout@v3
+        name: Checkout
+        with:
+          repository: ${{ inputs.OBJECTS_REPO }}
+          branch: ${{ inputs.TARGET_BRANCH }}
+          path: "projects/spear/src/assets/objects"
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
