@@ -46,6 +46,11 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
+      - run: echo "::set-output name=objects::$(ls projects/spear/src/assets/objects/*.json | jq -R -s -c 'split("\n")[:-1]')"
+        name: Parse JSON object files
+        id: jsonobjects
+      - run: echo ${{ steps.jsonobjects.outputs.objects }}
+        name: Print json objects
       - run: echo "::set-output name=stamp::$(date +'%Y%m%d%H%M%S')"
         name: Generate Release Stamp
         id: release
