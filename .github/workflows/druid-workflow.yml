@@ -36,7 +36,7 @@ jobs:
           set-safe-directory: false
       - name: Delete Objects Git Directory
         run: rm -Rf projects/spear/src/assets/objects/.git
-      - run: echo "::set-output name=objects::$(ls /projects/spear/src/assets/objects/*.json | jq -R -s -c 'split("\n")[:-1]')"
+      - run: echo "::set-output name=objects::$(ls projects/spear/src/assets/objects/panelpage/*.json | jq -R -s -c 'split("\n")[:-1]')"
         name: Parse JSON object files
         id: jsonobjects
       - run: echo ${{ steps.jsonobjects.outputs.objects }}
