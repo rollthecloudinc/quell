@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { QueryParams } from "@ngrx/data";
-import { forkJoin, iif, Observable, of, ReplaySubject, Subject } from "rxjs";
+import { concat, forkJoin, iif, Observable, of, ReplaySubject, Subject, throwError } from "rxjs";
 import { CrudAdaptorPluginManager } from '../services/crud-adaptor-plugin-manager.service';
-import { defaultIfEmpty, map, switchMap, take, tap } from "rxjs/operators";
+import { defaultIfEmpty, filter, map, switchMap, take, tap, concatMap, finalize } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse, CrudAdaptorPlugin, CrudCollectionOperationInput } from '../models/crud.models';
 import { Param } from '@rollthecloudinc/dparam';
@@ -63,10 +63,20 @@ export class CrudDataHelperService {
         tap(res => console.log('end of op', res))
       ),
     );
-    return operations$.length === 1 ? operations$[0].pipe(map<CrudCollectionOperationResponse, Array<T>>(c => [ ...c.entities ])) : forkJoin(operations$).pipe(
-      map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], [])),
-      defaultIfEmpty([])
-    );
+    const fallback = adaptors.filter(a => !plugins[a].ops || plugins[a].ops.includes(op)).find(a => plugins[a].fallback);
+    if (fallback && operations$.length > 1) {
+      return operations$.reduce((p, c) => p.pipe(
+        switchMap(entities => entities && Array.isArray(entities) && entities.length > 0 ? of(entities) : c.pipe(
+          map(c => c && (c as any).entities && Array.isArray((c as any).entities) ? (c as any).entities : []),
+        )),
+        switchMap(entities => entities.length > 0 ? of(entities) : of([]))
+      ), of([]));
+    } else {
+      return operations$.length === 1 ? operations$[0].pipe(map<CrudCollectionOperationResponse, Array<T>>(c => [ ...c.entities ])) : forkJoin(operations$).pipe(
+        map<Array<CrudCollectionOperationResponse>, Array<T>>(responses => responses.reduce((p, c) => [ ...p, ...c.entities ], [])),
+        defaultIfEmpty([])
+      );
+    }
   }
 
   buildQueryRule({ params, config }: { params: QueryParams | string, config: CrudEntityConfigurationPlugin }): Observable<{ rule: Rule }> {

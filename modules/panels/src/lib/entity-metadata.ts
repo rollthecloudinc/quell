@@ -73,7 +73,15 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             entityName: 'PanelPage'
           }
         },
-        read: {
+        readPrimary: { // demo only
+          fallback: true,
+          plugin: 'idb_keyval',
+          params: {
+            prefix: 'panelpage__'
+          }
+        },
+        readFallback: {
+          fallback: true,
           ops: ['query'],
           plugin: 'rest',
           params: {

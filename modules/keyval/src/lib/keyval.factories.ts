@@ -2,7 +2,7 @@ import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudColle
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { concat, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
-import { set, keys, getMany } from 'idb-keyval';
+import { set, keys, getMany, setMany } from 'idb-keyval';
 import { ConditionProperties, Engine } from 'json-rules-engine';
 import { JSONPath } from 'jsonpath-plus';
 
@@ -108,3 +108,18 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
     )
   });
 };
+
+export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data: any }) => IDBValidKey }) => (): () => Observable<any> => {
+  return () => new Observable(obs => {
+    const items: Array<[IDBValidKey, any]> = data.map(d => [key({ data: d }), d]);
+    setMany(items).then(() => {
+      console.log('data loaded into idb');
+      obs.next();
+      obs.complete();
+    }).catch(() => {
+      console.log('data load into idb failure');
+      obs.next();
+      obs.complete();
+    })
+  });
+ };

@@ -21,6 +21,7 @@ export interface CrudEntityConfigurationPlugin {
   rule?: Rule
   ops?: Array<CrudOperations>
   queryMappings?: Map<string, CrudEntityQueryMapping>
+  fallback?: boolean;
 }
 
 export interface CrudEntityConfigurationParams {

@@ -73,6 +73,8 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@rollthecloudinc/awrum';
 import { panelpages } from '../environments/panelpages';
 import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, PanelPageRouterComponent, PAGES_SETTINGS, PagesSettings } from '@rollthecloudinc/pages';
+import { initializeIdbDataFactory } from '@rollthecloudinc/keyval';
+import { panelpages as panelpages2 } from '../environments/panelpages2';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -247,6 +249,7 @@ export function markedOptionsFactory(): MarkedOptions {
     { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
 
     { provide: APP_INITIALIZER, useFactory: initializeRumMonitorFactory, multi: true, deps: [ CLOUDWATCH_RUM_SETTINGS, NgZone ] },
+    { provide: APP_INITIALIZER, useFactory: initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }), multi: true },
 
         /* These are required only for pre-rendering - quick hack to make work for now */
     //{ provide: APP_BASE_HREF, useValue: 'http://localhost:4000/' },
