@@ -45,8 +45,10 @@ jobs:
         name: Create panelpages.ts
       - run: awk 'FNR==1 && NR!=1 {print ","}{print}' $(echo '${{ steps.jsonobjects.outputs.objects }}' | jq -c 'join(" ")' | rev | cut -c2-100000 | rev | cut -c2-100000 )  >> projects/spear/src/data/panelpages.ts
         name: Write panel page objects
-      - run: echo '];' >> projects/spear/src/data/panelpages.is
+      - run: echo '];' >> projects/spear/src/data/panelpages.ts
         name: End panelpages.ts
+      - run: cp projects/spear/src/data/panelpages.ts projects/spear/src/assets/objects/panelpages.ts
+        name: Copy panelpages.ts to assets for reference/debugging
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
