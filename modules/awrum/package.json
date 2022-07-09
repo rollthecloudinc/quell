@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/awrum",
-  "version": "0.0.56",
+  "version": "0.0.57",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.2",
