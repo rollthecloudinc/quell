@@ -5,6 +5,7 @@ import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from '
 import { set, keys, getMany, setMany } from 'idb-keyval';
 import { ConditionProperties, Engine } from 'json-rules-engine';
 import { JSONPath } from 'jsonpath-plus';
+import { isPlatformBrowser } from '@angular/common';
 
 export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamEvaluatorService) => {
   return new CrudAdaptorPlugin<string>({
@@ -109,17 +110,22 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
   });
 };
 
-export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data: any }) => IDBValidKey }) => (): () => Observable<any> => {
+export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data: any }) => IDBValidKey }) => (platformId: Object): () => Observable<any> => {
   return () => new Observable(obs => {
-    const items: Array<[IDBValidKey, any]> = data.map(d => [key({ data: d }), d]);
-    setMany(items).then(() => {
-      console.log('data loaded into idb');
+    if (isPlatformBrowser(platformId)) {
+      const items: Array<[IDBValidKey, any]> = data.map(d => [key({ data: d }), d]);
+      setMany(items).then(() => {
+        console.log('data loaded into idb');
+        obs.next();
+        obs.complete();
+      }).catch(() => {
+        console.log('data load into idb failure');
+        obs.next();
+        obs.complete();
+      })
+    } else {
       obs.next();
       obs.complete();
-    }).catch(() => {
-      console.log('data load into idb failure');
-      obs.next();
-      obs.complete();
-    })
+    }
   });
  };
