@@ -41,12 +41,12 @@ jobs:
         id: jsonobjects
       - run: echo ${{ steps.jsonobjects.outputs.objects }}
         name: Print json objects
-      - run: echo -e "export const panelpages = [" > projects/spear/src/assets/panelpages2.json
-        name: Create panelpages2.json
-      - run: awk 'FNR==1 && NR!=1 {print ","}{print}' $(echo '${{ steps.jsonobjects.outputs.objects }}' | jq -c 'join(" ")' | rev | cut -c2-100000 | rev | cut -c2-100000 )  >> projects/spear/src/assets/panelpages2.json
+      - run: echo -e "export const panelpages = [" > projects/spear/src/data/panelpages.ts
+        name: Create panelpages.ts
+      - run: awk 'FNR==1 && NR!=1 {print ","}{print}' $(echo '${{ steps.jsonobjects.outputs.objects }}' | jq -c 'join(" ")' | rev | cut -c2-100000 | rev | cut -c2-100000 )  >> projects/spear/src/data/panelpages.ts
         name: Write panel page objects
-      - run: echo ']' >> projects/spear/src/assets/panelpages2.json
-        name: End panelpages2.json
+      - run: echo ']' >> projects/spear/src/data/panelpages.is
+        name: End panelpages.ts
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
