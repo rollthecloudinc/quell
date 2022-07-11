@@ -41,15 +41,15 @@ Site builders can create green web experiences using the druid editor without kn
 
 Prototype druid form to collect and store submissions.
 
-* [Page](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
-* [Editor](https://demo.ng-druid.com/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
+* [Page](https://demo.druidcloud.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
+* [Editor](https://demo.druidcloud.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
 
 ### Consume
 
 Prototype druid search browser using Marvel API.
 
-* [Page](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334)
-* [Editor](https://demo.ng-druid.com/dev-test-virtual-list-flex-v1/character/1011334/manage)
+* [Page](https://demo.druidcloud.io/dev-test-virtual-list-flex-v1/character/1011334)
+* [Editor](https://demo.druidcloud.io/dev-test-virtual-list-flex-v1/character/1011334/manage)
 
 ## Developers
 
@@ -59,15 +59,15 @@ Developers can use druid as an app shell to orchestrate micro-frontends built wi
 
 Prototype using druid as a shell app to host Angular architects workflow designer micro-frontends.
 
-* [Page](https://demo.ng-druid.com/workflow-designer-v2)
-* [Editor](https://demo.ng-druid.com/workflow-designer-v2/manage)
+* [Page](https://demo.druidcloud.io/workflow-designer-v2)
+* [Editor](https://demo.druidcloud.io/workflow-designer-v2/manage)
 
 ### Extend
 
 Prototype using druid to load extension with new content type at runtime from external site.
 
-* [Page](https://demo.ng-druid.com/tractorbeam-test-v3)
-* [Editor](https://demo.ng-druid.com/tractorbeam-test-v3/manage)
+* [Page](https://demo.druidcloud.io/tractorbeam-test-v3)
+* [Editor](https://demo.druidcloud.io/tractorbeam-test-v3/manage)
 
 # Future
 
