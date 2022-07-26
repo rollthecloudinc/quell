@@ -1,8 +1,4 @@
 <div fxLayout="column" fxFill>
-  <div>
-    <a mat-button *ngIf="!isAuthenticated">register</a>
-    <a mat-raised-button color="accent" *ngIf="!isAuthenticated" (click)="login()">login</a>
-  </div>
   <div class="outlet-wrapper">
     <router-outlet></router-outlet>
   </div>
