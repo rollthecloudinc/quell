@@ -3,7 +3,8 @@ import { AliasLoadingStrategy } from '@rollthecloudinc/alias';
 import { map, tap } from "rxjs/operators";
 import { PanelPage } from '@rollthecloudinc/panels';
 import { EntityServices } from "@ngrx/data";
-import { Router, UrlMatcher, UrlSegment } from '@angular/router';
+import { Router } from '@angular/router';
+import { createEditMatcher, createMatcher, EditPanelPageComponent, PanelPageRouterComponent } from '@rollthecloudinc/pages';
 
 export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
@@ -30,92 +31,15 @@ export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
       })),
       tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
       tap(pp => {
-        // const target = this.router.config.find(r => r.path === '');
-
-        // const matchers = pp.map(p => [ this.createEditMatcher(p), this.createMatcher(p) ]).reduce<Array<UrlMatcher>>((p, c) => [ ...p, ...c ], []);
-        const paths = pp.map(p => p.path);
-
-        this.router.config.unshift({ matcher: this.createPageMatcher(paths), loadChildren: () => {
-          return import('@rollthecloudinc/pages').then(m => m.PagesModule);
-        } });
-
-        //pp.forEach(p => {
-          //console.log(`register alias ${p.path}`);
-          //target.children.push({ matcher: this.createEditMatcher(p), component: PagealiasRouterComponent /*EditPanelPageComponent*/ });
-          //target.children.push({ matcher: this.createMatcher(p), component: PagealiasRouterComponent /*PanelPageRouterComponent*/ });
-        //});
+        pp.forEach(p => {
+          this.router.config.unshift({ matcher: createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
+          this.router.config.unshift({ matcher: createEditMatcher(p), component: EditPanelPageComponent, data: { panelPageListItem: p } });
+        });
         this.routesLoaded = true;
       }),
       tap(() => console.log('panels routes loaded')),
       map(() => true)
     );
-    // return of(true);
-  }
-
-  /*createMatcher(panelPage: PanelPage): UrlMatcher {
-    return (url: UrlSegment[]) => {
-      if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
-        console.log(`matcher matched: ${panelPage.path}`);
-        const pathLen = panelPage.path.substr(1).split('/').length;
-        return {
-          consumed: url,
-          posParams: url.reduce<{}>((p, c, index) => {
-            if(index === 0) {
-              return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
-            } else if(index > pathLen - 1) {
-              return { ...p, [`arg${index - pathLen}`]: new UrlSegment(c.path, {}) };
-            } else {
-              return { ...p };
-            }
-          }, {})
-        };
-      } else {
-        return null;
-      }
-    };
-  }*/
-
-  /*createEditMatcher(panelPage: PanelPage): UrlMatcher {
-    return (url: UrlSegment[]) => {
-      if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0 && url.map(u => u.path).join('/').indexOf('/manage') > -1) {
-        console.log(`edit matched matched: ${panelPage.path}`);
-        const pathLen = panelPage.path.substr(1).split('/').length;
-        return {
-          consumed: url,
-          posParams: url.reduce<{}>((p, c, index) => {
-            if(index === 0) {
-              return { ...p, panelPageId: new UrlSegment(panelPage.id , {}) }
-            } else {
-              return { ...p };
-            }
-          }, {})
-        };
-      } else {
-        return null;
-      }
-    };
-  }*/
-
-  createPageMatcher(paths: Array<string>): UrlMatcher  {
-    return (url: UrlSegment[]) => {
-
-      for (let i = 0; i < paths.length; i++) {
-        if(('/' + url.map(u => u.path).join('/')).indexOf(paths[i]) === 0) {
-          return { consumed: [], posParams: {} };
-        }
-      }
-
-      if (url.length > 0 && url[0].path === 'pages') {
-        console.log('matched page!');
-        return {
-          consumed: url.slice(0, 1),
-          posParams: {}
-        };
-      } else {
-        return null;
-      }
-
-    };
   }
 
 }

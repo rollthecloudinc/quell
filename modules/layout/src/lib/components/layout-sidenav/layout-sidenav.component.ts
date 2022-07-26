@@ -1,22 +1,24 @@
-import { Component, OnInit, Input, TemplateRef, Inject } from '@angular/core';
-import { ControlContainer } from '@angular/forms';
-import { EntityCollectionService, EntityServices } from '@ngrx/data';
-import { LayoutEditorBaseComponent, PanelPageListItem } from '@rollthecloudinc/panels';
+import { Component, Inject, Output, EventEmitter } from "@angular/core";
+import { EntityCollectionService, EntityServices } from "@ngrx/data";
+import { PanelPageListItem } from '@rollthecloudinc/panels';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 import { AuthFacade } from '@rollthecloudinc/auth';
-import { map, Observable, Subject, tap } from 'rxjs';
+import { map, Observable } from "rxjs";
+import { ControlContainer } from "@angular/forms";
 
 @Component({
-  selector: 'classifieds-ui-gridless-layout-editor',
-  templateUrl: './gridless-layout-editor.component.html',
-  styleUrls: ['./gridless-layout-editor.component.scss']
+  selector: 'druid-layout-sidenav',
+  templateUrl: './layout-sidenav.component.html',
+  styleUrls: ['./layout-sidenav.component.scss'],
 })
-export class GridlessLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit {
+export class LayoutSidenavComponent {
 
   panelPageListItemsService: EntityCollectionService<PanelPageListItem>;
 
   panelPageListItems$: Observable<Array<PanelPageListItem>>;
   isAuthenticated$: Observable<boolean>;
+
+  @Output() close = new EventEmitter<undefined>();
 
   constructor(
     @Inject(SITE_NAME) private siteName: string,
@@ -24,7 +26,6 @@ export class GridlessLayoutEditorComponent extends LayoutEditorBaseComponent imp
     public controlContainer: ControlContainer,
     es: EntityServices
   ) { 
-    super(controlContainer);
     this.panelPageListItemsService = es.getEntityCollectionService('PanelPageListItem');
   }
 
