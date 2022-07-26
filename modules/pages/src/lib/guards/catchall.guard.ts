@@ -42,6 +42,9 @@ export class CatchAllGuard implements CanActivate {
           url = state.url.substr(0, url.indexOf('?'));
         }
         const matchPathQuery = 'path=' + url.substr(1).split('/').reduce<Array<string>>((p, c, i) => [ ...p, i === 0 ?  `/${c}`  :  `${p[i-1]}/${c}` ], []).map(p => this.encodePathComponent(p)).join('&path=') + `&site=${encodeURIComponent(`{"term":{"site.keyword":{"value":"${this.siteName}"}}}`)}`;
+        setTimeout(() => {
+          
+        });
         forkJoin([
           iif(
             () => !this.routesLoaded,
@@ -56,10 +59,11 @@ export class CatchAllGuard implements CanActivate {
               })),
               tap(pp => pp.sort((a, b) => a.path.length > b.path.length ? 1 : -1)),
               tap(pp => {
-                const target = (this.router.config[0] as any)._loadedConfig.routes;
+                // const target = (this.router.config[0] as any)._loadedConfig.routes;
+                const target = this.router.config;
                 pp.forEach(p => {
-                  target.unshift({ matcher: createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
                   target.unshift({ matcher: createEditMatcher(p), component: EditPanelPageComponent });
+                  target.unshift({ matcher: createMatcher(p), component: PanelPageRouterComponent, data: { panelPageListItem: p } });
                   console.log(`panels matcher: ${p.path}`);
                 });
                 this.routesLoaded = true;

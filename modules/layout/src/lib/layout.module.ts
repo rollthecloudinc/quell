@@ -23,6 +23,8 @@ import { SplitLayoutEditorComponent } from './components/split-layout-editor/spl
 import { FlexLayoutRendererComponent } from './components/flex-layout-renderer/flex-layout-renderer.component';
 import { GridLayoutEditorComponent } from './components/grid-layout-editor/grid-layout.editor.component';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
+import { RouterModule } from '@angular/router';
+import { LayoutSidenavComponent } from './components/layout-sidenav/layout-sidenav.component';
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 @NgModule({
@@ -37,11 +39,13 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
     GridlessLayoutRendererComponent,
     SplitLayoutEditorComponent,
     FlexLayoutRendererComponent,
-    GridLayoutEditorComponent
+    GridLayoutEditorComponent,
+    LayoutSidenavComponent
   ],
   imports: [
     CommonModule,
     FormsModule,
+    RouterModule,
     ReactiveFormsModule,
     MaterialModule,
     FlexLayoutModule,
@@ -64,7 +68,8 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
     GridlessLayoutRendererComponent,
     SplitLayoutEditorComponent,
     FlexLayoutRendererComponent,
-    GridLayoutEditorComponent
+    GridLayoutEditorComponent,
+    LayoutSidenavComponent
   ]
 })
 export class LayoutModule {

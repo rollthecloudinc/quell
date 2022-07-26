@@ -1,0 +1,14 @@
+<div class="close-wrapper">
+  <mat-icon (click)="close.emit()">close</mat-icon>
+  <button type="button" *ngIf="!(isAuthenticated$ | async)" mat-button (click)="login()">login</button>
+</div>
+<mat-divider></mat-divider>
+<ng-content></ng-content>
+<mat-divider></mat-divider>
+<div class="viewport-container">
+  <cdk-virtual-scroll-viewport class="viewport" appendOnly itemSize="48">
+    <div *cdkVirtualFor="let pp of (panelPageListItems$ | async)" class="pp-item">
+      <a [routerLink]="[pp.path, 'manage']">{{ pp.path }}</a>
+    </div>
+  </cdk-virtual-scroll-viewport>
+</div>

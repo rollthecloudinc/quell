@@ -1,0 +1,24 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-wrapper {
+  padding: 16px 16px 0 16px;
+}
+
+.pp-item {
+  line-height: 48px;
+}
+
+.viewport {
+  height: 100%;
+  width: 300px;
+}
+
+.viewport-container {
+  flex: 1;
+  padding: 0 0 0 16px ;
+  box-sizing: border-box;
+}

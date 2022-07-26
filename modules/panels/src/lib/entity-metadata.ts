@@ -14,7 +14,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             entityName: 'PanelPageListItem'
           }
         },*/
-        aws_opensearch_template: {
+        /*aws_opensearch_template: {
           ops: ['query'],
           params: {
             id: 'panelpagelistitems',
@@ -25,8 +25,8 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             domain: panelsSettings.openSearchDomain,
             region: 'us-east-1'
           }
-        },
-        aws_opensearch_entity: {
+        },*/
+        /*aws_opensearch_entity: {
           ops: ['create', 'update'],
           params: {
             index: 'classified_panelpages',
@@ -34,7 +34,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             domain: panelsSettings.openSearchDomain,
             region: 'us-east-1'
           }
-        },
+        },*/
         /*...(isPlatformServer(platformId) ?
           {} :
           {
@@ -53,6 +53,16 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
         /*aws_opensearch_entity: {
           ops: ['create', 'update', 'read', 'delete']
         },*/
+        idb_keyval: {
+          params: {
+            prefix: 'panelpage__'
+          },
+          queryMappings: new Map<string, CrudEntityQueryMapping>([
+            // ['path', { defaultOperator: 'startsWith' }]
+            ['site', { defaultOperator: 'term||wildcard' }],
+            ['path', { defaultOperator: 'term||wildcard' }]
+          ])
+        }
       }
     },
     PanelPage: {
@@ -75,6 +85,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
         },
         ...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
           fallback: true,
+          ops: ['create', 'update', 'query'],
           plugin: 'idb_keyval',
           params: {
             prefix: 'panelpage__'

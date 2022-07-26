@@ -15,3 +15,4 @@ export { GridlessLayoutRendererComponent } from './lib/components/gridless-layou
 export { SplitLayoutEditorComponent } from './lib/components/split-layout-editor/split-layout-editor.component';
 export { FlexLayoutRendererComponent } from './lib/components/flex-layout-renderer/flex-layout-renderer.component';
 export { GridLayoutEditorComponent } from './lib/components/grid-layout-editor/grid-layout.editor.component';
+export { LayoutSidenavComponent } from './lib/components/layout-sidenav/layout-sidenav.component';
