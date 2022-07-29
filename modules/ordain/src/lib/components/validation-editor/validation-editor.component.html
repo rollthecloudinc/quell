@@ -1,0 +1,8 @@
+<div [formGroup]="formGroup">
+  <div formArrayName="validators">
+    <div *ngFor="let _ of validators.controls; let i = index">
+      <druid-ordain-validation-validator [formControlName]="i"></druid-ordain-validation-validator>
+    </div>
+  </div>
+</div>
+<button type="button" (click)="addValidator$.next(undefined)">Add Validator</button>
