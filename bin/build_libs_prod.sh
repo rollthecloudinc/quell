@@ -17,6 +17,7 @@ npm run build context -- --configuration production
 npm run build rules -- --configuration production
 npm run build refinery -- --configuration production
 npm run build crud -- --configuration production
+npm run build ordain -- --configuration production
 npm run build alienalias -- --configuration production
 npm run build keyval -- --configuration production
 npm run build awcog -- --configuration production

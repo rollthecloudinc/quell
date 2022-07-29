@@ -17,6 +17,7 @@ npm publish ./dist/context
 npm publish ./dist/rules
 npm publish ./dist/refinery
 npm publish ./dist/crud
+npm publish ./dist/ordain
 npm publish ./dist/tractorbeam
 npm publish ./dist/alienalias
 npm publish ./dist/keyval
