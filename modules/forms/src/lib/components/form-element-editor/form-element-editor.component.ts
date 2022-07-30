@@ -34,6 +34,7 @@ export class FormElementEditorComponent implements OnInit {
     }),*/
     // rest: this.fb.control(''),
     datasourceOptions: this.fb.control(''),
+    validation: this.fb.control(''),
     datasourceBinding: this.fb.group({
       id: this.fb.control(''),
       type: this.fb.control('pane')

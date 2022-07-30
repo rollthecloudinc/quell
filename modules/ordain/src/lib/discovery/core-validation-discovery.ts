@@ -4,6 +4,7 @@ import { map, tap } from 'rxjs/operators';
 import { PluginDef, PluginDiscovery, PluginManager} from '@rollthecloudinc/plugin';
 import { ValidationPlugin } from '../models/validation.models';
 import { ValidationParamsEditorComponent } from '../components/validation-params-editor/validation-params-editor.component';
+import { AbstractControl, Validators } from '@angular/forms';
 
 export class CoreValidationDiscovery implements PluginDiscovery  {
   constructor(
@@ -16,6 +17,6 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
     );
   }
   protected makeRequired(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'required', title: 'Required', editor: ValidationParamsEditorComponent });
+    return new ValidationPlugin<string>({ id: 'required', title: 'Required', editor: ValidationParamsEditorComponent, builder: () => of((c: AbstractControl) => of(Validators.required(c))) });
   }
 }

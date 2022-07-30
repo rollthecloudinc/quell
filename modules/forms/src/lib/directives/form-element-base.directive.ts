@@ -1,10 +1,11 @@
 import { Directive, Input, OnInit, AfterViewInit } from "@angular/core";
 import { ControlContainer, FormControl } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { ValidationPluginManager } from "@rollthecloudinc/ordain";
 import { SelectOption } from '@rollthecloudinc/datasource';
 import { FormSettings } from "../models/form.models";
-import { BehaviorSubject, combineLatest, Subject } from "rxjs";
-import { map, switchMap, take, tap } from "rxjs/operators";
+import { BehaviorSubject, combineLatest, forkJoin, Subject } from "rxjs";
+import { defaultIfEmpty, map, switchMap, take, tap } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
 import { Pane } from '@rollthecloudinc/panels';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -91,7 +92,13 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     switchMap(({ settings, resolvedContext }) => this.formsContextHelper.resolveContexts({ resolvedContext }).pipe(
       map(tokens => ({ settings, tokens }))
     )),
-    tap(({ settings, tokens }) => {
+    switchMap(({ settings, tokens }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ params: [] }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
+      map(validators => ({ settings, tokens, validators })),
+      defaultIfEmpty({ settings, tokens, validators: [] })
+    )),
+    tap(({ settings, tokens, validators }) => {
+      this.formControl.setAsyncValidators(validators.map(({ vf }) => vf));
+
       if(tokens !== undefined) {
         this.tokens = tokens;
       }
@@ -147,6 +154,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     protected optionsResolver: OptionsResolverService,
     protected tokenizerService: TokenizerService,
     protected formsContextHelper: FormsContextHelperService,
+    protected vpm: ValidationPluginManager,
     public controlContainer?: ControlContainer
   ) {}
 
