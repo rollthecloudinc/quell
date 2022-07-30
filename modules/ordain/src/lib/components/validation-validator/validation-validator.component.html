@@ -1,12 +1,15 @@
 <div [formGroup]="formGroup">
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-    <input matInput type="text" formControlName="name">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Validator</mat-label>
-    <mat-select required formControlName="validator">
-      <mat-option *ngFor="let vp of ((validationPlugins$ | async) | keyvalue); let i = index" [value]="vp.value.id">{{ vp.value.title }}</mat-option>
-    </mat-select>
-  </mat-form-field>
+  <div>
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput type="text" formControlName="name">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Validator</mat-label>
+      <mat-select required formControlName="validator">
+        <mat-option *ngFor="let vp of ((validationPlugins$ | async) | keyvalue); let i = index" [value]="vp.value.id">{{ vp.value.title }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <ng-container><ng-template druidValidationRendererHost></ng-template></ng-container>
 </div>

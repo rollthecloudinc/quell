@@ -1,8 +1,8 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
-import { BehaviorSubject, Subject } from "rxjs";
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { FormValidation } from '../../models/validation.models';
-import { tap, delay, filter} from 'rxjs/operators';
+import { tap, delay, filter, map} from 'rxjs/operators';
 
 @Component({
   selector: 'druid-ordain-validation-editor',
@@ -21,7 +21,7 @@ import { tap, delay, filter} from 'rxjs/operators';
     },
   ]
 })
-export class ValidationEditorComponent implements ControlValueAccessor, Validator {
+export class ValidationEditorComponent implements ControlValueAccessor, Validator, AfterViewInit {
 
   @Input() set validation(v: FormValidation) {
     this.validation$.next(v);
@@ -32,6 +32,7 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
   });
 
   readonly addValidator$ = new Subject();
+  readonly afterViewInit$ = new Subject();
   readonly validation$ = new BehaviorSubject<FormValidation>(new FormValidation({ validators: [] }));
 
   readonly addValidatorSub = this.addValidator$.pipe(
@@ -40,7 +41,11 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
     })
   ).subscribe();
 
-  readonly validationSub = this.validation$.pipe(
+  readonly validationSub = combineLatest([
+    this.validation$,
+    this.afterViewInit$
+  ]).pipe(
+    map(([v]) => v),
     filter(validation => validation.validators.length !== 0),
     tap(validation => {
       this.validators.clear();
@@ -48,7 +53,7 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
         this.validators.push(this.fb.control(''));
       });
     }),
-    delay(1),
+    //delay(1),
     tap(validation => {
       this.validators.setValue(validation.validators);
     }),
@@ -63,6 +68,11 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
   constructor(
     private fb: FormBuilder
   ) {}
+
+  ngAfterViewInit(): void {
+    this.afterViewInit$.next(undefined);
+    this.afterViewInit$.complete();
+  }
 
   writeValue(val: any): void {
     if (val) {

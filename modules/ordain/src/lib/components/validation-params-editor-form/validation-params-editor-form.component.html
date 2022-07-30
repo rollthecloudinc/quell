@@ -1,0 +1,10 @@
+<div [formGroup]="formGroup">
+  <div class="params-container">
+    <div>
+      <mat-form-field>
+        <input matInput placeholder="Params" formControlName="paramsString">
+      </mat-form-field>
+    </div>
+    <classifieds-ui-params-form formControlName="params" [params]="paramsParsed" [paramValues]="paramValues$.value" [contexts]="contexts"></classifieds-ui-params-form>
+  </div>
+</div>
