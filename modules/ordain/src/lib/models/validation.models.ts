@@ -26,3 +26,12 @@ export class ValidationValidator {
     }
   }
 }
+
+export class FormValidation {
+  validators: Array<ValidationValidator>;
+  constructor(data: FormValidation) {
+    if (data && Array.isArray(data.validators)) {
+      this.validators = data.validators.map(v => new ValidationValidator(v));
+    }
+  }
+}

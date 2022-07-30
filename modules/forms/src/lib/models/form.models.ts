@@ -1,6 +1,6 @@
 import { ContentBinding } from '@rollthecloudinc/content';
 import { DatasourceOptions } from '@rollthecloudinc/datasource';
-import { ValidationValidator } from '@rollthecloudinc/ordain';
+import { ValidationValidator, FormValidation } from '@rollthecloudinc/ordain';
 
 export class FormSettings {
   value?: string;
@@ -28,15 +28,6 @@ export class FormSectionForm {
   constructor(data: FormSectionForm) {
     if (data) {
       this.valuesMapping = data.valuesMapping;
-    }
-  }
-}
-
-export class FormValidation {
-  validators: Array<ValidationValidator>;
-  constructor(data: FormValidation) {
-    if (data && Array.isArray(data.validators)) {
-      this.validators = data.validators.map(v => new ValidationValidator(v));
     }
   }
 }

@@ -1,7 +1,8 @@
-import { Component, forwardRef } from "@angular/core";
+import { Component, forwardRef, Input } from "@angular/core";
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
-import { Subject } from "rxjs";
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from "rxjs";
+import { FormValidation } from '../../models/validation.models';
+import { tap, delay, filter} from 'rxjs/operators';
 
 @Component({
   selector: 'druid-ordain-validation-editor',
@@ -22,16 +23,35 @@ import { tap } from 'rxjs/operators';
 })
 export class ValidationEditorComponent implements ControlValueAccessor, Validator {
 
+  @Input() set validation(v: FormValidation) {
+    this.validation$.next(v);
+  }
+
   readonly formGroup = this.fb.group({
     validators: this.fb.array([])
   });
 
   readonly addValidator$ = new Subject();
+  readonly validation$ = new BehaviorSubject<FormValidation>(new FormValidation({ validators: [] }));
 
   readonly addValidatorSub = this.addValidator$.pipe(
     tap(() => {
       this.validators.push(this.fb.control(''));
     })
+  ).subscribe();
+
+  readonly validationSub = this.validation$.pipe(
+    filter(validation => validation.validators.length !== 0),
+    tap(validation => {
+      this.validators.clear();
+      validation.validators.forEach(v => {
+        this.validators.push(this.fb.control(''));
+      });
+    }),
+    delay(1),
+    tap(validation => {
+      this.validators.setValue(validation.validators);
+    }),
   ).subscribe();
 
   get validators(): FormArray {
