@@ -92,7 +92,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     switchMap(({ settings, resolvedContext }) => this.formsContextHelper.resolveContexts({ resolvedContext }).pipe(
       map(tokens => ({ settings, tokens }))
     )),
-    switchMap(({ settings, tokens }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ params: [] }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
+    switchMap(({ settings, tokens }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ v }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
       map(validators => ({ settings, tokens, validators })),
       defaultIfEmpty({ settings, tokens, validators: [] })
     )),

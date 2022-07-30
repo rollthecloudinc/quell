@@ -2,6 +2,7 @@
   <div formArrayName="validators">
     <div *ngFor="let _ of validators.controls; let i = index">
       <druid-ordain-validation-validator [formControlName]="i" [validation]="validation$.value.validators[i]"></druid-ordain-validation-validator>
+      <button type="button" (click)="deleteValidator$.next(i)">Delete</button>
     </div>
   </div>
 </div>

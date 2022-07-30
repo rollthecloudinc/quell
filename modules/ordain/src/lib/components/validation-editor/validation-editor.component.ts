@@ -32,12 +32,20 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
   });
 
   readonly addValidator$ = new Subject();
+  readonly deleteValidator$ = new Subject<number>();
   readonly afterViewInit$ = new Subject();
   readonly validation$ = new BehaviorSubject<FormValidation>(new FormValidation({ validators: [] }));
 
   readonly addValidatorSub = this.addValidator$.pipe(
     tap(() => {
       this.validators.push(this.fb.control(''));
+    })
+  ).subscribe();
+
+  readonly deleteValidatorSub = this.deleteValidator$.pipe(
+    tap(index => {
+      this.validation$.value.validators.splice(index, 1);
+      this.validators.removeAt(index);
     })
   ).subscribe();
 
