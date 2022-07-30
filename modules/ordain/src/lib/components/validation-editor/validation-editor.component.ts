@@ -49,14 +49,10 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
     filter(validation => validation.validators.length !== 0),
     tap(validation => {
       this.validators.clear();
-      validation.validators.forEach(v => {
+      validation.validators.forEach((v, i) => {
         this.validators.push(this.fb.control(''));
       });
-    }),
-    //delay(1),
-    tap(validation => {
-      this.validators.setValue(validation.validators);
-    }),
+    })
   ).subscribe();
 
   get validators(): FormArray {

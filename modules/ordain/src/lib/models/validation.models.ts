@@ -19,13 +19,13 @@ export class ValidationPlugin<T = string> extends Plugin<T>  {
 export class ValidationValidator {
   name: string;
   validator: string;
-  settings?: ValidationValidatorSettings; 
+  paramSettings?: ValidationValidatorSettings; 
   constructor(data?: ValidationValidator) {
     if (data) {
       this.name = data.name;
       this.validator = data.validator;
-      if (data.settings && typeof(data.settings) !== 'string') {
-        this.settings = new ValidationValidatorSettings(data.settings);
+      if (data.paramSettings && typeof(data.paramSettings) !== 'string') {
+        this.paramSettings = new ValidationValidatorSettings(data.paramSettings);
       }
     }
   }

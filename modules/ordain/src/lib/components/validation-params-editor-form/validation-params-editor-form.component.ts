@@ -1,10 +1,11 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
 import { AbstractControl, ControlContainer, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { AttributeValue } from "@rollthecloudinc/attributes";
 import { Param } from '@rollthecloudinc/dparam';
-import { BehaviorSubject } from "rxjs";
-import { debounceTime } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { debounceTime, filter, tap, delay } from 'rxjs/operators';
 import * as qs from 'qs';
+import { ValidationValidatorSettings } from "../../models/validation.models";
 
 @Component({
   selector: 'druid-ordain-validation-params-editor-form',
@@ -28,14 +29,13 @@ export class ValidationParamsEditorFormComponent implements ControlValueAccessor
   @Input()
   contexts: Array<string> = [];
 
-  @Input() set settings(settings: Array<AttributeValue>) {
+  @Input() set settings(settings: ValidationValidatorSettings) {
     this.settings$.next(settings);
   }
 
   paramsParsed: any;
-
-  settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
-  //readonly datasource$ = new BehaviorSubject<CrudAdaptorDatasource>(undefined);
+  settings$ = new BehaviorSubject<ValidationValidatorSettings>(undefined);
+  afterViewInit$ = new Subject();
   readonly paramValues$ = new BehaviorSubject<Array<Param>>([]);
 
   formGroup = this.fb.group({
@@ -49,6 +49,23 @@ export class ValidationParamsEditorFormComponent implements ControlValueAccessor
     const parsed = qs.parse('?' + paramsString);
     this.paramsParsed = parsed;
   });
+
+  settingsSub = this.settings$.pipe(
+    tap(s => {
+      if (s) {
+        this.formGroup.get('paramsString').setValue(s.paramsString ? s.paramsString : '');
+      }
+    })
+  ).subscribe();
+
+  private readonly settingsParamsSub = combineLatest([
+    this.settings$,
+    this.formGroup.get('paramsString').valueChanges
+  ]).pipe(
+    filter(([s]) => s !== undefined),
+    delay(1),
+    tap(([s]) => this.paramValues$.next(s.params))
+  ).subscribe();
 
   public onTouched: () => void = () => {};
 
