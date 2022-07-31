@@ -39,6 +39,7 @@ export class ValidationValidatorComponent implements ControlValueAccessor, Valid
   readonly formGroup = this.fb.group({
     name: this.fb.control('', [ Validators.required ]),
     validator: this.fb.control('', [ Validators.required ]),
+    overrideErrorMessage: this.fb.control(''),
     paramSettings: this.fb.control('')
   });
 
@@ -72,9 +73,11 @@ export class ValidationValidatorComponent implements ControlValueAccessor, Valid
       if (v) {
         this.formGroup.get('name').setValue(v.name);
         this.formGroup.get('validator').setValue(v.validator);
+        this.formGroup.get('overrideErrorMessage').setValue(v.overrideErrorMessage);
         setTimeout(() => this.formGroup.get('paramSettings').setValue(v.paramSettings));
       } else {
         this.formGroup.get('name').setValue('');
+        this.formGroup.get('overrideErrorMessage').setValue('');
         this.formGroup.get('validator').setValue('');
       }
     }),

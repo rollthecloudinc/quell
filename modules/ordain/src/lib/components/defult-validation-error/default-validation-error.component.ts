@@ -50,8 +50,8 @@ export class DefaultValidationError {
     switchMap(({ k, v, p, e }) => this.resolveContexts({ errors: e }).pipe(
       map(t => ({ k, v, p, t }))
     )),
-    tap(({ p, t }) => {
-      const replacedTokens = this.replaceTokens({ message: p.errorMessage, tokens: t });
+    tap(({ p, t, v }) => {
+      const replacedTokens = this.replaceTokens({ message: v.overrideErrorMessage && v.overrideErrorMessage !== '' ? v.overrideErrorMessage : p.errorMessage, tokens: t });
       this.message$.next(replacedTokens);
     })
   ).subscribe();
