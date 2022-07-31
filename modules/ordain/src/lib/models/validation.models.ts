@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 
 export class ValidationPlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
-  builder: ({ v }: { v: ValidationValidator }) => Observable<AsyncValidatorFn>;
+  builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => Observable<AsyncValidatorFn>;
   constructor(data?: ValidationPlugin<T>) {
     super(data)
     if(data) {

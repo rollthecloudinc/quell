@@ -5,7 +5,7 @@ import { ValidationPluginManager } from "@rollthecloudinc/ordain";
 import { SelectOption } from '@rollthecloudinc/datasource';
 import { FormSettings } from "../models/form.models";
 import { BehaviorSubject, combineLatest, forkJoin, Subject } from "rxjs";
-import { defaultIfEmpty, map, switchMap, take, tap } from "rxjs/operators";
+import { defaultIfEmpty, distinctUntilChanged, filter, map, switchMap, take, tap, delay } from "rxjs/operators";
 import { OptionsResolverService } from "../services/options-resolver.services";
 import { Pane } from '@rollthecloudinc/panels';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -52,8 +52,13 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
 
   private readonly formControlValueChangesSub = this.formControl.valueChanges.pipe(
     tap(value => console.log('serialized form value', this.attributeSerializer.serialize(value, 'value'))),
-    tap(value => this.controlContainer.control.get('settings').setValue([ this.attributeSerializer.serialize(value, 'value') ]))
+    tap(value => this.controlContainer.control.get('settings').setValue([ this.attributeSerializer.serialize(value, 'value') ])),
   ).subscribe();
+
+  /*private readonly formControlStatusChangesSub = this.formControl.statusChanges.pipe(
+    //distinctUntilChanged(),
+    //tap(() => this.controlContainer.control.get('settings').setErrors(this.formControl.errors)),
+  ).subscribe();*/
 
   readonly formSettings$ = new BehaviorSubject<FormSettings>(undefined);
   readonly settings$ = new BehaviorSubject<Array<AttributeValue>>([]);
@@ -92,12 +97,19 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     switchMap(({ settings, resolvedContext }) => this.formsContextHelper.resolveContexts({ resolvedContext }).pipe(
       map(tokens => ({ settings, tokens }))
     )),
-    switchMap(({ settings, tokens }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ v }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
+    switchMap(({ settings, tokens }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ v, serialized: false }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
       map(validators => ({ settings, tokens, validators })),
       defaultIfEmpty({ settings, tokens, validators: [] })
     )),
-    tap(({ settings, tokens, validators }) => {
+    switchMap(({ settings, tokens, validators }) => forkJoin(settings.validation && settings.validation.validators ? settings.validation.validators.map(v => this.vpm.getPlugin(v.validator).pipe(switchMap(p => p.builder({ v, serialized: true }).pipe(map(vf => ({ v, vf })))))) : []).pipe(
+      map(validatorsSerialized => ({ settings, tokens, validators, validatorsSerialized })),
+      defaultIfEmpty({ settings, tokens, validators, validatorsSerialized: [] })
+    )),
+    tap(({ settings, tokens, validators, validatorsSerialized }) => {
       this.formControl.setAsyncValidators(validators.map(({ vf }) => vf));
+      this.controlContainer.control.get('settings').setAsyncValidators(validatorsSerialized.map(({ vf }) => vf));
+      this.formControl.updateValueAndValidity();
+      this.controlContainer.control.updateValueAndValidity();
 
       if(tokens !== undefined) {
         this.tokens = tokens;
