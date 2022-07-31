@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
@@ -46,7 +46,7 @@ import { DOCUMENT } from '@angular/common';
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => PanelPageComponent),
       multi: true
-    },
+    }
   ]
 })
 export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
@@ -458,19 +458,24 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   submit() {
-    const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
-    const data = this.formService.serializeForm(panelPageForm);
-    console.log(panelPageForm);
-    console.log(this.formService.serializeForm(panelPageForm));
-    /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
-      alert('panel page form added!');
-    });*/
 
-    console.log('form data', data);
-
-    this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
-      console.log('persisted data');
-    });;
+    if (this.pageForm.valid) {
+      const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
+      const data = this.formService.serializeForm(panelPageForm);
+      console.log(panelPageForm);
+      console.log(this.formService.serializeForm(panelPageForm));
+      /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
+        alert('panel page form added!');
+      });*/
+  
+      console.log('form data', data);
+  
+      this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
+        console.log('persisted data');
+      });;
+    } else {
+      console.log('detected form invalid');
+    }
 
     // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
     // Experimental only - state forms

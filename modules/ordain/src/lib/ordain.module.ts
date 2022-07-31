@@ -9,6 +9,7 @@ import { ValidationValidatorComponent } from './components/validation-validator/
 import { ValidationRendererHostDirective } from './directives/validation-renderer-host.directive';
 import { ValidationParamsEditorComponent } from './components/validation-params-editor/validation-params-editor.component';
 import { ValidationParamsEditorFormComponent } from './components/validation-params-editor-form/validation-params-editor-form.component';
+import { DefaultValidationError } from './components/defult-validation-error/default-validation-error.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { ValidationParamsEditorFormComponent } from './components/validation-par
     ValidationValidatorComponent,
     ValidationRendererHostDirective,
     ValidationParamsEditorComponent,
-    ValidationParamsEditorFormComponent
+    ValidationParamsEditorFormComponent,
+    DefaultValidationError
   ],
   imports: [
     CommonModule,
@@ -27,7 +29,8 @@ import { ValidationParamsEditorFormComponent } from './components/validation-par
   ],
   exports: [
     ValidationEditorComponent,
-    ValidationParamsEditorComponent
+    ValidationParamsEditorComponent,
+    DefaultValidationError
   ]
 })
 export class OrdainModule { }

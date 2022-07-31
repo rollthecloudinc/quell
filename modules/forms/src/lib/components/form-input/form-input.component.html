@@ -1,3 +1,6 @@
 <mat-form-field>
   <input matInput [formControl]="formControl">
+  <mat-error *ngIf="formControl.invalid">
+    <druid-ordain-default-validation-error></druid-ordain-default-validation-error>
+  </mat-error>
 </mat-form-field>
