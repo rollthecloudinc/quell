@@ -23,12 +23,13 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
     );
   }
   protected makeRequired(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'required', title: 'Required', editor: ValidationParamsEditorComponent, builder: () => of((c: AbstractControl) => of(Validators.required(c))) });
+    return new ValidationPlugin<string>({ id: 'required', title: 'Required', errorMessage: 'Field is required', editor: ValidationParamsEditorComponent, builder: () => of((c: AbstractControl) => of(Validators.required(c))) });
   }
   protected makeMin(): ValidationPlugin {
     return new ValidationPlugin<string>({
       id: 'min', 
       title: 'min', 
+      errorMessage: 'Field min [.min]',
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(

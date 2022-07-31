@@ -7,11 +7,13 @@ import { Observable } from 'rxjs';
 
 export class ValidationPlugin<T = string> extends Plugin<T>  {
   editor: Type<any>;
+  errorMessage: string;
   builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => Observable<AsyncValidatorFn>;
   constructor(data?: ValidationPlugin<T>) {
     super(data)
     if(data) {
       this.editor = data.editor;
+      this.errorMessage = data.errorMessage;
       this.builder = data.builder;
     }
   }
