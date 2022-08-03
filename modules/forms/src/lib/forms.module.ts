@@ -23,6 +23,7 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
 import { FormMediaComponent } from './components/form-media/form-media.component';
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
 import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
+import { OrdainModule } from '@rollthecloudinc/ordain';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -47,7 +48,8 @@ import { FormSectionEditorComponent } from './components/form-section-editor/for
     MaterialModule,
     RenderModule,
     DatasourceModule,
-    NgxDropzoneModule
+    NgxDropzoneModule,
+    OrdainModule
   ],
   exports: [
     FormInputComponent,

@@ -257,6 +257,14 @@
         "dist/awrum/awrum",
         "dist/awrum"
       ],
+      "@rollthecloudinc/ordain": [
+        "dist/ordain/ordain",
+        "dist/ordain"
+      ],
+      "ordain": [
+        "dist/ordain/ordain",
+        "dist/ordain"
+      ],
       "@rollthecloudinc/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"

@@ -5,6 +5,7 @@ import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ContentPlugin } from '@rollthecloudinc/content';
 import { InlineContext } from '@rollthecloudinc/context';
 import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@rollthecloudinc/datasource';
+import { FormValidation } from '@rollthecloudinc/ordain';
 import { Pane } from '@rollthecloudinc/panels';
 import { FormElementHandler } from '../../handlers/form-element.handler';
 import { FormSettings } from '../../models/form.models';
@@ -20,6 +21,7 @@ export class FormElementEditorComponent implements OnInit {
 
   // rest = mockRest;
   datasourceOptions = mockDatasourceOptions;
+  validation: FormValidation = new FormValidation({ validators: [] });
   protected paneIndex: number;
   protected pane: Pane;
 
@@ -34,6 +36,7 @@ export class FormElementEditorComponent implements OnInit {
     }),*/
     // rest: this.fb.control(''),
     datasourceOptions: this.fb.control(''),
+    validation: this.fb.control(''),
     datasourceBinding: this.fb.group({
       id: this.fb.control(''),
       type: this.fb.control('pane')
@@ -65,6 +68,7 @@ export class FormElementEditorComponent implements OnInit {
         // this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
         // this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
         this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
+        this.validation = i.validation ? new FormValidation(i.validation) : new FormValidation({ validators: [] });
         // this.formGroup.get('datasourceOptions').setValue(i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions);
         this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
         // setTimeout(() => this.rest = i.rest ? i.rest : mockRest);

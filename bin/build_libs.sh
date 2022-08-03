@@ -17,6 +17,7 @@ npm run build context
 npm run build rules
 npm run build refinery
 npm run build crud
+npm run build ordain
 npm run build alienalias
 npm run build keyval
 npm run build awcog

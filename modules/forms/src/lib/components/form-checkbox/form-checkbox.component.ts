@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ValidationPluginManager } from '@rollthecloudinc/ordain';
 import { OptionsResolverService } from "../../services/options-resolver.services";
 import { FormElementBase } from "../../directives/form-element-base.directive";
 import { TokenizerService } from "@rollthecloudinc/token";
@@ -18,9 +19,10 @@ export class FormCheckboxComponent extends FormElementBase {
     optionsResolverService: OptionsResolverService,
     tokenizerService: TokenizerService,
     formsContextHelper: FormsContextHelperService,
+    vpm: ValidationPluginManager,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, vpm, controlContainer);
   }
 
 }
