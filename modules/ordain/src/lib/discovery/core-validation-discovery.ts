@@ -1,18 +1,15 @@
-import { Injectable } from '@angular/core';
 import { Observable, of, } from 'rxjs';
-import { map, tap, switchMap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { PluginDef, PluginDiscovery, PluginManager} from '@rollthecloudinc/plugin';
-import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
-import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ValidationPlugin, ValidationValidator } from '../models/validation.models';
 import { ValidationParamsEditorComponent } from '../components/validation-params-editor/validation-params-editor.component';
-import { AbstractControl, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, Validators } from '@angular/forms';
+import { FormsValidationUtils } from '../services/forms-validation-utils.service';
 
 export class CoreValidationDiscovery implements PluginDiscovery  {
   constructor(
     private pluginManager: PluginManager<ValidationPlugin<string>, string>,
-    private paramEvaluatorService: ParamEvaluatorService,
-    private attributesSerializerService: AttributeSerializerService
+    private formsValidationUtils: FormsValidationUtils
   ) {
   }
   loadPlugins(pluginDef: PluginDef, ids: Array<any> = []): Observable<boolean> {
@@ -32,16 +29,16 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
     );
   }
   protected makeRequired(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'required', title: 'Required', errorMessage: 'Field is required', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.required( serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c ))) });
+    return new ValidationPlugin<string>({ id: 'required', title: 'Required', errorMessage: 'Field is required', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.required( this.formsValidationUtils.rebuildControl({ c, serialized }) ))) });
   }
   protected makeRequiredTrue(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'required_true', title: 'Required True', errorMessage: 'Field is required', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.requiredTrue( serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c ))) });
+    return new ValidationPlugin<string>({ id: 'required_true', title: 'Required True', errorMessage: 'Field is required', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.requiredTrue( this.formsValidationUtils.rebuildControl({ c, serialized }) ))) });
   }
   protected makeEmail(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'email', title: 'Email', errorMessage: 'Invalid email', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.email( serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c ))) });
+    return new ValidationPlugin<string>({ id: 'email', title: 'Email', errorMessage: 'Invalid email', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.email( this.formsValidationUtils.rebuildControl({ c, serialized }) ))) });
   }
   protected nullValidator(): ValidationPlugin {
-    return new ValidationPlugin<string>({ id: 'null', title: 'Null', errorMessage: 'nota', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.nullValidator( serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c ))) });
+    return new ValidationPlugin<string>({ id: 'null', title: 'Null', errorMessage: 'nota', editor: ValidationParamsEditorComponent, builder: ({ serialized }) => of((c: AbstractControl) => of(Validators.nullValidator( this.formsValidationUtils.rebuildControl({ c, serialized }) ))) });
   }
   protected makeMin(): ValidationPlugin {
     return new ValidationPlugin<string>({
@@ -51,12 +48,8 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(
-          (c: AbstractControl) => of(undefined).pipe(
-            map(() => ({ paramNames: v.paramSettings.paramsString ? v.paramSettings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-            switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(v.paramSettings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            )),
-            map(p => Validators.min(+((p as any).min))(serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c))
+          (c: AbstractControl) => this.formsValidationUtils.resolveParams({ v }).pipe(
+            map(p => Validators.min(+((p as any).min))(this.formsValidationUtils.rebuildControl({ c, serialized })))
           )
         ) 
     });
@@ -69,12 +62,8 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(
-          (c: AbstractControl) => of(undefined).pipe(
-            map(() => ({ paramNames: v.paramSettings.paramsString ? v.paramSettings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-            switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(v.paramSettings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            )),
-            map(p => Validators.max(+((p as any).max))(serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c))
+          (c: AbstractControl) => this.formsValidationUtils.resolveParams({ v }).pipe(
+            map(p => Validators.max(+((p as any).max))(this.formsValidationUtils.rebuildControl({ c, serialized })))
           )
         ) 
     });
@@ -87,12 +76,8 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(
-          (c: AbstractControl) => of(undefined).pipe(
-            map(() => ({ paramNames: v.paramSettings.paramsString ? v.paramSettings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-            switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(v.paramSettings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            )),
-            map(p => Validators.minLength(+((p as any).minLength))(serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c))
+          (c: AbstractControl) => this.formsValidationUtils.resolveParams({ v }).pipe(
+            map(p => Validators.minLength(+((p as any).minLength))(this.formsValidationUtils.rebuildControl({ c, serialized })))
           )
         ) 
     });
@@ -101,16 +86,12 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
     return new ValidationPlugin<string>({
       id: 'max_length', 
       title: 'Max Length', 
-      errorMessage: 'Maximum of [.min] characters',
+      errorMessage: 'Maximum of [.max] characters',
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(
-          (c: AbstractControl) => of(undefined).pipe(
-            map(() => ({ paramNames: v.paramSettings.paramsString ? v.paramSettings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-            switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(v.paramSettings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            )),
-            map(p => Validators.maxLength(+((p as any).maxLength))(serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c))
+          (c: AbstractControl) => this.formsValidationUtils.resolveParams({ v }).pipe(
+            map(p => Validators.maxLength(+((p as any).maxLength))(this.formsValidationUtils.rebuildControl({ c, serialized })))
           )
         ) 
     });
@@ -123,12 +104,8 @@ export class CoreValidationDiscovery implements PluginDiscovery  {
       editor: ValidationParamsEditorComponent, 
       builder: ({ v, serialized }: { v: ValidationValidator, serialized: boolean }) => 
         of(
-          (c: AbstractControl) => of(undefined).pipe(
-            map(() => ({ paramNames: v.paramSettings.paramsString ? v.paramSettings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-            switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(v.paramSettings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            )),
-            map(p => Validators.pattern(((p as any).pattern))(serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c))
+          (c: AbstractControl) => this.formsValidationUtils.resolveParams({ v }).pipe(
+            map(p => Validators.pattern((new RegExp((p as any).pattern)))(this.formsValidationUtils.rebuildControl({ c, serialized })))
           )
         ) 
     });

@@ -2,23 +2,21 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from '@rollthecloudinc/plugin';
-import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
-import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ValidationPlugin } from '../models/validation.models';
 import { CoreValidationDiscovery } from '../discovery/core-validation-discovery';
+import { FormsValidationUtils } from './forms-validation-utils.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ValidationPluginManager extends BasePluginManager<ValidationPlugin<string>, string> implements PluginManager<ValidationPlugin<string>, string> {
   constructor(
-    paramsEvaluatorService: ParamEvaluatorService,
-    attributesSerializerService: AttributeSerializerService,
+    formsValidationUtils: FormsValidationUtils,
     pcm: PluginConfigurationManager, 
     moduleLoader: ModuleLoaderService
   ) {
     super(pcm, moduleLoader);
-    this.addDiscovery(new CoreValidationDiscovery(this, paramsEvaluatorService, attributesSerializerService));
+    this.addDiscovery(new CoreValidationDiscovery(this, formsValidationUtils));
   }
   pluginDef() {
     return of(new PluginDef({ name: 'validation' }));
