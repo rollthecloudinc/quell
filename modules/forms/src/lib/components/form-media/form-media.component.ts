@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ValidationPluginManager } from '@rollthecloudinc/ordain';
 import { FilesService, MediaFile } from "@rollthecloudinc/media";
 import { TokenizerService } from "@rollthecloudinc/token";
 import { NgxDropzoneChangeEvent } from "ngx-dropzone";
@@ -50,9 +51,10 @@ export class FormMediaComponent extends FormElementBase {
     filesService: FilesService,
     tokenizerService: TokenizerService,
     formsContextHelper: FormsContextHelperService,
+    vpm: ValidationPluginManager,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, vpm, controlContainer);
     this.filesService = filesService;
   }
 

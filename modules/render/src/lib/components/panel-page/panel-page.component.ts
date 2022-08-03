@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
@@ -10,7 +10,7 @@ import { /*ContextManagerService, */ InlineContext, ContextPluginManager, Inline
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
-import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError } from 'rxjs/operators';
+import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError, startWith, first } from 'rxjs/operators';
 import { getSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
@@ -42,14 +42,19 @@ import { DOCUMENT } from '@angular/common';
       useExisting: forwardRef(() => PanelPageComponent),
       multi: true
     },
-    {
+    /*{
       provide: NG_VALIDATORS,
       useExisting: forwardRef(() => PanelPageComponent),
       multi: true
-    },
+    },*/
+    {
+      provide: NG_ASYNC_VALIDATORS,
+      useExisting: forwardRef(() => PanelPageComponent),
+      multi: true
+    }
   ]
 })
-export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, Validator {
+export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, AsyncValidator {
 
   static registredContextListeners = new Set<string>();
 
@@ -458,19 +463,24 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   submit() {
-    const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
-    const data = this.formService.serializeForm(panelPageForm);
-    console.log(panelPageForm);
-    console.log(this.formService.serializeForm(panelPageForm));
-    /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
-      alert('panel page form added!');
-    });*/
 
-    console.log('form data', data);
-
-    this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
-      console.log('persisted data');
-    });;
+    if (this.pageForm.valid) {
+      const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
+      const data = this.formService.serializeForm(panelPageForm);
+      console.log(panelPageForm);
+      console.log(this.formService.serializeForm(panelPageForm));
+      /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
+        alert('panel page form added!');
+      });*/
+  
+      console.log('form data', data);
+  
+      this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
+        console.log('persisted data');
+      });;
+    } else {
+      console.log('detected form invalid');
+    }
 
     // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
     // Experimental only - state forms
@@ -515,8 +525,25 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     }
   }
 
-  validate(c: AbstractControl): ValidationErrors | null{
-    return this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
+  validate(c: AbstractControl): Observable<ValidationErrors | null> {
+    /*return this.settingsFormArray.statusChanges.pipe(
+      startWith(this.settingsFormArray.status),  // start with the current form status
+      filter((status) => status === 'VALID'),
+      map(() => null),
+      timeout(1000),
+      catchError(() => of({ invalidForm: {valid: false, message: "content is invalid"}})),
+      first()
+    );*/
+    return this.settingsFormArray.statusChanges.pipe(
+      startWith(this.settingsFormArray.status),  // start with the current form status
+      filter((status) => status !== 'PENDING'),
+      debounceTime(1),
+      take(1), // We only want one emit after status changes from PENDING
+      map((status) => {
+          return this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
+      })
+    );
+    // return of(this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}});
   }
 
 }
@@ -538,8 +565,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       useExisting: forwardRef(() => RenderPaneComponent),
       multi: true
     },
-    {
+    /*{
       provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => RenderPaneComponent),
+      multi: true
+    },*/
+    {
+      provide: NG_ASYNC_VALIDATORS,
       useExisting: forwardRef(() => RenderPaneComponent),
       multi: true
     }
@@ -549,7 +581,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     '[attr.data-index]': 'indexPosition'
   }
 })
-export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, Validator, AfterContentInit {
+export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, AsyncValidator, AfterContentInit {
 
   @Input()
   pluginName: string;
@@ -807,8 +839,24 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     }
   }
 
-  validate(c: AbstractControl): ValidationErrors | null{
-    return this.paneForm.valid ? null : { invalidForm: {valid: false, message: "pane is invalid"}};
+  validate(c: AbstractControl): Observable<ValidationErrors | null> {
+    /*return this.paneForm.statusChanges.pipe(
+      startWith(this.paneForm.status),  // start with the current form status
+      filter((status) => status === 'VALID'),
+      map(() => null),
+      timeout(1000),
+      catchError(() => of({ invalidForm: { invalidForm: {valid: false, message: "pane is invalid"}}})),
+      first()
+    );*/
+    return this.paneForm.statusChanges.pipe(
+      startWith(this.paneForm.status),  // start with the current form status
+      filter((status) => status !== 'PENDING'),
+      debounceTime(1),
+      take(1), // We only want one emit after status changes from PENDING
+      map((status) => {
+          return this.paneForm.valid ? null : { invalidForm: { invalidForm: {valid: false, message: "pane is invalid"}}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
+      })
+    );
   }
 
   resolveNestedPanelPage() {
@@ -869,8 +917,13 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
       useExisting: forwardRef(() => RenderPanelComponent),
       multi: true
     },
-    {
+    /*{
       provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => RenderPanelComponent),
+      multi: true
+    },*/
+    {
+      provide: NG_ASYNC_VALIDATORS,
       useExisting: forwardRef(() => RenderPanelComponent),
       multi: true
     },
@@ -880,7 +933,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     '[attr.data-index]': 'indexPosition$.value'
   }
 })
-export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges, ControlValueAccessor, Validator  {
+export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges, ControlValueAccessor, AsyncValidator  {
 
   static COUNTER = 0;
 
@@ -1193,8 +1246,24 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     }
   }
 
-  validate(c: AbstractControl): ValidationErrors | null{
-    return this.panelForm.valid ? null : { invalidForm: {valid: false, message: "panel are invalid"}};
+  validate(c: AbstractControl): Observable<ValidationErrors | null> {
+    /*return this.panelForm.statusChanges.pipe(
+      startWith(this.panelForm.status),  // start with the current form status
+      filter((status) => status === 'VALID'),
+      map(() => null),
+      timeout(1000),
+      catchError(() => of({ invalidForm: {valid: false, message: "panel are invalid"}})),
+      first()
+    );*/
+    return this.panelForm.statusChanges.pipe(
+      startWith(this.panelForm.status),  // start with the current form status
+      filter((status) => status !== 'PENDING'),
+      debounceTime(1),
+      take(1), // We only want one emit after status changes from PENDING
+      map((status) => {
+          return this.panelForm.valid ? null : { invalidForm: {valid: false, message: "panel are invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
+      })
+    );
   }
 
   populatePanesFormArray() {

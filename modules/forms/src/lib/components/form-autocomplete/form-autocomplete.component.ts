@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { ControlContainer, FormControl } from "@angular/forms";
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { ValidationPluginManager } from '@rollthecloudinc/ordain';
 import { OptionsResolverService } from "../../services/options-resolver.services";
 import { FormElementBase } from "../../directives/form-element-base.directive";
 import { debounceTime, distinctUntilChanged, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
@@ -47,9 +48,10 @@ export class FormAutocompleteComponent extends FormElementBase {
     optionsResolverService: OptionsResolverService,
     tokenizerService: TokenizerService,
     formsContextHelper: FormsContextHelperService,
+    vpm: ValidationPluginManager,
     controlContainer?: ControlContainer
   ) {
-    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, controlContainer);
+    super(attributeSerializer, optionsResolverService, tokenizerService, formsContextHelper, vpm, controlContainer);
     this.displayAuto = (opt: SelectOption): string => {
       return opt.label;
       // return tokenizerService.replaceTokens(this.selectMapping.label, this.tokenizerService.generateGenericTokens(opt.dataItem));

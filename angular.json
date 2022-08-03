@@ -1610,6 +1610,37 @@
           }
         }
       }
+    },
+    "ordain": {
+      "projectType": "library",
+      "root": "modules/ordain",
+      "sourceRoot": "modules/ordain/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "modules/ordain/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/ordain/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "modules/ordain/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/ordain/src/test.ts",
+            "tsConfig": "modules/ordain/tsconfig.spec.json",
+            "karmaConfig": "modules/ordain/karma.conf.js"
+          }
+        }
+      }
     }
   }
 }

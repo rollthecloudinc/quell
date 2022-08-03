@@ -75,6 +75,7 @@ import { panelpages } from '../environments/panelpages';
 import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, PanelPageRouterComponent, PAGES_SETTINGS, PagesSettings } from '@rollthecloudinc/pages';
 import { initializeIdbDataFactory } from '@rollthecloudinc/keyval';
 import { panelpages as panelpages2 } from '../environments/panelpages2';
+import { OrdainModule } from '@rollthecloudinc/ordain';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -213,7 +214,8 @@ export function markedOptionsFactory(): MarkedOptions {
     SheathModule,
     NgxDropzoneModule,
     ReactModule, // react integration (experimental)
-    PagesModule
+    PagesModule,
+    OrdainModule
     // JsonschemaModule
     // OktaAuthModule
   ],
