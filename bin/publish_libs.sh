@@ -15,6 +15,7 @@ npm publish ./dist/durl
 npm publish ./dist/datasource
 npm publish ./dist/context
 npm publish ./dist/rules
+npm publish ./dist/detour
 npm publish ./dist/refinery
 npm publish ./dist/crud
 npm publish ./dist/ordain
