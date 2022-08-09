@@ -1,0 +1,9 @@
+<div [formGroup]="interactionsForm">
+  <div formArrayName="listeners">
+    <div *ngFor="let _ of listeners.controls; let i = index">
+      <druid-detour-interaction-listener [formControlName]="i"></druid-detour-interaction-listener>
+      <button type="button" (click)="deleteListener$.next(i)">Delete</button>
+    </div>
+  </div>
+</div>
+<button type="button" (click)="addListener$.next(undefined)">Add Listener</button>

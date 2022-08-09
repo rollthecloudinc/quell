@@ -33,6 +33,7 @@ import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.d
 import { paneStateContextFactory } from '../../pages.factories';
 import { PaneStateContextResolver } from '../../contexts/pane-state-context.resolver';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
+import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecloudinc/detour';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -346,6 +347,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   pageProperties = new PropertiesFormPayload();
   persistence = new PersistenceFormPayload();
+  interactions = new InteractionsFormPayload();
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
@@ -931,6 +933,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       layoutSetting: new LayoutSetting(this.layoutSetting),
       rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs)),
       persistence: this.persistence,
+      interactions: this.interactions,
       entityPermissions: {
         readUserIds: this.pageProperties.readUserIds,
         writeUserIds: [],
@@ -995,6 +998,15 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       .subscribe((payload?: PersistenceFormPayload) => {
         console.log('persistence closed', payload);
         this.persistence = payload ? payload : this.persistence;
+      });
+  }
+
+  onInteractionsClick() {
+    this.dialog.open(InteractionsDialogComponent, { data: { interactions: this.interactions, contexts: this.contexts } })
+      .afterClosed()
+      .subscribe((payload?: InteractionsFormPayload) => {
+        console.log('interactions closed', payload);
+        this.interactions = payload ? payload : this.interactions;
       });
   }
 
