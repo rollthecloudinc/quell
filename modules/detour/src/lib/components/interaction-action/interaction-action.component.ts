@@ -1,5 +1,9 @@
-import { Component, forwardRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ComponentRef, forwardRef, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { BehaviorSubject } from 'rxjs';
+import { InteractionActionRendererHostDirective } from '../../directives/interaction-action-render-host.directive';
+import { InteractionActionPlugin } from '../../models/interaction-action.models';
+import { InteractionActionPluginManager } from '../../services/interaction-action-plugin-manager.service';
 
 @Component({
   selector: 'druid-detour-interaction-action',
@@ -20,14 +24,23 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 })
 export class InteractionActionComponent implements ControlValueAccessor, Validator {
 
+  @ViewChild(InteractionActionRendererHostDirective, { static: true }) interactionActionHost: InteractionActionRendererHostDirective;
+
   readonly actionForm = this.fb.group({
-    action: this.fb.control('')
+    plugin: this.fb.control(''),
+    settings: this.fb.control('')
   });
+
+  componentRef$ = new BehaviorSubject<ComponentRef<any>>(undefined);
+
+  readonly actionPlugins$ = this.iapm.getPlugins()
 
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private iapm: InteractionActionPluginManager,
+    private componentFactoryResolver: ComponentFactoryResolver
   ) {
   }
 
@@ -55,4 +68,14 @@ export class InteractionActionComponent implements ControlValueAccessor, Validat
   validate(c: AbstractControl): ValidationErrors | null{
     return this.actionForm.valid ? null : this.actionForm.errors;
   }
+
+  renderValidation(plugin: InteractionActionPlugin<string>) {
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(plugin.editor);
+
+    const viewContainerRef = this.interactionActionHost.viewContainerRef;
+    viewContainerRef.clear();
+
+    this.componentRef$.next(viewContainerRef.createComponent(componentFactory));
+  }
+
 }
