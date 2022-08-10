@@ -1,4 +1,4 @@
 <div [formGroup]="listenerForm">
-  <druid-detour-interaction-event formControlName="event"></druid-detour-interaction-event>
-  <druid-detour-interaction-handler formControlName="handler"></druid-detour-interaction-handler>
+  <druid-params-plugin-instance formControlName="event" [plugins]="eventPlugins$ | async"></druid-params-plugin-instance>
+  <druid-params-plugin-instance formControlName="handler" [plugins]="handlerPlugins$ | async"></druid-params-plugin-instance>
 </div>

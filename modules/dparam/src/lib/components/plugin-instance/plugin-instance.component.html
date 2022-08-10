@@ -1,0 +1,10 @@
+<div [formGroup]="instanceForm">
+  <mat-form-field>
+    <!-- <mat-label>{{ title$ | async }}</mat-label> -->
+    <mat-label>Plugin</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let p of ((plugins$ | async) | keyvalue); let i = index" [value]="p.value.id">{{ p.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <druid-params-querystring formControlName="settings"></druid-params-querystring>
+</div>

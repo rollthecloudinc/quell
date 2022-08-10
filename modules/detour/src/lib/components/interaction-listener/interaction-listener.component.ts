@@ -1,5 +1,7 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { InteractionEventPluginManager } from '../../services/interaction-event-plugin-manager.service';
+import { InteractionHandlerPluginManager } from '../../services/interaction-handler-plugin-manager.service';
 // import { ControlContainer } from '@angular/forms';
 //import { ValidationValidatorSettings } from '../../models/validation.models';
 
@@ -22,6 +24,8 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 })
 export class InteractionListenerComponent implements ControlValueAccessor, Validator {
   //@Input() settings: Array<ValidationValidatorSettings> = [];
+  readonly eventPlugins$ = this.iepm.getPlugins()
+  readonly handlerPlugins$ = this.ihpm.getPlugins()
   readonly listenerForm = this.fb.group({
     event: this.fb.control(''),
     handler: this.fb.control('')
@@ -29,7 +33,9 @@ export class InteractionListenerComponent implements ControlValueAccessor, Valid
   @Input() contexts: Array<string> = [];
   public onTouched: () => void = () => {};
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private iepm: InteractionEventPluginManager,
+    private ihpm: InteractionHandlerPluginManager
   ) {}
   writeValue(val: any): void {
     if (val) {

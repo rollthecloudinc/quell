@@ -1002,7 +1002,13 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   onInteractionsClick() {
-    this.dialog.open(InteractionsDialogComponent, { data: { interactions: this.interactions, contexts: this.contexts } })
+    this.dialog.open(
+      InteractionsDialogComponent, 
+      { 
+        data: { interactions: this.interactions, contexts: this.contexts },
+        ...{ maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' }
+      },
+    )
       .afterClosed()
       .subscribe((payload?: InteractionsFormPayload) => {
         console.log('interactions closed', payload);

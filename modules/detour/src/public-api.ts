@@ -10,5 +10,3 @@ export * from './lib/services/interaction-event-plugin-manager.service';
 export * from './lib/components/interactions-dialog/interactions-dialog.component';
 export * from './lib/components/interactions-form/interactions-form.component';
 export * from './lib/components/interaction-listener/interaction-listener.component';
-export * from './lib/components/interaction-event/interaction-event.component';
-export * from './lib/components/interaction-handler/interaction-handler.component';

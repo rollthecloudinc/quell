@@ -77,6 +77,7 @@ import { initializeIdbDataFactory } from '@rollthecloudinc/keyval';
 import { panelpages as panelpages2 } from '../environments/panelpages2';
 import { OrdainModule } from '@rollthecloudinc/ordain';
 import { DetourModule } from '@rollthecloudinc/detour';
+import { DparamModule } from '@rollthecloudinc/dparam';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -217,7 +218,8 @@ export function markedOptionsFactory(): MarkedOptions {
     ReactModule, // react integration (experimental)
     PagesModule,
     OrdainModule,
-    DetourModule
+    DetourModule,
+    DparamModule
     // JsonschemaModule
     // OktaAuthModule
   ],
