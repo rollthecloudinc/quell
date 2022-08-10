@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from '@rollthecloudinc/plugin';
-import { InteractionActionPlugin } from '../models/interaction-action.models';
+import { InteractionEventPlugin } from '../models/interaction-event.models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InteractionActionPluginManager extends BasePluginManager<InteractionActionPlugin<string>, string> implements PluginManager<InteractionActionPlugin<string>, string> {
+export class InteractionEventPluginManager extends BasePluginManager<InteractionEventPlugin<string>, string> implements PluginManager<InteractionEventPlugin<string>, string> {
   constructor(
     pcm: PluginConfigurationManager, 
     moduleLoader: ModuleLoaderService
@@ -15,9 +15,6 @@ export class InteractionActionPluginManager extends BasePluginManager<Interactio
     super(pcm, moduleLoader);
   }
   pluginDef() {
-    return of(new PluginDef({ name: 'interaction_action' }));
-  }
-  discovery(): void {
-      super.discovery()
+    return of(new PluginDef({ name: 'interaction_event' }));
   }
 }

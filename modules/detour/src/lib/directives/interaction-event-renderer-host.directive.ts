@@ -1,8 +1,8 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[druidInteractionActionRendererHost]'
+  selector: '[druidInteractionEventRendererHost]'
 })
-export class InteractionActionRendererHostDirective {
+export class InteractionEventRendererHostDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }
 }

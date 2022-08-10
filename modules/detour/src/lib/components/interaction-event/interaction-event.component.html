@@ -1,0 +1,9 @@
+<div [formGroup]="eventForm">
+  <mat-form-field>
+    <mat-label>Action</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let e of ((eventPlugins$ | async) | keyvalue); let i = index" [value]="e.value.id">{{ e.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container><ng-template druidInteractionEventRendererHost></ng-template></ng-container>
+</div>

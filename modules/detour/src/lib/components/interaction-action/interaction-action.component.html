@@ -1,9 +1,0 @@
-<div [formGroup]="actionForm">
-  <mat-form-field>
-    <mat-label>Action</mat-label>
-    <mat-select required formControlName="action">
-      <mat-option *ngFor="let a of ((actionPlugins$ | async) | keyvalue); let i = index" [value]="a.value.id">{{ a.value.title }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-  <ng-container><ng-template druidInteractionActionRendererHost></ng-template></ng-container>
-</div>

@@ -76,6 +76,7 @@ import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, 
 import { initializeIdbDataFactory } from '@rollthecloudinc/keyval';
 import { panelpages as panelpages2 } from '../environments/panelpages2';
 import { OrdainModule } from '@rollthecloudinc/ordain';
+import { DetourModule } from '@rollthecloudinc/detour';
 // import { PanelpageModule } from 'panelpage';
 
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -215,7 +216,8 @@ export function markedOptionsFactory(): MarkedOptions {
     NgxDropzoneModule,
     ReactModule, // react integration (experimental)
     PagesModule,
-    OrdainModule
+    OrdainModule,
+    DetourModule
     // JsonschemaModule
     // OktaAuthModule
   ],

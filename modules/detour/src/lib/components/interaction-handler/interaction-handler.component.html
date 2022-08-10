@@ -1,0 +1,9 @@
+<div [formGroup]="handlerForm">
+  <mat-form-field>
+    <mat-label>Handler</mat-label>
+    <mat-select required formControlName="plugin">
+      <mat-option *ngFor="let h of ((handlerPlugins$ | async) | keyvalue); let i = index" [value]="h.value.id">{{ h.value.title }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ng-container><ng-template druidInteractionHandlerRendererHost></ng-template></ng-container>
+</div>

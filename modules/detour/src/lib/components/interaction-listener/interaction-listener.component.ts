@@ -23,8 +23,8 @@ import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_V
 export class InteractionListenerComponent implements ControlValueAccessor, Validator {
   //@Input() settings: Array<ValidationValidatorSettings> = [];
   readonly listenerForm = this.fb.group({
-    action: this.fb.control(''),
-    handlers: this.fb.control('')
+    event: this.fb.control(''),
+    handler: this.fb.control('')
   });
   @Input() contexts: Array<string> = [];
   public onTouched: () => void = () => {};
