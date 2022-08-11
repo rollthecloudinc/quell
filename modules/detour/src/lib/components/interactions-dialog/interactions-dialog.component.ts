@@ -1,7 +1,6 @@
 import { Component, Inject } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-import { AttributeSerializerService } from "@rollthecloudinc/attributes";
 import { InlineContext } from '@rollthecloudinc/context';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
@@ -22,19 +21,16 @@ export class InteractionsDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { interactions: InteractionsFormPayload, contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<InteractionsDialogComponent>,
-    private fb: FormBuilder,
-    private attributeSerializer: AttributeSerializerService
+    private fb: FormBuilder
   ) { 
     this.contexts = data.contexts;
     this.interactions = data.interactions;
   }
 
   submit() {
-    const data = this.interactionsForm.value;
-    console.log('interactions form', data);
-    // const settings = this.attributeSerializer.serialize(data.dataduct.settings, 'settings');
-    // console.log('interactions settings', settings);
-    // this.dialogRef.close(new InteractionsFormPayload({ ...this.interactionsForm.value, dataduct: { ...data.dataduct, settings: settings.attributes } }));
+    const payload = new InteractionsFormPayload(this.interactionsForm.value);
+    console.log('interactions payload', payload);
+    this.dialogRef.close(payload);
   }
 
 }

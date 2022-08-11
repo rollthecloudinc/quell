@@ -36,3 +36,27 @@ export class Flag {
     }
   }
 }
+
+export class ParamPluginInstance {
+  plugin: string;
+  settings: ParamSettings;
+  constructor(data?: ParamPluginInstance) {
+    if (data) {
+      this.plugin = data.plugin;
+      this.settings = data.settings ? new ParamSettings(data.settings) : new ParamSettings();
+    }
+  }
+}
+
+export class ParamSettings {
+  paramsString: string;
+  params: Array<Param>;
+  constructor(data?: ParamSettings) {
+    if (data) {
+      this.paramsString = data.paramsString;
+      if (data.params && Array.isArray(data.params)) {
+        this.params = data.params.map(p => new Param(p));
+      }
+    }
+  }
+}
