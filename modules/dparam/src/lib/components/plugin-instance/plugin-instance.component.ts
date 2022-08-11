@@ -1,7 +1,8 @@
 import { Component, ComponentRef, forwardRef, Input } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, filter, tap } from 'rxjs';
 import { Plugin } from '@rollthecloudinc/plugin';
+import { ParamPluginInstance } from '../../models/param.models';
 
 @Component({
   selector: 'druid-params-plugin-instance',
@@ -30,13 +31,25 @@ export class PluginInstanceComponent implements ControlValueAccessor, Validator 
     this.plugins$.next(plugins);
   }
 
+  @Input() set instance(instance: ParamPluginInstance) {
+    this.instance$.next(instance);
+  }
+
   readonly plugins$ = new BehaviorSubject<Array<Plugin<string>>>([]);
-  readonly title$ = new BehaviorSubject<string>('');
+  readonly title$ = new BehaviorSubject<string>('Plugin');
+  readonly instance$ = new BehaviorSubject<ParamPluginInstance>(new ParamPluginInstance());
 
   readonly instanceForm = this.fb.group({
     plugin: this.fb.control(''),
     settings: this.fb.control('')
   });
+
+  readonly instanceSub = this.instance$.pipe(
+    filter(i => !!i),
+    tap(i => {
+      this.instanceForm.get('plugin').setValue(i.plugin);
+    })
+  ).subscribe();
 
   public onTouched: () => void = () => {};
 

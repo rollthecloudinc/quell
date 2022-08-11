@@ -1,8 +1,8 @@
-import { Component, forwardRef, Input } from "@angular/core";
+import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
 import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { InlineContext } from "@rollthecloudinc/context";
-import { BehaviorSubject, Subject } from "rxjs";
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Subject } from "rxjs";
+import { filter, map, tap } from 'rxjs/operators';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
 @Component({
@@ -22,7 +22,7 @@ import { InteractionsFormPayload } from "../../models/interaction.models";
     },
   ]
 })
-export class InteractionsFormComponent implements ControlValueAccessor, Validator {
+export class InteractionsFormComponent implements ControlValueAccessor, Validator, AfterViewInit {
 
   @Input() set interactions(interactions: InteractionsFormPayload) {
     this.interactions$.next(interactions);
@@ -32,8 +32,9 @@ export class InteractionsFormComponent implements ControlValueAccessor, Validato
     this.contexts$.next(contexts);
   }
 
-  interactions$ = new BehaviorSubject<InteractionsFormPayload>(undefined);
+  interactions$ = new BehaviorSubject<InteractionsFormPayload>(new InteractionsFormPayload({ interactions: { listeners: [] } }));
   contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+  afterViewInit$ = new Subject();
 
   interactionsForm = this.fb.group({
     listeners: this.fb.array([])
@@ -48,8 +49,22 @@ export class InteractionsFormComponent implements ControlValueAccessor, Validato
 
   readonly deleteListenerSub = this.deleteListener$.pipe(
     tap(index => {
-      // this.validation$.value.validators.splice(index, 1);
+      this.interactions$.value.interactions.listeners.splice(index, 1);
       this.listeners.removeAt(index);
+    })
+  ).subscribe();
+
+  readonly interactionsSub = combineLatest([
+    this.interactions$,
+    this.afterViewInit$
+  ]).pipe(
+    map(([v]) => v),
+    filter(interactions => interactions.interactions.listeners.length !== 0),
+    tap(interactions => {
+      this.listeners.clear();
+      interactions.interactions.listeners.forEach((v, i) => {
+        this.listeners.push(this.fb.control(''));
+      });
     })
   ).subscribe();
 
@@ -62,6 +77,11 @@ export class InteractionsFormComponent implements ControlValueAccessor, Validato
   constructor(
     private fb: FormBuilder
   ) {
+  }
+
+  ngAfterViewInit(): void {
+    this.afterViewInit$.next(undefined);
+    this.afterViewInit$.complete();
   }
 
   writeValue(val: any): void {

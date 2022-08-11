@@ -3,9 +3,7 @@ import { ParamPluginInstance } from '@rollthecloudinc/dparam';
 export class InteractionsFormPayload {
   interactions: InteractionInteractions;
   constructor(data?: InteractionsFormPayload) {
-    if (data) {
-      this.interactions = data.interactions ? new InteractionInteractions(data.interactions) : new InteractionInteractions();
-    }
+    this.interactions = data && data.interactions ? new InteractionInteractions(data.interactions) : new InteractionInteractions();
   }
 }
 
@@ -24,9 +22,7 @@ export class InteractionListener {
   handler: ParamPluginInstance;
   event: ParamPluginInstance;
   constructor(data?: InteractionListener) {
-    if (data) {
-      this.handler = data.handler ? new ParamPluginInstance(data.handler) : new ParamPluginInstance();
-      this.event = data.event ? new ParamPluginInstance(data.event) : new ParamPluginInstance();
-    }
+    this.handler = data && data.handler ? new ParamPluginInstance(data.handler) : new ParamPluginInstance();
+    this.event = data && data.event ? new ParamPluginInstance(data.event) : new ParamPluginInstance();
   }
 }

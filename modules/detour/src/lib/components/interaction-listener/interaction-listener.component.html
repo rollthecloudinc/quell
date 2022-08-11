@@ -1,4 +1,4 @@
 <div [formGroup]="listenerForm">
-  <druid-params-plugin-instance formControlName="event" [plugins]="eventPlugins$ | async"></druid-params-plugin-instance>
-  <druid-params-plugin-instance formControlName="handler" [plugins]="handlerPlugins$ | async"></druid-params-plugin-instance>
+  <druid-params-plugin-instance formControlName="event" title="Event" [plugins]="eventPlugins$ | async" [instance]="event$.value"></druid-params-plugin-instance>
+  <druid-params-plugin-instance formControlName="handler" title="Handler" [plugins]="handlerPlugins$ | async" [instance]="handler$.value"></druid-params-plugin-instance>
 </div>

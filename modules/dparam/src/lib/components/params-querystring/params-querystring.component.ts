@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
 import { AbstractControl, ControlContainer, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { AttributeValue } from "@rollthecloudinc/attributes";
-import { Param } from '../../models/param.models';
+import { Param, ParamSettings } from '../../models/param.models';
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { debounceTime, filter, tap, delay } from 'rxjs/operators';
 import * as qs from 'qs';
@@ -29,12 +29,12 @@ export class ParamsQuerystringComponent implements ControlValueAccessor, Validat
   @Input()
   contexts: Array<string> = [];
 
-  /*@Input() set settings(settings: ValidationValidatorSettings) {
+  @Input() set settings(settings: ParamSettings) {
     this.settings$.next(settings);
-  }*/
+  }
 
   paramsParsed: any;
-  //settings$ = new BehaviorSubject<{}>(undefined);
+  settings$ = new BehaviorSubject<ParamSettings>(undefined);
   afterViewInit$ = new Subject();
   readonly paramValues$ = new BehaviorSubject<Array<Param>>([]);
 
@@ -50,22 +50,22 @@ export class ParamsQuerystringComponent implements ControlValueAccessor, Validat
     this.paramsParsed = parsed;
   });
 
-  /*settingsSub = this.settings$.pipe(
+  settingsSub = this.settings$.pipe(
     tap(s => {
       if (s) {
         this.formGroup.get('paramsString').setValue(s.paramsString ? s.paramsString : '');
       }
     })
-  ).subscribe();*/
+  ).subscribe();
 
-  /*private readonly settingsParamsSub = combineLatest([
+  private readonly settingsParamsSub = combineLatest([
     this.settings$,
     this.formGroup.get('paramsString').valueChanges
   ]).pipe(
     filter(([s]) => s !== undefined),
     delay(1),
     tap(([s]) => this.paramValues$.next(s.params))
-  ).subscribe();*/
+  ).subscribe();
 
   public onTouched: () => void = () => {};
 

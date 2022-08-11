@@ -1,5 +1,8 @@
 import { Component, forwardRef, Input } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { ParamPluginInstance } from '@rollthecloudinc/dparam';
+import { BehaviorSubject, tap } from 'rxjs';
+import { InteractionListener } from '../../models/interaction.models';
 import { InteractionEventPluginManager } from '../../services/interaction-event-plugin-manager.service';
 import { InteractionHandlerPluginManager } from '../../services/interaction-handler-plugin-manager.service';
 // import { ControlContainer } from '@angular/forms';
@@ -31,6 +34,18 @@ export class InteractionListenerComponent implements ControlValueAccessor, Valid
     handler: this.fb.control('')
   });
   @Input() contexts: Array<string> = [];
+  @Input() set listener(listener: InteractionListener) {
+    this.listener$.next(listener);
+  }
+  readonly listener$ = new BehaviorSubject<InteractionListener>(new InteractionListener());
+  readonly event$ = new BehaviorSubject<ParamPluginInstance>(new ParamPluginInstance());
+  readonly handler$ = new BehaviorSubject<ParamPluginInstance>(new ParamPluginInstance());
+  readonly listenerSub = this.listener$.pipe(
+    tap(listener => {
+      this.event$.next(listener && listener.event ? listener.event : new ParamPluginInstance());
+      this.handler$.next(listener && listener.handler ? listener.handler : new ParamPluginInstance());
+    })
+  ).subscribe();
   public onTouched: () => void = () => {};
   constructor(
     private fb: FormBuilder,

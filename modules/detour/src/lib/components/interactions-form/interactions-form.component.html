@@ -1,7 +1,7 @@
 <div [formGroup]="interactionsForm">
   <div formArrayName="listeners">
     <div *ngFor="let _ of listeners.controls; let i = index">
-      <druid-detour-interaction-listener [formControlName]="i"></druid-detour-interaction-listener>
+      <druid-detour-interaction-listener [formControlName]="i" [listener]="interactions$.value.interactions.listeners[i]"></druid-detour-interaction-listener>
       <button type="button" (click)="deleteListener$.next(i)">Delete</button>
     </div>
   </div>

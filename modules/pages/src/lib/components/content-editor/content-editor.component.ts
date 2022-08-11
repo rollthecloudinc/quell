@@ -519,6 +519,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.layoutSetting = new LayoutSetting(changes.panelPage.currentValue.layoutSetting);
       this.rowSettings = changes.panelPage.currentValue.rowSettings ? changes.panelPage.currentValue.rowSettings.map(rs => new LayoutSetting(rs)) : [];
       this.persistence = changes.panelPage.currentValue.persistence ? new PersistenceFormPayload(changes.panelPage.currentValue.persistence) : new PersistenceFormPayload();
+      this.interactions = changes.panelPage.currentValue.interactions ? new InteractionsFormPayload(changes.panelPage.currentValue.interactions) : new InteractionsFormPayload();
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds, cssFile: changes.panelPage.currentValue.cssFile });
         this.contexts = changes.panelPage.currentValue.contexts;
