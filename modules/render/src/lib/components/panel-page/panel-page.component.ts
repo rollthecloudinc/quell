@@ -6,6 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rolltheclo
 import { GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@rollthecloudinc/utils';
 import { FilesService, MediaSettings, MEDIA_SETTINGS } from '@rollthecloudinc/media';
+import { InteractionListener } from '@rollthecloudinc/detour';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@rollthecloudinc/context';
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
@@ -88,6 +89,11 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     this.css$.next(css);
   }
 
+  @Input() 
+  set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @Input()
   resolvedContext = {}
 
@@ -113,11 +119,20 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private managedClassesCache = {};
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
 
   css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = this.css$.subscribe(css => {
     this.filteredCss = css;
   });
+
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = this.listeners$.pipe(
+    tap(listeners => {
+      this.filteredListeners = listeners;
+    })
+  ).subscribe();
 
   settingsFormArray = this.fb.array([]);
   pageForm = this.fb.group({
@@ -202,6 +217,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;
       this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
+      this.filteredListeners = panelPage.interactions.interactions.listeners;
       this.renderLayout$.next(panelPage);
       // this.panelPage$.next(panelPage);
       this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
@@ -627,6 +643,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.css$.next(css);
   }
 
+  @Input() set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @HostBinding('class') get indexPositionClass() {
     return `pane-${this.indexPosition}`;
   } 
@@ -646,6 +666,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   componentRef: ComponentRef<any>;
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
 
   css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ 
     css: this.cssHelper.makeJsonNode(), 
@@ -704,6 +725,17 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
       }
     });
   });
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = combineLatest([
+    this.listeners$,
+    this.schedulePluginChange 
+  ]).pipe(
+    map(([l]) => l),
+    tap(listeners => {
+      console.log('pane listeners', listeners);
+    })
+  ).subscribe();
 
   paneForm = this.fb.group({
     contentPlugin: this.fb.control('', Validators.required),
@@ -976,6 +1008,10 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.css$.next(css);
   }
 
+  @Input() set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @Output()
   heightChange = new EventEmitter<number>();
 
@@ -1000,6 +1036,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   originPanes: Array<Pane>;
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
   
   /*initialRenderComplete = setInterval(() => {
     console.log(`check pane initial render [${this.panel.name}]`);
@@ -1054,6 +1091,15 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
       }
     });
   });
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = this.listeners$.pipe(
+    tap(listeners => {
+      console.log('panel listeners', listeners);
+      this.filteredListeners = listeners;
+    })
+  ).subscribe();
+  
 
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
   scheduleRenderSub = this.scheduleRender.pipe(
