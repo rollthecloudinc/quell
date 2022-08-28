@@ -123,6 +123,9 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = this.css$.subscribe(css => {
+    if (this.nested$.value) {
+      console.log('filtered css nested', css);
+    }
     this.filteredCss = css;
   });
 
@@ -217,16 +220,16 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;
       this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
-      this.filteredListeners = panelPage.interactions.interactions.listeners;
+      this.filteredListeners = panelPage.interactions && panelPage.interactions.interactions && panelPage.interactions.interactions.listeners ? panelPage.interactions.interactions.listeners : [];
       this.renderLayout$.next(panelPage);
       // this.panelPage$.next(panelPage);
       this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      if (isPlatformBrowser(this.platformId)) {
+      //if (isPlatformBrowser(this.platformId)) {
         this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
-      }
+      //}
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -331,7 +334,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       take(1)
     )),
     map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
-    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}.css` })),
     tap(() => {
       console.log('stylesheet saved.');
     })
@@ -351,7 +354,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     map(({ classes }) => ({ classes: Array.from(classes.keys()).reduce((p, k) => ({ ...p, [k]: Array.from(classes.get(k).keys()).filter(k2 => classes.get(k).get(k2) !== ClassClassification.KEEP).reduce((p2, k2) => ({ ...p2, [k2]: classes.get(k).get(k2) }), {}) }), {}) })),
     map(({ classes }) => ({ classes: merge(this.managedClassesCache, classes) })),
     map(({ classes }) => ({ json: JSON.stringify(classes) })),
-    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes` })),
+    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes.json` })),
     tap(() => {
       console.log('classes saved.');
     })
@@ -445,20 +448,21 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css`).pipe(
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),
     ]).pipe(
       tap(([ cssFile, managedCss, managedCssRaw, classes ]) => {
+        console.log('fetched managed panelpage css and class files');
         let css = {};
         this.managedCssCache = '';
         this.managedClassesCache = classes;
@@ -677,7 +681,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.afterContentInit$,
     this.schedulePluginChange
   ]).pipe(
-    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
+    //filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.pane-${this.indexPosition}`), classes: this.cssHelper.reduceSelector(s.classes, `.pane-${this.indexPosition}`) })),
     map(({ css, classes }) => [
@@ -688,40 +692,49 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     ]),
     tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
     map(([css, _, classes, __]) => ({ css, classes })),
+    map(({ css, classes }) => {
+      const rebuiltCss = Object.keys(css.children).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      const rebuiltClasses = Object.keys(classes).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      return { css: { children: rebuiltCss }, classes: rebuiltClasses };
+    }),
     delay(500)
   ).subscribe(({ css, classes }) => {
     console.log('reduced classes', classes);
-    const keys = Object.keys(css.children).filter(k => isSelectorValid({ selector: k, document: this.document }));
-    const classKeys = Object.keys(classes).filter(k => isSelectorValid({ selector: k, document: this.document }));
-    classKeys.forEach(k => {
-      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
+    const keys = Object.keys(css.children).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    const classKeys = Object.keys(classes).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    classKeys.forEach((k, keyIndex) => {
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       for (let i = 0; i < len; i++) {
-        const c = classes[classKeys[i]];
+        const c = classes[classKeys[keyIndex]];
         const cKeys = Object.keys(c);
         const cLen = cKeys.length;
         for (let j = 0; j < cLen; j++) {
-          if (c[cKeys[j]] === ClassClassification.REMOVE) {
-            console.log(`remove class ${cKeys[j]}`);
-            this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
-          } else {
-            console.log(`add class ${cKeys[j]}`);
-            this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+          if (matchedNodes[i]) {
+            if (c[cKeys[j]] === ClassClassification.REMOVE) {
+              console.log(`remove class ${cKeys[j]}`);
+              this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
+            } else {
+              console.log(`add class ${cKeys[j]}`);
+              this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+            }
           }
         }
       }
     });
     keys.forEach(k => {
       console.log(`search: ${k}`);
-      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       const rules = Object.keys(css.children[k].attributes);
       for (let i = 0; i < len; i++) {
-        rules.forEach(p => {
-          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
-          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
-        });
+        if (matchedNodes[i]) {
+          rules.forEach(p => {
+            console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+            const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+            this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
+          });
+        }
       }
     });
   });
@@ -1058,7 +1071,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
-    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
+    //filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     tap(([s]) => console.log('css node', s.css)),
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.panel-${this.indexPosition$.value}`), classes: this.cssHelper.reduceSelector(s.classes, `.panel-${this.indexPosition$.value}`) })),
@@ -1070,24 +1083,52 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     ]),
     tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
     map(([css, _, classes]) => ({ css, classes })),
+    map(({ css, classes }) => {
+      const rebuiltCss = Object.keys(css.children).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf$.value.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      const rebuiltClasses = Object.keys(classes).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf$.value.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      return { css: { children: rebuiltCss }, classes: rebuiltClasses };
+    }),
     delay(1)
   ).subscribe(({ css, classes }) => {
     /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
     console.log(css);
     this.filteredCss = css;*/
     console.log('classes', classes);
-    const keys = Object.keys(css.children);
+    const keys = Object.keys(css.children).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    const classKeys = Object.keys(classes).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    classKeys.forEach((k, keyIndex) => {
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.hostEl.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      for (let i = 0; i < len; i++) {
+        const c = classes[classKeys[keyIndex]];
+        const cKeys = Object.keys(c);
+        const cLen = cKeys.length;
+        for (let j = 0; j < cLen; j++) {
+          if (matchedNodes[i]) {
+            if (c[cKeys[j]] === ClassClassification.REMOVE) {
+              console.log(`remove class ${cKeys[j]}`);
+              this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
+            } else {
+              console.log(`add class ${cKeys[j]}`);
+              this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+            }
+          }
+        }
+      }
+    });
     keys.forEach(k => {
       console.log(`search: ${k}`);
-      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : this.hostEl.nativeElement.querySelectorAll(k);
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.hostEl.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       const rules = Object.keys(css.children[k].attributes);
       for (let i = 0; i < len; i++) {
-        rules.forEach(p => {
-          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
-          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
-        });
+        if (matchedNodes[i]) {
+          rules.forEach(p => {
+            console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+            const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+            this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
+          });
+        }
       }
     });
   });
@@ -1205,6 +1246,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(DOCUMENT) private document: Document,
     private hostEl: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
