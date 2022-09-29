@@ -9,7 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "run:all": "node node_modules/@angular-architects/module-federation/src/server/mf-dev-server.js",
-    "prerender": "ng run ipe:prerender"
+    "prerender": "ng run ipe:prerender",
+    "prerender:dev": "ng run ipe:prerender:dev",
+    "prerender:prod": "ng run ipe:prerender:prod"
   },
   "browser": {
     "vm": false

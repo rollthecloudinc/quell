@@ -28,6 +28,7 @@ import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSele
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
 import { DOCUMENT } from '@angular/common';
+import { AuthFacade } from '@rollthecloudinc/auth';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -227,9 +228,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      //if (isPlatformBrowser(this.platformId)) {
-        this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
-      //}
+      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -322,8 +321,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     })
   ).subscribe();
 
-  readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
+  readonly stylizerMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.stylizerService.mutated$.pipe(
     debounceTime(2000),
+    skip(1),
+    switchMap(({ stylesheet }) => this.authFacade.getUser$.pipe(
+      map(u => ({ stylesheet, isAuthenticated: !!u })) // No sheath asset uploads are attempted unless user is at least authenticated.
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
     tap(({ stylesheet  }) => {
       console.log('merged css', stylesheet );
     }),
@@ -340,8 +344,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     })
   ).subscribe();
 
-  readonly classifyMutatedSub = this.classifyService.mutated$.pipe(
+  readonly classifyMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.classifyService.mutated$.pipe(
     debounceTime(2000),
+    skip(1),
+    switchMap(({ classes }) => this.authFacade.getUser$.pipe( // No sheath asset uploads are attempted unless user is at least authenticated.
+      map(u => ({ classes, isAuthenticated: !!u }))
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
     tap(({ classes  }) => {
       console.log('merged classes', classes );
     }),
@@ -402,6 +411,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private stylizerService: StylizerService,
     private classifyService: ClassifyService,
     private fileService: FilesService,
+    private authFacade: AuthFacade,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
@@ -444,18 +454,24 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   hookupCss({ file }: { file: string }) {
     forkJoin([
-      this.http.get<JSONNode>(file).pipe(
+      /*this.http.get<JSONNode>(file).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+      ),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ) : of(undefined),
+      ) : of(undefined),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*
       this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ) : of(undefined),
+      ) : of(undefined),*/
+      of(undefined),
       this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
@@ -681,7 +697,6 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.afterContentInit$,
     this.schedulePluginChange
   ]).pipe(
-    //filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.pane-${this.indexPosition}`), classes: this.cssHelper.reduceSelector(s.classes, `.pane-${this.indexPosition}`) })),
     map(({ css, classes }) => [
@@ -697,7 +712,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
       const rebuiltClasses = Object.keys(classes).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
       return { css: { children: rebuiltCss }, classes: rebuiltClasses };
     }),
-    delay(500)
+    delay(500),
   ).subscribe(({ css, classes }) => {
     console.log('reduced classes', classes);
     const keys = Object.keys(css.children).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
@@ -1071,7 +1086,6 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
-    //filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     tap(([s]) => console.log('css node', s.css)),
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.panel-${this.indexPosition$.value}`), classes: this.cssHelper.reduceSelector(s.classes, `.panel-${this.indexPosition$.value}`) })),

@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/utils",
-  "version": "0.0.62",
+  "version": "0.0.70",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.2",
