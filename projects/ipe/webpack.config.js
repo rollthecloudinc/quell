@@ -2,6 +2,8 @@ const ModuleFederationPlugin = require("webpack/lib/container/ModuleFederationPl
 const mf = require("@angular-architects/module-federation/webpack");
 const path = require("path");
 const share = mf.share;
+const tailwindcss = require('tailwindcss');
+const autoprefixer = require('autoprefixer');
 
 const sharedMappings = new mf.SharedMappings();
 sharedMappings.register(
@@ -25,6 +27,8 @@ module.exports = {
     outputModule: true
   },
   plugins: [
+    tailwindcss,
+    autoprefixer,
     new ModuleFederationPlugin({
         library: { type: "module" },
 

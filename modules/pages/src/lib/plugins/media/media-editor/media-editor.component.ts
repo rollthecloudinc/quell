@@ -16,7 +16,7 @@ export class MediaEditorComponent implements OnInit {
 
   media: File;
 
-  mediaTypes = '.png,.jpg,.jpeg,.gif';
+  mediaTypes = '.png,.jpg,.jpeg,.gif,.svg';
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number;  },

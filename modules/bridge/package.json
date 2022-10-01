@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/bridge",
-  "version": "0.0.59",
+  "version": "0.0.71",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.2",

@@ -28,6 +28,23 @@ export class FilesService {
     const requests$: Array<Observable<MediaFile>> = [];
     files.forEach(f => {
       if(f) {
+        const formData = new FormData();
+        formData.append('File', f, fileNameOverride ? fileNameOverride : f.name);
+        requests$.push(this.http.post<MediaFile>(this.settings.endpointUrl, formData).pipe(
+          catchError(e => {
+            return throwError(new Error("Error uploading images."));
+          })
+        ));
+      }
+    });
+    return requests$.length > 0 ? forkJoin(requests$) : of([]);
+  }
+
+  // github will be favored
+  bulkUploadS3({ files, fileNameOverride, nocache }: { files: Array<File>, fileNameOverride?: string, nocache?: boolean }): Observable<Array<MediaFile>> {
+    const requests$: Array<Observable<MediaFile>> = [];
+    files.forEach(f => {
+      if(f) {
         /*const formData = new FormData();
         formData.append('File', f, f.name);
         requests$.push(this.http.post<MediaFile>(this.settings.endpointUrl, formData).pipe(

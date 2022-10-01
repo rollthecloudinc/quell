@@ -6,9 +6,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { ParamEvaluatorService } from './services/param-evaluator.service';
+import { ParamsQuerystringComponent } from './components/params-querystring/params-querystring.component';
+import { PluginInstanceComponent } from './components/plugin-instance/plugin-instance.component';
 @NgModule({
   declarations: [
-    ParamsFormComponent
+    ParamsFormComponent,
+    ParamsQuerystringComponent,
+    PluginInstanceComponent
   ],
   imports: [
     CommonModule,
@@ -17,7 +21,9 @@ import { ParamEvaluatorService } from './services/param-evaluator.service';
     MaterialModule
   ],
   exports: [
-    ParamsFormComponent
+    ParamsFormComponent,
+    ParamsQuerystringComponent,
+    PluginInstanceComponent
   ]
 })
 export class DparamModule { 

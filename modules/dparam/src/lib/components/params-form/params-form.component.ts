@@ -80,7 +80,7 @@ export class ParamsFormComponent implements ControlValueAccessor, Validator {
     this.init$
   ]).pipe(
     tap(([paramValues]) => {
-      const len = paramValues.length;
+      const len = paramValues ? paramValues.length : 0;
       for (let i = 0; i < len; i++) {
         const paramItem = Array.from(this.paramIndexes).find(([_, v]) => v === i);
         if (paramItem !== undefined) {

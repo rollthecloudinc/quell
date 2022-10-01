@@ -301,30 +301,33 @@
             "commonChunk": false
           },
           "configurations": {
-            "production": {
+            "dev": {
+              "outputHashing": "all",
+              "vendorChunk": false,
+              "extractLicenses": true,
+              "buildOptimizer": true,
+              "namedChunks": false,
+              "commonChunk": true,
+              "optimization": true,
+              "fileReplacements": [
+                {
+                  "replace": "projects/ipe/src/environments/environment.ts",
+                  "with": "projects/ipe/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "prod": {
+              "outputHashing": "all",
+              "vendorChunk": false,
+              "extractLicenses": true,
+              "buildOptimizer": true,
+              "namedChunks": false,
+              "commonChunk": true,
+              "optimization": true,
               "fileReplacements": [
                 {
                   "replace": "projects/ipe/src/environments/environment.ts",
                   "with": "projects/ipe/src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
                 }
               ],
               "extraWebpackConfig": "projects/ipe/webpack.prod.config.js"
@@ -384,17 +387,17 @@
           }
         },
         "server": {
-          "builder": "@angular-devkit/build-angular:server",
+          "builder": "@angular-builders/custom-webpack:server",
           "options": {
-            "outputPath": "dist/ipe/server",
+            "outputPath": "dist/ipe-server",
             "main": "projects/ipe/src/main.server.ts",
             "tsConfig": "projects/ipe/tsconfig.server.json",
             "sourceMap": true,
-            "optimization": false
+            "optimization": false,
+            "verbose": true
           },
           "configurations": {
-            "production": {
-              "outputHashing": "media",
+            "prod": {
               "bundleDependencies": true,
               "fileReplacements": [
                 {
@@ -402,11 +405,10 @@
                   "with": "projects/ipe/src/environments/environment.prod.ts"
                 }
               ],
-              "sourceMap": false,
+              "sourceMap": true,
               "optimization": true
             },
             "dev": {
-              "outputHashing": "media",
               "bundleDependencies": true,
               "fileReplacements": [
                 {
@@ -414,11 +416,10 @@
                   "with": "projects/ipe/src/environments/environment.dev.ts"
                 }
               ],
-              "sourceMap": false,
+              "sourceMap": true,
               "optimization": true
             },
             "dev.local": {
-              "outputHashing": "media",
               "bundleDependencies": true,
               "fileReplacements": [
                 {
@@ -426,7 +427,7 @@
                   "with": "projects/ipe/src/environments/environment.dev.local.ts"
                 }
               ],
-              "sourceMap": false,
+              "sourceMap": true,
               "optimization": true
             }
           },
@@ -462,10 +463,21 @@
           "builder": "@nguniversal/builders:prerender",
           "options": {
             "browserTarget": "ipe:build",
-            "serverTarget": "ipe:server:dev"
+            "serverTarget": "ipe:server",
+            "routes": [
+              "/just-a-lonely-snippet-v1", 
+              "/just-a-lonely-snippet-v1/manage"
+            ]
           },
           "configurations": {
-            "production": {}
+            "dev": {
+              "browserTarget": "ipe:build:dev",
+              "serverTarget": "ipe:server:dev"
+            },
+            "prod": {
+              "browserTarget": "ipe:build:prod",
+              "serverTarget": "ipe:server:prod"
+            }
           }
         }
       }
@@ -1638,6 +1650,37 @@
             "main": "modules/ordain/src/test.ts",
             "tsConfig": "modules/ordain/tsconfig.spec.json",
             "karmaConfig": "modules/ordain/karma.conf.js"
+          }
+        }
+      }
+    },
+    "detour": {
+      "projectType": "library",
+      "root": "modules/detour",
+      "sourceRoot": "modules/detour/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "modules/detour/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "modules/detour/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "modules/detour/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "modules/detour/src/test.ts",
+            "tsConfig": "modules/detour/tsconfig.spec.json",
+            "karmaConfig": "modules/detour/karma.conf.js"
           }
         }
       }
