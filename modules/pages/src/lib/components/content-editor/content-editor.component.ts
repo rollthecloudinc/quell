@@ -33,6 +33,7 @@ import { LayoutEditorHostDirective } from '../../directives/layout-editor-host.d
 import { paneStateContextFactory } from '../../pages.factories';
 import { PaneStateContextResolver } from '../../contexts/pane-state-context.resolver';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
+import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecloudinc/detour';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -346,6 +347,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   pageProperties = new PropertiesFormPayload();
   persistence = new PersistenceFormPayload();
+  interactions = new InteractionsFormPayload();
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
@@ -517,6 +519,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.layoutSetting = new LayoutSetting(changes.panelPage.currentValue.layoutSetting);
       this.rowSettings = changes.panelPage.currentValue.rowSettings ? changes.panelPage.currentValue.rowSettings.map(rs => new LayoutSetting(rs)) : [];
       this.persistence = changes.panelPage.currentValue.persistence ? new PersistenceFormPayload(changes.panelPage.currentValue.persistence) : new PersistenceFormPayload();
+      this.interactions = changes.panelPage.currentValue.interactions ? new InteractionsFormPayload(changes.panelPage.currentValue.interactions) : new InteractionsFormPayload();
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds, cssFile: changes.panelPage.currentValue.cssFile });
         this.contexts = changes.panelPage.currentValue.contexts;
@@ -931,6 +934,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       layoutSetting: new LayoutSetting(this.layoutSetting),
       rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs)),
       persistence: this.persistence,
+      interactions: this.interactions,
       entityPermissions: {
         readUserIds: this.pageProperties.readUserIds,
         writeUserIds: [],
@@ -995,6 +999,21 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       .subscribe((payload?: PersistenceFormPayload) => {
         console.log('persistence closed', payload);
         this.persistence = payload ? payload : this.persistence;
+      });
+  }
+
+  onInteractionsClick() {
+    this.dialog.open(
+      InteractionsDialogComponent, 
+      { 
+        data: { interactions: this.interactions, contexts: this.contexts },
+        ...{ maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' }
+      },
+    )
+      .afterClosed()
+      .subscribe((payload?: InteractionsFormPayload) => {
+        console.log('interactions closed', payload);
+        this.interactions = payload ? payload : this.interactions;
       });
   }
 

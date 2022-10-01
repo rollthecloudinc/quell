@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, UtilsModule } from '@rollthecloudinc/utils';
+import { InteractionHandlerPluginManager } from '@rollthecloudinc/detour';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
 // import { RenderPanelComponent } from './components/render-panel/render-panel.component';
 // import { RenderPaneComponent } from './components/render-pane/render-pane.component';
@@ -10,6 +11,7 @@ import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent } from '.
 import { LayoutModule } from '@rollthecloudinc/layout';
 import { PanelsModule } from '@rollthecloudinc/panels';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
+import { interationHandlerDialog, interationHandlerFormSubmit } from './render.factories';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
@@ -33,6 +35,9 @@ import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.com
 })
 export class RenderModule { 
   constructor(
+    ihpm: InteractionHandlerPluginManager
   ) {
+    ihpm.register(interationHandlerFormSubmit());
+    ihpm.register(interationHandlerDialog());
   }
 }

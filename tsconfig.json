@@ -265,6 +265,14 @@
         "dist/ordain/ordain",
         "dist/ordain"
       ],
+      "@rollthecloudinc/detour": [
+        "dist/detour/detour",
+        "dist/detour"
+      ],
+      "detour": [
+        "dist/detour/detour",
+        "dist/detour"
+      ],
       "@rollthecloudinc/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"

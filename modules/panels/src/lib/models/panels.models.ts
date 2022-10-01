@@ -4,6 +4,7 @@ import { AttributeValue } from '@rollthecloudinc/attributes'
 import { RuleSet } from 'angular2-query-builder';
 import { InlineContext } from '@rollthecloudinc/context';
 import { PersistenceFormPayload } from "@rollthecloudinc/refinery";
+import { InteractionsFormPayload } from "@rollthecloudinc/detour";
 
 // Editor behaviors
 export interface PanelsEditor {
@@ -41,6 +42,7 @@ export interface PanelsEditor {
   onColumnSettingsChange(evt: Array<LayoutSetting>): void;
   submit(): void;
   onPersistenceClick(): void;
+  onInteractionsClick(): void;
 
 }
 
@@ -74,6 +76,7 @@ export class PanelPage {
   entityPermissions?: PanelPagePermissions = new PanelPagePermissions();
   cssFile?: string;
   persistence?: PersistenceFormPayload;
+  interactions?: InteractionsFormPayload;
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -85,6 +88,7 @@ export class PanelPage {
       this.userId = data.userId ? data.userId : undefined;
       this.path = data.path ? data.path : undefined;
       this.persistence = data.persistence ? new PersistenceFormPayload(data.persistence) : undefined;
+      this.interactions = data.interactions ? new InteractionsFormPayload(data.interactions) : undefined;
       if(data.panels) {
         this.panels = data.panels.map(p => new Panel(p));
       }

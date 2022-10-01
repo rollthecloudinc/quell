@@ -6,6 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rolltheclo
 import { GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@rollthecloudinc/utils';
 import { FilesService, MediaSettings, MEDIA_SETTINGS } from '@rollthecloudinc/media';
+import { InteractionListener } from '@rollthecloudinc/detour';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@rollthecloudinc/context';
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
@@ -27,6 +28,7 @@ import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSele
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
 import { DOCUMENT } from '@angular/common';
+import { AuthFacade } from '@rollthecloudinc/auth';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -88,6 +90,11 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     this.css$.next(css);
   }
 
+  @Input() 
+  set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @Input()
   resolvedContext = {}
 
@@ -113,11 +120,23 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private managedClassesCache = {};
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
 
   css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = this.css$.subscribe(css => {
+    if (this.nested$.value) {
+      console.log('filtered css nested', css);
+    }
     this.filteredCss = css;
   });
+
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = this.listeners$.pipe(
+    tap(listeners => {
+      this.filteredListeners = listeners;
+    })
+  ).subscribe();
 
   settingsFormArray = this.fb.array([]);
   pageForm = this.fb.group({
@@ -202,15 +221,14 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       this.populatePanelsFormArray({ panelPage });
       this.panelPageCached = panelPage;
       this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
+      this.filteredListeners = panelPage.interactions && panelPage.interactions.interactions && panelPage.interactions.interactions.listeners ? panelPage.interactions.interactions.listeners : [];
       this.renderLayout$.next(panelPage);
       // this.panelPage$.next(panelPage);
       this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
       /*if(!this.nested$.value || isDynamic ) {
         this.hookupContextChange();
       }*/
-      if (isPlatformBrowser(this.platformId)) {
-        this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
-      }
+      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
       console.log(`cached panel page: ${panelPage.id}`);
     })
   ).subscribe();
@@ -303,8 +321,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     })
   ).subscribe();
 
-  readonly stylizerMutatedSub = this.stylizerService.mutated$.pipe(
+  readonly stylizerMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.stylizerService.mutated$.pipe(
     debounceTime(2000),
+    skip(1),
+    switchMap(({ stylesheet }) => this.authFacade.getUser$.pipe(
+      map(u => ({ stylesheet, isAuthenticated: !!u })) // No sheath asset uploads are attempted unless user is at least authenticated.
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
     tap(({ stylesheet  }) => {
       console.log('merged css', stylesheet );
     }),
@@ -315,14 +338,19 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       take(1)
     )),
     map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
-    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}` })),
+    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}.css` })),
     tap(() => {
       console.log('stylesheet saved.');
     })
   ).subscribe();
 
-  readonly classifyMutatedSub = this.classifyService.mutated$.pipe(
+  readonly classifyMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.classifyService.mutated$.pipe(
     debounceTime(2000),
+    skip(1),
+    switchMap(({ classes }) => this.authFacade.getUser$.pipe( // No sheath asset uploads are attempted unless user is at least authenticated.
+      map(u => ({ classes, isAuthenticated: !!u }))
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
     tap(({ classes  }) => {
       console.log('merged classes', classes );
     }),
@@ -335,7 +363,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     map(({ classes }) => ({ classes: Array.from(classes.keys()).reduce((p, k) => ({ ...p, [k]: Array.from(classes.get(k).keys()).filter(k2 => classes.get(k).get(k2) !== ClassClassification.KEEP).reduce((p2, k2) => ({ ...p2, [k2]: classes.get(k).get(k2) }), {}) }), {}) })),
     map(({ classes }) => ({ classes: merge(this.managedClassesCache, classes) })),
     map(({ classes }) => ({ json: JSON.stringify(classes) })),
-    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes` })),
+    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes.json` })),
     tap(() => {
       console.log('classes saved.');
     })
@@ -383,6 +411,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private stylizerService: StylizerService,
     private classifyService: ClassifyService,
     private fileService: FilesService,
+    private authFacade: AuthFacade,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
@@ -425,24 +454,31 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   hookupCss({ file }: { file: string }) {
     forkJoin([
-      this.http.get<JSONNode>(file).pipe(
+      /*this.http.get<JSONNode>(file).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+      ),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ) : of(undefined),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}.css`).pipe(
+      ) : of(undefined),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
-      ) : of(undefined),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
+      ) : of(undefined),*/
+      of(undefined),
+      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),
     ]).pipe(
       tap(([ cssFile, managedCss, managedCssRaw, classes ]) => {
+        console.log('fetched managed panelpage css and class files');
         let css = {};
         this.managedCssCache = '';
         this.managedClassesCache = classes;
@@ -627,6 +663,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.css$.next(css);
   }
 
+  @Input() set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @HostBinding('class') get indexPositionClass() {
     return `pane-${this.indexPosition}`;
   } 
@@ -646,6 +686,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   componentRef: ComponentRef<any>;
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
 
   css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ 
     css: this.cssHelper.makeJsonNode(), 
@@ -656,7 +697,6 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.afterContentInit$,
     this.schedulePluginChange
   ]).pipe(
-    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.pane-${this.indexPosition}`), classes: this.cssHelper.reduceSelector(s.classes, `.pane-${this.indexPosition}`) })),
     map(({ css, classes }) => [
@@ -667,43 +707,63 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     ]),
     tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
     map(([css, _, classes, __]) => ({ css, classes })),
-    delay(500)
+    map(({ css, classes }) => {
+      const rebuiltCss = Object.keys(css.children).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      const rebuiltClasses = Object.keys(classes).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      return { css: { children: rebuiltCss }, classes: rebuiltClasses };
+    }),
+    delay(500),
   ).subscribe(({ css, classes }) => {
     console.log('reduced classes', classes);
-    const keys = Object.keys(css.children).filter(k => isSelectorValid({ selector: k, document: this.document }));
-    const classKeys = Object.keys(classes).filter(k => isSelectorValid({ selector: k, document: this.document }));
-    classKeys.forEach(k => {
-      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
+    const keys = Object.keys(css.children).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    const classKeys = Object.keys(classes).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    classKeys.forEach((k, keyIndex) => {
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       for (let i = 0; i < len; i++) {
-        const c = classes[classKeys[i]];
+        const c = classes[classKeys[keyIndex]];
         const cKeys = Object.keys(c);
         const cLen = cKeys.length;
         for (let j = 0; j < cLen; j++) {
-          if (c[cKeys[j]] === ClassClassification.REMOVE) {
-            console.log(`remove class ${cKeys[j]}`);
-            this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
-          } else {
-            console.log(`add class ${cKeys[j]}`);
-            this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+          if (matchedNodes[i]) {
+            if (c[cKeys[j]] === ClassClassification.REMOVE) {
+              console.log(`remove class ${cKeys[j]}`);
+              this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
+            } else {
+              console.log(`add class ${cKeys[j]}`);
+              this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+            }
           }
         }
       }
     });
     keys.forEach(k => {
       console.log(`search: ${k}`);
-      const matchedNodes = k === '' ? [ this.el.nativeElement ] : this.el.nativeElement.querySelectorAll(k);
+      const matchedNodes = k === '' ? [ this.el.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.el.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       const rules = Object.keys(css.children[k].attributes);
       for (let i = 0; i < len; i++) {
-        rules.forEach(p => {
-          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
-          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
-        });
+        if (matchedNodes[i]) {
+          rules.forEach(p => {
+            console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+            const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+            this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
+          });
+        }
       }
     });
   });
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = combineLatest([
+    this.listeners$,
+    this.schedulePluginChange 
+  ]).pipe(
+    map(([l]) => l),
+    tap(listeners => {
+      console.log('pane listeners', listeners);
+    })
+  ).subscribe();
 
   paneForm = this.fb.group({
     contentPlugin: this.fb.control('', Validators.required),
@@ -976,6 +1036,10 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.css$.next(css);
   }
 
+  @Input() set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
   @Output()
   heightChange = new EventEmitter<number>();
 
@@ -1000,6 +1064,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   originPanes: Array<Pane>;
 
   filteredCss: { css: JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
   
   /*initialRenderComplete = setInterval(() => {
     console.log(`check pane initial render [${this.panel.name}]`);
@@ -1021,7 +1086,6 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.afterContentInit$,
     this.rendered$
   ]).pipe(
-    filter(() => isPlatformBrowser(this.platformId)), // @todo: Allowing this on the server results in the pre-render staling.
     tap(([s]) => console.log('css node', s.css)),
     map(([s]) => s),
     map(s => ({ css: this.cssHelper.reduceCss(s.css, `.panel-${this.indexPosition$.value}`), classes: this.cssHelper.reduceSelector(s.classes, `.panel-${this.indexPosition$.value}`) })),
@@ -1033,27 +1097,64 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     ]),
     tap(([_, nestedCss, __, nestedClasses]) => this.filteredCss = { css: nestedCss, classes: nestedClasses }),
     map(([css, _, classes]) => ({ css, classes })),
+    map(({ css, classes }) => {
+      const rebuiltCss = Object.keys(css.children).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf$.value.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      const rebuiltClasses = Object.keys(classes).reduce((p, c) => ({ ...p, ...(c.indexOf('>') === 0 ? { [this.ancestoryWithSelf$.value.map((v, k) => (k+1) % 2 === 0 ? `.pane-${v}` : `.panel-${v}`).join(' ') + ' ' + c]: classes[c] } : { [c]: classes[c] }) }), {});
+      return { css: { children: rebuiltCss }, classes: rebuiltClasses };
+    }),
     delay(1)
   ).subscribe(({ css, classes }) => {
     /*console.log(`matched css inside panel renderer: ${this.indexPosition}`);
     console.log(css);
     this.filteredCss = css;*/
     console.log('classes', classes);
-    const keys = Object.keys(css.children);
+    const keys = Object.keys(css.children).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    const classKeys = Object.keys(classes).filter(k => k === '' || isSelectorValid({ selector: k, document: this.document }));
+    classKeys.forEach((k, keyIndex) => {
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.hostEl.nativeElement.querySelectorAll(k);
+      const len = matchedNodes.length;
+      for (let i = 0; i < len; i++) {
+        const c = classes[classKeys[keyIndex]];
+        const cKeys = Object.keys(c);
+        const cLen = cKeys.length;
+        for (let j = 0; j < cLen; j++) {
+          if (matchedNodes[i]) {
+            if (c[cKeys[j]] === ClassClassification.REMOVE) {
+              console.log(`remove class ${cKeys[j]}`);
+              this.renderer2.removeClass(matchedNodes[i], cKeys[j]);
+            } else {
+              console.log(`add class ${cKeys[j]}`);
+              this.renderer2.addClass(matchedNodes[i], cKeys[j]);
+            }
+          }
+        }
+      }
+    });
     keys.forEach(k => {
       console.log(`search: ${k}`);
-      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : this.hostEl.nativeElement.querySelectorAll(k);
+      const matchedNodes = k === '' ? [ this.hostEl.nativeElement ] : k.indexOf('>') !== -1 ? this.document.querySelectorAll(k) : this.hostEl.nativeElement.querySelectorAll(k);
       const len = matchedNodes.length;
       const rules = Object.keys(css.children[k].attributes);
       for (let i = 0; i < len; i++) {
-        rules.forEach(p => {
-          console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
-          const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
-          this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
-        });
+        if (matchedNodes[i]) {
+          rules.forEach(p => {
+            console.log(`${k} { ${p}: ${css.children[k].attributes[p]}; }`);
+            const prop = camelize(p.replace('-', '_'), false); // @todo: Not working for custom sheet 
+            this.renderer2.setStyle(matchedNodes[i], /*p*/ prop, css.children[k].attributes[p]);
+          });
+        }
       }
     });
   });
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = this.listeners$.pipe(
+    tap(listeners => {
+      console.log('panel listeners', listeners);
+      this.filteredListeners = listeners;
+    })
+  ).subscribe();
+  
 
   scheduleRender = new Subject<[Array<Pane>, Array<InlineContext>, any]>();
   scheduleRenderSub = this.scheduleRender.pipe(
@@ -1159,6 +1260,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(DOCUMENT) private document: Document,
     private hostEl: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,

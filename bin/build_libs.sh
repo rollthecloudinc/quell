@@ -15,6 +15,7 @@ npm run build durl
 npm run build datasource
 npm run build context
 npm run build rules
+npm run build detour
 npm run build refinery
 npm run build crud
 npm run build ordain

@@ -15,6 +15,7 @@ npm run build durl -- --configuration production
 npm run build datasource -- --configuration production
 npm run build context -- --configuration production
 npm run build rules -- --configuration production
+npm run build detour -- --configuration production
 npm run build refinery -- --configuration production
 npm run build crud -- --configuration production
 npm run build ordain -- --configuration production
