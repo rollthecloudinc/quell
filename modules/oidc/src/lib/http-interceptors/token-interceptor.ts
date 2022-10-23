@@ -12,7 +12,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
 
-    return this.authFacade.token$/*this.getAccessToken()*/.pipe(
+    return this.authFacade.idToken$/*this.getAccessToken()*/.pipe(
       take(1),
       concatMap(t => {
         let headers = req.headers;

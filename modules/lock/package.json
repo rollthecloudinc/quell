@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/lock",
-  "version": "0.0.71",
+  "version": "0.0.73",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^13.1.2",
