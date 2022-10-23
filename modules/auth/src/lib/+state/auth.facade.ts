@@ -14,6 +14,7 @@ import { CompleteAuthentication, Login, Logout, SetUser } from './auth.actions';
 export class AuthFacade {
   getUser$ = this.store.pipe(select(authQuery.getUser));
   token$ = this.store.pipe(select(authQuery.getUser), map(u => u ? `${u.token_type} ${u.access_token}` : undefined));
+  idToken$ = this.store.pipe(select(authQuery.getUser), map(u => u ? `${u.token_type} ${u.id_token}` : undefined));
 
   constructor(private store: Store<AuthPartialState>) {}
 
