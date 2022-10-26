@@ -12,11 +12,11 @@ Quell is architected from the ground-up to be climate friendly, carbon free.
 
 # Rapid Dev
 
-Quickly realize simple and complex green web experiences using the quell editor.
+Quickly realize simple and complex carbon free web experiences using the quell editor.
 
 ## Site Builders
 
-Site builders can create green web experiences using the quell without knowing how to code.
+Site builders can create carbon free web experiences using the quell without knowing how to code.
 
 ### Collect
 
