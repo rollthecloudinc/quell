@@ -4,7 +4,7 @@ Quell is a new kind of web editor that runs entirely on sustainable energy resou
 
 # Clean Tech
 
-Quell run completely in the browser using the modern [Angular framework](https://angular.io/) developed by Google. However, web experiences created with quell can also host micro-frontends that are built with any modern JavaScript stack such as; [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), etc.
+Quell sites run completely in the browser using the modern [Angular framework](https://angular.io/) developed by Google. However, web experiences created with quell can also host micro-frontends that are built with any modern JavaScript stack such as; [React](https://reactjs.org/), [Vue](https://vuejs.org/), [Svelte](https://svelte.dev/), etc.
 
 Quell sites run compeltely in the sustainable cloud favoring Azure but any static site hosting service works. Furthermore, Quell eliminate servers, infrastructure, and databases to realize truely small, efficient web experiences on cabon free technology stacks.
 
