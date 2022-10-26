@@ -14,7 +14,7 @@ Quell sites run compeltely in the sustainable cloud favoring Azure but any stati
 
 # Rapid Dev
 
-Quickly realize simple and complex green web experiences using the druid platform.
+Quickly realize simple and complex green web experiences using the quell editor.
 
 ## Site Builders
 
