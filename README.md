@@ -24,15 +24,15 @@ Site builders can create green web experiences using the quell without knowing h
 
 Prototype quell form to collect and store submissions.
 
-* [Page](https://demo.druidcloud.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
-* [Editor](https://demo.druidcloud.io/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
+* [Page](https://demo.carbonfreed.app/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e)
+* [Editor](https://demo.carbonfreed.app/native_forms_rebuild_v1/89087abb-326d-4a93-888e-9c597ba81b8e/manage)
 
 ### Consume
 
 Prototype quell search browser using Marvel API.
 
-* [Page](https://demo.druidcloud.io/dev-test-virtual-list-flex-v1/character/1011334)
-* [Editor](https://demo.druidcloud.io/dev-test-virtual-list-flex-v1/character/1011334/manage)
+* [Page](https://demo.carbonfreed.app/dev-test-virtual-list-flex-v1/character/1011334)
+* [Editor](https://demo.carbonfreed.app/dev-test-virtual-list-flex-v1/character/1011334/manage)
 
 ## Developers
 
@@ -42,15 +42,15 @@ Developers can use quell as an app shell to orchestrate micro-frontends built wi
 
 Prototype using quell as a shell app to host Angular architects workflow designer micro-frontends.
 
-* [Page](https://demo.druidcloud.io/workflow-designer-v2)
-* [Editor](https://demo.druidcloud.io/workflow-designer-v2/manage)
+* [Page](https://demo.carbonfreed.app/workflow-designer-v2)
+* [Editor](https://demo.carbonfreed.app/workflow-designer-v2/manage)
 
 ### Extend
 
 Prototype using quell to load extension with new content type at runtime from external site.
 
-* [Page](https://demo.druidcloud.io/tractorbeam-test-v3)
-* [Editor](https://demo.druidcloud.io/tractorbeam-test-v3/manage)
+* [Page](https://demo.carbonfreed.app/tractorbeam-test-v3)
+* [Editor](https://demo.carbonfreed.app/tractorbeam-test-v3/manage)
 
 # Future
 
