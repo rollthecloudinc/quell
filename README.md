@@ -1,6 +1,6 @@
 # Summary
 
-Quell is a new kind of web editor that runs entirely on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via removing infrastructure like servers and databases from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Slayful](https://github.com/rollthecloudinc/druidcloud) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions.
+Quell is a new kind of web editor that runs entirely on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive rresources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Slayful](https://github.com/rollthecloudinc/druidcloud) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions.
 
 # Clean Tech
 
