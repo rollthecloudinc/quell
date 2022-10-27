@@ -1,3 +1,5 @@
+> Original named Druid renamed to Quell to better articulate dedication, puurpose of putting an end to web carbon emissions.
+
 # Summary
 
 Quell is a carbon free web editor that runs effiencently on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive rresources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Slayful](https://github.com/rollthecloudinc/druidcloud) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions.
