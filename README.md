@@ -1,4 +1,4 @@
-> Original named Druid renamed to Quell to better articulate dedication, puurpose of putting an end to web carbon emissions.
+> Originally named Druid renamed to Quell to better articulate dedication, puurpose of putting an end to web carbon emissions.
 
 # Summary
 
