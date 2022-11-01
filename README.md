@@ -1,4 +1,4 @@
-<img width="459" alt="quell_logo" src="https://user-images.githubusercontent.com/73197190/199178658-9571fb32-c60f-4a74-94d1-1158922cf8da.png">
+<img width="356" alt="quell_logo2" src="https://user-images.githubusercontent.com/73197190/199178885-0bc99ce0-b97a-402b-b156-f79ffad8aa38.png">
 
 
 # Summary
