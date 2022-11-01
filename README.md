@@ -1,4 +1,5 @@
-> Originally named Druid renamed to Quell to better articulate dedication, purpose of putting an end to web carbon emissions.
+<img width="459" alt="quell_logo" src="https://user-images.githubusercontent.com/73197190/199178658-9571fb32-c60f-4a74-94d1-1158922cf8da.png">
+
 
 # Summary
 
