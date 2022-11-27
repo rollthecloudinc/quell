@@ -54,11 +54,17 @@ jobs:
         with:
           node-version: '16.13.2'
           registry-url: "https://npm.pkg.github.com"
+      - run: npm i gzipper -g
+        name: Install gzipper
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm install
         name: Install packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
+      - run: gzipper compress ./dist/spear -i js,css,html
+        name: Compress
       - run: echo "::set-output name=stamp::$(date +'%Y%m%d%H%M%S')"
         name: Generate Release Stamp
         id: release
