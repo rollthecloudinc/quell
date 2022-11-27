@@ -273,6 +273,14 @@
         "dist/detour/detour",
         "dist/detour"
       ],
+      "@rollthecloudinc/moduleloader": [
+        "dist/moduleloader/moduleloader",
+        "dist/moduleloader"
+      ],
+      "moduleloader": [
+        "dist/moduleloader/moduleloader",
+        "dist/moduleloader"
+      ],
       "@rollthecloudinc/sheath": [
         "dist/sheath/sheath",
         "dist/sheath"

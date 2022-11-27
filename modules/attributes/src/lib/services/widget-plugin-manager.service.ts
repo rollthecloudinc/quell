@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
-import { ModuleLoaderService } from '@rollthecloudinc/utils';
+import { ModuleLoaderService } from '@rollthecloudinc/moduleloader';
 import { BasePluginManager, PluginManager, PluginDef, PluginConfigurationManager } from '@rollthecloudinc/plugin';
 import { AttributeWidget } from '../models/attributes.models';
 

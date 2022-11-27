@@ -1,4 +1,5 @@
 npm run build utils
+npm run build moduleloader
 npm run build sheath
 npm run build auth
 npm run build oidc

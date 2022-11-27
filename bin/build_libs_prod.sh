@@ -1,4 +1,5 @@
 npm run build utils -- --configuration production
+npm run build moduleloader -- --configuration production
 npm run build sheath -- --configuration production
 npm run build auth -- --configuration production
 npm run build oidc -- --configuration production
