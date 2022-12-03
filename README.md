@@ -14,7 +14,7 @@ Quell is architected from the ground-up to be climate friendly, carbon free.
 
 ## Dev Inspector Styling
 
-https://www.youtube.com/watch?v=0dP7lS8eUEE
+[Dem Video](https://www.youtube.com/watch?v=0dP7lS8eUEE)
 
 # Rapid Dev
 
