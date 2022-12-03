@@ -10,6 +10,12 @@ Quell is architected from the ground-up to be climate friendly, carbon free.
 * Quell is built on [sustainability pillar](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html) of the Amazon Web Services (AWS) [Well-Architected Framework](https://aws.amazon.com/architecture/well-architected).
 * Quell is [serverless](https://github.com/rollthecloudinc/verti-go) favoring [zero trust](https://aws.amazon.com/security/zero-trust/) [signed requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) directly in the browser.
 
+# Features
+
+## Dev Inspector Styling
+
+https://www.youtube.com/watch?v=0dP7lS8eUEE
+
 # Rapid Dev
 
 Quickly realize simple and complex carbon free web experiences using the quell editor.
