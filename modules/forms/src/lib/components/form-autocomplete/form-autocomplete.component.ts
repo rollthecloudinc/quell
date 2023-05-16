@@ -7,7 +7,7 @@ import { FormElementBase } from "../../directives/form-element-base.directive";
 import { debounceTime, distinctUntilChanged, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { combineLatest, Subject } from "rxjs";
 import { Mapping, Param } from '@rollthecloudinc/dparam';
-import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from "@angular/material/legacy-autocomplete";
 import { SelectOption } from '@rollthecloudinc/datasource';
 import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";

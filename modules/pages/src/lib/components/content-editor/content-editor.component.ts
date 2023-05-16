@@ -11,7 +11,7 @@ import { SITE_NAME } from '@rollthecloudinc/utils';
 // import { STYLE_PLUGIN } from '@rollthecloudinc/style';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from '@rollthecloudinc/context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { PersistenceDialogComponent, PersistenceFormPayload } from '@rollthecloudinc/refinery';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';

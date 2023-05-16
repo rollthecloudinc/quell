@@ -4,7 +4,7 @@ import { StylePlugin, StylePluginManager } from '@rollthecloudinc/panels';
 import { Observable, Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
