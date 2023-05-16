@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { Param, ParamPluginManager, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { Observable, of, forkJoin } from 'rxjs';

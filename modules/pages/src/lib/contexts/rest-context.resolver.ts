@@ -9,7 +9,7 @@ import { Rest } from '@rollthecloudinc/datasource';
 import { Param } from '@rollthecloudinc/dparam'
 import { PageBuilderFacade, selectDataset, selectPageInfo, PageBuilderPartialState } from '@rollthecloudinc/panels';
 import * as uuid from 'uuid';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 
 @Injectable()
 export class RestContextResolver implements ContextResolver {

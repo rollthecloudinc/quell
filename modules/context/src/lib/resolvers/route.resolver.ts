@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ContextResolver } from '../models/context.models';
 import { Observable, of } from 'rxjs';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { map, take } from 'rxjs/operators';
 import { ContextPlugin } from '../models/context.models';

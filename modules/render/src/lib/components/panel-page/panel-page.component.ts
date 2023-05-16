@@ -12,7 +12,7 @@ import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService,
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError, startWith, first } from 'rxjs/operators';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';

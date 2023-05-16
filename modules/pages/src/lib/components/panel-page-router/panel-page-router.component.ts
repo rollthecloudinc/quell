@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService, EntityDefinitionService } from '@ngrx/data';
 import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
