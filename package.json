@@ -20,7 +20,7 @@
   "dependencies": {
     "@angular-architects/module-federation": "^14.0.1",
     "@angular/animations": "^16.0.1",
-    "@angular/cdk": "^15.2.9",
+    "@angular/cdk": "^16.0.1",
     "@angular/cdk-experimental": "^13.1.2",
     "@angular/cli": "^15.2.8",
     "@angular/common": "^16.0.1",
@@ -28,7 +28,7 @@
     "@angular/core": "^16.0.1",
     "@angular/flex-layout": "^13.0.0-beta.36",
     "@angular/forms": "^16.0.1",
-    "@angular/material": "^15.2.9",
+    "@angular/material": "^16.0.1",
     "@angular/platform-browser": "^16.0.1",
     "@angular/platform-browser-dynamic": "^16.0.1",
     "@angular/platform-server": "^16.0.1",
