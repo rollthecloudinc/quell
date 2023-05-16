@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { ControlContainer, FormControl } from "@angular/forms";
+import { ControlContainer, UntypedFormControl } from "@angular/forms";
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ValidationPluginManager } from '@rollthecloudinc/ordain';
 import { OptionsResolverService } from "../../services/options-resolver.services";
@@ -20,7 +20,7 @@ export class FormAutocompleteComponent extends FormElementBase {
 
   displayAuto: (opt: SelectOption) => string;
 
-  readonly proxyControl = new FormControl('');
+  readonly proxyControl = new UntypedFormControl('');
   readonly optionSelected$ = new Subject<MatAutocompleteSelectedEvent>();
 
   readonly proxyControlValueChangesSub = this.proxyControl.valueChanges.pipe(

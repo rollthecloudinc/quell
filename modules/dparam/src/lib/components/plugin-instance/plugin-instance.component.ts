@@ -1,5 +1,5 @@
 import { Component, ComponentRef, forwardRef, Input } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { BehaviorSubject, filter, tap } from 'rxjs';
 import { Plugin } from '@rollthecloudinc/plugin';
 import { ParamPluginInstance } from '../../models/param.models';
@@ -54,7 +54,7 @@ export class PluginInstanceComponent implements ControlValueAccessor, Validator 
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
 

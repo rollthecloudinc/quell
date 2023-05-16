@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { StylePlugin, StylePluginManager } from '@rollthecloudinc/panels';
 import { Observable, Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
@@ -23,12 +23,12 @@ export class StyleSelectorComponent implements OnInit {
 
   constructor(
     // @Inject(STYLE_PLUGIN) stylePlugins: Array<StylePlugin>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: { panelForm:FormGroup, panelIndex: number, contexts: Array<InlineContext>, contentAdded: Subject<[number, number]> },
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: { panelForm:UntypedFormGroup, panelIndex: number, contexts: Array<InlineContext>, contentAdded: Subject<[number, number]> },
     private spm: StylePluginManager,
     private bottomSheetRef: MatBottomSheetRef<StyleSelectorComponent>,
     private dialog: MatDialog,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
     // this.stylePlugins = stylePlugins;
   }
@@ -43,12 +43,12 @@ export class StyleSelectorComponent implements OnInit {
       this.bottomSheetRef.dismiss();
       this.data.panelForm.get('stylePlugin').setValue(this.plugin.name);
       this.data.panelForm.get('styleTitle').setValue(this.plugin.title);
-      (this.data.panelForm.get('settings') as FormArray).clear();
+      (this.data.panelForm.get('settings') as UntypedFormArray).clear();
       const dialogRef = this.dialog.open(this.plugin.editorComponent, { data: { panelFormGroup: this.data.panelForm, panelIndex: this.data.panelIndex, contexts: this.data.contexts } });
     } else {
       this.data.panelForm.get('stylePlugin').setValue(this.plugin.name);
       this.data.panelForm.get('styleTitle').setValue(this.plugin.title);
-      (this.data.panelForm.get('settings') as FormArray).clear();
+      (this.data.panelForm.get('settings') as UntypedFormArray).clear();
       this.bottomSheetRef.dismiss();
     }
     /*if(this.plugin.selectionComponent !== undefined) {

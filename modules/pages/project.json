@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "pages",
+  "projectType": "library",
+  "sourceRoot": "modules/pages/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/pages/tsconfig.lib.json",
+        "project": "modules/pages/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/pages/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/pages"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/pages/src/test.ts",
+        "tsConfig": "modules/pages/tsconfig.spec.json",
+        "karmaConfig": "modules/pages/karma.conf.js"
+      }
+    }
+  }
+}

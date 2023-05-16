@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators } from '@angular/forms';
 import { DataSlice } from '../../models/plugin.models';
 import { InlineContext } from '@rollthecloudinc/context';
 
@@ -22,7 +22,7 @@ export class SliceFormComponent implements OnInit {
     plugin: this.fb.control('', Validators.required)
   });
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
   }

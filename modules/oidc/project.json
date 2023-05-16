@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "oidc",
+  "projectType": "library",
+  "sourceRoot": "modules/oidc/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/oidc/tsconfig.lib.json",
+        "project": "modules/oidc/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/oidc/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/oidc"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/oidc/src/test.ts",
+        "tsConfig": "modules/oidc/tsconfig.spec.json",
+        "karmaConfig": "modules/oidc/karma.conf.js"
+      }
+    }
+  }
+}

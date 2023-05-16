@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit, AfterViewInit } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormControl, FormGroup } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors, UntypedFormArray, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
@@ -413,7 +413,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   });
 
   get panels() {
-    return (this.contentForm.get('panels') as FormArray);
+    return (this.contentForm.get('panels') as UntypedFormArray);
   }
 
   get layoutType() {
@@ -441,7 +441,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     private spm: StylePluginManager,
     private lpm: LayoutPluginManager,
     private cxtm: ContextPluginManager,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private bs: MatBottomSheet,
     private dialog: MatDialog,
     private panelHandler: PanelContentHandler,
@@ -470,11 +470,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     ).subscribe(v => {
       if(this.panels.length === 0) {
         this.panels.push(this.fb.group({
-          name: new FormControl(''),
-          label: new FormControl(''),
-          stylePlugin: new FormControl(''),
-          styleTitle: new FormControl(''),
-          settings: new FormArray([]),
+          name: new UntypedFormControl(''),
+          label: new UntypedFormControl(''),
+          stylePlugin: new UntypedFormControl(''),
+          styleTitle: new UntypedFormControl(''),
+          settings: new UntypedFormArray([]),
           panes: this.fb.array([]),
           columnSetting: this.fb.group({
             settings: this.fb.array([])
@@ -530,10 +530,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       }
       changes.panelPage.currentValue.panels.forEach((p, i) => {
         this.panels.push(this.fb.group({
-          name: new FormControl(p.name),
-          label: new FormControl(p.label),
-          stylePlugin: new FormControl(p.stylePlugin),
-          styleTitle: new FormControl(''),
+          name: new UntypedFormControl(p.name),
+          label: new UntypedFormControl(p.label),
+          stylePlugin: new UntypedFormControl(p.stylePlugin),
+          styleTitle: new UntypedFormControl(''),
           settings: this.fb.array(p.settings !== undefined ? p.settings.map(s => this.convertToGroup(s)): []),
           panes: this.fb.array([]),
           columnSetting: this.fb.group({
@@ -559,15 +559,15 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
           })(this.panels.length - 1));
         }
         p.panes.forEach((pp, i2) => {
-          (this.panels.at(i).get('panes') as FormArray).push(this.fb.group({
+          (this.panels.at(i).get('panes') as UntypedFormArray).push(this.fb.group({
             contentPlugin: pp.contentPlugin,
-            name: new FormControl(pp.name),
-            label: new FormControl(pp.label),
-            locked: new FormControl(pp.locked),
-            linkedPageId: new FormControl(pp.linkedPageId),
-            rule: new FormControl(pp.rule && pp.rule !== null  ? { ...pp.rule, rules: pp.rule.rules && Array.isArray(pp.rule.rules) ? pp.rule.rules : [] } : { condition: '', rules: [] }),// new FormControl(pp.rule && pp.rule !== null ? { ...pp.rule, rules: [ ...( pp.rules && pp.rules !== null ? pp.rules : [] ) ] } : ''),
+            name: new UntypedFormControl(pp.name),
+            label: new UntypedFormControl(pp.label),
+            locked: new UntypedFormControl(pp.locked),
+            linkedPageId: new UntypedFormControl(pp.linkedPageId),
+            rule: new UntypedFormControl(pp.rule && pp.rule !== null  ? { ...pp.rule, rules: pp.rule.rules && Array.isArray(pp.rule.rules) ? pp.rule.rules : [] } : { condition: '', rules: [] }),// new FormControl(pp.rule && pp.rule !== null ? { ...pp.rule, rules: [ ...( pp.rules && pp.rules !== null ? pp.rules : [] ) ] } : ''),
             // rule: new FormControl({ condition: '', rules: [] }),
-            settings: new FormArray(pp.settings.map(s => this.convertToGroup(s)))
+            settings: new UntypedFormArray(pp.settings.map(s => this.convertToGroup(s)))
           }));
           setTimeout(() => this.resolvePaneContexts(i, i2));
         });
@@ -632,11 +632,11 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     console.log('item added');
 
     this.panels.push(this.fb.group({
-      name: new FormControl(''),
-      label: new FormControl(''),
-      stylePlugin: new FormControl(''),
-      styleTitle: new FormControl(''),
-      settings: new FormArray([]),
+      name: new UntypedFormControl(''),
+      label: new UntypedFormControl(''),
+      stylePlugin: new UntypedFormControl(''),
+      styleTitle: new UntypedFormControl(''),
+      settings: new UntypedFormArray([]),
       panes: this.fb.array([]),
       columnSetting: this.fb.group({
         settings: this.fb.array([])
@@ -716,7 +716,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   }
 
   onRemoveOverrideRenderer(index: number, index2: number) {
-    const formArray = this.panelPane(index, index2).get('settings') as FormArray;
+    const formArray = this.panelPane(index, index2).get('settings') as UntypedFormArray;
     let rendererIndex;
     formArray.controls.forEach((c, i) => {
       if(c.get('name').value === '_renderer') {
@@ -730,7 +730,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   onNestedUpdate(panelPage: PanelPage, index: number, index2: number) {
     const settings = this.panelHandler.buildSettings(panelPage);
-    const formArray = (this.panelPane(index, index2).get('settings') as FormArray);
+    const formArray = (this.panelPane(index, index2).get('settings') as UntypedFormArray);
     formArray.clear();
     settings.forEach(s => formArray.push(this.convertToGroup(s)))
   }
@@ -889,9 +889,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   onColumnSettingsChange(evt: Array<LayoutSetting>) {
     const len = this.panels.length;
     for(let i = 0; i < len; i++) {
-      (this.panels.at(i).get('columnSetting').get('settings') as FormArray).clear();
+      (this.panels.at(i).get('columnSetting').get('settings') as UntypedFormArray).clear();
       for (let j = 0; j < evt[i].settings.length; j++) {
-        (this.panels.at(i).get('columnSetting').get('settings') as FormArray).push(this.convertToGroup(evt[i].settings[j]));
+        (this.panels.at(i).get('columnSetting').get('settings') as UntypedFormArray).push(this.convertToGroup(evt[i].settings[j]));
       }
     }
     if (this.nested) {
@@ -950,7 +950,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     this.editablePanes.forEach(p => {
       if(p.contentEditor !== undefined) {
         const settings = this.panelHandler.buildSettings((p.contentEditor as ContentEditorComponent).packageFormData());
-        const formArray = (this.panelPane(p.panelIndex, p.paneIndex).get('settings') as FormArray);
+        const formArray = (this.panelPane(p.panelIndex, p.paneIndex).get('settings') as UntypedFormArray);
         formArray.clear();
         settings.forEach(s => formArray.push(this.convertToGroup(s)))
       }
@@ -1017,12 +1017,12 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       });
   }
 
-  panelPanes(index: number): FormArray {
-    return this.panels.at(index).get('panes') as FormArray;
+  panelPanes(index: number): UntypedFormArray {
+    return this.panels.at(index).get('panes') as UntypedFormArray;
   }
 
-  panelPane(index: number, index2: number): FormGroup {
-    return this.panelPanes(index).at(index2) as FormGroup;
+  panelPane(index: number, index2: number): UntypedFormGroup {
+    return this.panelPanes(index).at(index2) as UntypedFormGroup;
   }
 
   panelPanePlugin(index: number, index2: number): string {
@@ -1137,14 +1137,14 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       p.handler.handleFile(file).subscribe(settings => {
         this.panelPanes(index).push(this.fb.group({
           contentPlugin: p.id,
-          name: new FormControl(''),
-          label: new FormControl(''),
+          name: new UntypedFormControl(''),
+          label: new UntypedFormControl(''),
           settings: this.fb.array(settings.map(s => this.fb.group({
-            name: new FormControl(s.name, Validators.required),
-            type: new FormControl(s.type, Validators.required),
-            displayName: new FormControl(s.displayName, Validators.required),
-            value: new FormControl(s.value, Validators.required),
-            computedValue: new FormControl(s.value, Validators.required),
+            name: new UntypedFormControl(s.name, Validators.required),
+            type: new UntypedFormControl(s.type, Validators.required),
+            displayName: new UntypedFormControl(s.displayName, Validators.required),
+            value: new UntypedFormControl(s.value, Validators.required),
+            computedValue: new UntypedFormControl(s.value, Validators.required),
           })))
         }));
       });
@@ -1193,20 +1193,20 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     return this.contentForm.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
   }
 
-  convertToGroup(setting: AttributeValue): FormGroup {
+  convertToGroup(setting: AttributeValue): UntypedFormGroup {
 
     const fg = this.fb.group({
-      name: new FormControl(setting.name, Validators.required),
-      type: new FormControl(setting.type, Validators.required),
-      displayName: new FormControl(setting.displayName, Validators.required),
-      value: new FormControl(setting.value, Validators.required),
-      computedValue: new FormControl(setting.value, Validators.required),
-      attributes: new FormArray([])
+      name: new UntypedFormControl(setting.name, Validators.required),
+      type: new UntypedFormControl(setting.type, Validators.required),
+      displayName: new UntypedFormControl(setting.displayName, Validators.required),
+      value: new UntypedFormControl(setting.value, Validators.required),
+      computedValue: new UntypedFormControl(setting.value, Validators.required),
+      attributes: new UntypedFormArray([])
     });
 
     if(setting.attributes && setting.attributes.length > 0) {
       setting.attributes.forEach(s => {
-        (fg.get('attributes') as FormArray).push(this.convertToGroup(s));
+        (fg.get('attributes') as UntypedFormArray).push(this.convertToGroup(s));
       })
     }
 

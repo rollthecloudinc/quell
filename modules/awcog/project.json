@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "awcog",
+  "projectType": "library",
+  "sourceRoot": "modules/awcog/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/awcog/tsconfig.lib.json",
+        "project": "modules/awcog/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/awcog/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/awcog"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/awcog/src/test.ts",
+        "tsConfig": "modules/awcog/tsconfig.spec.json",
+        "karmaConfig": "modules/awcog/karma.conf.js"
+      }
+    }
+  }
+}

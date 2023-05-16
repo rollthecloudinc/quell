@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "here",
+  "projectType": "library",
+  "sourceRoot": "modules/here/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/here/tsconfig.lib.json",
+        "project": "modules/here/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/here/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/here"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/here/src/test.ts",
+        "tsConfig": "modules/here/tsconfig.spec.json",
+        "karmaConfig": "modules/here/karma.conf.js"
+      }
+    }
+  }
+}

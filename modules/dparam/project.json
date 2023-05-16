@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "dparam",
+  "projectType": "library",
+  "sourceRoot": "modules/dparam/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/dparam/tsconfig.lib.json",
+        "project": "modules/dparam/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/dparam/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/dparam"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/dparam/src/test.ts",
+        "tsConfig": "modules/dparam/tsconfig.spec.json",
+        "karmaConfig": "modules/dparam/karma.conf.js"
+      }
+    }
+  }
+}

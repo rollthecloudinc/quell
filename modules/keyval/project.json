@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "keyval",
+  "projectType": "library",
+  "sourceRoot": "modules/keyval/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/keyval/tsconfig.lib.json",
+        "project": "modules/keyval/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/keyval/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/keyval"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/keyval/src/test.ts",
+        "tsConfig": "modules/keyval/tsconfig.spec.json",
+        "karmaConfig": "modules/keyval/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "state",
+  "projectType": "library",
+  "sourceRoot": "modules/state/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/state/tsconfig.lib.json",
+        "project": "modules/state/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/state/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/state"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/state/src/test.ts",
+        "tsConfig": "modules/state/tsconfig.spec.json",
+        "karmaConfig": "modules/state/karma.conf.js"
+      }
+    }
+  }
+}

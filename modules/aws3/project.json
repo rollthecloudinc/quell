@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "aws3",
+  "projectType": "library",
+  "sourceRoot": "modules/aws3/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/aws3/tsconfig.lib.json",
+        "project": "modules/aws3/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/aws3/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/aws3"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/aws3/src/test.ts",
+        "tsConfig": "modules/aws3/tsconfig.spec.json",
+        "karmaConfig": "modules/aws3/karma.conf.js"
+      }
+    }
+  }
+}

@@ -110,7 +110,7 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
   });
 };
 
-export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data: any }) => IDBValidKey }) => (platformId: Object): () => Observable<any> => {
+export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data }: { data: any }) => IDBValidKey }) => (platformId: Object): () => Observable<any> => {
   return () => new Observable(obs => {
     if (isPlatformBrowser(platformId)) {
       const items: Array<[IDBValidKey, any]> = data.map(d => [key({ data: d }), d]);

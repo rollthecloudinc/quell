@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { InlineContext } from '@rollthecloudinc/context';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
@@ -18,13 +18,13 @@ export class TabsPanelEditorComponent implements OnInit {
       this.buildLabelGroup()
     ])
   });
-  get labels(): FormArray {
-    return this.formGroup.get('labels') as FormArray;
+  get labels(): UntypedFormArray {
+    return this.formGroup.get('labels') as UntypedFormArray;
   }
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; panelIndex: number; contexts: Array<InlineContext>; },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; panelIndex: number; contexts: Array<InlineContext>; },
     private dialogRef: MatDialogRef<TabsPanelEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService
   ) {
     this.contexts = this.data.contexts;
@@ -34,11 +34,11 @@ export class TabsPanelEditorComponent implements OnInit {
   }
 
   submit() {
-    (this.data.panelFormGroup.get('settings') as FormArray).clear();
+    (this.data.panelFormGroup.get('settings') as UntypedFormArray).clear();
     this.attributeSerializer.serialize(this.formGroup.value, 'root').attributes.forEach(a => {
       console.log('label mappings');
       console.log(this.attributeSerializer.convertToGroup(a));
-      (this.data.panelFormGroup.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a));
+      (this.data.panelFormGroup.get('settings') as UntypedFormArray).push(this.attributeSerializer.convertToGroup(a));
     });
   }
 
@@ -50,7 +50,7 @@ export class TabsPanelEditorComponent implements OnInit {
     this.labels.push(this.buildLabelGroup());
   }
 
-  buildLabelGroup(): FormGroup {
+  buildLabelGroup(): UntypedFormGroup {
     return this.fb.group({
       mapping: this.fb.control('')
     });

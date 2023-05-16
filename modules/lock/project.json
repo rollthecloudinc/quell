@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "lock",
+  "projectType": "library",
+  "sourceRoot": "modules/lock/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/lock/tsconfig.lib.json",
+        "project": "modules/lock/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/lock/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/lock"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/lock/src/test.ts",
+        "tsConfig": "modules/lock/tsconfig.spec.json",
+        "karmaConfig": "modules/lock/karma.conf.js"
+      }
+    }
+  }
+}

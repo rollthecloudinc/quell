@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "material",
+  "projectType": "library",
+  "sourceRoot": "modules/material/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/material/tsconfig.lib.json",
+        "project": "modules/material/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/material/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/material"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/material/src/test.ts",
+        "tsConfig": "modules/material/tsconfig.spec.json",
+        "karmaConfig": "modules/material/karma.conf.js"
+      }
+    }
+  }
+}

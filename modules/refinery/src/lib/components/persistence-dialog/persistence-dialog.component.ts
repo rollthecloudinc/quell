@@ -1,5 +1,5 @@
 import { Component, Inject } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
+import { UntypedFormBuilder } from "@angular/forms";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AttributeSerializerService } from "@rollthecloudinc/attributes";
 import { InlineContext } from '@rollthecloudinc/context';
@@ -22,7 +22,7 @@ export class PersistenceDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { persistence: PersistenceFormPayload, contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<PersistenceDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService
   ) { 
     this.contexts = data.contexts;

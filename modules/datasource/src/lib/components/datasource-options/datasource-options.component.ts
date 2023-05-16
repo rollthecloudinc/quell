@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { FormBuilder, ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { UntypedFormBuilder, ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { DatasourceOptions } from '../../models/datasource.models';
 import { mockDatasourceOptions } from '../../mocks/datasource.mocks';
@@ -48,7 +48,7 @@ export class DatasourceOptionsComponent implements ControlValueAccessor, Validat
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
 

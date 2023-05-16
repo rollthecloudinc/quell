@@ -1,5 +1,5 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop"
-import { FormArray } from "@angular/forms"
+import { UntypedFormArray } from "@angular/forms"
 import { AttributeValue } from '@rollthecloudinc/attributes'
 import { RuleSet } from 'angular2-query-builder';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -22,7 +22,7 @@ export interface PanelsEditor {
   panelStyleTitle(index): void;
   onFileChange(event: any, index: number): void;
   onDrop(evt: CdkDragDrop<string[]>): void;
-  panelPanes(index: number): FormArray;
+  panelPanes(index: number): UntypedFormArray;
   onDeletePane(index: number, index2: number): void;
   onRulesPane(index: number, index2: number): void;
   onNestedUpdate(panelPage: PanelPage, index: number, index2: number): void;

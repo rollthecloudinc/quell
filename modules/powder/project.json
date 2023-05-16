@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "powder",
+  "projectType": "library",
+  "sourceRoot": "modules/powder/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/powder/tsconfig.lib.json",
+        "project": "modules/powder/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/powder/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/powder"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/powder/src/test.ts",
+        "tsConfig": "modules/powder/tsconfig.spec.json",
+        "karmaConfig": "modules/powder/karma.conf.js"
+      }
+    }
+  }
+}

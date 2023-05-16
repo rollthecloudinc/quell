@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, FormArray, UntypedFormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from "@angular/forms";
 import { AttributeValue } from "@rollthecloudinc/attributes";
 import { BehaviorSubject, combineLatest, of, Subject } from "rxjs";
 import { tap, switchMap, filter, map } from 'rxjs/operators';
@@ -107,7 +107,7 @@ export class ValidationValidatorComponent implements ControlValueAccessor, Valid
   public onTouched: () => void = () => {};
   
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private vpm: ValidationPluginManager,
     private componentFactoryResolver: ComponentFactoryResolver
   ) {}

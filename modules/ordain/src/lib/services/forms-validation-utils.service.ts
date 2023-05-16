@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { AbstractControl, FormControl } from "@angular/forms";
+import { AbstractControl, UntypedFormControl } from "@angular/forms";
 import { Param, ParamEvaluatorService } from "@rollthecloudinc/dparam";
 import { AttributeSerializerService } from "@rollthecloudinc/attributes";
 import { map, of, switchMap } from "rxjs";
@@ -26,7 +26,7 @@ export class FormsValidationUtils {
   }
 
   rebuildControl({ c, serialized }: { c: AbstractControl, serialized: boolean }) {
-    return serialized ? new FormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c;
+    return serialized ? new UntypedFormControl(this.attributesSerializerService.deserializeAsObject(c.value).value) : c;
   }
 
 }

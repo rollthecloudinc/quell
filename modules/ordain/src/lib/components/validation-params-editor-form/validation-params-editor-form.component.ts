@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
-import { AbstractControl, ControlContainer, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, ControlContainer, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { AttributeValue } from "@rollthecloudinc/attributes";
 import { Param } from '@rollthecloudinc/dparam';
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
@@ -70,7 +70,7 @@ export class ValidationParamsEditorFormComponent implements ControlValueAccessor
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
 
   }

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "formly",
+  "projectType": "library",
+  "sourceRoot": "modules/formly/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/formly/tsconfig.lib.json",
+        "project": "modules/formly/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/formly/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/formly"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/formly/src/test.ts",
+        "tsConfig": "modules/formly/tsconfig.spec.json",
+        "karmaConfig": "modules/formly/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "sheath",
+  "projectType": "library",
+  "sourceRoot": "modules/sheath/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/sheath/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/sheath/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/sheath/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/sheath"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/sheath/src/test.ts",
+        "tsConfig": "modules/sheath/tsconfig.spec.json",
+        "karmaConfig": "modules/sheath/karma.conf.js"
+      }
+    }
+  }
+}

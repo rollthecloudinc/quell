@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "outsider",
+  "projectType": "library",
+  "sourceRoot": "modules/outsider/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/outsider/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/outsider/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/outsider/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/outsider"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/outsider/src/test.ts",
+        "tsConfig": "modules/outsider/tsconfig.spec.json",
+        "karmaConfig": "modules/outsider/karma.conf.js"
+      }
+    }
+  }
+}

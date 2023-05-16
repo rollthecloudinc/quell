@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
-import { Validators, FormGroup, FormControl, FormArray, FormBuilder, AbstractControl } from '@angular/forms';
+import { Validators, UntypedFormGroup, FormControl, UntypedFormArray, UntypedFormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -37,13 +37,13 @@ export class FormlyFieldEditorComponent implements OnInit {
   });
 
   get paneGroup(): AbstractControl {
-    return (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex);
+    return (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex);
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<FormlyFieldEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private handler: FormlyFieldContentHandler,
     private attributeSerializer: AttributeSerializerService
   ) {
@@ -62,7 +62,7 @@ export class FormlyFieldEditorComponent implements OnInit {
       this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
       setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
     });
-    this.bindableOptions = (this.data.panelFormGroup.get('panes') as FormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
+    this.bindableOptions = (this.data.panelFormGroup.get('panes') as UntypedFormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
     // this.contexts = this.data.contexts.map(c => c.name);
     /*if (this.data.panelIndex !== undefined) {
       const settings = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
@@ -78,9 +78,9 @@ export class FormlyFieldEditorComponent implements OnInit {
     console.log(instance);
     this.paneGroup.get('name').setValue(instance.key);
     this.paneGroup.get('label').setValue(instance.key);
-    (this.paneGroup.get('settings') as FormArray).clear();
+    (this.paneGroup.get('settings') as UntypedFormArray).clear();
     const controls = this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s));
-    controls.forEach(c => (this.paneGroup.get('settings') as FormArray).push(c));
+    controls.forEach(c => (this.paneGroup.get('settings') as UntypedFormArray).push(c));
     this.dialogRef.close();
   }
 

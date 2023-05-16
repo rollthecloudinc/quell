@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -17,9 +17,9 @@ export class FormSectionEditorComponent implements OnInit {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; panelIndex: number; contexts: Array<InlineContext>; },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; panelIndex: number; contexts: Array<InlineContext>; },
     private dialogRef: MatDialogRef<FormSectionEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService
   ) {
   }
@@ -28,11 +28,11 @@ export class FormSectionEditorComponent implements OnInit {
   }
 
   submit() {
-    (this.data.panelFormGroup.get('settings') as FormArray).clear();
+    (this.data.panelFormGroup.get('settings') as UntypedFormArray).clear();
     this.attributeSerializer.serialize(this.formGroup.value, 'root').attributes.forEach(a => {
       console.log('formly repeating editor form');
       console.log(this.attributeSerializer.convertToGroup(a));
-      (this.data.panelFormGroup.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a));
+      (this.data.panelFormGroup.get('settings') as UntypedFormArray).push(this.attributeSerializer.convertToGroup(a));
     });
   }
 

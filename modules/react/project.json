@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "react",
+  "projectType": "library",
+  "sourceRoot": "modules/react/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/react/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/react/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/react/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/react"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/react/src/test.ts",
+        "tsConfig": "modules/react/tsconfig.spec.json",
+        "karmaConfig": "modules/react/karma.conf.js"
+      }
+    }
+  }
+}
