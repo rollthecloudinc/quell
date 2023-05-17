@@ -46,7 +46,7 @@
     "@ngrx/router-store": "^16.0.0",
     "@ngrx/store": "^16.0.0",
     "@ngrx/store-devtools": "^16.0.0",
-    "@nguniversal/express-engine": "^13.0.1",
+    "@nguniversal/express-engine": "^14.2.3",
     "@ngx-formly/core": "^5.10.29",
     "@ngx-formly/material": "^5.10.29",
     "@opentelemetry/api": "^1.0.4",
