@@ -13,7 +13,7 @@ export interface StyleHandler {
 }
 export class StylePlugin<T = string> extends Plugin<T> {
   name: T;
-  title: string;
+  // title: string;
   editorComponent: Type<any>;
   renderComponent: Type<any>;
   handler?: StyleHandler;

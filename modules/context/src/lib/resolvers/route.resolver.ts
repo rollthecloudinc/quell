@@ -12,7 +12,7 @@ export class RouteResolver implements ContextResolver {
   constructor(private routerStore: Store<RouterReducerState>) { }
 
   resolve(ctx: ContextPlugin, data?: any): Observable<any> {
-    const { selectCurrentRoute } = getSelectors((state: any) => state.router);
+    const { selectCurrentRoute } = getRouterSelectors()
     return this.routerStore.pipe(
       select(selectCurrentRoute),
       map(route => {

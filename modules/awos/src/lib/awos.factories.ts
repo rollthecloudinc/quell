@@ -26,17 +26,17 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
         map(options => ({ options }))
       ): of({ options: {} })),
-      map(({ options }) => ({ options, body: JSON.stringify({ id: options.id, params: rule ? (rule.conditions as AllConditions).all.reduce((p, c) => ({ ...p, ...(c as AnyConditions).any.reduce((p2, c2) => ({ ...p2, [(c2 as ConditionProperties).path.substr(2)]: [ ...( p2[(c2 as ConditionProperties).path.substr(2)] ? p2[(c2 as ConditionProperties).path.substr(2)] : [] ), JSON.parse(decodeURIComponent((c2 as ConditionProperties).value)) ] }), {}) }), {}) : {} }) })),
+      map(({ options }) => ({ options, body: JSON.stringify({ id: (options as any).id, params: rule ? (rule.conditions as AllConditions).all.reduce((p, c) => ({ ...p, ...(c as AnyConditions).any.reduce((p2, c2) => ({ ...p2, [(c2 as ConditionProperties).path.substr(2)]: [ ...( p2[(c2 as ConditionProperties).path.substr(2)] ? p2[(c2 as ConditionProperties).path.substr(2)] : [] ), JSON.parse(decodeURIComponent((c2 as ConditionProperties).value)) ] }), {}) }), {}) : {} }) })),
       tap(({ body }) => console.log('open search template query body', body)),
       switchMap(({ options, body }) => createSignedHttpRequest({
           method: "POST",
           body,
           headers: {
             "Content-Type": "application/json",
-            host: `${options.domain}.${options.region}.es.amazonaws.com`,
+            host: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
           },
-          hostname: `${options.domain}.${options.region}.es.amazonaws.com`,
-          path: `/${options.index}/_search/template`,
+          hostname: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
+          path: `/${(options as any).index}/_search/template`,
           protocol: 'https:',
           service: "es",
           cognitoSettings: cognitoSettings,
@@ -47,12 +47,12 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
       ),
       switchMap(( { signedHttpRequest, options }) => {
         delete signedHttpRequest.headers.host;
-        const url = `https://${options.domain}.${options.region}.es.amazonaws.com/${options.index}/_search/template`;
+        const url = `https://${(options as any).domain}.${(options as any).region}.es.amazonaws.com/${(options as any).index}/_search/template`;
         return http.post(url, signedHttpRequest.body, { headers: signedHttpRequest.headers, withCredentials: false }).pipe(
           map(res => ({ res, options }))
         );
       }),
-      map(({ res, options }) => ({ entities: options.hits && res && (res as any).hits && ((res as any).hits as any).hits ? ((res as any).hits as any).hits.map(h => options.source ? (h as any)._source : h) : [ res ], success: true })),
+      map(({ res, options }) => ({ entities: (options as any).hits && res && (res as any).hits && ((res as any).hits as any).hits ? ((res as any).hits as any).hits.map(h => (options as any).source ? (h as any)._source : h) : [ res ], success: true })),
     )
   });
 };

@@ -17,7 +17,7 @@ export class UrlGeneratorService {
   ) {}
 
   getUrl(url, params: Array<Param>, metadata: Map<string, any>): Observable<string> {
-    const { selectCurrentRoute } = getSelectors((state: any) => state.router);
+    const { selectCurrentRoute } = getRouterSelectors();
     return this.routerStore.pipe(
       select(selectCurrentRoute),
       map(route => [route, url, url ? url.indexOf('?') : -1]),

@@ -11,7 +11,7 @@ export interface ContextResolver {
 
 export class ContextPlugin<T = string> extends Plugin<T>  {
   name: T;
-  title: string;
+  //title: string;
   baseObject: any;
   resolver: ContextResolver;
   editorComponent?: Type<any>;
@@ -22,7 +22,7 @@ export class ContextPlugin<T = string> extends Plugin<T>  {
     super(data)
     if (data) {
       this.name = this.id;
-      this.title = data.title;
+      //this.title = data.title;
       this.baseObject = data.baseObject;
       this.resolver = data.resolver;
       this.global = data.global === undefined ? false: data.global;

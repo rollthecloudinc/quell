@@ -56,7 +56,7 @@ export class EditPanelPageComponent implements OnInit {
         : of(pp)
       ),
       switchMap(pp => this.routerStore.pipe(
-        select(getSelectors((state: any) => state.router).selectCurrentRoute),
+        select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
         map(route => [pp, route.params ]),
         take(1)
       )),
