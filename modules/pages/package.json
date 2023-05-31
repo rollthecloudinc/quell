@@ -9,7 +9,7 @@
     "angular-split": "^13.1.0",
     "ngx-dropzone": "^3.1.0",
     "ngx-json-viewer": "^3.0.2",
-    "angular2-query-builder": "^0.6.2",
+    "@rollthecloudinc/ngx-angular-query-builder": "^0.6.2",
     "@kolkov/ngx-gallery": "^2.0.0",
     "angular-gridster2": "^13.1.1",
     "@ngrx/data": "^13.0.2",

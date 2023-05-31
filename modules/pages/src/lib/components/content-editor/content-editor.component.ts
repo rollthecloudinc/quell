@@ -21,7 +21,7 @@ import { debounceTime, delay, filter, map, tap, switchMap, take } from 'rxjs/ope
 // import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
-import { Rule as NgRule } from 'angular2-query-builder';
+import { Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
