@@ -1,4 +1,4 @@
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, APP_INITIALIZER,  SecurityContext, NgZone, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
@@ -148,7 +148,7 @@ export function markedOptionsFactory(): MarkedOptions {
     CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    BrowserTransferStateModule ,
+    /*BrowserTransferStateModule ,*/
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -163,7 +163,7 @@ export function markedOptionsFactory(): MarkedOptions {
       },
     }),
     // NbA11yModule.forRoot(),
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking'}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production

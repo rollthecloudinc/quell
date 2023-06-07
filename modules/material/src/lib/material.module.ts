@@ -41,6 +41,7 @@ import {MatLegacyTabsModule as MatTabsModule} from '@angular/material/legacy-tab
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatLegacyTooltipModule as MatTooltipModule} from '@angular/material/legacy-tooltip';
 import {MatTreeModule} from '@angular/material/tree';
+// import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
 import { ResponsiveStepperComponent } from './components/responsive-stepper/responsive-stepper.component';
 import { ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 
@@ -90,6 +91,7 @@ import { ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-expe
     PortalModule,
     ScrollingModule,
     ExperimentalScrollingModule,
+    // MatFormFieldModule,
     ResponsiveStepperComponent
   ],
   declarations: [ResponsiveStepperComponent]
