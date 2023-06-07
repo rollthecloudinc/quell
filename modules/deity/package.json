@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/deity",
-  "version": "16.0.0-alpha.1",
+  "version": "16.0.0-alpha.2",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^16.0.1",
