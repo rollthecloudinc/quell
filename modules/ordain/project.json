@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "ordain",
+  "projectType": "library",
+  "sourceRoot": "modules/ordain/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/ordain/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/ordain/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/ordain/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/ordain"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/ordain/src/test.ts",
+        "tsConfig": "modules/ordain/tsconfig.spec.json",
+        "karmaConfig": "modules/ordain/karma.conf.js"
+      }
+    }
+  }
+}

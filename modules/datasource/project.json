@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "datasource",
+  "projectType": "library",
+  "sourceRoot": "modules/datasource/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/datasource/tsconfig.lib.json",
+        "project": "modules/datasource/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/datasource/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/datasource"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/datasource/src/test.ts",
+        "tsConfig": "modules/datasource/tsconfig.spec.json",
+        "karmaConfig": "modules/datasource/karma.conf.js"
+      }
+    }
+  }
+}

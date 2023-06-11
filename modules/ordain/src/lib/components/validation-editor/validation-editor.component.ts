@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, UntypedFormArray, UntypedFormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { FormValidation } from '../../models/validation.models';
 import { tap, delay, filter, map} from 'rxjs/operators';
@@ -63,14 +63,14 @@ export class ValidationEditorComponent implements ControlValueAccessor, Validato
     })
   ).subscribe();
 
-  get validators(): FormArray {
-    return this.formGroup.get('validators') as FormArray;
+  get validators(): UntypedFormArray {
+    return this.formGroup.get('validators') as UntypedFormArray;
   }
 
   public onTouched: () => void = () => {};
   
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngAfterViewInit(): void {

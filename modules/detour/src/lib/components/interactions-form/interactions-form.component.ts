@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, forwardRef, Input } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, UntypedFormArray, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { InlineContext } from "@rollthecloudinc/context";
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { filter, map, tap } from 'rxjs/operators';
@@ -70,12 +70,12 @@ export class InteractionsFormComponent implements ControlValueAccessor, Validato
 
   public onTouched: () => void = () => {};
 
-  get listeners(): FormArray {
-    return this.interactionsForm.get('listeners') as FormArray;
+  get listeners(): UntypedFormArray {
+    return this.interactionsForm.get('listeners') as UntypedFormArray;
   }
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
 

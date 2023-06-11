@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "rules",
+  "projectType": "library",
+  "sourceRoot": "modules/rules/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/rules/tsconfig.lib.json",
+        "project": "modules/rules/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/rules/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/rules"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/rules/src/test.ts",
+        "tsConfig": "modules/rules/tsconfig.spec.json",
+        "karmaConfig": "modules/rules/karma.conf.js"
+      }
+    }
+  }
+}

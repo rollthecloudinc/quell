@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder, FormArray, FormControl } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 
@@ -13,14 +13,14 @@ import { ContentSelectorComponent } from '../../../components/content-selector/c
 export class DatasourceSelectorComponent implements OnInit {
 
   @Input()
-  panelFormGroup: FormGroup;
+  panelFormGroup: UntypedFormGroup;
 
   // private contentPlugin: ContentPlugin;
 
   constructor(
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialog
   ) {
     // this.contentPlugin = contentPlugins.find(p => p.name === 'datasource');

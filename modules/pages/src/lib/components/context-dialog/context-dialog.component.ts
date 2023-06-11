@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, Inject, ViewChild } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UntypedFormBuilder } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ContextFormComponent, InlineContext } from '@rollthecloudinc/context';
 @Component({
   selector: 'classifieds-ui-context-dialog',
@@ -20,7 +20,7 @@ export class ContextDialogComponent implements OnInit, AfterViewInit  {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { context?: InlineContext },
     private dialogRef: MatDialogRef<ContextDialogComponent>,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { 
     this.context = data.context;
   }

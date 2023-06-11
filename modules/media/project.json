@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "media",
+  "projectType": "library",
+  "sourceRoot": "modules/media/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/media/tsconfig.lib.json",
+        "project": "modules/media/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/media/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/media"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/media/src/test.ts",
+        "tsConfig": "modules/media/tsconfig.spec.json",
+        "karmaConfig": "modules/media/karma.conf.js"
+      }
+    }
+  }
+}

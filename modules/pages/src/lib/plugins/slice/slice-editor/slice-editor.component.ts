@@ -1,9 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
-import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { SliceContentHandler } from '../../../handlers/slice-content.handler';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { Pane } from '@rollthecloudinc/panels';
 import { DataSlice } from '../../../models/plugin.models';
 
@@ -14,14 +14,14 @@ import { DataSlice } from '../../../models/plugin.models';
 })
 export class SliceEditorComponent implements OnInit {
 
-  panelFormGroup: FormGroup;
+  panelFormGroup: UntypedFormGroup;
 
   contexts: Array<InlineContext> = [];
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<SliceEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private handler: SliceContentHandler
   ) {
     this.contexts = this.data.contexts;
@@ -31,30 +31,30 @@ export class SliceEditorComponent implements OnInit {
   }
 
   submitted(dataSlice: DataSlice) {
-    (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+    (this.data.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
       contentPlugin: 'slice',
-      name: new FormControl(''),
-      label: new FormControl(''),
-      rule: new FormControl(''),
+      name: new UntypedFormControl(''),
+      label: new UntypedFormControl(''),
+      rule: new UntypedFormControl(''),
       settings: this.fb.array(this.handler.buildSettings(dataSlice).map(s => this.convertToGroup(s)))
     }));
     this.dialogRef.close();
   }
 
-  convertToGroup(setting: AttributeValue): FormGroup {
+  convertToGroup(setting: AttributeValue): UntypedFormGroup {
 
     const fg = this.fb.group({
-      name: new FormControl(setting.name, Validators.required),
-      type: new FormControl(setting.type, Validators.required),
-      displayName: new FormControl(setting.displayName, Validators.required),
-      value: new FormControl(setting.value, Validators.required),
-      computedValue: new FormControl(setting.value, Validators.required),
-      attributes: new FormArray([])
+      name: new UntypedFormControl(setting.name, Validators.required),
+      type: new UntypedFormControl(setting.type, Validators.required),
+      displayName: new UntypedFormControl(setting.displayName, Validators.required),
+      value: new UntypedFormControl(setting.value, Validators.required),
+      computedValue: new UntypedFormControl(setting.value, Validators.required),
+      attributes: new UntypedFormArray([])
     });
 
     if(setting.attributes && setting.attributes.length > 0) {
       setting.attributes.forEach(s => {
-        (fg.get('attributes') as FormArray).push(this.convertToGroup(s));
+        (fg.get('attributes') as UntypedFormArray).push(this.convertToGroup(s));
       })
     }
 

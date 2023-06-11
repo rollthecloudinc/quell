@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UntypedFormBuilder } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { PanePropsFormPayload } from '@rollthecloudinc/panels';
 
 @Component({
@@ -18,7 +18,7 @@ export class PanePropsDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { props: PanePropsFormPayload },
     private dialogRef: MatDialogRef<PanePropsDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {

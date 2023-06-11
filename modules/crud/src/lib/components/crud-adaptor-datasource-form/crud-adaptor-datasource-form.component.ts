@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { Param } from '@rollthecloudinc/dparam';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -101,7 +101,7 @@ export class CrudAdaptorDatasourceFormComponent implements OnInit, ControlValueA
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService
   ) {}
 

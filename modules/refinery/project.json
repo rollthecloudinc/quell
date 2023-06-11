@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "refinery",
+  "projectType": "library",
+  "sourceRoot": "modules/refinery/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/refinery/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/refinery/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/refinery/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/refinery"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/refinery/src/test.ts",
+        "tsConfig": "modules/refinery/tsconfig.spec.json",
+        "karmaConfig": "modules/refinery/karma.conf.js"
+      }
+    }
+  }
+}

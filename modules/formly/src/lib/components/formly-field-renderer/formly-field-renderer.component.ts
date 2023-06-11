@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject, Optional, Output, EventEmitter } from '@angular/core';
-import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormBuilder, Validators } from '@angular/forms';
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { AttributeValue, AttributeSerializerService, ValueComputerService } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -54,7 +54,7 @@ export class FormlyFieldRendererComponent implements OnInit {
   model: any = {};
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private handler: FormlyFieldContentHandler,
     private attributeSerializer: AttributeSerializerService,
     @Optional() public controlContainer?: ControlContainer

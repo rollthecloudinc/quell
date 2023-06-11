@@ -19,7 +19,7 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
         map(options => ({ identity, options }))
       ): of({ identity, options: {} })),
-      map(({ identity, options }) => ({ name: options.prefix + identity })),
+      map(({ identity, options }) => ({ name: (options as { prefix: string }).prefix + identity })),
       switchMap(({ name }) => new Observable<CrudOperationResponse>(obs => {
         set(name, object).then(res => {
           console.log('idb write suceeded');
@@ -43,7 +43,7 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
         map(options => ({ identity, options }))
       ): of({ identity, options: {} })),
-      map(({ identity, options }) => ({ name: options.prefix + identity })),
+      map(({ identity, options }) => ({ name: (options as { prefix: string }).prefix + identity })),
       switchMap(({ name }) => new Observable<CrudOperationResponse>(obs => {
         set(name, object).then(res => {
           console.log('idb write suceeded');
@@ -110,7 +110,7 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
   });
 };
 
-export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data: any }) => IDBValidKey }) => (platformId: Object): () => Observable<any> => {
+export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key: ({ data }: { data: any }) => IDBValidKey }) => (platformId: Object): () => Observable<any> => {
   return () => new Observable(obs => {
     if (isPlatformBrowser(platformId)) {
       const items: Array<[IDBValidKey, any]> = data.map(d => [key({ data: d }), d]);

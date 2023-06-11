@@ -1,5 +1,5 @@
 import { Component, Input, Optional } from '@angular/core';
-import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
+import { ControlContainer, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { EntityCollectionService, EntityServices } from '@ngrx/data';
 import { select } from '@ngrx/store';
 import { FormlyFieldConfig  } from '@ngx-formly/core';
@@ -167,10 +167,10 @@ export class FormlyRepeatingRendererComponent {
           console.log('rebuilt panel', rebuiltPanel);
 
           this.formStateConverter.convertPanelToForm({ panel: panelState ? panelState : new PanelState(), panel2: rebuiltPanel, ancestory }).subscribe(panelForm => {
-            const paneControlArray = this.controlContainer.control.get('panes') as FormArray;
+            const paneControlArray = this.controlContainer.control.get('panes') as UntypedFormArray;
             this.formGroupConverter.makeFormGroupFromPanel(rebuiltPanel, panelForm).subscribe(panelFormGroup => {
               paneControlArray.clear();
-              const paneControls = panelFormGroup.get('panes') as FormArray;
+              const paneControls = panelFormGroup.get('panes') as UntypedFormArray;
               const len = paneControls.length;
               for (let i = 0; i < len ; i++) {
                 paneControlArray.push(paneControls.at(i));
@@ -219,7 +219,7 @@ export class FormlyRepeatingRendererComponent {
   ).subscribe()
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private cpm: ContentPluginManager,
     private formlyHandlerHelper: FormlyHandlerHelper,
     private paneStateService: PaneStateService,
@@ -243,7 +243,7 @@ export class FormlyRepeatingRendererComponent {
     this.init$.next(undefined);
   }
 
-  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({ term: string, field: FormlyFieldConfig }) => Observable<Array<any>> {
+  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({ term, field }: { term: string, field: FormlyFieldConfig }) => Observable<Array<any>> {
     //const metadata = new Map<string, any>([ [ 'panes', this.panes ], [ 'contexts', this.contexts ] ]);
     const dataPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id);
     return ({ term, field }: { term: string, field: FormlyFieldConfig }) => of([]).pipe(

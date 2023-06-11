@@ -40,5 +40,5 @@ npm run build rest -- --configuration production
 npm run build render -- --configuration production
 npm run build pages -- --configuration production
 npm run build pagealias -- --configuration production
-npm run build formly -- --configuration production
+# npm run build formly -- --configuration production
 npm run build forms -- --configuration production

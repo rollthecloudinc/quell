@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AttributeValue, AttributeTypes } from '@rollthecloudinc/attributes';
-import { Field, RuleSet, Rule as NgRule } from 'angular2-query-builder';
+import { Field, RuleSet, Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { Rule, NestedCondition } from 'json-rules-engine';
 
 @Injectable({

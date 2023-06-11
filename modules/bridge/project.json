@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "bridge",
+  "projectType": "library",
+  "sourceRoot": "modules/bridge/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/bridge/tsconfig.lib.json",
+        "project": "modules/bridge/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/bridge/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/bridge"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/bridge/src/test.ts",
+        "tsConfig": "modules/bridge/tsconfig.spec.json",
+        "karmaConfig": "modules/bridge/karma.conf.js"
+      }
+    }
+  }
+}

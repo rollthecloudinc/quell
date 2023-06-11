@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "stock",
+  "projectType": "library",
+  "sourceRoot": "modules/stock/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/stock/tsconfig.lib.json",
+        "project": "modules/stock/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/stock/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/stock"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/stock/src/test.ts",
+        "tsConfig": "modules/stock/tsconfig.spec.json",
+        "karmaConfig": "modules/stock/karma.conf.js"
+      }
+    }
+  }
+}

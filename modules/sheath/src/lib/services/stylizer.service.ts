@@ -69,7 +69,7 @@ export class StylizerService {
       const oldCssAsObject = oldCssAsJson.children[path] ? Object.keys(oldCssAsJson.children[path].attributes).reduce((p, c) => ({ ...p, [camelize(c.replace('-', '_'), false)]: oldCssAsJson.children[path].attributes[c] }), {}) : undefined;
       // console.log('oldCssAsObject', oldCssAsObject);
 
-      const newCssAsObject = Object.keys((record.target as any).style).reduce((p, c) => parseInt(c) !== NaN && (record.target as any).style.hasOwnProperty(camelize((record.target as any).style[c].replace('-', '_'), false)) ? { ...p, [camelize((record.target as any).style[c].replace('-', '_'), false)]: (record.target as any).style[camelize((record.target as any).style[c].replace('-','_'), false)] } : p, {});
+      const newCssAsObject = Object.keys((record.target as any).style).reduce((p, c) => !Number.isNaN(parseInt(c)) && (record.target as any).style.hasOwnProperty(camelize((record.target as any).style[c].replace('-', '_'), false)) ? { ...p, [camelize((record.target as any).style[c].replace('-', '_'), false)]: (record.target as any).style[camelize((record.target as any).style[c].replace('-','_'), false)] } : p, {});
       // console.log('newCssAsObject', newCssAsObject);
 
       const merged = merge(oldCssAsObject, newCssAsObject);

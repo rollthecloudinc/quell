@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "transform",
+  "projectType": "library",
+  "sourceRoot": "modules/transform/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/transform/tsconfig.lib.json",
+        "project": "modules/transform/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/transform/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/transform"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/transform/src/test.ts",
+        "tsConfig": "modules/transform/tsconfig.spec.json",
+        "karmaConfig": "modules/transform/karma.conf.js"
+      }
+    }
+  }
+}

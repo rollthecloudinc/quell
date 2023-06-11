@@ -4,7 +4,7 @@ import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { ActivatedRoute } from '@angular/router';
 import { map, filter, distinctUntilChanged, switchMap, tap, withLatestFrom, take, defaultIfEmpty, delay } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { forkJoin, of } from 'rxjs';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
@@ -56,7 +56,7 @@ export class EditPanelPageComponent implements OnInit {
         : of(pp)
       ),
       switchMap(pp => this.routerStore.pipe(
-        select(getSelectors((state: any) => state.router).selectCurrentRoute),
+        select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
         map(route => [pp, route.params ]),
         take(1)
       )),

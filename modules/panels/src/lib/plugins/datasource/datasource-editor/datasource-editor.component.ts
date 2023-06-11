@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
 import { Datasource } from '@rollthecloudinc/datasource';
@@ -24,15 +24,15 @@ export class DatasourceEditorComponent implements OnInit {
   });
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
     private dialogRef: MatDialogRef<DatasourceEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService,
     private datasourceHandler: DatasourceContentHandler
   ) { }
 
   ngOnInit(): void {
-    const panesArray = this.data.panelFormGroup.get('panes') as FormArray;
+    const panesArray = this.data.panelFormGroup.get('panes') as UntypedFormArray;
     this.bindableOptions = panesArray.controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
     this.contexts = this.data.contexts.map(c => c.name);
     if (this.data.panelIndex !== undefined && this.data.paneIndex < panesArray.length) {
@@ -45,19 +45,19 @@ export class DatasourceEditorComponent implements OnInit {
 
   onSubmit() {
     const sourceSettings = this.attributeSerializer.serialize(this.formGroup.value.source, 'source')
-    const paneForm = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex);
+    const paneForm = (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex);
     if(this.data.paneIndex === undefined) {
-      (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+      (this.data.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
         contentPlugin: 'datasource',
-        name: new FormControl(''),
-        label: new FormControl(''),
-        rule: new FormControl(''),
+        name: new UntypedFormControl(''),
+        label: new UntypedFormControl(''),
+        rule: new UntypedFormControl(''),
         settings: this.fb.array(sourceSettings.attributes.map(a => this.attributeSerializer.convertToGroup(a)))
       }));
       console.log(this.data.panelFormGroup.get('panes').value);
     } else {
-      (paneForm.get('settings') as FormArray).clear();
-      sourceSettings.attributes.forEach(a => (paneForm.get('settings') as FormArray).push(this.attributeSerializer.convertToGroup(a)));
+      (paneForm.get('settings') as UntypedFormArray).clear();
+      sourceSettings.attributes.forEach(a => (paneForm.get('settings') as UntypedFormArray).push(this.attributeSerializer.convertToGroup(a)));
     }
     this.dialogRef.close();
   }

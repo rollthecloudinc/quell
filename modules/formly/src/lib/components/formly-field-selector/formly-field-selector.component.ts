@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
-import { FormGroup, FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -24,7 +24,7 @@ import { FormlyFieldEditorComponent } from '../formly-field-editor/formly-field-
 export class FormlyFieldSelectorComponent implements OnInit {
 
   @Input()
-  panelFormGroup: FormGroup;
+  panelFormGroup: UntypedFormGroup;
 
   @Input()
   contexts: Array<InlineContext> = [];
@@ -51,7 +51,7 @@ export class FormlyFieldSelectorComponent implements OnInit {
     private bottomSheetRef: MatBottomSheetRef<any/*ContentSelectorComponent*/>,
     private handler: FormlyFieldContentHandler,
     private attributeSerializer: AttributeSerializerService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private dialog: MatDialog,
     // private cpm: ContentPluginManager,
     // private wpm: WidgetPluginManager
@@ -66,14 +66,14 @@ export class FormlyFieldSelectorComponent implements OnInit {
 
   onItemSelect(type: string) {
     const instance = new FormlyFieldInstance({ type, key: '' });
-    (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+    (this.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
       contentPlugin: 'formly_field',
-      name: new FormControl(''),
-      label: new FormControl(''),
-      rule: new FormControl(''),
+      name: new UntypedFormControl(''),
+      label: new UntypedFormControl(''),
+      rule: new UntypedFormControl(''),
       settings: this.fb.array(this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s)))
     }));
-    const formArray = (this.panelFormGroup.get('panes') as FormArray);
+    const formArray = (this.panelFormGroup.get('panes') as UntypedFormArray);
     const paneIndex = formArray.length - 1;
     const pane = new Pane(formArray.at(paneIndex).value);
     this.dialog.open(FormlyFieldEditorComponent, { data: { panelFormGroup: this.panelFormGroup, pane, paneIndex, contexts: [] } });

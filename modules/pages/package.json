@@ -1,24 +1,23 @@
 {
   "name": "@rollthecloudinc/pages",
-  "version": "0.0.74",
+  "version": "16.0.0-alpha.6",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
-    "@angular/common": "^13.1.2",
-    "@angular/core": "^13.1.2",
-    "ngx-markdown": "^13.0.0",
-    "angular-split": "^13.1.0",
+    "@angular/common": "^16.0.1",
+    "@angular/core": "^16.0.1",
+    "ngx-markdown": "^16.0.0",
+    "angular-split": "^15.0.0",
     "ngx-dropzone": "^3.1.0",
     "ngx-json-viewer": "^3.0.2",
-    "angular2-query-builder": "^0.6.2",
-    "@kolkov/ngx-gallery": "^2.0.0",
-    "angular-gridster2": "^13.1.1",
-    "@ngrx/data": "^13.0.2",
-    "@ngrx/effects": "^13.0.2",
-    "qs": "^6.9.4",
+    "@rollthecloudinc/ngx-angular-query-builder": "^16.0.1",
+    "angular-gridster2": "^16.0.0",
+    "@ngrx/data": "^16.0.0",
+    "@ngrx/effects": "^16.0.0",
+    "qs": "^6.10.3",
     "json-rules-engine": "^5.3.0",
     "cssjson": "^2.1.3"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.1"
   }
 }

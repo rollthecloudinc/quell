@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormGroup, FormControl, FormArray, Validators } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, UntypedFormArray, Validators } from '@angular/forms';
 import { AttributeValue, AttributeTypes } from '../models/attributes.models';
 import { ValueComputerService } from '../services/value-computer.service';
 import { toNumber } from "number-string";
@@ -139,20 +139,20 @@ export class AttributeSerializerService {
     return obj;
   }
 
-  convertToGroup(setting: AttributeValue): FormGroup {
+  convertToGroup(setting: AttributeValue): UntypedFormGroup {
 
-    const fg = new FormGroup({
-      name: new FormControl(setting.name, Validators.required),
-      type: new FormControl(setting.type, Validators.required),
-      displayName: new FormControl(setting.displayName, Validators.required),
-      value: new FormControl(setting.value, Validators.required),
-      computedValue: new FormControl(setting.value, Validators.required),
-      attributes: new FormArray([])
+    const fg = new UntypedFormGroup({
+      name: new UntypedFormControl(setting.name, Validators.required),
+      type: new UntypedFormControl(setting.type, Validators.required),
+      displayName: new UntypedFormControl(setting.displayName, Validators.required),
+      value: new UntypedFormControl(setting.value, Validators.required),
+      computedValue: new UntypedFormControl(setting.value, Validators.required),
+      attributes: new UntypedFormArray([])
     });
 
     if(setting.attributes && setting.attributes.length > 0) {
       setting.attributes.forEach(s => {
-        (fg.get('attributes') as FormArray).push(this.convertToGroup(s));
+        (fg.get('attributes') as UntypedFormArray).push(this.convertToGroup(s));
       })
     }
 

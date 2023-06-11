@@ -5,7 +5,7 @@ import { PanelPageState, PanelState, PaneState } from "../models/state.models";
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { PanelPageForm, PanelPageFormPane, PanelPageFormPanel } from "../models/form.models";
 import { Pane, Panel, PanelPage } from "../models/panels.models";
-import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +13,9 @@ import { FormArray, FormBuilder, FormGroup } from "@angular/forms";
 export class FormGroupConverterService {
   constructor(
     private attributeSerializer: AttributeSerializerService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
-  makeFormGroupFromPage(pp: PanelPage, pp2: PanelPageForm): Observable<FormGroup> {
+  makeFormGroupFromPage(pp: PanelPage, pp2: PanelPageForm): Observable<UntypedFormGroup> {
     return of(this.fb.group({ /*name: this.fb.control(pp.name),*/ panels: this.fb.array([]) })).pipe(
       switchMap(pageFormGroup => forkJoin(
         pp.panels.map((p, index) => this.makeFormGroupFromPanel(p, pp2.panels[index]))
@@ -25,13 +25,13 @@ export class FormGroupConverterService {
       tap(({ panelGroups, pageFormGroup }) => {
         const len = panelGroups.length;
         for (let i = 0; i < len; i++) {
-          (pageFormGroup.get('panels') as FormArray).push(panelGroups[i]);
+          (pageFormGroup.get('panels') as UntypedFormArray).push(panelGroups[i]);
         }
       }),
       map(({ pageFormGroup }) => pageFormGroup)
     );
   }
-  makeFormGroupFromPanel(panel: Panel, panel2: PanelPageFormPanel): Observable<FormGroup> {
+  makeFormGroupFromPanel(panel: Panel, panel2: PanelPageFormPanel): Observable<UntypedFormGroup> {
     return of(this.fb.group({ name: this.fb.control(panel.name), panes: this.fb.array([]) })).pipe(
       switchMap(panelFormGroup => forkJoin(
         panel.panes.map((p, index) => this.makeFormGroupFromPane(p, panel2.panes[index]))
@@ -41,13 +41,13 @@ export class FormGroupConverterService {
       tap(({ paneGroups, panelFormGroup }) => {
         const len = paneGroups.length;
         for (let i = 0; i < len; i++) {
-          (panelFormGroup.get('panes') as FormArray).push(paneGroups[i]);
+          (panelFormGroup.get('panes') as UntypedFormArray).push(paneGroups[i]);
         }
       }),
       map(({ panelFormGroup }) => panelFormGroup)
     );
   }
-  makeFormGroupFromPane(pane: Pane, pane2: PanelPageFormPane): Observable<FormGroup> {
+  makeFormGroupFromPane(pane: Pane, pane2: PanelPageFormPane): Observable<UntypedFormGroup> {
     const value = pane2 ? pane2.settings.find(a => a.name === 'value') : undefined;
     return of(this.fb.group({ name: this.fb.control(pane.name), contentPlugin: this.fb.control(''), settings: this.fb.array([]) })).pipe(
       switchMap(paneFormGroup => iif(
@@ -56,14 +56,14 @@ export class FormGroupConverterService {
           tap(pageFormGroup => {
             const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(pageFormGroup.value, 'value').attributes[0]);
             paneFormGroup.get('contentPlugin').setValue('panel');
-            (paneFormGroup.get('settings') as FormArray).push(newGroup);
+            (paneFormGroup.get('settings') as UntypedFormArray).push(newGroup);
           }),
           map(() => paneFormGroup)
         ): of(paneFormGroup).pipe(
           tap(() => {
             if (value) {
               const newGroup = this.attributeSerializer.convertToGroup(value);
-              (paneFormGroup.get('settings') as FormArray).push(newGroup);
+              (paneFormGroup.get('settings') as UntypedFormArray).push(newGroup);
             }
           })
         ),
@@ -71,7 +71,7 @@ export class FormGroupConverterService {
           tap(() => {
             if (value) {
               const newGroup = this.attributeSerializer.convertToGroup(value);
-              (paneFormGroup.get('settings') as FormArray).push(newGroup);
+              (paneFormGroup.get('settings') as UntypedFormArray).push(newGroup);
             }
           })
         )

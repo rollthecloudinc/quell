@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { ContextPlugin, InlineContext } from '../../models/context.models';
 import { ContextEditorHostDirective } from '../../directives/context-editor-host.directive';
 import { ContextPluginManager } from '../../services/context-plugin-manager.service';
@@ -45,7 +45,7 @@ export class ContextFormComponent implements OnInit, ControlValueAccessor, Valid
   @ViewChild(ContextEditorHostDirective, { static: true }) editorHost: ContextEditorHostDirective;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
     private cpm: ContextPluginManager
   ) { }

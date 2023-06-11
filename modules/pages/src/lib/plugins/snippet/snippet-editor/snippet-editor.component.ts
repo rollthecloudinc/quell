@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Validators, UntypedFormGroup, UntypedFormControl, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { AttributeTypes } from '@rollthecloudinc/attributes';
 import { Pane } from '@rollthecloudinc/panels';
 // import { Snippet } from '../../../models/plugin.models';
@@ -18,8 +18,8 @@ export class SnippetEditorComponent implements OnInit {
   snippet: Snippet;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number;  },
-    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number;  },
+    private fb: UntypedFormBuilder,
     private handler: SnippetContentHandler
   ) { }
 
@@ -33,44 +33,44 @@ export class SnippetEditorComponent implements OnInit {
 
   onSubmit(snippet: Snippet) {
     if(this.data.paneIndex === undefined) {
-      (this.data.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+      (this.data.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
         contentPlugin: 'snippet',
-        name: new FormControl(''),
-        label: new FormControl(''),
-        rule: new FormControl(''),
-        settings: new FormArray(this.buildSettings(snippet))
+        name: new UntypedFormControl(''),
+        label: new UntypedFormControl(''),
+        rule: new UntypedFormControl(''),
+        settings: new UntypedFormArray(this.buildSettings(snippet))
       }));
     } else {
-      const paneForm = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex);
-      (paneForm.get('settings') as FormArray).clear();
+      const paneForm = (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex);
+      (paneForm.get('settings') as UntypedFormArray).clear();
       this.buildSettings(snippet).forEach(s => {
-        (paneForm.get('settings') as FormArray).push(s)
+        (paneForm.get('settings') as UntypedFormArray).push(s)
       });
     }
   }
 
-  buildSettings(snippet: Snippet): Array<FormGroup> {
+  buildSettings(snippet: Snippet): Array<UntypedFormGroup> {
     return [
       this.fb.group({
-        name: new FormControl('contentType', Validators.required),
-        type: new FormControl(AttributeTypes.Text, Validators.required),
-        displayName: new FormControl('Content Type', Validators.required),
-        value: new FormControl(snippet.contentType, Validators.required),
-        computedValue: new FormControl(snippet.contentType, Validators.required),
+        name: new UntypedFormControl('contentType', Validators.required),
+        type: new UntypedFormControl(AttributeTypes.Text, Validators.required),
+        displayName: new UntypedFormControl('Content Type', Validators.required),
+        value: new UntypedFormControl(snippet.contentType, Validators.required),
+        computedValue: new UntypedFormControl(snippet.contentType, Validators.required),
       }),
       this.fb.group({
-        name: new FormControl('content', Validators.required),
-        type: new FormControl(AttributeTypes.Text, Validators.required),
-        displayName: new FormControl('Content', Validators.required),
-        value: new FormControl(snippet.content, Validators.required),
-        computedValue: new FormControl(snippet.content, Validators.required),
+        name: new UntypedFormControl('content', Validators.required),
+        type: new UntypedFormControl(AttributeTypes.Text, Validators.required),
+        displayName: new UntypedFormControl('Content', Validators.required),
+        value: new UntypedFormControl(snippet.content, Validators.required),
+        computedValue: new UntypedFormControl(snippet.content, Validators.required),
       }),
       this.fb.group({
-        name: new FormControl('jsScript', Validators.required),
-        type: new FormControl(AttributeTypes.Text, Validators.required),
-        displayName: new FormControl('jsScript', Validators.required),
-        value: new FormControl(snippet.jsScript),
-        computedValue: new FormControl(snippet.jsScript),
+        name: new UntypedFormControl('jsScript', Validators.required),
+        type: new UntypedFormControl(AttributeTypes.Text, Validators.required),
+        displayName: new UntypedFormControl('jsScript', Validators.required),
+        value: new UntypedFormControl(snippet.jsScript),
+        computedValue: new UntypedFormControl(snippet.jsScript),
       })
     ];
   }

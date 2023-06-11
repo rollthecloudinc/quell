@@ -1,0 +1,236 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "ipe",
+  "projectType": "application",
+  "generators": {
+    "@schematics/angular:component": {
+      "style": "scss"
+    }
+  },
+  "sourceRoot": "projects/ipe/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "ngx-build-plus:browser",
+      "options": {
+        "outputPath": "dist/ipe",
+        "index": "projects/ipe/src/index.html",
+        "main": "projects/ipe/src/main.ts",
+        "polyfills": "projects/ipe/src/polyfills.ts",
+        "tsConfig": "projects/ipe/tsconfig.app.json",
+        "assets": [
+          "projects/ipe/src/favicon.ico",
+          "projects/ipe/src/assets"
+        ],
+        "styles": [
+          "projects/ipe/src/styles.scss",
+          "projects/ipe/src/theme.scss",
+          "node_modules/prismjs/themes/prism-okaidia.css"
+        ],
+        "scripts": [
+          "node_modules/marked/bin/marked.js",
+          "node_modules/prismjs/prism.js",
+          "node_modules/prismjs/components/prism-json.min.js",
+          "node_modules/prismjs/components/prism-typescript.min.js",
+          "node_modules/prismjs/components/prism-css.min.js"
+        ],
+        "vendorChunk": true,
+        "extractLicenses": false,
+        "buildOptimizer": false,
+        "sourceMap": true,
+        "optimization": false,
+        "namedChunks": true,
+        "extraWebpackConfig": "projects/ipe/webpack.config.js",
+        "commonChunk": false
+      },
+      "configurations": {
+        "dev": {
+          "outputHashing": "all",
+          "vendorChunk": false,
+          "extractLicenses": true,
+          "buildOptimizer": true,
+          "namedChunks": false,
+          "commonChunk": true,
+          "optimization": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.dev.ts"
+            }
+          ]
+        },
+        "prod": {
+          "outputHashing": "all",
+          "vendorChunk": false,
+          "extractLicenses": true,
+          "buildOptimizer": true,
+          "namedChunks": false,
+          "commonChunk": true,
+          "optimization": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.prod.ts"
+            }
+          ],
+          "extraWebpackConfig": "projects/ipe/webpack.prod.config.js"
+        }
+      },
+      "defaultConfiguration": "",
+      "outputs": [
+        "{options.outputPath}"
+      ]
+    },
+    "serve": {
+      "executor": "ngx-build-plus:dev-server",
+      "options": {
+        "browserTarget": "ipe:build",
+        "port": 4000,
+        "publicHost": "http://localhost:4000",
+        "extraWebpackConfig": "projects/ipe/webpack.config.js"
+      },
+      "configurations": {
+        "production": {
+          "browserTarget": "ipe:build:production",
+          "extraWebpackConfig": "projects/ipe/webpack.prod.config.js"
+        }
+      }
+    },
+    "extract-i18n": {
+      "executor": "ngx-build-plus:extract-i18n",
+      "options": {
+        "browserTarget": "ipe:build",
+        "extraWebpackConfig": "projects/ipe/webpack.config.js"
+      }
+    },
+    "test": {
+      "executor": "ngx-build-plus:karma",
+      "options": {
+        "main": "projects/ipe/src/test.ts",
+        "polyfills": "projects/ipe/src/polyfills.ts",
+        "tsConfig": "projects/ipe/tsconfig.spec.json",
+        "karmaConfig": "projects/ipe/karma.conf.js",
+        "assets": [
+          "projects/ipe/src/favicon.ico",
+          "projects/ipe/src/assets"
+        ],
+        "styles": [
+          "projects/ipe/src/styles.scss"
+        ],
+        "scripts": []
+      }
+    },
+    "e2e": {
+      "executor": "@angular-devkit/build-angular:protractor",
+      "options": {
+        "protractorConfig": "projects/ipe/e2e/protractor.conf.js",
+        "devServerTarget": "ipe:serve"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "ipe:serve:production"
+        }
+      }
+    },
+    "server": {
+      "executor": "@angular-builders/custom-webpack:server",
+      "options": {
+        "outputPath": "dist/ipe-server",
+        "main": "projects/ipe/src/main.server.ts",
+        "tsConfig": "projects/ipe/tsconfig.server.json",
+        "sourceMap": true,
+        "optimization": false,
+        "verbose": true
+      },
+      "configurations": {
+        "prod": {
+          "bundleDependencies": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.prod.ts"
+            }
+          ],
+          "sourceMap": true,
+          "optimization": true
+        },
+        "dev": {
+          "bundleDependencies": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.dev.ts"
+            }
+          ],
+          "sourceMap": true,
+          "optimization": true
+        },
+        "dev.local": {
+          "bundleDependencies": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.dev.local.ts"
+            }
+          ],
+          "sourceMap": true,
+          "optimization": true
+        }
+      },
+      "defaultConfiguration": "",
+      "outputs": [
+        "{options.outputPath}"
+      ]
+    },
+    "lambda": {
+      "executor": "@angular-devkit/build-angular:server",
+      "options": {
+        "optimization": false,
+        "outputPath": "dist/ipe/lambda",
+        "main": "projects/ipe/src/main.lambda.ts",
+        "tsConfig": "projects/ipe/tsconfig.lambda.json",
+        "externalDependencies": [
+          "../server/main"
+        ],
+        "sourceMap": true
+      },
+      "configurations": {
+        "dev": {
+          "optimization": true,
+          "extractLicenses": true,
+          "fileReplacements": [
+            {
+              "replace": "projects/ipe/src/environments/environment.ts",
+              "with": "projects/ipe/src/environments/environment.dev.ts"
+            }
+          ]
+        }
+      },
+      "defaultConfiguration": "",
+      "outputs": [
+        "{options.outputPath}"
+      ]
+    },
+    "prerender": {
+      "executor": "@nguniversal/builders:prerender",
+      "options": {
+        "browserTarget": "ipe:build",
+        "serverTarget": "ipe:server",
+        "routes": [
+          "/just-a-lonely-snippet-v1",
+          "/just-a-lonely-snippet-v1/manage"
+        ]
+      },
+      "configurations": {
+        "dev": {
+          "browserTarget": "ipe:build:dev",
+          "serverTarget": "ipe:server:dev"
+        },
+        "prod": {
+          "browserTarget": "ipe:build:prod",
+          "serverTarget": "ipe:server:prod"
+        }
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { InlineContext } from '@rollthecloudinc/context';
 import { ContextModuleFormComponent } from '../context-module-form/context-module-form.component';
 
@@ -17,13 +17,13 @@ export class ContextModuleEditorComponent implements OnInit {
   @ViewChild(ContextModuleFormComponent, { static: true }) contextModuleFormComp: ContextModuleFormComponent;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     public controlContainer: ControlContainer
   ) { }
 
   ngOnInit(): void {
-    (this.controlContainer.control as FormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
-    (this.controlContainer.control as FormGroup).addControl('data', this.fb.control(''));
+    (this.controlContainer.control as UntypedFormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
+    (this.controlContainer.control as UntypedFormGroup).addControl('data', this.fb.control(''));
   }
 
 }

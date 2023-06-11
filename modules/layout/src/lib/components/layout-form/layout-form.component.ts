@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, FormBuilder, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ControlValueAccessor, UntypedFormBuilder, Validator, NG_VALUE_ACCESSOR, NG_VALIDATORS, AbstractControl, ValidationErrors } from '@angular/forms';
 import { LayoutPlugin } from '../../models/layout.models';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 
@@ -36,7 +36,7 @@ export class LayoutFormComponent implements OnInit, ControlValueAccessor, Valida
     return this.layout.settings.has(this.type) ? this.layout.settings.get(this.type) : [];
   }
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
   }

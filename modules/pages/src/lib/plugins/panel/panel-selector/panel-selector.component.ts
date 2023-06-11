@@ -1,11 +1,11 @@
 import { Component, OnInit, Input, Inject} from '@angular/core';
-import { FormBuilder, FormControl, Validators, FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import * as uuid from 'uuid';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from '@rollthecloudinc/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
 export class PanelSelectorComponent implements OnInit {
 
   @Input()
-  panelFormGroup: FormGroup;
+  panelFormGroup: UntypedFormGroup;
 
   selectedIndex: number = 0;
 
@@ -36,7 +36,7 @@ export class PanelSelectorComponent implements OnInit {
     private bottomSheetRef: MatBottomSheetRef<ContentSelectorComponent>,
     private handler: PanelContentHandler,
     private dialog: MatDialog,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     es: EntityServices
   ) {
     this.panelPagesService = es.getEntityCollectionService('PanelPage');
@@ -50,11 +50,11 @@ export class PanelSelectorComponent implements OnInit {
   onNewSelect() {
     const name = uuid.v4();
     const newPanel = new PanelPage({ id: undefined, layoutType: 'grid', displayType: 'page', site: this.siteName, gridItems: [], panels: [], layoutSetting: new LayoutSetting(), rowSettings: [] });
-    (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+    (this.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
       contentPlugin: 'panel',
       name: name,
       label: name,
-      rule: new FormControl(''),
+      rule: new UntypedFormControl(''),
       settings: this.fb.array(this.handler.buildSettings(newPanel).map(s => this.convertToGroup(s)))
     }));
     this.bottomSheetRef.dismiss();
@@ -69,13 +69,13 @@ export class PanelSelectorComponent implements OnInit {
     const name = uuid.v4();
     //this.panelPagesService.getByKey(panel).subscribe(p => {
       //this.dialog.open(this.contentPlugin.editorComponent, { data: { panelFormGroup: this.panelFormGroup, pane: undefined, paneIndex: undefined, panelPage: p } });
-      (this.panelFormGroup.get('panes') as FormArray).push(this.fb.group({
+      (this.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
         contentPlugin: 'panel',
         name: name,
         label: name,
-        rule: new FormControl(''),
-        linkedPageId: new FormControl(panel, Validators.required),
-        locked: new FormControl(true),
+        rule: new UntypedFormControl(''),
+        linkedPageId: new UntypedFormControl(panel, Validators.required),
+        locked: new UntypedFormControl(true),
         // settings: this.fb.array(this.handler.buildSettings(p).map(s => this.convertToGroup(s)))
         settings: this.fb.array([])
       }));
@@ -83,20 +83,20 @@ export class PanelSelectorComponent implements OnInit {
     //});
   }
 
-  convertToGroup(setting: AttributeValue): FormGroup {
+  convertToGroup(setting: AttributeValue): UntypedFormGroup {
 
     const fg = this.fb.group({
-      name: new FormControl(setting.name, Validators.required),
-      type: new FormControl(setting.type, Validators.required),
-      displayName: new FormControl(setting.displayName, Validators.required),
-      value: new FormControl(setting.value, Validators.required),
-      computedValue: new FormControl(setting.value, Validators.required),
-      attributes: new FormArray([])
+      name: new UntypedFormControl(setting.name, Validators.required),
+      type: new UntypedFormControl(setting.type, Validators.required),
+      displayName: new UntypedFormControl(setting.displayName, Validators.required),
+      value: new UntypedFormControl(setting.value, Validators.required),
+      computedValue: new UntypedFormControl(setting.value, Validators.required),
+      attributes: new UntypedFormArray([])
     });
 
     if(setting.attributes && setting.attributes.length > 0) {
       setting.attributes.forEach(s => {
-        (fg.get('attributes') as FormArray).push(this.convertToGroup(s));
+        (fg.get('attributes') as UntypedFormArray).push(this.convertToGroup(s));
       })
     }
 

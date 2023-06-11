@@ -1,6 +1,6 @@
 
 import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
-import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, FormBuilder } from "@angular/forms";
+import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, UntypedFormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
 import { JSONPath } from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
@@ -161,7 +161,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
   model: any = {};
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService,
     private handler: FormlyFieldContentHandler,
     private formlyHandlerHelper: FormlyHandlerHelper,
@@ -217,7 +217,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
     }
   }
 
-  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({term: string, field: FormlyFieldConfig}) => Observable<Array<any>> {
+  makeFilterFunction({ i, metadata }: { i: FormlyFieldInstance, metadata: Map<string, any> }): ({term, field }: {term: string, field: FormlyFieldConfig}) => Observable<Array<any>> {
     //const metadata = new Map<string, any>([ [ 'panes', [ ...(this.panes && Array.isArray(this.panes) ? this.panes : []), ...(this.originPanes && Array.isArray(this.originPanes) ? this.originPanes : []) ] ], [ 'contexts', this.contexts ] ]);
     const dataPane = (metadata.get('panes') as Array<Pane>).find(p => p.name === i.datasourceBinding.id);
     return ({ term, field } : {term: string , field: FormlyFieldConfig }) => of([]).pipe(

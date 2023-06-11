@@ -6,7 +6,7 @@ import { toNumber } from "number-string";
 import { ClientSettings } from '../models/oidc.models';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
-const AUTH_KEY = makeStateKey('auth');
+const AUTH_KEY = makeStateKey<string>('auth');
 
 @Injectable()
 export class AuthWebStorageService {

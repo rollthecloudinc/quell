@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { Datasource, DatasourceFormComponent } from '@rollthecloudinc/datasource';
 import { Subscription } from 'rxjs';
@@ -19,16 +19,16 @@ export class DatasourceContextEditorComponent implements OnInit {
   @ViewChild(DatasourceFormComponent, { static: true }) datasourceFormComp: DatasourceFormComponent;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     public controlContainer: ControlContainer,
     private attributeSerializer: AttributeSerializerService
   ) { }
 
   ngOnInit(): void {
-    (this.controlContainer.control as FormGroup).addControl('adaptor', this.fb.control('datasource', Validators.required));
-    (this.controlContainer.control as FormGroup).addControl('datasource', this.fb.control(''));
-    (this.controlContainer.control as FormGroup).addControl('_proxy', this.fb.control(''));
-    this.proxyControlSub = (this.controlContainer.control as FormGroup).get('_proxy').valueChanges.pipe(
+    (this.controlContainer.control as UntypedFormGroup).addControl('adaptor', this.fb.control('datasource', Validators.required));
+    (this.controlContainer.control as UntypedFormGroup).addControl('datasource', this.fb.control(''));
+    (this.controlContainer.control as UntypedFormGroup).addControl('_proxy', this.fb.control(''));
+    this.proxyControlSub = (this.controlContainer.control as UntypedFormGroup).get('_proxy').valueChanges.pipe(
       map(v => v ? new Datasource({ ...v, settings: this.attributeSerializer.serialize(v.settings, 'settings').attributes }) : new Datasource()),
       tap(ds => this.controlContainer.control.get('datasource').setValue(ds))
     ).subscribe();

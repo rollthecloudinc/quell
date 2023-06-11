@@ -1,5 +1,5 @@
 import { Inject, Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot, Router, UrlMatcher, UrlSegment, UrlSegmentGroup, UrlTree } from '@angular/router';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { of, forkJoin , iif } from 'rxjs';
 import { SITE_NAME } from '@rollthecloudinc/utils';
@@ -12,7 +12,7 @@ import { AliasPluginManager } from '../services/alias-plugin-manager.service';
 import { AliasPlugin } from '../models/alias.models';
 
 @Injectable()
-export class CatchAllGuard implements CanActivate {
+export class CatchAllGuard  {
 
   routesLoaded = false;
 

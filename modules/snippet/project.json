@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "snippet",
+  "projectType": "library",
+  "sourceRoot": "modules/snippet/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/snippet/tsconfig.lib.json",
+        "project": "modules/snippet/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/snippet/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/snippet"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/snippet/src/test.ts",
+        "tsConfig": "modules/snippet/tsconfig.spec.json",
+        "karmaConfig": "modules/snippet/karma.conf.js"
+      }
+    }
+  }
+}

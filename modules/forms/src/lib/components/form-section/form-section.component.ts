@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
-import { ControlContainer, FormArray, FormBuilder } from '@angular/forms';
+import { ControlContainer, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { Pane, Panel } from '@rollthecloudinc/panels';
 import { JSONPath } from 'jsonpath-plus';
@@ -91,13 +91,13 @@ export class FormSectionComponent implements OnInit, AfterViewInit {
     })
   ).subscribe()
 
-  get panesFormArray(): FormArray {
-    return this.controlContainer.control.get('panes') as FormArray;
+  get panesFormArray(): UntypedFormArray {
+    return this.controlContainer.control.get('panes') as UntypedFormArray;
   }
 
   constructor(
     private attributeSerializer: AttributeSerializerService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public controlContainer: ControlContainer
   ) { }
 

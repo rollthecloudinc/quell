@@ -1,0 +1,32 @@
+{
+  "$schema": "../node_modules/nx/schemas/project-schema.json",
+  "name": "token",
+  "projectType": "library",
+  "sourceRoot": "modules/token/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/token/tsconfig.lib.json",
+        "project": "modules/token/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/token/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/token"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/token/src/test.ts",
+        "tsConfig": "modules/token/tsconfig.spec.json",
+        "karmaConfig": "modules/token/karma.conf.js"
+      }
+    }
+  }
+}

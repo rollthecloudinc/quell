@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, FormArray, UntypedFormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
 import { PanelContentHandler } from "../../handlers/panel-content.handler";
 import { BehaviorSubject, iif, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
@@ -86,7 +86,7 @@ export class PanelPageLinkedlistComponent implements ControlValueAccessor, Valid
   }
   
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private panelHandler: PanelContentHandler
   ) {}
 
