@@ -1,4 +1,4 @@
-import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
+import { BrowserModule /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, APP_INITIALIZER,  SecurityContext, NgZone, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
@@ -23,7 +23,7 @@ import { ContentModule } from '@rollthecloudinc/content';
 import { AliasModule, CatchAllGuard, CatchAllRouterComponent } from '@rollthecloudinc/alias';
 import { PagealiasModule } from '@rollthecloudinc/pagealias';
 import { PanelPage, PanelsModule, PanelsSettings, PANELS_SETTINGS } from '@rollthecloudinc/panels';
-import { FormlyModule } from '@rollthecloudinc/formly';
+//import { FormlyModule } from '@rollthecloudinc/formly';
 import { BridgeModule } from '@rollthecloudinc/bridge';
 import { StateModule } from '@rollthecloudinc/state';
 import { AwcogModule, CognitoSettings, COGNITO_SETTINGS } from '@rollthecloudinc/awcog';
@@ -148,7 +148,7 @@ export function markedOptionsFactory(): MarkedOptions {
     CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    BrowserTransferStateModule ,
+    /*BrowserTransferStateModule ,*/
     FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
@@ -163,7 +163,7 @@ export function markedOptionsFactory(): MarkedOptions {
       },
     }),
     // NbA11yModule.forRoot(),
-    RouterModule.forRoot(routes, { initialNavigation: 'enabled', relativeLinkResolution: 'legacy' }),
+    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking'}),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production
@@ -202,7 +202,7 @@ export function markedOptionsFactory(): MarkedOptions {
     // PanelpageModule,
     RenderModule,
     PagealiasModule,
-    FormlyModule,
+   // FormlyModule,
     TransformModule,
     AwcogModule,
     KeyvalModule,

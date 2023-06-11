@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "render",
+  "projectType": "library",
+  "sourceRoot": "modules/render/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/render/tsconfig.lib.json",
+        "project": "modules/render/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/render/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/render"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/render/src/test.ts",
+        "tsConfig": "modules/render/tsconfig.spec.json",
+        "karmaConfig": "modules/render/karma.conf.js"
+      }
+    }
+  }
+}

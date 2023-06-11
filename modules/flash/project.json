@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "flash",
+  "projectType": "library",
+  "sourceRoot": "modules/flash/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/flash/tsconfig.lib.json",
+        "project": "modules/flash/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/flash/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/flash"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/flash/src/test.ts",
+        "tsConfig": "modules/flash/tsconfig.spec.json",
+        "karmaConfig": "modules/flash/karma.conf.js"
+      }
+    }
+  }
+}

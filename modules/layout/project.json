@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "layout",
+  "projectType": "library",
+  "sourceRoot": "modules/layout/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/layout/tsconfig.lib.json",
+        "project": "modules/layout/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/layout/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/layout"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/layout/src/test.ts",
+        "tsConfig": "modules/layout/tsconfig.spec.json",
+        "karmaConfig": "modules/layout/karma.conf.js"
+      }
+    }
+  }
+}

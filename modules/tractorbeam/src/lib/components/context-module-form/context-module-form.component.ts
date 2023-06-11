@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { ControlContainer, FormBuilder, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, AbstractControl, ValidationErrors } from '@angular/forms';
+import { ControlContainer, UntypedFormBuilder, Validators, NG_VALUE_ACCESSOR, NG_VALIDATORS, ControlValueAccessor, AbstractControl, ValidationErrors } from '@angular/forms';
 import { InlineContext } from '@rollthecloudinc/context';
 import { BehaviorSubject } from 'rxjs';
 
@@ -37,7 +37,7 @@ export class ContextModuleFormComponent implements OnInit, ControlValueAccessor 
 
   public onTouched: () => void = () => {};
 
-  constructor(private fb: FormBuilder, public controlContainer: ControlContainer) { }
+  constructor(private fb: UntypedFormBuilder, public controlContainer: ControlContainer) { }
 
   ngOnInit(): void {
     this.context$.subscribe(c => {

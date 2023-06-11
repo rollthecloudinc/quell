@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, forwardRef, Output, EventEmitter } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, FormControl, FormGroup, Validator, Validators, AbstractControl, ValidationErrors, FormArray, ControlContainer } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validator, Validators, AbstractControl, ValidationErrors, UntypedFormArray, ControlContainer } from "@angular/forms";
 import { AttributeTypes, AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { TokenizerService } from '@rollthecloudinc/token';
 import { SelectOption, SelectMapping } from '@rollthecloudinc/datasource';
@@ -55,11 +55,11 @@ export class SelectionComponent implements OnInit, ControlValueAccessor, Validat
 
   public onTouched: () => void = () => {};
 
-  get attributesArray(): FormArray {
-    return this.selectionForm.get('attributes') as FormArray;
+  get attributesArray(): UntypedFormArray {
+    return this.selectionForm.get('attributes') as UntypedFormArray;
   }
 
-  constructor(private fb: FormBuilder, private attributeSerializer: AttributeSerializerService, private tokenizerService: TokenizerService) {
+  constructor(private fb: UntypedFormBuilder, private attributeSerializer: AttributeSerializerService, private tokenizerService: TokenizerService) {
     this.displayAuto = (opt: SelectOption): string => {
       return tokenizerService.replaceTokens(this.selectMapping.label, this.tokenizerService.generateGenericTokens(opt.dataItem));
     };
@@ -67,14 +67,14 @@ export class SelectionComponent implements OnInit, ControlValueAccessor, Validat
 
   ngOnInit(): void {
     this.attributesArray.push(this.fb.group({
-      name: new FormControl('value', Validators.required),
-      type: new FormControl(AttributeTypes.Array, Validators.required),
-      displayName: new FormControl('Value', Validators.required),
-      value: new FormControl(''),
-      attributes: ['checkboxgroup'].findIndex(r => r === this.renderType) > -1 ? this.fb.array([]) : new FormControl('')
+      name: new UntypedFormControl('value', Validators.required),
+      type: new UntypedFormControl(AttributeTypes.Array, Validators.required),
+      displayName: new UntypedFormControl('Value', Validators.required),
+      value: new UntypedFormControl(''),
+      attributes: ['checkboxgroup'].findIndex(r => r === this.renderType) > -1 ? this.fb.array([]) : new UntypedFormControl('')
     }));
     if(this.renderType === 'autocomplete') {
-      (this.attributesArray.at(0) as FormGroup).addControl('_proxy', this.fb.control(''));
+      (this.attributesArray.at(0) as UntypedFormGroup).addControl('_proxy', this.fb.control(''));
       this.attributesArray.at(0).get('_proxy').valueChanges.pipe(
         distinctUntilChanged(),
         debounceTime(500),
@@ -117,11 +117,11 @@ export class SelectionComponent implements OnInit, ControlValueAccessor, Validat
 
   buildOptions() {
     if(this.renderType === 'checkboxgroup' && this.options !== undefined) {
-      const formArray = (this.attributesArray.controls[0].get('attributes') as FormArray);
+      const formArray = (this.attributesArray.controls[0].get('attributes') as UntypedFormArray);
       formArray.clear();
       this.options.forEach(option => {
         const group = this.attributeSerializer.convertToGroup(option.value);
-        group.addControl('_store', new FormControl(false));
+        group.addControl('_store', new UntypedFormControl(false));
         formArray.push(group);
       });
     }

@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { BehaviorSubject } from 'rxjs';
 import { LoopDatasource } from '../../models/loop.models';
@@ -59,7 +59,7 @@ export class LoopDatasourceFormComponent implements OnInit, ControlValueAccessor
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {}
 
   ngOnInit() {

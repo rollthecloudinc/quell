@@ -42,7 +42,7 @@ export function MAT_STEPPER_PROXY_FACTORY(component: ResponsiveStepperComponent,
     // for the Proxy class: https://github.com/GoogleChrome/proxy-polyfill.
 
     const elementRef = new ElementRef(document.createElement('mat-horizontal-stepper'));
-    const stepper = new MatStepper(directionality, changeDetectorRef, elementRef, document);
+    const stepper = new MatStepper(directionality, changeDetectorRef, elementRef /*, document*/);
     return new Proxy(stepper, {
         get: (target, property) => Reflect.get(component.stepper || target, property),
         set: (target, property, value) => Reflect.set(component.stepper || target, property, value)
@@ -111,8 +111,8 @@ export class ResponsiveStepperComponent implements AfterViewInit, AfterViewCheck
     private needsFocus = false;
     private htmlSteps: Array<HTMLElement> = [];
 
-    constructor(private changeDetectorRef: ChangeDetectorRef) {
-    }
+    /*constructor(private changeDetectorRef: ChangeDetectorRef) {
+    }*/
 
     ngAfterViewInit() {
         this.reset();
@@ -181,7 +181,7 @@ export class ResponsiveStepperComponent implements AfterViewInit, AfterViewCheck
         // Delay is necessary (Too early in AfterViewInit: HTMLElements not loaded)
         setTimeout(() => this.syncHTMLSteps(), 100);
 
-        const { stepper, steps, changeDetectorRef, lastSelectedIndex } = this;
+        const { stepper, steps, /*, changeDetectorRef,*/ lastSelectedIndex } = this;
         stepper.steps.reset(steps.toArray());
         stepper.steps.notifyOnChanges();
         if (lastSelectedIndex) {
@@ -189,10 +189,10 @@ export class ResponsiveStepperComponent implements AfterViewInit, AfterViewCheck
             // After htmlSteps have been synced
             setTimeout(() => this.orientationChange.emit(this.orientation), 101);
         }
-        Promise.resolve().then(() => {
+        /*Promise.resolve().then(() => {
             this.needsFocus = true;
             changeDetectorRef.markForCheck();
-        });
+        });*/
     }
 
 }

@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "tractorbeam",
+  "projectType": "library",
+  "sourceRoot": "modules/tractorbeam/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/tractorbeam/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/tractorbeam/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/tractorbeam/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/tractorbeam"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/tractorbeam/src/test.ts",
+        "tsConfig": "modules/tractorbeam/tsconfig.spec.json",
+        "karmaConfig": "modules/tractorbeam/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,14 +1,25 @@
-@import '~@angular/material/theming';
-@include mat-core();
+@use '@angular/material' as mat;
+@include mat.core();
+@include mat.legacy-core(); // this is the important line
 
 /* ======== Angular material custom themes ======== */
-$my-custom-primary: mat-palette($mat-cyan);
-$my-custom-accent: mat-palette($mat-brown, 400, 200, A100);
-$my-custom-warn: mat-palette($mat-orange);
+$my-custom-primary: mat.define-palette(mat.$cyan-palette);
+$my-custom-accent: mat.define-palette(mat.$brown-palette, 400, 200, A100);
+$my-custom-warn: mat.define-palette(mat.$orange-palette);
 
-$my-custom-theme: mat-light-theme($my-custom-primary, $my-custom-accent, $my-custom-warn);
+$my-custom-theme: mat.define-light-theme((
+ color: (
+   primary: $my-custom-primary,
+   accent: $my-custom-accent,
+   warn: $my-custom-warn
+ ),
+ typography: mat.define-typography-config(),
+ density: 0,
+));
 
-@include angular-material-theme($my-custom-theme);
+// add your regular theme definition here
+@include mat.all-component-themes($my-custom-theme);
+@include mat.all-legacy-component-themes($my-custom-theme); // this is the important line
 
 .mat-tab-body-wrapper {
   height: 100%;

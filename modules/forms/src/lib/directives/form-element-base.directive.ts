@@ -1,5 +1,5 @@
 import { Directive, Input, OnInit, AfterViewInit } from "@angular/core";
-import { ControlContainer, FormControl } from "@angular/forms";
+import { ControlContainer, UntypedFormControl } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { ValidationPluginManager } from "@rollthecloudinc/ordain";
 import { SelectOption } from '@rollthecloudinc/datasource';
@@ -48,7 +48,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
   @Input()
   ancestory: Array<number> [];
 
-  readonly formControl = new FormControl('');
+  readonly formControl = new UntypedFormControl('');
 
   private readonly formControlValueChangesSub = this.formControl.valueChanges.pipe(
     tap(value => console.log('serialized form value', this.attributeSerializer.serialize(value, 'value'))),

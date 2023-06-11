@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { FormBuilder, FormArray, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormArray, Validators } from '@angular/forms';
 import { TokenizerService } from '@rollthecloudinc/token';
 import { Rest } from '@rollthecloudinc/datasource';
 import { Param } from '@rollthecloudinc/dparam';
@@ -106,7 +106,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
   }
 
   get bindings() {
-    return this.restForm.get('renderer').get('bindings') as FormArray;
+    return this.restForm.get('renderer').get('bindings') as UntypedFormArray;
   }
 
   get valid() {
@@ -114,7 +114,7 @@ export class RestFormComponent implements OnInit, AfterViewInit {
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private tokenizerService: TokenizerService
   ) {
   }

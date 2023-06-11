@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
@@ -12,7 +12,7 @@ import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService,
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError, startWith, first } from 'rxjs/operators';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
@@ -377,8 +377,8 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     tap(() => this.isStable = false)
   ).subscribe();
 
-  get panelsArray(): FormArray {
-    return this.pageForm.get('panels') as FormArray;
+  get panelsArray(): UntypedFormArray {
+    return this.pageForm.get('panels') as UntypedFormArray;
   }
 
   public onTouched: () => void = () => {};
@@ -387,7 +387,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     @Inject(PLATFORM_ID) private platformId: Object,
     @Inject(MEDIA_SETTINGS) private mediaSettings: MediaSettings,
     private routerStore: Store<RouterReducerState>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private el: ElementRef,
     private inlineContextResolver: InlineContextResolverService,
     // private contextManager: ContextManagerService,
@@ -828,7 +828,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
     private panelHandler: PanelContentHandler,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private cpm: ContentPluginManager,
     private cssHelper: CssHelperService,
     private paneStateService: PaneStateService,
@@ -1252,8 +1252,8 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     })
   ).subscribe();
 
-  get panesArray(): FormArray {
-    return this.panelForm.get('panes') as FormArray;
+  get panesArray(): UntypedFormArray {
+    return this.panelForm.get('panes') as UntypedFormArray;
   }
 
   constructor(
@@ -1264,7 +1264,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     private hostEl: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private panelResolverService: PanelResolverService,
     private spm: StylePluginManager,
     private cssHelper: CssHelperService,

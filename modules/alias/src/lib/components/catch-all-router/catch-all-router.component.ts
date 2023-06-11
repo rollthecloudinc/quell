@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRouteSnapshot, Router } from '@angular/router';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { take, map, switchMap, catchError, tap } from 'rxjs/operators';
 // import { PanelPageListItem } from '@rollthecloudinc/panels';

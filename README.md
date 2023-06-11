@@ -1,6 +1,6 @@
 <img width="356" alt="quell_logo2" src="https://user-images.githubusercontent.com/73197190/199178885-0bc99ce0-b97a-402b-b156-f79ffad8aa38.png">
 
-Quell is a carbon free web editor that runs effiencently on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive rresources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Carbon Free](https://github.com/rollthecloudinc/carbonfree) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions. Everthing needed for rapid low code and energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository.
+Quell is a carbon free web editor that runs effiencently on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive resources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Carbon Free](https://github.com/rollthecloudinc/carbonfree) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions. Everthing needed for rapid low code and energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository.
 
 # Climate Aware
 
@@ -9,6 +9,12 @@ Quell is architected from the ground-up to be climate friendly, carbon free.
 * Quell follows the [principles of green software engineering](https://principles.green/).
 * Quell is built on [sustainability pillar](https://docs.aws.amazon.com/wellarchitected/latest/sustainability-pillar/sustainability-pillar.html) of the Amazon Web Services (AWS) [Well-Architected Framework](https://aws.amazon.com/architecture/well-architected).
 * Quell is [serverless](https://github.com/rollthecloudinc/verti-go) favoring [zero trust](https://aws.amazon.com/security/zero-trust/) [signed requests](https://docs.aws.amazon.com/general/latest/gr/signing_aws_api_requests.html) directly in the browser.
+
+# Features
+
+## Dev Inspector Styling
+
+[Dem Video](https://www.youtube.com/watch?v=0dP7lS8eUEE)
 
 # Rapid Dev
 

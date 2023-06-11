@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { ParamPluginInstance } from '@rollthecloudinc/dparam';
 import { BehaviorSubject, tap } from 'rxjs';
 import { InteractionListener } from '../../models/interaction.models';
@@ -48,7 +48,7 @@ export class InteractionListenerComponent implements ControlValueAccessor, Valid
   ).subscribe();
   public onTouched: () => void = () => {};
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private iepm: InteractionEventPluginManager,
     private ihpm: InteractionHandlerPluginManager
   ) {}

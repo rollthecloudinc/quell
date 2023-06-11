@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "rest",
+  "projectType": "library",
+  "sourceRoot": "modules/rest/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/rest/tsconfig.lib.json",
+        "project": "modules/rest/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/rest/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/rest"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/rest/src/test.ts",
+        "tsConfig": "modules/rest/tsconfig.spec.json",
+        "karmaConfig": "modules/rest/karma.conf.js"
+      }
+    }
+  }
+}

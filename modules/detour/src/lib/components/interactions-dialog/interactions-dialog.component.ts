@@ -1,6 +1,6 @@
 import { Component, Inject } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { UntypedFormBuilder } from "@angular/forms";
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
 import { InlineContext } from '@rollthecloudinc/context';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
@@ -21,7 +21,7 @@ export class InteractionsDialogComponent {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { interactions: InteractionsFormPayload, contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<InteractionsDialogComponent>,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { 
     this.contexts = data.contexts;
     this.interactions = data.interactions;

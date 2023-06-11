@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "crud",
+  "projectType": "library",
+  "sourceRoot": "modules/crud/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/crud/tsconfig.lib.json",
+        "project": "modules/crud/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/crud/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/crud"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/crud/src/test.ts",
+        "tsConfig": "modules/crud/tsconfig.spec.json",
+        "karmaConfig": "modules/crud/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { take } from 'rxjs/operators';
 import { InlineContext } from '@rollthecloudinc/context';
 import { ContextStateFormComponent } from '../context-state-form/context-state-form.component';
@@ -18,13 +18,13 @@ export class ContextStateEditorComponent implements OnInit {
   @ViewChild(ContextStateFormComponent, { static: true }) contextStateFormComp: ContextStateFormComponent;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     public controlContainer: ControlContainer
   ) { }
 
   ngOnInit(): void {
-    (this.controlContainer.control as FormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
-    (this.controlContainer.control as FormGroup).addControl('data', this.fb.control(''));
+    (this.controlContainer.control as UntypedFormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
+    (this.controlContainer.control as UntypedFormGroup).addControl('data', this.fb.control(''));
   }
 
 }

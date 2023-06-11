@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "deity",
+  "projectType": "library",
+  "sourceRoot": "modules/deity/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/deity/tsconfig.lib.json",
+        "project": "modules/deity/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/deity/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/deity"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/deity/src/test.ts",
+        "tsConfig": "modules/deity/tsconfig.spec.json",
+        "karmaConfig": "modules/deity/karma.conf.js"
+      }
+    }
+  }
+}

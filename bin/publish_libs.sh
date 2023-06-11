@@ -40,6 +40,6 @@ npm publish ./dist/media
 # npm publish ./dist/editablepane
 npm publish ./dist/pages
 npm publish ./dist/pagealias
-npm publish ./dist/formly
+# npm publish ./dist/formly
 npm publish ./dist/forms
 npm publish ./dist/react

@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "alienalias",
+  "projectType": "library",
+  "sourceRoot": "modules/alienalias/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/alienalias/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/alienalias/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/alienalias/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/alienalias"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/alienalias/src/test.ts",
+        "tsConfig": "modules/alienalias/tsconfig.spec.json",
+        "karmaConfig": "modules/alienalias/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "panels",
+  "projectType": "library",
+  "sourceRoot": "modules/panels/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/panels/tsconfig.lib.json",
+        "project": "modules/panels/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/panels/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/panels"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/panels/src/test.ts",
+        "tsConfig": "modules/panels/tsconfig.spec.json",
+        "karmaConfig": "modules/panels/karma.conf.js"
+      }
+    }
+  }
+}

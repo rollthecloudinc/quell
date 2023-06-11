@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ComponentRef, forwardRef, Input, ViewChild } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from "@angular/forms";
 import { DataductPluginManager } from '../../services/dataduct-plugin-manager.service';
 import { DataductRenderHostDirective } from '../../directives/dataduct-render-host.directive';
 import { DataductPlugin, PersistenceFormPayload } from "../../models/refinery.models";
@@ -73,7 +73,7 @@ export class PersistenceFormComponent implements AfterViewInit, ControlValueAcce
   constructor(
     private dpm: DataductPluginManager,
     // private componentFactoryResolver: ComponentFactoryResolver,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
   ngAfterViewInit() {

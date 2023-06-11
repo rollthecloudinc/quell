@@ -1,5 +1,5 @@
 import { Component, forwardRef, Input } from '@angular/core';
-import { AbstractControl, ControlValueAccessor, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { ParamPluginManager } from '../../services/param-plugin-manager.service';
 import { Param } from '../../models/param.models';
@@ -101,7 +101,7 @@ export class ParamsFormComponent implements ControlValueAccessor, Validator {
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private ppm: ParamPluginManager
   ) {
     this.flags.set('page', 'Page');

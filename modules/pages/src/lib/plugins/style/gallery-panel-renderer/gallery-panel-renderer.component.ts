@@ -4,7 +4,7 @@ import { MediaSettings, MEDIA_SETTINGS } from '@rollthecloudinc/media';
 import { Pane } from '@rollthecloudinc/panels';
 import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { forkJoin } from 'rxjs';
-import { INgxGalleryOptions, INgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
+// import { INgxGalleryOptions, INgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 @Component({
   selector: 'classifieds-ui-gallery-panel-renderer',
@@ -27,13 +27,13 @@ export class GalleryPanelRendererComponent implements OnInit {
 
   mediaBaseUrl: string;
 
-  galleryOptions: Array<INgxGalleryOptions> = [
+  galleryOptions: Array</*INgxGalleryOptions*/any> = [
     {
       width: '100%',
       //height: '400px',
       thumbnailsColumns: 4,
       previewFullscreen: true,
-      imageAnimation: NgxGalleryAnimation.Slide,
+      imageAnimation: 1, //NgxGalleryAnimation.Slide,
       lazyLoading: false
     },
     // max-width 800
@@ -52,7 +52,7 @@ export class GalleryPanelRendererComponent implements OnInit {
       preview: false
     }*/
   ];
-  galleryImages: Array<INgxGalleryImage> = [];
+  galleryImages: Array</*INgxGalleryImage*/any> = [];
 
   constructor(
     @Inject(MEDIA_SETTINGS) mediaSettings: MediaSettings,

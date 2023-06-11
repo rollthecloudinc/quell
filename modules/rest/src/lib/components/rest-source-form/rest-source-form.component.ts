@@ -1,5 +1,5 @@
 import { Component, OnInit, forwardRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, of, BehaviorSubject } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
@@ -98,7 +98,7 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   public onTouched: () => void = () => {};
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     private datasourceApi: DatasourceApiService,
     private tokenizerService: TokenizerService
   ) {

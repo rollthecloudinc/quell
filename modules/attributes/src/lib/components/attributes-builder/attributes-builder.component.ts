@@ -1,6 +1,6 @@
 
 import { Component, OnChanges, Input, SimpleChanges, forwardRef } from '@angular/core';
-import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
+import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormGroup,UntypedFormControl, Validator, Validators, AbstractControl, ValidationErrors, UntypedFormArray } from "@angular/forms";
 import { Attribute, AttributeWidget, AttributeValue } from '../../models/attributes.models';
 import { WidgetsService } from '../../services/widgets.service';
 import { Observable } from 'rxjs';
@@ -40,12 +40,12 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
     return this._attributeValues;
   }
 
-  attributesForm = new FormGroup({
-    attributes: new FormArray([])
+  attributesForm = new UntypedFormGroup({
+    attributes: new UntypedFormArray([])
   });
 
-  get attributesArray(): FormArray {
-    return this.attributesForm.get('attributes') as FormArray;
+  get attributesArray(): UntypedFormArray {
+    return this.attributesForm.get('attributes') as UntypedFormArray;
   }
 
   private _attributeValues: Array<AttributeValue> = [];
@@ -64,16 +64,16 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
       }
       // @todo: Supports 2 levels of nesting currently (no recursion).
       this.attributes.forEach(attr => {
-        this.attributesArray.push(new FormGroup({
-          name: new FormControl(attr.name, Validators.required),
-          type: new FormControl(attr.type, Validators.required),
-          displayName: new FormControl(attr.label, Validators.required),
-          value: new FormControl('', attr.required ? Validators.required : []),
-          attributes: new FormArray(!attr.attributes ? [] : attr.attributes.map(attr2 => new FormGroup({
-            name: new FormControl(attr2.name, Validators.required),
-            type: new FormControl(attr2.type, Validators.required),
-            displayName: new FormControl(attr2.label, Validators.required),
-            value: new FormControl('', attr2.required ? Validators.required : [])
+        this.attributesArray.push(new UntypedFormGroup({
+          name: new UntypedFormControl(attr.name, Validators.required),
+          type: new UntypedFormControl(attr.type, Validators.required),
+          displayName: new UntypedFormControl(attr.label, Validators.required),
+          value: new UntypedFormControl('', attr.required ? Validators.required : []),
+          attributes: new UntypedFormArray(!attr.attributes ? [] : attr.attributes.map(attr2 => new UntypedFormGroup({
+            name: new UntypedFormControl(attr2.name, Validators.required),
+            type: new UntypedFormControl(attr2.type, Validators.required),
+            displayName: new UntypedFormControl(attr2.label, Validators.required),
+            value: new UntypedFormControl('', attr2.required ? Validators.required : [])
           })))
         }));
       });
@@ -121,7 +121,7 @@ export class AttributesBuilderComponent implements OnChanges, ControlValueAccess
         c.get('value').setValue(attrValue.value);
         c.updateValueAndValidity();
       }
-      (c.get('attributes') as FormArray).controls.forEach(c => {
+      (c.get('attributes') as UntypedFormArray).controls.forEach(c => {
         const attrValue = this.attributeValues && this.attributeValues[index] !== undefined ? this.attributeValues[index].attributes.find(av => av.name === c.get('name').value) : undefined;
         if(attrValue !== undefined) {
           c.get('value').setValue(attrValue.value);

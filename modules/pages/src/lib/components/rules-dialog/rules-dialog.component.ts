@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { QueryBuilderConfig, FieldMap, Rule as NgRule } from 'angular2-query-builder';
+import { UntypedFormBuilder, FormGroup } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { QueryBuilderConfig, FieldMap, Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
 import { RulesParserService } from '@rollthecloudinc/rules';
 import { forkJoin } from 'rxjs';
@@ -35,7 +35,7 @@ export class RulesDialogComponent implements OnInit {
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { rule: undefined | NgRule,contexts: Array<InlineContext> },
     private dialogRef: MatDialogRef<RulesDialogComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private inlineContextResolver: InlineContextResolverService,
     private rulesParser:  RulesParserService
   ) { }

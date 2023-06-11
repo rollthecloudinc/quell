@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UntypedFormBuilder } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { LayoutPlugin } from '../../models/layout.models';
 import { AttributeValue, ValueComputerService } from '@rollthecloudinc/attributes';
 
@@ -27,7 +27,7 @@ export class LayoutDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) private data: { layout: LayoutPlugin; type: string; settingValues: Array<AttributeValue> },
     private dialogRef: MatDialogRef<LayoutDialogComponent>,
     private valueComputerService: ValueComputerService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) {
   }
 

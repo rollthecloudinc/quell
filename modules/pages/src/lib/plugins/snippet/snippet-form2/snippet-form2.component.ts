@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input, forwardRef } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors, FormArray } from "@angular/forms";
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Snippet } from '@rollthecloudinc/snippet';
 
@@ -57,7 +57,7 @@ export class SnippetForm2Component implements OnInit, ControlValueAccessor, Vali
   preview: string;
   isMarkdown = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.contentForm.get("content").valueChanges.pipe(

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "durl",
+  "projectType": "library",
+  "sourceRoot": "modules/durl/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/durl/tsconfig.lib.json",
+        "project": "modules/durl/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/durl/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/durl"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/durl/src/test.ts",
+        "tsConfig": "modules/durl/tsconfig.spec.json",
+        "karmaConfig": "modules/durl/karma.conf.js"
+      }
+    }
+  }
+}

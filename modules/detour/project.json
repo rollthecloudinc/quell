@@ -1,0 +1,35 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "detour",
+  "projectType": "library",
+  "sourceRoot": "modules/detour/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "project": "modules/detour/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/detour/tsconfig.lib.prod.json"
+        },
+        "development": {
+          "tsConfig": "modules/detour/tsconfig.lib.json"
+        }
+      },
+      "defaultConfiguration": "production",
+      "outputs": [
+        "{workspaceRoot}/dist/detour"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/detour/src/test.ts",
+        "tsConfig": "modules/detour/tsconfig.spec.json",
+        "karmaConfig": "modules/detour/karma.conf.js"
+      }
+    }
+  }
+}

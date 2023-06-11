@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from '@angular/core';
 import { FieldType } from '@ngx-formly/material';
-import { MatInput } from '@angular/material/input';
-import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatLegacyInput as MatInput } from '@angular/material/legacy-input';
+import { MatLegacyAutocompleteTrigger as MatAutocompleteTrigger } from '@angular/material/legacy-autocomplete';
 import { Observable } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
 import { SelectOption } from '@rollthecloudinc/datasource';

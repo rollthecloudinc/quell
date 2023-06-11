@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ComponentFactoryResolver, ComponentRef, forwardRef, Input, OnInit, ViewChild } from '@angular/core';
 import { DatasourcePluginManager } from '../../services/datasource-plugin-manager.service';
-import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
+import { AbstractControl, ControlValueAccessor, UntypedFormArray, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator, Validators } from '@angular/forms';
 import { filter, switchMap, tap } from 'rxjs/operators';
 import { Datasource, DatasourcePlugin } from '../../models/datasource.models';
 import { DatasourceRendererHostDirective } from '../../directives/datasource-renderer-host.directive';
@@ -85,7 +85,7 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
       setTimeout(() => this.settings$.next(ds ? ds.settings : []));
     })
   ).subscribe(ds => {
-    (this.formGroup.get('renderer').get('bindings') as FormArray).clear();
+    (this.formGroup.get('renderer').get('bindings') as UntypedFormArray).clear();
     if (ds) {
       this.formGroup.get('plugin').setValue(ds.plugin);
       this.formGroup.get('renderer').get('type').setValue('pane');
@@ -102,12 +102,12 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
 
   public onTouched: () => void = () => {};
 
-  get bindings(): FormArray {
-    return this.formGroup.get('renderer').get('bindings') as FormArray;
+  get bindings(): UntypedFormArray {
+    return this.formGroup.get('renderer').get('bindings') as UntypedFormArray;
   }
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private componentFactoryResolver: ComponentFactoryResolver,
     private dpm: DatasourcePluginManager
   ) { }

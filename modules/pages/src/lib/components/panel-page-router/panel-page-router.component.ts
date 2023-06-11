@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store, select } from '@ngrx/store';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { EntityServices, EntityCollectionService, EntityDefinitionService } from '@ngrx/data';
 import { PanelPage, PageBuilderFacade, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { map, filter, distinctUntilChanged, switchMap, withLatestFrom, tap, take, delay } from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class PanelPageRouterComponent implements OnInit {
     filter(id => id !== undefined),
     switchMap(() => this.route.data),
     withLatestFrom(this.routerStore.pipe(
-      select(getSelectors((state: any) => state.router).selectCurrentRoute),
+      select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
       map(route => route.params),
       take(1)
     )),
@@ -50,7 +50,7 @@ export class PanelPageRouterComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const { selectCurrentRoute } = getSelectors((state: any) => state.router);
+    const { selectCurrentRoute } = getRouterSelectors((state: any) => state.router);
     this.route.paramMap.pipe(
       tap(() => console.log('param map page builder facade info')),
       withLatestFrom(this.pageBuilderFacade.getPageInfo$),

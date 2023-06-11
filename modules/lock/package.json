@@ -1,12 +1,12 @@
 {
   "name": "@rollthecloudinc/lock",
-  "version": "0.0.74",
+  "version": "16.0.0-alpha.6",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
-    "@angular/common": "^13.1.2",
-    "@angular/core": "^13.1.2"
+    "@angular/common": "^16.0.1",
+    "@angular/core": "^16.0.1"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.1"
   }
 }

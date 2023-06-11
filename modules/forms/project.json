@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "forms",
+  "projectType": "library",
+  "sourceRoot": "modules/forms/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/forms/tsconfig.lib.json",
+        "project": "modules/forms/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/forms/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/forms"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/forms/src/test.ts",
+        "tsConfig": "modules/forms/tsconfig.spec.json",
+        "karmaConfig": "modules/forms/karma.conf.js"
+      }
+    }
+  }
+}

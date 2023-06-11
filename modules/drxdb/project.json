@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "drxdb",
+  "projectType": "library",
+  "sourceRoot": "modules/drxdb/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/drxdb/tsconfig.lib.json",
+        "project": "modules/drxdb/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/drxdb/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/drxdb"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/drxdb/src/test.ts",
+        "tsConfig": "modules/drxdb/tsconfig.spec.json",
+        "karmaConfig": "modules/drxdb/karma.conf.js"
+      }
+    }
+  }
+}

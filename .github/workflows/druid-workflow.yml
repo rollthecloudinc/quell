@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-node@v3
         name: Setup Node
         with:
-          node-version: '16.13.2'
+          node-version: 18
           registry-url: "https://npm.pkg.github.com"
       - run: npm i gzipper -g
         name: Install gzipper

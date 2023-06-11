@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getSelectors, RouterReducerState } from '@ngrx/router-store';
+import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select } from '@ngrx/store';
 import { Param, ParamPluginManager, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { Observable, of, forkJoin } from 'rxjs';
@@ -17,7 +17,7 @@ export class UrlGeneratorService {
   ) {}
 
   getUrl(url, params: Array<Param>, metadata: Map<string, any>): Observable<string> {
-    const { selectCurrentRoute } = getSelectors((state: any) => state.router);
+    const { selectCurrentRoute } = getRouterSelectors();
     return this.routerStore.pipe(
       select(selectCurrentRoute),
       map(route => [route, url, url ? url.indexOf('?') : -1]),

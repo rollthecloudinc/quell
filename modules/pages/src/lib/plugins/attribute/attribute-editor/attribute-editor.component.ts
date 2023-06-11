@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Validators, FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Validators, UntypedFormGroup, UntypedFormControl, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { AttributeWidget, Attribute, AttributeValue, ATTRIBUTE_WIDGET, AttributeTypes } from '@rollthecloudinc/attributes';
 import { Pane } from '@rollthecloudinc/panels';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
@@ -18,9 +18,9 @@ export class AttributeEditorComponent implements OnInit {
   attributeValues: Array<AttributeValue> = [];
 
   attributesFormGroup = this.fb.group({
-    name: new FormControl(''),
-    label: new FormControl(''),
-    attributes: new FormControl('')
+    name: new UntypedFormControl(''),
+    label: new UntypedFormControl(''),
+    attributes: new UntypedFormControl('')
   });
 
   get name() {
@@ -32,10 +32,10 @@ export class AttributeEditorComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: FormGroup; pane: Pane; paneIndex: number;  },
+    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number;  },
     @Inject(ATTRIBUTE_WIDGET) attributeWidgets: Array<AttributeWidget>,
     private dialogRef: MatDialogRef<AttributeEditorComponent>,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private handler: AttributeContentHandler
   ) {
     const widgetSetting = this.data.pane.settings.find(s => s.name === 'widget');
@@ -45,8 +45,8 @@ export class AttributeEditorComponent implements OnInit {
   ngOnInit(): void {
     const value = this.data.pane.settings.find(s => s.name === 'value');
     this.attributes = [new Attribute({ ...this.widget.schema, widget: this.widget.name, label: 'Value', name: 'value' })];
-    const name = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('name').value;
-    const label = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('label').value;
+    const name = (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex).get('name').value;
+    const label = (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex).get('label').value;
     this.attributesFormGroup.get('name').setValue(name);
     this.attributesFormGroup.get('label').setValue(label);
     if(value !== undefined) {
@@ -68,13 +68,13 @@ export class AttributeEditorComponent implements OnInit {
   submit() {
     const name = this.name.value;
     const label = this.label.value;
-    (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('name').setValue(name);
-    (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('label').setValue(label);
+    (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex).get('name').setValue(name);
+    (this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex).get('label').setValue(label);
     const pane = new Pane({ name, label, contentPlugin: 'attribute', settings: this.attributesFormGroup.get('attributes').value === '' ? [] : this.attributesFormGroup.get('attributes').value });
     if(pane.settings.length !== 0) {
       this.handler.rendererSnippet(this.data.pane.settings).subscribe(r => {
         const renderer = r !== undefined ? this.handler.rendererOverrideSettings(r) : [];
-        const formArray = ((this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings') as FormArray);
+        const formArray = ((this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.data.paneIndex).get('settings') as UntypedFormArray);
         formArray.clear();
         [ ...this.handler.widgetSettings(this.widget), ...pane.settings, ...renderer].forEach(s => formArray.push(this.convertToGroup(s)));
         this.dialogRef.close();
@@ -84,20 +84,20 @@ export class AttributeEditorComponent implements OnInit {
     }
   }
 
-  convertToGroup(setting: AttributeValue): FormGroup {
+  convertToGroup(setting: AttributeValue): UntypedFormGroup {
 
     const fg = this.fb.group({
-      name: new FormControl(setting.name, Validators.required),
-      type: new FormControl(setting.type, Validators.required),
-      displayName: new FormControl(setting.displayName, Validators.required),
-      value: new FormControl(setting.value, Validators.required),
-      computedValue: new FormControl(setting.value, Validators.required),
-      attributes: new FormArray([])
+      name: new UntypedFormControl(setting.name, Validators.required),
+      type: new UntypedFormControl(setting.type, Validators.required),
+      displayName: new UntypedFormControl(setting.displayName, Validators.required),
+      value: new UntypedFormControl(setting.value, Validators.required),
+      computedValue: new UntypedFormControl(setting.value, Validators.required),
+      attributes: new UntypedFormArray([])
     });
 
     if(setting.attributes && setting.attributes.length > 0) {
       setting.attributes.forEach(s => {
-        (fg.get('attributes') as FormArray).push(this.convertToGroup(s));
+        (fg.get('attributes') as UntypedFormArray).push(this.convertToGroup(s));
       })
     }
 

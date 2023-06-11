@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { PanelPage, PageBuilderFacade } from '@rollthecloudinc/panels';
 import { take } from 'rxjs/operators';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -21,14 +21,14 @@ export class PageStateEditorComponent implements OnInit {
   @ViewChild(PageStateFormComponent, { static: true }) restSourceFormComp: PageStateFormComponent;
 
   constructor(
-    private fb: FormBuilder, 
+    private fb: UntypedFormBuilder, 
     private pageBuilderFacade: PageBuilderFacade,
     public controlContainer: ControlContainer
   ) { }
 
   ngOnInit(): void {
-    (this.controlContainer.control as FormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
-    (this.controlContainer.control as FormGroup).addControl('data', this.fb.control(''));
+    (this.controlContainer.control as UntypedFormGroup).addControl('adaptor', this.fb.control('data', Validators.required));
+    (this.controlContainer.control as UntypedFormGroup).addControl('data', this.fb.control(''));
     this.pageBuilderFacade.getPage$.pipe(
       take(1)
     ).subscribe(pp => {

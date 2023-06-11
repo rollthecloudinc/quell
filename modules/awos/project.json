@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "awos",
+  "projectType": "library",
+  "sourceRoot": "modules/awos/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/awos/tsconfig.lib.json",
+        "project": "modules/awos/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/awos/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/awos"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/awos/src/test.ts",
+        "tsConfig": "modules/awos/tsconfig.spec.json",
+        "karmaConfig": "modules/awos/karma.conf.js"
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "barrel",
+  "projectType": "library",
+  "sourceRoot": "modules/barrel/src",
+  "prefix": "lib",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:ng-packagr",
+      "options": {
+        "tsConfig": "modules/barrel/tsconfig.lib.json",
+        "project": "modules/barrel/ng-package.json"
+      },
+      "configurations": {
+        "production": {
+          "tsConfig": "modules/barrel/tsconfig.lib.prod.json"
+        }
+      },
+      "outputs": [
+        "{workspaceRoot}/dist/barrel"
+      ]
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "main": "modules/barrel/src/test.ts",
+        "tsConfig": "modules/barrel/tsconfig.spec.json",
+        "karmaConfig": "modules/barrel/karma.conf.js"
+      }
+    }
+  }
+}

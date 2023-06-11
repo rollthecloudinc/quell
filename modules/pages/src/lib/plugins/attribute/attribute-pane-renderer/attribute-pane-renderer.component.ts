@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Inject, Optional } from '@angular/core';
-import { ControlContainer, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormBuilder, Validators } from '@angular/forms';
 import { ATTRIBUTE_WIDGET, AttributeValue, AttributeWidget, Attribute, AttributeTypes } from '@rollthecloudinc/attributes';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 import { Snippet } from '@rollthecloudinc/snippet';
@@ -47,7 +47,7 @@ export class AttributePaneRendererComponent implements OnInit {
     @Inject(ATTRIBUTE_WIDGET) private widgets: Array<AttributeWidget>,
     private handler: AttributeContentHandler,
     private tokenizerService: TokenizerService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     @Optional() public controlContainer?: ControlContainer
   ) { }
 

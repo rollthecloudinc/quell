@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ControlContainer, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } from '@angular/forms';
 import { RestSourceFormComponent } from '@rollthecloudinc/rest';
 
 @Component({
@@ -12,11 +12,11 @@ export class ContextEditorComponent implements OnInit {
 
   @ViewChild(RestSourceFormComponent, { static: true }) restSourceFormComp: RestSourceFormComponent;
 
-  constructor(private fb: FormBuilder, public controlContainer: ControlContainer) { }
+  constructor(private fb: UntypedFormBuilder, public controlContainer: ControlContainer) { }
 
   ngOnInit(): void {
-    (this.controlContainer.control as FormGroup).addControl('adaptor', this.fb.control('rest', Validators.required));
-    (this.controlContainer.control as FormGroup).addControl('rest', this.fb.control(''));
+    (this.controlContainer.control as UntypedFormGroup).addControl('adaptor', this.fb.control('rest', Validators.required));
+    (this.controlContainer.control as UntypedFormGroup).addControl('rest', this.fb.control(''));
   }
 
 }
