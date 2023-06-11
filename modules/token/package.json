@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/token",
-  "version": "16.0.0-alpha.2",
+  "version": "16.0.0-alpha.6",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^16.0.1",

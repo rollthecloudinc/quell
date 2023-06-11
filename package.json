@@ -55,7 +55,7 @@
     "@opentelemetry/sdk-node": "^0.27.0",
     "@vendia/serverless-express": "^4.5.2",
     "angular-gridster2": "^16.0.0",
-    "angular-split": "^13.1.0",
+    "angular-split": "^15.0.0",
     "@rollthecloudinc/ngx-angular-query-builder": "16.0.1",
     "aws-crt": "^1.11.0",
     "aws-rum-web": "^1.5.0",
