@@ -56,6 +56,124 @@ Prototype using quell to load extension with new content type at runtime from ex
 * [Page](https://demo.carbonfreed.app/tractorbeam-test-v3)
 * [Editor](https://demo.carbonfreed.app/tractorbeam-test-v3/manage)
 
+# Modules
+
+Catalog of each primary Quell module enabling devs, builders and editors to quickly realize usable, modern web experiences optimised for 0 server, 0 trust, and 0 cost low-code cloud hosting.
+
+## Security
+
+Watch out for safety and security of the pack.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
+
+### Auth
+
+* auth
+* odic
+
+## Extensibility
+
+Far reaching wing span enabling travel over long distance.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/eagle2.png)
+
+### Plugin
+
+* plugin
+
+### Context
+
+* context
+
+### Meta
+
+* attributes
+
+### Parsing
+
+* dparam
+* durl
+* token
+
+## Routing
+
+Move users quickly to their destination.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/elephants.png)
+
+### Alias
+
+* alias
+
+Implementations:
+
+* pagealias
+* alienalias
+
+## Persistence
+
+Move data quickly with consistency.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
+
+### Crud
+
+* crud
+
+Implementations
+* aws3
+* awos
+* rest
+
+## Search
+
+Soar over, take hold and consume data.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
+
+### Datasource
+
+* datasource
+
+Implementations:
+* transform
+* crud
+* loop
+* rest
+
+Articles:
+* [Datasources Explained](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource)
+
+## Orchestration
+
+Swim alongside one another with ease and consistency as one.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/dolphines.png)
+
+### Module Federation
+
+* alienalias
+* outsider
+* tractorbeam
+
+## Publishing
+
+Realize killer breathtaking experiences.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/whale.png)
+
+### PanelPage
+
+* panels
+* render
+* pages
+* pagealias
+* layout
+* sheath
+
+Articles:
+* [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
+
 # Future
 
 Visit the charities [github account](https://github.com/rollthecloudinc) for planned initiatives using quell.
