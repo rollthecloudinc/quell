@@ -1,5 +1,7 @@
 <img width="198" alt="Screen Shot 2023-06-29 at 1 54 17 AM" src="https://github.com/rollthecloudinc/quell/assets/73197190/31e943b2-e872-4cd1-9495-1d9a4575cc86">
 
+<img width="356" alt="quell-type" src="https://github.com/rollthecloudinc/quell/assets/73197190/904e92e4-f54b-47f4-b2f9-821c63065466">
+
 Quell is a carbon free modern CMS that runs effiencently on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive resources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Carbon Free](https://github.com/rollthecloudinc/carbonfree) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions. Everthing needed for rapid low code and energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository.
 
 # Climate Aware
