@@ -14,6 +14,8 @@ on:
         required: true
       DESTINATION_REPO:
         required: true
+      DESTINATION_USER:
+        required: false
       TARGET_BRANCH:
         required: true
       OBJECTS_REPO:
@@ -74,6 +76,6 @@ jobs:
           SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
         with:
           source-directory: 'dist/spear'
-          destination-github-username: 'rollthecloudinc'
+          destination-github-username: ${{ secrets.DESTINATION_USER || 'rollthecloudinc' }}
           destination-repository-name: ${{ secrets.DESTINATION_REPO }}
           target-branch: ${{ secrets.TARGET_BRANCH }}
