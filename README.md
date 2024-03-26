@@ -1,6 +1,8 @@
-<img width="356" alt="quell_logo2" src="https://user-images.githubusercontent.com/73197190/199178885-0bc99ce0-b97a-402b-b156-f79ffad8aa38.png">
+<img width="198" alt="Screen Shot 2023-06-29 at 1 54 17 AM" src="https://github.com/rollthecloudinc/quell/assets/73197190/31e943b2-e872-4cd1-9495-1d9a4575cc86">
 
-Quell is a carbon free web editor that runs effiencently on sustainable energy resources. In addition to running on clean energy additional measures have been taken to significantly reduce energy consumption. Quell achieves this feat via neutralizing servers and databases removing these energy intensive resources from the web hosting equation. In contrast to traditional websites our carbon free sites run completely in the browser and communicate securely directly with resources in the cloud when necessary. Quell is the editor of choice for [Carbon Free](https://github.com/rollthecloudinc/carbonfree) our cloud hosted platform to reimagine the web without scope 1,2,3 emissions. Everthing needed for rapid low code and energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository.
+<img width="356" alt="quell-type" src="https://github.com/rollthecloudinc/quell/assets/73197190/904e92e4-f54b-47f4-b2f9-821c63065466">
+
+Introducing Quell, a sustainable and carbon free CMS that operates efficiently on renewable energy resources. Not only does Quell run on clean energy, but it also takes additional measures to significantly diminish energy consumption. This is accomplished by neutralizing servers and databases, eliminating these energy-intensive elements from the web hosting equation. Unlike traditional websites, our carbon free sites run entirely in the browser and securely communicate directly with cloud resources when necessary. Quell is the preferred editor for [Carbon Free](https://github.com/rollthecloudinc/carbonfree), our cloud hosted platform that envisions a web without scope 1, 2, and 3 emissions. Everything needed for the swift development of energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository. Experience the power of Quell as we reimagine the internet with a focus on sustainability and reduced carbon footprint.
 
 # Climate Aware
 
@@ -55,6 +57,124 @@ Prototype using quell to load extension with new content type at runtime from ex
 
 * [Page](https://demo.carbonfreed.app/tractorbeam-test-v3)
 * [Editor](https://demo.carbonfreed.app/tractorbeam-test-v3/manage)
+
+# Modules
+
+Catalog of each primary Quell module enabling devs, builders and editors to quickly realize usable, modern web experiences optimised for 0 server, 0 trust, and 0 cost low-code cloud hosting.
+
+## Security
+
+Watch out for safety and security of the pack.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/wolves.png)
+
+### Auth
+
+* auth
+* odic
+
+## Extensibility
+
+Far reaching wing span enabling travel over long distance.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/eagle2.png)
+
+### Plugin
+
+* plugin
+
+### Context
+
+* context
+
+### Meta
+
+* attributes
+
+### Parsing
+
+* dparam
+* durl
+* token
+
+## Routing
+
+Move users quickly to their destination.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/elephants.png)
+
+### Alias
+
+* alias
+
+Implementations:
+
+* pagealias
+* alienalias
+
+## Persistence
+
+Move data quickly with consistency.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
+
+### Crud
+
+* crud
+
+Implementations
+* aws3
+* awos
+* rest
+
+## Search
+
+Soar over, take hold and consume data.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/owl.png)
+
+### Datasource
+
+* datasource
+
+Implementations:
+* transform
+* crud
+* loop
+* rest
+
+Articles:
+* [Datasources Explained](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Data-Datasource)
+
+## Orchestration
+
+Swim alongside one another with ease and consistency as one.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/dolphines.png)
+
+### Module Federation
+
+* alienalias
+* outsider
+* tractorbeam
+
+## Publishing
+
+Realize killer breathtaking experiences.
+
+![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/whale.png)
+
+### PanelPage
+
+* panels
+* render
+* pages
+* pagealias
+* layout
+* sheath
+
+Articles:
+* [Toggling Pane Visibility](https://github.com/ng-druid/platform/wiki/Feature-Demo:-Toggling-Pane-Visibility)
 
 # Future
 
