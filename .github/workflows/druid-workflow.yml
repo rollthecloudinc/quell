@@ -20,6 +20,8 @@ on:
         required: true
       OBJECTS_REPO:
         required: true
+      ENABLE_GZIP:
+        required: false
 jobs:
   dev-deploy:
     runs-on: ubuntu-latest
@@ -58,6 +60,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
       - run: npm i gzipper -g
         name: Install gzipper
+        if: ${{ secrets.ENABLE_GZIP || true }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm install
@@ -66,6 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
       - run: gzipper compress ./dist/spear -i js,css,html
+        if: ${{ secrets.ENABLE_GZIP || true }}
         name: Compress
       - run: echo "::set-output name=stamp::$(date +'%Y%m%d%H%M%S')"
         name: Generate Release Stamp
