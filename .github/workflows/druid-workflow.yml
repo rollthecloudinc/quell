@@ -60,7 +60,7 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
       - run: npm i gzipper -g
         name: Install gzipper
-        if: ${{ secrets.ENABLE_GZIP || true }}
+        if: ${{ secrets.ENABLE_GZIP == 'true' || true }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm install
