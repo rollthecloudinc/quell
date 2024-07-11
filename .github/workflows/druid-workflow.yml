@@ -69,7 +69,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
       - run: gzipper compress ./dist/spear -i js,css,html
-        if: ${{ secrets.ENABLE_GZIP || true }}
+        if: ${{ secrets.ENABLE_GZIP == 'true' || true }}
         name: Compress
       - run: echo "::set-output name=stamp::$(date +'%Y%m%d%H%M%S')"
         name: Generate Release Stamp
