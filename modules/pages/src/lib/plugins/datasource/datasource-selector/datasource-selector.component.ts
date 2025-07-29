@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, FormArray, FormControl } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 

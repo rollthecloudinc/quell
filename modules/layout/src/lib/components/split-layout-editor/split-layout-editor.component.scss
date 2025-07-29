@@ -1,34 +1,34 @@
 .layout-type, .display-type {
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & ::ng-deep .mat-form-field-wrapper {
     padding-bottom: 0;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & ::ng-deep .mat-form-field-label-wrapper {
     display: none;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & ::ng-deep .mat-form-field-infix {
     border-top: none;
     padding: 0;
     margin: 0;
   }
 
-  & ::ng-deep .mat-form-field {
+  & ::ng-deep .mat-mdc-form-field {
     width: 70px;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
   & ::ng-deep .mat-select-value {
     text-align: right;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
   & ::ng-deep .mat-form-field-underline {
     display: none;
   }
 
 }
 
-.mat-menu-trigger {
+.mat-mdc-menu-trigger {
   min-width: 0;
   padding: 0;
   margin: 0;

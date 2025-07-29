@@ -5,7 +5,7 @@ import { AttributeValue } from '@rollthecloudinc/attributes';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 import { PanelPage, PanelPageListItem, LayoutSetting, PanelContentHandler } from '@rollthecloudinc/panels';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';

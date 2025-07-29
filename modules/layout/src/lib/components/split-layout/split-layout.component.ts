@@ -1,5 +1,5 @@
 import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { SplitAreaDirective } from 'angular-split';
 import { LayoutSetting } from '@rollthecloudinc/panels';
 import { filter, switchMap } from 'rxjs/operators';

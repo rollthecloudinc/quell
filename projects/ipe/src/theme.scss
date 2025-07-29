@@ -1,6 +1,6 @@
 @use '@angular/material' as mat;
 @include mat.core();
-@include mat.legacy-core(); // this is the important line
+@include mat.core(); // this is the important line
 
 /* ======== Angular material custom themes ======== */
 $my-custom-primary: mat.define-palette(mat.$cyan-palette);
@@ -19,8 +19,9 @@ $my-custom-theme: mat.define-light-theme((
 
 // add your regular theme definition here
 @include mat.all-component-themes($my-custom-theme);
-@include mat.all-legacy-component-themes($my-custom-theme); // this is the important line
+@include mat.all-component-themes($my-custom-theme); // this is the important line
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .mat-tab-body-wrapper {
   height: 100%;
 }
