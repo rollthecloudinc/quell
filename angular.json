@@ -461,7 +461,7 @@
           "defaultConfiguration": ""
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "browserTarget": "ipe:build",
             "serverTarget": "ipe:server",

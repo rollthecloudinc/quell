@@ -61,7 +61,7 @@ import { DeityModule } from '@rollthecloudinc/deity';
 import { LoopModule } from '@rollthecloudinc/loop';
 import { RenderModule } from '@rollthecloudinc/render';
 import { FormsModule as DruidFormsModule } from '@rollthecloudinc/forms';
-import { TransferHttpCacheModule } from '@nguniversal/common';
+import { TransferHttpCacheModule } from '@angular/ssr';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@rollthecloudinc/alienalias';
 import { OutsiderModule } from '@rollthecloudinc/outsider';

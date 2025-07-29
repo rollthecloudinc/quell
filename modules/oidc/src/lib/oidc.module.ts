@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Inject, Injector, ModuleWithProviders, NgModule, Optional, PLATFORM_ID } from '@angular/core';
+import { APP_INITIALIZER, Inject, Injector, ModuleWithProviders, NgModule, Optional, PLATFORM_ID, TransferState } from '@angular/core';
 import { EntityDefinitionService } from '@ngrx/data';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthWebStorageService } from './services/auth-web-storage.service';
@@ -6,7 +6,7 @@ import { authWebStorageFactory, initAuthFactory, userManagerFactory } from './oi
 import { OidcAuthEffects } from './effects/oidc-auth.effects';
 import { entityMetadata } from './entity-metadata';
 import { CLIENT_SETTINGS } from './oidc.tokens';
-import { TransferState } from '@angular/platform-browser';
+
 import { UserManager } from 'oidc-client';
 import { AuthFacade, AuthModule } from '@rollthecloudinc/auth';
 @NgModule({
