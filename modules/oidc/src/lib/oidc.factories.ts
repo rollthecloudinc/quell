@@ -4,7 +4,7 @@ import { ClientSettings } from './models/oidc.models';
 import { UserManager, WebStorageStateStore } from 'oidc-client';
 import { AuthFacade } from '@rollthecloudinc/auth';
 import { AuthWebStorageService } from './services/auth-web-storage.service';
-import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
+// import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 
 
 export const userManagerFactory = (clientSettings: ClientSettings, authWebStorage: AuthWebStorageService) => {
@@ -39,7 +39,7 @@ export const authWebStorageFactory = (clientSettings: ClientSettings, platformId
    */
   if(isPlatformServer(platformId)) {
     try {
-      svc.request = injector.get(REQUEST);
+      // svc.request = injector.get(REQUEST);
     } catch (e) {
 
     }
