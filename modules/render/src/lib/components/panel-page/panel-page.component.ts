@@ -6,7 +6,7 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rolltheclo
 import { GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
 import { AsyncApiCallHelperService, StyleLoaderService } from '@rollthecloudinc/utils';
 import { FilesService, MediaSettings, MEDIA_SETTINGS } from '@rollthecloudinc/media';
-import { InteractionListener } from '@rollthecloudinc/detour';
+import { InteractionEventPluginManager, InteractionHandlerPluginManager, InteractionListener } from '@rollthecloudinc/detour';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@rollthecloudinc/context';
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
@@ -29,6 +29,7 @@ import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
 import { DOCUMENT } from '@angular/common';
 import { AuthFacade } from '@rollthecloudinc/auth';
+import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 
 @Component({
   selector: 'classifieds-ui-panel-page',
@@ -377,6 +378,140 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     tap(() => this.isStable = false)
   ).subscribe();
 
+  readonly wireListenersSub = combineLatest([
+    this.listeners$,
+    this.renderLayout$,
+    this.afterContentInit$,
+  ]).pipe(
+    delay(1),
+    switchMap(() => forkJoin(this.filteredListeners.map(l => of({}).pipe(
+        map(() => ({ paramNames: l.event.settings.paramsString ? l.event.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
+        switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(l.event.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
+          map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+        )),
+        defaultIfEmpty([])
+      )  
+    ))),
+    switchMap(listenerParams => this.iepm.getPlugin('dom').pipe(
+      map(p => ({ p, listenerParams }))
+    )),
+    switchMap(({ p, listenerParams }) => p.connect({ 
+      filteredListeners: this.filteredListeners, 
+      listenerParams, 
+      renderer: this.renderer,
+      callback: ({ handlerParams, plugin, index, evt }) => {
+        // console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
+        this.ihpm.getPlugin(plugin).pipe(
+          tap(p => {
+            p.handle({ 
+              handlerParams, 
+              plugin, 
+              index, 
+              listener: this.filteredListeners[index], 
+              evt, 
+              renderer: this.renderer });
+          })
+        ).subscribe();
+      }
+    })),
+    tap((listenerParams) => {
+      console.log('listener info', this.filteredListeners, listenerParams);
+
+      /*this.iepm.getPlugin('dom').subscribe(p => {
+        p.connect({ 
+          filteredListeners: this.filteredListeners, 
+          listenerParams, 
+          renderer: this.renderer,
+          callback: ({ handlerParams, plugin, index, evt }) => {
+            console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
+          }
+        }).subscribe();
+      });*/
+
+      // The hard way to handle events using our own delegation algorithm
+      // since nodes are constantly changing underneath and simple way
+      // doesn't seem to work.
+
+      // This is all going to be part of the plugin function anyway.
+
+      /*const mapTypes = new Map<string, Array<number>>();
+      const len = this.filteredListeners.length;
+      for (let i = 0; i < len; i++) {
+        const type = (listenerParams[i] as  any).type;
+        if (mapTypes.has(type)) {
+          const targets = mapTypes.get(type);
+          targets.push(i);
+          mapTypes.set(type, targets);
+        } else {
+          mapTypes.set(type, [i]);
+        }
+      }
+      const eventDelegtionHandler = (m => e => {
+        if (m.has(e.type)) {
+          const targets = m.get(e.type);
+          const len = targets.length;
+          targets.forEach((__, i) => {
+            const expectedTarget = (listenerParams[targets[i]] as any).target;
+            if (e.target.matches(expectedTarget)) {
+              console.log(`delegated target match ${expectedTarget}`);
+              if(this.filteredListeners[i].handler.settings.params) {
+                const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
+                this.paramEvaluatorService.paramValues(
+                  this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
+                ).pipe(
+                  map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+                ).subscribe((handlerParams) => {
+                  // plugin call and pass params
+                  console.log('handler original event and params', e, this.filteredListeners[i].handler.plugin,  handlerParams);
+                })
+              } else {
+                // plugin call and pass params
+                console.log('handler original event and params', this.filteredListeners[i].handler.plugin, e);
+              }
+            }
+          });
+        }
+      })(mapTypes)
+      const keys = Array.from(mapTypes);
+      for (let i = 0; i < keys.length; i++) {
+        const type = keys[i][0];
+        this.renderer.listen('document', type, e => {
+          eventDelegtionHandler(e);
+        });
+      }*/
+
+      /*this.renderer.listen('document', 'click', e => {
+        console.log('delegated target');
+        if (e.target.matches('.open-dialog')) {
+          console.log('delegated target match');
+        }
+      });*/
+
+      /*const listenerLen = this.filteredListeners.length;
+      for (let i = 0; i < listenerLen; i++) {
+        // Assumption is made herre that would be responsibility of plugin instead ie. target is required for DOM event.
+        // For now though just to get things spinning again hard code expectation.
+        const targets =(this.el.nativeElement as Element).querySelectorAll((listenerParams[i] as  any).target);
+        console.log('listener target', targets);
+        targets.forEach(t => this.renderer.listen(t, (listenerParams[i] as  any).type, e => {
+          console.log('listener fired');
+          if(this.filteredListeners[i].handler.settings.params) {
+            const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
+            this.paramEvaluatorService.paramValues(
+              this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
+            ).pipe(
+              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+            ).subscribe((handlerParams) => {
+              console.log('handler original event and params',e,  handlerParams);
+            });
+          } else {
+            console.log('handler original event and params', e);
+          }
+        }));
+      }*/
+    })
+  ).subscribe()
+
   get panelsArray(): UntypedFormArray {
     return this.pageForm.get('panels') as UntypedFormArray;
   }
@@ -412,6 +547,10 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     private classifyService: ClassifyService,
     private fileService: FilesService,
     private authFacade: AuthFacade,
+    private paramEvaluatorService:  ParamEvaluatorService,
+    private renderer: Renderer2,
+    private iepm: InteractionEventPluginManager,
+    private ihpm: InteractionHandlerPluginManager,
     es: EntityServices,
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
@@ -761,9 +900,51 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   ]).pipe(
     map(([l]) => l),
     tap(listeners => {
+      this.filteredListeners = listeners
       console.log('pane listeners', listeners);
     })
   ).subscribe();
+
+  readonly wireListenersSub = combineLatest([
+    this.listeners$,
+    this.afterContentInit$,
+  ]).pipe(
+    delay(1),
+    switchMap(() => forkJoin(this.filteredListeners.map(l => of({}).pipe(
+        map(() => ({ paramNames: l.event.settings.paramsString ? l.event.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
+        switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(l.event.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
+          map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+        )),
+        defaultIfEmpty([])
+      )  
+    ))),
+    tap((listenerParams) => {
+      console.log('listener info', this.filteredListeners, listenerParams);
+      const listenerLen = this.filteredListeners.length;
+      for (let i = 0; i < listenerLen; i++) {
+        // Assumption is made herre that would be responsibility of plugin instead ie. target is required for DOM event.
+        // For now though just to get things spinning again hard code expectation.
+        const targets =(this.el.nativeElement as Element).querySelectorAll((listenerParams[i] as  any).target);
+        console.log('listener target', targets);
+        targets.forEach(t => this.renderer.listen(t, (listenerParams[i] as  any).type, e => {
+          console.log('listener fired');
+          if(this.filteredListeners[i].handler.settings.params) {
+            const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
+            this.paramEvaluatorService.paramValues(
+              this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
+            ).pipe(
+              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+            ).subscribe((handlerParams) => {
+              console.log('handler original event and params',e,  handlerParams);
+            });
+          } else {
+            console.log('handler original event and params', e);
+          }
+        }));
+
+      }
+    })
+  ).subscribe()
 
   paneForm = this.fb.group({
     contentPlugin: this.fb.control('', Validators.required),
@@ -832,6 +1013,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private cpm: ContentPluginManager,
     private cssHelper: CssHelperService,
     private paneStateService: PaneStateService,
+    private paramEvaluatorService: ParamEvaluatorService,
+    private renderer: Renderer2,
     es: EntityServices
   ) {
     this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
