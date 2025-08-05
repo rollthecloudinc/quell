@@ -1,4 +1,4 @@
-import { BrowserModule /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
 import { NgModule, ErrorHandler, APP_INITIALIZER,  SecurityContext, NgZone, PLATFORM_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
@@ -37,7 +37,7 @@ import { ReactModule } from '@rollthecloudinc/react';
 // import { NbA11yModule } from '@nebular/theme';
 // import { JsonschemaModule } from '@classifieds-ui/jsonschema';
 // import { TAXONOMY_SETTINGS, TaxonomySettings } from '@classifieds-ui/taxonomy';
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer, MARKED_OPTIONS } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -61,7 +61,7 @@ import { DeityModule } from '@rollthecloudinc/deity';
 import { LoopModule } from '@rollthecloudinc/loop';
 import { RenderModule } from '@rollthecloudinc/render';
 import { FormsModule as DruidFormsModule } from '@rollthecloudinc/forms';
-import { TransferHttpCacheModule } from '@angular/ssr';
+// import { TransferHttpCacheModule } from '@angular/ssr';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@rollthecloudinc/alienalias';
 import { OutsiderModule } from '@rollthecloudinc/outsider';
@@ -154,11 +154,11 @@ export function markedOptionsFactory(): MarkedOptions {
     BrowserAnimationsModule,
     FlexLayoutModule,
     NgxJsonViewerModule,
-    TransferHttpCacheModule,
+    //TransferHttpCacheModule,
     MarkdownModule.forRoot({
       sanitize: SecurityContext.NONE,
       markedOptions: {
-        provide: MarkedOptions,
+        provide: MARKED_OPTIONS, // MarkedOptions,
         useFactory: markedOptionsFactory,
       },
     }),
@@ -229,6 +229,7 @@ export function markedOptionsFactory(): MarkedOptions {
     // okta auth
     //{ provide: OKTA_CONFIG, useValue: oktaConfig },
     CatchAllGuard,
+    provideClientHydration(),
 
     { provide: SITE_NAME, useValue: environment.site },
 

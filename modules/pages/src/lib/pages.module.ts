@@ -8,7 +8,7 @@ import { AngularSplitModule } from 'angular-split';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { NgxAngularQueryBuilderModule } from '@rollthecloudinc/ngx-angular-query-builder';
+import { NgxAngularQueryBuilderModule } from 'ngx-angular-query-builder';
 import { MediaModule } from '@rollthecloudinc/media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from '@rollthecloudinc/utils';
 import { TokenizerService, TokenModule } from '@rollthecloudinc/token';

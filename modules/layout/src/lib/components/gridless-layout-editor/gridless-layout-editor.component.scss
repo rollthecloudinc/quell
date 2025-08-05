@@ -14,9 +14,9 @@
     margin: 0;
   }
 
-  & ::ng-deep .mat-mdc-form-field {
+  /*& ::ng-deep .mat-mdc-form-field {
     width: 70px;
-  }
+  }*/
   /* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
   & ::ng-deep .mat-select-value {
     text-align: right;

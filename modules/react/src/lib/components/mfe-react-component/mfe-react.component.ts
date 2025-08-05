@@ -12,7 +12,7 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
 
 const containerElementName = 'mfeReactComponent';
 
@@ -38,11 +38,11 @@ export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    ReactDOM.unmountComponentAtNode(this.containerRef.nativeElement);
+    // ReactDOM.unmountComponentAtNode(this.containerRef.nativeElement);
   }
 
   private render() {
     const c = this.component();
-    ReactDOM.render(c, this.containerRef.nativeElement);
+    // ReactDOM.render(c, this.containerRef.nativeElement);
   }
 }

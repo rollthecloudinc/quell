@@ -60,15 +60,26 @@ export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterCon
     switchMap(snippet => this.resolveContexts().pipe(
       map<Map<string, any>, [Snippet, Map<string, any> | undefined]>(tokens => [snippet, tokens])
     ))
-  ).subscribe(([snippet, tokens]) => {
-    if(tokens !== undefined) {
+  )
+  .subscribe(async ([snippet, tokens]) => { // Use `async` for handling potential promises
+    if (tokens !== undefined) {
       this.tokens = tokens;
     }
+
     this.contentType = snippet.contentType;
     this.snippet$.next(snippet);
+
     const replacedTokens = this.replaceTokens(snippet.content);
-    const compiledContent = snippet.contentType && snippet.contentType.indexOf('markdown') !== -1 ? this.markdownService.parse(replacedTokens) : replacedTokens;
-    this.content$.next(compiledContent);
+    let compiledContent: string;
+
+    if (snippet.contentType && snippet.contentType.indexOf('markdown') !== -1) {
+      // Resolve if the `parse` method returns a Promise
+      compiledContent = await Promise.resolve(this.markdownService.parse(replacedTokens));
+    } else {
+      compiledContent = replacedTokens;
+    }
+
+    this.content$.next(compiledContent); // Now guaranteed to assign a `string`
   });
 
   constructor(
