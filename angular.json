@@ -1686,5 +1686,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

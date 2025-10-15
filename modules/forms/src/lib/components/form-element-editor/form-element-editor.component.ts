@@ -62,16 +62,21 @@ export class FormElementEditorComponent implements OnInit {
   ngOnInit(): void {
     if (this.data.pane) {
       this.handler.toObject(this.data.pane.settings).subscribe(i => {
-        // this.formGroup.get('type').setValue(i.type);
-        // this.formGroup.get('key').setValue(i.key);
-        this.formGroup.get('value').setValue(i.value);
-        // this.formGroup.get('options').setValue(i.options ? i.options : { label: '' });
-        // this.rest = i.rest ? new Rest({ ...i.rest, params: [] }) : mockRest;
-        this.datasourceOptions = i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions;
-        this.validation = i.validation ? new FormValidation(i.validation) : new FormValidation({ validators: [] });
-        // this.formGroup.get('datasourceOptions').setValue(i.datasourceOptions ? i.datasourceOptions : mockDatasourceOptions);
-        this.formGroup.get('datasourceBinding').get('id').setValue( i.datasourceBinding && i.datasourceBinding.id && i.datasourceBinding.id !== null ? i.datasourceBinding.id : '' );
-        // setTimeout(() => this.rest = i.rest ? i.rest : mockRest);
+        console.log("Form Editor Data Pane Data", i);
+
+        this.formGroup.patchValue({
+          value: i.value,
+          datasourceOptions: i.datasourceOptions || mockDatasourceOptions,
+          datasourceBinding: {
+            id: i.datasourceBinding?.id || '',
+            type: 'pane'
+          }
+        });
+
+        this.datasourceOptions = i.datasourceOptions || mockDatasourceOptions;
+        this.validation = i.validation
+          ? new FormValidation(i.validation)
+          : new FormValidation({ validators: [] });
       });
     } else {
       (this.data.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
@@ -85,7 +90,11 @@ export class FormElementEditorComponent implements OnInit {
       this.pane = new Pane((this.data.panelFormGroup.get('panes') as UntypedFormArray).at(this.paneIndex).value);
     }
 
-    this.bindableOptions = (this.data.panelFormGroup.get('panes') as UntypedFormArray).controls.reduce<Array<string>>((p, c) => (c.get('name').value ? [ ...p, c.get('name').value ] : [ ...p ]), []);
+    // Update bindableOptions if required
+    this.bindableOptions = (this.data.panelFormGroup.get('panes') as UntypedFormArray).controls
+      .reduce<Array<string>>((p, c) => (
+        c.get('name').value ? [...p, c.get('name').value] : p
+      ), []);
     // this.contexts = this.data.contexts.map(c => c.name);
     /*if (this.data.panelIndex !== undefined) {
       const settings = (this.data.panelFormGroup.get('panes') as FormArray).at(this.data.paneIndex).get('settings').value.map(s => new AttributeValue(s));
@@ -98,7 +107,7 @@ export class FormElementEditorComponent implements OnInit {
   submit() {
     console.log(this.formGroup.value);
     const instance = new FormSettings(this.formGroup.value);
-    console.log(instance);
+    console.log('losing options debug', instance);
     // this.paneGroup.get('name').setValue(instance.key);
     // this.paneGroup.get('label').setValue(instance.key);
     (this.paneGroup.get('settings') as UntypedFormArray).clear();
