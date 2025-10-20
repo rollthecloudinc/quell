@@ -48,20 +48,28 @@ export class ClassifyService {
 
       const path = domElementPath.default(record.target);
       let rebuiltSelector = '';
-      const oldClasses = record.oldValue.split(' ').map(c => c.trim());
+      const oldClasses = record.oldValue && record.oldValue !== null ? record.oldValue.split(' ').map(c => c.trim()) : [];
 
       const pieces = path.split(' ');
       const optimizedSelector = pieces.reduce((p, c, i) => c.indexOf('.pane-') !== -1 || c.indexOf('.panel-') !== -1 ? { selector: [ ...p.selector, c.replace(/^(.*?)(\.pane-|\.panel-page|\.panel-)([0-9]*)(.*?)$/,'$2$3') ], chars: p.chars + c.length, lastIndex: p.chars + i + c.length } : { ...p, chars: p.chars + c.length }, { selector: [], chars: 0, lastIndex: 0 });
+      
       if (optimizedSelector.selector.length !== 0) {
-        // console.log('after selector', k.slice(optimizedSelector.lastIndex))
-        const suffix = path.substring(optimizedSelector.lastIndex).split('>').map(s => s.trim()).filter(s => s !== '').map((s, i) => {
-          const dotIndex = s.indexOf('.')
-          const element = dotIndex === -1 ? suffix : s.substring(0, dotIndex);
-          const classes = dotIndex === -1 ? [] : s.substring(dotIndex + 1).split('.');
-          const keep = classes.filter(c => oldClasses.find(oc => c === oc) !== undefined);
-          return (i === 0 ? ' > ' : '') + element + (keep.length === 0 ? '' : '.' + keep.join('.'));
-        });
-        rebuiltSelector = ( optimizedSelector.selector.join(' ') + /*' ' +*/ suffix.join(' > ') /*path.slice(optimizedSelector.lastIndex)*/ /*.split('>').join('')*/ ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm,'');
+        const suffix = path.substring(optimizedSelector.lastIndex)
+          .split('>')
+          .map((s) => s.trim())
+          .filter((s) => s !== '')
+          .map((s, i) => {
+            const dotIndex = s.indexOf('.');
+            const element = dotIndex === -1 ? s.substring(0) : s.substring(0, dotIndex); // Corrected
+            const classes = dotIndex === -1 ? [] : s.substring(dotIndex + 1).split('.');
+            const keep = classes.filter((c) => oldClasses.find((oc) => c === oc) !== undefined);
+            return (i === 0 ? ' > ' : '') + element + (keep.length === 0 ? '' : '.' + keep.join('.'));
+          });
+
+        rebuiltSelector = (
+          optimizedSelector.selector.join(' ') + /*' ' +*/ suffix.join(' > ') /*path.slice(optimizedSelector.lastIndex)*/ /*.split('>').join('')*/
+        ).replace(/(\.ng\-[a-zA-Z0-9_-]*)/gm, '');
+        
         if (rebuiltSelector.indexOf('.panel-page') === 0) {
           rebuiltSelector = rebuiltSelector.substr(12).trim();
         }
