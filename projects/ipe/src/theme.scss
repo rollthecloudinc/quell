@@ -1,5 +1,6 @@
 @use '@angular/material' as mat;
-@include mat.core(); // this is the important line
+@include mat.elevation-classes();
+@include mat.app-background(); // this is the important line
 
 /* ======== Angular material custom themes ======== */
 $my-custom-primary: mat.m2-define-palette(mat.$m2-cyan-palette);
