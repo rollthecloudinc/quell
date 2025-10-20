@@ -1,7 +1,7 @@
 import { Component, OnInit, forwardRef, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors } from "@angular/forms";
 import { HttpErrorResponse } from '@angular/common/http';
-import { Subject, of, BehaviorSubject } from 'rxjs';
+import { Subject, of, BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
 import { DatasourceApiService } from '@rollthecloudinc/datasource';
 import * as qs from 'qs';
@@ -51,24 +51,37 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   paramsParsed: any;
 
   readonly restSource$ = new BehaviorSubject<Rest>(new Rest());
+  readonly urlParams$ = new BehaviorSubject<{}>({});
+  readonly bodyParams$ = new BehaviorSubject<{}>({});
 
   componentDestroyed = new Subject();
 
   refreshData$ = new Subject();
   refreshSubscription = this.refreshData$.pipe(
     map(() => this.generateUrl()),
-    tap(url => console.log(url)),
+    tap(url => console.log('URL Generated:', url)),
     filter(url => url && url.trim() !== ''),
-    switchMap((url: string) => this.datasourceApi.getData(url).pipe(
-      catchError((e: HttpErrorResponse) => {
-        console.log(e);
-        return of([]);
-      })
-    )),
+    switchMap(url => {
+      const method = this.sourceForm.get('method').value; // Get the selected HTTP method
+      const body = this.sourceForm.get('body').value?.content; // Get the body content if provided
+
+      // Choose the appropriate HTTP action based on the method
+      const request$ =
+        method === 'post'
+          ? this.datasourceApi.postData({ url, body }) // Use POST with body
+          : this.datasourceApi.getData(url); // Default is GET
+
+      return request$.pipe(
+        catchError((e: HttpErrorResponse) => {
+          console.error(e); // Log the error for debugging
+          return of([]);    // Return an empty array in case of errors
+        })
+      );
+    }),
     takeUntil(this.componentDestroyed)
   ).subscribe(data => {
-    this.jsonData = data;
-    this.dataChange.emit(data);
+    this.jsonData = data; // Update the JSON preview data
+    this.dataChange.emit(data); // Emit the new data to the parent component
   });
 
   private readonly urlChangeSub = this.sourceForm.get('url').valueChanges.pipe(
@@ -79,8 +92,29 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   ).subscribe(([path, queryString]) => {
     const pathParsed = (path as string).split('/').reduce<any>((p, c, i) => (c.indexOf(':') === 0 ? { ...p, [c.substr(1)]: c } : p ), {});
     const parsed = { ...(pathParsed as any), ...qs.parse(queryString) };
-    this.paramsParsed = parsed;
+    console.log('params parsed', parsed);
+    // this.paramsParsed = parsed;
+    this.urlParams$.next(parsed);
   });
+
+  private readonly bodyChangeSub = this.sourceForm.get('body').valueChanges.pipe(
+    debounceTime(500),
+    tap(v => {
+      console.log('body change', v);
+      const params = this.parseBody(v.content);
+      this.bodyParams$.next({ ...params });
+    })
+  ).subscribe()
+
+  private readonly paramsChangesSub = combineLatest([
+    this.urlParams$, 
+    this.bodyParams$
+  ]).pipe(
+    debounceTime(500),
+    tap(([urlParams, bodyParams]) => {
+      this.paramsParsed = { ...urlParams, ...bodyParams };
+    })
+  ).subscribe();
 
   private readonly restSourceSub = this.restSource$.pipe(
     tap(r => {
@@ -117,6 +151,33 @@ export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueA
   ngOnDestroy() {
     this.componentDestroyed.next(undefined);
     this.componentDestroyed.complete();
+  }
+
+  private parseBody(input: any): Record<string, string> {
+    const placeholderRegex = /\[:([a-zA-Z0-9_]+)\]/g;
+    const result: Record<string, string> = {};
+    // Recursive function to traverse the input object
+    function traverse(obj: any): void {
+      if (typeof obj === "string") {
+        let match;
+        while ((match = placeholderRegex.exec(obj)) !== null) {
+          const key = match[1]; // Extract the key inside the placeholder
+          result[key] = `:${key}`; // Map key to value without brackets
+        }
+      } else if (Array.isArray(obj)) {
+        for (const item of obj) {
+          traverse(item);
+        }
+      } else if (typeof obj === "object" && obj !== null) {
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            traverse(obj[key]);
+          }
+        }
+      }
+    }
+    traverse(input);
+    return result;
   }
 
   writeValue(val: any): void {

@@ -1,82 +1,70 @@
-import { Component, forwardRef, Input } from '@angular/core';
-import { UntypedFormBuilder, ControlValueAccessor, Validator, AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { BehaviorSubject } from 'rxjs';
+import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { NG_VALUE_ACCESSOR, ControlValueAccessor, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DatasourceOptions } from '../../models/datasource.models';
-import { mockDatasourceOptions } from '../../mocks/datasource.mocks';
 
 @Component({
-    selector: 'classifieds-ui-datasource-options',
-    templateUrl: './datasource-options.component.html',
-    // styleUrls: ['./rest-form.component.scss'],
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => DatasourceOptionsComponent),
-            multi: true
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => DatasourceOptionsComponent),
-            multi: true
-        },
-    ],
-    standalone: false
+  selector: 'classifieds-ui-datasource-options',
+  templateUrl: './datasource-options.component.html',
+  standalone: false,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => DatasourceOptionsComponent),
+      multi: true
+    }
+  ]
 })
-export class DatasourceOptionsComponent implements ControlValueAccessor, Validator {
+export class DatasourceOptionsComponent implements ControlValueAccessor, OnChanges {
+  @Input() datasourceOptions: DatasourceOptions;
 
-  @Input() 
-  set datasourceOptions(datasourceOptions: DatasourceOptions) {
-    this.datasourceOptions$.next(datasourceOptions);
+  formGroup: UntypedFormGroup;
+
+  private onChange: (val: DatasourceOptions) => void = () => {};
+  private onTouched: () => void = () => {};
+
+  constructor(private fb: UntypedFormBuilder) {
+    this.formGroup = this.fb.group({
+      query: [''],
+      trackBy: [''],
+      valueMapping: [''],
+      labelMapping: [''],
+      idMapping: [''],
+      multiple: [''],
+      limit: ['']
+    });
+
+    // Emit form changes back to the parent
+    this.formGroup.valueChanges.subscribe(value => {
+      this.onChange(value); // Propagate new form value to parent
+    });
   }
 
-  datasourceOptions$ = new BehaviorSubject<DatasourceOptions>(mockDatasourceOptions);
-
-  formGroup = this.fb.group({
-    query: this.fb.control(''),
-    trackBy: this.fb.control(''),
-    valueMapping: this.fb.control(''),
-    labelMapping: this.fb.control(''),
-    idMapping: this.fb.control(''),
-    multiple: this.fb.control(''),
-    limit: this.fb.control('')
-  });
-
-  datasourceOptionsSub = this.datasourceOptions$.subscribe(ds => {
-    this.formGroup.setValue(ds);
-    this.formGroup.updateValueAndValidity();
-  });
-
-  public onTouched: () => void = () => {};
-
-  constructor(
-    private fb: UntypedFormBuilder
-  ) {
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['datasourceOptions'] && changes['datasourceOptions'].currentValue) {
+      this.formGroup.patchValue(this.datasourceOptions, { emitEvent: false });
+    }
   }
 
-  writeValue(val: any): void {
-    if (val) {
-      this.formGroup.setValue(val, { emitEvent: false });
+  writeValue(value: DatasourceOptions): void {
+    console.log("Datasource Options Write Value", value);
+    if (value) {
+      this.formGroup.patchValue(value, { emitEvent: false });
     }
   }
 
   registerOnChange(fn: any): void {
-    this.formGroup.valueChanges.subscribe(fn);
+    this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  setDisabledState?(isDisabled: boolean): void {
     if (isDisabled) {
-      this.formGroup.disable()
+      this.formGroup.disable();
     } else {
-      this.formGroup.enable()
+      this.formGroup.enable();
     }
   }
-
-  validate(c: AbstractControl): ValidationErrors | null{
-    return this.formGroup.valid ? null : { datasourceOptions: { valid: false }};
-  }
-
 }
