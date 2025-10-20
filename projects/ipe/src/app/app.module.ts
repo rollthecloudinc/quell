@@ -1,5 +1,5 @@
 import { BrowserModule, provideClientHydration /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
-import { NgModule, ErrorHandler, SecurityContext, NgZone, PLATFORM_ID, inject, provideAppInitializer } from '@angular/core';
+import { NgModule, ErrorHandler, SecurityContext, NgZone, PLATFORM_ID, inject, provideAppInitializer, APP_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -129,7 +129,7 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
-  renderer.link = (href: string, title: string, text: string) => {
+  renderer.link = ({ href, title, text }) => {
     if(text === 'page') {
       return `<classifieds-ui-panel-page id="${href}"></classifieds-ui-panel-page>`;
     } else {
@@ -142,7 +142,7 @@ export function markedOptionsFactory(): MarkedOptions {
 }
 
 @NgModule({ declarations: [AppComponent, PlaygroundComponent /*, AuthCallbackComponent, AppHeaderComponent, AppFooterComponent, HomeComponent, NotFoundComponent */],
-    bootstrap: [AppComponent], imports: [BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    bootstrap: [AppComponent], imports: [/*BrowserModule.withServerTransition({ appId: 'serverApp' }),*/
         CommonModule,
         /*BrowserTransferStateModule ,*/
         FormsModule,
@@ -221,6 +221,7 @@ export function markedOptionsFactory(): MarkedOptions {
         //{ provide: OKTA_CONFIG, useValue: oktaConfig },
         CatchAllGuard,
         provideClientHydration(),
+        { provide: APP_ID, useValue: 'serverApp' },
         { provide: SITE_NAME, useValue: environment.site },
         { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
         { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
