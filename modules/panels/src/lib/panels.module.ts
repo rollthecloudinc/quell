@@ -23,7 +23,7 @@ import { DatasourceContentHandler } from './handlers/datasource-content.handler'
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 import { DatasourceModule } from '@rollthecloudinc/datasource';
 import { PanelPage, PanelPageListItem, PanelsSettings } from './models/panels.models';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AuthFacade, AuthModule } from '@rollthecloudinc/auth';
 import { PanelPageForm } from './models/form.models';
 import { PageBuilderEffects } from './features/page-builder/page-builder.effects';
