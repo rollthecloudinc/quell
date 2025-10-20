@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
@@ -27,7 +27,7 @@ import { PersistService } from '@rollthecloudinc/refinery';
 import { StylizerService, ClassifyService, ClassClassification, ClassMap, isSelectorValid } from '@rollthecloudinc/sheath';
 import { camelize } from 'inflected';
 import merge from 'deepmerge-json';
-import { DOCUMENT } from '@angular/common';
+
 import { AuthFacade } from '@rollthecloudinc/auth';
 
 @Component({

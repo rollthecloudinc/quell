@@ -4,11 +4,11 @@
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
+    "esModuleInterop": true,
     "declaration": false,
-    "downlevelIteration": true,
     "experimentalDecorators": true,
     "module": "es2020",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "es2022",
     "lib": [
@@ -18,227 +18,182 @@
     "useDefineForClassFields": false,
     "paths": {
       "@rollthecloudinc/attributes": [
-        // "modules/attributes",
         "dist/attributes/attributes",
         "dist/attributes"
       ],
       "@rollthecloudinc/alienalias": [
-        // "modules/alienalias",
         "dist/alienalias/alienalias",
         "dist/alienalias"
       ],
       "@rollthecloudinc/material": [
-        // "modules/material",
         "dist/material/material",
         "dist/material"
       ],
       "@rollthecloudinc/utils": [
-        // "modules/utils/src",
         "dist/utils/utils",
         "dist/utils"
       ],
       "@rollthecloudinc/content": [
-        // "modules/content",
         "dist/content/content",
         "dist/content"
       ],
       "@rollthecloudinc/awos": [
-        // "modules/awos",
         "dist/awos/awos",
         "dist/awos"
       ],
       "@rollthecloudinc/token": [
-        // "modules/token",
         "dist/token/token",
         "dist/token"
       ],
       "@rollthecloudinc/context": [
-        // "modules/context",
         "dist/context/context",
         "dist/context"
       ],
       "@rollthecloudinc/style": [
-        // "modules/style",
         "dist/style/style",
         "dist/style"
       ],
       "@rollthecloudinc/pages": [
-        // "modules/pages",
         "dist/pages/pages",
         "dist/pages"
       ],
       "@rollthecloudinc/media": [
-        // "modules/media",
         "dist/media/media",
         "dist/media"
       ],
       "@rollthecloudinc/auth": [
-        // "modules/auth",
         "dist/auth/auth",
         "dist/auth"
       ],
       "@rollthecloudinc/plugin": [
-        // "modules/plugin",
         "dist/plugin/plugin",
         "dist/plugin"
       ],
       "@rollthecloudinc/datasource": [
-        // "modules/datasource",
         "dist/datasource/datasource",
         "dist/datasource"
       ],
       "@rollthecloudinc/layout": [
-        // "modules/layout",
         "dist/layout/layout",
         "dist/layout"
       ],
       "@rollthecloudinc/panels": [
-        // "modules/panels",
         "dist/panels/panels",
         "dist/panels"
       ],
       "@rollthecloudinc/alias": [
-        // "modules/alias",
         "dist/alias/alias",
         "dist/alias"
       ],
       "@rollthecloudinc/pagealias": [
-        // "modules/pagealias",
         "dist/pagealias/pagealias",
         "dist/pagealias"
       ],
       "@rollthecloudinc/formly": [
-        // "modules/formly",
         "dist/formly/formly",
         "dist/formly"
       ],
       "@rollthecloudinc/forms": [
-        // "modules/forms",
         "dist/forms/forms",
         "dist/forms"
       ],
       "@rollthecloudinc/here": [
-        // "modules/here",
         "dist/here/here",
         "dist/here"
       ],
       "@rollthecloudinc/rest": [
-        // "modules/rest",
         "dist/rest/rest",
         "dist/rest"
       ],
       "@rollthecloudinc/bridge": [
-        // "modules/bridge",
         "dist/bridge/bridge",
         "dist/bridge"
       ],
       "@rollthecloudinc/state": [
-        // "modules/state",
         "dist/state/state",
         "dist/state"
       ],
       "@rollthecloudinc/loop": [
-        // "modules/loop",
         "dist/loop/loop",
         "dist/loop"
       ],
       "@rollthecloudinc/durl": [
-        // "modules/durl",
         "dist/durl/durl",
         "dist/durl"
       ],
       "@rollthecloudinc/dparam": [
-        // "modules/dparam",
         "dist/dparam/dparam",
         "dist/dparam"
       ],
       "@rollthecloudinc/snippet": [
-        // "modules/snippet",
         "dist/snippet/snippet",
         "dist/snippet"
       ],
       "@rollthecloudinc/outsider": [
-        // "modules/outsider",
         "dist/outsider/outsider",
         "dist/outsider"
       ],
       "@rollthecloudinc/oidc": [
-        // "modules/oidc",
         "dist/oidc/oidc",
         "dist/oidc"
       ],
       "@rollthecloudinc/drxdb": [
-        // "modules/drxdb",
         "dist/drxdb/drxdb",
         "dist/drxdb"
       ],
       "@rollthecloudinc/transform": [
-        // "modules/transform",
         "dist/transform/transform",
         "dist/transform"
       ],
       "@rollthecloudinc/rules": [
-        // "modules/rules",
         "dist/rules/rules",
         "dist/rules"
       ],
       "@rollthecloudinc/aws3": [
-        // "modules/aws3",
         "dist/aws3/aws3",
         "dist/aws3"
       ],
       "@rollthecloudinc/render": [
-        // "modules/render",
         "dist/render/render",
         "dist/render"
       ],
       "@rollthecloudinc/awcog": [
-        // "modules/awcog",
         "dist/awcog/awcog",
         "dist/awcog"
       ],
       "@rollthecloudinc/crud": [
-        // "modules/crud",
         "dist/crud/crud",
         "dist/crud"
       ],
       "@rollthecloudinc/keyval": [
-        // "modules/keyval",
         "dist/keyval/keyval",
         "dist/keyval"
       ],
       "@rollthecloudinc/deity": [
-        // "modules/deity",
         "dist/deity/deity",
         "dist/deity"
       ],
       "@rollthecloudinc/powder": [
-        // "modules/powder",
         "dist/powder/powder",
         "dist/powder"
       ],
       "@rollthecloudinc/flash": [
-        // "modules/flash",
         "dist/flash/flash",
         "dist/flash"
       ],
       "@rollthecloudinc/lock": [
-        // "modules/lock",
         "dist/lock/lock",
         "dist/lock"
       ],
       "@rollthecloudinc/tractorbeam": [
-        // "modules/tractorbeam",
         "dist/tractorbeam/tractorbeam",
         "dist/tractorbeam"
       ],
       "@rollthecloudinc/stock": [
-        // "modules/stock",
         "dist/stock/stock",
         "dist/stock"
       ],
       "@rollthecloudinc/barrel": [
-        // "modules/barrel",
         "dist/barrel/barrel",
         "dist/barrel"
       ],

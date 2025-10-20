@@ -52,8 +52,8 @@ describe('AuthFacade', () => {
       class RootModule {}
       TestBed.configureTestingModule({ imports: [RootModule] });
 
-      store = TestBed.get(Store);
-      facade = TestBed.get(AuthFacade);
+      store = TestBed.inject(Store);
+      facade = TestBed.inject(AuthFacade);
     });
 
     /**

@@ -16,7 +16,7 @@ describe('PageBuilderEffects', () => {
       ]
     });
 
-    effects = TestBed.get<PageBuilderEffects>(PageBuilderEffects);
+    effects = TestBed.inject<PageBuilderEffects>(PageBuilderEffects);
   });
 
   it('should be created', () => {
