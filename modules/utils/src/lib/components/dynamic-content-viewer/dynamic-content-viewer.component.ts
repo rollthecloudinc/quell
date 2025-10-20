@@ -3,8 +3,9 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT } from '../../utils.tokens';
 
 @Component({
-  selector: 'classifieds-ui-dynamic-content-viewer',
-  template: '',
+    selector: 'classifieds-ui-dynamic-content-viewer',
+    template: '',
+    standalone: false
 })
 export class DynamicContentViewer {
   private hostElement: HTMLElement;

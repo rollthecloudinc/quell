@@ -6,10 +6,11 @@ import { Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-datasource-context-editor',
-  //templateUrl: './context-editor.component.html',
-  // styleUrls: ['./datasource-editor.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-datasource-form formControlName="_proxy"></classifieds-ui-datasource-form></ng-container>`
+    selector: 'classifieds-ui-datasource-context-editor',
+    //templateUrl: './context-editor.component.html',
+    // styleUrls: ['./datasource-editor.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-datasource-form formControlName="_proxy"></classifieds-ui-datasource-form></ng-container>`,
+    standalone: false
 })
 export class DatasourceContextEditorComponent implements OnInit {
 

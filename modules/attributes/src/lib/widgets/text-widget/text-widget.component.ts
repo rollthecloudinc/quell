@@ -4,9 +4,10 @@ import { ControlContainer } from "@angular/forms";
 import { Attribute } from '../../models/attributes.models';
 
 @Component({
-  selector: 'classifieds-ui-text-widget',
-  templateUrl: './text-widget.component.html',
-  styleUrls: ['./text-widget.component.scss']
+    selector: 'classifieds-ui-text-widget',
+    templateUrl: './text-widget.component.html',
+    styleUrls: ['./text-widget.component.scss'],
+    standalone: false
 })
 export class TextWidgetComponent {
 

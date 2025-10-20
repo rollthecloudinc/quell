@@ -6,20 +6,21 @@ import { filter, map, switchMap } from "rxjs/operators";
 import { Pane, Panel, PanelPage } from "../../models/panels.models";
 
 @Component({
-  selector: 'druid-panels-panelpage-linkedlist',
-  templateUrl: './panelpage-linkedlist.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
-      multi: true
-    },
-  ],
+    selector: 'druid-panels-panelpage-linkedlist',
+    templateUrl: './panelpage-linkedlist.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class PanelPageLinkedlistComponent implements ControlValueAccessor, Validator {
 

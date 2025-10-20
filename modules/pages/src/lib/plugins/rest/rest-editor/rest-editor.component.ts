@@ -5,13 +5,14 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { RestContentHandler } from '../../../handlers/rest-content-handler.service';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-rest-editor',
-  templateUrl: './rest-editor.component.html',
-  styleUrls: ['./rest-editor.component.scss']
+    selector: 'classifieds-ui-rest-editor',
+    templateUrl: './rest-editor.component.html',
+    styleUrls: ['./rest-editor.component.scss'],
+    standalone: false
 })
 export class RestEditorComponent implements OnInit {
 

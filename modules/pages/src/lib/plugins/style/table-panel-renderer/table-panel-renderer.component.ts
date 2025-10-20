@@ -3,10 +3,11 @@ import { Pane, PanelStyleRendererBaseComponent, PaneDatasourceService  } from '@
 import { TokenizerService } from '@rollthecloudinc/token';
 
 @Component({
-  selector: 'lib-table-panel-renderer',
-  templateUrl: './table-panel-renderer.component.html',
-  styleUrls: ['./table-panel-renderer.component.scss'],
-  providers: [ PaneDatasourceService ]
+    selector: 'lib-table-panel-renderer',
+    templateUrl: './table-panel-renderer.component.html',
+    styleUrls: ['./table-panel-renderer.component.scss'],
+    providers: [PaneDatasourceService],
+    standalone: false
 })
 export class TablePanelRendererComponent extends PanelStyleRendererBaseComponent implements OnInit {
 

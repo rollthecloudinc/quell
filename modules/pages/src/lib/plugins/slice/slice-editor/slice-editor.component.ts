@@ -3,14 +3,15 @@ import { AttributeValue } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
 import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { SliceContentHandler } from '../../../handlers/slice-content.handler';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Pane } from '@rollthecloudinc/panels';
 import { DataSlice } from '../../../models/plugin.models';
 
 @Component({
-  selector: 'classifieds-ui-slice-editor',
-  templateUrl: './slice-editor.component.html',
-  styleUrls: ['./slice-editor.component.scss']
+    selector: 'classifieds-ui-slice-editor',
+    templateUrl: './slice-editor.component.html',
+    styleUrls: ['./slice-editor.component.scss'],
+    standalone: false
 })
 export class SliceEditorComponent implements OnInit {
 

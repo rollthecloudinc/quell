@@ -1,6 +1,6 @@
 import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { provideHttpClient, withJsonpSupport } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from '@rollthecloudinc/material';
 // import { CitiesModule } from 'cities';
@@ -17,9 +17,7 @@ import * as attrFactories from './attributes.factories';
 import { AttributeWidget } from './models/attributes.models';
 import { WidgetPluginManager } from './services/widget-plugin-manager.service';
 
-@NgModule({
-    imports: [CommonModule, ReactiveFormsModule, MaterialModule, /*HttpClientModule,*/ HttpClientJsonpModule /*, CitiesModule */],
-    declarations: [
+@NgModule({ declarations: [
         AttributesBuilderComponent,
         AttributeWidgetComponent,
         AttributeWidgetDirective,
@@ -28,8 +26,7 @@ import { WidgetPluginManager } from './services/widget-plugin-manager.service';
         AttributePipe
         /*, YmmSelectorComponent, CitySelectorComponent*/
     ],
-    exports: [AttributesBuilderComponent, AttributePipe, AttributeWidgetComponent],
-    providers: [
+    exports: [AttributesBuilderComponent, AttributePipe, AttributeWidgetComponent], imports: [CommonModule, ReactiveFormsModule, MaterialModule], providers: [
         {
             provide: ATTRIBUTE_WIDGET,
             useFactory: attrFactories.textFactory,
@@ -40,18 +37,8 @@ import { WidgetPluginManager } from './services/widget-plugin-manager.service';
             useFactory: attrFactories.minmaxFactory,
             multi: true
         },
-        /*{
-          provide: ATTRIBUTE_WIDGET,
-          useFactory: attrFactories.ymmFactory,
-          multi: true
-        },
-        {
-          provide: ATTRIBUTE_WIDGET,
-          useFactory: attrFactories.cityFactory,
-          multi: true
-        }*/
-    ]
-})
+        provideHttpClient(withJsonpSupport()),
+    ] })
 export class AttributesModule {
   constructor(
     @Inject(ATTRIBUTE_WIDGET) widgetPlugins: Array<AttributeWidget<string>>,

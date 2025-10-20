@@ -5,10 +5,11 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { ContextStateFormComponent } from '../context-state-form/context-state-form.component';
 
 @Component({
-  selector: 'classifieds-ui-context-state-editor',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./context-state-editor.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-context-state-form formControlName="data" [context]="context"></classifieds-ui-context-state-form></ng-container>`
+    selector: 'classifieds-ui-context-state-editor',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./context-state-editor.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-context-state-form formControlName="data" [context]="context"></classifieds-ui-context-state-form></ng-container>`,
+    standalone: false
 })
 export class ContextStateEditorComponent implements OnInit {
 

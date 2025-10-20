@@ -4,9 +4,10 @@ import { AttributeWidget, Attribute } from '../../models/attributes.models';
 import { AttributeWidgetDirective } from '../../directives/attribute-widget.directive';
 import { Observable } from 'rxjs';
 @Component({
-  selector: 'classifieds-ui-attribute-widget',
-  styleUrls: ['./attribute-widget.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><ng-template classifiedsUiWidgetHost></ng-template></ng-container>`
+    selector: 'classifieds-ui-attribute-widget',
+    styleUrls: ['./attribute-widget.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><ng-template classifiedsUiWidgetHost></ng-template></ng-container>`,
+    standalone: false
 })
 export class AttributeWidgetComponent implements OnInit {
 

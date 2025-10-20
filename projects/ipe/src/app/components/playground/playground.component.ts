@@ -75,8 +75,9 @@ export async function createSignedHttpRequest({
 };
 
 @Component({
-  selector: "druid-playground",
-  templateUrl: `playground.component.html`
+    selector: "druid-playground",
+    templateUrl: `playground.component.html`,
+    standalone: false
 })
 export class PlaygroundComponent implements OnInit {
 

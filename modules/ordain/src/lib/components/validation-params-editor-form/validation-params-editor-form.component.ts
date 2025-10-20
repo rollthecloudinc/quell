@@ -8,21 +8,22 @@ import * as qs from 'qs';
 import { ValidationValidatorSettings } from "../../models/validation.models";
 
 @Component({
-  selector: 'druid-ordain-validation-params-editor-form',
-  templateUrl: './validation-params-editor-form.component.html',
-  styleUrls: ['./validation-params-editor-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidationParamsEditorFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ValidationParamsEditorFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-ordain-validation-params-editor-form',
+    templateUrl: './validation-params-editor-form.component.html',
+    styleUrls: ['./validation-params-editor-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidationParamsEditorFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ValidationParamsEditorFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ValidationParamsEditorFormComponent implements ControlValueAccessor, Validator {
 

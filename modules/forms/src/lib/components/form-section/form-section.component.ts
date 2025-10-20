@@ -8,9 +8,10 @@ import { map, tap } from 'rxjs/operators';
 import { FormSectionForm } from '../../models/form.models';
 
 @Component({
-  selector: 'classifieds-ui-form-section',
-  templateUrl: './form-section.component.html',
-  styleUrls: ['./form-section.component.scss']
+    selector: 'classifieds-ui-form-section',
+    templateUrl: './form-section.component.html',
+    styleUrls: ['./form-section.component.scss'],
+    standalone: false
 })
 export class FormSectionComponent implements OnInit, AfterViewInit {
 

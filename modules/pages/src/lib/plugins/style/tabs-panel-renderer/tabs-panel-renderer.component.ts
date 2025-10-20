@@ -3,9 +3,10 @@ import { AttributeSerializerService, AttributeTypes, AttributeValue } from '@rol
 import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-tabs-panel-renderer',
-  templateUrl: './tabs-panel-renderer.component.html',
-  styleUrls: ['./tabs-panel-renderer.component.scss']
+    selector: 'classifieds-ui-tabs-panel-renderer',
+    templateUrl: './tabs-panel-renderer.component.html',
+    styleUrls: ['./tabs-panel-renderer.component.scss'],
+    standalone: false
 })
 export class TabsPanelRendererComponent implements OnInit {
 

@@ -1,13 +1,14 @@
 import { Component, Inject } from "@angular/core";
 import { UntypedFormBuilder } from "@angular/forms";
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from "@angular/material/legacy-dialog";
+import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { InlineContext } from '@rollthecloudinc/context';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
 @Component({
-  selector: 'druid-detour-interactions-dialog',
-  templateUrl: './interactions-dialog.component.html',
-  styleUrls: ['./interactions-dialog.component.scss']
+    selector: 'druid-detour-interactions-dialog',
+    templateUrl: './interactions-dialog.component.html',
+    styleUrls: ['./interactions-dialog.component.scss'],
+    standalone: false
 })
 export class InteractionsDialogComponent {
 

@@ -1,24 +1,25 @@
 import { Directionality } from '@angular/cdk/bidi';
 import { CdkStep, CdkStepper, StepperSelectionEvent } from '@angular/cdk/stepper';
 import {
-    AfterViewChecked,
-    AfterViewInit,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    ContentChildren,
-    ElementRef,
-    EventEmitter,
-    forwardRef,
-    Inject,
-    Input,
-    Optional,
-    Output,
-    QueryList,
-    ViewChildren
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  Inject,
+  Input,
+  Optional,
+  Output,
+  QueryList,
+  ViewChildren,
+  DOCUMENT
 } from '@angular/core';
 import { MatStep, MatStepper } from '@angular/material/stepper';
-import { DOCUMENT } from '@angular/common';
+
 
 const MAT_STEPPER_PROXY_FACTORY_PROVIDER = {
     provide: MatStepper,
@@ -82,7 +83,8 @@ export function MAT_STEPPER_PROXY_FACTORY(component: ResponsiveStepperComponent,
                                   (animationDone)="animationDone.emit($event)"
                                   (selectionChange)="selectionChange.emit($event)">
             </mat-vertical-stepper>
-        </ng-container>`
+        </ng-container>`,
+    standalone: false
 })
 export class ResponsiveStepperComponent implements AfterViewInit, AfterViewChecked {
 

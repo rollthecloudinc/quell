@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, makeStateKey, TransferState } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Request } from 'express';
 import * as Cookies from 'js-cookie';
 import { toNumber } from "number-string";
 import { ClientSettings } from '../models/oidc.models';
-import { TransferState, makeStateKey } from '@angular/platform-browser';
+
 
 const AUTH_KEY = makeStateKey<string>('auth');
 

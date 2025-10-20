@@ -8,21 +8,22 @@ import * as qs from 'qs';
 // import { ValidationValidatorSettings } from "../../models/validation.models";
 
 @Component({
-  selector: 'druid-params-querystring',
-  templateUrl: './params-querystring.component.html',
-  styleUrls: ['./params-querystring.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ParamsQuerystringComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ParamsQuerystringComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-params-querystring',
+    templateUrl: './params-querystring.component.html',
+    styleUrls: ['./params-querystring.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ParamsQuerystringComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ParamsQuerystringComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ParamsQuerystringComponent implements ControlValueAccessor, Validator {
 

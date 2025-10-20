@@ -6,10 +6,11 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { PageStateFormComponent } from '../page-state-form/page-state-form.component';
 
 @Component({
-  selector: 'classifieds-ui-page-state-editor',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./page-state-editor.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-page-state-form formControlName="data" [panelPage]="panelPage" [context]="context"></classifieds-ui-page-state-form></ng-container>`
+    selector: 'classifieds-ui-page-state-editor',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./page-state-editor.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-page-state-form formControlName="data" [panelPage]="panelPage" [context]="context"></classifieds-ui-page-state-form></ng-container>`,
+    standalone: false
 })
 export class PageStateEditorComponent implements OnInit {
 

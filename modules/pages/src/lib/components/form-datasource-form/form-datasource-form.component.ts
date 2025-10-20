@@ -6,21 +6,22 @@ import { map } from 'rxjs/operators';
 import { FormDatasource } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-form-datasource-form',
-  templateUrl: './form-datasource-form.component.html',
-  styleUrls: ['./form-datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormDatasourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => FormDatasourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-form-datasource-form',
+    templateUrl: './form-datasource-form.component.html',
+    styleUrls: ['./form-datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FormDatasourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => FormDatasourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class FormDatasourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

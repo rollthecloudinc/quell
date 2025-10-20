@@ -1,15 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Validators, UntypedFormGroup, UntypedFormControl, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeTypes } from '@rollthecloudinc/attributes';
 import { Pane } from '@rollthecloudinc/panels';
 import { Snippet } from '@rollthecloudinc/snippet';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({
-  selector: 'classifieds-ui-snippet-editor2',
-  templateUrl: './snippet-editor2.component.html',
-  styleUrls: ['./snippet-editor2.component.scss']
+    selector: 'classifieds-ui-snippet-editor2',
+    templateUrl: './snippet-editor2.component.html',
+    styleUrls: ['./snippet-editor2.component.scss'],
+    standalone: false
 })
 export class SnippetEditor2Component implements OnInit {
 

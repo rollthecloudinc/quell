@@ -1,14 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, AbstractControl } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
 import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-formly-repeating-editor',
-  templateUrl: './formly-repeating-editor.component.html',
-  styleUrls: ['./formly-repeating-editor.component.scss']
+    selector: 'classifieds-formly-repeating-editor',
+    templateUrl: './formly-repeating-editor.component.html',
+    styleUrls: ['./formly-repeating-editor.component.scss'],
+    standalone: false
 })
 export class FormlyRepeatingEditorComponent implements OnInit {
 

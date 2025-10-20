@@ -3,10 +3,11 @@ import { ControlContainer, UntypedFormGroup, UntypedFormBuilder, Validators } fr
 import { RestSourceFormComponent } from '@rollthecloudinc/rest';
 
 @Component({
-  selector: 'classifieds-ui-context-editor',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./context-editor.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="rest"></classifieds-ui-rest-source-form></ng-container>`
+    selector: 'classifieds-ui-context-editor',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./context-editor.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="rest"></classifieds-ui-rest-source-form></ng-container>`,
+    standalone: false
 })
 export class ContextEditorComponent implements OnInit {
 

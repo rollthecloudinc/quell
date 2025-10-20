@@ -1,14 +1,15 @@
 import { Component, OnInit, Input, Inject } from '@angular/core';
 import { UntypedFormGroup, UntypedFormBuilder, FormArray, FormControl } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 
 @Component({
-  selector: 'classifieds-ui-datasource-selector',
-  templateUrl: './datasource-selector.component.html',
-  styleUrls: ['./datasource-selector.component.scss']
+    selector: 'classifieds-ui-datasource-selector',
+    templateUrl: './datasource-selector.component.html',
+    styleUrls: ['./datasource-selector.component.scss'],
+    standalone: false
 })
 export class DatasourceSelectorComponent implements OnInit {
 

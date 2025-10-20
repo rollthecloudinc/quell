@@ -1,12 +1,13 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PanePropsFormPayload } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-pane-props-dialog',
-  templateUrl: './pane-props-dialog.component.html',
-  styleUrls: ['./pane-props-dialog.component.scss']
+    selector: 'classifieds-ui-pane-props-dialog',
+    templateUrl: './pane-props-dialog.component.html',
+    styleUrls: ['./pane-props-dialog.component.scss'],
+    standalone: false
 })
 export class PanePropsDialogComponent implements OnInit {
 
