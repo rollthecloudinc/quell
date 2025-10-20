@@ -108,7 +108,7 @@ export class FilesService {
     return forkJoin(requests$);
   }
 
-  convertDataURIToBinary(dataURI: string): Uint8Array {
+  convertDataURIToBinary(dataURI: string)/*: Uint8Array*/ {
     var BASE64_MARKER = ';base64,';
     var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
     var base64 = dataURI.substring(base64Index);
