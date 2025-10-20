@@ -5,21 +5,22 @@ import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-data-source-form',
-  templateUrl: './data-source-form.component.html',
-  styleUrls: ['./data-source-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DataSourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DataSourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-data-source-form',
+    templateUrl: './data-source-form.component.html',
+    styleUrls: ['./data-source-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DataSourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => DataSourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class DataSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

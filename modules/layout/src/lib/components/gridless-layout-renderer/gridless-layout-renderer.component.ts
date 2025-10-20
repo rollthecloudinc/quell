@@ -3,9 +3,10 @@ import { ControlContainer } from '@angular/forms';
 import { LayoutRendererBaseComponent } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-gridless-layout-renderer',
-  templateUrl: './gridless-layout-renderer.component.html',
-  styleUrls: ['./gridless-layout-renderer.component.scss']
+    selector: 'classifieds-ui-gridless-layout-renderer',
+    templateUrl: './gridless-layout-renderer.component.html',
+    styleUrls: ['./gridless-layout-renderer.component.scss'],
+    standalone: false
 })
 export class GridlessLayoutRendererComponent extends LayoutRendererBaseComponent implements OnInit {
 

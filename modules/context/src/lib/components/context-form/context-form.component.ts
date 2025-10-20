@@ -6,21 +6,22 @@ import { ContextPluginManager } from '../../services/context-plugin-manager.serv
 import { BehaviorSubject, Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 @Component({
-  selector: 'classifieds-ui-context-form',
-  templateUrl: './context-form.component.html',
-  styleUrls: ['./context-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContextFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContextFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-context-form',
+    templateUrl: './context-form.component.html',
+    styleUrls: ['./context-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContextFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContextFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ContextFormComponent implements OnInit, ControlValueAccessor, Validator {
 

@@ -5,21 +5,22 @@ import { BehaviorSubject } from 'rxjs';
 import { LoopDatasource } from '../../models/loop.models';
 
 @Component({
-  selector: 'classifieds-ui-loop-datasource-form',
-  templateUrl: './loop-datasource-form.component.html',
-  styleUrls: ['./loop-datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LoopDatasourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => LoopDatasourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-loop-datasource-form',
+    templateUrl: './loop-datasource-form.component.html',
+    styleUrls: ['./loop-datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => LoopDatasourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => LoopDatasourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class LoopDatasourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

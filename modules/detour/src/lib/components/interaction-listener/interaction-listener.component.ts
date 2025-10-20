@@ -9,21 +9,22 @@ import { InteractionHandlerPluginManager } from '../../services/interaction-hand
 //import { ValidationValidatorSettings } from '../../models/validation.models';
 
 @Component({
-  selector: 'druid-detour-interaction-listener',
-  templateUrl: './interaction-listener.component.html',
-  styleUrls: ['./interaction-listener.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InteractionListenerComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => InteractionListenerComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-detour-interaction-listener',
+    templateUrl: './interaction-listener.component.html',
+    styleUrls: ['./interaction-listener.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InteractionListenerComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => InteractionListenerComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class InteractionListenerComponent implements ControlValueAccessor, Validator {
   //@Input() settings: Array<ValidationValidatorSettings> = [];

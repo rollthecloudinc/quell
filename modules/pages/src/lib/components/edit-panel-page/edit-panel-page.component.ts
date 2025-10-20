@@ -10,9 +10,10 @@ import { loadRemoteModule } from '@angular-architects/module-federation';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Component({
-  selector: 'classifieds-ui-edit-panel-page',
-  templateUrl: './edit-panel-page.component.html',
-  styleUrls: ['./edit-panel-page.component.scss']
+    selector: 'classifieds-ui-edit-panel-page',
+    templateUrl: './edit-panel-page.component.html',
+    styleUrls: ['./edit-panel-page.component.scss'],
+    standalone: false
 })
 export class EditPanelPageComponent implements OnInit {
 

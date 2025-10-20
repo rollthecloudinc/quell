@@ -1,7 +1,7 @@
-import { BrowserModule /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
-import { NgModule, ErrorHandler, APP_INITIALIZER,  SecurityContext, NgZone, PLATFORM_ID } from '@angular/core';
+import { BrowserModule, provideClientHydration /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
+import { NgModule, ErrorHandler, SecurityContext, NgZone, PLATFORM_ID, inject, provideAppInitializer, APP_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule, HTTP_INTERCEPTORS, HttpClientJsonpModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { NxModule } from '@nrwl/angular';
@@ -37,7 +37,7 @@ import { ReactModule } from '@rollthecloudinc/react';
 // import { NbA11yModule } from '@nebular/theme';
 // import { JsonschemaModule } from '@classifieds-ui/jsonschema';
 // import { TAXONOMY_SETTINGS, TaxonomySettings } from '@classifieds-ui/taxonomy';
-import { MarkdownModule, MarkedOptions, MarkedRenderer } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions, MarkedRenderer, MARKED_OPTIONS } from 'ngx-markdown';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
@@ -61,7 +61,7 @@ import { DeityModule } from '@rollthecloudinc/deity';
 import { LoopModule } from '@rollthecloudinc/loop';
 import { RenderModule } from '@rollthecloudinc/render';
 import { FormsModule as DruidFormsModule } from '@rollthecloudinc/forms';
-import { TransferHttpCacheModule } from '@nguniversal/common';
+// import { TransferHttpCacheModule } from '@angular/ssr';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@rollthecloudinc/alienalias';
 import { OutsiderModule } from '@rollthecloudinc/outsider';
@@ -129,7 +129,7 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
 
 export function markedOptionsFactory(): MarkedOptions {
   const renderer = new MarkedRenderer();
-  renderer.link = (href: string, title: string, text: string) => {
+  renderer.link = ({ href, title, text }) => {
     if(text === 'page') {
       return `<classifieds-ui-panel-page id="${href}"></classifieds-ui-panel-page>`;
     } else {
@@ -141,131 +141,115 @@ export function markedOptionsFactory(): MarkedOptions {
   };
 }
 
-@NgModule({
-  declarations: [AppComponent, PlaygroundComponent /*, AuthCallbackComponent, AppHeaderComponent, AppFooterComponent, HomeComponent, NotFoundComponent */],
-  imports: [
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    CommonModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
-    /*BrowserTransferStateModule ,*/
-    FormsModule,
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    FlexLayoutModule,
-    NgxJsonViewerModule,
-    TransferHttpCacheModule,
-    MarkdownModule.forRoot({
-      sanitize: SecurityContext.NONE,
-      markedOptions: {
-        provide: MarkedOptions,
-        useFactory: markedOptionsFactory,
-      },
-    }),
-    // NbA11yModule.forRoot(),
-    RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking'}),
-    StoreDevtoolsModule.instrument({
-      maxAge: 25,
-      logOnly: environment.production
-    }),
-    StoreRouterConnectingModule.forRoot({
-      serializer: MinimalRouterStateSerializer
-    }),
-    StoreModule.forRoot(
-      reducers,
-      {
-        metaReducers,
-        runtimeChecks: {
-          strictActionImmutability: true,
-          strictStateImmutability: true
-        }
-      }
-    ),
-    EffectsModule.forRoot([]),
-    !environment.production ? StoreDevtoolsModule.instrument() : [],
-    BridgeModule,
-    StateModule,
-    MaterialModule,
-    UtilsModule,
-    // LoggingModule,
-    TokenModule,
-    ContentModule,
-    ContextModule,
-    AuthModule.forRoot(),
-    OidcModule.forRoot(),
-    // MonacoEditorModule.forRoot(),
-    MediaModule,
-    // NxModule.forRoot(),
-    EntityDataModule.forRoot({}),
-    AliasModule,
-    PanelsModule,
-    // PanelpageModule,
-    RenderModule,
-    PagealiasModule,
-   // FormlyModule,
-    TransformModule,
-    AwcogModule,
-    KeyvalModule,
-    DeityModule,
-    LoopModule,
-    DruidFormsModule,
-    // AlienaliasModule, // @todo: for now to avoid routing errors while working on ssr issues.
-    OutsiderModule,
-    TractorbeamModule,
-    RefineryModule,
-    SheathModule,
-    NgxDropzoneModule,
-    ReactModule, // react integration (experimental)
-    PagesModule,
-    OrdainModule,
-    DetourModule,
-    DparamModule
-    // JsonschemaModule
-    // OktaAuthModule
-  ],
-  providers: [
-    // { provide: ErrorHandler, useClass: GlobalErrorHandler },
-
-    // okta auth
-    //{ provide: OKTA_CONFIG, useValue: oktaConfig },
-    CatchAllGuard,
-
-    { provide: SITE_NAME, useValue: environment.site },
-
-    { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
-    { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
-    { provide: PANELS_SETTINGS, useValue: new PanelsSettings(environment.panelsSettings) },
-    { provide: ALIENALIAS_SETTINGS, useValue: new AlienaliasSettings(environment.alienaliasSettings) },
-    { provide: PAGES_SETTINGS, useValue: new PagesSettings({ disableRouting: false }) },
-
-    { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
-    { provide: CLOUDWATCH_RUM_SETTINGS, useValue: new CloudwatchRumSettings(environment.rumSettings) },
-    // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
-    // { provide: AD_SETTINGS, useValue: new AdSettings(environment.adSettings) },
-    // { provide: TAXONOMY_SETTINGS, useValue: new TaxonomySettings(environment.taxonomySettings) },
-    // { provide: PROFILE_SETTINGS, useValue: new ProfileSettings(environment.profileSettings) },
-    // { provide: CHAT_SETTINGS, useValue: new ChatSettings(environment.chatSettings) },
-
-    // There is no way to prioritize interceptors so order can be important.
-    // { provide: HTTP_INTERCEPTORS, useClass: CorrelationInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
-
-    { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
-
-    { provide: APP_INITIALIZER, useFactory: initializeRumMonitorFactory, multi: true, deps: [ CLOUDWATCH_RUM_SETTINGS, NgZone ] },
-    { provide: APP_INITIALIZER, useFactory: initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }), multi: true, deps: [ PLATFORM_ID ] },
-
-        /* These are required only for pre-rendering - quick hack to make work for now */
-    //{ provide: APP_BASE_HREF, useValue: 'http://localhost:4000/' },
-    //{ provide: HOST_NAME, useValue: 'g6cljn4j35.execute-api.us-east-1.amazonaws.com' },
-    //{ provide: PROTOCOL, useValue: 'https' },
-
-    // { provide: HOST_NAME, useValue: /*req.headers.host*/ 'e4cq5a4vfc.execute-api.us-east-1.amazonaws.com' },
-    // { provide: PROTOCOL, useValue: 'https' },
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [AppComponent, PlaygroundComponent /*, AuthCallbackComponent, AppHeaderComponent, AppFooterComponent, HomeComponent, NotFoundComponent */],
+    bootstrap: [AppComponent], imports: [/*BrowserModule.withServerTransition({ appId: 'serverApp' }),*/
+        CommonModule,
+        /*BrowserTransferStateModule ,*/
+        FormsModule,
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        FlexLayoutModule,
+        NgxJsonViewerModule,
+        //TransferHttpCacheModule,
+        MarkdownModule.forRoot({
+            sanitize: SecurityContext.NONE,
+            markedOptions: {
+                provide: MARKED_OPTIONS, // MarkedOptions,
+                useFactory: markedOptionsFactory,
+            },
+        }),
+        // NbA11yModule.forRoot(),
+        RouterModule.forRoot(routes, { initialNavigation: 'enabledBlocking' }),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25,
+            logOnly: environment.production
+        }),
+        StoreRouterConnectingModule.forRoot({
+            serializer: MinimalRouterStateSerializer
+        }),
+        StoreModule.forRoot(reducers, {
+            metaReducers,
+            runtimeChecks: {
+                strictActionImmutability: true,
+                strictStateImmutability: true
+            }
+        }),
+        EffectsModule.forRoot([]),
+        !environment.production ? StoreDevtoolsModule.instrument() : [],
+        BridgeModule,
+        StateModule,
+        MaterialModule,
+        UtilsModule,
+        // LoggingModule,
+        TokenModule,
+        ContentModule,
+        ContextModule,
+        AuthModule.forRoot(),
+        OidcModule.forRoot(),
+        // MonacoEditorModule.forRoot(),
+        MediaModule,
+        // NxModule.forRoot(),
+        EntityDataModule.forRoot({}),
+        AliasModule,
+        PanelsModule,
+        // PanelpageModule,
+        RenderModule,
+        PagealiasModule,
+        // FormlyModule,
+        TransformModule,
+        AwcogModule,
+        KeyvalModule,
+        DeityModule,
+        LoopModule,
+        DruidFormsModule,
+        // AlienaliasModule, // @todo: for now to avoid routing errors while working on ssr issues.
+        OutsiderModule,
+        TractorbeamModule,
+        RefineryModule,
+        SheathModule,
+        NgxDropzoneModule,
+        ReactModule, // react integration (experimental)
+        PagesModule,
+        OrdainModule,
+        DetourModule,
+        DparamModule
+        // JsonschemaModule
+        // OktaAuthModule
+    ], providers: [
+        // { provide: ErrorHandler, useClass: GlobalErrorHandler },
+        // okta auth
+        //{ provide: OKTA_CONFIG, useValue: oktaConfig },
+        CatchAllGuard,
+        provideClientHydration(),
+        { provide: APP_ID, useValue: 'serverApp' },
+        { provide: SITE_NAME, useValue: environment.site },
+        { provide: CLIENT_SETTINGS, useValue: new ClientSettings(environment.clientSettings) },
+        { provide: MEDIA_SETTINGS, useValue: new MediaSettings(environment.mediaSettings) },
+        { provide: PANELS_SETTINGS, useValue: new PanelsSettings(environment.panelsSettings) },
+        { provide: ALIENALIAS_SETTINGS, useValue: new AlienaliasSettings(environment.alienaliasSettings) },
+        { provide: PAGES_SETTINGS, useValue: new PagesSettings({ disableRouting: false }) },
+        { provide: COGNITO_SETTINGS, useValue: new CognitoSettings(environment.cognitoSettings) },
+        { provide: CLOUDWATCH_RUM_SETTINGS, useValue: new CloudwatchRumSettings(environment.rumSettings) },
+        // { provide: LOGGING_SETTINGS, useValue: new LoggingSettings(environment.loggingSettings) },
+        // { provide: AD_SETTINGS, useValue: new AdSettings(environment.adSettings) },
+        // { provide: TAXONOMY_SETTINGS, useValue: new TaxonomySettings(environment.taxonomySettings) },
+        // { provide: PROFILE_SETTINGS, useValue: new ProfileSettings(environment.profileSettings) },
+        // { provide: CHAT_SETTINGS, useValue: new ChatSettings(environment.chatSettings) },
+        // There is no way to prioritize interceptors so order can be important.
+        // { provide: HTTP_INTERCEPTORS, useClass: CorrelationInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+        // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
+        { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
+        provideAppInitializer(() => {
+        const initializerFn = (initializeRumMonitorFactory)(inject(CLOUDWATCH_RUM_SETTINGS), inject(NgZone));
+        return initializerFn();
+      }),
+        provideAppInitializer(() => {
+        const initializerFn = (initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }))(inject(PLATFORM_ID));
+        return initializerFn();
+      }),
+        provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
+    ] })
 export class AppModule {}
 

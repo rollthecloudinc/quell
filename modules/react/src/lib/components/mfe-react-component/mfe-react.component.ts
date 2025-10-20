@@ -12,14 +12,15 @@ import {
   ViewEncapsulation
 } from '@angular/core';
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+// import * as ReactDOM from 'react-dom';
 
 const containerElementName = 'mfeReactComponent';
 
 @Component({
-  selector: 'druid-mfe-react',
-  template: `<span #${containerElementName}></span>`,
-  encapsulation: ViewEncapsulation.None,
+    selector: 'druid-mfe-react',
+    template: `<span #${containerElementName}></span>`,
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;
@@ -38,11 +39,11 @@ export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy() {
-    ReactDOM.unmountComponentAtNode(this.containerRef.nativeElement);
+    // ReactDOM.unmountComponentAtNode(this.containerRef.nativeElement);
   }
 
   private render() {
     const c = this.component();
-    ReactDOM.render(c, this.containerRef.nativeElement);
+    // ReactDOM.render(c, this.containerRef.nativeElement);
   }
 }

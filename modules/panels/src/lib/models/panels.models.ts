@@ -1,7 +1,7 @@
 import { CdkDragDrop } from "@angular/cdk/drag-drop"
 import { UntypedFormArray } from "@angular/forms"
 import { AttributeValue } from '@rollthecloudinc/attributes'
-import { RuleSet } from '@rollthecloudinc/ngx-angular-query-builder';
+import { RuleSet } from 'ngx-angular-query-builder';
 import { InlineContext } from '@rollthecloudinc/context';
 import { PersistenceFormPayload } from "@rollthecloudinc/refinery";
 import { InteractionsFormPayload } from "@rollthecloudinc/detour";

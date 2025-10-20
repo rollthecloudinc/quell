@@ -4,10 +4,11 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { ContextModuleFormComponent } from '../context-module-form/context-module-form.component';
 
 @Component({
-  selector: 'classifieds-ui-context-module-editor',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./context-module-editor.component.scss'],
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-context-module-form formControlName="data" [context]="context"></classifieds-ui-context-module-form></ng-container>`
+    selector: 'classifieds-ui-context-module-editor',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./context-module-editor.component.scss'],
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-context-module-form formControlName="data" [context]="context"></classifieds-ui-context-module-form></ng-container>`,
+    standalone: false
 })
 export class ContextModuleEditorComponent implements OnInit {
 

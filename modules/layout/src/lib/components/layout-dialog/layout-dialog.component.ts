@@ -1,13 +1,14 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LayoutPlugin } from '../../models/layout.models';
 import { AttributeValue, ValueComputerService } from '@rollthecloudinc/attributes';
 
 @Component({
-  selector: 'druid-layout-dialog',
-  templateUrl: './layout-dialog.component.html',
-  styleUrls: ['./layout-dialog.component.scss']
+    selector: 'druid-layout-dialog',
+    templateUrl: './layout-dialog.component.html',
+    styleUrls: ['./layout-dialog.component.scss'],
+    standalone: false
 })
 export class LayoutDialogComponent implements OnInit {
 

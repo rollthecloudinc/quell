@@ -11,7 +11,7 @@ import { SITE_NAME } from '@rollthecloudinc/utils';
 // import { STYLE_PLUGIN } from '@rollthecloudinc/style';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from '@rollthecloudinc/context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { PersistenceDialogComponent, PersistenceFormPayload } from '@rollthecloudinc/refinery';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterItemComponentInterface } from 'angular-gridster2';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
@@ -21,7 +21,7 @@ import { debounceTime, delay, filter, map, tap, switchMap, take } from 'rxjs/ope
 // import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
-import { Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
+import { Rule as NgRule } from 'ngx-angular-query-builder';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
@@ -42,9 +42,10 @@ import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecl
  * https://angular.io/errors/NG3003
  */
 @Component({
-  selector: 'classifieds-ui-editable-pane',
-  templateUrl: './editable-pane.component.html',
-  styleUrls: ['./editable-pane.component.scss']
+    selector: 'classifieds-ui-editable-pane',
+    templateUrl: './editable-pane.component.html',
+    styleUrls: ['./editable-pane.component.scss'],
+    standalone: false
 })
 export class EditablePaneComponent implements OnInit, OnChanges {
 
@@ -250,21 +251,22 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
 }
 @Component({
-  selector: 'classifieds-ui-content-editor',
-  templateUrl: './content-editor.component.html',
-  styleUrls: ['./content-editor.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContentEditorComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContentEditorComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-content-editor',
+    templateUrl: './content-editor.component.html',
+    styleUrls: ['./content-editor.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContentEditorComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContentEditorComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, ControlValueAccessor, Validator, PanelsEditor {
 

@@ -5,6 +5,7 @@ import { DatasourceOptions } from '../../models/datasource.models';
 @Component({
   selector: 'classifieds-ui-datasource-options',
   templateUrl: './datasource-options.component.html',
+  standalone: false,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

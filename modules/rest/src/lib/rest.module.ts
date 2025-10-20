@@ -15,7 +15,7 @@ import { RestDatasourceComponent } from './components/rest-datasource/rest-datas
 import { RestFetchHelperService } from './services/rest-fetch-helper.service';
 import { CrudAdaptorPluginManager, CrudModule } from '@rollthecloudinc/crud';
 import { DparamModule, ParamEvaluatorService } from '@rollthecloudinc/dparam';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultDataServiceConfig, HttpUrlGenerator } from '@ngrx/data';
 import { RestHttpGenerator } from './services/rest-http-generator.service';
 

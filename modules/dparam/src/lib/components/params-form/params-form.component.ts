@@ -6,21 +6,22 @@ import { Param } from '../../models/param.models';
 import { debounceTime, delay, filter, map, skipUntil, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-params-form',
-  styleUrls: ['./params-form.component.scss'],
-  templateUrl: `./params-form.component.html`,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ParamsFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ParamsFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-params-form',
+    styleUrls: ['./params-form.component.scss'],
+    templateUrl: `./params-form.component.html`,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ParamsFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ParamsFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ParamsFormComponent implements ControlValueAccessor, Validator {
 

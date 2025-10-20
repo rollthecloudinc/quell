@@ -21,7 +21,12 @@ module.exports = {
   resolve: {
     alias: {
       ...sharedMappings.getAliases(),
-    }
+    },
+    fallback: {
+      "path": require.resolve("path-browserify"),
+      "fs": false,
+      "url": require.resolve("url"),
+    },
   },
   experiments: {
     outputModule: true

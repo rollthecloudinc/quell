@@ -7,9 +7,10 @@ import { Subject } from 'rxjs';
 import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-formly-field-wrapper',
-  templateUrl: './formly-field-wrapper.component.html',
-  styleUrls: ['./formly-field-wrapper.component.scss']
+    selector: 'classifieds-ui-formly-field-wrapper',
+    templateUrl: './formly-field-wrapper.component.html',
+    styleUrls: ['./formly-field-wrapper.component.scss'],
+    standalone: false
 })
 export class FormlyFieldWrapperComponent extends FieldWrapper implements OnInit {
 

@@ -6,9 +6,10 @@ import { EntityCollectionDataService, EntityCollectionService, EntityServices } 
 import { Pane, PanelPageState } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-media-pane-renderer',
-  templateUrl: './media-pane-renderer.component.html',
-  styleUrls: ['./media-pane-renderer.component.scss']
+    selector: 'classifieds-ui-media-pane-renderer',
+    templateUrl: './media-pane-renderer.component.html',
+    styleUrls: ['./media-pane-renderer.component.scss'],
+    standalone: false
 })
 export class MediaPaneRendererComponent implements OnInit, AfterViewInit {
 

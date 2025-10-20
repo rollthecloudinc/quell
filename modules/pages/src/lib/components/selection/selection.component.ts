@@ -6,21 +6,22 @@ import { SelectOption, SelectMapping } from '@rollthecloudinc/datasource';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-selection',
-  templateUrl: './selection.component.html',
-  styleUrls: ['./selection.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectionComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SelectionComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-selection',
+    templateUrl: './selection.component.html',
+    styleUrls: ['./selection.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectionComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SelectionComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class SelectionComponent implements OnInit, ControlValueAccessor, Validator {
 

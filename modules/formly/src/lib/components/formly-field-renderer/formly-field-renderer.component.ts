@@ -8,9 +8,10 @@ import { debounceTime } from 'rxjs/operators';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 
 @Component({
-  selector: 'classifieds-formly-field-renderer',
-  templateUrl: './formly-field-renderer.component.html',
-  styleUrls: ['./formly-field-renderer.component.scss']
+    selector: 'classifieds-formly-field-renderer',
+    templateUrl: './formly-field-renderer.component.html',
+    styleUrls: ['./formly-field-renderer.component.scss'],
+    standalone: false
 })
 export class FormlyFieldRendererComponent implements OnInit {
 

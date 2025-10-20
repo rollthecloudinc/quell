@@ -8,9 +8,10 @@ import { FormElementBase } from "../../directives/form-element-base.directive";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-select',
-  styleUrls: ['./form-select.component.scss'],
-  templateUrl: './form-select.component.html'
+    selector: 'druid-forms-form-select',
+    styleUrls: ['./form-select.component.scss'],
+    templateUrl: './form-select.component.html',
+    standalone: false
 })
 export class FormSelectComponent extends FormElementBase {
 

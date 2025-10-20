@@ -9,9 +9,10 @@ import { AsyncApiCallHelperService } from '@rollthecloudinc/utils';
 import { CrudDataHelperService, CrudEntityMetadata } from '@rollthecloudinc/crud';
 
 @Component({
-  selector: 'classifieds-ui-panel-page-router',
-  templateUrl: './panel-page-router.component.html',
-  styleUrls: ['./panel-page-router.component.scss']
+    selector: 'classifieds-ui-panel-page-router',
+    templateUrl: './panel-page-router.component.html',
+    styleUrls: ['./panel-page-router.component.scss'],
+    standalone: false
 })
 export class PanelPageRouterComponent implements OnInit {
 

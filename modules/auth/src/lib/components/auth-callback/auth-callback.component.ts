@@ -6,9 +6,10 @@ import { v4 as uuidv4 } from 'uuid';
 import { AuthFacade } from '../../+state/auth.facade';
 
 @Component({
-  selector: 'classifieds-ui-auth-callback',
-  templateUrl: './auth-callback.component.html',
-  styleUrls: ['./auth-callback.component.scss']
+    selector: 'classifieds-ui-auth-callback',
+    templateUrl: './auth-callback.component.html',
+    styleUrls: ['./auth-callback.component.scss'],
+    standalone: false
 })
 export class AuthCallbackComponent implements OnInit {
 

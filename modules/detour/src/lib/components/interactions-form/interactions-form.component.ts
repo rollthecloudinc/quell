@@ -6,21 +6,22 @@ import { filter, map, tap } from 'rxjs/operators';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
 @Component({
-  selector: 'druid-detour-interactions-form',
-  templateUrl: './interactions-form.component.html',
-  styleUrls: ['./interactions-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => InteractionsFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => InteractionsFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-detour-interactions-form',
+    templateUrl: './interactions-form.component.html',
+    styleUrls: ['./interactions-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InteractionsFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => InteractionsFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class InteractionsFormComponent implements ControlValueAccessor, Validator, AfterViewInit {
 

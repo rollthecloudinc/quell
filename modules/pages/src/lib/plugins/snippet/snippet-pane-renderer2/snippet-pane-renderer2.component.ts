@@ -8,9 +8,10 @@ import { Observable } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-snippet-pane-renderer2',
-  templateUrl: './snippet-pane-renderer2.component.html',
-  styleUrls: ['./snippet-pane-renderer2.component.scss']
+    selector: 'classifieds-ui-snippet-pane-renderer2',
+    templateUrl: './snippet-pane-renderer2.component.html',
+    styleUrls: ['./snippet-pane-renderer2.component.scss'],
+    standalone: false
 })
 export class SnippetPaneRenderer2Component implements OnInit, OnChanges {
 

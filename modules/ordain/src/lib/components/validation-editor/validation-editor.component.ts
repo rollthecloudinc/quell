@@ -5,21 +5,22 @@ import { FormValidation } from '../../models/validation.models';
 import { tap, delay, filter, map} from 'rxjs/operators';
 
 @Component({
-  selector: 'druid-ordain-validation-editor',
-  templateUrl: './validation-editor.component.html',
-  styleUrls: ['./validation-editor.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidationEditorComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ValidationEditorComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-ordain-validation-editor',
+    templateUrl: './validation-editor.component.html',
+    styleUrls: ['./validation-editor.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidationEditorComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ValidationEditorComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ValidationEditorComponent implements ControlValueAccessor, Validator, AfterViewInit {
 

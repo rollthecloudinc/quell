@@ -7,21 +7,22 @@ import { debounceTime, filter, map } from 'rxjs/operators';
 import * as qs from 'qs'
 
 @Component({
-  selector: 'classifieds-ui-entity-datasource-form',
-  templateUrl: './entity-datasource-form.component.html',
-  styleUrls: ['./entity-datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EntityDataSourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => EntityDataSourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-entity-datasource-form',
+    templateUrl: './entity-datasource-form.component.html',
+    styleUrls: ['./entity-datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => EntityDataSourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => EntityDataSourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class EntityDataSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

@@ -7,9 +7,10 @@ import { AuthFacade } from '@rollthecloudinc/auth';
 import { map, Observable, Subject, tap } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-gridless-layout-editor',
-  templateUrl: './gridless-layout-editor.component.html',
-  styleUrls: ['./gridless-layout-editor.component.scss']
+    selector: 'classifieds-ui-gridless-layout-editor',
+    templateUrl: './gridless-layout-editor.component.html',
+    styleUrls: ['./gridless-layout-editor.component.scss'],
+    standalone: false
 })
 export class GridlessLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit {
 

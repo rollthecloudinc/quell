@@ -5,21 +5,22 @@ import { Plugin } from '@rollthecloudinc/plugin';
 import { ParamPluginInstance } from '../../models/param.models';
 
 @Component({
-  selector: 'druid-params-plugin-instance',
-  templateUrl: './plugin-instance.component.html',
-  styleUrls: ['./plugin-instance.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PluginInstanceComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PluginInstanceComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-params-plugin-instance',
+    templateUrl: './plugin-instance.component.html',
+    styleUrls: ['./plugin-instance.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PluginInstanceComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PluginInstanceComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class PluginInstanceComponent implements ControlValueAccessor, Validator {
 

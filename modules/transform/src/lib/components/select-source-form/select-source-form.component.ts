@@ -6,21 +6,22 @@ import { map } from 'rxjs/operators';
 import { SelectTransform } from '../../models/transform.models';
 
 @Component({
-  selector: 'classifieds-ui-select-source-form',
-  templateUrl: './select-source-form.component.html',
-  styleUrls: ['./select-source-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SelectSourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SelectSourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-select-source-form',
+    templateUrl: './select-source-form.component.html',
+    styleUrls: ['./select-source-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SelectSourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SelectSourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class SelectSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

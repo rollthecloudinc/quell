@@ -4,9 +4,10 @@ import { DataSlice } from '../../models/plugin.models';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
-  selector: 'classifieds-ui-slice-form',
-  templateUrl: './slice-form.component.html',
-  styleUrls: ['./slice-form.component.scss']
+    selector: 'classifieds-ui-slice-form',
+    templateUrl: './slice-form.component.html',
+    styleUrls: ['./slice-form.component.scss'],
+    standalone: false
 })
 export class SliceFormComponent implements OnInit {
 

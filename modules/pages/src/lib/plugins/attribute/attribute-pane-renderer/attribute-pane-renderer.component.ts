@@ -6,9 +6,10 @@ import { Snippet } from '@rollthecloudinc/snippet';
 import { TokenizerService } from '@rollthecloudinc/token';
 
 @Component({
-  selector: 'classifieds-ui-attribute-pane-renderer',
-  templateUrl: './attribute-pane-renderer.component.html',
-  styleUrls: ['./attribute-pane-renderer.component.scss']
+    selector: 'classifieds-ui-attribute-pane-renderer',
+    templateUrl: './attribute-pane-renderer.component.html',
+    styleUrls: ['./attribute-pane-renderer.component.scss'],
+    standalone: false
 })
 export class AttributePaneRendererComponent implements OnInit {
 

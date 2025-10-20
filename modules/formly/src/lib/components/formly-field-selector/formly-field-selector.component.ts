@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -17,9 +17,10 @@ import { FormlyFieldInstance } from '../../models/formly.models';
 import { FormlyFieldEditorComponent } from '../formly-field-editor/formly-field-editor.component';
 
 @Component({
-  selector: 'classifieds-formly-field-selector',
-  templateUrl: './formly-field-selector.component.html',
-  styleUrls: ['./formly-field-selector.component.scss']
+    selector: 'classifieds-formly-field-selector',
+    templateUrl: './formly-field-selector.component.html',
+    styleUrls: ['./formly-field-selector.component.scss'],
+    standalone: false
 })
 export class FormlyFieldSelectorComponent implements OnInit {
 

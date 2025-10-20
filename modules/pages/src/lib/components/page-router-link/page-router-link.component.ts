@@ -2,9 +2,10 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 import { Router } from '@angular/router';
 
 @Component({
-  selector: "classifieds-ui-page-router-link",
-  templateUrl: './page-router-link.component.html',
-  styleUrls: ['./page-router-link.component.scss']
+    selector: "classifieds-ui-page-router-link",
+    templateUrl: './page-router-link.component.html',
+    styleUrls: ['./page-router-link.component.scss'],
+    standalone: false
 })
 export class PageRouterLinkComponent implements OnInit {
   @Input() public href: string;

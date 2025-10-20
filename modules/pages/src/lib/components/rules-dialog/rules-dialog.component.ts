@@ -1,16 +1,17 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { UntypedFormBuilder, FormGroup } from '@angular/forms';
-import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { QueryBuilderConfig, FieldMap, Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { QueryBuilderConfig, FieldMap, Rule as NgRule } from 'ngx-angular-query-builder';
 import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
 import { RulesParserService } from '@rollthecloudinc/rules';
 import { forkJoin } from 'rxjs';
 import { map, tap, defaultIfEmpty } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-rules-dialog',
-  templateUrl: './rules-dialog.component.html',
-  styleUrls: ['./rules-dialog.component.scss']
+    selector: 'classifieds-ui-rules-dialog',
+    templateUrl: './rules-dialog.component.html',
+    styleUrls: ['./rules-dialog.component.scss'],
+    standalone: false
 })
 export class RulesDialogComponent implements OnInit {
 
