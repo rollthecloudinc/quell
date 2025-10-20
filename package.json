@@ -18,7 +18,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular-architects/module-federation": "^18.0.0",
+    "@angular-architects/module-federation": "^19.0.0",
     "@angular/animations": "^19.2.15",
     "@angular/cdk": "^19.2.19",
     "@angular/cdk-experimental": "^19.2.19",
@@ -54,7 +54,7 @@
     "@opentelemetry/sdk-metrics-base": "^0.27.0",
     "@opentelemetry/sdk-node": "^0.27.0",
     "@vendia/serverless-express": "^4.5.2",
-    "angular-gridster2": "^18.0.0",
+    "angular-gridster2": "^19.0.0",
     "angular-split": "^17.0.0",
     "aws-crt": "^1.11.0",
     "aws-rum-web": "^1.5.0",
@@ -76,7 +76,7 @@
     "ngx-angular-query-builder": "^18.0.0",
     "ngx-dropzone": "^3.1.0",
     "ngx-json-viewer": "^3.0.2",
-    "ngx-markdown": "^18.0.0",
+    "ngx-markdown": "^19.0.0",
     "number-string": "^2.0.1",
     "nx": "^15.9.2",
     "oidc-client": "^1.11.5",
@@ -93,7 +93,7 @@
     "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-builders/custom-webpack": "^18.0.0",
+    "@angular-builders/custom-webpack": "^19.0.0",
     "@angular-devkit/architect": "^0.1902.18",
     "@angular-devkit/build-angular": "^19.2.18",
     "@angular-devkit/core": "^19.2.18",
