@@ -45,7 +45,7 @@ export class ParamEvaluatorService {
       () => Object.keys(params).length > 1,
       forkJoin(
         Object.keys(params).map(name => this.paramValue(params[name], new Map<string, any>()).pipe(
-          map(v => ({ [name]: v }))
+          map(v => ({ [name as string]: v }))
         ))
       ).pipe(
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
