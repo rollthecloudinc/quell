@@ -6,16 +6,17 @@ import { SITE_NAME } from '@rollthecloudinc/utils';
 import { PanelPage, PanelPageListItem, LayoutSetting } from '../../../models/panels.models';
 import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import { PanelContentHandler } from '../../../handlers/panel-content.handler';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
 // import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-panel-selector',
-  templateUrl: './panel-selector.component.html',
-  styleUrls: ['./panel-selector.component.scss']
+    selector: 'classifieds-ui-panel-selector',
+    templateUrl: './panel-selector.component.html',
+    styleUrls: ['./panel-selector.component.scss'],
+    standalone: false
 })
 export class PanelSelectorComponent implements OnInit {
 

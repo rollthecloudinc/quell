@@ -7,14 +7,15 @@ import { FormElementBase } from "../../directives/form-element-base.directive";
 import { debounceTime, distinctUntilChanged, map, switchMap, tap, withLatestFrom } from "rxjs/operators";
 import { combineLatest, Subject } from "rxjs";
 import { Mapping, Param } from '@rollthecloudinc/dparam';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from "@angular/material/legacy-autocomplete";
+import { MatAutocompleteSelectedEvent } from "@angular/material/autocomplete";
 import { SelectOption } from '@rollthecloudinc/datasource';
 import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 @Component({
-  selector: 'druid-forms-form-autocomplete',
-  styleUrls: ['./form-autocomplete.component.scss'],
-  templateUrl: './form-autocomplete.component.html'
+    selector: 'druid-forms-form-autocomplete',
+    styleUrls: ['./form-autocomplete.component.scss'],
+    templateUrl: './form-autocomplete.component.html',
+    standalone: false
 })
 export class FormAutocompleteComponent extends FormElementBase {
 

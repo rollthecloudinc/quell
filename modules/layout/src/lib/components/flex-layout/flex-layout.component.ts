@@ -3,9 +3,10 @@ import { LayoutSetting } from '@rollthecloudinc/panels';
 import { AttributeMatcherService } from '@rollthecloudinc/attributes';
 
 @Component({
-  selector: 'classifieds-ui-flex-layout',
-  templateUrl: './flex-layout.component.html',
-  styleUrls: ['./flex-layout.component.scss']
+    selector: 'classifieds-ui-flex-layout',
+    templateUrl: './flex-layout.component.html',
+    styleUrls: ['./flex-layout.component.scss'],
+    standalone: false
 })
 export class FlexLayoutComponent implements OnInit {
 

@@ -4,9 +4,10 @@ import { EntityServices, EntityCollectionService } from '@ngrx/data';
 import * as uuid from 'uuid';
 
 @Component({
-  selector: 'classifieds-ui-create-panel-page',
-  templateUrl: './create-panel-page.component.html',
-  styleUrls: ['./create-panel-page.component.scss']
+    selector: 'classifieds-ui-create-panel-page',
+    templateUrl: './create-panel-page.component.html',
+    styleUrls: ['./create-panel-page.component.scss'],
+    standalone: false
 })
 export class CreatePanelPageComponent implements OnInit {
 

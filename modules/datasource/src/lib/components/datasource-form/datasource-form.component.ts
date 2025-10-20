@@ -9,21 +9,22 @@ import { ContentBinding } from '@rollthecloudinc/content';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 
 @Component({
-  selector: 'classifieds-ui-datasource-form',
-  templateUrl: './datasource-form.component.html',
-  styleUrls: ['./datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DatasourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DatasourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-datasource-form',
+    templateUrl: './datasource-form.component.html',
+    styleUrls: ['./datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DatasourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => DatasourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
 

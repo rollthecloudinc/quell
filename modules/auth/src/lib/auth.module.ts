@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import {} from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import * as fromAuth from './+state/auth.reducer';
 import { AuthFacade } from './+state/auth.facade';

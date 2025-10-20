@@ -13,7 +13,8 @@ import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../services/forms-context-helper.service";
 import * as uuid from 'uuid';
 @Directive({
-  selector: '[druid-forms-form-element-base]'
+    selector: '[druid-forms-form-element-base]',
+    standalone: false
 })
 export abstract class FormElementBase implements OnInit, AfterViewInit {
 

@@ -3,9 +3,9 @@ import { ControlContainer } from '@angular/forms';
 import { LayoutRendererBaseComponent } from '@rollthecloudinc/panels'
 
 @Component({
-  selector: 'classifieds-ui-flex-layout-renderer',
-  templateUrl: './flex-layout-renderer.component.html',
-  // styleUrls: ['./gridless-layout-renderer.component.scss']
+    selector: 'classifieds-ui-flex-layout-renderer',
+    templateUrl: './flex-layout-renderer.component.html',
+    standalone: false
 })
 export class FlexLayoutRendererComponent extends LayoutRendererBaseComponent implements OnInit {
 

@@ -35,7 +35,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             region: 'us-east-1'
           }
         },*/
-        /*...(isPlatformServer(platformId) ?
+        ...(isPlatformServer(platformId) ?
           {} :
           {
             idb_keyval: {
@@ -49,7 +49,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
               ])
             }
           }
-        ),*/
+        ),
         /*aws_opensearch_entity: {
           ops: ['create', 'update', 'read', 'delete']
         },*/
@@ -76,14 +76,14 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             prefix: 'panelpages/'
           }
         }*/
-        save: {
+        /*save: {
           ops: ['create', 'update'],
           plugin: 'rest',
           params: {
             entityName: 'PanelPage'
           }
-        },
-        ...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
+        },*/
+        /*...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
           fallback: true,
           ops: ['create', 'update', 'query'],
           plugin: 'idb_keyval',
@@ -102,8 +102,8 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             // root: '/assets/objects',
             suffix: '.json'
           }
-        },
-        /*...(isPlatformServer(platformId) ? 
+        },*/
+        ...(isPlatformServer(platformId) ? 
           {} :
           {
             idb_keyval: { // demo only
@@ -112,7 +112,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
               }
             }
           }
-        )*/
+        )
       }
     },
     PanelPageState: {

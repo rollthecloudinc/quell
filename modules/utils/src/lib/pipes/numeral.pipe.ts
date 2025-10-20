@@ -2,7 +2,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { toNumber } from "number-string";
 
 @Pipe({
-  name: 'numeral'
+    name: 'numeral',
+    standalone: false
 })
 export class NumeralPipe implements PipeTransform {
 

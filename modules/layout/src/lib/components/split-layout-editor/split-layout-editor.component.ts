@@ -3,9 +3,10 @@ import { ControlContainer } from '@angular/forms';
 import { LayoutEditorBaseComponent, GridItem } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-split-layout-editor',
-  templateUrl: './split-layout-editor.component.html',
-  styleUrls: ['./split-layout-editor.component.scss']
+    selector: 'classifieds-ui-split-layout-editor',
+    templateUrl: './split-layout-editor.component.html',
+    styleUrls: ['./split-layout-editor.component.scss'],
+    standalone: false
 })
 export class SplitLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit {
 

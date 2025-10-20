@@ -8,9 +8,10 @@ import { BehaviorSubject, map, Observable, skip, switchMap, tap } from "rxjs";
 import { OutsideAppSettings } from "../../models/outsider.models";
 
 @Component({
-  selector: 'druid-outsider-outside-app-renderer',
-  styleUrls: ['./outside-app-renderer.component.scss'],
-  templateUrl: './outside-app-renderer.component.html'
+    selector: 'druid-outsider-outside-app-renderer',
+    styleUrls: ['./outside-app-renderer.component.scss'],
+    templateUrl: './outside-app-renderer.component.html',
+    standalone: false
 })
 export class OutsideAppRendererComponent {
 

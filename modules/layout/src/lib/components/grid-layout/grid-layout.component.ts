@@ -2,9 +2,10 @@ import { Component, OnInit, EventEmitter, Output, ContentChild, TemplateRef, Inp
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem, GridsterComponent } from 'angular-gridster2';
 
 @Component({
-  selector: 'classifieds-ui-grid-layout',
-  templateUrl: './grid-layout.component.html',
-  styleUrls: ['./grid-layout.component.scss']
+    selector: 'classifieds-ui-grid-layout',
+    templateUrl: './grid-layout.component.html',
+    styleUrls: ['./grid-layout.component.scss'],
+    standalone: false
 })
 export class GridLayoutComponent implements OnInit {
 

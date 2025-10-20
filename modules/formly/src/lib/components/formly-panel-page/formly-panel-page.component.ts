@@ -3,8 +3,9 @@ import { FieldType } from '@ngx-formly/material';
 import { PanelPage } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-formly-panel-page',
-  templateUrl: './formly-panel-page.component.html'
+    selector: 'classifieds-formly-panel-page',
+    templateUrl: './formly-panel-page.component.html',
+    standalone: false
 })
 export class FormlyPanelPageComponent extends FieldType implements OnInit, AfterViewInit {
 

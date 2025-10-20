@@ -4,9 +4,9 @@ import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/att
 import { Rest } from '../../models/rest.models';
 
 @Component({
-  selector: 'classifieds-ui-rest-datasource',
-  template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [restSource]="restSource" [contexts]="contexts"></classifieds-ui-rest-source-form></ng-container>`,
-  // template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [settings]="settings" [contexts]="contexts"></classifieds-ui-rest-source-form></ng-container>`,
+    selector: 'classifieds-ui-rest-datasource',
+    template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="settings" [restSource]="restSource" [contexts]="contexts"></classifieds-ui-rest-source-form></ng-container>`,
+    standalone: false
 })
 export class RestDatasourceComponent {
   @Input() set settings(settings: Array<AttributeValue>) {

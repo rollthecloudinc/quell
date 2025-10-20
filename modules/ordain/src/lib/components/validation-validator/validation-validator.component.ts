@@ -8,21 +8,22 @@ import { ValidationPlugin, ValidationValidator, ValidationValidatorSettings } fr
 import { ValidationPluginManager } from "../../services/validation-plugin-manager.service";
 
 @Component({
-  selector: 'druid-ordain-validation-validator',
-  templateUrl: './validation-validator.component.html',
-  styleUrls: ['./validation-validator.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ValidationValidatorComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ValidationValidatorComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-ordain-validation-validator',
+    templateUrl: './validation-validator.component.html',
+    styleUrls: ['./validation-validator.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ValidationValidatorComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ValidationValidatorComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ValidationValidatorComponent implements ControlValueAccessor, Validator, AfterViewInit, OnInit {
 

@@ -6,21 +6,22 @@ import { delay, map } from 'rxjs/operators';
 import { ContextDatasource, InlineContext } from '../../models/context.models';
 
 @Component({
-  selector: 'classifieds-ui-context-datasource-form',
-  templateUrl: './context-datasource-form.component.html',
-  styleUrls: ['./context-datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContextDatasourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContextDatasourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-context-datasource-form',
+    templateUrl: './context-datasource-form.component.html',
+    styleUrls: ['./context-datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContextDatasourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContextDatasourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ContextDatasourceFormComponent implements ControlValueAccessor, Validator {
 

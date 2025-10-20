@@ -3,8 +3,9 @@ import { ControlContainer } from '@angular/forms';
 import { PanelsEditor, LayoutSetting, GridItem } from '../../models/panels.models';
 
 @Component({
-  selector: 'classifieds-ui-layout-editor-base',
-  template: ''
+    selector: 'classifieds-ui-layout-editor-base',
+    template: '',
+    standalone: false
 })
 export class LayoutEditorBaseComponent {
 

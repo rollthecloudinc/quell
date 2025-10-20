@@ -3,8 +3,9 @@ import { ControlContainer } from '@angular/forms';
 import { LayoutSetting, PanelPage } from '../../models/panels.models';
 
 @Component({
-  selector: 'classifieds-ui-layout-renderer-base',
-  template: ''
+    selector: 'classifieds-ui-layout-renderer-base',
+    template: '',
+    standalone: false
 })
 export class LayoutRendererBaseComponent {
 

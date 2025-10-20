@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
 import { Datasource } from '@rollthecloudinc/datasource';
@@ -8,9 +8,10 @@ import { DatasourceContentHandler } from '../../../handlers/datasource-content.h
 import { Subject } from 'rxjs';
 import { Pane } from '../../../models/panels.models';
 @Component({
-  selector: 'classifieds-ui-datasource-editor',
-  templateUrl: './datasource-editor.component.html',
-  styleUrls: ['./datasource-editor.component.scss']
+    selector: 'classifieds-ui-datasource-editor',
+    templateUrl: './datasource-editor.component.html',
+    styleUrls: ['./datasource-editor.component.scss'],
+    standalone: false
 })
 export class DatasourceEditorComponent implements OnInit {
 

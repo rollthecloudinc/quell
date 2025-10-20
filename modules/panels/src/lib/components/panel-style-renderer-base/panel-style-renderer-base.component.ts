@@ -4,8 +4,9 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { Pane } from '../../models/panels.models';
 
 @Component({
-  selector: 'classifieds-ui-panel-style-renderer-base',
-  template: ''
+    selector: 'classifieds-ui-panel-style-renderer-base',
+    template: '',
+    standalone: false
 })
 export class PanelStyleRendererBaseComponent {
 

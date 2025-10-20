@@ -6,7 +6,7 @@ describe('ValueComputerService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ValueComputerService = TestBed.get(ValueComputerService);
+    const service: ValueComputerService = TestBed.inject(ValueComputerService);
     expect(service).toBeTruthy();
   });
 });

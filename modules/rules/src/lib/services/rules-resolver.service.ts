@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { RuleSet } from '@rollthecloudinc/ngx-angular-query-builder';
+import { RuleSet } from 'ngx-angular-query-builder';
 import { Observable } from 'rxjs';
 import { RulesParserService } from './rules-parser.service';
 import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';

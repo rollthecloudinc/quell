@@ -8,8 +8,9 @@ import { OptionsResolverService } from '../../services/options-resolver.services
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-hidden',
-  template: ''
+    selector: 'druid-forms-form-hidden',
+    template: '',
+    standalone: false
 })
 export class FormHiddenComponent extends FormElementBase {
 

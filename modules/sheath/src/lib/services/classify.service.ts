@@ -1,5 +1,5 @@
-import { Inject, Injectable } from "@angular/core";
-import { DOCUMENT } from "@angular/common";
+import { Inject, Injectable, DOCUMENT } from "@angular/core";
+
 import domElementPath from 'dom-element-path';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';

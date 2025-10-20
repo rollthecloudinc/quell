@@ -5,9 +5,10 @@ import { LayoutEditorBaseComponent, GridItem } from '@rollthecloudinc/panels';
 import { GridLayoutComponent } from '../grid-layout/grid-layout.component';
 
 @Component({
-  selector: 'classifieds-ui-grid-layout-editor',
-  templateUrl: './grid-layout-editor.component.html',
-  styleUrls: ['./grid-layout-editor.component.scss']
+    selector: 'classifieds-ui-grid-layout-editor',
+    templateUrl: './grid-layout-editor.component.html',
+    styleUrls: ['./grid-layout-editor.component.scss'],
+    standalone: false
 })
 export class GridLayoutEditorComponent extends LayoutEditorBaseComponent implements OnInit {
 

@@ -3,7 +3,8 @@ import { AttributeMatcherService } from '../services/attribute-matcher.service';
 import { AttributeValue } from '../models/attributes.models';
 
 @Pipe({
-  name: 'attribute'
+    name: 'attribute',
+    standalone: false
 })
 export class AttributePipe implements PipeTransform {
 

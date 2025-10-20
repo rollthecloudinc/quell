@@ -18,21 +18,22 @@ import { TokenizerService } from '@rollthecloudinc/token';
 import { Mapping, Param } from '@rollthecloudinc/dparam';
 
 @Component({
-  selector: 'classifieds-ui-formly-pane-field',
-  templateUrl: './formly-pane-field.component.html',
-  styleUrls: ['./formly-pane-field.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FormlyPaneFieldComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => FormlyPaneFieldComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-formly-pane-field',
+    templateUrl: './formly-pane-field.component.html',
+    styleUrls: ['./formly-pane-field.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FormlyPaneFieldComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => FormlyPaneFieldComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator, OnInit, AfterViewInit {
 

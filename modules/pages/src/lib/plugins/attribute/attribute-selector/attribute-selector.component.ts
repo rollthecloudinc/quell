@@ -3,16 +3,17 @@ import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder, UntypedFormCont
 import { ATTRIBUTE_WIDGET, AttributeWidget, AttributeValue, AttributeTypes, WidgetPluginManager } from '@rollthecloudinc/attributes';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Pane } from '@rollthecloudinc/panels';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-attribute-selector',
-  templateUrl: './attribute-selector.component.html',
-  styleUrls: ['./attribute-selector.component.scss']
+    selector: 'classifieds-ui-attribute-selector',
+    templateUrl: './attribute-selector.component.html',
+    styleUrls: ['./attribute-selector.component.scss'],
+    standalone: false
 })
 export class AttributeSelectorComponent implements OnInit {
 

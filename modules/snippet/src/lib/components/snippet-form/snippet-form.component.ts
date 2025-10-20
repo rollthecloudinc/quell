@@ -4,21 +4,22 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Snippet } from '../../models/snippet.models';
 
 @Component({
-  selector: 'classifieds-ui-snippet-form',
-  templateUrl: './snippet-form.component.html',
-  styleUrls: ['./snippet-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SnippetFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SnippetFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-snippet-form',
+    templateUrl: './snippet-form.component.html',
+    styleUrls: ['./snippet-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SnippetFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SnippetFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class SnippetFormComponent implements OnInit, ControlValueAccessor, Validator {
 

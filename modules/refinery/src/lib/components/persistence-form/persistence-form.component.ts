@@ -6,21 +6,22 @@ import { DataductPlugin, PersistenceFormPayload } from "../../models/refinery.mo
 import { BehaviorSubject, Subject, combineLatest, of } from "rxjs";
 import { delay, filter, map, switchMap, tap } from 'rxjs/operators';
 @Component({
-  selector: 'classifieds-ui-persistence-form',
-  templateUrl: './persistence-form.component.html',
-  styleUrls: ['./persistence-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PersistenceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PersistenceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-persistence-form',
+    templateUrl: './persistence-form.component.html',
+    styleUrls: ['./persistence-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PersistenceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PersistenceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class PersistenceFormComponent implements AfterViewInit, ControlValueAccessor, Validator {
   @Input() contexts: Array<string> = [];

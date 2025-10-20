@@ -4,13 +4,14 @@ import { StylePlugin, StylePluginManager } from '@rollthecloudinc/panels';
 import { Observable, Subject } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
-  selector: 'classifieds-ui-style-selector',
-  templateUrl: './style-selector.component.html',
-  styleUrls: ['./style-selector.component.scss']
+    selector: 'classifieds-ui-style-selector',
+    templateUrl: './style-selector.component.html',
+    styleUrls: ['./style-selector.component.scss'],
+    standalone: false
 })
 export class StyleSelectorComponent implements OnInit {
 
