@@ -7,8 +7,9 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { SelectOption } from '@rollthecloudinc/datasource';
 
 @Component({
-  selector: 'classifieds-formly-autocomplete',
-  templateUrl: './formly-autocomplete.component.html'
+    selector: 'classifieds-formly-autocomplete',
+    templateUrl: './formly-autocomplete.component.html',
+    standalone: false
 })
 export class FormlyAutocompleteComponent extends FieldType implements OnInit, AfterViewInit {
   @ViewChild(MatInput) formFieldControl: MatInput;

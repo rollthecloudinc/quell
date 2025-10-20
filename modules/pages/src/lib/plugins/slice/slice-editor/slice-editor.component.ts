@@ -8,9 +8,10 @@ import { Pane } from '@rollthecloudinc/panels';
 import { DataSlice } from '../../../models/plugin.models';
 
 @Component({
-  selector: 'classifieds-ui-slice-editor',
-  templateUrl: './slice-editor.component.html',
-  styleUrls: ['./slice-editor.component.scss']
+    selector: 'classifieds-ui-slice-editor',
+    templateUrl: './slice-editor.component.html',
+    styleUrls: ['./slice-editor.component.scss'],
+    standalone: false
 })
 export class SliceEditorComponent implements OnInit {
 

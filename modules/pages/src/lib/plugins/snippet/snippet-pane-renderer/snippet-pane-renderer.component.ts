@@ -8,9 +8,10 @@ import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
 import { MarkdownService } from 'ngx-markdown';
 @Component({
-  selector: 'classifieds-ui-snippet-pane-renderer',
-  templateUrl: './snippet-pane-renderer.component.html',
-  styleUrls: ['./snippet-pane-renderer.component.scss']
+    selector: 'classifieds-ui-snippet-pane-renderer',
+    templateUrl: './snippet-pane-renderer.component.html',
+    styleUrls: ['./snippet-pane-renderer.component.scss'],
+    standalone: false
 })
 export class SnippetPaneRendererComponent implements OnInit, OnChanges, AfterContentInit {
 

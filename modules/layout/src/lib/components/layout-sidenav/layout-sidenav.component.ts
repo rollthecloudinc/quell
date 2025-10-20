@@ -7,9 +7,10 @@ import { map, Observable } from "rxjs";
 import { ControlContainer } from "@angular/forms";
 
 @Component({
-  selector: 'druid-layout-sidenav',
-  templateUrl: './layout-sidenav.component.html',
-  styleUrls: ['./layout-sidenav.component.scss'],
+    selector: 'druid-layout-sidenav',
+    templateUrl: './layout-sidenav.component.html',
+    styleUrls: ['./layout-sidenav.component.scss'],
+    standalone: false
 })
 export class LayoutSidenavComponent {
 

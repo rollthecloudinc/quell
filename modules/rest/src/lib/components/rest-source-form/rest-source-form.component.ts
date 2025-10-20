@@ -9,21 +9,22 @@ import { TokenizerService } from '@rollthecloudinc/token';
 import { Rest } from '../../models/rest.models';
 
 @Component({
-  selector: 'classifieds-ui-rest-source-form',
-  templateUrl: './rest-source-form.component.html',
-  styleUrls: ['./rest-source-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RestSourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => RestSourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-rest-source-form',
+    templateUrl: './rest-source-form.component.html',
+    styleUrls: ['./rest-source-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RestSourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => RestSourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class RestSourceFormComponent implements OnInit, OnDestroy, ControlValueAccessor, Validator {
 

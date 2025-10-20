@@ -6,9 +6,9 @@ import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { Pane, Panel } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'druid-tabs-panel-editor',
-  templateUrl: './tabs-panel-editor.component.html',
-  // styleUrls: ['./tabs-panel-editorcomponent.scss']
+    selector: 'druid-tabs-panel-editor',
+    templateUrl: './tabs-panel-editor.component.html',
+    standalone: false
 })
 export class TabsPanelEditorComponent implements OnInit {
   contexts: Array<InlineContext> = [];

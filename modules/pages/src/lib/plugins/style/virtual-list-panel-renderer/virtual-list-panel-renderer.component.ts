@@ -6,10 +6,11 @@ import { Pane, Panel, PanelResolverService, StyleResolverService, PaneDatasource
 import { skip, switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-virtual-list-panel-renderer',
-  templateUrl: './virtual-list-panel-renderer.component.html',
-  styleUrls: ['./virtual-list-panel-renderer.component.scss'],
-  providers: [ PaneDatasourceService ]
+    selector: 'classifieds-ui-virtual-list-panel-renderer',
+    templateUrl: './virtual-list-panel-renderer.component.html',
+    styleUrls: ['./virtual-list-panel-renderer.component.scss'],
+    providers: [PaneDatasourceService],
+    standalone: false
 })
 export class VirtualListPanelRendererComponent implements OnInit {
 

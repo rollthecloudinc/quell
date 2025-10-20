@@ -10,9 +10,10 @@ import { Snippet } from '@rollthecloudinc/snippet';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
-  selector: 'classifieds-ui-rest-pane-renderer',
-  templateUrl: './rest-pane-renderer.component.html',
-  styleUrls: ['./rest-pane-renderer.component.scss']
+    selector: 'classifieds-ui-rest-pane-renderer',
+    templateUrl: './rest-pane-renderer.component.html',
+    styleUrls: ['./rest-pane-renderer.component.scss'],
+    standalone: false
 })
 export class RestPaneRendererComponent implements OnInit {
 

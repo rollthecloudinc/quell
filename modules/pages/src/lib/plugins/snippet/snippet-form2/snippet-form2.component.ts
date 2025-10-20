@@ -4,21 +4,22 @@ import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 import { Snippet } from '@rollthecloudinc/snippet';
 
 @Component({
-  selector: 'classifieds-ui-snippet-form2',
-  templateUrl: './snippet-form2.component.html',
-  styleUrls: ['./snippet-form2.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => SnippetForm2Component),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => SnippetForm2Component),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-snippet-form2',
+    templateUrl: './snippet-form2.component.html',
+    styleUrls: ['./snippet-form2.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => SnippetForm2Component),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => SnippetForm2Component),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class SnippetForm2Component implements OnInit, ControlValueAccessor, Validator {
 

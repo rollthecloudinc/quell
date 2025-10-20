@@ -10,9 +10,10 @@ import { ContentSelectorComponent } from '../../../components/content-selector/c
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-attribute-selector',
-  templateUrl: './attribute-selector.component.html',
-  styleUrls: ['./attribute-selector.component.scss']
+    selector: 'classifieds-ui-attribute-selector',
+    templateUrl: './attribute-selector.component.html',
+    styleUrls: ['./attribute-selector.component.scss'],
+    standalone: false
 })
 export class AttributeSelectorComponent implements OnInit {
 

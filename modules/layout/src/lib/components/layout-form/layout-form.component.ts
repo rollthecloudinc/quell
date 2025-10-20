@@ -4,21 +4,22 @@ import { LayoutPlugin } from '../../models/layout.models';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 
 @Component({
-  selector: 'druid-layout-form',
-  templateUrl: './layout-form.component.html',
-  styleUrls: ['./layout-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => LayoutFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => LayoutFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'druid-layout-form',
+    templateUrl: './layout-form.component.html',
+    styleUrls: ['./layout-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => LayoutFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => LayoutFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class LayoutFormComponent implements OnInit, ControlValueAccessor, Validator {
 

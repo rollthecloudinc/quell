@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { bridgeAppInit, testBridgeFactory } from './bridge.factories';
 import { BridgeBuilderService } from './services/bridge-builder.service';
 import { BridgeBuilderPluginManager } from './services/bridge-builder-plugin-manager.service';
@@ -9,7 +9,10 @@ import { BridgeBuilderPluginManager } from './services/bridge-builder-plugin-man
   ],
   exports: [],
   providers: [
-    { provide: APP_INITIALIZER, useFactory: bridgeAppInit, deps: [ BridgeBuilderService ], multi: true }
+    provideAppInitializer(() => {
+        const initializerFn = (bridgeAppInit)(inject(BridgeBuilderService));
+        return initializerFn();
+      })
   ]
 })
 export class BridgeModule { 

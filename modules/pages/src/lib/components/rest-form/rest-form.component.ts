@@ -8,9 +8,10 @@ import { RestSourceFormComponent } from '@rollthecloudinc/rest';
 import { Snippet } from '@rollthecloudinc/snippet';
 
 @Component({
-  selector: 'classifieds-ui-rest-form',
-  templateUrl: './rest-form.component.html',
-  styleUrls: ['./rest-form.component.scss']
+    selector: 'classifieds-ui-rest-form',
+    templateUrl: './rest-form.component.html',
+    styleUrls: ['./rest-form.component.scss'],
+    standalone: false
 })
 export class RestFormComponent implements OnInit, AfterViewInit {
 

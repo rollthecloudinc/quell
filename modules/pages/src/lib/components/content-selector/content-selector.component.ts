@@ -8,9 +8,10 @@ import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bott
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'classifieds-ui-content-selector',
-  templateUrl: './content-selector.component.html',
-  styleUrls: ['./content-selector.component.scss']
+    selector: 'classifieds-ui-content-selector',
+    templateUrl: './content-selector.component.html',
+    styleUrls: ['./content-selector.component.scss'],
+    standalone: false
 })
 export class ContentSelectorComponent implements OnInit {
 

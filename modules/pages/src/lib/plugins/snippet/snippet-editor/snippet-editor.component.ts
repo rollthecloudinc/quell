@@ -9,9 +9,10 @@ import { Snippet } from '@rollthecloudinc/snippet';
 import { SnippetContentHandler } from '../../../handlers/snippet-content.handler';
 
 @Component({
-  selector: 'classifieds-ui-snippet-editor2',
-  templateUrl: './snippet-editor.component.html',
-  styleUrls: ['./snippet-editor.component.scss']
+    selector: 'classifieds-ui-snippet-editor2',
+    templateUrl: './snippet-editor.component.html',
+    styleUrls: ['./snippet-editor.component.scss'],
+    standalone: false
 })
 export class SnippetEditorComponent implements OnInit {
 

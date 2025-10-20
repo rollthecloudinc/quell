@@ -5,9 +5,10 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { InteractionsFormPayload } from "../../models/interaction.models";
 
 @Component({
-  selector: 'druid-detour-interactions-dialog',
-  templateUrl: './interactions-dialog.component.html',
-  styleUrls: ['./interactions-dialog.component.scss']
+    selector: 'druid-detour-interactions-dialog',
+    templateUrl: './interactions-dialog.component.html',
+    styleUrls: ['./interactions-dialog.component.scss'],
+    standalone: false
 })
 export class InteractionsDialogComponent {
 

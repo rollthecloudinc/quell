@@ -8,9 +8,10 @@ import { OptionsResolverService } from '../../services/options-resolver.services
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-input',
-  styleUrls: ['./form-input.component.scss'],
-  templateUrl: './form-input.component.html'
+    selector: 'druid-forms-form-input',
+    styleUrls: ['./form-input.component.scss'],
+    templateUrl: './form-input.component.html',
+    standalone: false
 })
 export class FormInputComponent extends FormElementBase {
 

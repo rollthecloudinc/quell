@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'na'
+    name: 'na',
+    standalone: false
 })
 export class NotAvailablePipe implements PipeTransform {
 

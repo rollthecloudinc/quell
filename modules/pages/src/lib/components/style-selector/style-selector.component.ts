@@ -8,9 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
-  selector: 'classifieds-ui-style-selector',
-  templateUrl: './style-selector.component.html',
-  styleUrls: ['./style-selector.component.scss']
+    selector: 'classifieds-ui-style-selector',
+    templateUrl: './style-selector.component.html',
+    styleUrls: ['./style-selector.component.scss'],
+    standalone: false
 })
 export class StyleSelectorComponent implements OnInit {
 

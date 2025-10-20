@@ -9,9 +9,10 @@ import { OutsideAppContentHandler } from '../../handlers/outside-app-content.han
 import { OutsideAppSettings } from '../../models/outsider.models';
 
 @Component({
-  selector: 'druid-outsider-outside-app-editor',
-  templateUrl: './outside-app-editor.component.html',
-  styleUrls: ['./outside-app-editor.component.scss']
+    selector: 'druid-outsider-outside-app-editor',
+    templateUrl: './outside-app-editor.component.html',
+    styleUrls: ['./outside-app-editor.component.scss'],
+    standalone: false
 })
 export class OutsideAppEditorComponent implements OnInit {
 

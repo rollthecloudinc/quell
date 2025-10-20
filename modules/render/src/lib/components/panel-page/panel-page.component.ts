@@ -31,30 +31,31 @@ import { DOCUMENT } from '@angular/common';
 import { AuthFacade } from '@rollthecloudinc/auth';
 
 @Component({
-  selector: 'classifieds-ui-panel-page',
-  templateUrl: './panel-page.component.html',
-  styleUrls: ['./panel-page.component.scss'],
-  // encapsulation: ViewEncapsulation.ShadowDom,
-  host: {
-    '[class.panel-page]': 'true'
-  },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PanelPageComponent),
-      multi: true
+    selector: 'classifieds-ui-panel-page',
+    templateUrl: './panel-page.component.html',
+    styleUrls: ['./panel-page.component.scss'],
+    // encapsulation: ViewEncapsulation.ShadowDom,
+    host: {
+        '[class.panel-page]': 'true'
     },
-    /*{
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PanelPageComponent),
-      multi: true
-    },*/
-    {
-      provide: NG_ASYNC_VALIDATORS,
-      useExisting: forwardRef(() => PanelPageComponent),
-      multi: true
-    }
-  ]
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PanelPageComponent),
+            multi: true
+        },
+        /*{
+          provide: NG_VALIDATORS,
+          useExisting: forwardRef(() => PanelPageComponent),
+          multi: true
+        },*/
+        {
+            provide: NG_ASYNC_VALIDATORS,
+            useExisting: forwardRef(() => PanelPageComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, AsyncValidator {
 
@@ -591,31 +592,32 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
  * https://angular.io/errors/NG3003
  */
 @Component({
-  selector: 'classifieds-ui-render-pane',
-  templateUrl: './render-pane.component.html',
-  styleUrls: ['./render-pane.component.scss'],
-  // encapsulation: ViewEncapsulation.ShadowDom,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RenderPaneComponent),
-      multi: true
+    selector: 'classifieds-ui-render-pane',
+    templateUrl: './render-pane.component.html',
+    styleUrls: ['./render-pane.component.scss'],
+    // encapsulation: ViewEncapsulation.ShadowDom,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RenderPaneComponent),
+            multi: true
+        },
+        /*{
+          provide: NG_VALIDATORS,
+          useExisting: forwardRef(() => RenderPaneComponent),
+          multi: true
+        },*/
+        {
+            provide: NG_ASYNC_VALIDATORS,
+            useExisting: forwardRef(() => RenderPaneComponent),
+            multi: true
+        }
+    ],
+    host: {
+        '[class.pane]': 'true',
+        '[attr.data-index]': 'indexPosition'
     },
-    /*{
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => RenderPaneComponent),
-      multi: true
-    },*/
-    {
-      provide: NG_ASYNC_VALIDATORS,
-      useExisting: forwardRef(() => RenderPaneComponent),
-      multi: true
-    }
-  ],
-  host: {
-    '[class.pane]': 'true',
-    '[attr.data-index]': 'indexPosition'
-  }
+    standalone: false
 })
 export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAccessor, AsyncValidator, AfterContentInit {
 
@@ -967,31 +969,32 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
  * https://angular.io/errors/NG3003
  */
  @Component({
-  selector: 'classifieds-ui-render-panel',
-  templateUrl: './render-panel.component.html',
-  styleUrls: ['./render-panel.component.scss'],
-  // encapsulation: ViewEncapsulation.ShadowDom,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => RenderPanelComponent),
-      multi: true
+    selector: 'classifieds-ui-render-panel',
+    templateUrl: './render-panel.component.html',
+    styleUrls: ['./render-panel.component.scss'],
+    // encapsulation: ViewEncapsulation.ShadowDom,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => RenderPanelComponent),
+            multi: true
+        },
+        /*{
+          provide: NG_VALIDATORS,
+          useExisting: forwardRef(() => RenderPanelComponent),
+          multi: true
+        },*/
+        {
+            provide: NG_ASYNC_VALIDATORS,
+            useExisting: forwardRef(() => RenderPanelComponent),
+            multi: true
+        },
+    ],
+    host: {
+        '[class.panel]': 'true',
+        '[attr.data-index]': 'indexPosition$.value'
     },
-    /*{
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => RenderPanelComponent),
-      multi: true
-    },*/
-    {
-      provide: NG_ASYNC_VALIDATORS,
-      useExisting: forwardRef(() => RenderPanelComponent),
-      multi: true
-    },
-  ],
-  host: {
-    '[class.panel]': 'true',
-    '[attr.data-index]': 'indexPosition$.value'
-  }
+    standalone: false
 })
 export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContentInit, OnChanges, ControlValueAccessor, AsyncValidator  {
 

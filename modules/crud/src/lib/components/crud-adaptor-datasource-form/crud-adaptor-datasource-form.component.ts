@@ -8,21 +8,22 @@ import * as qs from 'qs';
 import { CrudAdaptorDatasource } from '../../models/crud.models';
 
 @Component({
-  selector: 'classifieds-ui-crud-adaptor-datasource-form',
-  templateUrl: './crud-adaptor-datasource-form.component.html',
-  styleUrls: ['./crud-adaptor-datasource-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CrudAdaptorDatasourceFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => CrudAdaptorDatasourceFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-crud-adaptor-datasource-form',
+    templateUrl: './crud-adaptor-datasource-form.component.html',
+    styleUrls: ['./crud-adaptor-datasource-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CrudAdaptorDatasourceFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => CrudAdaptorDatasourceFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class CrudAdaptorDatasourceFormComponent implements OnInit, ControlValueAccessor, Validator {
 

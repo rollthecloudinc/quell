@@ -7,9 +7,10 @@ import { forkJoin } from 'rxjs';
 // import { INgxGalleryOptions, INgxGalleryImage, NgxGalleryAnimation } from '@kolkov/ngx-gallery';
 
 @Component({
-  selector: 'classifieds-ui-gallery-panel-renderer',
-  templateUrl: './gallery-panel-renderer-empty.component.html',
-  styleUrls: ['./gallery-panel-renderer.component.scss']
+    selector: 'classifieds-ui-gallery-panel-renderer',
+    templateUrl: './gallery-panel-renderer-empty.component.html',
+    styleUrls: ['./gallery-panel-renderer.component.scss'],
+    standalone: false
 })
 export class GalleryPanelRendererComponent implements OnInit {
 

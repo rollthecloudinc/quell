@@ -8,9 +8,10 @@ import { MediaContentHandler } from '../../../handlers/media-content.handler';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-media-editor',
-  templateUrl: './media-editor.component.html',
-  styleUrls: ['./media-editor.component.scss']
+    selector: 'classifieds-ui-media-editor',
+    templateUrl: './media-editor.component.html',
+    styleUrls: ['./media-editor.component.scss'],
+    standalone: false
 })
 export class MediaEditorComponent implements OnInit {
 

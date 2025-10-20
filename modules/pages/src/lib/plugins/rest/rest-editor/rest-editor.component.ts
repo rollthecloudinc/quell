@@ -9,9 +9,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-ui-rest-editor',
-  templateUrl: './rest-editor.component.html',
-  styleUrls: ['./rest-editor.component.scss']
+    selector: 'classifieds-ui-rest-editor',
+    templateUrl: './rest-editor.component.html',
+    styleUrls: ['./rest-editor.component.scss'],
+    standalone: false
 })
 export class RestEditorComponent implements OnInit {
 

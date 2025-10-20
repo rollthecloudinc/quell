@@ -1,5 +1,5 @@
 import { BrowserModule, provideClientHydration /*, BrowserTransferStateModule */ } from '@angular/platform-browser';
-import { NgModule, ErrorHandler, APP_INITIALIZER,  SecurityContext, NgZone, PLATFORM_ID } from '@angular/core';
+import { NgModule, ErrorHandler, SecurityContext, NgZone, PLATFORM_ID, inject, provideAppInitializer } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -240,8 +240,14 @@ export function markedOptionsFactory(): MarkedOptions {
         // { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: LogoutInterceptor, multi: true },
         { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig },
-        { provide: APP_INITIALIZER, useFactory: initializeRumMonitorFactory, multi: true, deps: [CLOUDWATCH_RUM_SETTINGS, NgZone] },
-        { provide: APP_INITIALIZER, useFactory: initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }), multi: true, deps: [PLATFORM_ID] },
+        provideAppInitializer(() => {
+        const initializerFn = (initializeRumMonitorFactory)(inject(CLOUDWATCH_RUM_SETTINGS), inject(NgZone));
+        return initializerFn();
+      }),
+        provideAppInitializer(() => {
+        const initializerFn = (initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }))(inject(PLATFORM_ID));
+        return initializerFn();
+      }),
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
     ] })
 export class AppModule {}

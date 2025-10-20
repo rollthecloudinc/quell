@@ -82,7 +82,8 @@ export function MAT_STEPPER_PROXY_FACTORY(component: ResponsiveStepperComponent,
                                   (animationDone)="animationDone.emit($event)"
                                   (selectionChange)="selectionChange.emit($event)">
             </mat-vertical-stepper>
-        </ng-container>`
+        </ng-container>`,
+    standalone: false
 })
 export class ResponsiveStepperComponent implements AfterViewInit, AfterViewChecked {
 

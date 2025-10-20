@@ -9,7 +9,8 @@ class Context {
 }
 
 @Directive({
-  selector: '[for]:not(label)'
+    selector: '[for]:not(label)',
+    standalone: false
 })
 export class ForDirective {
   constructor(private templateRef: TemplateRef<any>, private viewContainer: ViewContainerRef) { }

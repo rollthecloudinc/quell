@@ -42,9 +42,10 @@ import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecl
  * https://angular.io/errors/NG3003
  */
 @Component({
-  selector: 'classifieds-ui-editable-pane',
-  templateUrl: './editable-pane.component.html',
-  styleUrls: ['./editable-pane.component.scss']
+    selector: 'classifieds-ui-editable-pane',
+    templateUrl: './editable-pane.component.html',
+    styleUrls: ['./editable-pane.component.scss'],
+    standalone: false
 })
 export class EditablePaneComponent implements OnInit, OnChanges {
 
@@ -250,21 +251,22 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
 }
 @Component({
-  selector: 'classifieds-ui-content-editor',
-  templateUrl: './content-editor.component.html',
-  styleUrls: ['./content-editor.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContentEditorComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContentEditorComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-content-editor',
+    templateUrl: './content-editor.component.html',
+    styleUrls: ['./content-editor.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContentEditorComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContentEditorComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, ControlValueAccessor, Validator, PanelsEditor {
 

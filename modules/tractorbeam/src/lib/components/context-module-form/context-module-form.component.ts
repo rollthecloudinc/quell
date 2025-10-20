@@ -4,22 +4,23 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-context-module-form',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./context-module-form.component.scss'],
-  templateUrl: './context-module-form.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContextModuleFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContextModuleFormComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-context-module-form',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./context-module-form.component.scss'],
+    templateUrl: './context-module-form.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContextModuleFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContextModuleFormComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class ContextModuleFormComponent implements OnInit, ControlValueAccessor {
 

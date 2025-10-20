@@ -13,9 +13,10 @@ import { CONTENT_PLUGIN, ContentPlugin } from '@rollthecloudinc/content';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'classifieds-ui-panel-selector',
-  templateUrl: './panel-selector.component.html',
-  styleUrls: ['./panel-selector.component.scss']
+    selector: 'classifieds-ui-panel-selector',
+    templateUrl: './panel-selector.component.html',
+    styleUrls: ['./panel-selector.component.scss'],
+    standalone: false
 })
 export class PanelSelectorComponent implements OnInit {
 

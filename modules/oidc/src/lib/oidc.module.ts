@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, Inject, Injector, ModuleWithProviders, NgModule, Optional, PLATFORM_ID, TransferState } from '@angular/core';
+import { Inject, Injector, ModuleWithProviders, NgModule, Optional, PLATFORM_ID, TransferState, inject, provideAppInitializer } from '@angular/core';
 import { EntityDefinitionService } from '@ngrx/data';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthWebStorageService } from './services/auth-web-storage.service';
@@ -29,7 +29,10 @@ export class OidcModule {
       providers: [
         { provide: AuthWebStorageService, useFactory: authWebStorageFactory, deps: [CLIENT_SETTINGS, PLATFORM_ID, Injector, TransferState ] },
         { provide: UserManager, useFactory: userManagerFactory, deps: [CLIENT_SETTINGS, AuthWebStorageService] },
-        { provide: APP_INITIALIZER, useFactory: initAuthFactory, multi: true, deps: [UserManager, AuthFacade, PLATFORM_ID] }
+        provideAppInitializer(() => {
+        const initializerFn = (initAuthFactory)(inject(UserManager), inject(AuthFacade), inject(PLATFORM_ID));
+        return initializerFn();
+      })
       ]
     };
   }

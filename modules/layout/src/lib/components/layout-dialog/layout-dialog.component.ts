@@ -5,9 +5,10 @@ import { LayoutPlugin } from '../../models/layout.models';
 import { AttributeValue, ValueComputerService } from '@rollthecloudinc/attributes';
 
 @Component({
-  selector: 'druid-layout-dialog',
-  templateUrl: './layout-dialog.component.html',
-  styleUrls: ['./layout-dialog.component.scss']
+    selector: 'druid-layout-dialog',
+    templateUrl: './layout-dialog.component.html',
+    styleUrls: ['./layout-dialog.component.scss'],
+    standalone: false
 })
 export class LayoutDialogComponent implements OnInit {
 

@@ -17,9 +17,10 @@ import { FormlyFieldInstance } from '../../models/formly.models';
 import { FormlyFieldEditorComponent } from '../formly-field-editor/formly-field-editor.component';
 
 @Component({
-  selector: 'classifieds-formly-field-selector',
-  templateUrl: './formly-field-selector.component.html',
-  styleUrls: ['./formly-field-selector.component.scss']
+    selector: 'classifieds-formly-field-selector',
+    templateUrl: './formly-field-selector.component.html',
+    styleUrls: ['./formly-field-selector.component.scss'],
+    standalone: false
 })
 export class FormlyFieldSelectorComponent implements OnInit {
 

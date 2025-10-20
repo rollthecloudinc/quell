@@ -8,9 +8,10 @@ import { FormElementBase } from "../../directives/form-element-base.directive";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-slider',
-  styleUrls: ['./form-slider.component.scss'],
-  templateUrl: './form-slider.component.html'
+    selector: 'druid-forms-form-slider',
+    styleUrls: ['./form-slider.component.scss'],
+    templateUrl: './form-slider.component.html',
+    standalone: false
 })
 export class FormSliderComponent extends FormElementBase {
 

@@ -6,9 +6,10 @@ import { Pane } from '@rollthecloudinc/panels';
 import { AttributeContentHandler } from '../../../handlers/attribute-content.handler';
 
 @Component({
-  selector: 'classifieds-ui-attribute-editor',
-  templateUrl: './attribute-editor.component.html',
-  styleUrls: ['./attribute-editor.component.scss']
+    selector: 'classifieds-ui-attribute-editor',
+    templateUrl: './attribute-editor.component.html',
+    styleUrls: ['./attribute-editor.component.scss'],
+    standalone: false
 })
 export class AttributeEditorComponent implements OnInit {
 

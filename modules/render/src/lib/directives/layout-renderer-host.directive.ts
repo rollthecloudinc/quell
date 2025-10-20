@@ -1,7 +1,8 @@
 import { Directive, ViewContainerRef } from '@angular/core';
 
 @Directive({
-  selector: '[classifiedsUiLayoutRendererHost]'
+    selector: '[classifiedsUiLayoutRendererHost]',
+    standalone: false
 })
 export class LayoutRendererHostDirective {
   constructor(public viewContainerRef: ViewContainerRef) { }

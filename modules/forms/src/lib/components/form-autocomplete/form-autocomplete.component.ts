@@ -12,9 +12,10 @@ import { SelectOption } from '@rollthecloudinc/datasource';
 import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 @Component({
-  selector: 'druid-forms-form-autocomplete',
-  styleUrls: ['./form-autocomplete.component.scss'],
-  templateUrl: './form-autocomplete.component.html'
+    selector: 'druid-forms-form-autocomplete',
+    styleUrls: ['./form-autocomplete.component.scss'],
+    templateUrl: './form-autocomplete.component.html',
+    standalone: false
 })
 export class FormAutocompleteComponent extends FormElementBase {
 

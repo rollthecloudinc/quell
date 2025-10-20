@@ -8,9 +8,10 @@ import { DatasourceContentHandler } from '../../../handlers/datasource-content.h
 import { Subject } from 'rxjs';
 import { Pane } from '../../../models/panels.models';
 @Component({
-  selector: 'classifieds-ui-datasource-editor',
-  templateUrl: './datasource-editor.component.html',
-  styleUrls: ['./datasource-editor.component.scss']
+    selector: 'classifieds-ui-datasource-editor',
+    templateUrl: './datasource-editor.component.html',
+    styleUrls: ['./datasource-editor.component.scss'],
+    standalone: false
 })
 export class DatasourceEditorComponent implements OnInit {
 

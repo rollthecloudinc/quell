@@ -11,9 +11,10 @@ import { FormElementHandler } from '../../handlers/form-element.handler';
 import { FormSettings } from '../../models/form.models';
 
 @Component({
-  selector: 'druid-forms-form-element-editor',
-  templateUrl: './form-element-editor.component.html',
-  styleUrls: ['./form-element-editor.component.scss']
+    selector: 'druid-forms-form-element-editor',
+    templateUrl: './form-element-editor.component.html',
+    styleUrls: ['./form-element-editor.component.scss'],
+    standalone: false
 })
 export class FormElementEditorComponent implements OnInit {
 

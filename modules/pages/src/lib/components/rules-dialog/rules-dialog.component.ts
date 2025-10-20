@@ -8,9 +8,10 @@ import { forkJoin } from 'rxjs';
 import { map, tap, defaultIfEmpty } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-rules-dialog',
-  templateUrl: './rules-dialog.component.html',
-  styleUrls: ['./rules-dialog.component.scss']
+    selector: 'classifieds-ui-rules-dialog',
+    templateUrl: './rules-dialog.component.html',
+    styleUrls: ['./rules-dialog.component.scss'],
+    standalone: false
 })
 export class RulesDialogComponent implements OnInit {
 

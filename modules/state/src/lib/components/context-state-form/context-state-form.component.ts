@@ -5,23 +5,25 @@ import { BehaviorSubject, pipe } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 
 @Component({
-  selector: 'classifieds-ui-context-state-form',
-  //templateUrl: './context-editor.component.html',
-  styleUrls: ['./context-state-form.component.scss'],
-  templateUrl: './context-state-form.component.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ContextStateFormComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ContextStateFormComponent),
-      multi: true
-    },
-  ]
-  // template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="rest"></classifieds-ui-rest-source-form></ng-container>`
+    selector: 'classifieds-ui-context-state-form',
+    //templateUrl: './context-editor.component.html',
+    styleUrls: ['./context-state-form.component.scss'],
+    templateUrl: './context-state-form.component.html',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ContextStateFormComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ContextStateFormComponent),
+            multi: true
+        },
+    ]
+    // template: `<ng-container [formGroup]="controlContainer.control"><classifieds-ui-rest-source-form formControlName="rest"></classifieds-ui-rest-source-form></ng-container>`
+    ,
+    standalone: false
 })
 export class ContextStateFormComponent implements OnInit, ControlValueAccessor {
 

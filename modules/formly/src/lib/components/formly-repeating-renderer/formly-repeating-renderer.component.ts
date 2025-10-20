@@ -17,9 +17,10 @@ import { FormlyFieldInstance, FormlyRepeatingForm } from '../../models/formly.mo
 import { Mapping, Param } from '@rollthecloudinc/dparam';
 import { TokenizerService } from '@rollthecloudinc/token';
 @Component({
-  selector: 'classifieds-formly-repeating-renderer',
-  styleUrls: ['./formly-repeating-renderer.component.scss'],
-  templateUrl: './formly-repeating-renderer.component.html'
+    selector: 'classifieds-formly-repeating-renderer',
+    styleUrls: ['./formly-repeating-renderer.component.scss'],
+    templateUrl: './formly-repeating-renderer.component.html',
+    standalone: false
 })
 export class FormlyRepeatingRendererComponent {
 

@@ -9,9 +9,10 @@ import { AttributeValue } from '@rollthecloudinc/attributes';
 import { AttributeContentHandler } from '../../handlers/attribute-content.handler';
 
 @Component({
-  selector: 'classifieds-ui-rendering-editor',
-  templateUrl: './rendering-editor.component.html',
-  styleUrls: ['./rendering-editor.component.scss']
+    selector: 'classifieds-ui-rendering-editor',
+    templateUrl: './rendering-editor.component.html',
+    styleUrls: ['./rendering-editor.component.scss'],
+    standalone: false
 })
 export class RenderingEditorComponent implements OnInit {
 

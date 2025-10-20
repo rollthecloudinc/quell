@@ -6,9 +6,10 @@ import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../../../components/content-selector/content-selector.component';
 
 @Component({
-  selector: 'classifieds-ui-datasource-selector',
-  templateUrl: './datasource-selector.component.html',
-  styleUrls: ['./datasource-selector.component.scss']
+    selector: 'classifieds-ui-datasource-selector',
+    templateUrl: './datasource-selector.component.html',
+    styleUrls: ['./datasource-selector.component.scss'],
+    standalone: false
 })
 export class DatasourceSelectorComponent implements OnInit {
 

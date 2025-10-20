@@ -6,22 +6,23 @@ import { WidgetsService } from '../../services/widgets.service';
 import { Observable } from 'rxjs';
 import { WidgetPluginManager } from '../../services/widget-plugin-manager.service';
 @Component({
-  selector: 'classifieds-ui-attributes-builder',
-  templateUrl: './attributes-builder.component.html',
-  styleUrls: ['./attributes-builder.component.scss'],
-  providers: [
-    WidgetsService,
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AttributesBuilderComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => AttributesBuilderComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-attributes-builder',
+    templateUrl: './attributes-builder.component.html',
+    styleUrls: ['./attributes-builder.component.scss'],
+    providers: [
+        WidgetsService,
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => AttributesBuilderComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => AttributesBuilderComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class AttributesBuilderComponent implements OnChanges, ControlValueAccessor, Validator {
 

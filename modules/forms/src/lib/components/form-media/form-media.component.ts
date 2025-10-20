@@ -11,9 +11,10 @@ import { OptionsResolverService } from '../../services/options-resolver.services
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-media',
-  styleUrls: ['./form-media.component.scss'],
-  templateUrl: './form-media.component.html'
+    selector: 'druid-forms-form-media',
+    styleUrls: ['./form-media.component.scss'],
+    templateUrl: './form-media.component.html',
+    standalone: false
 })
 export class FormMediaComponent extends FormElementBase {
 

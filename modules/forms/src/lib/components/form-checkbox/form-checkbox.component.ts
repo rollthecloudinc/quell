@@ -8,9 +8,10 @@ import { TokenizerService } from "@rollthecloudinc/token";
 import { FormsContextHelperService } from "../../services/forms-context-helper.service";
 
 @Component({
-  selector: 'druid-forms-form-checkbox',
-  styleUrls: ['./form-checkbox.component.scss'],
-  templateUrl: './form-checkbox.component.html'
+    selector: 'druid-forms-form-checkbox',
+    styleUrls: ['./form-checkbox.component.scss'],
+    templateUrl: './form-checkbox.component.html',
+    standalone: false
 })
 export class FormCheckboxComponent extends FormElementBase {
 

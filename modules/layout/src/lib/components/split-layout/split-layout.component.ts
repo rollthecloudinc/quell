@@ -7,12 +7,13 @@ import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component'
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 @Component({
-  selector: 'classifieds-ui-split-layout',
-  templateUrl: './split-layout.component.html',
-  styleUrls: ['./split-layout.component.scss'],
-  host: {
-    "[class.is-nested]": "nested"
-  }
+    selector: 'classifieds-ui-split-layout',
+    templateUrl: './split-layout.component.html',
+    styleUrls: ['./split-layout.component.scss'],
+    host: {
+        "[class.is-nested]": "nested"
+    },
+    standalone: false
 })
 export class SplitLayoutComponent implements OnInit  {
 

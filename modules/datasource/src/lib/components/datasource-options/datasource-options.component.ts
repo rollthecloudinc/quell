@@ -5,21 +5,22 @@ import { DatasourceOptions } from '../../models/datasource.models';
 import { mockDatasourceOptions } from '../../mocks/datasource.mocks';
 
 @Component({
-  selector: 'classifieds-ui-datasource-options',
-  templateUrl: './datasource-options.component.html',
-  // styleUrls: ['./rest-form.component.scss'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DatasourceOptionsComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => DatasourceOptionsComponent),
-      multi: true
-    },
-  ]
+    selector: 'classifieds-ui-datasource-options',
+    templateUrl: './datasource-options.component.html',
+    // styleUrls: ['./rest-form.component.scss'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DatasourceOptionsComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => DatasourceOptionsComponent),
+            multi: true
+        },
+    ],
+    standalone: false
 })
 export class DatasourceOptionsComponent implements ControlValueAccessor, Validator {
 

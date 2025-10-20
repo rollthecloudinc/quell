@@ -17,9 +17,10 @@ import * as React from 'react';
 const containerElementName = 'mfeReactComponent';
 
 @Component({
-  selector: 'druid-mfe-react',
-  template: `<span #${containerElementName}></span>`,
-  encapsulation: ViewEncapsulation.None,
+    selector: 'druid-mfe-react',
+    template: `<span #${containerElementName}></span>`,
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class MfeReactComponent implements OnChanges, OnDestroy, AfterViewInit {
   @ViewChild(containerElementName, {static: false}) containerRef: ElementRef;

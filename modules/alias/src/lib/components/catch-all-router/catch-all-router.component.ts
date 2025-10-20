@@ -9,9 +9,10 @@ import * as qs from 'qs';
 import { of } from 'rxjs';
 
 @Component({
-  selector: 'druid-alias-catch-all-router',
-  templateUrl: './catch-all-router.component.html',
-  styleUrls: ['./catch-all-router.component.scss']
+    selector: 'druid-alias-catch-all-router',
+    templateUrl: './catch-all-router.component.html',
+    styleUrls: ['./catch-all-router.component.scss'],
+    standalone: false
 })
 export class CatchAllRouterComponent implements OnInit {
 

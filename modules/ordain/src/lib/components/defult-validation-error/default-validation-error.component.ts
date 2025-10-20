@@ -7,9 +7,10 @@ import { ValidationErrors } from "@angular/forms";
 import { TokenizerService } from "@rollthecloudinc/token";
 
 @Component({
-  selector: 'druid-ordain-default-validation-error',
-  templateUrl: './default-validation-error.component.html',
-  styleUrls: ['./default-validation-error.component.scss']
+    selector: 'druid-ordain-default-validation-error',
+    templateUrl: './default-validation-error.component.html',
+    styleUrls: ['./default-validation-error.component.scss'],
+    standalone: false
 })
 export class DefaultValidationError {
 

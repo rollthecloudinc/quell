@@ -8,9 +8,10 @@ import { Pane } from '@rollthecloudinc/panels';
 import { FormlyFieldContentHandler } from '../../handlers/formly-field-content.handler';
 import { FormlyFieldInstance } from '../../models/formly.models';
 @Component({
-  selector: 'classifieds-formly-field-editor',
-  templateUrl: './formly-field-editor.component.html',
-  styleUrls: ['./formly-field-editor.component.scss']
+    selector: 'classifieds-formly-field-editor',
+    templateUrl: './formly-field-editor.component.html',
+    styleUrls: ['./formly-field-editor.component.scss'],
+    standalone: false
 })
 export class FormlyFieldEditorComponent implements OnInit {
 

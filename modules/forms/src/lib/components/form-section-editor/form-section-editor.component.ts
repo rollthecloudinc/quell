@@ -5,9 +5,10 @@ import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
 
 @Component({
-  selector: 'classifieds-form-section-editor',
-  templateUrl: './form-section-editor.component.html',
-  styleUrls: ['./form-section-editor.component.scss']
+    selector: 'classifieds-form-section-editor',
+    templateUrl: './form-section-editor.component.html',
+    styleUrls: ['./form-section-editor.component.scss'],
+    standalone: false
 })
 export class FormSectionEditorComponent implements OnInit {
 

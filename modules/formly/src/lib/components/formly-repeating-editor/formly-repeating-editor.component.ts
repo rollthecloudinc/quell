@@ -6,9 +6,10 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { Pane } from '@rollthecloudinc/panels';
 
 @Component({
-  selector: 'classifieds-formly-repeating-editor',
-  templateUrl: './formly-repeating-editor.component.html',
-  styleUrls: ['./formly-repeating-editor.component.scss']
+    selector: 'classifieds-formly-repeating-editor',
+    templateUrl: './formly-repeating-editor.component.html',
+    styleUrls: ['./formly-repeating-editor.component.scss'],
+    standalone: false
 })
 export class FormlyRepeatingEditorComponent implements OnInit {
 
