@@ -571,13 +571,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       catchError(() => of({ invalidForm: {valid: false, message: "content is invalid"}})),
       first()
     );*/
-    return this.settingsFormArray.statusChanges.pipe(
-      startWith(this.settingsFormArray.status),  // start with the current form status
+    return this.pageForm.statusChanges.pipe(
+      startWith(this.pageForm.status),  // start with the current form status
       filter((status) => status !== 'PENDING'),
       debounceTime(1),
       take(1), // We only want one emit after status changes from PENDING
       map((status) => {
-          return this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
+          return this.pageForm.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
       })
     );
     // return of(this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}});
