@@ -62,8 +62,24 @@ jobs:
         name: Install gzipper
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
-      - run: npm install --force
-        name: Install packages
+      - name: 💥 Aggressive Clean Install to Apply Overrides
+        run: |
+          # 1. Clear file system of old dependencies and lock files
+          echo "--- Cleaning node_modules and lock file ---"
+          rm -rf node_modules
+          rm package-lock.json 
+          
+          # 2. CRITICAL: Clear the NPM cache on the runner
+          echo "--- Forcing NPM cache clean ---"
+          npm cache clean --force
+
+          # 3. Reinstall packages with --force (Applies all overrides)
+          echo "--- Running npm install to apply overrides ---"
+          npm install --force
+          
+          # 4. Final safety measure: Force module flattening
+          echo "--- Running npm dedupe as final check ---"
+          npm dedupe 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}

@@ -140,7 +140,14 @@
     "winston-loggly-bulk": "^3.2.1"
   },
   "overrides": {
+    "debug": "4.3.4",
     "@smithy/types": "2.2.0",
-    "@aws-crypto/util": "1.2.2" 
+    "@aws-crypto/util": "1.2.2", 
+    "@aws-crypto/crc32": {
+      "@aws-crypto/util": "1.2.2"
+    },
+    "@aws-sdk/eventstream-codec": {
+      "@aws-crypto/util": "1.2.2"
+    }
   }
 }
