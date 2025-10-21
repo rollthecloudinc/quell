@@ -79,7 +79,7 @@ jobs:
           
           # 4. Final safety measure: Force module flattening
           #echo "--- Running npm dedupe as final check ---"
-          #npm dedupe 
+          npm dedupe --force
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
