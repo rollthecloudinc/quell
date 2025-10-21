@@ -83,7 +83,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             entityName: 'PanelPage'
           }
         },*/
-        /*...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
+        ...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
           fallback: true,
           ops: ['create', 'update', 'query'],
           plugin: 'idb_keyval',
@@ -102,7 +102,7 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             // root: '/assets/objects',
             suffix: '.json'
           }
-        },*/
+        },
         ...(isPlatformServer(platformId) ? 
           {} :
           {

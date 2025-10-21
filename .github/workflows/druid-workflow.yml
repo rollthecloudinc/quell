@@ -62,7 +62,7 @@ jobs:
         name: Install gzipper
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
-      - run: npm install
+      - run: npm install --force
         name: Install packages
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
