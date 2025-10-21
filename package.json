@@ -138,5 +138,9 @@
     "url": "^0.11.4",
     "webpack-shell-plugin-next": "^2.2.2",
     "winston-loggly-bulk": "^3.2.1"
+  },
+  "overrides": {
+    "@smithy/types": "2.2.0",
+    "@aws-crypto/util": "1.2.2" 
   }
 }
