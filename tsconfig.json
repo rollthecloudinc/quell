@@ -10,9 +10,9 @@
     "module": "es2020",
     "moduleResolution": "bundler",
     "importHelpers": true,
-    "target": "es2023",
+    "target": "es2022",
     "lib": [
-      "es2023",
+      "es2022",
       "dom"
     ],
     "useDefineForClassFields": false,

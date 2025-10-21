@@ -1,10 +1,10 @@
 {
   "name": "@rollthecloudinc/pages",
-  "version": "20.0.0-alpha.1",
+  "version": "20.0.0-alpha.2",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
-    "@angular/common": "^16.0.1",
-    "@angular/core": "^16.0.1",
+    "@angular/common": "^20.0.0",
+    "@angular/core": "^20.0.0",
     "ngx-markdown": "^16.0.0",
     "angular-split": "^15.0.0",
     "ngx-dropzone": "^3.1.0",
