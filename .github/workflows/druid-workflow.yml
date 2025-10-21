@@ -78,8 +78,8 @@ jobs:
           npm install --force
           
           # 4. Final safety measure: Force module flattening
-          echo "--- Running npm dedupe as final check ---"
-          npm dedupe 
+          #echo "--- Running npm dedupe as final check ---"
+          #npm dedupe 
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
