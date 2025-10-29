@@ -2,7 +2,7 @@
 
 <img width="356" alt="quell-type" src="https://github.com/rollthecloudinc/quell/assets/73197190/904e92e4-f54b-47f4-b2f9-821c63065466">
 
-Quell is a Content Mannagement Framework inspired by Drupal. Many of same concepts have been implemented such as; panel pages (first classs citizens), fields (dynamic form buillding), contexts, plugins. The systsem also operates on the open-close model via extension using native federation to supply your own plugins others can use without core mods. Environmental friendliness is at the forefront of its architectural design, not just bolted on. Actively working to get some demos back up but forms can be found here. Like Drupal there is a lot of magic happening here only on the front-end instead bending Angular to my wil to immitate Drupal reimmaginning it as a completely modern overhauled system.
+Quell is a Content Mannagement Framework inspired by Drupal. Many of same concepts have been implemented such as; panel pages (first classs citizens), fields (dynamic form buillding), contexts, plugins. The systsem also operates on the open-close model via extension using native federation to supply your own plugins others can use without core mods. Environmental friendliness is at the forefront of its architectural design, not just bolted on. Actively working to get some demos back up but forms can be found here. Like Drupal there is a lot of magic happening here only on the front-end instead bending Angular to my wil to immitate Drupal reimmaginning it as a completely modern overhauled system. No Drupal code is being used just the concepts.
 
 * https://demo.rollthecloud.com/native_forms_rebuild_v1
 * https://demo.rollthecloud.com/native_forms_rebuild_v1/manage
