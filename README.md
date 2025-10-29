@@ -7,6 +7,10 @@ Quell is a Content Mannagement Framework inspired by Drupal. Many of same concep
 * https://demo.rollthecloud.com/native_forms_rebuild_v1
 * https://demo.rollthecloud.com/native_forms_rebuild_v1/manage
 
+* The foundation of everything is the plugin just like Drupal. It all fans out from there to different types for different things. Plugins make system fully extensible while remaining closed of. Thanks to module & now native federation.
+
+* https://github.com/rollthecloudinc/quell/wiki/Docs:-Plugin
+
 Introducing Quell, a sustainable and carbon free CMS that operates efficiently on renewable energy resources. Not only does Quell run on clean energy, but it also takes additional measures to significantly diminish energy consumption. This is accomplished by neutralizing servers and databases, eliminating these energy-intensive elements from the web hosting equation. Unlike traditional websites, our carbon free sites run entirely in the browser and securely communicate directly with cloud resources when necessary. Quell is the preferred editor for [Carbon Free](https://github.com/rollthecloudinc/carbonfree), our cloud hosted platform that envisions a web without scope 1, 2, and 3 emissions. Everything needed for the swift development of energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository. Experience the power of Quell as we reimagine the internet with a focus on sustainability and reduced carbon footprint.
 
 # Climate Aware
