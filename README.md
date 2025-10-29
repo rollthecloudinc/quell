@@ -30,8 +30,8 @@ Site builders can create carbon free web experiences using the quell without kno
 
 Prototype quell form to collect and store submissions.
 
-* [Page](http://localhost:4000/native_forms_rebuild_v1)
-* [Editor](http://localhost:4000/native_forms_rebuild_v1/manage)
+* [Page](http://demo.rollthecloud.com/native_forms_rebuild_v1)
+* [Editor](http://demo.rollthecloud.com/native_forms_rebuild_v1/manage)
 
 ### Consume
 
