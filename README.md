@@ -2,15 +2,6 @@
 
 <img width="356" alt="quell-type" src="https://github.com/rollthecloudinc/quell/assets/73197190/904e92e4-f54b-47f4-b2f9-821c63065466">
 
-Quell is a Content Mannagement Framework inspired by Drupal. Many of same concepts have been implemented such as; panel pages (first classs citizens), fields (dynamic form buillding), contexts, plugins. The systsem also operates on the open-close model via extension using native federation to supply your own plugins others can use without core mods. Environmental friendliness is at the forefront of its architectural design, not just bolted on. Actively working to get some demos back up but forms can be found here. Like Drupal there is a lot of magic happening here only on the front-end instead bending Angular to my wil to immitate Drupal reimmaginning it as a completely modern overhauled system. No Drupal code is being used just the concepts.
-
-* https://demo.rollthecloud.com/native_forms_rebuild_v1
-* https://demo.rollthecloud.com/native_forms_rebuild_v1/manage
-
-* The foundation of everything is the plugin just like Drupal. It all fans out from there to different types for different things. Plugins make system fully extensible while remaining closed of. Thanks to module & now native federation.
-
-* https://github.com/rollthecloudinc/quell/wiki/Docs:-Plugin
-
 Introducing Quell, a sustainable and carbon free CMS that operates efficiently on renewable energy resources. Not only does Quell run on clean energy, but it also takes additional measures to significantly diminish energy consumption. This is accomplished by neutralizing servers and databases, eliminating these energy-intensive elements from the web hosting equation. Unlike traditional websites, our carbon free sites run entirely in the browser and securely communicate directly with cloud resources when necessary. Quell is the preferred editor for [Carbon Free](https://github.com/rollthecloudinc/carbonfree), our cloud hosted platform that envisions a web without scope 1, 2, and 3 emissions. Everything needed for the swift development of energy sustainable websites is packaged in the [SPeaRhead](https://github.com/rollthecloudinc/spearhead) template repository. Experience the power of Quell as we reimagine the internet with a focus on sustainability and reduced carbon footprint.
 
 # Climate Aware
