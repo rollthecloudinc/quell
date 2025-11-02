@@ -18,224 +18,176 @@
     "useDefineForClassFields": false,
     "paths": {
       "@rollthecloudinc/attributes": [
-        "dist/attributes/attributes",
-        "dist/attributes"
+        "dist/attributes",
+        "dist/attributes/attributes"
       ],
       "@rollthecloudinc/alienalias": [
-        "dist/alienalias/alienalias",
-        "dist/alienalias"
+        "dist/alienalias",
+        "dist/alienalias/alienalias"
       ],
       "@rollthecloudinc/material": [
-        "dist/material/material",
-        "dist/material"
+        "dist/material",
+        "dist/material/material"
       ],
       "@rollthecloudinc/utils": [
-        "dist/utils/utils",
-        "dist/utils"
+        "dist/utils",
+        "dist/utils/utils"
       ],
       "@rollthecloudinc/content": [
-        "dist/content/content",
-        "dist/content"
+        "dist/content",
+        "dist/content/content"
       ],
       "@rollthecloudinc/awos": [
-        "dist/awos/awos",
-        "dist/awos"
+        "dist/awos",
+        "dist/awos/awos"
       ],
       "@rollthecloudinc/token": [
-        "dist/token/token",
-        "dist/token"
+        "dist/token",
+        "dist/token/token"
       ],
       "@rollthecloudinc/context": [
-        "dist/context/context",
-        "dist/context"
+        "dist/context",
+        "dist/context/context"
       ],
       "@rollthecloudinc/style": [
-        "dist/style/style",
-        "dist/style"
+        "dist/style",
+        "dist/style/style"
       ],
       "@rollthecloudinc/pages": [
-        "dist/pages/pages",
-        "dist/pages"
+        "dist/pages",
+        "dist/pages/pages"
       ],
       "@rollthecloudinc/media": [
-        "dist/media/media",
-        "dist/media"
+        "dist/media",
+        "dist/media/media"
       ],
       "@rollthecloudinc/auth": [
-        "dist/auth/auth",
-        "dist/auth"
+        "dist/auth",
+        "dist/auth/auth"
       ],
       "@rollthecloudinc/plugin": [
-        "dist/plugin/plugin",
-        "dist/plugin"
+        "dist/plugin",
+        "dist/plugin/plugin"
       ],
       "@rollthecloudinc/datasource": [
-        "dist/datasource/datasource",
-        "dist/datasource"
+        "dist/datasource",
+        "dist/datasource/datasource"
       ],
       "@rollthecloudinc/layout": [
-        "dist/layout/layout",
-        "dist/layout"
+        "dist/layout",
+        "dist/layout/layout"
       ],
       "@rollthecloudinc/panels": [
-        "dist/panels/panels",
-        "dist/panels"
+        "dist/panels",
+        "dist/panels/panels"
       ],
       "@rollthecloudinc/alias": [
-        "dist/alias/alias",
-        "dist/alias"
+        "dist/alias",
+        "dist/alias/alias"
       ],
       "@rollthecloudinc/pagealias": [
-        "dist/pagealias/pagealias",
-        "dist/pagealias"
-      ],
-      "@rollthecloudinc/formly": [
-        "dist/formly/formly",
-        "dist/formly"
+        "dist/pagealias",
+        "dist/pagealias/pagealias"
       ],
       "@rollthecloudinc/forms": [
-        "dist/forms/forms",
-        "dist/forms"
-      ],
-      "@rollthecloudinc/here": [
-        "dist/here/here",
-        "dist/here"
+        "dist/forms",
+        "dist/forms/forms"
       ],
       "@rollthecloudinc/rest": [
-        "dist/rest/rest",
-        "dist/rest"
+        "dist/rest",
+        "dist/rest/rest"
       ],
       "@rollthecloudinc/bridge": [
-        "dist/bridge/bridge",
-        "dist/bridge"
+        "dist/bridge",
+        "dist/bridge/bridge"
       ],
       "@rollthecloudinc/state": [
-        "dist/state/state",
-        "dist/state"
+        "dist/state",
+        "dist/state/state"
       ],
       "@rollthecloudinc/loop": [
-        "dist/loop/loop",
-        "dist/loop"
+        "dist/loop",
+        "dist/loop/loop"
       ],
       "@rollthecloudinc/durl": [
-        "dist/durl/durl",
-        "dist/durl"
+        "dist/durl",
+        "dist/durl/durl"
       ],
       "@rollthecloudinc/dparam": [
-        "dist/dparam/dparam",
-        "dist/dparam"
+        "dist/dparam",
+        "dist/dparam/dparam"
       ],
       "@rollthecloudinc/snippet": [
-        "dist/snippet/snippet",
-        "dist/snippet"
+        "dist/snippet",
+        "dist/snippet/snippet"
       ],
       "@rollthecloudinc/outsider": [
-        "dist/outsider/outsider",
-        "dist/outsider"
+        "dist/outsider",
+        "dist/outsider/outsider"
       ],
       "@rollthecloudinc/oidc": [
-        "dist/oidc/oidc",
-        "dist/oidc"
-      ],
-      "@rollthecloudinc/drxdb": [
-        "dist/drxdb/drxdb",
-        "dist/drxdb"
+        "dist/oidc",
+        "dist/oidc/oidc"
       ],
       "@rollthecloudinc/transform": [
-        "dist/transform/transform",
-        "dist/transform"
+        "dist/transform",
+        "dist/transform/transform"
       ],
       "@rollthecloudinc/rules": [
-        "dist/rules/rules",
-        "dist/rules"
+        "dist/rules",
+        "dist/rules/rules"
       ],
       "@rollthecloudinc/aws3": [
-        "dist/aws3/aws3",
-        "dist/aws3"
+        "dist/aws3",
+        "dist/aws3/aws3"
       ],
       "@rollthecloudinc/render": [
-        "dist/render/render",
-        "dist/render"
+        "dist/render",
+        "dist/render/render"
       ],
       "@rollthecloudinc/awcog": [
-        "dist/awcog/awcog",
-        "dist/awcog"
+        "dist/awcog",
+        "dist/awcog/awcog"
       ],
       "@rollthecloudinc/crud": [
-        "dist/crud/crud",
-        "dist/crud"
+        "dist/crud",
+        "dist/crud/crud"
       ],
       "@rollthecloudinc/keyval": [
-        "dist/keyval/keyval",
-        "dist/keyval"
+        "dist/keyval",
+        "dist/keyval/keyval"
       ],
       "@rollthecloudinc/deity": [
-        "dist/deity/deity",
-        "dist/deity"
-      ],
-      "@rollthecloudinc/powder": [
-        "dist/powder/powder",
-        "dist/powder"
-      ],
-      "@rollthecloudinc/flash": [
-        "dist/flash/flash",
-        "dist/flash"
-      ],
-      "@rollthecloudinc/lock": [
-        "dist/lock/lock",
-        "dist/lock"
+        "dist/deity",
+        "dist/deity/deity"
       ],
       "@rollthecloudinc/tractorbeam": [
-        "dist/tractorbeam/tractorbeam",
-        "dist/tractorbeam"
-      ],
-      "@rollthecloudinc/stock": [
-        "dist/stock/stock",
-        "dist/stock"
-      ],
-      "@rollthecloudinc/barrel": [
-        "dist/barrel/barrel",
-        "dist/barrel"
+        "dist/tractorbeam",
+        "dist/tractorbeam/tractorbeam"
       ],
       "@rollthecloudinc/refinery": [
-        "dist/refinery/refinery",
-        "dist/refinery"
-      ],
-      "refinery": [
-        "dist/refinery/refinery",
-        "dist/refinery"
+        "dist/refinery",
+        "dist/refinery/refinery"
       ],
       "@rollthecloudinc/react": [
-        "dist/react/react",
-        "dist/react"
+        "dist/react",
+        "dist/react/react"
       ],
       "@rollthecloudinc/awrum": [
-        "dist/awrum/awrum",
-        "dist/awrum"
+        "dist/awrum",
+        "dist/awrum/awrum"
       ],
       "@rollthecloudinc/ordain": [
-        "dist/ordain/ordain",
-        "dist/ordain"
-      ],
-      "ordain": [
-        "dist/ordain/ordain",
-        "dist/ordain"
+        "dist/ordain",
+        "dist/ordain/ordain"
       ],
       "@rollthecloudinc/detour": [
-        "dist/detour/detour",
-        "dist/detour"
-      ],
-      "detour": [
-        "dist/detour/detour",
-        "dist/detour"
+        "dist/detour",
+        "dist/detour/detour"
       ],
       "@rollthecloudinc/sheath": [
-        "dist/sheath/sheath",
-        "dist/sheath"
-      ],
-      "sheath": [
-        "dist/sheath/sheath",
-        "dist/sheath"
+        "dist/sheath",
+        "dist/sheath/sheath"
       ]
     }
   },

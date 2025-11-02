@@ -4,7 +4,7 @@ import { defaultIfEmpty, map, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
 import { AlienAlias } from "../models/alienalias.models";
-import { loadRemoteModule } from "@angular-architects/module-federation";
+import { loadRemoteModule } from "@angular-architects/native-federation";
 export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
   get alienAliasService() {
@@ -50,12 +50,13 @@ export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
             // path: a.path,
             loadChildren: () => {
               console.log(`loading remote module remote entry ${a.remoteEntry} module ${a.moduleName}`);
-              return loadRemoteModule({
-                type: 'module',
-                // remoteEntry: 'http://localhost:3000/remoteEntry.js',
-                remoteEntry: a.remoteEntry,
-                exposedModule: './Module'
-              }).then(m => /*m.FlightsModule*/ m[a.moduleName]);
+              // 1. Define the remote config
+              const remoteConfig = {
+                  remoteName: 'plugin',
+                  remoteEntry: a.remoteEntry,
+                  exposedModule: './Module'
+              };
+              return loadRemoteModule(remoteConfig).then(m => /*m.FlightsModule*/ m[a.moduleName]);
             }
           });
         });

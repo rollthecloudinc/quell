@@ -209,14 +209,17 @@
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
-            "tsConfig": "modules/pages/tsconfig.lib.json",
             "project": "modules/pages/ng-package.json"
           },
           "configurations": {
             "production": {
               "tsConfig": "modules/pages/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "modules/pages/tsconfig.lib.json"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "test": {
           "builder": "@angular-devkit/build-angular:karma",

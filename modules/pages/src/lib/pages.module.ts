@@ -95,6 +95,7 @@ import { FormDatasourceComponent } from './components/form-datasource/form-datas
 import { DatasourceModule, DatasourcePluginManager } from '@rollthecloudinc/datasource';
 import { RenderModule } from '@rollthecloudinc/render';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
+import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 // import { PanelpageModule } from 'panelpage';
 // import { EditablepaneModule } from 'editablepane';
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -163,7 +164,7 @@ const routes = [
     // PanelpageModule,
     // EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, /*PanelSelectorComponent,*/ /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
