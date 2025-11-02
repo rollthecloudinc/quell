@@ -1,4 +1,4 @@
-import { loadRemoteModule } from '@angular-architects/module-federation';
+import { loadRemoteModule } from '@angular-architects/native-federation';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
@@ -19,8 +19,9 @@ export class PageBuilderBeamEffects {
             if (c.plugin === 'module') {
               return this.moduleLoaderService.loadModule(
                 () => loadRemoteModule({
-                  type: 'module',
+                  //type: 'module',
                   remoteEntry: c.data.remoteEntry,
+                  remoteName: "plugin",
                   exposedModule: c.data.exposedModule
                 }).then(m => m[c.data.moduleName])
               ).subscribe();
@@ -45,8 +46,9 @@ export class PageBuilderBeamEffects {
             if (c.plugin === 'module') {
               return this.moduleLoaderService.loadModule(
                 () => loadRemoteModule({
-                  type: 'module',
+                  //type: 'module',
                   remoteEntry: c.data.remoteEntry,
+                  remoteName: "plugin",
                   exposedModule: c.data.exposedModule
                 }).then(m => m[c.data.moduleName])
               ).subscribe();

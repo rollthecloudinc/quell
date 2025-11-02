@@ -1,4 +1,4 @@
-import { loadRemoteModule } from "@angular-architects/module-federation";
+import { loadRemoteModule } from "@angular-architects/native-federation";
 import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/core";
 // import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
@@ -42,13 +42,15 @@ export class OutsideAppRendererComponent {
         loadRemoteModule(
           !s.type || s.type === 'script' ?
           {
-            type: 'script', // temp for react
+            // type: 'script', // temp for react
             remoteEntry: s.remoteEntry, // 'http://127.0.0.1:8080/remoteEntry.js',
-            exposedModule: s.exposedModule,
-            remoteName: s.remoteName // 'mfe_react_spear'
+            // exposedModule: s.exposedModule,
+            remoteName: s.remoteName, // 'mfe_react_spear',
+            exposedModule: s.exposedModule
           } :
           {
-            type: 'module',
+            //sourceType: 'module',
+            remoteName: "plugin",
             remoteEntry: s.remoteEntry,
             exposedModule: s.exposedModule
           }

@@ -5,7 +5,7 @@ import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { PluginDiscovery } from '@rollthecloudinc/plugin';
 import { EntityServices } from '@ngrx/data';
 import { PageBuilderFacade } from '@rollthecloudinc/panels';
-import { loadRemoteModule } from '@angular-architects/module-federation';
+import { loadRemoteModule } from '@angular-architects/native-federation';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,9 @@ export class ExternalDiscovery implements PluginDiscovery  {
           pp.contexts.filter(c => c.plugin === 'module').map(c => 
             this.moduleLoader.loadModule(
               () => loadRemoteModule({
-                type: 'module',
+                //type: 'module',
                 remoteEntry: c.data.remoteEntry,
+                remoteName: "plugin",
                 exposedModule: c.data.exposedModule
               }).then(m => m[c.data.moduleName])
             )

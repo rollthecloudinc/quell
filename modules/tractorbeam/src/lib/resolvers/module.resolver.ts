@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ContextPlugin, ContextResolver } from '@rollthecloudinc/context';
-import { loadRemoteModule } from '@angular-architects/module-federation';
+import { loadRemoteModule } from '@angular-architects/native-federation';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Injectable()
@@ -15,8 +15,9 @@ export class ModuleResolver implements ContextResolver {
     console.log('module resolver context', ctx, data, metadata);
     return this.moduleLoaderService.loadModule(
       () => loadRemoteModule({
-        type: 'module',
+        //type: 'module',
         remoteEntry: data.remoteEntry,
+        remoteName: "plugin",
         exposedModule: data.exposedModule
       }).then(m => m[data.moduleName])
     );

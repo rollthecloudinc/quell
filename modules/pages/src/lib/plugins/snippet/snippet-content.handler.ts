@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ContentHandler, ContentBinding, Snippet } from '@rollthecloudinc/content';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
 import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { TokenizerService } from '@rollthecloudinc/token';
+import { Snippet } from '@rollthecloudinc/snippet';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 // import { Dataset } from '../models/datasource.models';
@@ -43,6 +44,10 @@ export class SnippetContentHandler implements ContentHandler {
     return false;
   }
 
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
   getBindings(settings: Array<AttributeValue>, type: string, metadata?: Map<string, any>): Observable<Array<ContentBinding>> {
     if(type === 'context') {
       return this.toObject(settings).pipe(
@@ -70,6 +75,14 @@ export class SnippetContentHandler implements ContentHandler {
 
   buildSettings(snippet: Snippet): Array<AttributeValue> {
     return this.attributeSerializer.serialize(snippet, 'root').attributes;
+  }
+
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions({ fullscreen: true }));
   }
 
 }

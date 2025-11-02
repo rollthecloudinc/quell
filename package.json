@@ -18,7 +18,9 @@
   "private": true,
   "dependencies": {
     "@angular-architects/module-federation": "^20.0.0",
+    "@angular-architects/native-federation": "^20.1.7",
     "@angular/animations": "^20.3.6",
+    "@angular/build": "^20.3.7",
     "@angular/cdk": "^20.2.9",
     "@angular/cdk-experimental": "^20.2.9",
     "@angular/common": "^20.3.6",
@@ -93,7 +95,7 @@
   "devDependencies": {
     "@angular-builders/custom-webpack": "^20.0.0",
     "@angular-devkit/architect": "^0.2003.6",
-    "@angular-devkit/build-angular": "^20.3.6",
+    "@angular-devkit/build-angular": "^20.3.7",
     "@angular-devkit/core": "^20.3.6",
     "@angular-devkit/schematics": "^20.3.6",
     "@angular/cli": "^20.3.6",
@@ -138,16 +140,5 @@
     "url": "^0.11.4",
     "webpack-shell-plugin-next": "^2.2.2",
     "winston-loggly-bulk": "^3.2.1"
-  },
-  "overrides": {
-    "debug": "4.3.4",
-    "@smithy/types": "2.2.0",
-    "@aws-crypto/util": "1.2.2", 
-    "@aws-crypto/crc32": {
-      "@aws-crypto/util": "1.2.2"
-    },
-    "@aws-sdk/eventstream-codec": {
-      "@aws-crypto/util": "1.2.2"
-    }
   }
 }
