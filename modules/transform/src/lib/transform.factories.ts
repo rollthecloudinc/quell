@@ -4,7 +4,7 @@ import { TransformMergeComponent } from './components/transform-merge/transform-
 import { iif, of } from 'rxjs';
 import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { map } from 'rxjs/operators';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { SelectTransform } from './models/transform.models';
 
 export const selectDatasourcePluginFactory = (attributeSerializer: AttributeSerializerService) => {
@@ -16,7 +16,7 @@ export const selectDatasourcePluginFactory = (attributeSerializer: AttributeSeri
       () => !!dataset,
       of(dataset).pipe(
         map(() => new SelectTransform(attributeSerializer.deserializeAsObject(settings))),
-        map(ds => new Dataset({ results: JSONPath({ path: ds.query, json: dataset.results }) }))
+        map(ds => new Dataset({ results: jpp.JSONPath({ path: ds.query, json: dataset.results }) }))
       ),
       of(new Dataset())
     )

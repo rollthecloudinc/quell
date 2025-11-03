@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { TokenizerService } from "@rollthecloudinc/token";
 import { PanelPageForm } from "@rollthecloudinc/panels";
-import { getDiff } from "recursive-diff";
+import * as rd from 'recursive-diff';
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 
 @Injectable({
@@ -35,7 +35,7 @@ export class FormsContextHelperService {
 
   resolveContexts({ resolvedContext }: { resolvedContext: any }): Observable<undefined | Map<string, any>> {
     let cachedIndex = this.cachedResolvedContexts.findIndex(({ rContext }) => {
-      const diff = getDiff(rContext, resolvedContext);
+      const diff = rd.getDiff(rContext, resolvedContext);
       return diff.length === 0;
     });
     if (cachedIndex === -1) {

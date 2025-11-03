@@ -2,7 +2,7 @@ import { Component, OnInit, Input, AfterViewInit } from '@angular/core';
 import { ControlContainer, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { Pane, Panel } from '@rollthecloudinc/panels';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FormSectionForm } from '../../models/form.models';
@@ -78,7 +78,7 @@ export class FormSectionComponent implements OnInit, AfterViewInit {
         // const path = s.valuesMapping.replace('[$i]', `[${this.ancestory[this.ancestory.length - 4]}]`);
         const path = pieces.reduce((prev, c, i) => [ ...prev, (i === 0 ? '' : (i - 1) < replacements.length ? `[${replacements[(i - 1)]}]` : ''), c ], []).join('');
         console.log('path', path);
-        const items = JSONPath({ path: `$.${path}.*`, json: rc });
+        const items = jpp.JSONPath({ path: `$.${path}.*`, json: rc });
         return { items, s, p }
       } else {
         return { items: [], p };

@@ -4,7 +4,7 @@ import { createSelector, select } from "@ngrx/store";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { ContentPlugin } from '@rollthecloudinc/content';
 import merge from "deepmerge-json";
-import { JSONPath } from "jsonpath-plus";
+import * as jpp from 'jsonpath-plus';
 import { Observable, of } from "rxjs";
 import { map, switchMap, take, tap } from "rxjs/operators";
 import { PageBuilderFacade } from "../features/page-builder/page-builder.facade";
@@ -52,7 +52,7 @@ export class PaneStateService {
       map(([s, ps, d]) => {
         this.panelStateArchitectService.buildToAncestorySpec({ panelPageState: ps, ancestory: [ ...ancestory ] });
         const path = '$.' + ancestory.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
-        const paneState = JSONPath({ path, json: ps })[0];
+        const paneState = jpp.JSONPath({ path, json: ps })[0];
         return [s, ps, d, paneState];
       }),
       tap(([s, _, d, ps2]) => {

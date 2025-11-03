@@ -5,7 +5,7 @@ import { iif, Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { TokenizerService } from '@rollthecloudinc/token';
 import { FormlyFieldInstance } from "../models/formly.models";
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { UrlGeneratorService } from '@rollthecloudinc/durl';
 import { DatasourceContentHandler, Pane, PanelResolverService } from '@rollthecloudinc/panels';
 @Injectable({
@@ -67,7 +67,7 @@ export class FormlyHandlerHelper {
           return of<[FormlyFieldInstance, Array<any>]>([i, []]);
         }
       }),
-      map(([i, d]) => [i, i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d]),
+      map(([i, d]) => [i, i.datasourceOptions && i.datasourceOptions.query !== '' ? jpp.JSONPath({ path: i.datasourceOptions.query, json: d }) : d]),
       switchMap(([i, d]) => this.mapDataOptions(i, d))
     );
   }

@@ -4,7 +4,7 @@ import { ContextResolver, ContextPlugin } from '@rollthecloudinc/context';
 import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 
 @Injectable()
@@ -83,7 +83,7 @@ export class PageStateContextResolver implements ContextResolver {
         console.log('rebuilt state from realtime page');
         console.log(state);
       }),
-      map(([json, path]) => path ? JSONPath({ path, json }) : this.emptyPaneState),
+      map(([json, path]) => path ? jpp.JSONPath({ path, json }) : this.emptyPaneState),
       map(m => m && Array.isArray(m) && m.length !== 0 ? m[0] : this.emptyPaneState),
       tap(m => {
         console.log('json path match');

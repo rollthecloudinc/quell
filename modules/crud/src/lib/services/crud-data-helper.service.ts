@@ -7,7 +7,7 @@ import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../model
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse, CrudAdaptorPlugin, CrudCollectionOperationInput } from '../models/crud.models';
 import { Param } from '@rollthecloudinc/dparam';
 import { NestedCondition, Rule } from "json-rules-engine";
-import { getDiff } from 'recursive-diff';
+import * as rd from 'recursive-diff';
 
 @Injectable({
   providedIn: 'root'
@@ -101,8 +101,8 @@ export class CrudDataHelperService {
   flightAndCacheAwareCollectionQuery<T>(q: { p: CrudAdaptorPlugin<string>, input: CrudCollectionOperationInput }): Observable<CrudCollectionOperationResponse> {
     // console.log('flightAndCacheAwareCollectionQuery', q.p, q.input);
     let matchedIndex = this.cachedCollectionQueries.findIndex(({ p, input }) => {
-      const pDiff = getDiff({ ...q.p, ...this.cachedCollectionIgnore.p }, { ...p, ...this.cachedCollectionIgnore.p });
-      const iDiff = getDiff({ ...q.input, ...this.cachedCollectionIgnore.input }, { ...input, ...this.cachedCollectionIgnore.input });
+      const pDiff = rd.getDiff({ ...q.p, ...this.cachedCollectionIgnore.p }, { ...p, ...this.cachedCollectionIgnore.p });
+      const iDiff = rd.getDiff({ ...q.input, ...this.cachedCollectionIgnore.input }, { ...input, ...this.cachedCollectionIgnore.input });
       // console.log('pDiff', pDiff);
       // console.log('iDiff', iDiff);
       return pDiff.length === 0 && iDiff.length === 0;
