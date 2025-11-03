@@ -7,7 +7,7 @@ import { OidcAuthEffects } from './effects/oidc-auth.effects';
 import { entityMetadata } from './entity-metadata';
 import { CLIENT_SETTINGS } from './oidc.tokens';
 
-import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client-ts';
 import { AuthFacade, AuthModule } from '@rollthecloudinc/auth';
 @NgModule({
   declarations: [],

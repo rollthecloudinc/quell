@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ofEntityType, ofEntityOp, EntityOp, EntityActionFactory } from '@ngrx/data';
-import { UserManager } from 'oidc-client';
+import { UserManager } from 'oidc-client-ts';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthActions } from '@rollthecloudinc/auth';
 import { Observable } from 'rxjs';
@@ -64,7 +64,7 @@ export class OidcAuthEffects {
 
   constructor(
     private actions$: Actions,
-    private userManager: UserManager,
+    @Inject(UserManager) private userManager: UserManager,
     private entityActionFactory: EntityActionFactory
   ) {
   }

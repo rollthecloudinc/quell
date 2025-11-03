@@ -153,4 +153,6 @@ export class AuthWebStorageService {
         return value;
     }
   }
+
+  clear() {}
 }
