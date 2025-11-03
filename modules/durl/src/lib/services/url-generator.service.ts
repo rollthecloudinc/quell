@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Param, ParamPluginManager, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { Observable, of, forkJoin } from 'rxjs';
 import { map, switchMap, defaultIfEmpty, tap, } from 'rxjs/operators';
-import * as qs from 'qs';
+import qs from 'qs'
 @Injectable({
   providedIn: 'root'
 })

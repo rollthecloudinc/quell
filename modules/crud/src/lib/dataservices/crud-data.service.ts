@@ -8,7 +8,7 @@ import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse 
 import { Param } from '@rollthecloudinc/dparam';
 // import { NestedCondition, Rule } from "json-rules-engine";
 import { CrudDataHelperService } from "../services/crud-data-helper.service";
-// import * as qs from 'qs';
+// import qs from 'qs'
 export class CrudDataService<T> implements EntityCollectionDataService<T> {
 
   protected _name: string;

@@ -4,7 +4,7 @@ import { AttributeValue } from "@rollthecloudinc/attributes";
 import { Param, ParamSettings } from '../../models/param.models';
 import { BehaviorSubject, combineLatest, Subject } from "rxjs";
 import { debounceTime, filter, tap, delay } from 'rxjs/operators';
-import * as qs from 'qs';
+import qs from 'qs'
 // import { ValidationValidatorSettings } from "../../models/validation.models";
 
 @Component({

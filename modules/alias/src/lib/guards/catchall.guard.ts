@@ -7,7 +7,7 @@ import { map, switchMap, catchError, tap, filter, defaultIfEmpty } from 'rxjs/op
 /*import { PanelPageListItem, PanelPage } from '@rollthecloudinc/panels';
 import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';*/
-//import * as qs from 'qs';
+//import qs from 'qs'
 import { AliasPluginManager } from '../services/alias-plugin-manager.service';
 import { AliasPlugin } from '../models/alias.models';
 
