@@ -3,7 +3,7 @@ import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { concat, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, defaultIfEmpty, filter, map, reduce, switchMap, tap } from 'rxjs/operators';
 import { set, keys, getMany, setMany } from 'idb-keyval';
-import { ConditionProperties, Engine } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 import * as jpp from 'jsonpath-plus';
 import { isPlatformBrowser } from '@angular/common';
 
@@ -71,7 +71,7 @@ export const idbEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: ParamE
         })
       })),
       switchMap(out => !rule ? of(out) : new Observable<CrudCollectionOperationResponse>(obs => {
-        const engine = new Engine();
+        const engine = new jre.Engine();
         // This should not be here should be setup for default engine but for now whatever.
         engine.addOperator('startsWith', (fv, jv) => typeof(jv) === 'string' && typeof(fv) === 'string' && jv.indexOf(fv) === 0);
         engine.addOperator('term||wildcard', (fv: string, jv: string) => {

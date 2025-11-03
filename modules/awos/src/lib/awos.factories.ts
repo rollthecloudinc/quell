@@ -10,7 +10,7 @@ import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-id
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { catchError, map, switchMap, take, tap } from "rxjs/operators";
-import { AllConditions, AnyConditions, ConditionProperties } from "json-rules-engine";
+import * as jre from "json-rules-engine";
 import { isPlatformServer } from "@angular/common";
 
 export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, authFacade: AuthFacade, cognitoSettings: CognitoSettings, paramsEvaluatorService: ParamEvaluatorService, http: HttpClient) => {
@@ -26,7 +26,7 @@ export const opensearchTemplateCrudAdaptorPluginFactory = (platformId: Object, a
         map(groups => groups.reduce((p, c) => ({ ...p, ...c }), {})), // default options go here instead of empty object.
         map(options => ({ options }))
       ): of({ options: {} })),
-      map(({ options }) => ({ options, body: JSON.stringify({ id: (options as any).id, params: rule ? (rule.conditions as AllConditions).all.reduce((p, c) => ({ ...p, ...(c as AnyConditions).any.reduce((p2, c2) => ({ ...p2, [(c2 as ConditionProperties).path.substr(2)]: [ ...( p2[(c2 as ConditionProperties).path.substr(2)] ? p2[(c2 as ConditionProperties).path.substr(2)] : [] ), JSON.parse(decodeURIComponent((c2 as ConditionProperties).value)) ] }), {}) }), {}) : {} }) })),
+      map(({ options }) => ({ options, body: JSON.stringify({ id: (options as any).id, params: rule ? (rule.conditions as jre.AllConditions).all.reduce((p, c) => ({ ...p, ...(c as jre.AnyConditions).any.reduce((p2, c2) => ({ ...p2, [(c2 as jre.ConditionProperties).path.substr(2)]: [ ...( p2[(c2 as jre.ConditionProperties).path.substr(2)] ? p2[(c2 as jre.ConditionProperties).path.substr(2)] : [] ), JSON.parse(decodeURIComponent((c2 as jre.ConditionProperties).value)) ] }), {}) }), {}) : {} }) })),
       tap(({ body }) => console.log('open search template query body', body)),
       switchMap(({ options, body }) => createSignedHttpRequest({
           method: "POST",
@@ -132,7 +132,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
       paramsEvaluatorService.resolveParams({ params }),
 
       // This can be moved into crud adaptor and passed as argument.
-      map(({ options }) => ({ options, identityCondition: (rule.conditions as AllConditions).all.map(c => (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity')).find(c => !!c) })),
+      map(({ options }) => ({ options, identityCondition: (rule.conditions as jre.AllConditions).all.map(c => (c as jre.AnyConditions).any.find(c2 => (c2 as jre.ConditionProperties).fact === 'identity')).find(c => !!c) })),
       switchMap(({ options, identityCondition }) => createSignedHttpRequest({
         method: "GET",
         headers: {
@@ -140,7 +140,7 @@ export const opensearchEntityCrudAdaptorPluginFactory = (authFacade: AuthFacade,
           host: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
         },
         hostname: `${(options as any).domain}.${(options as any).region}.es.amazonaws.com`,
-        path: `/${(options as any).index}/_doc/${identityCondition ? (identityCondition as ConditionProperties).value : ''}`,
+        path: `/${(options as any).index}/_doc/${identityCondition ? (identityCondition as jre.ConditionProperties).value : ''}`,
         protocol: 'https:',
         service: "es",
         cognitoSettings: cognitoSettings,
