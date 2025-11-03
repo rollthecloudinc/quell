@@ -4,7 +4,7 @@ import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/att
 import { Param } from '@rollthecloudinc/dparam';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, delay, filter, map, tap } from 'rxjs/operators';
-import * as qs from 'qs';
+import qs from 'qs'
 import { CrudAdaptorDatasource } from '../../models/crud.models';
 
 @Component({
