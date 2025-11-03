@@ -1,4 +1,4 @@
-import * as nf from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
@@ -18,7 +18,7 @@ export class PageBuilderBeamEffects {
           page.contexts.forEach(c => {
             if (c.plugin === 'module') {
               return this.moduleLoaderService.loadModule(
-                () => nf.loadRemoteModule({
+                () => loadRemoteModule({
                   //type: 'module',
                   remoteEntry: c.data.remoteEntry,
                   remoteName: "plugin",
@@ -45,7 +45,7 @@ export class PageBuilderBeamEffects {
           pp.contexts.forEach(c => {
             if (c.plugin === 'module') {
               return this.moduleLoaderService.loadModule(
-                () => nf.loadRemoteModule({
+                () => loadRemoteModule({
                   //type: 'module',
                   remoteEntry: c.data.remoteEntry,
                   remoteName: "plugin",

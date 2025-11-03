@@ -6,7 +6,7 @@ import { map, filter, distinctUntilChanged, switchMap, tap, withLatestFrom, take
 import { select, Store } from '@ngrx/store';
 import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { forkJoin, of } from 'rxjs';
-import * as nf from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Component({
@@ -42,7 +42,7 @@ export class EditPanelPageComponent implements OnInit {
       switchMap(pp => pp ? forkJoin(
           pp.contexts.filter(c => c.plugin === 'module').map(c => 
             this.moduleLoader.loadModule(
-              () => nf.loadRemoteModule({
+              () => loadRemoteModule({
                 //type: 'module',
                 remoteEntry: c.data.remoteEntry,
                 remoteName: "plugin",
