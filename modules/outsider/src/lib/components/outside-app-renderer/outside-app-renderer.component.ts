@@ -1,4 +1,4 @@
-import { loadRemoteModule } from "@angular-architects/native-federation";
+import * as nf from "@angular-architects/native-federation";
 import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/core";
 // import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
@@ -39,7 +39,7 @@ export class OutsideAppRendererComponent {
   protected readonly renderAppSub = this.objectSettings$.pipe(
     skip(1),
     switchMap(s => new Observable<Type<Component>>(obs => {
-        loadRemoteModule(
+        nf.loadRemoteModule(
           !s.type || s.type === 'script' ?
           {
             // type: 'script', // temp for react

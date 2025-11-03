@@ -87,7 +87,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   @Input() 
-  set css(css: JSONNode) {
+  set css(css: cssJson.JSONNode) {
     this.css$.next(css);
   }
 
@@ -120,10 +120,10 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   private managedCssCache = '';
   private managedClassesCache = {};
 
-  filteredCss: { css: JSONNode, classes: any };
+  filteredCss: { css: cssJson.JSONNode, classes: any };
   filteredListeners: Array<InteractionListener> = [];
 
-  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
+  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = this.css$.subscribe(css => {
     if (this.nested$.value) {
       console.log('filtered css nested', css);
@@ -455,25 +455,25 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
 
   hookupCss({ file }: { file: string }) {
     forkJoin([
-      /*this.http.get<JSONNode>(file).pipe(
+      /*this.http.get<cssJson.JSONNode>(file).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ),*/
       of(undefined),
       // Disable this for now since 400s have negative impact on page scoring
-      /*this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+      /*this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),*/
       of(undefined),
       // Disable this for now since 400s have negative impact on page scoring
       /*
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
+      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),*/
       of(undefined),
-      this.panelPageCached.id ? this.http.get<JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
+      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
         catchError(() => of(undefined)),
         defaultIfEmpty(undefined)
       ) : of(undefined),
@@ -494,7 +494,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       })
     ).subscribe();
     /*
-    this.http.get<JSONNode>(file).subscribe(css => {
+    this.http.get<cssJson.JSONNode>(file).subscribe(css => {
       this.filteredCss = css; //css.styles; - only for sheath
     });*/
   }
@@ -661,7 +661,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     this.resolvedContext$.next(resolvedContext);
   }
 
-  @Input() set css(css: JSONNode) {
+  @Input() set css(css: cssJson.JSONNode) {
     this.css$.next(css);
   }
 
@@ -687,10 +687,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   componentRef: ComponentRef<any>;
 
-  filteredCss: { css: cssJson.JSONNode, classes: any };
+  filteredCss: { css: cssJson.cssJson.JSONNode, classes: any };
   filteredListeners: Array<InteractionListener> = [];
 
-  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ 
+  css$ = new BehaviorSubject<{ css: cssJson.cssJson.JSONNode, classes: any }>({ 
     css: this.cssHelper.makeJsonNode(), 
     classes: {}
   });
@@ -1035,7 +1035,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     this.ancestory$.next(ancestory);
   }
 
-  @Input() set css(css: JSONNode) {
+  @Input() set css(css: cssJson.JSONNode) {
     this.css$.next(css);
   }
 
@@ -1066,7 +1066,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   panes: Array<Pane>;
   originPanes: Array<Pane>;
 
-  filteredCss: { css: cssJson.JSONNode, classes: any };
+  filteredCss: { css: cssJson.cssJson.JSONNode, classes: any };
   filteredListeners: Array<InteractionListener> = [];
   
   /*initialRenderComplete = setInterval(() => {
@@ -1083,7 +1083,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   componentRef: ComponentRef<any>;
   readonly rendered$ = new Subject();
 
-  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
+  css$ = new BehaviorSubject<{ css: cssJson.cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = combineLatest([
     this.css$,
     this.afterContentInit$,
