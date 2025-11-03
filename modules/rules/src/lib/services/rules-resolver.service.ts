@@ -3,7 +3,7 @@ import { RuleSet } from 'ngx-angular-query-builder';
 import { Observable } from 'rxjs';
 import { RulesParserService } from './rules-parser.service';
 import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
-import { Engine } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 import { map, tap, switchMap, take } from 'rxjs/operators';
 // we are going to loose forms when doing this.
 // import { InlineContextResolverService } from './inline-context-resolver.service';
@@ -23,7 +23,7 @@ export class RulesResolverService {
   evaluate(ngRule: RuleSet, contexts: Array<InlineContext> = []): Observable<boolean> {
     return this.inlineContextResolver.resolveMerged(contexts, `rules:${uuid.v4()}`).pipe(
       take(1),
-      map(facts => [{ ...(facts as any) }, new Engine()]),
+      map(facts => [{ ...(facts as any) }, new jre.Engine()]),
       tap(([_, engine]) => {
         const rule = this.rulesParser.toEngineRule(ngRule);
         engine.addRule(rule);

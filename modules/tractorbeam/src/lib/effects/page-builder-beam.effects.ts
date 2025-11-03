@@ -1,4 +1,4 @@
-import { loadRemoteModule } from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';

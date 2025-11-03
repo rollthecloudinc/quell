@@ -4,7 +4,7 @@ import { ContextResolver, ContextPlugin } from '@rollthecloudinc/context';
 import { PanelPage, PanelPageSelector, PanelPageState, PanelState, PanelStateConverterService, PaneState, PageBuilderFacade, PanelPageStateSlice  } from '@rollthecloudinc/panels';
 import { combineLatest, iif, Observable, of } from 'rxjs';
 import { map, switchMap, tap, withLatestFrom } from 'rxjs/operators';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { createSelector, select } from '@ngrx/store';
 
@@ -53,7 +53,7 @@ export class PaneStateContextResolver implements ContextResolver {
     );
     const selectByPath = ({ id, path }: { id: string, path: string }) => createSelector(
       selectById({ id }),
-      json => JSONPath({ path, json })
+      json => jpp.JSONPath({ path, json })
     );
 
     const path = '$.' + data.selectionPath.map((index, i) => `${(i + 1) % 2 === 0 ? 'panes' : (i === 0 ? '' : 'nestedPage.') + 'panels'}[${index}]`).join('.');
@@ -108,7 +108,7 @@ export class PaneStateContextResolver implements ContextResolver {
         console.log('rebuilt state from realtime page');
         console.log(state);
       }),
-      map(([json, path]) => path ? JSONPath({ path, json }) : this.defaultPaneState(data.value ? data.value : {})),
+      map(([json, path]) => path ? jpp.JSONPath({ path, json }) : this.defaultPaneState(data.value ? data.value : {})),
       map(m => m && Array.isArray(m) && m.length !== 0 ? m[0] : this.defaultPaneState(data.value ? data.value : {})),
       tap(m => {
         console.log('json path match');

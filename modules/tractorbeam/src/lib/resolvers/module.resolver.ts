@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { ContextPlugin, ContextResolver } from '@rollthecloudinc/context';
-import { loadRemoteModule } from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Injectable()

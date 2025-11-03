@@ -2,7 +2,7 @@ import { Injectable, makeStateKey, TransferState } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Request } from 'express';
 import * as Cookies from 'js-cookie';
-import { toNumber } from "number-string";
+import * as numberString from "number-string";
 import { ClientSettings } from '../models/oidc.models';
 
 
@@ -144,7 +144,7 @@ export class AuthWebStorageService {
         return value.split('|').join(' ');
 
       case 'oe':
-        return toNumber(value);
+        return numberString.toNumber(value);
 
       case 'op':
         return JSON.parse(value);
@@ -153,4 +153,6 @@ export class AuthWebStorageService {
         return value;
     }
   }
+
+  clear() {}
 }

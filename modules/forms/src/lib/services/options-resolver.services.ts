@@ -4,7 +4,7 @@ import { Observable, of } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { TokenizerService } from '@rollthecloudinc/token';
 import { FormSettings } from "../models/form.models";
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { DatasourceContentHandler, Pane, PanelResolverService } from '@rollthecloudinc/panels';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 
@@ -33,7 +33,7 @@ export class OptionsResolverService {
           return of<[FormSettings, Array<SelectOption>]>([i, []]);
         }
       }),
-      map(([i, d]) => [i, i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d]),
+      map(([i, d]) => [i, i.datasourceOptions && i.datasourceOptions.query !== '' ? jpp.JSONPath({ path: i.datasourceOptions.query, json: d }) : d]),
       switchMap(([i, d]) => this.mapDataOptions(i, d))
     );
   }

@@ -4,7 +4,7 @@ import { defaultIfEmpty, map, tap } from "rxjs/operators";
 import { EntityServices } from "@ngrx/data";
 import { Router, UrlMatcher, UrlSegment, UrlTree } from '@angular/router';
 import { AlienAlias } from "../models/alienalias.models";
-import { loadRemoteModule } from "@angular-architects/native-federation";
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 export class AlienaliasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;
   get alienAliasService() {

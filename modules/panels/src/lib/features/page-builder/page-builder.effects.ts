@@ -4,7 +4,7 @@ import { Actions, createEffect, ofType} from '@ngrx/effects';
 
 import { concatMap, map, catchError, switchMap } from 'rxjs/operators';
 import { EMPTY, NEVER, Observable, of } from 'rxjs';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 
 import { Dataset, Rest, DatasourceApiService } from '@rollthecloudinc/datasource';
 import * as PageBuilderActions from './page-builder.actions';
@@ -21,7 +21,7 @@ export class PageBuilderEffects {
         catchError(() => {
           return [];
         }),
-        map(results => p.rest.renderer !== undefined && p.rest.renderer.query !== undefined && p.rest.renderer.query !== '' ? JSONPath({ path: p.rest.renderer.query, json: results }) : results ),
+        map(results => p.rest.renderer !== undefined && p.rest.renderer.query !== undefined && p.rest.renderer.query !== '' ? jpp.JSONPath({ path: p.rest.renderer.query, json: results }) : results ),
         map(results => PageBuilderActions.loadRestDataSuccess({ tag: p.tag, data: new Dataset({ results }) }))
       ))
     )

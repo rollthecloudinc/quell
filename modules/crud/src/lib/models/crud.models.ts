@@ -1,7 +1,7 @@
 import { Param } from '@rollthecloudinc/dparam';
 import { Plugin } from '@rollthecloudinc/plugin';
 import { Observable } from 'rxjs';
-import { Rule } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 
 export type CrudOperations = 'create' | 'read' | 'update' | 'delete' | 'query';
 
@@ -10,7 +10,7 @@ export type CrudIdentityProvider = ({ object, parentObject }: { object: any, par
 export type CrudOperationResponse = { success: boolean, entity?: any, originalEntity?: any };
 export type CrudOperationInput = { object: any, parentObject?: any, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
 
-export type CrudCollectionOperationInput = { rule: Rule, objects?: Iterable<any>, parentObjects?: Iterable<any>, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
+export type CrudCollectionOperationInput = { rule: jre.Rule, objects?: Iterable<any>, parentObjects?: Iterable<any>, identity: CrudIdentityProvider, params?: { [name: string]: Param } };
 
 export type CrudCollectionOperationResponse = { success: boolean, entities: Iterable<any>, originalEntities?: Iterable<any> };
 export class CrudAdaptorPlugin<T = string> extends Plugin<T>  {

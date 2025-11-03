@@ -11,7 +11,7 @@ import { PanelPageState, PanelState, PaneState } from './models/state.models';
 import { of } from 'rxjs';
 import { DatasourceContentHandler } from './handlers/datasource-content.handler';
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
-import { toCSS } from 'cssjson';
+import * as cssJson from 'cssjson';
 import { FilesService } from '@rollthecloudinc/media';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
@@ -76,12 +76,12 @@ export const panelpageStylesheetToFileCrudAdaptorPluginFactory = (fileService: F
   return new CrudAdaptorPlugin<string>({
     id: 'panelpagestylesheet_upload',
     title: 'panelpagestylesheet_upload',
-    create: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
+    create: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([cssJson.toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
       switchMap(({ entity }) => fileService.bulkUpload({ files: [ entity ], fileNameOverride: `panelpage__${object.id}.css` })),
       map(() => ({ success: true, entity: undefined }))
     ),
     read: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false }),
-    update: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
+    update: ({ object }: CrudOperationInput) => of<CrudOperationResponse>({ success: false, entity: new File([cssJson.toCSS(object.styles)], `panelpage__${object.id}.css`, { type: 'text/css' }) }).pipe(
       switchMap(({ entity }) => fileService.bulkUpload({ files: [ entity ], fileNameOverride: `panelpage__${object.id}.css` })),
       map(() => ({ success: true, entity: undefined }))
     ),

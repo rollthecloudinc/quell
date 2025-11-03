@@ -79,7 +79,7 @@
     "ngx-markdown": "20.0.0",
     "number-string": "^2.0.1",
     "nx": "^15.9.2",
-    "oidc-client": "^1.11.5",
+    "oidc-client-ts": "^3.3.0",
     "postcss-import": "^14.1.0",
     "postcss-loader": "^7.2.4",
     "postcss-scss": "^4.0.4",

@@ -2,7 +2,7 @@
 import { Component, OnChanges, Input, SimpleChanges, forwardRef, OnInit, ComponentRef, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { ControlValueAccessor,NG_VALUE_ACCESSOR, NG_VALIDATORS, FormGroup,FormControl, Validator, Validators, AbstractControl, ValidationErrors, FormArray, UntypedFormBuilder } from "@angular/forms";
 import { FormlyFieldConfig } from '@ngx-formly/core';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { BehaviorSubject, combineLatest, forkJoin, iif, Observable, of, Subject } from 'rxjs';
 import { debounceTime, delay, distinctUntilChanged, filter, map, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
@@ -235,7 +235,7 @@ export class FormlyPaneFieldComponent implements ControlValueAccessor, Validator
           switchMap(s => this.datasourceApi.getData(`${s}`))
         ) : of([])
       )),
-      map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
+      map((d => i.datasourceOptions && i.datasourceOptions.query !== '' ? jpp.JSONPath({ path: i.datasourceOptions.query, json: d }) : d)),
       switchMap(data => this.formlyHandlerHelper.mapDataOptions(i, data))
     );
   }

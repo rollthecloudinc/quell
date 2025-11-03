@@ -6,7 +6,7 @@ import { map, switchMap } from "rxjs/operators";
 import { CrudEntityConfiguration, CrudEntityMetadata } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse } from '../models/crud.models';
 import { Param } from '@rollthecloudinc/dparam';
-import { NestedCondition, Rule } from "json-rules-engine";
+// import { NestedCondition, Rule } from "json-rules-engine";
 import { CrudDataHelperService } from "../services/crud-data-helper.service";
 // import * as qs from 'qs';
 export class CrudDataService<T> implements EntityCollectionDataService<T> {

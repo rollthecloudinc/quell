@@ -38,7 +38,7 @@ import { combineLatest, merge, of } from 'rxjs';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from '@rollthecloudinc/bridge';
 import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@rollthecloudinc/crud';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
-import { JSONPath } from 'jsonpath-plus';
+import * as jpp from 'jsonpath-plus';
 import { UrlMatcher, UrlSegment } from '@angular/router';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
@@ -247,7 +247,7 @@ export const formDatasourcePluginFactory = (attributeSerializer: AttributeSerial
         take(1)
       )),
       map(([ds, form]) => [ds, formService.serializeForm(form as PanelPageForm)]),
-      map(([ds, json]) => new Dataset({ results: JSONPath({ path: `$.${ds.field}.*`, json }) }))
+      map(([ds, json]) => new Dataset({ results: jpp.JSONPath({ path: `$.${ds.field}.*`, json }) }))
     ),
     getBindings: ({ settings, metadata }: { settings: Array<AttributeValue>, metadata?: Map<string, any> }) => of([]).pipe(
       map(() => new FormDatasource(attributeSerializer.deserializeAsObject(settings))),

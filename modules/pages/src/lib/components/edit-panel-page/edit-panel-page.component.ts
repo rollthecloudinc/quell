@@ -6,7 +6,7 @@ import { map, filter, distinctUntilChanged, switchMap, tap, withLatestFrom, take
 import { select, Store } from '@ngrx/store';
 import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { forkJoin, of } from 'rxjs';
-import { loadRemoteModule } from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { ModuleLoaderService } from '@rollthecloudinc/utils';
 
 @Component({
