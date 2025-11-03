@@ -11,7 +11,7 @@ import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { SignatureV4} from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
-import { Sha256 } from "@aws-crypto/sha256-js";
+import * as sha256 from "@aws-crypto/sha256-js";
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 import { AsyncApiCallHelperService } from '@rollthecloudinc/utils';
@@ -182,7 +182,7 @@ const createS3SignedHttpRequest = ({
         }),
         region: cognitoSettings.region,
         service,
-        sha256: Sha256,
+        sha256: sha256.Sha256,
       }
     )).sign(req)
       .then(

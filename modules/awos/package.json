@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/awos",
-  "version": "20.0.0-alpha.10",
+  "version": "20.0.0-alpha.12",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^20.0.0",

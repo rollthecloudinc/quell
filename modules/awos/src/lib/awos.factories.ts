@@ -5,7 +5,7 @@ import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { firstValueFrom, forkJoin, from, Observable, of } from "rxjs";
 import { SignatureV4 } from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
-import { Sha256 } from "@aws-crypto/sha256-js";
+import * as sha256 from "@aws-crypto/sha256-js";
 import { fromCognitoIdentityPool } from '@aws-sdk/credential-provider-cognito-identity';
 import { CognitoIdentityClient } from '@aws-sdk/client-cognito-identity';
 import { HttpClient, HttpParams } from "@angular/common/http";
@@ -214,7 +214,7 @@ const createSignedHttpRequest = ({
         }),
         region: cognitoSettings.region,
         service,
-        sha256: Sha256,
+        sha256: sha256.Sha256,
         applyChecksum: false
       }
     )).sign(req)
