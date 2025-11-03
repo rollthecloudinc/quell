@@ -17,7 +17,7 @@ import { Store, select, createSelector } from '@ngrx/store';
 import { LayoutRendererHostDirective } from '../../directives/layout-renderer-host.directive';
 import * as uuid from 'uuid';
 import * as cssSelect from 'css-select';
-import { JSONNode } from 'cssjson';
+import * as cssJson from 'cssjson';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { CrudAdaptorPluginManager, CrudDataHelperService, CrudEntityMetadata } from '@rollthecloudinc/crud';
@@ -687,10 +687,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
 
   componentRef: ComponentRef<any>;
 
-  filteredCss: { css: JSONNode, classes: any };
+  filteredCss: { css: cssJson.JSONNode, classes: any };
   filteredListeners: Array<InteractionListener> = [];
 
-  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ 
+  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ 
     css: this.cssHelper.makeJsonNode(), 
     classes: {}
   });
@@ -1066,7 +1066,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   panes: Array<Pane>;
   originPanes: Array<Pane>;
 
-  filteredCss: { css: JSONNode, classes: any };
+  filteredCss: { css: cssJson.JSONNode, classes: any };
   filteredListeners: Array<InteractionListener> = [];
   
   /*initialRenderComplete = setInterval(() => {
@@ -1083,7 +1083,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   componentRef: ComponentRef<any>;
   readonly rendered$ = new Subject();
 
-  css$ = new BehaviorSubject<{ css: JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
+  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
   cssSub = combineLatest([
     this.css$,
     this.afterContentInit$,
