@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AttributeValue, AttributeTypes } from '@rollthecloudinc/attributes';
 import { Field, RuleSet, Rule as NgRule } from 'ngx-angular-query-builder';
-import { Rule, NestedCondition } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 
 @Injectable({
   providedIn: 'root'
@@ -73,9 +73,9 @@ export class RulesParserService {
    * to only 2 items. That might hav just been laziness or there might have been a valid reason for it.
    * I don't know why that be done instead of using indexOf to make sure the full path is included.
    */
-  toEngineRule(rule: RuleSet, level = 0): Rule  {
+  toEngineRule(rule: RuleSet, level = 0): jre.Rule  {
 
-    const conditions: Array<NestedCondition> = [];
+    const conditions: Array<jre.NestedCondition> = [];
 
     if(rule.rules === undefined || !Array.isArray(rule.rules)) {
       // const [ fact, path ] = (rule as any).field.split('.', 2);
@@ -83,7 +83,7 @@ export class RulesParserService {
       const fact = (rule as any).field.substr(0, firstDot);
       const path = (rule as any).field.substr(firstDot + 1);
       conditions.push({ fact, path: `$.${path}`, operator: this.operatorsMap.get((rule as any).operator), value: (rule as any).value });
-      return new Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+      return new jre.Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
     } else {
       const len = rule.rules.length;
       for(let i = 0; i < len; i++) {
@@ -99,14 +99,14 @@ export class RulesParserService {
         }
       }
       if(rule.condition === 'and') {
-        return new Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+        return new jre.Rule({ conditions: { all: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
       } else {
-        return new Rule({ conditions: { any: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
+        return new jre.Rule({ conditions: { any: conditions }, event: ( level === 0 ? { type: 'visible' } : undefined ) } );
       }
     }
   }
 
-  extractConditions(ngRule: RuleSet, level = 0): Array<NestedCondition> {
+  extractConditions(ngRule: RuleSet, level = 0): Array<jre.NestedCondition> {
     const rule = this.toEngineRule(ngRule);
     return [
       ...( (rule.conditions as any).any !== undefined ? (rule.conditions as any).any : [] ),

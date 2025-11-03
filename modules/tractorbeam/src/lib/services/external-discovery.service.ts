@@ -5,7 +5,7 @@ import { ModuleLoaderService } from '@rollthecloudinc/utils';
 import { PluginDiscovery } from '@rollthecloudinc/plugin';
 import { EntityServices } from '@ngrx/data';
 import { PageBuilderFacade } from '@rollthecloudinc/panels';
-import { loadRemoteModule } from '@angular-architects/native-federation';
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 
 @Injectable({
   providedIn: 'root'

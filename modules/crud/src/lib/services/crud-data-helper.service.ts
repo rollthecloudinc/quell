@@ -6,8 +6,8 @@ import { defaultIfEmpty, filter, map, switchMap, take, tap, concatMap, finalize 
 import { CrudEntityConfiguration, CrudEntityConfigurationPlugin } from "../models/entity-metadata.models";
 import { CrudOperations, CrudOperationResponse, CrudCollectionOperationResponse, CrudAdaptorPlugin, CrudCollectionOperationInput } from '../models/crud.models';
 import { Param } from '@rollthecloudinc/dparam';
-import { NestedCondition, Rule } from "json-rules-engine";
-import { getDiff } from 'recursive-diff';
+import * as jre from "json-rules-engine";
+import * as rd from 'recursive-diff';
 
 @Injectable({
   providedIn: 'root'
@@ -79,10 +79,10 @@ export class CrudDataHelperService {
     }
   }
 
-  buildQueryRule({ params, config }: { params: QueryParams | string, config: CrudEntityConfigurationPlugin }): Observable<{ rule: Rule }> {
-    return new Observable<{ rule: Rule }>(obs => {
+  buildQueryRule({ params, config }: { params: QueryParams | string, config: CrudEntityConfigurationPlugin }): Observable<{ rule: jre.Rule }> {
+    return new Observable<{ rule: jre.Rule }>(obs => {
       // const metadata = this.entityDefinitionService.getDefinition(this.entityName).metadata as CrudEntityMetadata<any, {}>;
-      const conditions: Array<NestedCondition> = [];
+      const conditions: Array<jre.NestedCondition> = [];
       // KISS for now - use qs later - move to reusable function probably inside durl. First lets proof it out with one level.
       if (typeof(params) === 'string') {
         const pieces = params.split('&').map(p => p.split('=', 2)).reduce((p, [name, value]) => new Map<string, Array<any>>([ ...Array.from(p).filter(([k, _]) => k !== name) ,[ name, [ ...(p.has(name) ? p.get(name) : []), value ] ] ]), new Map<string, Array<any>>());
@@ -92,7 +92,7 @@ export class CrudDataHelperService {
            })
         );
       }
-      const rule = conditions.length > 0 ? new Rule({ conditions: { all: conditions }, event: { type: 'visible' } }) : undefined;
+      const rule = conditions.length > 0 ? new jre.Rule({ conditions: { all: conditions }, event: { type: 'visible' } }) : undefined;
       obs.next({ rule });
       obs.complete();
     });
@@ -101,8 +101,8 @@ export class CrudDataHelperService {
   flightAndCacheAwareCollectionQuery<T>(q: { p: CrudAdaptorPlugin<string>, input: CrudCollectionOperationInput }): Observable<CrudCollectionOperationResponse> {
     // console.log('flightAndCacheAwareCollectionQuery', q.p, q.input);
     let matchedIndex = this.cachedCollectionQueries.findIndex(({ p, input }) => {
-      const pDiff = getDiff({ ...q.p, ...this.cachedCollectionIgnore.p }, { ...p, ...this.cachedCollectionIgnore.p });
-      const iDiff = getDiff({ ...q.input, ...this.cachedCollectionIgnore.input }, { ...input, ...this.cachedCollectionIgnore.input });
+      const pDiff = rd.getDiff({ ...q.p, ...this.cachedCollectionIgnore.p }, { ...p, ...this.cachedCollectionIgnore.p });
+      const iDiff = rd.getDiff({ ...q.input, ...this.cachedCollectionIgnore.input }, { ...input, ...this.cachedCollectionIgnore.input });
       // console.log('pDiff', pDiff);
       // console.log('iDiff', iDiff);
       return pDiff.length === 0 && iDiff.length === 0;

@@ -1,7 +1,7 @@
 import { Inject, Injectable, DOCUMENT } from "@angular/core";
 
 import domElementPath from 'dom-element-path';
-import { /*toJSON*/ JSONNode } from 'cssjson';
+import * as cssJson from 'cssjson';
 import { camelize, dasherize, underscore } from 'inflected';
 import merge from 'deepmerge-json';
 import { debounceTime, filter, Observable, Subject, switchMap, tap } from "rxjs";
@@ -117,7 +117,7 @@ export class StylizerService {
   toJSON(
     cssString: string,
     args = defaultToJsonArgs
-  ): JSONNode {
+  ): cssJson.JSONNode {
 
     const capComment = 1;
     const capSelector = 2;

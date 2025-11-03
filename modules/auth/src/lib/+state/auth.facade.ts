@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 
 import { select, Store } from '@ngrx/store';
 

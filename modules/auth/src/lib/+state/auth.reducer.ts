@@ -1,5 +1,5 @@
 import { AuthAction, AuthActionTypes } from './auth.actions';
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 import { Cookie } from '../models/cookie.models';
 // import { userInfo } from 'os';
 

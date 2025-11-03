@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 
 export enum AuthActionTypes {
   Login = '[Auth] Login',

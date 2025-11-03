@@ -5,13 +5,13 @@ import { AuthFacade } from '@rollthecloudinc/auth';
 import { CognitoSettings } from '@rollthecloudinc/awcog';
 import { CrudAdaptorPlugin, CrudOperationResponse, CrudOperationInput, CrudCollectionOperationInput, CrudCollectionOperationResponse } from '@rollthecloudinc/crud';
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
-import { AllConditions, AnyConditions, ConditionProperties } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 import { firstValueFrom, forkJoin, from, iif, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import * as uuid from 'uuid';
 import { SignatureV4} from "@aws-sdk/signature-v4";
 import { HttpRequest } from "@aws-sdk/protocol-http";
-import { Sha256 } from "@aws-crypto/sha256-js";
+import * as sha256 from "@aws-crypto/sha256-js";
 import { HttpClient } from '@angular/common/http';
 import { isPlatformServer } from '@angular/common';
 import { AsyncApiCallHelperService } from '@rollthecloudinc/utils';
@@ -79,11 +79,11 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
       paramsEvaluatorService.resolveParams({ params }),
 
       // This can be moved into crud adaptor and passed as argument.
-      map(({ options }) => ({ options, identityCondition: (rule.conditions as AllConditions).all.map(c => (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity')).find(c => !!c) })),
+      map(({ options }) => ({ options, identityCondition: (rule.conditions as jre.AllConditions).all.map(c => (c as jre.AnyConditions).any.find(c2 => (c2 as jre.ConditionProperties).fact === 'identity')).find(c => !!c) })),
 
       switchMap(({ identityCondition, options }) => iif(
 
-        () => identityCondition !== undefined && identityCondition && (identityCondition as ConditionProperties).fact === 'identity' && options && (options as any).bucket,
+        () => identityCondition !== undefined && identityCondition && (identityCondition as jre.ConditionProperties).fact === 'identity' && options && (options as any).bucket,
 
         // This could probably be moved into an aw util module to easily build rest queries for any aw service efficently.
         createS3SignedHttpRequest({
@@ -94,7 +94,7 @@ export const s3EntityCrudAdaptorPluginFactory = (platformId: Object, authFacade:
             host: `${options ? (options as any).bucket : ''}.s3.amazonaws.com`,
           },
           hostname: `${options ? (options as any).bucket : ''}.s3.amazonaws.com`,
-          path: `${options && (options as any).prefix ? (options as any).prefix : ''}${identityCondition ? (identityCondition as ConditionProperties).value : ''}.json`,
+          path: `${options && (options as any).prefix ? (options as any).prefix : ''}${identityCondition ? (identityCondition as jre.ConditionProperties).value : ''}.json`,
           protocol: 'https:',
           service: "s3",
           cognitoSettings: cognitoSettings,
@@ -182,7 +182,7 @@ const createS3SignedHttpRequest = ({
         }),
         region: cognitoSettings.region,
         service,
-        sha256: Sha256,
+        sha256: sha256.Sha256,
       }
     )).sign(req)
       .then(

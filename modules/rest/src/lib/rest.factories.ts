@@ -11,7 +11,7 @@ import { CrudAdaptorPlugin, CrudCollectionOperationInput, CrudCollectionOperatio
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { DefaultDataServiceConfig, HttpMethods, HttpUrlGenerator, RequestData } from '@ngrx/data';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { AllConditions, AnyConditions, ConditionProperties, NestedCondition } from 'json-rules-engine';
+import * as jre from "json-rules-engine";
 
 export const restDatasourcePluginFactory = (
   fetchhelper: RestFetchHelperService,
@@ -55,9 +55,9 @@ export const restEntityCrudAdaptorPluginFactory = (paramsEvaluatorService: Param
     query: ({ params, rule }: CrudCollectionOperationInput) => of({ success: false }).pipe(
       switchMap(() => paramsEvaluatorService.paramValues(new Map<string, Param>(Object.keys(params).map(name => [name, params[name]])))),
       switchMap(options => new Observable(obs => {
-        const query = rule ? (rule.conditions as AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as AnyConditions).any.filter(c2 => (c2 as ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as ConditionProperties).path.substr(2)}=${(c2 as ConditionProperties).value}`) ], []) : [];
-        const identityFact = rule ? (rule.conditions as AllConditions).all.reduce((p, c) => !p ? (c as AnyConditions).any.find(c2 => (c2 as ConditionProperties).fact === 'identity') : p, undefined) : undefined;
-        obs.next({ identityFact, options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? (identityFact as ConditionProperties).value : ''});
+        const query = rule ? (rule.conditions as jre.AllConditions).all.reduce<Array<string>>((p, c) => [ ...p, ...(c as jre.AnyConditions).any.filter(c2 => (c2 as jre.ConditionProperties).fact !== 'identity').map(c2 => `${(c2 as jre.ConditionProperties).path.substr(2)}=${(c2 as jre.ConditionProperties).value}`) ], []) : [];
+        const identityFact = rule ? (rule.conditions as jre.AllConditions).all.reduce((p, c) => !p ? (c as jre.AnyConditions).any.find(c2 => (c2 as jre.ConditionProperties).fact === 'identity') : p, undefined) : undefined;
+        obs.next({ identityFact, options, query: query.length > 0 ? new HttpParams({ fromString: query.join('&') }) : undefined, path: identityFact ? (identityFact as jre.ConditionProperties).value : ''});
         obs.complete();
       })),
       switchMap(({ options, query, path, identityFact }) => iif(

@@ -1,4 +1,4 @@
-import { loadRemoteModule } from "@angular-architects/native-federation";
+import { loadRemoteModule } from '@softarc/native-federation-runtime';
 import { Component, Input, Type, ViewChild, ViewContainerRef } from "@angular/core";
 // import { ControlContainer } from "@angular/forms";
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
