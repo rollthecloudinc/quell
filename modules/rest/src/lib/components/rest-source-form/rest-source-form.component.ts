@@ -4,7 +4,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Subject, of, BehaviorSubject, combineLatest } from 'rxjs';
 import { debounceTime, filter, map, switchMap, catchError, tap, takeUntil } from 'rxjs/operators';
 import { DatasourceApiService } from '@rollthecloudinc/datasource';
-import * as qs from 'qs';
+import qs from 'qs'
 import { TokenizerService } from '@rollthecloudinc/token';
 import { Rest } from '../../models/rest.models';
 
