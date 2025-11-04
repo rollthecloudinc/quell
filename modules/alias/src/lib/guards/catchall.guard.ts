@@ -30,15 +30,20 @@ export class CatchAllGuard  {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<UrlTree | boolean> {
     console.log('catch all alias hit');
     return new Promise(res => {
+      console.log('catch all promise top');
       this.apm.getPlugins().pipe(
+        tap(p => console.log('catch all stream checkpoint 1', p ? p.size : 0)),
         switchMap(plugins => forkJoin(!this.routesLoaded ? Array.from(plugins).map(([_, p]) => p.loadingStrategy.load()) : []).pipe(
           defaultIfEmpty(undefined)
         )),
+        tap(() => console.log('catch all stream checkpoint 2')),
         tap(() => this.routesLoaded = true),
         switchMap(() => this.apm.getPlugins()),
-        switchMap(plugins => forkJoin(Array.from(plugins).map(([_, p]) => p.matchingStrategy.match(state).pipe(
+        tap(() => console.log('catch all stream checkpoint 3')),
+        switchMap(plugins => plugins.size === 0 ? of([]) : forkJoin(Array.from(plugins).map(([_, p]) => p.matchingStrategy.match(state).pipe(
           map(m => [p, m])
-        ))))
+        )))),
+        tap(() => console.log('catch all stream checkpoint 4')),
       ).subscribe((pp: Array<[AliasPlugin<string>, boolean]>) => {
         console.log(`routes loaded: ${this.routesLoaded ? 'y' : 'n'}`);
         const matchedPlugin = pp.map(([p, m], _) => m ? p : undefined).find(p => p !== undefined);
