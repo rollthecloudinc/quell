@@ -3,7 +3,7 @@ import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { ofEntityType, ofEntityOp, EntityOp, EntityActionFactory } from '@ngrx/data';
 import { map, tap } from 'rxjs/operators';
 import { Cookie, AuthActions } from '@rollthecloudinc/auth';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 
 @Injectable()
 export class CognitoAuthEffects {

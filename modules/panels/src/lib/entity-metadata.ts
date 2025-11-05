@@ -76,13 +76,13 @@ export const entityMetadataFactory = (platformId: Object, panelsSettings: Panels
             prefix: 'panelpages/'
           }
         }*/
-        /*save: {
+        save: {
           ops: ['create', 'update'],
           plugin: 'rest',
           params: {
             entityName: 'PanelPage'
           }
-        },*/
+        },
         ...(isPlatformServer(platformId) ? {} : { readPrimary: { // demo only
           fallback: true,
           ops: ['create', 'update', 'query'],
