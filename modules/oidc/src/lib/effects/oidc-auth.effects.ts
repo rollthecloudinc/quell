@@ -5,7 +5,7 @@ import { UserManager } from 'oidc-client-ts';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AuthActions } from '@rollthecloudinc/auth';
 import { Observable } from 'rxjs';
-import * as Cookies from 'js-cookie';
+// import * as Cookies from 'js-cookie';
 
 @Injectable()
 export class OidcAuthEffects {
