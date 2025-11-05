@@ -583,11 +583,13 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   hookupFormChange({ panelPage }: { panelPage: PanelPage }) {
-    this.pageForm.valueChanges.pipe(
+    combineLatest([this.pageForm.valueChanges, this.pageForm.statusChanges]).pipe(
       debounceTime(100),
-      filter(() => panelPage !== undefined && panelPage.displayType === 'form')
-    ).subscribe(v => {
-      const form = new PanelPageForm({ ...v, name: panelPage.name, title: panelPage.title, derivativeId: panelPage.id});
+      filter(([_, s]) => panelPage !== undefined && panelPage.displayType === 'form' && s !== 'PENDING') // we only update on valid and invalid states not inbetween
+    ).subscribe(([v]) => {
+      const valid = this.pageForm.valid;
+      const persistence = this.panelPageCached.persistence ? this.panelPageCached.persistence : undefined;
+      const form = new PanelPageForm({ ...v, name: panelPage.name, title: panelPage.title, derivativeId: panelPage.id, persistence, valid });
       this.pageBuilderFacade.setForm(panelPage.name, form);
     });
   }

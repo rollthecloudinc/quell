@@ -9,9 +9,10 @@ import { PaneContentHostDirective } from './directives/pane-content-host.directi
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
 import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent } from './components/panel-page/panel-page.component';
 import { LayoutModule } from '@rollthecloudinc/layout';
-import { PanelsModule } from '@rollthecloudinc/panels';
+import { FormService, PageBuilderFacade, PanelsModule } from '@rollthecloudinc/panels';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
 import { interationHandlerDialog, interationHandlerFormSubmit } from './render.factories';
+import { PersistService, RefineryModule } from '@rollthecloudinc/refinery';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
@@ -35,9 +36,12 @@ import { interationHandlerDialog, interationHandlerFormSubmit } from './render.f
 })
 export class RenderModule { 
   constructor(
-    ihpm: InteractionHandlerPluginManager
+    ihpm: InteractionHandlerPluginManager,
+    pageBuilderFacade: PageBuilderFacade,
+    formService: FormService,
+    persistService: PersistService
   ) {
-    ihpm.register(interationHandlerFormSubmit());
+    ihpm.register(interationHandlerFormSubmit({ pageBuilderFacade, formService, persistService }));
     ihpm.register(interationHandlerDialog());
   }
 }
