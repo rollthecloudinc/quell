@@ -1,6 +1,6 @@
 <classifieds-ui-grid-layout [formGroup]="controlContainer.control" cdkDropListGroup (itemAdded)="editor.onItemAdded()" (itemRemoved)="editor.onItemRemoved($event)" [options]="options" [dashboard]="dashboard">
   <ng-template #extraActions>
-    <button *ngIf="savable" type="submit">Save</button>
+    <button *ngIf="savable" type="button">Save</button>
     <button *ngIf="savable" type="button" (click)="editor.onPropertiesClick()">Properties</button>
     <ng-container *ngIf="savable"><ng-container *ngTemplateOutlet="contextsMenuTpl"></ng-container></ng-container>
     <button *ngIf="nested" type="button" (click)="editor.onRulesClick()">Rules</button>

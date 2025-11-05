@@ -4,7 +4,7 @@
     <druid-layout-sidenav (close)="drawer.toggle()">
       <nav>
         <ul>
-          <li *ngIf="savable"><button mat-menu-item type="submit" (click)="editor.submit()">Save</button></li>
+          <li *ngIf="savable"><button mat-menu-item type="button" (click)="editor.submit()">Save</button></li>
           <li *ngIf="savable || nested"><button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Properties</button></li>
           <li *ngIf="nested"><button type="button" mat-menu-item (click)="editor.onDeleteClick()">Delete</button></li>
           <li *ngIf="nested"><button type="button" mat-menu-item (click)="editor.onRulesClick()">Rules</button></li>

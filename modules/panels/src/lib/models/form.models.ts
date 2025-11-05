@@ -1,4 +1,5 @@
 import { AttributeValue } from '@rollthecloudinc/attributes';
+import { PersistenceFormPayload } from '@rollthecloudinc/refinery';
 
 export class PropertiesFormPayload {
   title: string;
@@ -48,12 +49,18 @@ export class PanelPageForm {
   title: string;
   derivativeId: string;
   panels: Array<PanelPageFormPanel> = [];
+  valid?: boolean;
+  persistence?: PersistenceFormPayload;
   constructor(data?: PanelPageForm) {
     if(data) {
       this.id = data.id;
       this.name = data.name;
       this.title = data.title;
       this.derivativeId = data.derivativeId;
+      this.valid = data.valid ? true : false;
+      if (data.persistence) {
+        this.persistence = new PersistenceFormPayload(data.persistence);
+      }
       if(data.panels) {
         this.panels = data.panels.map(p => new PanelPageFormPanel(p));
       }

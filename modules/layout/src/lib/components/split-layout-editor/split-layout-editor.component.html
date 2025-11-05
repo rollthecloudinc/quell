@@ -4,7 +4,7 @@
     <druid-layout-sidenav (close)="drawer.toggle()">
       <nav>
         <ul>
-          <li *ngIf="savable"><button mat-menu-item type="submit" (click)="editor.submit()">Save</button></li>
+          <li *ngIf="savable"><button mat-menu-item type="button" (click)="editor.submit()">Save</button></li>
           <li><button type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button></li>
           <li><button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Props</button></li>
           <li><button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button></li>
