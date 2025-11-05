@@ -1,7 +1,7 @@
 import { Injectable, makeStateKey, TransferState } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Request } from 'express';
-import * as Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
 import * as numberString from "number-string";
 import { ClientSettings } from '../models/oidc.models';
 
