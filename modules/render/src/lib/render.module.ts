@@ -13,10 +13,13 @@ import { FormService, PageBuilderFacade, PanelsModule } from '@rollthecloudinc/p
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
 import { interationHandlerDialog, interationHandlerFormSubmit } from './render.factories';
 import { PersistService, RefineryModule } from '@rollthecloudinc/refinery';
+import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MaterialModule } from '@rollthecloudinc/material';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
-  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent ],
+  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent, RenderDialogComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,
@@ -24,7 +27,8 @@ import { PersistService, RefineryModule } from '@rollthecloudinc/refinery';
     UtilsModule,
     ReactiveFormsModule,
     PanelsModule,
-    LayoutModule
+    LayoutModule,
+    MaterialModule
     // PanelpageModule
   ],
   exports: [
@@ -39,9 +43,10 @@ export class RenderModule {
     ihpm: InteractionHandlerPluginManager,
     pageBuilderFacade: PageBuilderFacade,
     formService: FormService,
-    persistService: PersistService
+    persistService: PersistService,
+    dialog: MatDialog
   ) {
     ihpm.register(interationHandlerFormSubmit({ pageBuilderFacade, formService, persistService }));
-    ihpm.register(interationHandlerDialog());
+    ihpm.register(interationHandlerDialog({ dialog }));
   }
 }

@@ -3,6 +3,8 @@ import { FormService, PageBuilderFacade } from '@rollthecloudinc/panels';
 import { PersistService } from '@rollthecloudinc/refinery';
 import { BehaviorSubject, timer } from 'rxjs';
 import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
 
 // Keeps track of throttle state per unique form
 const formThrottleMap: Map<string, BehaviorSubject<boolean>> = new Map();
@@ -67,6 +69,30 @@ export const interationHandlerFormSubmit = ({ pageBuilderFacade, formService, pe
   });
 };
 
-export const interationHandlerDialog = () => {
-  return new InteractionHandlerPlugin<string>({ id: 'panels_dialog', title: 'Open Panels Dialog', handle: () => {} });
+export const interationHandlerDialog = ({ dialog }: { dialog: MatDialog }) => {
+  return new InteractionHandlerPlugin<string>({
+    id: 'panels_dialog',
+    title: 'Open Panels Dialog',
+    handle: ({ handlerParams }: { handlerParams: { panelPageId?: string, title?: string, width?: string } }) => {
+      // Extract optional parameters and set defaults
+      const panelPageId = handlerParams?.panelPageId || '';
+      const dialogTitle = handlerParams?.title || 'Panel Page'; // Default title
+      const dialogWidth = handlerParams?.width || '800px'; // Default width
+
+      // If no panelPageId is provided, log an error and exit early
+      if (!panelPageId) {
+        console.error('No Panel Page ID provided. Cannot open dialog.');
+        return;
+      }
+
+      // Open the dialog with dynamic properties
+      dialog.open(RenderDialogComponent, {
+        width: dialogWidth, // Use dynamic or default width
+        data: {
+          panelPageId, // Pass the panel page ID
+          title: dialogTitle, // Pass the title
+        },
+      });
+    },
+  });
 };
