@@ -16,6 +16,7 @@ import { PersistService, RefineryModule } from '@rollthecloudinc/refinery';
 import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '@rollthecloudinc/material';
+import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
@@ -44,9 +45,10 @@ export class RenderModule {
     pageBuilderFacade: PageBuilderFacade,
     formService: FormService,
     persistService: PersistService,
-    dialog: MatDialog
+    dialog: MatDialog,
+    transversePanelpageComponentSvc: TransversePanelPageComponentService
   ) {
-    ihpm.register(interationHandlerFormSubmit({ pageBuilderFacade, formService, persistService }));
+    ihpm.register(interationHandlerFormSubmit({ pageBuilderFacade, formService, persistService, transversePanelpageComponentSvc }));
     ihpm.register(interationHandlerDialog({ dialog }));
   }
 }

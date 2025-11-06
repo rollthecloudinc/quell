@@ -192,4 +192,8 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     return v;
   }
 
+  markAsTouched() {
+    this.formControl.markAllAsTouched();
+  }
+
 }
