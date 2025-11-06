@@ -22,6 +22,11 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
   tokens: Map<string, any>;
 
   @Input()
+  set label(label: string) {
+    this.label$.next(label);
+  }
+
+  @Input()
   set settings(settings: Array<AttributeValue>) {
     this.settings$.next(settings);
   }
@@ -71,6 +76,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
   readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
   readonly resolvedContext$ = new BehaviorSubject<any>(undefined);
   readonly value$ = new Subject<any>();
+  readonly label$ = new BehaviorSubject<string>(undefined)
 
   protected readonly settingsSub = this.settings$.pipe(
     map(settings => settings ? this.settingsToObject(this.attributeSerializer.deserializeAsObject(settings)) : undefined),
