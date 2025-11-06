@@ -5,20 +5,23 @@ import { BehaviorSubject, timer } from 'rxjs';
 import { filter, finalize, switchMap, take, takeUntil, tap } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
+import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
+import { RenderPaneComponent } from './components/panel-page/panel-page.component';
 
 // Keeps track of throttle state per unique form
 const formThrottleMap: Map<string, boolean> = new Map();
 const formProcessingMap: Map<string, boolean> = new Map();
 
-export const interationHandlerFormSubmit = ({ pageBuilderFacade, formService, persistService }: { 
+export const interationHandlerFormSubmit = ({ pageBuilderFacade, formService, persistService, transversePanelpageComponentSvc }: { 
   pageBuilderFacade: PageBuilderFacade, 
   formService: FormService, 
-  persistService: PersistService 
+  persistService: PersistService,
+  transversePanelpageComponentSvc: TransversePanelPageComponentService
 }) => {
   return new InteractionHandlerPlugin<string>({
     id: 'panels_form_submit',
     title: 'Submit Panels Form',
-    handle: ({ handlerParams }) => {
+    handle: ({ handlerParams, panelPageComponent }) => {
       const formName = (handlerParams as any)?.name;
 
       // Return early if no form name is provided
@@ -69,6 +72,14 @@ export const interationHandlerFormSubmit = ({ pageBuilderFacade, formService, pe
               }
             });
           } else {
+            transversePanelpageComponentSvc.traverseAndVisit(panelPageComponent, component => {
+              if (component instanceof RenderPaneComponent && component.componentRef && component.componentRef.instance && component.componentRef.instance.markAsTouched) {
+                // console.log('marking as touched');
+                component.componentRef.instance.markAsTouched();
+              } else {
+                // console.log('visiting component', component);
+              }
+            });
             console.log('Form is invalid or unavailable. Skipping processing for:', formName);
           }
         }),
