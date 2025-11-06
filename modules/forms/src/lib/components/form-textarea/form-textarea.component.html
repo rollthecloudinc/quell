@@ -1,1 +1,7 @@
-<textarea [formControl]="formControl" [cols]="cols" [rows]="rows"></textarea>
+<mat-form-field>
+    <mat-label>{{ label$ | async }}</mat-label>
+    <textarea matInput [formControl]="formControl" [cols]="cols" [rows]="rows"></textarea>
+    <mat-error *ngIf="formControl.invalid">
+        <druid-ordain-default-validation-error [validators]="formSettings$.value?.validation?.validators" [errors]="formControl.errors" [resolvedContext]="resolvedContext$.value"></druid-ordain-default-validation-error>
+    </mat-error>
+</mat-form-field>

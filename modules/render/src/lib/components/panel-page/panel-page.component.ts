@@ -31,701 +31,6 @@ import merge from 'deepmerge-json';
 import { AuthFacade } from '@rollthecloudinc/auth';
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 
-@Component({
-    selector: 'classifieds-ui-panel-page',
-    templateUrl: './panel-page.component.html',
-    styleUrls: ['./panel-page.component.scss'],
-    // encapsulation: ViewEncapsulation.ShadowDom,
-    host: {
-        '[class.panel-page]': 'true'
-    },
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => PanelPageComponent),
-            multi: true
-        },
-        /*{
-          provide: NG_VALIDATORS,
-          useExisting: forwardRef(() => PanelPageComponent),
-          multi: true
-        },*/
-        {
-            provide: NG_ASYNC_VALIDATORS,
-            useExisting: forwardRef(() => PanelPageComponent),
-            multi: true
-        }
-    ],
-    standalone: false
-})
-export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, AsyncValidator {
-
-  static registredContextListeners = new Set<string>();
-
-  @Input()
-  set id(id: string) {
-    this.id$.next(id);
-  }
-
-  @Input()
-  set panelPage(panelPage: PanelPage) {
-    this.panelPage$.next(panelPage);
-  }
-
-  @Input()
-  set nested(nested: boolean) {
-    this.nested$.next(nested);
-  }
-
-  @Input()
-  set contexts(contexts: Array<InlineContext>) {
-    this.contexts$.next(contexts);
-  }
-
-  @Input()
-  set ancestory(ancestory: Array<number>) {
-    this.ancestory$.next(ancestory);
-  }
-
-  @Input() 
-  set css(css: cssJson.JSONNode) {
-    this.css$.next(css);
-  }
-
-  @Input() 
-  set listeners(listeners: Array<InteractionListener>) {
-    this.listeners$.next(listeners);
-  }
-
-  @Input()
-  resolvedContext = {}
-
-  contextsChanged: Array<string> = [];
-  layoutRendererRef: ComponentRef<any>;
-  panelPageCached: PanelPage;
-  persistenceEnabled = false;
-
-  readonly onInit$ = new Subject();
-  readonly afterViewInit$ = new Subject();
-  readonly afterContentInit$ = new Subject();
-  readonly renderLayout$ = new Subject<PanelPage>();
-
-  readonly id$ = new BehaviorSubject<string>(undefined);
-  readonly panelPage$ = new BehaviorSubject<PanelPage>(undefined);
-  readonly nested$ = new BehaviorSubject<boolean>(false);
-  readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
-  readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
-
-  private readonly instanceUniqueIdentity = uuid.v4()
-  private isStable = false;
-  private managedCssCache = '';
-  private managedClassesCache = {};
-
-  filteredCss: { css: cssJson.JSONNode, classes: any };
-  filteredListeners: Array<InteractionListener> = [];
-
-  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
-  cssSub = this.css$.subscribe(css => {
-    if (this.nested$.value) {
-      console.log('filtered css nested', css);
-    }
-    this.filteredCss = css;
-  });
-
-
-  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
-  readonly listenersSub = this.listeners$.pipe(
-    tap(listeners => {
-      this.filteredListeners = listeners;
-    })
-  ).subscribe();
-
-  settingsFormArray = this.fb.array([]);
-  pageForm = this.fb.group({
-    /*name: this.fb.control(''),
-    title: this.fb.control(''),
-    derivativeId: this.fb.control(''),*/
-    panels: this.fb.array([])
-  });
-
-  resolveSub: Subscription;
-
-  private panelPageService: EntityCollectionService<PanelPage>;
-  private panelPageFormService: EntityCollectionService<PanelPageForm>;
-  private panelPageStateService: EntityCollectionService<PanelPageState>;
-
-  bridgeSub = this.pageForm.valueChanges.pipe(
-    filter(() => this.nested$.value),
-    debounceTime(500)
-  ).subscribe(v => {
-    console.log('write page');
-    console.log(v);
-    this.settingsFormArray.clear();
-    const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v, 'value').attributes[0]);
-    this.settingsFormArray.push(newGroup);
-    console.log(newGroup.value);
-  });
-
-  @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
-  @ViewChild('renderPanelTpl', { static: true }) renderPanelTpl: TemplateRef<any>;
-  @ViewChild(LayoutRendererHostDirective, { static: false }) layoutRendererHost: LayoutRendererHostDirective;
-
-  readonly idOrPanelPageSub = combineLatest([
-    this.id$,
-    this.panelPage$
-  ]).pipe(
-    distinctUntilChanged(),
-    map(([ id, panelPage ]) => ({ id, panelPage })),
-    filter(({ id, panelPage }) => !!id || !!panelPage),
-    switchMap(({ id, panelPage }) => iif(
-      () => !id,
-      of({ panelPage }),
-      new Observable<{ panelPage: PanelPage }>(obs => {
-          const metadata = this.entityDefinitionService.getDefinition('PanelPage').metadata as CrudEntityMetadata<any, {}>;
-          return this.crudDataHelperService.evaluateCollectionPlugins<PanelPage>({ query: `identity=${id}`, plugins: metadata.crud, op: 'query' }).pipe(
-            map(objects => objects && objects.length !== 0 ? objects[0] : undefined),
-            tap(p => {
-              obs.next({ panelPage: p });
-              obs.complete();
-            })
-          ).subscribe();
-      })
-    )),
-    switchMap(({ panelPage }) =>
-      this.cpm.getPlugins(
-        panelPage.panels.reduce<Array<string>>((contentPlugins, c) => {
-          c.panes.forEach(pane => {
-            if(!contentPlugins.includes(pane.contentPlugin)) {
-              contentPlugins.push(pane.contentPlugin);
-            }
-          });
-          return contentPlugins;
-        }, [])
-      ).pipe(
-        map(() => ({ panelPage }))
-      )
-    ),
-    switchMap(({ panelPage }) => iif(
-      () => !this.nested$.value,
-      /*!this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
-        map(paneContexts => [p, isDynamic, paneContexts])
-      ): of([p, isDynamic, []]),*/
-      this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
-        map(paneContexts => ({ panelPage, contexts: Array.from(paneContexts) }))
-      ),
-      of({ panelPage, contexts: [] })
-    )),
-    /*switchMap(({ panelPage, isDynamic }) => this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
-      map(paneContexts => ({ panelPage, isDynamic, contexts: Array.from(paneContexts) }))
-    )),*/
-    tap(({ panelPage, contexts }) => {
-      this.hookupFormChange({ panelPage });
-      this.populatePanelsFormArray({ panelPage });
-      this.panelPageCached = panelPage;
-      this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
-      this.filteredListeners = panelPage.interactions && panelPage.interactions.interactions && panelPage.interactions.interactions.listeners ? panelPage.interactions.interactions.listeners : [];
-      this.renderLayout$.next(panelPage);
-      // this.panelPage$.next(panelPage);
-      this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
-      /*if(!this.nested$.value || isDynamic ) {
-        this.hookupContextChange();
-      }*/
-      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
-      console.log(`cached panel page: ${panelPage.id}`);
-    })
-  ).subscribe();
-
-  readonly hookupContextSub = combineLatest(
-    this.contexts$,
-    // this.nested$,
-    this.afterContentInit$
-  ).pipe(
-    // filter(([ _, nested ]) => !nested),
-    map(([ contexts ]) => contexts),
-    switchMap(contexts => this.inlineContextResolver.resolveMerged(contexts, `panelpage:${uuid.v4()}`).pipe(
-      switchMap(resolvedContext => this.cxm.getPlugins().pipe(
-        map(plugins => ({ contexts, resolvedContext, globalPlugins: Array.from(plugins.values()).filter(p => p.global === true) }))
-      )),
-      take(1)
-    )),
-    tap(() => {
-      if (this.resolveSub) {
-        this.resolveSub.unsubscribe();
-      }
-    }),
-    tap(({ contexts, resolvedContext, globalPlugins }) => {
-      this.resolvedContext = resolvedContext;
-      const short$ = new Subject<void>();
-      if (isPlatformServer(this.platformId)) {
-        const interval = setInterval(() => {
-          if (PanelPageComponent.registredContextListeners.size === 0) {
-            short$.next();
-            short$.complete();
-            clearInterval(interval);
-          }
-        }, 1000);
-      }
-      this.resolveSub = this.inlineContextResolver.resolveMergedSingle(contexts).pipe(
-        skip(globalPlugins.length + (contexts ? contexts.length : 0)),
-        tap(() => PanelPageComponent.registredContextListeners.add(this.instanceUniqueIdentity)),
-        tap(v => console.log('buffer', v)),
-        bufferTime(1),
-        tap(buffered => {
-          if (buffered.length === 0) {
-            PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
-          }
-        }),
-        filter(buffered => buffered.length !== 0),
-        tap(buffered => {
-          this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
-          this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
-        }),
-        tap(() => PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity)),
-        isPlatformServer(this.platformId) ? takeUntil(short$) : tap(() => {})
-      ).subscribe();
-    })
-  ).subscribe();
-
-  readonly renderLayoutSub = combineLatest([
-    this.renderLayout$,
-    this.afterViewInit$
-  ]).pipe(
-    delay(1),
-    map(([ panelPage ]) => ({ panelPage })),
-    switchMap(({ panelPage }) => this.lpm.getPlugin(panelPage.layoutType).pipe(
-      map(plugin => ({ panelPage, plugin }))
-    )),
-    tap(() => console.log('start render layout')),
-    map(({ plugin, panelPage }) => ({ panelPage, plugin, viewContainerRef: this.layoutRendererHost.viewContainerRef })),
-    tap(({ viewContainerRef }) => viewContainerRef.clear()),
-    map(({ plugin, viewContainerRef, panelPage }) => ({ panelPage, layoutRendererRef: viewContainerRef.createComponent(plugin.renderer) })),
-    tap(({ layoutRendererRef }) => this.layoutRendererRef = layoutRendererRef),
-    tap(({ layoutRendererRef, panelPage })=> {
-      (layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
-      (layoutRendererRef.instance as any).panelPage = panelPage;
-    }),
-    tap(() => console.log('end render layout'))
-  ).subscribe();
-
-  readonly stylizerSub = this.afterViewInit$.pipe(
-    //filter(() => false), // @tofo: Note ready for prime time just yet.
-    filter(() => isPlatformBrowser(this.platformId)),
-    tap(() => {
-      this.stylizerService.stylize({ targetNode: this.el.nativeElement });
-    })
-  ).subscribe();
-
-  readonly classifySub = this.afterViewInit$.pipe(
-    //filter(() => false), // @tofo: Note ready for prime time just yet.
-    filter(() => isPlatformBrowser(this.platformId)),
-    tap(() => {
-      this.classifyService.classify({ targetNode: this.el.nativeElement });
-    })
-  ).subscribe();
-
-  readonly stylizerMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.stylizerService.mutated$.pipe(
-    debounceTime(2000),
-    skip(1),
-    switchMap(({ stylesheet }) => this.authFacade.getUser$.pipe(
-      map(u => ({ stylesheet, isAuthenticated: !!u })) // No sheath asset uploads are attempted unless user is at least authenticated.
-    )),
-    filter(({ isAuthenticated }) => isAuthenticated),
-    tap(({ stylesheet  }) => {
-      console.log('merged css', stylesheet );
-    }),
-    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
-    // filter(() => false), // @tofo: Note ready for prime time just yet.
-    switchMap(({ stylesheet  }) => this.isStable ? of({ stylesheet  }) : this.ngZone.onStable.asObservable().pipe(
-      map(() => ({ stylesheet  })),
-      take(1)
-    )),
-    map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
-    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}.css` })),
-    tap(() => {
-      console.log('stylesheet saved.');
-    })
-  ).subscribe();
-
-  readonly classifyMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.classifyService.mutated$.pipe(
-    debounceTime(2000),
-    skip(1),
-    switchMap(({ classes }) => this.authFacade.getUser$.pipe( // No sheath asset uploads are attempted unless user is at least authenticated.
-      map(u => ({ classes, isAuthenticated: !!u }))
-    )),
-    filter(({ isAuthenticated }) => isAuthenticated),
-    tap(({ classes  }) => {
-      console.log('merged classes', classes );
-    }),
-    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
-    // filter(() => false), // @tofo: Note ready for prime time just yet.
-    switchMap(({ classes }) => this.isStable ? of({ classes }) : this.ngZone.onStable.asObservable().pipe(
-      map(() => ({ classes })),
-      take(1)
-    )),
-    map(({ classes }) => ({ classes: Array.from(classes.keys()).reduce((p, k) => ({ ...p, [k]: Array.from(classes.get(k).keys()).filter(k2 => classes.get(k).get(k2) !== ClassClassification.KEEP).reduce((p2, k2) => ({ ...p2, [k2]: classes.get(k).get(k2) }), {}) }), {}) })),
-    map(({ classes }) => ({ classes: merge(this.managedClassesCache, classes) })),
-    map(({ classes }) => ({ json: JSON.stringify(classes) })),
-    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes.json` })),
-    tap(() => {
-      console.log('classes saved.');
-    })
-  ).subscribe();
-
-  readonly onStableSub = this.ngZone.onStable.asObservable().pipe(
-    tap(() => this.isStable = true)
-  ).subscribe();
-
-  readonly onUnstableSub = this.ngZone.onUnstable.asObservable().pipe(
-    tap(() => this.isStable = false)
-  ).subscribe();
-
-  readonly wireListenersSub = combineLatest([
-    this.listeners$,
-    this.renderLayout$,
-    this.afterContentInit$,
-  ]).pipe(
-    delay(1),
-    switchMap(() => forkJoin(this.filteredListeners.map(l => of({}).pipe(
-        map(() => ({ paramNames: l.event.settings.paramsString ? l.event.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
-        switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(l.event.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
-          map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-        )),
-        defaultIfEmpty([])
-      )  
-    ))),
-    switchMap(listenerParams => this.iepm.getPlugin('dom').pipe(
-      map(p => ({ p, listenerParams }))
-    )),
-    switchMap(({ p, listenerParams }) => p.connect({ 
-      filteredListeners: this.filteredListeners, 
-      listenerParams, 
-      renderer: this.renderer,
-      callback: ({ handlerParams, plugin, index, evt }) => {
-        // console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
-        this.ihpm.getPlugin(plugin).pipe(
-          tap(p => {
-            p.handle({ 
-              handlerParams, 
-              plugin, 
-              index, 
-              listener: this.filteredListeners[index], 
-              evt, 
-              renderer: this.renderer });
-          })
-        ).subscribe();
-      }
-    })),
-    tap((listenerParams) => {
-      console.log('listener info', this.filteredListeners, listenerParams);
-
-      /*this.iepm.getPlugin('dom').subscribe(p => {
-        p.connect({ 
-          filteredListeners: this.filteredListeners, 
-          listenerParams, 
-          renderer: this.renderer,
-          callback: ({ handlerParams, plugin, index, evt }) => {
-            console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
-          }
-        }).subscribe();
-      });*/
-
-      // The hard way to handle events using our own delegation algorithm
-      // since nodes are constantly changing underneath and simple way
-      // doesn't seem to work.
-
-      // This is all going to be part of the plugin function anyway.
-
-      /*const mapTypes = new Map<string, Array<number>>();
-      const len = this.filteredListeners.length;
-      for (let i = 0; i < len; i++) {
-        const type = (listenerParams[i] as  any).type;
-        if (mapTypes.has(type)) {
-          const targets = mapTypes.get(type);
-          targets.push(i);
-          mapTypes.set(type, targets);
-        } else {
-          mapTypes.set(type, [i]);
-        }
-      }
-      const eventDelegtionHandler = (m => e => {
-        if (m.has(e.type)) {
-          const targets = m.get(e.type);
-          const len = targets.length;
-          targets.forEach((__, i) => {
-            const expectedTarget = (listenerParams[targets[i]] as any).target;
-            if (e.target.matches(expectedTarget)) {
-              console.log(`delegated target match ${expectedTarget}`);
-              if(this.filteredListeners[i].handler.settings.params) {
-                const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
-                this.paramEvaluatorService.paramValues(
-                  this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
-                ).pipe(
-                  map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-                ).subscribe((handlerParams) => {
-                  // plugin call and pass params
-                  console.log('handler original event and params', e, this.filteredListeners[i].handler.plugin,  handlerParams);
-                })
-              } else {
-                // plugin call and pass params
-                console.log('handler original event and params', this.filteredListeners[i].handler.plugin, e);
-              }
-            }
-          });
-        }
-      })(mapTypes)
-      const keys = Array.from(mapTypes);
-      for (let i = 0; i < keys.length; i++) {
-        const type = keys[i][0];
-        this.renderer.listen('document', type, e => {
-          eventDelegtionHandler(e);
-        });
-      }*/
-
-      /*this.renderer.listen('document', 'click', e => {
-        console.log('delegated target');
-        if (e.target.matches('.open-dialog')) {
-          console.log('delegated target match');
-        }
-      });*/
-
-      /*const listenerLen = this.filteredListeners.length;
-      for (let i = 0; i < listenerLen; i++) {
-        // Assumption is made herre that would be responsibility of plugin instead ie. target is required for DOM event.
-        // For now though just to get things spinning again hard code expectation.
-        const targets =(this.el.nativeElement as Element).querySelectorAll((listenerParams[i] as  any).target);
-        console.log('listener target', targets);
-        targets.forEach(t => this.renderer.listen(t, (listenerParams[i] as  any).type, e => {
-          console.log('listener fired');
-          if(this.filteredListeners[i].handler.settings.params) {
-            const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
-            this.paramEvaluatorService.paramValues(
-              this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
-            ).pipe(
-              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
-            ).subscribe((handlerParams) => {
-              console.log('handler original event and params',e,  handlerParams);
-            });
-          } else {
-            console.log('handler original event and params', e);
-          }
-        }));
-      }*/
-    })
-  ).subscribe()
-
-  get panelsArray(): UntypedFormArray {
-    return this.pageForm.get('panels') as UntypedFormArray;
-  }
-
-  public onTouched: () => void = () => {};
-
-  constructor(
-    @Inject(PLATFORM_ID) private platformId: Object,
-    @Inject(MEDIA_SETTINGS) private mediaSettings: MediaSettings,
-    private routerStore: Store<RouterReducerState>,
-    private fb: UntypedFormBuilder,
-    private el: ElementRef,
-    private inlineContextResolver: InlineContextResolverService,
-    // private contextManager: ContextManagerService,
-    private pageBuilderFacade:PageBuilderFacade,
-    private cpm: ContentPluginManager,
-    private cxm: ContextPluginManager,
-    private lpm: LayoutPluginManager,
-    private componentFactoryResolver: ComponentFactoryResolver,
-    private styleLoader: StyleLoaderService,
-    // I don't feel good about this but f**k it for now til I figure this out
-    private http: HttpClient,
-    private cssHelper: CssHelperService,
-    private attributeSerializer: AttributeSerializerService,
-    private formService: FormService,
-    private panelsContextService: PanelsContextService,
-    private asyncApiCallHelperSvc: AsyncApiCallHelperService,
-    private crudDataHelperService: CrudDataHelperService,
-    protected entityDefinitionService: EntityDefinitionService,
-    private ngZone: NgZone,
-    private persistService: PersistService,
-    private stylizerService: StylizerService,
-    private classifyService: ClassifyService,
-    private fileService: FilesService,
-    private authFacade: AuthFacade,
-    private paramEvaluatorService:  ParamEvaluatorService,
-    private renderer: Renderer2,
-    private iepm: InteractionEventPluginManager,
-    private ihpm: InteractionHandlerPluginManager,
-    es: EntityServices,
-  ) {
-    this.panelPageService = es.getEntityCollectionService('PanelPage');
-    this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
-    this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
-  }
-
-  ngOnInit() {
-    this.onInit$.next(undefined);
-  }
-
-  ngAfterViewInit() {
-    this.afterViewInit$.next(undefined);
-  }
-
-  ngAfterContentInit() {
-    this.afterContentInit$.next(undefined);
-  }
-
-  ngOnDestroy() {
-    PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
-  }
-
-  populatePanelsFormArray({ panelPage }: { panelPage: PanelPage }) {
-    this.panelsArray.clear();
-    panelPage.panels.forEach(() => {
-      this.panelsArray.push(this.fb.control(''));
-    });
-  }
-
-  hookupFormChange({ panelPage }: { panelPage: PanelPage }) {
-    combineLatest([this.pageForm.valueChanges, this.pageForm.statusChanges]).pipe(
-      debounceTime(100),
-      filter(([_, s]) => panelPage !== undefined && panelPage.displayType === 'form' && s !== 'PENDING') // we only update on valid and invalid states not inbetween
-    ).subscribe(([v]) => {
-      const valid = this.pageForm.valid;
-      const persistence = this.panelPageCached.persistence ? this.panelPageCached.persistence : undefined;
-      const form = new PanelPageForm({ ...v, name: panelPage.name, title: panelPage.title, derivativeId: panelPage.id, persistence, valid });
-      this.pageBuilderFacade.setForm(panelPage.name, form);
-    });
-  }
-
-  hookupCss({ file }: { file: string }) {
-    forkJoin([
-      /*this.http.get<cssJson.JSONNode>(file).pipe(
-        catchError(() => of(undefined)),
-        defaultIfEmpty(undefined)
-      ),*/
-      of(undefined),
-      // Disable this for now since 400s have negative impact on page scoring
-      /*this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
-        catchError(() => of(undefined)),
-        defaultIfEmpty(undefined)
-      ) : of(undefined),*/
-      of(undefined),
-      // Disable this for now since 400s have negative impact on page scoring
-      /*
-      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
-        catchError(() => of(undefined)),
-        defaultIfEmpty(undefined)
-      ) : of(undefined),*/
-      of(undefined),
-      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
-        catchError(() => of(undefined)),
-        defaultIfEmpty(undefined)
-      ) : of(undefined),
-    ]).pipe(
-      tap(([ cssFile, managedCss, managedCssRaw, classes ]) => {
-        console.log('fetched managed panelpage css and class files');
-        let css = {};
-        this.managedCssCache = '';
-        this.managedClassesCache = classes;
-        if (cssFile) {
-          css = merge(css, cssFile);
-        }
-        if (managedCss) {
-          this.managedCssCache = managedCssRaw;
-          css = merge(css, managedCss);
-        }
-        this.filteredCss = { css, classes };
-      })
-    ).subscribe();
-    /*
-    this.http.get<cssJson.JSONNode>(file).subscribe(css => {
-      this.filteredCss = css; //css.styles; - only for sheath
-    });*/
-  }
-
-  submit() {
-
-    if (this.pageForm.valid) {
-      const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
-      const data = this.formService.serializeForm(panelPageForm);
-      console.log(panelPageForm);
-      console.log(this.formService.serializeForm(panelPageForm));
-      /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
-        alert('panel page form added!');
-      });*/
-  
-      console.log('form data', data);
-  
-      this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
-        console.log('persisted data');
-      });;
-    } else {
-      console.log('detected form invalid');
-    }
-
-    // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
-    // Experimental only - state forms
-    /*const selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
-    const selectById = ({ id }: { id: string }) => createSelector(
-      selectEntities,
-      entities => entities[id] ? entities[id] : undefined
-    );
-    this.pageBuilderFacade.getPageInfo$.pipe(
-      tap(p => {
-        console.log('page info', p);
-        // console.log('panel page as form', new PanelPageForm({ panels: this.panelPage.panels.map() }));
-      }),
-      switchMap(p => this.panelPageStateService.collection$.pipe(
-        select(selectById({ id: p.id }))
-      )),
-      tap(s => {
-        console.log('panel page state', s);
-      })
-    ).subscribe();*/
-  }
-
-  writeValue(val: any): void {
-    if (val) {
-      this.settingsFormArray.setValue(val, { emitEvent: false });
-    }
-  }
-
-  registerOnChange(fn: any): void {
-    this.settingsFormArray.valueChanges.subscribe(fn);
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.settingsFormArray.disable()
-    } else {
-      this.settingsFormArray.enable()
-    }
-  }
-
-  validate(c: AbstractControl): Observable<ValidationErrors | null> {
-    /*return this.settingsFormArray.statusChanges.pipe(
-      startWith(this.settingsFormArray.status),  // start with the current form status
-      filter((status) => status === 'VALID'),
-      map(() => null),
-      timeout(1000),
-      catchError(() => of({ invalidForm: {valid: false, message: "content is invalid"}})),
-      first()
-    );*/
-    return this.pageForm.statusChanges.pipe(
-      startWith(this.pageForm.status),  // start with the current form status
-      filter((status) => status !== 'PENDING'),
-      debounceTime(1),
-      take(1), // We only want one emit after status changes from PENDING
-      map((status) => {
-          return this.pageForm.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
-      })
-    );
-    // return of(this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}});
-  }
-
-}
-
 /**
  * Putting render pane inside the same file is a documented work around for the
  * below angular partial compilation issue.
@@ -1005,6 +310,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   get dynamicPanel(): PanelPage {
     return new PanelPage((this.resolvedContext as any)._root);
   }
+
+  @ViewChild(forwardRef(() => PanelPageComponent)) panelPageComponent: PanelPageComponent;
 
   constructor(
     @Inject(DOCUMENT) private document: Document,
@@ -1565,6 +872,703 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
 
   renderPanelContent() {
     this.schedulePanelRender.next(this.stylePlugin);
+  }
+
+}
+
+@Component({
+    selector: 'classifieds-ui-panel-page',
+    templateUrl: './panel-page.component.html',
+    styleUrls: ['./panel-page.component.scss'],
+    // encapsulation: ViewEncapsulation.ShadowDom,
+    host: {
+        '[class.panel-page]': 'true'
+    },
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PanelPageComponent),
+            multi: true
+        },
+        /*{
+          provide: NG_VALIDATORS,
+          useExisting: forwardRef(() => PanelPageComponent),
+          multi: true
+        },*/
+        {
+            provide: NG_ASYNC_VALIDATORS,
+            useExisting: forwardRef(() => PanelPageComponent),
+            multi: true
+        }
+    ],
+    standalone: false
+})
+export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, AsyncValidator {
+
+  static registredContextListeners = new Set<string>();
+
+  @Input()
+  set id(id: string) {
+    this.id$.next(id);
+  }
+
+  @Input()
+  set panelPage(panelPage: PanelPage) {
+    this.panelPage$.next(panelPage);
+  }
+
+  @Input()
+  set nested(nested: boolean) {
+    this.nested$.next(nested);
+  }
+
+  @Input()
+  set contexts(contexts: Array<InlineContext>) {
+    this.contexts$.next(contexts);
+  }
+
+  @Input()
+  set ancestory(ancestory: Array<number>) {
+    this.ancestory$.next(ancestory);
+  }
+
+  @Input() 
+  set css(css: cssJson.JSONNode) {
+    this.css$.next(css);
+  }
+
+  @Input() 
+  set listeners(listeners: Array<InteractionListener>) {
+    this.listeners$.next(listeners);
+  }
+
+  @Input()
+  resolvedContext = {}
+
+  contextsChanged: Array<string> = [];
+  layoutRendererRef: ComponentRef<any>;
+  panelPageCached: PanelPage;
+  persistenceEnabled = false;
+
+  readonly onInit$ = new Subject();
+  readonly afterViewInit$ = new Subject();
+  readonly afterContentInit$ = new Subject();
+  readonly renderLayout$ = new Subject<PanelPage>();
+
+  readonly id$ = new BehaviorSubject<string>(undefined);
+  readonly panelPage$ = new BehaviorSubject<PanelPage>(undefined);
+  readonly nested$ = new BehaviorSubject<boolean>(false);
+  readonly ancestory$ = new BehaviorSubject<Array<number>>([]);
+  readonly contexts$ = new BehaviorSubject<Array<InlineContext>>([]);
+
+  private readonly instanceUniqueIdentity = uuid.v4()
+  private isStable = false;
+  private managedCssCache = '';
+  private managedClassesCache = {};
+
+  filteredCss: { css: cssJson.JSONNode, classes: any };
+  filteredListeners: Array<InteractionListener> = [];
+
+  css$ = new BehaviorSubject<{ css: cssJson.JSONNode, classes: any }>({ css: this.cssHelper.makeJsonNode(), classes: {} });
+  cssSub = this.css$.subscribe(css => {
+    if (this.nested$.value) {
+      console.log('filtered css nested', css);
+    }
+    this.filteredCss = css;
+  });
+
+
+  readonly listeners$ = new BehaviorSubject<Array<InteractionListener>>([]);
+  readonly listenersSub = this.listeners$.pipe(
+    tap(listeners => {
+      this.filteredListeners = listeners;
+    })
+  ).subscribe();
+
+  settingsFormArray = this.fb.array([]);
+  pageForm = this.fb.group({
+    /*name: this.fb.control(''),
+    title: this.fb.control(''),
+    derivativeId: this.fb.control(''),*/
+    panels: this.fb.array([])
+  });
+
+  resolveSub: Subscription;
+
+  private panelPageService: EntityCollectionService<PanelPage>;
+  private panelPageFormService: EntityCollectionService<PanelPageForm>;
+  private panelPageStateService: EntityCollectionService<PanelPageState>;
+
+  bridgeSub = this.pageForm.valueChanges.pipe(
+    filter(() => this.nested$.value),
+    debounceTime(500)
+  ).subscribe(v => {
+    console.log('write page');
+    console.log(v);
+    this.settingsFormArray.clear();
+    const newGroup = this.attributeSerializer.convertToGroup(this.attributeSerializer.serialize(v, 'value').attributes[0]);
+    this.settingsFormArray.push(newGroup);
+    console.log(newGroup.value);
+  });
+
+  @ViewChild(GridLayoutComponent, {static: false}) gridLayout: GridLayoutComponent;
+  @ViewChild('renderPanelTpl', { static: true }) renderPanelTpl: TemplateRef<any>;
+  @ViewChild(LayoutRendererHostDirective, { static: false }) layoutRendererHost: LayoutRendererHostDirective;
+  @ViewChildren(RenderPanelComponent) renderedPanels: QueryList<RenderPanelComponent>;
+
+  readonly idOrPanelPageSub = combineLatest([
+    this.id$,
+    this.panelPage$
+  ]).pipe(
+    distinctUntilChanged(),
+    map(([ id, panelPage ]) => ({ id, panelPage })),
+    filter(({ id, panelPage }) => !!id || !!panelPage),
+    switchMap(({ id, panelPage }) => iif(
+      () => !id,
+      of({ panelPage }),
+      new Observable<{ panelPage: PanelPage }>(obs => {
+          const metadata = this.entityDefinitionService.getDefinition('PanelPage').metadata as CrudEntityMetadata<any, {}>;
+          return this.crudDataHelperService.evaluateCollectionPlugins<PanelPage>({ query: `identity=${id}`, plugins: metadata.crud, op: 'query' }).pipe(
+            map(objects => objects && objects.length !== 0 ? objects[0] : undefined),
+            tap(p => {
+              obs.next({ panelPage: p });
+              obs.complete();
+            })
+          ).subscribe();
+      })
+    )),
+    switchMap(({ panelPage }) =>
+      this.cpm.getPlugins(
+        panelPage.panels.reduce<Array<string>>((contentPlugins, c) => {
+          c.panes.forEach(pane => {
+            if(!contentPlugins.includes(pane.contentPlugin)) {
+              contentPlugins.push(pane.contentPlugin);
+            }
+          });
+          return contentPlugins;
+        }, [])
+      ).pipe(
+        map(() => ({ panelPage }))
+      )
+    ),
+    switchMap(({ panelPage }) => iif(
+      () => !this.nested$.value,
+      /*!this.nested ? this.panelsContextService.allActivePageContexts({ panelPage: p }).pipe(
+        map(paneContexts => [p, isDynamic, paneContexts])
+      ): of([p, isDynamic, []]),*/
+      this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
+        map(paneContexts => ({ panelPage, contexts: Array.from(paneContexts) }))
+      ),
+      of({ panelPage, contexts: [] })
+    )),
+    /*switchMap(({ panelPage, isDynamic }) => this.panelsContextService.allActivePageContexts({ panelPage }).pipe(
+      map(paneContexts => ({ panelPage, isDynamic, contexts: Array.from(paneContexts) }))
+    )),*/
+    tap(({ panelPage, contexts }) => {
+      this.hookupFormChange({ panelPage });
+      this.populatePanelsFormArray({ panelPage });
+      this.panelPageCached = panelPage;
+      this.persistenceEnabled = panelPage.persistence && panelPage.persistence.dataduct && panelPage.persistence.dataduct.plugin && panelPage.persistence.dataduct.plugin !== '';
+      this.filteredListeners = panelPage.interactions && panelPage.interactions.interactions && panelPage.interactions.interactions.listeners ? panelPage.interactions.interactions.listeners : [];
+      this.renderLayout$.next(panelPage);
+      // this.panelPage$.next(panelPage);
+      this.contexts$.next([ ...(panelPage.contexts ? panelPage.contexts.map(c => new InlineContext(c)) : []), ...contexts ]);
+      /*if(!this.nested$.value || isDynamic ) {
+        this.hookupContextChange();
+      }*/
+      this.hookupCss({ file: panelPage.cssFile ?  panelPage.cssFile.trim() : undefined });
+      console.log(`cached panel page: ${panelPage.id}`);
+    })
+  ).subscribe();
+
+  readonly hookupContextSub = combineLatest(
+    this.contexts$,
+    // this.nested$,
+    this.afterContentInit$
+  ).pipe(
+    // filter(([ _, nested ]) => !nested),
+    map(([ contexts ]) => contexts),
+    switchMap(contexts => this.inlineContextResolver.resolveMerged(contexts, `panelpage:${uuid.v4()}`).pipe(
+      switchMap(resolvedContext => this.cxm.getPlugins().pipe(
+        map(plugins => ({ contexts, resolvedContext, globalPlugins: Array.from(plugins.values()).filter(p => p.global === true) }))
+      )),
+      take(1)
+    )),
+    tap(() => {
+      if (this.resolveSub) {
+        this.resolveSub.unsubscribe();
+      }
+    }),
+    tap(({ contexts, resolvedContext, globalPlugins }) => {
+      this.resolvedContext = resolvedContext;
+      const short$ = new Subject<void>();
+      if (isPlatformServer(this.platformId)) {
+        const interval = setInterval(() => {
+          if (PanelPageComponent.registredContextListeners.size === 0) {
+            short$.next();
+            short$.complete();
+            clearInterval(interval);
+          }
+        }, 1000);
+      }
+      this.resolveSub = this.inlineContextResolver.resolveMergedSingle(contexts).pipe(
+        skip(globalPlugins.length + (contexts ? contexts.length : 0)),
+        tap(() => PanelPageComponent.registredContextListeners.add(this.instanceUniqueIdentity)),
+        tap(v => console.log('buffer', v)),
+        bufferTime(1),
+        tap(buffered => {
+          if (buffered.length === 0) {
+            PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
+          }
+        }),
+        filter(buffered => buffered.length !== 0),
+        tap(buffered => {
+          this.contextsChanged = buffered.reduce((p, [cName, _]) => [ ...p, ...(p.includes(cName) ? [] : [cName]) ], []);
+          this.resolvedContext = buffered.reduce((p, [cName, cValue]) => ({ ...p, [cName]: cValue }), this.resolvedContext);
+        }),
+        tap(() => PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity)),
+        isPlatformServer(this.platformId) ? takeUntil(short$) : tap(() => {})
+      ).subscribe();
+    })
+  ).subscribe();
+
+  readonly renderLayoutSub = combineLatest([
+    this.renderLayout$,
+    this.afterViewInit$
+  ]).pipe(
+    delay(1),
+    map(([ panelPage ]) => ({ panelPage })),
+    switchMap(({ panelPage }) => this.lpm.getPlugin(panelPage.layoutType).pipe(
+      map(plugin => ({ panelPage, plugin }))
+    )),
+    tap(() => console.log('start render layout')),
+    map(({ plugin, panelPage }) => ({ panelPage, plugin, viewContainerRef: this.layoutRendererHost.viewContainerRef })),
+    tap(({ viewContainerRef }) => viewContainerRef.clear()),
+    map(({ plugin, viewContainerRef, panelPage }) => ({ panelPage, layoutRendererRef: viewContainerRef.createComponent(plugin.renderer) })),
+    tap(({ layoutRendererRef }) => this.layoutRendererRef = layoutRendererRef),
+    tap(({ layoutRendererRef, panelPage })=> {
+      (layoutRendererRef.instance as any).renderPanelTpl = this.renderPanelTpl;
+      (layoutRendererRef.instance as any).panelPage = panelPage;
+    }),
+    tap(() => console.log('end render layout'))
+  ).subscribe();
+
+  readonly stylizerSub = this.afterViewInit$.pipe(
+    //filter(() => false), // @tofo: Note ready for prime time just yet.
+    filter(() => isPlatformBrowser(this.platformId)),
+    tap(() => {
+      this.stylizerService.stylize({ targetNode: this.el.nativeElement });
+    })
+  ).subscribe();
+
+  readonly classifySub = this.afterViewInit$.pipe(
+    //filter(() => false), // @tofo: Note ready for prime time just yet.
+    filter(() => isPlatformBrowser(this.platformId)),
+    tap(() => {
+      this.classifyService.classify({ targetNode: this.el.nativeElement });
+    })
+  ).subscribe();
+
+  readonly stylizerMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.stylizerService.mutated$.pipe(
+    debounceTime(2000),
+    skip(1),
+    switchMap(({ stylesheet }) => this.authFacade.getUser$.pipe(
+      map(u => ({ stylesheet, isAuthenticated: !!u })) // No sheath asset uploads are attempted unless user is at least authenticated.
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
+    tap(({ stylesheet  }) => {
+      console.log('merged css', stylesheet );
+    }),
+    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
+    // filter(() => false), // @tofo: Note ready for prime time just yet.
+    switchMap(({ stylesheet  }) => this.isStable ? of({ stylesheet  }) : this.ngZone.onStable.asObservable().pipe(
+      map(() => ({ stylesheet  })),
+      take(1)
+    )),
+    map(({ stylesheet }) => ({ stylesheet: (this.managedCssCache && this.managedCssCache.trim() !== '' ? this.managedCssCache + "\n" : '') + stylesheet })),
+    concatMap(({ stylesheet }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ stylesheet ], `panelpage__${this.panelPageCached.id}.css`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}.css` })),
+    tap(() => {
+      console.log('stylesheet saved.');
+    })
+  ).subscribe();
+
+  readonly classifyMutatedSub = !isPlatformBrowser(this.platformId) ? undefined : this.classifyService.mutated$.pipe(
+    debounceTime(2000),
+    skip(1),
+    switchMap(({ classes }) => this.authFacade.getUser$.pipe( // No sheath asset uploads are attempted unless user is at least authenticated.
+      map(u => ({ classes, isAuthenticated: !!u }))
+    )),
+    filter(({ isAuthenticated }) => isAuthenticated),
+    tap(({ classes  }) => {
+      console.log('merged classes', classes );
+    }),
+    filter(() => !!this.panelPageCached && !!this.panelPageCached.id),
+    // filter(() => false), // @tofo: Note ready for prime time just yet.
+    switchMap(({ classes }) => this.isStable ? of({ classes }) : this.ngZone.onStable.asObservable().pipe(
+      map(() => ({ classes })),
+      take(1)
+    )),
+    map(({ classes }) => ({ classes: Array.from(classes.keys()).reduce((p, k) => ({ ...p, [k]: Array.from(classes.get(k).keys()).filter(k2 => classes.get(k).get(k2) !== ClassClassification.KEEP).reduce((p2, k2) => ({ ...p2, [k2]: classes.get(k).get(k2) }), {}) }), {}) })),
+    map(({ classes }) => ({ classes: merge(this.managedClassesCache, classes) })),
+    map(({ classes }) => ({ json: JSON.stringify(classes) })),
+    concatMap(({ json }) => this.fileService.bulkUpload({ nocache: true, files: [ new File([ json ], `panelpage__${this.panelPageCached.id}__classes.json`) ], fileNameOverride: `panelpage__${this.panelPageCached.id}__classes.json` })),
+    tap(() => {
+      console.log('classes saved.');
+    })
+  ).subscribe();
+
+  readonly onStableSub = this.ngZone.onStable.asObservable().pipe(
+    tap(() => this.isStable = true)
+  ).subscribe();
+
+  readonly onUnstableSub = this.ngZone.onUnstable.asObservable().pipe(
+    tap(() => this.isStable = false)
+  ).subscribe();
+
+  readonly wireListenersSub = combineLatest([
+    this.listeners$,
+    this.renderLayout$,
+    this.afterContentInit$,
+  ]).pipe(
+    delay(1),
+    switchMap(() => forkJoin(this.filteredListeners.map(l => of({}).pipe(
+        map(() => ({ paramNames: l.event.settings.paramsString ? l.event.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
+        switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(l.event.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
+          map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+        )),
+        defaultIfEmpty([])
+      )  
+    ))),
+    switchMap(listenerParams => this.iepm.getPlugin('dom').pipe(
+      map(p => ({ p, listenerParams }))
+    )),
+    switchMap(({ p, listenerParams }) => p.connect({ 
+      filteredListeners: this.filteredListeners, 
+      listenerParams, 
+      renderer: this.renderer,
+      callback: ({ handlerParams, plugin, index, evt }) => {
+        // console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
+        this.ihpm.getPlugin(plugin).pipe(
+          tap(p => {
+            p.handle({ 
+              handlerParams, 
+              plugin, 
+              index, 
+              listener: this.filteredListeners[index], 
+              evt, 
+              renderer: this.renderer,
+              panelPageComponent: this });
+          })
+        ).subscribe();
+      }
+    })),
+    tap((listenerParams) => {
+      console.log('listener info', this.filteredListeners, listenerParams);
+
+      /*this.iepm.getPlugin('dom').subscribe(p => {
+        p.connect({ 
+          filteredListeners: this.filteredListeners, 
+          listenerParams, 
+          renderer: this.renderer,
+          callback: ({ handlerParams, plugin, index, evt }) => {
+            console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
+          }
+        }).subscribe();
+      });*/
+
+      // The hard way to handle events using our own delegation algorithm
+      // since nodes are constantly changing underneath and simple way
+      // doesn't seem to work.
+
+      // This is all going to be part of the plugin function anyway.
+
+      /*const mapTypes = new Map<string, Array<number>>();
+      const len = this.filteredListeners.length;
+      for (let i = 0; i < len; i++) {
+        const type = (listenerParams[i] as  any).type;
+        if (mapTypes.has(type)) {
+          const targets = mapTypes.get(type);
+          targets.push(i);
+          mapTypes.set(type, targets);
+        } else {
+          mapTypes.set(type, [i]);
+        }
+      }
+      const eventDelegtionHandler = (m => e => {
+        if (m.has(e.type)) {
+          const targets = m.get(e.type);
+          const len = targets.length;
+          targets.forEach((__, i) => {
+            const expectedTarget = (listenerParams[targets[i]] as any).target;
+            if (e.target.matches(expectedTarget)) {
+              console.log(`delegated target match ${expectedTarget}`);
+              if(this.filteredListeners[i].handler.settings.params) {
+                const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
+                this.paramEvaluatorService.paramValues(
+                  this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
+                ).pipe(
+                  map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+                ).subscribe((handlerParams) => {
+                  // plugin call and pass params
+                  console.log('handler original event and params', e, this.filteredListeners[i].handler.plugin,  handlerParams);
+                })
+              } else {
+                // plugin call and pass params
+                console.log('handler original event and params', this.filteredListeners[i].handler.plugin, e);
+              }
+            }
+          });
+        }
+      })(mapTypes)
+      const keys = Array.from(mapTypes);
+      for (let i = 0; i < keys.length; i++) {
+        const type = keys[i][0];
+        this.renderer.listen('document', type, e => {
+          eventDelegtionHandler(e);
+        });
+      }*/
+
+      /*this.renderer.listen('document', 'click', e => {
+        console.log('delegated target');
+        if (e.target.matches('.open-dialog')) {
+          console.log('delegated target match');
+        }
+      });*/
+
+      /*const listenerLen = this.filteredListeners.length;
+      for (let i = 0; i < listenerLen; i++) {
+        // Assumption is made herre that would be responsibility of plugin instead ie. target is required for DOM event.
+        // For now though just to get things spinning again hard code expectation.
+        const targets =(this.el.nativeElement as Element).querySelectorAll((listenerParams[i] as  any).target);
+        console.log('listener target', targets);
+        targets.forEach(t => this.renderer.listen(t, (listenerParams[i] as  any).type, e => {
+          console.log('listener fired');
+          if(this.filteredListeners[i].handler.settings.params) {
+            const paramNames = this.filteredListeners[i].handler.settings.paramsString ? this.filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
+            this.paramEvaluatorService.paramValues(
+              this.filteredListeners[i].handler.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())
+            ).pipe(
+              map(params => Array.from(params).reduce((p, [k, v]) =>  ({ ...p, [k]: v }), {}))
+            ).subscribe((handlerParams) => {
+              console.log('handler original event and params',e,  handlerParams);
+            });
+          } else {
+            console.log('handler original event and params', e);
+          }
+        }));
+      }*/
+    })
+  ).subscribe()
+
+  get panelsArray(): UntypedFormArray {
+    return this.pageForm.get('panels') as UntypedFormArray;
+  }
+
+  public onTouched: () => void = () => {};
+
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    @Inject(MEDIA_SETTINGS) private mediaSettings: MediaSettings,
+    private routerStore: Store<RouterReducerState>,
+    private fb: UntypedFormBuilder,
+    private el: ElementRef,
+    private inlineContextResolver: InlineContextResolverService,
+    // private contextManager: ContextManagerService,
+    private pageBuilderFacade:PageBuilderFacade,
+    private cpm: ContentPluginManager,
+    private cxm: ContextPluginManager,
+    private lpm: LayoutPluginManager,
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private styleLoader: StyleLoaderService,
+    // I don't feel good about this but f**k it for now til I figure this out
+    private http: HttpClient,
+    private cssHelper: CssHelperService,
+    private attributeSerializer: AttributeSerializerService,
+    private formService: FormService,
+    private panelsContextService: PanelsContextService,
+    private asyncApiCallHelperSvc: AsyncApiCallHelperService,
+    private crudDataHelperService: CrudDataHelperService,
+    protected entityDefinitionService: EntityDefinitionService,
+    private ngZone: NgZone,
+    private persistService: PersistService,
+    private stylizerService: StylizerService,
+    private classifyService: ClassifyService,
+    private fileService: FilesService,
+    private authFacade: AuthFacade,
+    private paramEvaluatorService:  ParamEvaluatorService,
+    private renderer: Renderer2,
+    private iepm: InteractionEventPluginManager,
+    private ihpm: InteractionHandlerPluginManager,
+    es: EntityServices,
+  ) {
+    this.panelPageService = es.getEntityCollectionService('PanelPage');
+    this.panelPageFormService = es.getEntityCollectionService('PanelPageForm');
+    this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
+  }
+
+  ngOnInit() {
+    this.onInit$.next(undefined);
+  }
+
+  ngAfterViewInit() {
+    this.afterViewInit$.next(undefined);
+  }
+
+  ngAfterContentInit() {
+    this.afterContentInit$.next(undefined);
+  }
+
+  ngOnDestroy() {
+    PanelPageComponent.registredContextListeners.delete(this.instanceUniqueIdentity);
+  }
+
+  populatePanelsFormArray({ panelPage }: { panelPage: PanelPage }) {
+    this.panelsArray.clear();
+    panelPage.panels.forEach(() => {
+      this.panelsArray.push(this.fb.control(''));
+    });
+  }
+
+  hookupFormChange({ panelPage }: { panelPage: PanelPage }) {
+    combineLatest([this.pageForm.valueChanges, this.pageForm.statusChanges]).pipe(
+      debounceTime(100),
+      filter(([_, s]) => panelPage !== undefined && panelPage.displayType === 'form' && s !== 'PENDING') // we only update on valid and invalid states not inbetween
+    ).subscribe(([v]) => {
+      const valid = this.pageForm.valid;
+      const persistence = this.panelPageCached.persistence ? this.panelPageCached.persistence : undefined;
+      const form = new PanelPageForm({ ...v, name: panelPage.name, title: panelPage.title, derivativeId: panelPage.id, persistence, valid });
+      this.pageBuilderFacade.setForm(panelPage.name, form);
+    });
+  }
+
+  hookupCss({ file }: { file: string }) {
+    forkJoin([
+      /*this.http.get<cssJson.JSONNode>(file).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css.json`).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ) : of(undefined),*/
+      of(undefined),
+      // Disable this for now since 400s have negative impact on page scoring
+      /*
+      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}.css`).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ) : of(undefined),*/
+      of(undefined),
+      this.panelPageCached.id ? this.http.get<cssJson.JSONNode>(`${this.mediaSettings.imageUrl}/media/panelpage__${this.panelPageCached.id}__classes.json`).pipe(
+        catchError(() => of(undefined)),
+        defaultIfEmpty(undefined)
+      ) : of(undefined),
+    ]).pipe(
+      tap(([ cssFile, managedCss, managedCssRaw, classes ]) => {
+        console.log('fetched managed panelpage css and class files');
+        let css = {};
+        this.managedCssCache = '';
+        this.managedClassesCache = classes;
+        if (cssFile) {
+          css = merge(css, cssFile);
+        }
+        if (managedCss) {
+          this.managedCssCache = managedCssRaw;
+          css = merge(css, managedCss);
+        }
+        this.filteredCss = { css, classes };
+      })
+    ).subscribe();
+    /*
+    this.http.get<cssJson.JSONNode>(file).subscribe(css => {
+      this.filteredCss = css; //css.styles; - only for sheath
+    });*/
+  }
+
+  submit() {
+
+    if (this.pageForm.valid) {
+      const panelPageForm = new PanelPageForm({ ...this.pageForm.value });
+      const data = this.formService.serializeForm(panelPageForm);
+      console.log(panelPageForm);
+      console.log(this.formService.serializeForm(panelPageForm));
+      /*this.panelPageFormService.add(panelPageForm).subscribe(() => {
+        alert('panel page form added!');
+      });*/
+  
+      console.log('form data', data);
+  
+      this.persistService.persist({ data, persistence: this.panelPageCached.persistence }).subscribe(() => {
+        console.log('persisted data');
+      });;
+    } else {
+      console.log('detected form invalid');
+    }
+
+    // Currently PanelPageState ONLY uses the cache because noop data service is used. That has to change...
+    // Experimental only - state forms
+    /*const selectEntities = (entities: EntityCollection<PanelPageState>) => entities.entities;
+    const selectById = ({ id }: { id: string }) => createSelector(
+      selectEntities,
+      entities => entities[id] ? entities[id] : undefined
+    );
+    this.pageBuilderFacade.getPageInfo$.pipe(
+      tap(p => {
+        console.log('page info', p);
+        // console.log('panel page as form', new PanelPageForm({ panels: this.panelPage.panels.map() }));
+      }),
+      switchMap(p => this.panelPageStateService.collection$.pipe(
+        select(selectById({ id: p.id }))
+      )),
+      tap(s => {
+        console.log('panel page state', s);
+      })
+    ).subscribe();*/
+  }
+
+  writeValue(val: any): void {
+    if (val) {
+      this.settingsFormArray.setValue(val, { emitEvent: false });
+    }
+  }
+
+  registerOnChange(fn: any): void {
+    this.settingsFormArray.valueChanges.subscribe(fn);
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.settingsFormArray.disable()
+    } else {
+      this.settingsFormArray.enable()
+    }
+  }
+
+  validate(c: AbstractControl): Observable<ValidationErrors | null> {
+    /*return this.settingsFormArray.statusChanges.pipe(
+      startWith(this.settingsFormArray.status),  // start with the current form status
+      filter((status) => status === 'VALID'),
+      map(() => null),
+      timeout(1000),
+      catchError(() => of({ invalidForm: {valid: false, message: "content is invalid"}})),
+      first()
+    );*/
+    return this.pageForm.statusChanges.pipe(
+      startWith(this.pageForm.status),  // start with the current form status
+      filter((status) => status !== 'PENDING'),
+      debounceTime(1),
+      take(1), // We only want one emit after status changes from PENDING
+      map((status) => {
+          return this.pageForm.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}}; // I actually loop through the form and collect the errors, but for validity just return this works fine
+      })
+    );
+    // return of(this.settingsFormArray.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}});
   }
 
 }

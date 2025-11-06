@@ -1,4 +1,5 @@
 <mat-form-field>
+  <mat-label>{{ label$ | async }}</mat-label>
   <mat-select [formControl]="formControl">
     <mat-option *ngFor="let opt of (options$ | async); let i = index" [value]="opt.value">{{ opt.label }}</mat-option>
   </mat-select>
