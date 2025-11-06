@@ -46,10 +46,10 @@ Developers can use quell as an app shell to orchestrate micro-frontends built wi
 
 ### Orchestrate
 
-Prototype using quell as a shell app to host Angular architects workflow designer micro-frontends.
+Prototype using quell as a shell app to host a simple micro-frontend.
 
-* [Page](https://demo.carbonfreed.app/workflow-designer-v2)
-* [Editor](https://demo.carbonfreed.app/workflow-designer-v2/manage)
+* [Page](https://demo.rollthecloud.com/test-outsider-app)
+* [Editor](https://demo.rollthecloud.com/test-outsider-app/manage)
 
 ### Extend
 
