@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/rest",
-  "version": "20.0.0-alpha.20",
+  "version": "20.0.0-alpha.21",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^20.0.0",
