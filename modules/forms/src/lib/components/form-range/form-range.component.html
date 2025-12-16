@@ -1,0 +1,6 @@
+<div [formGroup]="rangeForm">
+  <mat-slider discrete showTickMarks [min]="min$ | async" [max]="max$ | async" [step]="step$ | async" [aria-label]="label$ | async">
+    <input formControlName="startValue" matSliderStartThumb>
+    <input formControlName="endValue" matSliderEndThumb>
+  </mat-slider>
+</div>

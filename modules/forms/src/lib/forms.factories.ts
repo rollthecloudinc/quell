@@ -15,6 +15,8 @@ import { FormAutocompleteComponent } from "./components/form-autocomplete/form-a
 import { FormMediaComponent } from './components/form-media/form-media.component';
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
 import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
+import { FormRangeComponent } from './components/form-range/form-range.component';
+import { FormRangeEditorComponent } from './components/form-range-editor/form-range-editor.component';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -67,6 +69,17 @@ export const formSliderPluginFactory = ({ handler }: { handler: FormElementHandl
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormSliderComponent,
+    handler
+  })
+}
+
+export const formRangePluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_range',
+    title: 'Form Range',
+    selectionComponent: undefined,
+    editorComponent: FormRangeEditorComponent,
+    renderComponent: FormRangeComponent,
     handler
   })
 }

@@ -49,10 +49,10 @@ export class FormElementEditorComponent implements OnInit {
   }
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext>, plugin: ContentPlugin },
+    @Inject(MAT_DIALOG_DATA) protected data: { panelFormGroup: UntypedFormGroup; pane: Pane; paneIndex: number; contexts: Array<InlineContext>, plugin: ContentPlugin },
     private dialogRef: MatDialogRef<FormElementEditorComponent>,
     private fb: UntypedFormBuilder,
-    private handler: FormElementHandler,
+    protected handler: FormElementHandler,
     private attributeSerializer: AttributeSerializerService
   ) {
     // this.contexts = data.contexts;
@@ -113,6 +113,7 @@ export class FormElementEditorComponent implements OnInit {
     // this.paneGroup.get('label').setValue(instance.key);
     (this.paneGroup.get('settings') as UntypedFormArray).clear();
     const controls = this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s));
+    console.log('submit controls', controls);
     controls.forEach(c => (this.paneGroup.get('settings') as UntypedFormArray).push(c));
     this.dialogRef.close();
   }
