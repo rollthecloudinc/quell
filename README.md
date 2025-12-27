@@ -61,10 +61,10 @@ Prototype using quell to load extension/plugin (SOLID) with new content type at 
 
 Prototype using Quell to load extension/plugin with Quill editor and view.
 
-*[Quill](/https://demo.rollthecloud.com/test-quill-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
-*[Quill View](/https://demo.rollthecloud.com/test-quill-view-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
-*[Editor Quill](/https://demo.rollthecloud.com/test-quill-int/manage)
-*[Editor Quill View](/https://demo.rollthecloud.com/test-quill-view-int/manage)
+* [Quill](https://demo.rollthecloud.com/test-quill-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
+* [Quill View](https://demo.rollthecloud.com/test-quill-view-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
+* [Editor Quill](https://demo.rollthecloud.com/test-quill-int/manage)
+* [Editor Quill View](https://demo.rollthecloud.com/test-quill-view-int/manage)
 
 Quell Quill SOLID (plugin/extension) using angular architects native federation.
 * [Quill SOLID Repository](https://github.com/rollthecloudinc/solid-quill)
