@@ -69,6 +69,14 @@ Prototype using Quell to load extension/plugin with Quill editor and view.
 Quell Quill SOLID (plugin/extension) using angular architects native federation.
 * [Quill SOLID Repository](https://github.com/rollthecloudinc/solid-quill)
 
+Prototype using Quell to load extension/plugin with Tabulator Data Table(s).
+
+* [Page](https://demo.rollthecloud.com/test-tabulator-int)
+* [Editor](https://demo.rollthecloud.com/test-tabulator-int/manage)
+
+Quell Tabulator SOLID (plugin/extension) using angular architects native federation.
+* [Tabulator SOLID Repository](https://github.com/rollthecloudinc/solid-tabulator)
+
 # Modules
 
 Catalog of each primary Quell module enabling devs, builders and editors to quickly realize usable, modern web experiences optimised for 0 server, 0 trust, and 0 cost low-code cloud hosting.
