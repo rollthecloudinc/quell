@@ -137,9 +137,14 @@ Move data quickly with consistency.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
-### Crud
+### Data Entry
 
 * crud
+* forms
+* context
+* ordain (validation)
+* deity (entity management)
+* angel @todo: state management)
 
 Implementations
 * aws3
