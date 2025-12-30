@@ -79,8 +79,20 @@ jobs:
       # --------------------------------------------------------------------
       # Push ONLY the versioned folder and DO NOT overwrite remote repo content
       # --------------------------------------------------------------------
-      - name: Push version folder safely (no overwrite)
+      - name: Push version folder safely
         run: |
+          # 1. Write SSH key to file
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # 2. Configure SSH
+          cat >> ~/.ssh/config <<EOF
+          Host github.com
+            IdentityFile ~/.ssh/id_rsa
+            StrictHostKeyChecking no
+          EOF
+
           VERSION="${{ steps.version.outputs.version }}"
 
           echo "Cloning target repository…"
@@ -101,5 +113,3 @@ jobs:
 
           echo "Pushing…"
           git push origin ${{ secrets.TARGET_BRANCH }}
-        env:
-          GIT_SSH_COMMAND: "ssh -i ${{ secrets.SSH_DEPLOY_KEY }} -o StrictHostKeyChecking=no"
