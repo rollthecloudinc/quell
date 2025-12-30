@@ -79,14 +79,27 @@ jobs:
       # --------------------------------------------------------------------
       # Push ONLY the versioned folder and DO NOT overwrite remote repo content
       # --------------------------------------------------------------------
-      - name: Push to build repo
-        uses: cpina/github-action-push-to-another-repository@main
+      - name: Push version folder safely (no overwrite)
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+
+          echo "Cloning target repository…"
+          git clone git@github.com:${{ secrets.DESTINATION_USER || 'rollthecloudinc' }}/${{ secrets.DESTINATION_REPO }}.git target-repo
+          cd target-repo
+
+          git checkout ${{ secrets.TARGET_BRANCH }}
+
+          echo "Copying new version folder…"
+          mkdir -p "$VERSION"
+          cp -R ../deploy/$VERSION/* "$VERSION/"
+
+          git add "$VERSION"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "Add version $VERSION" || echo "No changes to commit"
+
+          echo "Pushing…"
+          git push origin ${{ secrets.TARGET_BRANCH }}
         env:
-          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
-        with:
-          source-directory: "deploy/${{ steps.version.outputs.version }}"
-          destination-github-username: ${{ secrets.DESTINATION_USER || 'rollthecloudinc' }}
-          destination-repository-name: ${{ secrets.DESTINATION_REPO }}
-          target-branch: ${{ secrets.TARGET_BRANCH }}
-          target-directory: "${{ steps.version.outputs.version }}"
-          keep-existing-files: true
+          GIT_SSH_COMMAND: "ssh -i ${{ secrets.SSH_DEPLOY_KEY }} -o StrictHostKeyChecking=no"
