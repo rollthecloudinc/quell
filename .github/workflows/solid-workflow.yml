@@ -1,0 +1,90 @@
+name: Solid
+on:
+  workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      RTC_GITHUB_REGISTRY:
+        required: true
+      ENVIRONMENT_NAME:
+        required: true
+      SSH_DEPLOY_KEY:
+        required: true
+      DESTINATION_REPO:
+        required: true
+      DESTINATION_USER:
+        required: false
+      TARGET_BRANCH:
+        required: true
+
+jobs:
+  solid-deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.ENVIRONMENT }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Checkout Site
+
+      - uses: actions/setup-node@v3
+        name: Setup Node
+        with:
+          node-version: 22
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Install Dependencies (Clean)
+        run: |
+          rm -rf node_modules
+          npm install --force
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      # --------------------------------------------------------------------
+      # Extract version from package.json
+      # --------------------------------------------------------------------
+      - name: Extract package version
+        id: version
+        run: echo "version=$(node -p \"require('./package.json').version\")" >> $GITHUB_OUTPUT
+
+      # --------------------------------------------------------------------
+      # Build Angular plugin with dynamic baseHref = /<version>/
+      # --------------------------------------------------------------------
+      - name: Build plugin with dynamic baseHref
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          echo "Building plugin with baseHref '/$VERSION/'"
+          npx ng build plugin --base-href "/$VERSION/" --deploy-url "/$VERSION/"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      # --------------------------------------------------------------------
+      # Prepare versioned output folder
+      # --------------------------------------------------------------------
+      - name: Prepare versioned output folder
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+          mkdir -p deploy/$VERSION
+          cp -R dist/plugin/browser/* deploy/$VERSION/
+
+      # --------------------------------------------------------------------
+      # Release stamp (optional)
+      # --------------------------------------------------------------------
+      - name: Generate Release Stamp
+        id: release
+        run: echo "stamp=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
+
+      # --------------------------------------------------------------------
+      # Push ONLY the versioned folder and DO NOT overwrite remote repo content
+      # --------------------------------------------------------------------
+      - name: Push to build repo
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          SSH_DEPLOY_KEY: ${{ secrets.SSH_DEPLOY_KEY }}
+        with:
+          source-directory: "deploy"
+          destination-github-username: ${{ secrets.DESTINATION_USER || 'rollthecloudinc' }}
+          destination-repository-name: ${{ secrets.DESTINATION_REPO }}
+          target-branch: ${{ secrets.TARGET_BRANCH }}
+          target-directory: ""               # Deploys deploy/<version> into root of remote repo
+          keep-existing-files: true         # IMPORTANT: preserve all other repo content
