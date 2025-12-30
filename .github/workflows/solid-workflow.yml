@@ -56,7 +56,7 @@ jobs:
         run: |
           VERSION=${{ steps.version.outputs.version }}
           echo "Building plugin with baseHref '/$VERSION/'"
-          npx ng build plugin --base-href "/$VERSION/" --deploy-url "/$VERSION/"
+          npx ng build plugin --base-href "/$VERSION/"
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
 
