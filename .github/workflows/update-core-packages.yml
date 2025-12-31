@@ -1,0 +1,99 @@
+name: Update Core Packages
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        required: true
+        type: string
+    secrets:
+      NODE_AUTH_TOKEN:
+        required: true
+      GITHUB_PAT:
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 22
+          registry-url: "https://npm.pkg.github.com"
+
+      - name: Extract @rollthecloudinc/* dependencies
+        id: extract
+        run: |
+          pkgs=$(jq -r '
+            .dependencies
+            | keys[]
+            | select(startswith("@rollthecloudinc/"))
+            | select(. != "@rollthecloudinc/ngx-angular-query-builder")
+          ' package.json)
+
+          echo "Packages found:"
+          echo "$pkgs"
+
+          {
+            echo "packages<<EOF"
+            echo "$pkgs"
+            echo "EOF"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Update each @rollthecloudinc package
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+        run: |
+          version="${{ inputs.version }}"
+          echo "Updating packages to version: $version"
+
+          while IFS= read -r pkg; do
+            if [ -n "$pkg" ]; then
+              echo "Updating $pkg to $version"
+              npm install "$pkg@$version" --force
+            fi
+          done <<< "${{ steps.extract.outputs.packages }}"
+
+      - name: Update project version in package.json
+        run: |
+          version="${{ inputs.version }}"
+          tmp=$(mktemp)
+          jq --arg v "$version" '.version = $v' package.json > "$tmp"
+          mv "$tmp" package.json
+
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_PAT }}
+          commit-message: "Update @rollthecloudinc packages to ${{ inputs.version }}"
+          branch: update-core-version-${{ inputs.version }}
+          delete-branch: true
+          title: "Update @rollthecloudinc packages to ${{ inputs.version }}"
+          body: |
+            Automated update to:
+            • @rollthecloudinc/* packages  
+            • package.json project version  
+          base: master
+          add-paths: |
+            package.json
+            package-lock.json
+
+      - name: Auto-merge PR
+        if: steps.cpr.outputs.pull-request-number != ''
+        run: |
+          gh pr merge ${{ steps.cpr.outputs.pull-request-number }} --merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PAT }}
