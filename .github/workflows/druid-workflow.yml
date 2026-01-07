@@ -75,7 +75,7 @@ jobs:
 
           # 3. Reinstall packages with --force (Applies all overrides)
           echo "--- Running npm install to apply overrides ---"
-          npm install --force
+          npm install
           
           # 4. Final safety measure: Force module flattening
           #echo "--- Running npm dedupe as final check ---"
