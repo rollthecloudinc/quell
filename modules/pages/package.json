@@ -1,15 +1,15 @@
 {
   "name": "@rollthecloudinc/pages",
-  "version": "20.0.0-alpha.42",
+  "version": "20.0.0-alpha.44",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^20.0.0",
     "@angular/core": "^20.0.0",
     "ngx-markdown": "^20.0.0",
-    "angular-split": "^15.0.0",
+    "angular-split": "^20.0.0",
     "ngx-dropzone": "^3.1.0",
     "ngx-json-viewer": "^3.0.2",
-    "@rollthecloudinc/ngx-angular-query-builder": "^20.0.0",
+    "@rollthecloudinc/ngx-angular-query-builder": "^20.0.0-alpha.1",
     "angular-gridster2": "^20.0.0",
     "@ngrx/data": "^20.0.0",
     "@ngrx/effects": "^20.0.0",

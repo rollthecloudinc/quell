@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/layout",
-  "version": "20.0.0-alpha.42",
+  "version": "20.0.0-alpha.44",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^20.0.0",
