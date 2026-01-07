@@ -36,7 +36,7 @@ jobs:
       - name: Install Dependencies (Clean)
         run: |
           rm -rf node_modules
-          npm install --force
+          npm install
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
 

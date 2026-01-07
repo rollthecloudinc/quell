@@ -62,7 +62,7 @@ jobs:
           while IFS= read -r pkg; do
             if [ -n "$pkg" ]; then
               echo "Updating $pkg to $version"
-              npm install "$pkg@$version" --force
+              npm install "$pkg@$version"
             fi
           done <<< "${{ steps.extract.outputs.packages }}"
 
