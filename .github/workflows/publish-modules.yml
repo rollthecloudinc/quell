@@ -1,0 +1,71 @@
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          always-auth: true
+
+      - name: Bump versions with jq
+        id: bump
+        run: |
+          # Extract current version
+          current=$(jq -r '.version' package.json)
+          echo "Current version: $current"
+
+          # Compute new version (patch bump)
+          new=$(echo "$current" | awk -F. '{ printf "%d.%d.%d", $1, $2, $3 + 1 }')
+          echo "New version: $new"
+          echo "new_version=$new" >> "$GITHUB_OUTPUT"
+
+          # Update root package.json
+          jq --arg v "$new" '.version = $v' package.json > package.json.tmp
+          mv package.json.tmp package.json
+
+          # Update module package.json files
+          for f in modules/*/package.json; do
+            echo "Updating version in $f"
+            jq --arg v "$new" '.version = $v' "$f" > "$f.tmp"
+            mv "$f.tmp" "$f"
+          done
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      - name: Build libraries
+        run: ./bin/build_libs_prod.sh
+
+      - name: Commit updated versions directly to master
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@github.com"
+
+          git add package.json modules/*/package.json
+
+          git commit -m "ci: auto bump version to ${{ steps.bump.outputs.new_version }}" || echo "No changes to commit"
+
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      - name: Publish libraries
+        run: ./bin/publish_libs.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
