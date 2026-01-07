@@ -1,192 +1,322 @@
-import { Component, OnInit, ContentChild, TemplateRef, ElementRef, ViewChildren, QueryList, ViewChild, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  ContentChild,
+  TemplateRef,
+  ElementRef,
+  ViewChildren,
+  QueryList,
+  ViewChild,
+  EventEmitter,
+  Input,
+  Output
+} from '@angular/core';
+
 import { MatDialog } from '@angular/material/dialog';
-import { SplitAreaDirective } from 'angular-split';
 import { LayoutSetting } from '@rollthecloudinc/panels';
 import { filter, switchMap } from 'rxjs/operators';
 import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
 import { AttributeValue } from '@rollthecloudinc/attributes';
+
 @Component({
-    selector: 'classifieds-ui-split-layout',
-    templateUrl: './split-layout.component.html',
-    styleUrls: ['./split-layout.component.scss'],
-    host: {
-        "[class.is-nested]": "nested"
-    },
-    standalone: false
+  selector: 'classifieds-ui-split-layout',
+  templateUrl: './split-layout.component.html',
+  styleUrls: ['./split-layout.component.scss'],
+  host: { '[class.is-nested]': 'nested' },
+  standalone: false
 })
-export class SplitLayoutComponent implements OnInit  {
+export class SplitLayoutComponent implements OnInit, AfterViewInit {
 
-  @Output()
-  itemAdded = new EventEmitter();
+  // -------------------------------------------------------------------
+  // Inputs / Outputs
+  // -------------------------------------------------------------------
+  @Output() itemAdded = new EventEmitter();
+  @Output() itemRemoved = new EventEmitter<number>();
 
-  @Output()
-  itemRemoved = new EventEmitter<number>();
-
-  @Input()
-  dashboard = []
-
-  @Input()
-  displayMainControls = true;
-
-  @Input()
-  displayItemHeader = true;
-
-  @Input()
-  nested = false;
+  @Input() dashboard = [];
+  @Input() displayMainControls = true;
+  @Input() displayItemHeader = true;
+  @Input() nested = false;
 
   @Input() layoutSetting: LayoutSetting;
   @Output() layoutSettingChange = new EventEmitter<LayoutSetting>();
 
-  @Input() rowSettings: Array<LayoutSetting>;
-  @Output() rowSettingsChange = new EventEmitter<Array<LayoutSetting>>();
+  @Input() rowSettings: LayoutSetting[] = [];
+  @Output() rowSettingsChange = new EventEmitter<LayoutSetting[]>();
 
-  @Input() columnSettings: Array<LayoutSetting>;
-  @Output() columnSettingsChange = new EventEmitter<Array<LayoutSetting>>();
+  @Input() columnSettings: LayoutSetting[] = [];
+  @Output() columnSettingsChange = new EventEmitter<LayoutSetting[]>();
 
-  rows = 0;
-  sizes: Array<Array<number>> = [];
+  sizes: number[][] = [];
 
+  // -------------------------------------------------------------------
+  // Template refs
+  // -------------------------------------------------------------------
   @ContentChild('gridItemActions') gridItemActionsTmpl: TemplateRef<any>;
   @ContentChild('innerGridItem') innerGridItemTmpl: TemplateRef<any>;
   @ContentChild('extraActions') extraActionsTmpl: TemplateRef<any>;
 
-  //@ViewChild(GridsterComponent) gridster: GridsterComponent;
   @ViewChild('mainControls') mainControls: ElementRef;
 
   @ViewChildren('itemHeader') itemHeaders: QueryList<ElementRef>;
-
-  @ViewChildren(SplitAreaDirective) splitAreas: QueryList<SplitAreaDirective>;
-
-  get totalRows(): number {
-    return this.dashboard.length == 0 ? 0 : this.dashboard.reduce<number>((p, c) => c.y > p ? c.y : p, 0) + 1;
-  }
 
   constructor(
     private el: ElementRef,
     private dialog: MatDialog,
     private lpm: LayoutPluginManager
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-    if(this.dashboard.length === 0) {
-      this.addRow();
-    } else {
-      for(let i = 0; i < this.totalRows; i++) {
-        const totalColumns = this.totalColumns(i);
-        this.sizes.push([]);
-        for(let j = 0; j < totalColumns; j++) {
-          const index = this.itemIndex(i, j);
-          this.sizes[i].push(this.dashboard[index].cols);
-        }
-      }
-      if (this.totalRows !== this.rowSettings.length && this.rowSettings.length === 0) {
-        const settings = [];
-        for (let i = 0; i < this.totalRows; i++) {
-          settings.push(new LayoutSetting());
-        }
-        this.rowSettings = settings;
-        this.rowSettingsChange.emit(this.rowSettings);
-      }
-      let totalCols = 0;
-      for (let i = 0; i < this.totalRows; i++) {
-        totalCols += this.totalColumns(i);
-      }
-      if (totalCols !== this.columnSettings.length && this.columnSettings.length === 0) {
-        const settings = [];
-        for (let i = 0; i < this.totalRows; i++) {
-          for (let j = 0; j < this.totalColumns(i); j++) {
-            settings.push(new LayoutSetting());
-          }
-        }
-        this.columnSettings = settings;
-        this.columnSettingsChange.emit(this.columnSettings);
-      }
+  // -------------------------------------------------------------------
+  // Derived state
+  // -------------------------------------------------------------------
+  get totalRows(): number {
+    if (!this.dashboard.length) return 0;
+    return Math.max(...this.dashboard.map(i => i.y)) + 1;
+  }
+
+  totalColumns(row: number): number {
+    return this.dashboard.filter(i => i.y === row).length;
+  }
+
+  // -------------------------------------------------------------------
+  // Utility (for template migration)
+  // -------------------------------------------------------------------
+  arrayFromNumber(n: number): number[] {
+    return Array.from({ length: n });
+  }
+
+  // -------------------------------------------------------------------
+  // Lifecycle
+  // -------------------------------------------------------------------
+  ngOnInit() {
+    this.rebuildSizeMatrix();
+    this.ensureInitialSettings();
+  }
+
+  ngAfterViewInit() {}
+
+  // -------------------------------------------------------------------
+  // Initialization helpers
+  // -------------------------------------------------------------------
+  private rebuildSizeMatrix() {
+    this.sizes = [];
+
+    for (let r = 0; r < this.totalRows; r++) {
+      const items = this.dashboard
+        .filter(i => i.y === r)
+        .sort((a, b) => a.x - b.x);
+
+      this.sizes[r] = items.map(i => i.cols);
     }
   }
 
-  removeRow(rIndex: number) {
-    const idx = this.dashboard.reduce<Array<number>>((p, c, i) => [ ...p, ...(c.y === rIndex ? [i] : []) ], []);
-    let len = idx.length;
-    let offset = 0;
-    for(let i = 0; i < len; i++) {
-      this.dashboard.splice(idx[i] - offset, 1);
-      this.rowSettings.splice(rIndex, 1);
-      offset++;
-      this.itemRemoved.emit(idx[i]);
+  private ensureInitialSettings() {
+    if (!this.rowSettings.length) {
+      this.rowSettings = Array.from(
+        { length: this.totalRows },
+        () => new LayoutSetting()
+      );
       this.rowSettingsChange.emit(this.rowSettings);
     }
-    len = this.dashboard.length;
-    for(let i = 0; i < len; i++) {
-      if(this.dashboard[i].y > rIndex) {
-        this.dashboard[i].y = this.dashboard[i].y - 1;
-      }
+
+    if (!this.columnSettings.length) {
+      this.columnSettings = this.dashboard.map(() => new LayoutSetting());
+      this.columnSettingsChange.emit(this.columnSettings);
     }
   }
 
-  removeColumn(rIndex: number, cIndex: number) {
-    const index = this.itemIndex(rIndex, cIndex);
-    this.dashboard.splice(index, 1);
-    this.itemRemoved.emit(index);
-  }
-
-  removeColumn2(index: number) {
-    this.dashboard.splice(index, 1);
-    this.itemRemoved.emit(index);
-  }
-
+  // -------------------------------------------------------------------
+  // Add row
+  // -------------------------------------------------------------------
   addRow() {
-    this.sizes.push([]);
-    this.rowSettings = [ ...this.rowSettings.map(s => new LayoutSetting(s)), new LayoutSetting() ];
-    this.addColumn(this.totalRows === 0 ? 0 : this.totalRows);
+    const rowIndex = this.totalRows;
+
+    this.rowSettings.push(new LayoutSetting());
     this.rowSettingsChange.emit(this.rowSettings);
-    // @todo: Given various tests this results in duplicate columns in this layout.
-    // this.itemAdded.emit();
+
+    this.sizes[rowIndex] = [];
+
+    setTimeout(() => this.addColumn(rowIndex), 0);
   }
 
+  // -------------------------------------------------------------------
+  // Add column (equalize)
+  // -------------------------------------------------------------------
   addColumn(rowIndex: number) {
-    const totalColumns = this.totalColumns(rowIndex);
-    const size = totalColumns === 0 ? 100 : 100 / (totalColumns + 1);
-    this.sizes[rowIndex][totalColumns] = size;
-    this.dashboard.push({cols: size, rows: 1, y: rowIndex, x: totalColumns });
+    const items = this.dashboard.filter(i => i.y === rowIndex);
+    const newCount = items.length + 1;
+    const equal = 100 / newCount;
+
+    // Equalize all existing
+    items.forEach(i => (i.cols = equal));
+
+    // Add new item
+    this.dashboard.push({
+      rows: 1,
+      y: rowIndex,
+      x: items.length,
+      cols: equal,
+      weight: items.length
+    });
+
+    // Update sizes array
+    this.sizes[rowIndex] = Array.from({ length: newCount }, () => equal);
+
+    this.dashboard = [...this.dashboard];
     this.itemAdded.emit();
-    setTimeout(() => this.resetGutter());
   }
 
-  dragEnd(rowIndex: number, {sizes}) {
-    const len = this.dashboard.length;
-    let counter = 0;
-    this.sizes[rowIndex] = [ ...sizes ];
-    const newDash = this.dashboard.map(o => ({ ...o }));
-    for(let i = 0; i < len; i++) {
-      if(this.dashboard[i].y === rowIndex) {
-        newDash[i].cols = sizes[counter];
-        counter += 1;
-      }
+  // -------------------------------------------------------------------
+  // Remove column (normalize proportionally)
+  // -------------------------------------------------------------------
+  removeColumn(row: number, col: number) {
+    const index = this.itemIndex(row, col);
+    if (index < 0) return;
+
+    this.dashboard.splice(index, 1);
+    this.itemRemoved.emit(index);
+
+    const remaining = this.dashboard
+      .filter(i => i.y === row)
+      .sort((a, b) => a.x - b.x);
+
+    if (!remaining.length) {
+      this.removeRow(row);
+      return;
     }
-    this.dashboard = newDash;
+
+    // Proportional normalization
+    const total = remaining.reduce((s, i) => s + i.cols, 0);
+
+    remaining.forEach((item, idx) => {
+      item.cols = (item.cols / total) * 100;
+      item.x = idx;
+    });
+
+    this.finalizePercentages(remaining);
+    this.sizes[row] = remaining.map(i => i.cols);
+
+    this.dashboard = [...this.dashboard];
   }
 
-  itemIndex(rIndex: number, cIndex: number): any {
-    return this.dashboard.findIndex(c => c.y === rIndex && c.x === cIndex);
+  // -------------------------------------------------------------------
+  // Remove column2 (by flat index)
+  // -------------------------------------------------------------------
+  removeColumn2(index: number) {
+    const removed = this.dashboard[index];
+    if (!removed) return;
+
+    const row = removed.y;
+
+    this.dashboard.splice(index, 1);
+    this.itemRemoved.emit(index);
+
+    const remaining = this.dashboard
+      .filter(i => i.y === row)
+      .sort((a, b) => a.x - b.x);
+
+    if (!remaining.length) {
+      this.removeRow(row);
+      return;
+    }
+
+    const total = remaining.reduce((s, i) => s + i.cols, 0);
+    remaining.forEach((item, idx) => {
+      item.cols = (item.cols / total) * 100;
+      item.x = idx;
+    });
+
+    this.finalizePercentages(remaining);
+    this.sizes[row] = remaining.map(i => i.cols);
+
+    this.dashboard = [...this.dashboard];
   }
 
-  itemSize(rIndex: number, cIndex: number): number {
-    return this.dashboard[this.itemIndex(rIndex, cIndex)].cols;
+  // -------------------------------------------------------------------
+  // Remove row
+  // -------------------------------------------------------------------
+  removeRow(row: number) {
+    this.dashboard = this.dashboard.filter(i => i.y !== row);
+
+    // Shift row numbers down
+    this.dashboard.forEach(item => {
+      if (item.y > row) item.y--;
+    });
+
+    this.rowSettings.splice(row, 1);
+    this.rowSettingsChange.emit(this.rowSettings);
+
+    this.rebuildSizeMatrix();
   }
 
-  totalColumns(rowIndex: number): number {
-    return this.dashboard.reduce<number>((p, c) => c.y === rowIndex ? p + 1 : p, 0);
+  // -------------------------------------------------------------------
+  // Drag end (update internal sizes)
+  // -------------------------------------------------------------------
+  dragEnd(row: number, event: { sizes: number[] }) {
+    const rowSizes = event.sizes;
+    const items = this.dashboard
+      .filter(i => i.y === row)
+      .sort((a, b) => a.x - b.x);
+
+    items.forEach((item, idx) => (item.cols = rowSizes[idx]));
+
+    this.finalizePercentages(items);
+    this.sizes[row] = items.map(i => i.cols);
+
+    this.dashboard = [...this.dashboard];
+
+    console.log('dashboard', this.dashboard);
+  }
+
+  // -------------------------------------------------------------------
+  // Utilities
+  // -------------------------------------------------------------------
+  itemIndex(row: number, col: number): number {
+    return this.dashboard.findIndex(i => i.y === row && i.x === col);
+  }
+
+  itemSize(row: number, col: number): number {
+    const items = this.dashboard
+      .filter(i => i.y === row)
+      .sort((a, b) => a.x - b.x);
+    return items[col]?.cols ?? 0;
+  }
+
+  private finalizePercentages(items: any[]) {
+    this.normalizeToWholePercentages(items);
+  }
+
+  private normalizeToWholePercentages(items: any[]) {
+    if (!items.length) return;
+
+    // first convert to integers
+    let intValues = items.map(i => Math.round(i.cols));
+
+    // ensure sum = 100
+    let sum = intValues.reduce((a, b) => a + b, 0);
+
+    if (sum !== 100) {
+      // adjust the last column to fix the sum
+      intValues[intValues.length - 1] += (100 - sum);
+    }
+
+    // apply back to items
+    intValues.forEach((val, i) => items[i].cols = val);
   }
 
   resetGutter() {
-    this.el.nativeElement.querySelectorAll('.as-split-gutter').forEach(e => {
-      e.style.height = 'auto';
-    });
+    this.el.nativeElement
+      .querySelectorAll('.as-split-gutter')
+      .forEach(e => (e.style.height = 'auto'));
   }
 
-  settingValues(type: string, index?: number): Array<AttributeValue> {
-    switch(type) {
+  // -------------------------------------------------------------------
+  // Layout settings logic (unchanged)
+  // -------------------------------------------------------------------
+  settingValues(type: string, index?: number) {
+    switch (type) {
       case 'column':
         return this.columnSettings[index].settings;
       case 'row':
@@ -199,28 +329,51 @@ export class SplitLayoutComponent implements OnInit  {
   }
 
   layoutSettings(type: string, index?: number) {
-    this.lpm.getPlugin('split').pipe(
-      switchMap(layout => this.dialog.open(LayoutDialogComponent, { data: { layout, type, settingValues: this.settingValues(type, index) } }).afterClosed()),
-      filter(settings => !!settings)
-    ).subscribe(settings => {
-      switch(type) {
-        case 'column':
-          this.columnSettings = this.columnSettings.map((v, i) => i === index ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
-          console.log(this.columnSettings);
-          this.columnSettingsChange.emit(this.columnSettings);
-          break;
-        case 'row':
-          this.rowSettings = this.rowSettings.map((v, i) => i === index ? new LayoutSetting({ settings: settings.map(s => new AttributeValue(s))}) : new LayoutSetting(v));
-          console.log(this.rowSettings);
-          this.rowSettingsChange.emit(this.rowSettings);
-          break;
-        case 'global':
-          this.layoutSetting = new LayoutSetting({ settings: settings.map(s => new AttributeValue(s)) });
-          this.layoutSettingChange.emit(this.layoutSetting);
-          break;
-        default:
-      }
-    })
-  }
+    this.lpm
+      .getPlugin('split')
+      .pipe(
+        switchMap(layout =>
+          this.dialog.open(LayoutDialogComponent, {
+            data: {
+              layout,
+              type,
+              settingValues: this.settingValues(type, index)
+            }
+          }).afterClosed()
+        ),
+        filter(settings => !!settings)
+      )
+      .subscribe(settings => {
+        switch (type) {
+          case 'column':
+            this.columnSettings = this.columnSettings.map((v, i) =>
+              i === index
+                ? new LayoutSetting({
+                    settings: settings.map(s => new AttributeValue(s))
+                  })
+                : new LayoutSetting(v)
+            );
+            this.columnSettingsChange.emit(this.columnSettings);
+            break;
 
+          case 'row':
+            this.rowSettings = this.rowSettings.map((v, i) =>
+              i === index
+                ? new LayoutSetting({
+                    settings: settings.map(s => new AttributeValue(s))
+                  })
+                : new LayoutSetting(v)
+            );
+            this.rowSettingsChange.emit(this.rowSettings);
+            break;
+
+          case 'global':
+            this.layoutSetting = new LayoutSetting({
+              settings: settings.map(s => new AttributeValue(s))
+            });
+            this.layoutSettingChange.emit(this.layoutSetting);
+            break;
+        }
+      });
+  }
 }

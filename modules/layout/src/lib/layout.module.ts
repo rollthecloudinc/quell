@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from '@rollthecloudinc/material';
@@ -22,7 +21,6 @@ import { GridlessLayoutRendererComponent } from './components/gridless-layout-re
 import { SplitLayoutEditorComponent } from './components/split-layout-editor/split-layout-editor.component';
 import { FlexLayoutRendererComponent } from './components/flex-layout-renderer/flex-layout-renderer.component';
 import { GridLayoutEditorComponent } from './components/grid-layout-editor/grid-layout.editor.component';
-import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { RouterModule } from '@angular/router';
 import { LayoutSidenavComponent } from './components/layout-sidenav/layout-sidenav.component';
 // import { FlexLayoutServerModule } from '@angular/flex-layout/server';
@@ -48,7 +46,6 @@ import { LayoutSidenavComponent } from './components/layout-sidenav/layout-siden
     RouterModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule,
     // FlexLayoutServerModule,
     AngularSplitModule,
     GridsterModule,

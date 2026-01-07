@@ -5,9 +5,9 @@
       <nav>
         <ul>
           <li *ngIf="savable"><button mat-menu-item type="button" (click)="editor.submit()">Save</button></li>
-          <li><button type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button></li>
+          <li *ngIf="splitLayout"><button type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button></li>
           <li><button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Props</button></li>
-          <li><button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button></li>
+          <li *ngIf="splitLayout"><button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button></li>
           <li *ngIf="nested"><button mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button></li>
@@ -69,12 +69,12 @@
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #panelActions="matMenu">
-          <button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('column', i)">Layout Settings</button>
+          <button *ngIf="splitLayout" type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('column', i)">Layout Settings</button>
           <button type="button" mat-menu-item (mousedown)="editor.addContent(i)" (touchstart)="editor.addContent(i)">Add Content</button>
           <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(i)" (touchstart)="editor.editPanelProps(i)" >Props</button>
           <button *ngIf="!editor.hasPanelStyle(i)" mat-menu-item type="button" (mousedown)="editor.applyStyle(i)" (touchstart)="editor.applyStyle(i)" >Apply Style</button>
           <button *ngIf="editor.hasPanelStyle(i)" mat-menu-item type="button" (mousedown)="editor.removeStyle(i)" (touchstart)="editor.removeStyle(i)" >Remove Style</button>
-          <button type="button" class="delete" mat-menu-item (mousedown)="splitLayout.removeColumn2(i)" (touchstart)="splitLayout.removeColumn2(i)">Delete</button>
+          <button *ngIf="splitLayout" type="button" class="delete" mat-menu-item (mousedown)="splitLayout.removeColumn2(i)" (touchstart)="splitLayout?.removeColumn2(i)">Delete</button>
         </mat-menu>
     
         <div *ngIf="editor.hasPanelStyle(i)" class="style-title">{{ editor.panelStyleTitle(i) }}</div>
@@ -101,9 +101,9 @@
 
 <mat-menu #topActions="matMenu">
   <button *ngIf="savable" mat-menu-item type="submit" (click)="editor.submit()">Save</button>
-  <button type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button>
+  <button *ngIf="splitLayout" type="button" mat-menu-item (mousedown)="splitLayout.addRow()">Add Row</button>
   <button type="button" mat-menu-item (click)="editor.onPropertiesClick()">Props</button>
-  <button type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button>
+  <button *ngIf="splitLayout" type="button" mat-menu-item (mousedown)="splitLayout.layoutSettings('global')">Layout Settings</button>
   <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button>

@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { NxModule } from '@nrwl/angular';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
@@ -65,7 +64,6 @@ import { FormsModule as DruidFormsModule } from '@rollthecloudinc/forms';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@rollthecloudinc/alienalias';
 import { OutsiderModule } from '@rollthecloudinc/outsider';
-import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { TractorbeamModule } from '@rollthecloudinc/tractorbeam';
 import { RefineryModule } from '@rollthecloudinc/refinery';
 import { SheathModule } from '@rollthecloudinc/sheath';
@@ -148,7 +146,6 @@ export function markedOptionsFactory(): MarkedOptions {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        FlexLayoutModule,
         NgxJsonViewerModule,
         //TransferHttpCacheModule,
         MarkdownModule.forRoot({

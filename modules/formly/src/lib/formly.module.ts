@@ -14,7 +14,6 @@ import { FormlyAutocompleteComponent } from './components/formly-autocomplete/fo
 import { FormlyRepeatingSectionComponent } from './components/formly-repeating-section/formly-repeating-section.component';
 import { formlyFieldContentPluginFactory, formlyRepeatingStyleFactory } from './formly.factories';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { RestModule } from '@rollthecloudinc/rest';
 import { DatasourceModule } from '@rollthecloudinc/datasource';
 import { DurlModule } from '@rollthecloudinc/durl';
@@ -46,7 +45,6 @@ import { RenderModule } from '@rollthecloudinc/render';
     CommonModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule,
     RealFormlyModule.forChild({
       types: [
         {

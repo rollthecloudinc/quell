@@ -1,20 +1,36 @@
-<div fxFill [fxLayout]="direction">
-  <div *for="totalRows; let i = index" [fxFlex]="rowFlex(i)">
-    <div [fxLayout]="rowDirection(i)" [ngStyle]="{ height: '100%' }">
-      <div *for="totalColumns(i); let j = index" [fxFlex]="dashboard[itemIndex(i, j)].cols">
-        <p hidden>row: {{ i }} | column: {{ j }} | size: {{ dashboard[itemIndex(i, j)].cols }}</p>
-        <div class="grid-item-inner" [ngStyle]="gridItemInnerStyles(i, j)">
-          <ng-container *ngTemplateOutlet="innerGridItemTmpl,context: { i: itemIndex(i, j) }"></ng-container>
+<div 
+  class="layout-host" 
+  [style.flex-direction]="direction"
+  [style.gap]="layoutGap">
+
+  <div 
+    *ngFor="let row of [].constructor(totalRows); let i = index" 
+    class="flex-row-wrapper"
+    [style.flex]="rowFlex(i)">
+    
+    <div 
+      class="layout-row-container" 
+      [style.flex-direction]="rowDirection(i)"
+      [style.gap]="rowGap(i)">
+      
+      <div 
+        *ngFor="let col of [].constructor(totalColumns(i)); let j = index" 
+        class="flex-column-item"
+        [style.flex]="getColFlex(i, j)"
+        [style.max-width.%]="dashboard[itemIndex(i, j)]?.cols">
+        
+        <p hidden>row: {{ i }} | column: {{ j }} | size: {{ dashboard[itemIndex(i, j)]?.cols }}</p>
+        
+        <div 
+          class="grid-item-inner" 
+          [ngStyle]="gridItemInnerStyles(i, j)">
+          
+          <ng-container 
+            *ngTemplateOutlet="innerGridItemTmpl; context: { i: itemIndex(i, j) }">
+          </ng-container>
+          
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<!-- Here is the flex layout. -->
-
-<!--
-flex on row indirectly - could be "expand"?
-height of row -- when expand the height is automatically set to 100% - using fill...
--> indrectly set the item inner to the height of --
--->

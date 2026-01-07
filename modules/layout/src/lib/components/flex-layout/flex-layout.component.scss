@@ -1,0 +1,71 @@
+// Ensure the component itself takes up space
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+// Replaces fxFill and the top-level fxLayout container
+.layout-host {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  
+  // These ensure that nested flex items don't overflow their containers
+  // and can shrink smaller than their content if necessary.
+  min-width: 0;
+  min-height: 0;
+}
+
+// The wrapper for each row defined by totalRows
+.flex-row-wrapper {
+  display: flex;
+  flex-direction: column; 
+  box-sizing: border-box;
+  width: 100%;
+  
+  // This allows the row to grow and shrink as defined by rowFlex(i)
+  min-height: 0;
+}
+
+// Replaces the inner fxLayout row and the { height: '100%' } style
+.layout-row-container {
+  display: flex;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  
+  // Ensures columns within the row stay contained
+  overflow: hidden; 
+}
+
+// Replaces [fxFlex] on the individual column items
+.flex-column-item {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  
+  // Critical for responsive layouts: prevents columns from 
+  // pushing the parent container wider than 100%
+  min-width: 0; 
+  
+  // Ensures the inner content can fill the height of the column
+  position: relative; 
+}
+
+// The inner wrapper where your TemplateRef is injected
+.grid-item-inner {
+  width: 100%;
+  box-sizing: border-box;
+  
+  // If height is 'auto' (default), this will let content dictate size.
+  // If height is '100%' or a pixel value from gridItemInnerStyles, it applies here.
+  display: flex;
+  flex-direction: column;
+}
+
+// Accessibility: Ensure the debug paragraph doesn't take up space
+p[hidden] {
+  display: none;
+}

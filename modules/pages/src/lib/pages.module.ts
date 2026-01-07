@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, UrlSegment, Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MarkdownModule, MarkdownComponent } from 'ngx-markdown';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularSplitModule } from 'angular-split';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { NgxAngularQueryBuilderModule } from 'ngx-angular-query-builder';
+import { NgxAngularQueryBuilderModule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { MediaModule } from '@rollthecloudinc/media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from '@rollthecloudinc/utils';
 import { TokenizerService, TokenModule } from '@rollthecloudinc/token';
@@ -98,7 +97,6 @@ import { PaneContentHostDirective } from './directives/pane-content-host.directi
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 // import { PanelpageModule } from 'panelpage';
 // import { EditablepaneModule } from 'editablepane';
-// import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -135,8 +133,6 @@ const routes = [
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule,
-    // FlexLayoutServerModule,
     AngularSplitModule,
     RouterModule.forChild(routes),
     NgxJsonViewerModule,
