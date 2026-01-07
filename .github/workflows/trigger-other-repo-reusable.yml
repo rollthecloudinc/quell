@@ -1,0 +1,33 @@
+name: Trigger Other Repo Workflow (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      ENVIRONMENT:
+        required: true
+        type: string
+    secrets:
+      RTC_GITHUB_REGISTRY:
+        required: true
+      DESTINATION_REPO:
+        required: true
+      DESTINATION_USER:
+        required: false
+      TARGET_BRANCH:
+        required: true
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.ENVIRONMENT }}
+    steps:
+      - name: Trigger repository dispatch event
+        run: |
+          BRANCH="${{ secrets.TARGET_BRANCH }}"
+          ENVIRONMENT="${{ inputs.ENVIRONMENT }}"
+
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.RTC_GITHUB_REGISTRY }}" \
+            https://api.github.com/repos/${{ secrets.DESTINATION_USER || 'rollthecloudinc' }}/${{ secrets.DESTINATION_REPO }}/dispatches \
+            -d "{\"event_type\": \"run-workflow\", \"client_payload\": {\"branch\": \"${BRANCH}\", \"environment\": \"${ENVIRONMENT}\"}}"
