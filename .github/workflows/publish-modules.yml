@@ -21,16 +21,25 @@ jobs:
           registry-url: https://npm.pkg.github.com
           always-auth: true
 
-      - name: Bump versions with jq
+      - name: Bump prerelease version with jq
         id: bump
         run: |
-          # Extract current version
+          # Read current version
           current=$(jq -r '.version' package.json)
           echo "Current version: $current"
 
-          # Compute new version (patch bump)
-          new=$(echo "$current" | awk -F. '{ printf "%d.%d.%d", $1, $2, $3 + 1 }')
+          # Extract parts: major.minor.patch-tag.number
+          base=$(echo "$current" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          tag=$(echo "$current"  | sed -E 's/^[0-9]+\.[0-9]+\.[0-9]+-([a-zA-Z]+)\.[0-9]+/\1/')
+          num=$(echo "$current"  | sed -E 's/.*\.([0-9]+)$/\1/')
+
+          # Increment prerelease number
+          new_num=$((num + 1))
+
+          # Construct new version
+          new="${base}-${tag}.${new_num}"
           echo "New version: $new"
+
           echo "new_version=$new" >> "$GITHUB_OUTPUT"
 
           # Update root package.json
