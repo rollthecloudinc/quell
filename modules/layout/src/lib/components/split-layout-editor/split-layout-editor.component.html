@@ -11,6 +11,7 @@
           <li *ngIf="nested"><button mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button></li>
+          <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onPrerenderClick()">Prerender</button></li>
           <li *ngIf="nested"><button mat-menu-item type="button" (click)="editor.onDeleteClick()">Delete</button></li>
         </ul>
       </nav>
@@ -107,5 +108,6 @@
   <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onRulesClick()">Rules</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button>
+  <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPrerenderClick()">Prerender</button>
   <button *ngIf="nested" mat-menu-item type="button" (click)="editor.onDeleteClick()">Delete</button>
 </mat-menu>

@@ -5,11 +5,13 @@ import { RuleSet } from '@rollthecloudinc/ngx-angular-query-builder';
 import { InlineContext } from '@rollthecloudinc/context';
 import { PersistenceFormPayload } from "@rollthecloudinc/refinery";
 import { InteractionsFormPayload } from "@rollthecloudinc/detour";
+import { PrerenderFormPayload } from "../models/form.models";
 
 // Editor behaviors
 export interface PanelsEditor {
 
   onPropertiesClick(): void;
+  onPrerenderClick(): void;
   onDeleteClick(): void;
   onRulesClick(): void;
   // onPropsClick(): void;
@@ -77,6 +79,7 @@ export class PanelPage {
   cssFile?: string;
   persistence?: PersistenceFormPayload;
   interactions?: InteractionsFormPayload;
+  prerender?: PrerenderFormPayload;
   constructor(data?: PanelPage) {
     if(data) {
       this.id = data.id;
@@ -89,6 +92,7 @@ export class PanelPage {
       this.path = data.path ? data.path : undefined;
       this.persistence = data.persistence ? new PersistenceFormPayload(data.persistence) : undefined;
       this.interactions = data.interactions ? new InteractionsFormPayload(data.interactions) : undefined;
+      this.prerender = data.prerender ? new PrerenderFormPayload(data.prerender) : undefined;
       if(data.panels) {
         this.panels = data.panels.map(p => new Panel(p));
       }

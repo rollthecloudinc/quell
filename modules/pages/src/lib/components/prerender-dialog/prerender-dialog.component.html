@@ -1,0 +1,15 @@
+<form class="prerender-form" [formGroup]="prerenderForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+      <div>
+        <mat-form-field>
+          <input matInput formControlName="route" placeholder="Route">
+        </mat-form-field>
+        <classifieds-ui-datasource-form formControlName="_proxy" [datasource]="datasource"></classifieds-ui-datasource-form>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!prerenderForm.valid">Save</button>
+  </mat-dialog-actions>
+</form>

@@ -10,6 +10,7 @@
           <li *ngIf="nested"><button type="button" mat-menu-item (click)="editor.onRulesClick()">Rules</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button></li>
           <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button></li>
+          <li *ngIf="savable"><button type="button" mat-menu-item (mousedown)="editor.onPrerenderClick()">Prerender</button></li>
           <li><button type="button" mat-menu-item (mousedown)="editor.addContent(0)" (touchstart)="editor.addContent(0)">Add Content</button></li>
           <li><button type="button" mat-menu-item (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button></li>
           <li *ngIf="!editor.hasPanelStyle(0)"><button mat-menu-item  type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button></li>
@@ -91,6 +92,7 @@
   <button *ngIf="nested" type="button" mat-menu-item (click)="editor.onRulesClick()">Rules</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPersistenceClick()">Persistence</button>
   <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onInteractionsClick()">Interactions</button>
+  <button *ngIf="savable" type="button" mat-menu-item (mousedown)="editor.onPrerenderClick()">Prerender</button>
   <button type="button" mat-menu-item (mousedown)="editor.addContent(0)" (touchstart)="editor.addContent(0)">Add Content</button>
   <button type="button" mat-menu-item (mousedown)="editor.editPanelProps(0)" (touchstart)="editor.editPanelProps(0)" >Props</button>
   <button *ngIf="!editor.hasPanelStyle(0)" mat-menu-item  type="button" (mousedown)="editor.applyStyle(0)" (touchstart)="editor.applyStyle(0)">Apply Style</button>

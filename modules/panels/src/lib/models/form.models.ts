@@ -1,4 +1,5 @@
 import { AttributeValue } from '@rollthecloudinc/attributes';
+import { Datasource } from '@rollthecloudinc/datasource';
 import { PersistenceFormPayload } from '@rollthecloudinc/refinery';
 
 export class PropertiesFormPayload {
@@ -107,6 +108,19 @@ export class FormDatasource {
     if (data) {
       this.name = data.name;
       this.field = data.field;
+    }
+  }
+}
+
+export class PrerenderFormPayload {
+  route: string;
+  datasource: Datasource
+  constructor(data?: PrerenderFormPayload) {
+    if(data) {
+      this.route = data.route;
+      if (data.datasource) {
+        this.datasource = new Datasource(data.datasource);
+      }
     }
   }
 }
