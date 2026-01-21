@@ -1,6 +1,6 @@
 {
   "name": "@rollthecloudinc/datasource",
-  "version": "20.0.0-alpha.47",
+  "version": "20.0.0-alpha.48",
   "repository": "https://github.com/rollthecloudinc/druid",
   "peerDependencies": {
     "@angular/common": "^20.0.0",
