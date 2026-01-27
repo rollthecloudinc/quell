@@ -5,7 +5,7 @@ import { of, forkJoin , iif } from 'rxjs';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 import { map, catchError, tap } from 'rxjs/operators';
 import { PanelPageListItem, PanelPage } from '@rollthecloudinc/panels';
-import { PanelPageRouterComponent } from '../components/panel-page-router/panel-page-router.component';
+import { PanelPageRouterComponent } from '@rollthecloudinc/render';
 import { EditPanelPageComponent } from '../components/edit-panel-page/edit-panel-page.component';
 import qs from 'qs'
 import { createEditMatcher, createMatcher } from '../pages.factories';

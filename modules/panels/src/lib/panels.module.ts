@@ -8,7 +8,7 @@ import { EMBEDDABLE_COMPONENT, NoopDataService } from '@rollthecloudinc/utils';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from '@rollthecloudinc/content';
-import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory } from './panels.factories';
+import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory, yieldContentPluginFactory } from './panels.factories';
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
@@ -31,6 +31,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import * as fromPageBuilder from './features/page-builder/page-builder.reducer';
 import { PANELS_SETTINGS } from './panels.tokens';
+import { YieldContentHandler } from './handlers/yield-content.handler';
 // import { PanelsStateContextEditorComponent } from './components/panels-state-context-editor/panels-state-context-editor.component';
 
 @NgModule({
@@ -78,7 +79,8 @@ export class PanelsModule {
     entityDefinitionService: EntityDefinitionService,
     /*ctxm: ContextPluginManager,
     panelsStateContextResolver: PanelsStateContextResolver*/
-    crudDataHelper: CrudDataHelperService
+    crudDataHelper: CrudDataHelperService,
+    yieldHandler: YieldContentHandler
   ) {
     const entityMetadata = entityMetadataFactory(platformId, panelsSettings);
     eds.registerMetadataMap(entityMetadata);
@@ -87,6 +89,7 @@ export class PanelsModule {
     entityDataService.registerService('PanelPage', new CrudDataService<PanelPage>('PanelPage', crud, entityDefinitionService, crudDataHelper));
     entityDataService.registerService('PanelPageListItem', new CrudDataService<PanelPageListItem>('PanelPageListItem', crud, entityDefinitionService, crudDataHelper));
     contentPlugins.forEach(p => cpm.register(p));
+    cpm.register(yieldContentPluginFactory({ handler: yieldHandler }));
     bpm.register(panelsBridgeFactory(es, attributesSerialzer));
     // ctxm.register(panelsStateContextFactory(panelsStateContextResolver));
     // console.log('register panel page state');

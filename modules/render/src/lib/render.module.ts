@@ -17,10 +17,13 @@ import { RenderDialogComponent } from './components/render-dialog/render-dialog.
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
+import { PanelPageRouterComponent } from './components/panel-page-router/panel-page-router.component';
+import { RouteReuseStrategy } from '@angular/router';
+import { YieldingRouteReuseStrategy } from './strategy/yielding-route-reuse-strategy';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
-  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent, RenderDialogComponent ],
+  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent, RenderDialogComponent, PanelPageRouterComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,
@@ -36,7 +39,12 @@ import { TransversePanelPageComponentService } from './services/transverse-panel
     RenderPanelComponent,
     RenderPaneComponent,
     PanelPageComponent,
-    EmptyLayoutComponent
+    EmptyLayoutComponent,
+    PanelPageRouterComponent
+  ],
+  providers: [
+    { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageRouterComponent, multi: true},
+    { provide: RouteReuseStrategy, useClass: YieldingRouteReuseStrategy},
   ]
 })
 export class RenderModule { 

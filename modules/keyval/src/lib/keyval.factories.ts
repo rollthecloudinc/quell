@@ -103,8 +103,20 @@ export const idbEntityCrudAdaptorPluginFactory = (
       switchMap(options => from(getKeyvalFunctions(platformId)).pipe(
         switchMap(({ keys, getMany }) => new Observable<CrudCollectionOperationResponse>(obs => {
           keys()
+            .then(keys => {
+              console.log('crud adaptor idb query keys route:', keys);
+              return keys;
+            })
             .then(keys => keys.filter(k => `${k}`.indexOf(options.get('prefix') as string) === 0))
+            .then(keys => {
+              console.log('crud adaptor idb query keys filtered route:', keys);
+              return keys;
+            })
             .then(keys => getMany(keys))
+            .then(entities => {
+              console.log('crud adaptor idb query entities route:', entities);
+              return entities;
+            })
             .then(entities => {
               obs.next({ entities, success: true });
               obs.complete();
@@ -122,7 +134,8 @@ export const idbEntityCrudAdaptorPluginFactory = (
         // This should not be here should be setup for default engine but for now whatever.
         engine.addOperator('startsWith', (fv, jv) => typeof(jv) === 'string' && typeof(fv) === 'string' && jv.indexOf(fv) === 0);
         engine.addOperator('term||wildcard', (fv: string, jv: string) => {
-          const jsonValue = JSON.parse(decodeURIComponent(jv));
+          console.log('route term||wildcard operator', fv, jv);
+          const jsonValue = jv == '*'  ? jv : JSON.parse(decodeURIComponent(jv));
           const terms = jpp.JSONPath({ path: `$.term.*.value.@string()`, json: jsonValue, flatten: true });
           return jsonValue.wildcard !== undefined || (jsonValue.term && terms.length !== 0 && terms[0] === fv);
         });
