@@ -1,7 +1,7 @@
 import { Inject, NgModule, PLATFORM_ID } from '@angular/core';
 import { CrudAdaptorPluginManager, CrudModule } from '@rollthecloudinc/crud';
 import { ParamEvaluatorService } from '@rollthecloudinc/dparam';
-import { idbEntityCrudAdaptorPluginFactory } from './keyval.factories';
+import { idbEntityCrudAdaptorPluginFactory, memoryEntityCrudAdaptorPluginFactory } from './keyval.factories';
 
 @NgModule({
   declarations: [],
@@ -17,5 +17,6 @@ export class KeyvalModule {
     paramsEvaluatorService: ParamEvaluatorService
   ) {
     cpm.register(idbEntityCrudAdaptorPluginFactory(paramsEvaluatorService, platformId));
+    cpm.register(memoryEntityCrudAdaptorPluginFactory(paramsEvaluatorService));
   }
 }
