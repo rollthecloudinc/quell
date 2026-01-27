@@ -7,7 +7,7 @@ import { PaneContentHostDirective } from './directives/pane-content-host.directi
 // import { RenderPanelComponent } from './components/render-panel/render-panel.component';
 // import { RenderPaneComponent } from './components/render-pane/render-pane.component';
 import { LayoutRendererHostDirective } from './directives/layout-renderer-host.directive';
-import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent } from './components/panel-page/panel-page.component';
+import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent, PanelPageRouterComponent } from './components/panel-page/panel-page.component';
 import { LayoutModule } from '@rollthecloudinc/layout';
 import { FormService, PageBuilderFacade, PanelsModule } from '@rollthecloudinc/panels';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
@@ -17,7 +17,6 @@ import { RenderDialogComponent } from './components/render-dialog/render-dialog.
 import { MatDialog } from '@angular/material/dialog';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
-import { PanelPageRouterComponent } from './components/panel-page-router/panel-page-router.component';
 import { RouteReuseStrategy } from '@angular/router';
 import { YieldingRouteReuseStrategy } from './strategy/yielding-route-reuse-strategy';
 // import { PanelpageModule } from 'panelpage';
