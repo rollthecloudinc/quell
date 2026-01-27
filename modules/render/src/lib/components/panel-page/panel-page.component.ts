@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT, SkipSelf, Optional } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator, ControlContainer } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute, Data } from '@angular/router';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
@@ -8,7 +9,7 @@ import { AsyncApiCallHelperService, StyleLoaderService } from '@rollthecloudinc/
 import { FilesService, MediaSettings, MEDIA_SETTINGS } from '@rollthecloudinc/media';
 import { InteractionEventPluginManager, InteractionHandlerPluginManager, InteractionListener } from '@rollthecloudinc/detour';
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@rollthecloudinc/context';
-import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService } from '@rollthecloudinc/panels';
+import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
 import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError, startWith, first } from 'rxjs/operators';
@@ -31,7 +32,129 @@ import merge from 'deepmerge-json';
 import { AuthFacade } from '@rollthecloudinc/auth';
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { RENDER_PANE_TOKEN } from '../../render.tokens';
-import { PanelPageRouterComponent } from '../panel-page-router/panel-page-router.component';
+import { PANEL_PAGE_ROUTER_TOKEN } from '../../render.tokens';
+
+@Component({
+    selector: 'classifieds-ui-panel-page-router',
+    templateUrl: './panel-page-router.component.html',
+    styleUrls: ['./panel-page-router.component.scss'],
+    standalone: false,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PanelPageRouterComponent),
+            multi: true
+        },
+      { provide: PANEL_PAGE_ROUTER_TOKEN, useExisting: forwardRef(() => PanelPageRouterComponent) }
+    ]
+})
+export class PanelPageRouterComponent implements OnInit, ControlValueAccessor {
+
+  // control = new FormControl('');
+
+  readonly yield = !!this.panelPageRouterComponent
+  routePanelPageId: string;
+  panelPageId: string;
+
+  public onTouched: () => void = () => {};
+
+  private panelPageService: EntityCollectionService<PanelPage>;
+
+  readonly paramMapSub = this.route.paramMap.pipe(
+    tap(() => console.log('param map panelPageId')),
+    map(p => p.get('panelPageId')),
+    filter(id => id !== undefined),
+    switchMap(() => this.route.data),
+    // this.yield equals false act as decorator when equals true act as normal.
+    // When false set routePanelPageId if it exists
+    withLatestFrom(this.routerStore.pipe(
+      select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
+      map(route => route.params),
+      take(1)
+    )),
+    tap(([data, args]) => console.log('panel page router param map', data.panelPageListItem.id, args)),
+    map(([data, args]) => [data.panelPageListItem.id, args, data.path]),
+    tap(([panelPageId, args, path]) => console.log('panel page router param map 2', panelPageId, args, path)),
+    switchMap(([panelPageId, args, path]) =>
+      this.yield ?
+      of([panelPageId, args, undefined]) :
+      this.crudDataHelperService
+        .evaluateCollectionPlugins<PanelPage>({
+          query: undefined,
+          plugins: (this.entityDefinitionService.getDefinition('PanelPage').metadata as CrudEntityMetadata<any, {}>).crud,
+          op: 'query'
+        }).pipe(
+          map(objects => objects.filter(o => o.path === '*')),
+          map(objects => objects && objects.length ? objects[0].id : undefined),
+          map(decoratorId => [panelPageId, args, path, decoratorId]),
+          defaultIfEmpty([panelPageId, args, path, undefined])
+        )
+    ),
+    tap(([ panelPageId, args, path, decoratorId ]) => {
+      console.log('route page');
+      const realPath = '/pages/panelpage/' + panelPageId;
+      this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ id: panelPageId, realPath, path, args }));
+      this.panelPageId = panelPageId;
+      // this.routePanelPageId = decoratorId
+      if (decoratorId !== undefined && decoratorId !== this.routePanelPageId) {
+        this.routePanelPageId = decoratorId;
+      }
+      console.log('router panelPageId', this.panelPageId);
+      console.log('router routePanelPageId', this.routePanelPageId);
+    })
+  ).subscribe()
+
+  constructor(
+    @Optional() @SkipSelf() @Inject(PANEL_PAGE_ROUTER_TOKEN) private panelPageRouterComponent: PanelPageRouterComponent,
+    private route: ActivatedRoute,
+    private pageBuilderFacade: PageBuilderFacade,
+    private routerStore: Store<RouterReducerState>,
+    private asyncApiCallHelperSvc: AsyncApiCallHelperService,
+    private crudDataHelperService: CrudDataHelperService,
+    protected entityDefinitionService: EntityDefinitionService,
+    es: EntityServices,
+  ) {
+    this.panelPageService = es.getEntityCollectionService('PanelPage');
+  }
+
+  writeValue(val: any): void {
+  }
+
+  registerOnChange(fn: any): void {
+  }
+
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState?(isDisabled: boolean): void {
+  }
+
+  ngOnInit(): void {
+    /*
+     * When not yileding content update the state for both the target page and route page.
+    * Do this at the very same time so that the context is available throughout for rules and such.
+     */
+    if (!this.yield) {
+      const { selectCurrentRoute } = getRouterSelectors((state: any) => state.router);
+      this.route.paramMap.pipe(
+        tap(() => console.log('param map page builder facade info')),
+        withLatestFrom(this.pageBuilderFacade.getPageInfo$),
+        filter(([p, pageInfo]) => pageInfo !== undefined && p.get('panelPageId') !== undefined && p.get('panelPageId') === pageInfo.id),
+        switchMap(([p, pageInfo]) => this.routerStore.pipe(
+          select(selectCurrentRoute),
+          map(route => [pageInfo, route.params]),
+          take(1)
+        ))
+      ).subscribe(([pageInfo, args]) => {
+        //console.log('update page info');
+        this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ ...pageInfo, args }));
+      });
+    }
+  }
+
+}
+
 
 /**
  * Putting render pane inside the same file is a documented work around for the

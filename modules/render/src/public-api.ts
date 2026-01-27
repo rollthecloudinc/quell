@@ -7,4 +7,3 @@ export * from './lib/render.module';
 export * from './lib/components/panel-page/panel-page.component';
 export * from './lib/components/empty-layout/empty-layout.component';
 export * from './lib/services/transverse-panelpage-component.service';
-export * from './lib/components/panel-page-router/panel-page-router.component';
