@@ -332,7 +332,6 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private paneStateService: PaneStateService,
     private paramEvaluatorService: ParamEvaluatorService,
     private renderer: Renderer2,
-    public controlContainer: ControlContainer,
     es: EntityServices,
   ) {
     this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
