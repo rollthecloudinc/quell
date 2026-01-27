@@ -1,0 +1,80 @@
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://npm.pkg.github.com
+          always-auth: true
+
+      - name: Bump prerelease version with jq
+        id: bump
+        run: |
+          # Read current version
+          current=$(jq -r '.version' package.json)
+          echo "Current version: $current"
+
+          # Extract parts: major.minor.patch-tag.number
+          base=$(echo "$current" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+          tag=$(echo "$current"  | sed -E 's/^[0-9]+\.[0-9]+\.[0-9]+-([a-zA-Z]+)\.[0-9]+/\1/')
+          num=$(echo "$current"  | sed -E 's/.*\.([0-9]+)$/\1/')
+
+          # Increment prerelease number
+          new_num=$((num + 1))
+
+          # Construct new version
+          new="${base}-${tag}.${new_num}"
+          echo "New version: $new"
+
+          echo "new_version=$new" >> "$GITHUB_OUTPUT"
+
+          # Update root package.json
+          jq --arg v "$new" '.version = $v' package.json > package.json.tmp
+          mv package.json.tmp package.json
+
+          # Update module package.json files
+          for f in modules/*/package.json; do
+            echo "Updating version in $f"
+            jq --arg v "$new" '.version = $v' "$f" > "$f.tmp"
+            mv "$f.tmp" "$f"
+          done
+
+      - name: Install dependencies
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      - name: Build libraries
+        run: ./bin/build_libs_prod.sh
+
+      - name: Commit updated versions directly to master
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@github.com"
+
+          git add package.json modules/*/package.json
+
+          git commit -m "ci: auto bump version to ${{ steps.bump.outputs.new_version }}" || echo "No changes to commit"
+
+          git push origin master
+        env:
+          GITHUB_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+
+      - name: Publish libraries
+        run: ./bin/publish_libs.sh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}

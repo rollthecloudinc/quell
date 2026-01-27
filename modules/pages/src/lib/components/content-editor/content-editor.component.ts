@@ -5,7 +5,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from '@rollthecloudinc/content';
-import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload } from '@rollthecloudinc/panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload, PrerenderFormPayload } from '@rollthecloudinc/panels';
 import { TokenizerService } from '@rollthecloudinc/token';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 // import { STYLE_PLUGIN } from '@rollthecloudinc/style';
@@ -21,7 +21,7 @@ import { debounceTime, delay, filter, map, tap, switchMap, take } from 'rxjs/ope
 // import { PanelContentHandler } from '../../handlers/panel-content.handler';
 import { StyleSelectorComponent } from '../style-selector/style-selector.component';
 import { RulesDialogComponent } from '../rules-dialog/rules-dialog.component';
-import { Rule as NgRule } from 'ngx-angular-query-builder';
+import { Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { PropertiesDialogComponent } from '../properties-dialog/properties-dialog.component';
 import { ContextDialogComponent } from '../context-dialog/context-dialog.component';
 import { PanelPropsDialogComponent } from '../panel-props-dialog/panel-props-dialog.component';
@@ -34,6 +34,7 @@ import { paneStateContextFactory } from '../../pages.factories';
 import { PaneStateContextResolver } from '../../contexts/pane-state-context.resolver';
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecloudinc/detour';
+import { PrerenderDialogComponent } from '../prerender-dialog/prerender-dialog.component';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -350,6 +351,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   pageProperties = new PropertiesFormPayload();
   persistence = new PersistenceFormPayload();
   interactions = new InteractionsFormPayload();
+  prerenderProperties = new PrerenderFormPayload();
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
@@ -522,6 +524,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.rowSettings = changes.panelPage.currentValue.rowSettings ? changes.panelPage.currentValue.rowSettings.map(rs => new LayoutSetting(rs)) : [];
       this.persistence = changes.panelPage.currentValue.persistence ? new PersistenceFormPayload(changes.panelPage.currentValue.persistence) : new PersistenceFormPayload();
       this.interactions = changes.panelPage.currentValue.interactions ? new InteractionsFormPayload(changes.panelPage.currentValue.interactions) : new InteractionsFormPayload();
+      this.prerenderProperties = changes.panelPage.currentValue.prerender ? new PrerenderFormPayload(changes.panelPage.currentValue.prerender) : new PrerenderFormPayload();
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds, cssFile: changes.panelPage.currentValue.cssFile });
         this.contexts = changes.panelPage.currentValue.contexts;
@@ -770,6 +773,20 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     });
   }
 
+  onPrerenderClick() {
+    // this.props.emit();
+    this.dialog
+    .open(PrerenderDialogComponent, { data: { props: this.prerenderProperties } })
+    .afterClosed()
+    .subscribe((props: PrerenderFormPayload) => {
+      if(props) {
+        this.prerenderProperties = new PrerenderFormPayload({ ...props });
+        // this.contentForm.get('name').setValue(props.name);
+        // this.contentForm.get('title').setValue(props.title);
+      }
+    });
+  }
+
   /*onRulesPane(index: number, index2: number) {
     const pane = new Pane(this.panelPane(index, index2).value);
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
@@ -937,6 +954,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       rowSettings: this.rowSettings.map(rs => new LayoutSetting(rs)),
       persistence: this.persistence,
       interactions: this.interactions,
+      prerender: this.prerenderProperties,
       entityPermissions: {
         readUserIds: this.pageProperties.readUserIds,
         writeUserIds: [],

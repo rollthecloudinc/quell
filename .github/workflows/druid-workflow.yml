@@ -75,13 +75,15 @@ jobs:
 
           # 3. Reinstall packages with --force (Applies all overrides)
           echo "--- Running npm install to apply overrides ---"
-          npm install --force
+          npm install
           
           # 4. Final safety measure: Force module flattening
           #echo "--- Running npm dedupe as final check ---"
           #npm dedupe --force
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+      - run: npm run get-routes
+      - run: npm run extract-routes
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
       - run: echo "::set-output name=stamp::$(date +'%Y%m%d%H%M%S')"
         name: Generate Release Stamp

@@ -5,7 +5,6 @@ import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withJsonp
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // import { NxModule } from '@nrwl/angular';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
 // tslint:disable-next-line:nx-enforce-module-boundaries
 // import { AD_SETTINGS, AdSettings } from '@classifieds-ui/ads';
@@ -59,20 +58,19 @@ import { PlaygroundComponent } from './components/playground/playground.componen
 import { TransformModule } from '@rollthecloudinc/transform';
 import { DeityModule } from '@rollthecloudinc/deity';
 import { LoopModule } from '@rollthecloudinc/loop';
-import { RenderModule } from '@rollthecloudinc/render';
+import { RenderModule, PanelPageRouterComponent } from '@rollthecloudinc/render';
 import { FormsModule as DruidFormsModule } from '@rollthecloudinc/forms';
 // import { TransferHttpCacheModule } from '@angular/ssr';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 import { AlienaliasModule, AlienaliasSettings, ALIENALIAS_SETTINGS } from '@rollthecloudinc/alienalias';
 import { OutsiderModule } from '@rollthecloudinc/outsider';
-import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { TractorbeamModule } from '@rollthecloudinc/tractorbeam';
 import { RefineryModule } from '@rollthecloudinc/refinery';
 import { SheathModule } from '@rollthecloudinc/sheath';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { CloudwatchRumSettings, CLOUDWATCH_RUM_SETTINGS, initializeRumMonitorFactory } from '@rollthecloudinc/awrum';
 import { panelpages } from '../environments/panelpages';
-import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, PanelPageRouterComponent, PAGES_SETTINGS, PagesSettings } from '@rollthecloudinc/pages';
+import { createEditMatcher, createMatcher, EditPanelPageComponent, PagesModule, PAGES_SETTINGS, PagesSettings } from '@rollthecloudinc/pages';
 import { initializeIdbDataFactory } from '@rollthecloudinc/keyval';
 import { panelpages as panelpages2 } from '../environments/panelpages2';
 import { OrdainModule } from '@rollthecloudinc/ordain';
@@ -105,8 +103,9 @@ const routes = [
   } },*/
   // { path: '', children: [] /*, component: HomeComponent*/ },
   //{ path: '**', component: NotFoundComponent }
+  // Exclude the catch all so that pagealias can handle it and decorators don't create routing objects remain invisible.
   ...panelpages.map(([id, path]) =>  ({ matcher: createEditMatcher(new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path })), component: EditPanelPageComponent, data: { panelPageListItem: new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path }) } })),
-  ...panelpages.map(([id, path]) =>  ({ matcher: createMatcher(new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path })), component: PanelPageRouterComponent, data: { panelPageListItem: new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path }) } })),
+  ...panelpages.map(([id, path]) =>  ({ matcher: createMatcher(new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path })), component: PanelPageRouterComponent, data: { path, panelPageListItem: new PanelPage({ id, layoutType: '', displayType: '', gridItems: [], panels: [], layoutSetting: undefined, rowSettings: [], path }) } })),
   { path: '**', component: CatchAllRouterComponent, canActivate: [ CatchAllGuard ] }
   //{ path: '', redirectTo: 'pages', pathMatch: "full" }
 ];
@@ -148,7 +147,6 @@ export function markedOptionsFactory(): MarkedOptions {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        FlexLayoutModule,
         NgxJsonViewerModule,
         //TransferHttpCacheModule,
         MarkdownModule.forRoot({
@@ -246,7 +244,7 @@ export function markedOptionsFactory(): MarkedOptions {
         return initializerFn();
       }),
         provideAppInitializer(() => {
-        const initializerFn = (initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => new PanelPage(p)) }))(inject(PLATFORM_ID));
+        const initializerFn = (initializeIdbDataFactory({ key: ({ data }) => 'panelpage__' + data.id, data: panelpages2.map(p => { console.log('route injection', new PanelPage(p as any)); return new PanelPage(p as any); }) }))(inject(PLATFORM_ID));
         return initializerFn();
       }),
         provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),

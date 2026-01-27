@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT } from '@angular/core';
-import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator } from '@angular/forms';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT, SkipSelf, Optional } from '@angular/core';
+import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator, ControlContainer } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { EntityServices, EntityCollectionService, EntityCollection, EntityDefinitionService } from '@ngrx/data';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
@@ -30,6 +30,8 @@ import merge from 'deepmerge-json';
 
 import { AuthFacade } from '@rollthecloudinc/auth';
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
+import { RENDER_PANE_TOKEN } from '../../render.tokens';
+import { PanelPageRouterComponent } from '../panel-page-router/panel-page-router.component';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -57,7 +59,8 @@ import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
             provide: NG_ASYNC_VALIDATORS,
             useExisting: forwardRef(() => RenderPaneComponent),
             multi: true
-        }
+        },
+        { provide: RENDER_PANE_TOKEN, useExisting: forwardRef(() => RenderPaneComponent) }
     ],
     host: {
         '[class.pane]': 'true',
@@ -119,6 +122,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     return `pane-${this.indexPosition}`;
   } 
 
+  readonly yield = !!this.renderPaneComponent
   readonly afterContentInit$ = new Subject();
   readonly resolvedContext$ = new BehaviorSubject<any>({});
   private schedulePluginChange = new Subject();
@@ -292,7 +296,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     if(this.pluginName === 'panel') {
       //console.log('resolve nested panel page');
       this.resolveNestedPanelPage();
-    } else {
+    } else if(this.pluginName !== 'yield') {
       this.renderPaneContent();
     }
   });
@@ -306,6 +310,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   ).subscribe();
 
   @ViewChild(PaneContentHostDirective, { static: true }) contentPaneHost: PaneContentHostDirective;
+  @ViewChild(PanelPageRouterComponent) panelPageRouterComponent: PanelPageRouterComponent;
 
   get dynamicPanel(): PanelPage {
     return new PanelPage((this.resolvedContext as any)._root);
@@ -316,6 +321,7 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   constructor(
     @Inject(DOCUMENT) private document: Document,
     @Inject(PLATFORM_ID) private platformId: Object,
+    @Optional() @SkipSelf() @Inject(RENDER_PANE_TOKEN) private renderPaneComponent: RenderPaneComponent,
     private el: ElementRef,
     private renderer2: Renderer2,
     private componentFactoryResolver: ComponentFactoryResolver,
@@ -326,7 +332,8 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
     private paneStateService: PaneStateService,
     private paramEvaluatorService: ParamEvaluatorService,
     private renderer: Renderer2,
-    es: EntityServices
+    public controlContainer: ControlContainer,
+    es: EntityServices,
   ) {
     this.panelPageStateService = es.getEntityCollectionService('PanelPageState');
     // this.contentPlugins = contentPlugins;
@@ -354,7 +361,10 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
         this.ancestoryWithSelf = ancestoryWithSelf;
       }
     }
+
     this.schedulePluginChange.next(undefined);
+
+
     /*this.contentPlugin = this.contentPlugins.find(p => p.name === this.pluginName);
     this.paneForm.get('contentPlugin').setValue(this.contentPlugin.name);
     this.paneForm.get('name').setValue(this.name);
@@ -420,21 +430,25 @@ export class RenderPaneComponent implements OnInit, OnChanges, ControlValueAcces
   }
 
   renderPaneContent() {
+
+    console.log('NG01203: render pane content');
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.contentPlugin.renderComponent);
 
     const viewContainerRef = this.contentPaneHost.viewContainerRef;
     viewContainerRef.clear();
 
     this.componentRef = viewContainerRef.createComponent(componentFactory);
-    (this.componentRef.instance as any).settings = this.settings;
-    (this.componentRef.instance as any).name = this.name;
-    (this.componentRef.instance as any).label = this.label;
-    (this.componentRef.instance as any).panes = this.panes;
-    (this.componentRef.instance as any).originPanes = this.originPanes;
-    (this.componentRef.instance as any).contexts = this.contexts.map(c => new InlineContext(c));
-    (this.componentRef.instance as any).displayType = this.displayType;
-    (this.componentRef.instance as any).resolvedContext = this.resolvedContext$.value;
-    (this.componentRef.instance as any).ancestory = this.ancestoryWithSelf;
+    const instance = this.componentRef.instance as any;
+
+    instance.settings = this.settings;
+    instance.name = this.name;
+    instance.label = this.label;
+    instance.panes = this.panes; // Crucial for FormArray synchronization
+    instance.originPanes = this.originPanes;
+    instance.contexts = this.contexts ? this.contexts.map(c => new InlineContext(c)) : [];
+    instance.displayType = this.displayType;
+    instance.resolvedContext = this.resolvedContext$.value;
+    instance.ancestory = this.ancestoryWithSelf;
 
     if ((this.componentRef.instance as any).state && this.contentPlugin.handler) {
       this.contentPlugin.handler.stateDefinition(this.settings).pipe(

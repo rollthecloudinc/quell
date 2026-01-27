@@ -46,10 +46,10 @@ Developers can use quell as an app shell to orchestrate micro-frontends built wi
 
 ### Orchestrate
 
-Prototype using quell as a shell app to host Angular architects workflow designer micro-frontends.
+Prototype using quell as a shell app to host a simple micro-frontend.
 
-* [Page](https://demo.carbonfreed.app/workflow-designer-v2)
-* [Editor](https://demo.carbonfreed.app/workflow-designer-v2/manage)
+* [Page](https://demo.rollthecloud.com/test-outsider-app)
+* [Editor](https://demo.rollthecloud.com/test-outsider-app/manage)
 
 ### Extend
 
@@ -57,6 +57,25 @@ Prototype using quell to load extension/plugin (SOLID) with new content type at 
 
 * [Page](https://demo.rollthecloud.com/test-module-federation)
 * [Editor](https://demo.rollthecloud.com/test-module-federation/manage)
+* 
+
+Prototype using Quell to load extension/plugin with Quill editor and view.
+
+* [Quill](https://demo.rollthecloud.com/test-quill-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
+* [Quill View](https://demo.rollthecloud.com/test-quill-view-int/dbc2446a-f83f-40e0-b15a-8bed2e8eaff0)
+* [Editor Quill](https://demo.rollthecloud.com/test-quill-int/manage)
+* [Editor Quill View](https://demo.rollthecloud.com/test-quill-view-int/manage)
+
+Quell Quill SOLID (plugin/extension) using angular architects native federation.
+* [Quill SOLID Repository](https://github.com/rollthecloudinc/solid-quill)
+
+Prototype using Quell to load extension/plugin with Tabulator Data Table(s).
+
+* [Page](https://demo.rollthecloud.com/test-tabulator-int)
+* [Editor](https://demo.rollthecloud.com/test-tabulator-int/manage)
+
+Quell Tabulator SOLID (plugin/extension) using angular architects native federation.
+* [Tabulator SOLID Repository](https://github.com/rollthecloudinc/solid-tabulator)
 
 # Modules
 
@@ -118,9 +137,14 @@ Move data quickly with consistency.
 
 ![](https://smeskey-github-prod.s3.amazonaws.com/projects/druid/github/croc.png)
 
-### Crud
+### Data Entry
 
 * crud
+* forms
+* context
+* ordain (validation)
+* deity (entity management)
+* angel @todo: state management)
 
 Implementations
 * aws3

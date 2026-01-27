@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularSplitModule } from 'angular-split';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
@@ -18,7 +17,6 @@ import { SnippetFormComponent } from './components/snippet-form/snippet-form.com
     CommonModule,
     ReactiveFormsModule, 
     FormsModule,
-    FlexLayoutModule,
     AngularSplitModule,
     MaterialModule,
     NgxJsonViewerModule,

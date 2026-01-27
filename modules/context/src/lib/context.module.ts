@@ -1,6 +1,5 @@
 import { NgModule, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { BridgeBuilderPluginManager } from '@rollthecloudinc/bridge';
@@ -24,7 +23,7 @@ import { DatasourceResolver } from './resolvers/datasource.resolver';
 import { DatasourceContextEditorComponent } from './components/datasource-context-editor/datasource-context-editor.component';
 
 @NgModule({
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule, FlexLayoutModule, TokenModule, SnippetModule, DatasourceModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule, TokenModule, SnippetModule, DatasourceModule],
   providers: [
     { provide: RouteResolver, useClass: RouteResolver },
     { provide: DatasourceResolver, useClass: DatasourceResolver },

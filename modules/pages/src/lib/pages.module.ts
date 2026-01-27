@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, UrlSegment, Router } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MarkdownModule, MarkdownComponent } from 'ngx-markdown';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { AngularSplitModule } from 'angular-split';
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { NgxJsonViewerModule } from 'ngx-json-viewer';
-import { NgxAngularQueryBuilderModule } from 'ngx-angular-query-builder';
+import { NgxAngularQueryBuilderModule } from '@rollthecloudinc/ngx-angular-query-builder';
 import { MediaModule } from '@rollthecloudinc/media';
 import { UtilsModule, EMBEDDABLE_COMPONENT  } from '@rollthecloudinc/utils';
 import { TokenizerService, TokenModule } from '@rollthecloudinc/token';
@@ -34,7 +33,6 @@ import { PageBuilderEffects } from './features/page-builder/page-builder.effects
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { ContentEditorComponent, EditablePaneComponent } from './components/content-editor/content-editor.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
-import { PanelPageRouterComponent } from './components/panel-page-router/panel-page-router.component';
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
@@ -96,9 +94,9 @@ import { DatasourceModule, DatasourcePluginManager } from '@rollthecloudinc/data
 import { RenderModule } from '@rollthecloudinc/render';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
+import { PrerenderDialogComponent } from './components/prerender-dialog/prerender-dialog.component';
 // import { PanelpageModule } from 'panelpage';
 // import { EditablepaneModule } from 'editablepane';
-// import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 const panePageMatcher = (url: UrlSegment[]) => {
   if(url[0] !== undefined && url[0].path === 'panelpage') {
@@ -135,8 +133,6 @@ const routes = [
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    FlexLayoutModule,
-    // FlexLayoutServerModule,
     AngularSplitModule,
     RouterModule.forChild(routes),
     NgxJsonViewerModule,
@@ -164,7 +160,7 @@ const routes = [
     // PanelpageModule,
     // EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -174,7 +170,6 @@ const routes = [
     PageStateContextResolver,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
-    { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageRouterComponent, multi: true},
     { provide: SnippetContentHandler, useClass: SnippetContentHandler },
     { provide: AttributeContentHandler, useClass: AttributeContentHandler },
     { provide: MediaContentHandler, useClass: MediaContentHandler },
@@ -195,7 +190,6 @@ const routes = [
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
   exports: [
-    PanelPageRouterComponent,
     CatchAllRouterComponent,
     EditPanelPageComponent
   ]

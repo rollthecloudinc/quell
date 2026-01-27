@@ -4,7 +4,8 @@ import { map, tap } from "rxjs/operators";
 import { PanelPage } from '@rollthecloudinc/panels';
 import { EntityServices } from "@ngrx/data";
 import { Router } from '@angular/router';
-import { createEditMatcher, createMatcher, EditPanelPageComponent, PanelPageRouterComponent } from '@rollthecloudinc/pages';
+import { createEditMatcher, createMatcher, EditPanelPageComponent } from '@rollthecloudinc/pages';
+import { PanelPageRouterComponent } from '@rollthecloudinc/render';
 
 export class PagealiasLoadingStrategy implements AliasLoadingStrategy {
   routesLoaded = false;

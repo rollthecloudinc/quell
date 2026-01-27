@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AttributeValue, AttributeTypes } from '@rollthecloudinc/attributes';
-import { Field, RuleSet, Rule as NgRule } from 'ngx-angular-query-builder';
+import { Field, RuleSet, Rule as NgRule } from '@rollthecloudinc/ngx-angular-query-builder';
 import * as jre from "json-rules-engine";
 
 @Injectable({
