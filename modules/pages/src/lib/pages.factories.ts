@@ -259,6 +259,7 @@ export const formDatasourcePluginFactory = (attributeSerializer: AttributeSerial
 export const createMatcher = (panelPage: PanelPage): UrlMatcher => {
   return (url: UrlSegment[]) => {
     if(('/' + url.map(u => u.path).join('/')).indexOf(panelPage.path) === 0) {
+      console.log('matcher matched for', panelPage.id, panelPage.path);
       const pathLen = panelPage.path.substr(1).split('/').length;
       return {
         consumed: url,

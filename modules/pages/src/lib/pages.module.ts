@@ -33,7 +33,6 @@ import { PageBuilderEffects } from './features/page-builder/page-builder.effects
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { ContentEditorComponent, EditablePaneComponent } from './components/content-editor/content-editor.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
-import { PanelPageRouterComponent } from './components/panel-page-router/panel-page-router.component';
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
@@ -161,7 +160,7 @@ const routes = [
     // PanelpageModule,
     // EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, PanelPageRouterComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -171,7 +170,6 @@ const routes = [
     PageStateContextResolver,
     { provide: EMBEDDABLE_COMPONENT, useValue: PageRouterLinkComponent, multi: true },
     { provide: EMBEDDABLE_COMPONENT, useValue: MarkdownComponent, multi: true },
-    { provide: EMBEDDABLE_COMPONENT, useValue: PanelPageRouterComponent, multi: true},
     { provide: SnippetContentHandler, useClass: SnippetContentHandler },
     { provide: AttributeContentHandler, useClass: AttributeContentHandler },
     { provide: MediaContentHandler, useClass: MediaContentHandler },
@@ -192,7 +190,6 @@ const routes = [
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'table', name: 'table', title: 'Table', editorComponent: undefined, renderComponent: TablePanelRendererComponent }), multi: true }
   ],
   exports: [
-    PanelPageRouterComponent,
     CatchAllRouterComponent,
     EditPanelPageComponent
   ]

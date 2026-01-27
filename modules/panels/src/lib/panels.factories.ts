@@ -13,6 +13,7 @@ import { DatasourceContentHandler } from './handlers/datasource-content.handler'
 import { DatasourceEditorComponent } from './plugins/datasource/datasource-editor/datasource-editor.component';
 import * as cssJson from 'cssjson';
 import { FilesService } from '@rollthecloudinc/media';
+import { YieldContentHandler } from './handlers/yield-content.handler';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
@@ -20,6 +21,17 @@ export const panelContentPluginFactory = (handler: PanelContentHandler) => {
     title: 'Panel',
     selectionComponent: PanelSelectorComponent,
     editorComponent: PanelEditorComponent,
+    renderComponent: undefined,
+    handler
+  })
+}
+
+export const yieldContentPluginFactory = ({ handler }: { handler: YieldContentHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'yield',
+    title: 'Yield',
+    selectionComponent: PanelSelectorComponent,
+    editorComponent: undefined,
     renderComponent: undefined,
     handler
   })

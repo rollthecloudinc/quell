@@ -80,6 +80,19 @@ export class PanelSelectorComponent implements OnInit {
     this.bottomSheetRef.dismiss();
   }
 
+  onYieldSelect() {
+    const name = uuid.v4();
+    (this.panelFormGroup.get('panes') as UntypedFormArray).push(this.fb.group({
+      contentPlugin: 'yield',
+      name: name,
+      label: name,
+      rule: new UntypedFormControl(''),
+      locked: new UntypedFormControl(true),
+      settings: this.fb.array([])
+    }));
+    this.bottomSheetRef.dismiss();
+  }
+
   onItemSelect(panel: string) {
     const name = uuid.v4();
     //this.panelPagesService.getByKey(panel).subscribe(p => {
