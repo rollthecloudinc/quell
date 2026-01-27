@@ -22,6 +22,26 @@ const getKeyvalFunctions = async (platformId: Object) => {
   };
 };
 
+// ---------------------------
+// In-memory store
+// ---------------------------
+const memoryStore = new Map<string, any>();
+
+const memSet = (key: string, value: any) => {
+  memoryStore.set(key, value);
+  return Promise.resolve(undefined);
+};
+
+const memKeys = () => Promise.resolve(Array.from(memoryStore.keys()));
+
+const memGetMany = (keys: string[]) =>
+  Promise.resolve(keys.map(k => memoryStore.get(k)));
+
+const memSetMany = (entries: Array<[string, any]>) => {
+  entries.forEach(([k, v]) => memoryStore.set(k, v));
+  return Promise.resolve(undefined);
+};
+
 // Updated factory signature to accept platformId
 export const idbEntityCrudAdaptorPluginFactory = (
   paramsEvaluatorService: ParamEvaluatorService,
@@ -200,4 +220,255 @@ export const initializeIdbDataFactory = ({ data, key }: { data: Array<any>, key:
       }))
     );
   };
+};
+
+// ---------------------------
+// Factory
+// ---------------------------
+export const memoryEntityCrudAdaptorPluginFactory = (
+  paramsEvaluatorService: ParamEvaluatorService
+) => {
+  return new CrudAdaptorPlugin<string>({
+    id: 'memory_store',
+    title: 'In-memory Store',
+
+    // ---------------------------
+    // CREATE
+    // ---------------------------
+    create: ({ object, identity, params, parentObject }: CrudOperationInput) =>
+      of({ success: false }).pipe(
+        switchMap(() =>
+          identity({ object, parentObject }).pipe(
+            map(({ identity }) => ({ identity }))
+          )
+        ),
+
+        switchMap(({ identity }) =>
+          params && Object.keys(params).length !== 0
+            ? paramsEvaluatorService
+                .paramValues(new Map<string, Param>(Object.entries(params)))
+                .pipe(
+                  map(optionsMap =>
+                    Array.from(optionsMap.entries()).reduce(
+                      (p, [k, v]) => ({ ...p, [k]: v }),
+                      {}
+                    )
+                  ),
+                  map(options => ({ identity, options }))
+                )
+            : of({ identity, options: {} })
+        ),
+
+        map(({ identity, options }) => ({
+          name: (options as { prefix: string }).prefix + identity,
+          object
+        })),
+
+        switchMap(({ name, object }) =>
+          new Observable<CrudOperationResponse>(obs => {
+            memSet(name, object)
+              .then(() => {
+                obs.next({ success: true });
+                obs.complete();
+              })
+              .catch(e => {
+                obs.next({ success: false });
+                obs.complete();
+              });
+          })
+        ),
+
+        catchError(error => of({ success: false, error: error.message }))
+      ),
+
+    // ---------------------------
+    // READ (not implemented)
+    // ---------------------------
+    read: () => of({ success: false }),
+
+    // ---------------------------
+    // UPDATE (same as create)
+    // ---------------------------
+    update: ({ object, identity, params, parentObject }: CrudOperationInput) =>
+      of({ success: false }).pipe(
+        switchMap(() =>
+          identity({ object, parentObject }).pipe(
+            map(({ identity }) => ({ identity }))
+          )
+        ),
+
+        switchMap(({ identity }) =>
+          params && Object.keys(params).length !== 0
+            ? paramsEvaluatorService
+                .paramValues(new Map<string, Param>(Object.entries(params)))
+                .pipe(
+                  map(optionsMap =>
+                    Array.from(optionsMap.entries()).reduce(
+                      (p, [k, v]) => ({ ...p, [k]: v }),
+                      {}
+                    )
+                  ),
+                  map(options => ({ identity, options }))
+                )
+            : of({ identity, options: {} })
+        ),
+
+        map(({ identity, options }) => ({
+          name: (options as { prefix: string }).prefix + identity,
+          object
+        })),
+
+        switchMap(({ name, object }) =>
+          new Observable<CrudOperationResponse>(obs => {
+            memSet(name, object)
+              .then(() => {
+                obs.next({ success: true });
+                obs.complete();
+              })
+              .catch(e => {
+                obs.next({ success: false });
+                obs.complete();
+              });
+          })
+        ),
+
+        catchError(error => of({ success: false, error: error.message }))
+      ),
+
+    // ---------------------------
+    // DELETE (not implemented)
+    // ---------------------------
+    delete: () => of({ success: false }),
+
+    // ---------------------------
+    // QUERY
+    // ---------------------------
+    query: ({ params, rule, identity }: CrudCollectionOperationInput) =>
+      paramsEvaluatorService
+        .paramValues(
+          new Map<string, Param>(Object.keys(params).map(name => [name, params[name]]))
+        )
+        .pipe(
+          switchMap(options =>
+            new Observable<CrudCollectionOperationResponse>(obs => {
+              memKeys()
+                .then(keys =>
+                  keys.filter(k =>
+                    `${k}`.startsWith(options.get('prefix') as string)
+                  )
+                )
+                .then(keys => memGetMany(keys))
+                .then(entities => {
+                  obs.next({ entities, success: true });
+                  obs.complete();
+                })
+                .catch(e => {
+                  obs.next({ entities: [], success: false });
+                  obs.complete();
+                });
+            })
+          ),
+
+          // Apply rules engine
+          switchMap(out =>
+            !rule
+              ? of(out)
+              : new Observable<CrudCollectionOperationResponse>(obs => {
+                  const engine = new jre.Engine();
+                  engine.addOperator(
+                    'startsWith',
+                    (fv, jv) =>
+                      typeof jv === 'string' &&
+                      typeof fv === 'string' &&
+                      jv.indexOf(fv) === 0
+                  );
+
+                  engine.addOperator('term||wildcard', (fv: string, jv: string) => {
+                    const jsonValue =
+                      jv === '*' ? jv : JSON.parse(decodeURIComponent(jv));
+                    const terms = jpp.JSONPath({
+                      path: '$.term.*.value.@string()',
+                      json: jsonValue,
+                      flatten: true
+                    });
+                    return (
+                      jsonValue.wildcard !== undefined ||
+                      (jsonValue.term && terms.length !== 0 && terms[0] === fv)
+                    );
+                  });
+
+                  engine.addRule(rule);
+
+                  engine.addFact(
+                    'identity',
+                    (_, almanac) =>
+                      new Observable(obs2 => {
+                        almanac
+                          .factValue('entity')
+                          .then(object =>
+                            identity({ object })
+                              .pipe(map(({ identity }) => identity))
+                              .toPromise()
+                          )
+                          .then(id => {
+                            obs2.next(id);
+                            obs2.complete();
+                          });
+                      }).toPromise(),
+                    { cache: false }
+                  );
+
+                  from(out.entities)
+                    .pipe(
+                      switchMap(entity =>
+                        new Observable<[any, boolean]>(obs2 => {
+                          engine.removeFact('entity');
+                          engine.addFact('entity', entity, { cache: false });
+                          engine.run().then(res => {
+                            const matched =
+                              res.events.findIndex(e => e.type === 'visible') >
+                              -1;
+                            obs2.next([entity, matched]);
+                            obs2.complete();
+                          });
+                        })
+                      ),
+                      filter(([_, matched]) => matched),
+                      map(([entity]) => entity),
+                      reduce((acc, v) => [...acc, v], []),
+                      defaultIfEmpty([])
+                    )
+                    .subscribe(entities => {
+                      obs.next({ ...out, entities });
+                      obs.complete();
+                    });
+                })
+          )
+        )
+  });
+};
+
+// ---------------------------
+// Data initializer for memory store
+// ---------------------------
+export const initializeInMemoryDataFactory = ({
+  data,
+  key
+}: {
+  data: any[];
+  key: ({ data }: { data: any }) => string;
+}) => (): (() => Observable<any>) => {
+  return () =>
+    new Observable(obs => {
+      const entries = data.map(d => [key({ data: d }), d] as [string, any]);
+      memSetMany(entries)
+        .then(() => {
+          obs.next(null);
+          obs.complete();
+        })
+        .catch(e => {
+          obs.next(null);
+          obs.complete();
+        });
+    });
 };
