@@ -1,6 +1,7 @@
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { Datasource } from '@rollthecloudinc/datasource';
 import { PersistenceFormPayload } from '@rollthecloudinc/refinery';
+import { RuleSet } from '@rollthecloudinc/ngx-angular-query-builder';
 
 export class PropertiesFormPayload {
   title: string;
@@ -120,6 +121,22 @@ export class PrerenderFormPayload {
       this.route = data.route;
       if (data.datasource) {
         this.datasource = new Datasource(data.datasource);
+      }
+    }
+  }
+}
+
+export class SelectionFormPayload {
+  rule?: RuleSet;
+  priority?: number;
+
+  constructor(data?: SelectionFormPayload) {
+    if (data) {
+      if (data.rule && typeof data.rule !== 'string') {
+        this.rule = { ...data.rule } as RuleSet;
+      }
+      if (data.priority !== undefined) {
+        this.priority = data.priority;
       }
     }
   }

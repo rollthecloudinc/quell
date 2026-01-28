@@ -33,6 +33,7 @@ import { AuthFacade } from '@rollthecloudinc/auth';
 import { Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { RENDER_PANE_TOKEN } from '../../render.tokens';
 import { PANEL_PAGE_ROUTER_TOKEN } from '../../render.tokens';
+import { RulesResolverService } from '@rollthecloudinc/rules';
 
 @Component({
     selector: 'classifieds-ui-panel-page-router',
@@ -50,9 +51,7 @@ import { PANEL_PAGE_ROUTER_TOKEN } from '../../render.tokens';
 })
 export class PanelPageRouterComponent implements OnInit, ControlValueAccessor {
 
-  // control = new FormControl('');
-
-  readonly yield = !!this.panelPageRouterComponent
+  readonly yield = !!this.panelPageRouterComponent;
   routePanelPageId: string;
   panelPageId: string;
 
@@ -65,44 +64,104 @@ export class PanelPageRouterComponent implements OnInit, ControlValueAccessor {
     map(p => p.get('panelPageId')),
     filter(id => id !== undefined),
     switchMap(() => this.route.data),
-    // this.yield equals false act as decorator when equals true act as normal.
-    // When false set routePanelPageId if it exists
-    withLatestFrom(this.routerStore.pipe(
-      select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
-      map(route => route.params),
-      take(1)
-    )),
+
+    withLatestFrom(
+      this.routerStore.pipe(
+        select(getRouterSelectors((state: any) => state.router).selectCurrentRoute),
+        map(route => route.params),
+        take(1)
+      )
+    ),
+
     tap(([data, args]) => console.log('panel page router param map', data.panelPageListItem.id, args)),
     map(([data, args]) => [data.panelPageListItem.id, args, data.path]),
     tap(([panelPageId, args, path]) => console.log('panel page router param map 2', panelPageId, args, path)),
+
     switchMap(([panelPageId, args, path]) =>
-      this.yield ?
-      of([panelPageId, args, undefined]) :
-      this.crudDataHelperService
-        .evaluateCollectionPlugins<PanelPage>({
-          query: undefined,
-          plugins: (this.entityDefinitionService.getDefinition('PanelPage').metadata as CrudEntityMetadata<any, {}>).crud,
-          op: 'query'
-        }).pipe(
-          map(objects => objects.filter(o => o.path === '*')),
-          map(objects => objects && objects.length ? objects[0].id : undefined),
-          map(decoratorId => [panelPageId, args, path, decoratorId]),
-          defaultIfEmpty([panelPageId, args, path, undefined])
-        )
+      this.yield
+        ? of([panelPageId, args, undefined])
+        : this.crudDataHelperService
+            .evaluateCollectionPlugins<PanelPage>({
+              query: undefined,
+              plugins: (this.entityDefinitionService.getDefinition('PanelPage').metadata as CrudEntityMetadata<any, {}>).crud,
+              op: 'query'
+            })
+            .pipe(
+              map(objects => objects.filter(o => o.path === '*')),
+
+              //-------------------------------------------------------------------
+              // 🔥 Decorator selection with rule=NULL handling + router-level ctx
+              //-------------------------------------------------------------------
+              switchMap(decorators => {
+                if (!decorators || decorators.length === 0) {
+                  console.log('No decorators found → no decorator applied.');
+                  return of(undefined);
+                }
+
+                return this.inlineContextResolver.resolveMerged([], `router:${uuid.v4()}`).pipe(
+                  tap(ctx => console.log('router resolved context', ctx)),
+                  switchMap(ctx =>
+                    forkJoin(
+                      decorators.map(d => {
+                        const rule = d.selection?.rule;
+
+                        // ⚠ If decorator has no rule → auto-match
+                        if (!rule) {
+                          return of({
+                            page: d,
+                            match: true,
+                            priority: d.selection?.priority ?? 0
+                          });
+                        }
+
+                        // ⚠ Otherwise evaluate rule normally
+                        return this.rulesResolver.evaluate(rule, [ctx]).pipe(
+                          map(match => ({
+                            page: d,
+                            match,
+                            priority: d.selection?.priority ?? 0
+                          }))
+                        );
+                      })
+                    )
+                  ),
+                  map(results => {
+                    const matched = results.filter(r => r.match);
+
+                    if (matched.length === 0) {
+                      console.log('Decorators exist, but none matched rules → no decorator.');
+                      return undefined;
+                    }
+
+                    matched.sort((a, b) => b.priority - a.priority);
+
+                    const selected = matched[0].page.id;
+                    console.log('Decorator selected:', selected);
+
+                    return selected;
+                  }),
+                  take(1)
+                );
+              }),
+
+              map(decoratorId => [panelPageId, args, path, decoratorId]),
+              defaultIfEmpty([panelPageId, args, path, undefined])
+            )
     ),
-    tap(([ panelPageId, args, path, decoratorId ]) => {
-      console.log('route page');
+
+    tap(([panelPageId, args, path, decoratorId]) => {
       const realPath = '/pages/panelpage/' + panelPageId;
       this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ id: panelPageId, realPath, path, args }));
       this.panelPageId = panelPageId;
-      // this.routePanelPageId = decoratorId
+
       if (decoratorId !== undefined && decoratorId !== this.routePanelPageId) {
         this.routePanelPageId = decoratorId;
       }
+
       console.log('router panelPageId', this.panelPageId);
       console.log('router routePanelPageId', this.routePanelPageId);
     })
-  ).subscribe()
+  ).subscribe();
 
   constructor(
     @Optional() @SkipSelf() @Inject(PANEL_PAGE_ROUTER_TOKEN) private panelPageRouterComponent: PanelPageRouterComponent,
@@ -112,47 +171,37 @@ export class PanelPageRouterComponent implements OnInit, ControlValueAccessor {
     private asyncApiCallHelperSvc: AsyncApiCallHelperService,
     private crudDataHelperService: CrudDataHelperService,
     protected entityDefinitionService: EntityDefinitionService,
-    es: EntityServices,
+    private rulesResolver: RulesResolverService,
+    private inlineContextResolver: InlineContextResolverService,
+    es: EntityServices
   ) {
     this.panelPageService = es.getEntityCollectionService('PanelPage');
   }
 
-  writeValue(val: any): void {
-  }
-
-  registerOnChange(fn: any): void {
-  }
-
-  registerOnTouched(fn: any): void {
-    this.onTouched = fn;
-  }
-
-  setDisabledState?(isDisabled: boolean): void {
-  }
+  writeValue(val: any): void {}
+  registerOnChange(fn: any): void {}
+  registerOnTouched(fn: any): void { this.onTouched = fn; }
+  setDisabledState?(isDisabled: boolean): void {}
 
   ngOnInit(): void {
-    /*
-     * When not yileding content update the state for both the target page and route page.
-    * Do this at the very same time so that the context is available throughout for rules and such.
-     */
     if (!this.yield) {
       const { selectCurrentRoute } = getRouterSelectors((state: any) => state.router);
       this.route.paramMap.pipe(
         tap(() => console.log('param map page builder facade info')),
         withLatestFrom(this.pageBuilderFacade.getPageInfo$),
         filter(([p, pageInfo]) => pageInfo !== undefined && p.get('panelPageId') !== undefined && p.get('panelPageId') === pageInfo.id),
-        switchMap(([p, pageInfo]) => this.routerStore.pipe(
-          select(selectCurrentRoute),
-          map(route => [pageInfo, route.params]),
-          take(1)
-        ))
-      ).subscribe(([pageInfo, args]) => {
-        //console.log('update page info');
-        this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ ...pageInfo, args }));
-      });
+        switchMap(([p, pageInfo]) =>
+          this.routerStore.pipe(
+            select(selectCurrentRoute),
+            map(route => [pageInfo, route.params]),
+            take(1)
+          )
+        )
+      ).subscribe(([pageInfo, args]) =>
+        this.pageBuilderFacade.setPageInfo(new PanelPageStateSlice({ ...pageInfo, args }))
+      );
     }
   }
-
 }
 
 

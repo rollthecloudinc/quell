@@ -5,7 +5,7 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from '@rollthecloudinc/content';
-import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload, PrerenderFormPayload } from '@rollthecloudinc/panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload, PrerenderFormPayload, SelectionFormPayload } from '@rollthecloudinc/panels';
 import { TokenizerService } from '@rollthecloudinc/token';
 import { SITE_NAME } from '@rollthecloudinc/utils';
 // import { STYLE_PLUGIN } from '@rollthecloudinc/style';
@@ -35,6 +35,7 @@ import { PaneStateContextResolver } from '../../contexts/pane-state-context.reso
 import { PaneContentHostDirective } from '../../directives/pane-content-host.directive';
 import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecloudinc/detour';
 import { PrerenderDialogComponent } from '../prerender-dialog/prerender-dialog.component';
+import { SelectionDialogComponent } from '../selection-dialog/selection-dialog.component';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -352,6 +353,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
   persistence = new PersistenceFormPayload();
   interactions = new InteractionsFormPayload();
   prerenderProperties = new PrerenderFormPayload();
+  selection = new SelectionFormPayload();
 
   layoutSetting = new LayoutSetting();
   rowSettings: Array<LayoutSetting> = [];
@@ -525,6 +527,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       this.persistence = changes.panelPage.currentValue.persistence ? new PersistenceFormPayload(changes.panelPage.currentValue.persistence) : new PersistenceFormPayload();
       this.interactions = changes.panelPage.currentValue.interactions ? new InteractionsFormPayload(changes.panelPage.currentValue.interactions) : new InteractionsFormPayload();
       this.prerenderProperties = changes.panelPage.currentValue.prerender ? new PrerenderFormPayload(changes.panelPage.currentValue.prerender) : new PrerenderFormPayload();
+      this.selection = changes.panelPage.currentValue.selection ? new SelectionFormPayload(changes.panelPage.currentValue.selection) : new SelectionFormPayload();
       if(!this.nested) {
         this.pageProperties = new PropertiesFormPayload({ name: changes.panelPage.currentValue.name, title: changes.panelPage.currentValue.title, path: changes.panelPage.currentValue.path, readUserIds: changes.panelPage.currentValue.entityPermissions.readUserIds, cssFile: changes.panelPage.currentValue.cssFile });
         this.contexts = changes.panelPage.currentValue.contexts;
@@ -787,6 +790,21 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
     });
   }
 
+  onSelectionClick() {
+    this.dialog.open(
+      SelectionDialogComponent,
+      {
+        data: { selection: this.selection, contexts: this.contexts },
+        ...{ maxWidth: '100vw', maxHeight: '100vh', height: '100%', width: '100%' }
+      }
+    )
+    .afterClosed()
+    .subscribe((payload?: SelectionFormPayload) => {
+      console.log('selection closed', payload);
+      this.selection = payload ? payload : this.selection;
+    });
+  }
+
   /*onRulesPane(index: number, index2: number) {
     const pane = new Pane(this.panelPane(index, index2).value);
     const rule = this.panelPane(index, index2).get('rule').value !== '' ? this.panelPane(index, index2).get('rule').value as NgRule : undefined;
@@ -955,6 +973,7 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       persistence: this.persistence,
       interactions: this.interactions,
       prerender: this.prerenderProperties,
+      selection: this.selection,
       entityPermissions: {
         readUserIds: this.pageProperties.readUserIds,
         writeUserIds: [],
