@@ -1,0 +1,26 @@
+<form class="selection-form" [formGroup]="selectionForm" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <div class="content-inner">
+
+      <mat-form-field>
+        <input matInput type="number" formControlName="priority" placeholder="Priority (optional)">
+      </mat-form-field>
+
+      <query-builder 
+        formControlName="rule"
+        [config]="config">
+      </query-builder>
+
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button 
+      type="submit" 
+      mat-raised-button 
+      color="primary" 
+      [disabled]="!selectionForm.valid">
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>
