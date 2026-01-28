@@ -76,6 +76,17 @@ export class QIcon {
   }
 }
 
+export class Sidenav {
+  width?: number;
+  mode: 'side' | 'over' | 'push' = 'side';
+  position: 'start' | 'end' = 'start';
+  opened: boolean = true;
+
+  constructor(data?: Partial<Sidenav>) {
+    Object.assign(this, data);
+  }
+}
+
 /*export class SelectOption {
   value: AttributeValue;
   label: string;
