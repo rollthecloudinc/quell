@@ -1,0 +1,72 @@
+import { Injectable } from '@angular/core';
+import { ContentHandler, ContentBinding, ContentPluginEditorOptions } from '@rollthecloudinc/content';
+import { Dataset } from '@rollthecloudinc/datasource';
+import { AttributeValue, AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { of, Observable } from 'rxjs';
+import { Pane } from '@rollthecloudinc/panels';
+import { QLink} from '../models/plugin.models';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class LinkContentHandler implements ContentHandler {
+
+  constructor(private attributeSerializer: AttributeSerializerService) { }
+
+  handleFile(file: File): Observable<Array<AttributeValue>> {
+    return of();
+  }
+
+  handlesType(type: string): boolean {
+    return false;
+  }
+
+  implementsRendererOverride(): boolean {
+    return false;
+  }
+
+  hasRendererOverride(settings: Array<AttributeValue>): Observable<boolean> {
+    return of(false);
+  }
+
+  isDynamic(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
+  isData(settings: Array<AttributeValue>): boolean {
+    return false;
+  }
+
+  buildDynamicItems(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<Array<AttributeValue>> {
+    return of([]);
+  }
+
+  fetchDynamicData(settings: Array<AttributeValue>, metadata: Map<string, any>): Observable<any> {
+    return of(new Dataset());
+  }
+
+  getBindings(settings: Array<AttributeValue>, type: string): Observable<Array<ContentBinding>> {
+    return of([]);
+  }
+
+  toObject(settings: Array<AttributeValue>): Observable<QLink> {
+    return of(new QLink(this.attributeSerializer.deserializeAsObject(settings)));
+  }
+
+  buildSettings(link: QLink): Array<AttributeValue> {
+    return this.attributeSerializer.serialize(link, 'root').attributes;
+  }
+
+  fromPanes(panesAsSettings: Array<AttributeValue>): Array<Pane> {
+    return panesAsSettings.map(p => new Pane(this.attributeSerializer.deserialize(p)));
+  }
+
+  stateDefinition(settings: Array<AttributeValue>): Observable<any> {
+    return of({});
+  }
+
+  editorOptions(settings: Array<AttributeValue>): Observable<ContentPluginEditorOptions> {
+    return of(new ContentPluginEditorOptions());
+  }
+
+}

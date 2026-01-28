@@ -36,7 +36,7 @@ import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory, formDatasourcePluginFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory, formDatasourcePluginFactory, buttonContentPluginFactory, iconContentPluginFactory, linkContentPluginFactory, menuContentPluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -95,6 +95,18 @@ import { RenderModule } from '@rollthecloudinc/render';
 import { PaneContentHostDirective } from './directives/pane-content-host.directive';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
 import { PrerenderDialogComponent } from './components/prerender-dialog/prerender-dialog.component';
+import { ButtonEditorComponent } from './plugins/button/button-editor/button-editor.component';
+import { ButtonRendererComponent } from './plugins/button/button-renderer/button-renderer.component';
+import { IconEditorComponent } from './plugins/icon/icon-editor/icon-editor.component';
+import { IconRendererComponent } from './plugins/icon/icon-renderer/icon-renderer.component';
+import { LinkEditorComponent } from './plugins/link/link-editor/link-editor.component';
+import { LinkRendererComponent } from './plugins/link/link-renderer/link-renderer.component';
+import { MenuEditorComponent } from './plugins/menu/menu-editor/menu-editor.component';
+import { MenuRendererComponent } from './plugins/menu/menu-renderer/menu-renderer.component';
+import { ButtonContentHandler } from './handlers/button-content.handler';
+import { IconContentHandler } from './handlers/icon-content.handler';
+import { LinkContentHandler } from './handlers/link-content.handler';
+import { MenuContentHandler } from './handlers/menu-content.handler';
 // import { PanelpageModule } from 'panelpage';
 // import { EditablepaneModule } from 'editablepane';
 
@@ -160,7 +172,7 @@ const routes = [
     // PanelpageModule,
     // EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent, ButtonEditorComponent, IconEditorComponent, LinkEditorComponent, MenuEditorComponent, ButtonRendererComponent, IconRendererComponent, LinkRendererComponent, MenuRendererComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -184,6 +196,10 @@ const routes = [
     // { provide: CONTENT_PLUGIN, useFactory: panelContentPluginFactory, multi: true, deps: [ PanelContentHandler ] }, -> moved to panels module
     { provide: CONTENT_PLUGIN, useFactory: restContentPluginFactory, multi: true, deps: [ RestContentHandler ]  },
     { provide: CONTENT_PLUGIN, useFactory: sliceContentPluginFactory, multi: true, deps: [ SliceContentHandler ]  },
+    { provide: CONTENT_PLUGIN, useFactory: buttonContentPluginFactory, multi: true, deps: [ ButtonContentHandler ] },
+    { provide: CONTENT_PLUGIN, useFactory: iconContentPluginFactory, multi: true, deps: [ IconContentHandler ] },
+    { provide: CONTENT_PLUGIN, useFactory: linkContentPluginFactory, multi: true, deps: [ LinkContentHandler ] },
+    { provide: CONTENT_PLUGIN, useFactory: menuContentPluginFactory, multi: true, deps: [ MenuContentHandler ] },
     // { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useFactory: tabsStylePluginFactory, multi: true, deps: [ TabsStyleHandler ] },

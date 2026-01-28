@@ -40,6 +40,18 @@ import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@r
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
 import * as jpp from 'jsonpath-plus';
 import { UrlMatcher, UrlSegment } from '@angular/router';
+import { ButtonContentHandler } from './handlers/button-content.handler';
+import { ButtonEditorComponent } from './plugins/button/button-editor/button-editor.component';
+import { ButtonRendererComponent } from './plugins/button/button-renderer/button-renderer.component';
+import { IconContentHandler } from './handlers/icon-content.handler';
+import { IconEditorComponent } from './plugins/icon/icon-editor/icon-editor.component';
+import { IconRendererComponent } from './plugins/icon/icon-renderer/icon-renderer.component';
+import { LinkContentHandler } from './handlers/link-content.handler';
+import { LinkEditorComponent } from './plugins/link/link-editor/link-editor.component';
+import { LinkRendererComponent } from './plugins/link/link-renderer/link-renderer.component';
+import { MenuContentHandler } from './handlers/menu-content.handler';
+import { MenuEditorComponent } from './plugins/menu/menu-editor/menu-editor.component';
+import { MenuRendererComponent } from './plugins/menu/menu-renderer/menu-renderer.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -103,6 +115,50 @@ export const sliceContentPluginFactory = (handler: SliceContentHandler) => {
     selectionComponent: undefined,
     editorComponent: SliceEditorComponent,
     renderComponent: undefined,
+    handler
+  })
+}
+
+export const buttonContentPluginFactory = (handler: ButtonContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'button',
+    title: 'Button',
+    selectionComponent: undefined,
+    editorComponent: ButtonEditorComponent,
+    renderComponent: ButtonRendererComponent,
+    handler
+  })
+}
+
+export const iconContentPluginFactory = (handler: IconContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'icon',
+    title: 'Icon',
+    selectionComponent: undefined,
+    editorComponent: IconEditorComponent,
+    renderComponent: IconRendererComponent,
+    handler
+  })
+}
+
+export const linkContentPluginFactory = (handler: LinkContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'link',
+    title: 'Link',
+    selectionComponent: undefined,
+    editorComponent: LinkEditorComponent,
+    renderComponent: LinkRendererComponent,
+    handler
+  })
+}
+
+export const menuContentPluginFactory = (handler: MenuContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'menu',
+    title: 'Menu',
+    selectionComponent: undefined,
+    editorComponent: MenuEditorComponent,
+    renderComponent: MenuRendererComponent,
     handler
   })
 }

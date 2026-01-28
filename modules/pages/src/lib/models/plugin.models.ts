@@ -13,6 +13,69 @@ export class DataSlice {
   }
 }
 
+export class QButton {
+  text: string;
+  action?: string;
+  constructor(data?: QButton) {
+    if (data) {
+      this.text = data.text;
+      this.action = data.action
+    }
+  }
+}
+
+export class MenuItem {
+  iconName: string;
+  text: string;
+  action?: string;
+  constructor(data?: MenuItem) {
+    if (data) {
+      this.iconName = data.iconName
+      this.text = data.text
+      this.action = data.action
+    }
+  }
+}
+
+export class QMenu {
+  label: string;
+  iconName: string;
+  items: Array<MenuItem> = []
+  constructor(data?: QMenu) {
+    if (data) {
+      this.label = data.label
+      this.iconName = data.iconName
+      if (data.items) {
+        this.items = data.items.map(i => new MenuItem(i))
+      }
+    }
+  }
+}
+
+export class QLink {
+  text: string
+  url: string
+  constructor(data?: QLink) {
+    if (data) {
+      this.text = data.text
+      this.url = data.url
+    }
+  }
+}
+
+export class QIcon {
+  iconName: string;
+  label?: string;
+  category: string;
+  constructor(data?: QIcon) {
+    if (data) {
+      this.iconName = data.iconName
+      this.label = data.label
+      this.category = data.category
+    }
+  }
+}
+
 /*export class SelectOption {
   value: AttributeValue;
   label: string;
