@@ -1,0 +1,45 @@
+<form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+    <div>
+        <mat-form-field>
+            <mat-label>Width (px)</mat-label>
+            <input matInput type="number" formControlName="width">
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <mat-label>Mode</mat-label>
+            <mat-select formControlName="mode">
+                <mat-option value="side">Side</mat-option>
+                <mat-option value="push">Push</mat-option>
+                <mat-option value="over">Over</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-form-field>
+            <mat-label>Position</mat-label>
+            <mat-select formControlName="position">
+                <mat-option value="start">Start</mat-option>
+                <mat-option value="end">End</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div>
+        <mat-slide-toggle formControlName="opened">
+        Open by Default
+        </mat-slide-toggle>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-raised-button color="primary" type="submit">
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>

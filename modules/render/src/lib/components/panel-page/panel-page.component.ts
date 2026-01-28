@@ -848,6 +848,8 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
     (componentRef.instance as any).resolvedContext = this.resolvedContext;
     (componentRef.instance as any).panel = this.panel;
     (componentRef.instance as any).indexPosition = this.indexPosition$.value;
+    (componentRef.instance as any).filteredListeners = this.filteredListeners;
+    (componentRef.instance as any).filteredCss = this.filteredCss;
 
     this.rendered$.next(undefined);
   });
