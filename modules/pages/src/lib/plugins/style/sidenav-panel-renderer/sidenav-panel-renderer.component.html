@@ -1,0 +1,50 @@
+<mat-sidenav-container>
+
+  <mat-sidenav
+    [mode]="sidenavMode"
+    [position]="sidenavPosition"
+    [opened]="sidenavOpened"
+    [style.width.px]="sidebarWidth"
+  >
+    <ng-container *ngIf="panes[0] as firstPane">
+      <classifieds-ui-render-pane
+        [pluginName]="firstPane.contentPlugin"
+        [settings]="firstPane.settings"
+        [name]="firstPane.name"
+        [label]="firstPane.label"
+        [originPane]="panel?.panes?.[originMappings?.[0]]"
+        [contexts]="firstPane.contexts"
+        [displayType]="displayType"
+        [resolvedContext]="firstPane.resolvedContext"
+        [indexPosition]="0"
+        [css]="filteredCss"
+        [listeners]="filteredListeners"
+        [panes]="panes"
+        [originPanes]="originPanes"
+        [ancestory]="ancestory"
+      ></classifieds-ui-render-pane>
+    </ng-container>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <ng-container *ngIf="panes[1] as secondPane">
+      <classifieds-ui-render-pane
+        [pluginName]="secondPane.contentPlugin"
+        [settings]="secondPane.settings"
+        [name]="secondPane.name"
+        [label]="secondPane.label"
+        [originPane]="panel?.panes?.[originMappings?.[1]]"
+        [contexts]="secondPane.contexts"
+        [displayType]="displayType"
+        [resolvedContext]="secondPane.resolvedContext"
+        [indexPosition]="1"
+        [css]="filteredCss"
+        [listeners]="filteredListeners"
+        [panes]="panes"
+        [originPanes]="originPanes"
+        [ancestory]="ancestory"
+      ></classifieds-ui-render-pane>
+    </ng-container>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

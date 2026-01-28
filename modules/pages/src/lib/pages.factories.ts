@@ -52,6 +52,8 @@ import { LinkRendererComponent } from './plugins/link/link-renderer/link-rendere
 import { MenuContentHandler } from './handlers/menu-content.handler';
 import { MenuEditorComponent } from './plugins/menu/menu-editor/menu-editor.component';
 import { MenuRendererComponent } from './plugins/menu/menu-renderer/menu-renderer.component';
+import { SidenavPanelRendererComponent } from './plugins/style/sidenav-panel-renderer/sidenav-panel-renderer.component';
+import { SidenavPanelEditorComponent } from './plugins/style/sidenav-panel-editor/sidenav-panel-editor.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -196,6 +198,10 @@ export const pageStateContextFactory = (resolver: PageStateContextResolver) => {
 
 export const tabsStylePluginFactory = (handler: TabsStyleHandler) => {
   return new StylePlugin<string>({ id: 'tabs', name: 'tabs', title: 'Tabs', handler, editorComponent: TabsPanelEditorComponent, renderComponent: TabsPanelRendererComponent }); 
+};
+
+export const sidenavStylePluginFactory = () => {
+  return new StylePlugin<string>({ id: 'sidenav', name: 'sidenav', title: 'Sidenav', editorComponent: SidenavPanelEditorComponent, renderComponent: SidenavPanelRendererComponent }); 
 };
 
 export const formParamPluginFactory = (
