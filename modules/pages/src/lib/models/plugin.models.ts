@@ -87,6 +87,20 @@ export class Sidenav {
   }
 }
 
+export class IconButton {
+  iconName: string;
+  ariaLabel?: string;
+  action?: string;
+
+  constructor(data?: IconButton) {
+    if (data) {
+      this.iconName = data.iconName;
+      this.ariaLabel = data.ariaLabel;
+      this.action = data.action;
+    }
+  }
+}
+
 /*export class SelectOption {
   value: AttributeValue;
   label: string;

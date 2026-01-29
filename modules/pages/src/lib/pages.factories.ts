@@ -54,6 +54,9 @@ import { MenuEditorComponent } from './plugins/menu/menu-editor/menu-editor.comp
 import { MenuRendererComponent } from './plugins/menu/menu-renderer/menu-renderer.component';
 import { SidenavPanelRendererComponent } from './plugins/style/sidenav-panel-renderer/sidenav-panel-renderer.component';
 import { SidenavPanelEditorComponent } from './plugins/style/sidenav-panel-editor/sidenav-panel-editor.component';
+import { IconButtonContentHandler } from './handlers/icon-button-content.handler';
+import { IconButtonEditorComponent } from './plugins/icon-button/icon-button-editor/icon-button-editor.component';
+import { IconButtonRendererComponent } from './plugins/icon-button/icon-button-renderer/icon-button-renderer.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -161,6 +164,17 @@ export const menuContentPluginFactory = (handler: MenuContentHandler) => {
     selectionComponent: undefined,
     editorComponent: MenuEditorComponent,
     renderComponent: MenuRendererComponent,
+    handler
+  })
+}
+
+export const iconButtonContentPluginFactory = (handler: IconButtonContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'icon_button',
+    title: 'Icon Button',
+    selectionComponent: undefined,
+    editorComponent: IconButtonEditorComponent,
+    renderComponent: IconButtonRendererComponent,
     handler
   })
 }
