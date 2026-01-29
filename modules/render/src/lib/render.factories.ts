@@ -7,6 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
 import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
 import { RenderPaneComponent } from './components/panel-page/panel-page.component';
+import { ComponentPortal } from '@angular/cdk/portal';
+import { ConnectedPosition, Overlay } from '@angular/cdk/overlay';
+import { Injector } from '@angular/core';
+import { PopoverOverlayComponent } from './components/popover-overlay/popover-overlay.component';
 
 // Keeps track of throttle state per unique form
 const formThrottleMap: Map<string, boolean> = new Map();
@@ -133,6 +137,70 @@ export const interationHandlerDialog = ({ dialog }: { dialog: MatDialog }) => {
           title: dialogTitle, // Pass the title
         },
       });
+    },
+  });
+};
+
+export const interactionHandlerAnchoredDialog = ({ overlay, injector }: { overlay: Overlay, injector: Injector }) => {
+  return new InteractionHandlerPlugin<string>({
+    id: 'anchored_dialog',
+    title: 'Open Anchored Dialog',
+    handle: ({ handlerParams, evt }) => {
+      const panelPageId = (handlerParams as any)?.panelPageId || '';
+      const width = (handlerParams as any)?.width || '300px';
+      const height = (handlerParams as any)?.height || '';
+      const offsetX = parseInt((handlerParams as any)?.offsetX || '0', 10);
+      const offsetY = parseInt((handlerParams as any)?.offsetY || '0', 10);
+      const pos = (handlerParams as any)?.position || 'bottom_start';
+
+      if (!panelPageId) {
+        console.error('No Panel Page ID provided. Cannot open anchored dialog.');
+        return;
+      }
+
+      const anchorElement = evt?.target;
+      if (!anchorElement) {
+        console.error('No anchor element found for anchored dialog.');
+        return;
+      }
+
+      const positionMap: { [key: string]: ConnectedPosition } = {
+        bottom_start: { originX: 'start', originY: 'bottom', overlayX: 'start', overlayY: 'top' },
+        bottom_end:   { originX: 'end',   originY: 'bottom', overlayX: 'end',   overlayY: 'top' },
+        top_start:    { originX: 'start', originY: 'top',    overlayX: 'start', overlayY: 'bottom' },
+        top_end:      { originX: 'end',   originY: 'top',    overlayX: 'end',   overlayY: 'bottom' },
+        right:        { originX: 'end',   originY: 'center', overlayX: 'start', overlayY: 'center' },
+        left:         { originX: 'start', originY: 'center', overlayX: 'end',   overlayY: 'center' }
+      };
+
+      const primaryPosition = positionMap[pos] || positionMap['bottom_start'];
+
+      const positionStrategy = overlay.position()
+        .flexibleConnectedTo(anchorElement)
+        .withPositions([primaryPosition])
+        .withDefaultOffsetX(offsetX)
+        .withDefaultOffsetY(offsetY)
+        .withFlexibleDimensions(true)
+        .withPush(true);
+
+      const overlayRef = overlay.create({
+        width,
+        height,
+        positionStrategy,
+        hasBackdrop: true,
+        backdropClass: 'cdk-overlay-transparent-backdrop',
+        panelClass: 'anchored-dialog-panel'
+      });
+
+      const portal = new ComponentPortal(PopoverOverlayComponent, null, injector);
+      const componentRef = overlayRef.attach(portal);
+
+      componentRef.instance.data = {
+        panelPageId,
+        anchorElement
+      };
+
+      overlayRef.backdropClick().subscribe(() => overlayRef.dispose());
     },
   });
 };
