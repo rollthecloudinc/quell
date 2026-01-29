@@ -1,0 +1,6 @@
+<button
+  mat-icon-button
+  [attr.aria-label]="ariaLabel"
+  [ngClass]="action ? 'action-' + action : null">
+  <mat-icon [ngClass]="action ? 'action-' + action : null">{{ iconName }}</mat-icon>
+</button>
