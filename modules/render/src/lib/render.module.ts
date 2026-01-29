@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, UtilsModule } from '@rollthecloudinc/utils';
 import { InteractionHandlerPluginManager } from '@rollthecloudinc/detour';
@@ -11,7 +11,7 @@ import { PanelPageComponent, RenderPaneComponent, RenderPanelComponent, PanelPag
 import { LayoutModule } from '@rollthecloudinc/layout';
 import { FormService, PageBuilderFacade, PanelsModule } from '@rollthecloudinc/panels';
 import { EmptyLayoutComponent } from './components/empty-layout/empty-layout.component';
-import { interationHandlerDialog, interationHandlerFormSubmit } from './render.factories';
+import { interactionHandlerAnchoredDialog, interationHandlerDialog, interationHandlerFormSubmit } from './render.factories';
 import { PersistService, RefineryModule } from '@rollthecloudinc/refinery';
 import { RenderDialogComponent } from './components/render-dialog/render-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,10 +19,12 @@ import { MaterialModule } from '@rollthecloudinc/material';
 import { TransversePanelPageComponentService } from './services/transverse-panelpage-component.service';
 import { RouteReuseStrategy } from '@angular/router';
 import { YieldingRouteReuseStrategy } from './strategy/yielding-route-reuse-strategy';
+import { Overlay } from '@angular/cdk/overlay';
+import { PopoverOverlayComponent } from './components/popover-overlay/popover-overlay.component';
 // import { PanelpageModule } from 'panelpage';
 
 @NgModule({
-  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent, RenderDialogComponent, PanelPageRouterComponent ],
+  declarations: [PaneContentHostDirective, EmptyLayoutComponent, RenderPanelComponent, RenderPaneComponent, LayoutRendererHostDirective, PanelPageComponent, RenderDialogComponent, PanelPageRouterComponent, PopoverOverlayComponent ],
   imports: [
     CommonModule,
     // HttpClientModule,
@@ -53,9 +55,13 @@ export class RenderModule {
     formService: FormService,
     persistService: PersistService,
     dialog: MatDialog,
-    transversePanelpageComponentSvc: TransversePanelPageComponentService
+    transversePanelpageComponentSvc: TransversePanelPageComponentService,
+    overlay: Overlay,
+    injector: Injector
   ) {
     ihpm.register(interationHandlerFormSubmit({ pageBuilderFacade, formService, persistService, transversePanelpageComponentSvc }));
     ihpm.register(interationHandlerDialog({ dialog }));
+    ihpm.register(interactionHandlerAnchoredDialog({ overlay, injector })
+    );
   }
 }
