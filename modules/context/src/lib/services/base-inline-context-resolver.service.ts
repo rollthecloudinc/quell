@@ -209,6 +209,8 @@ export abstract class BaseInlineContextResolverService {
         return context.tokens;
       case 'datasource':
         return context.datasource;
+      case 'form':
+        return context.data
       default:
         return undefined;
     }

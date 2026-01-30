@@ -690,7 +690,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
   displayType: string;
 
   @Input()
-  resolvedContext = {};
+  resolvedContext: any;
 
   @Input()
   set contextChanged(contextChanged: { name: string; }) {
@@ -1130,7 +1130,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   }
 
   @Input()
-  resolvedContext = {}
+  resolvedContext: any;
 
   contextsChanged: Array<string> = [];
   layoutRendererRef: ComponentRef<any>;
@@ -1546,7 +1546,6 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       }*/
     })
   ).subscribe()
-
   get panelsArray(): UntypedFormArray {
     return this.pageForm.get('panels') as UntypedFormArray;
   }

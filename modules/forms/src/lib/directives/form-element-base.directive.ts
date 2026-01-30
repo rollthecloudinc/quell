@@ -133,10 +133,15 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
         console.log('path', path);
 
         // const value = this.replaceTokens(settings.value.replace('.$i.', `.${this.ancestory[this.ancestory.length - 3]}.`));
-        const value = this.replaceTokens(path);
+        const { resolvedValue, remainingExpression } = this.replaceTokens(path, tokens);
 
-        this.formControl.setValue(value);
-        const extraTokens = this.tokenizerService.discoverTokens(value, true);
+        if (resolvedValue !== undefined) {
+          this.formControl.setValue(resolvedValue);
+          this.value$.next(resolvedValue);
+          return;
+        }
+
+        const extraTokens = this.tokenizerService.discoverTokens(remainingExpression, true);
         if (extraTokens.length !== 0) {
           if (extraTokens[0].trim().lastIndexOf('.id') === extraTokens[0].trim().length - 3) {
             const id = uuid.v4();
@@ -159,7 +164,7 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
             }
           }
         } else {
-          this.value$.next(value);
+          this.value$.next(resolvedValue);
         }
       } else {
         this.formControl.setValue('');
@@ -189,13 +194,80 @@ export abstract class FormElementBase implements OnInit, AfterViewInit {
     return new FormSettings(s);
   }
 
-  replaceTokens(v: string): string {
-    if(this.tokens !== undefined) {
-      this.tokens.forEach((value, key) => {
-        v = v.split(`[${key}]`).join(`${value}`)
-      });
+  replaceTokens(
+    value: string,
+    tokens: Map<string, any>
+  ): { resolvedValue: any; remainingExpression: string } {
+    if (!value) {
+      return { resolvedValue: value, remainingExpression: "" };
     }
-    return v;
+
+    let resolved = value;
+    let tokenMatched = false;
+
+    // Track tokens we replaced and tokens we did NOT replace
+    const replacedTokens: string[] = [];
+    const unmatchedTokens: string[] = [];
+
+    // First pass: determine which tokens actually exist in the string
+    tokens.forEach((tValue, key) => {
+      const tokenPattern = `[${key}]`;
+
+      if (value.includes(tokenPattern)) {
+        // Mark that this token existed in string
+        replacedTokens.push(tokenPattern);
+      }
+    });
+
+    // Second pass: actually perform replacements
+    replacedTokens.forEach(tokenPattern => {
+      const key = tokenPattern.substring(1, tokenPattern.length - 1); // remove []
+      const tValue = tokens.get(key);
+
+      if (tValue !== undefined) {
+        tokenMatched = true;
+        resolved = resolved.split(tokenPattern).join(JSON.stringify(tValue));
+      }
+    });
+
+    // Detect unmatched tokens LEFT in the string after replacement
+    const unmatched = resolved.match(/(\[(?:\[??[^\[]*?\]))/g);
+    if (unmatched) {
+      unmatchedTokens.push(...unmatched);
+    }
+
+    // Build remainingExpression by removing only the tokens that WERE replaced
+    let remainingExpression = value;
+    replacedTokens.forEach(tokenPattern => {
+      const key = tokenPattern.substring(1, tokenPattern.length - 1);
+      if (tokens.has(key)) {
+        // Remove tokens that were successfully replaced
+        remainingExpression = remainingExpression.replace(tokenPattern, "");
+      }
+    });
+
+    remainingExpression = remainingExpression.trim();
+
+    // If NO token matched → resolvedValue should be undefined
+    if (!tokenMatched) {
+      return {
+        resolvedValue: undefined,
+        remainingExpression
+      };
+    }
+
+    // Try JSON parse final resolved
+    let finalResolved: any = resolved;
+    try {
+      finalResolved = JSON.parse(resolved);
+    } catch (_) {
+      // leave resolved as string
+    }
+
+    return {
+      resolvedValue: finalResolved,
+      remainingExpression
+    };
   }
 
   markAsTouched() {
