@@ -6,7 +6,7 @@ import { ContentPluginManager } from '@rollthecloudinc/content';
 import { StylePluginManager } from '@rollthecloudinc/panels';
 import { FormInputComponent } from './components/form-input/form-input.component';
 import { FormSelectComponent } from './components/form-select/form-select.component';
-import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formHiddenPluginFactory, formInputPluginFactory, formMediaPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
+import { formAutocompletePluginFactory, formCheckboxPluginFactory, formDatepickerPluginFactory, formHiddenPluginFactory, formInputPluginFactory, formListboxPluginFactory, formMediaPluginFactory, formRadiogroupPluginFactory, formSectionStylePluginFactory, formSelectPluginFactory, formSliderPluginFactory, formTextareaPluginFactory, formTogglePluginFactory } from './forms.factories';
 import { FormSectionComponent } from './components/form-section/form-section.component';
 import { FormTextareaComponent } from './components/form-textarea/form-textarea.component';
 import { RenderModule } from '@rollthecloudinc/render';
@@ -24,6 +24,7 @@ import { FormMediaComponent } from './components/form-media/form-media.component
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
 import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
 import { OrdainModule } from '@rollthecloudinc/ordain';
+import { FormListboxComponent } from './components/form-listbox/form-listbox.component';
 @NgModule({
   declarations: [
     FormInputComponent,
@@ -39,7 +40,8 @@ import { OrdainModule } from '@rollthecloudinc/ordain';
     FormAutocompleteComponent,
     FormMediaComponent,
     FormHiddenComponent,
-    FormSectionEditorComponent
+    FormSectionEditorComponent,
+    FormListboxComponent
   ],
   imports: [
     CommonModule,
@@ -64,7 +66,8 @@ import { OrdainModule } from '@rollthecloudinc/ordain';
     FormAutocompleteComponent,
     FormMediaComponent,
     FormHiddenComponent,
-    FormSectionEditorComponent
+    FormSectionEditorComponent,
+    FormListboxComponent
   ]
 })
 export class FormsModule { 
@@ -84,7 +87,8 @@ export class FormsModule {
       formDatepickerPluginFactory({ handler }),
       formAutocompletePluginFactory({ handler }),
       formMediaPluginFactory({ handler }),
-      formHiddenPluginFactory({ handler })
+      formHiddenPluginFactory({ handler }),
+      formListboxPluginFactory({ handler })
     ].forEach(p => cpm.register(p));
     [
       formSectionStylePluginFactory()

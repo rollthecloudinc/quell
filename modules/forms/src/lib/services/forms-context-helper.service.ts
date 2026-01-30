@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { TokenizerService } from "@rollthecloudinc/token";
-import { PanelPageForm } from "@rollthecloudinc/panels";
+import { FormService, PanelPageForm } from "@rollthecloudinc/panels";
 import * as rd from 'recursive-diff';
 import { Observable, ReplaySubject, Subject, take, tap } from "rxjs";
 
@@ -21,6 +21,9 @@ export class FormsContextHelperService {
           // This could ne analyzed but reallu the panel page form isn't needed anyway here.
           if (!(resolvedContext[name] instanceof PanelPageForm)) {
             tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(resolvedContext[name], name === '_root' ? '' : name) ]);
+          } else {
+            const data = this.formService.serializeForm(resolvedContext[name]);
+            tokens = new Map<string, any>([ ...tokens, ...this.tokenizerService.generateGenericTokens(data, name === '_root' ? '' : name) ]);
           }
         }
       }
@@ -29,7 +32,8 @@ export class FormsContextHelperService {
   ).subscribe();
 
   constructor(
-    private tokenizerService: TokenizerService
+    private tokenizerService: TokenizerService,
+    private formService: FormService
   ) {
   }
 
@@ -41,7 +45,7 @@ export class FormsContextHelperService {
     if (cachedIndex === -1) {
       console.log('resolved context no cache', resolvedContext);
       cachedIndex = this.cachedResolvedContexts.length;
-      this.cachedResolvedContexts.push({ rContext: resolvedContext, resolution$: new ReplaySubject<undefined | Map<string, any>>() });
+      this.cachedResolvedContexts.push({ rContext: resolvedContext, resolution$: new ReplaySubject<undefined | Map<string, any>>(1) });
       this.scheduleResolution$.next({ resolvedContext, index: cachedIndex });
     } else {
       console.log('resolved context cache hit',  resolvedContext);

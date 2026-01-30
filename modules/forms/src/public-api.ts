@@ -20,3 +20,4 @@ export * from './lib/components/form-autocomplete/form-autocomplete.component';
 export * from './lib/components/form-media/form-media.component';
 export * from './lib/components/form-hidden/form-hidden.component';
 export * from './lib/components/form-section-editor/form-section-editor.component';
+export * from './lib/components/form-listbox/form-listbox.component';

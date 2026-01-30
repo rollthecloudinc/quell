@@ -66,6 +66,7 @@ export class TokenizerService {
       } else if (Array.isArray(val) && prop === 'attributes') {
         this.attributeTokens(val, tokens, currentPrefix, level + 1, visited);
       } else if (Array.isArray(val)) {
+        tokens.set(currentPrefix, val);
         val.forEach((item, i) => {
           this.genericTokens(item, tokens, `${currentPrefix}.${i}`, level + 1, visited);
         });
