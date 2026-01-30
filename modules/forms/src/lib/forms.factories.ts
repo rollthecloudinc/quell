@@ -15,6 +15,7 @@ import { FormAutocompleteComponent } from "./components/form-autocomplete/form-a
 import { FormMediaComponent } from './components/form-media/form-media.component';
 import { FormHiddenComponent } from './components/form-hidden/form-hidden.component';
 import { FormSectionEditorComponent } from './components/form-section-editor/form-section-editor.component';
+import { FormListboxComponent } from './components/form-listbox/form-listbox.component';
 
 export const formInputPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
   return new ContentPlugin<string>({
@@ -34,6 +35,17 @@ export const formSelectPluginFactory = ({ handler }: { handler: FormElementHandl
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormSelectComponent,
+    handler
+  })
+}
+
+export const formListboxPluginFactory = ({ handler }: { handler: FormElementHandler }) => {
+  return new ContentPlugin<string>({
+    id: 'form_listbox',
+    title: 'Form Listbox',
+    selectionComponent: undefined,
+    editorComponent: FormElementEditorComponent,
+    renderComponent: FormListboxComponent,
     handler
   })
 }

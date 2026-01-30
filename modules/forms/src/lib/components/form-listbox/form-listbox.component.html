@@ -1,0 +1,15 @@
+<div class="form-listbox">
+  <label class="form-listbox-label">{{ label$ | async }}</label>
+
+  <mat-chip-listbox
+    [formControl]="formControl"
+    multiple>
+    
+    <mat-chip-option
+      *ngFor="let opt of (options$ | async)"
+      [value]="opt.value">
+      {{ opt.label }}
+    </mat-chip-option>
+
+  </mat-chip-listbox>
+</div>
