@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT, SkipSelf, Optional } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnChanges, SimpleChanges, ElementRef, Inject, TemplateRef, ComponentFactoryResolver, ComponentRef, AfterViewInit, ViewEncapsulation, forwardRef, HostBinding, AfterContentInit, Renderer2, Output, EventEmitter, ViewChildren, QueryList, NgZone, PLATFORM_ID, OnDestroy, DOCUMENT, SkipSelf, Optional, inject, Injector } from '@angular/core';
 import { FormGroup, UntypedFormBuilder, UntypedFormArray, ControlValueAccessor, Validator, NG_VALIDATORS, NG_VALUE_ACCESSOR, AbstractControl, ValidationErrors, Validators, NG_ASYNC_VALIDATORS, AsyncValidator, ControlContainer } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Data } from '@angular/router';
@@ -1093,6 +1093,7 @@ export class RenderPanelComponent implements OnInit, AfterViewInit, AfterContent
 export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentInit, OnDestroy, ControlValueAccessor, AsyncValidator {
 
   static registredContextListeners = new Set<string>();
+  public injector = inject<Injector>(Injector);
 
   @Input()
   set id(id: string) {

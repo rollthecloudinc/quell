@@ -5,10 +5,11 @@ import { entityMetadataFactory } from './entity-metadata';
 import { PanelPageLinkedlistComponent } from './components/panelpage-linkedlist/panelpage-linkedlist.component';
 import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import { EMBEDDABLE_COMPONENT, NoopDataService } from '@rollthecloudinc/utils';
+import { InteractionHandlerPluginManager } from '@rollthecloudinc/detour';
 import { MaterialModule } from '@rollthecloudinc/material';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ContentPlugin, ContentPluginManager, CONTENT_PLUGIN } from '@rollthecloudinc/content';
-import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory, yieldContentPluginFactory } from './panels.factories';
+import { panelContentPluginFactory, panelsBridgeFactory, datasourceContentPluginFactory, yieldContentPluginFactory, toggleSidenavPlugin, openSidenavPlugin, closeSidenavPlugin } from './panels.factories';
 import { PanelContentHandler } from './handlers/panel-content.handler';
 import { PanelEditorComponent } from './plugins/panel/panel-editor/panel-editor.component';
 import { PanelSelectorComponent } from './plugins/panel/panel-selector/panel-selector.component';
@@ -77,6 +78,7 @@ export class PanelsModule {
     attributesSerialzer: AttributeSerializerService,
     crud: CrudAdaptorPluginManager,
     entityDefinitionService: EntityDefinitionService,
+    ihpm: InteractionHandlerPluginManager,
     /*ctxm: ContextPluginManager,
     panelsStateContextResolver: PanelsStateContextResolver*/
     crudDataHelper: CrudDataHelperService,
@@ -95,5 +97,6 @@ export class PanelsModule {
     // console.log('register panel page state');
     // Experimental - form testing
     entityDataService.registerService('PanelPageForm', new CrudDataService<PanelPageForm>('PanelPageForm', crud, entityDefinitionService, crudDataHelper));
+    [toggleSidenavPlugin, openSidenavPlugin, closeSidenavPlugin].map(p => ihpm.register(p));
   }
 }

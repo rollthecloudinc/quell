@@ -39,3 +39,4 @@ export * from './lib/services/form-state-converter.service';
 export * from './lib/services/form-group-conveter.service';
 export * from './lib/services/css-helper.service';
 export * from './lib/features/page-builder/page-builder.actions';
+export * from './lib/models/role.models';
