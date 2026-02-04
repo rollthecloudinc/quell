@@ -14,6 +14,9 @@ import { DatasourceEditorComponent } from './plugins/datasource/datasource-edito
 import * as cssJson from 'cssjson';
 import { FilesService } from '@rollthecloudinc/media';
 import { YieldContentHandler } from './handlers/yield-content.handler';
+import { createRoleHandler, UIRole } from '@rollthecloudinc/utils';
+import { SidenavRole } from './models/role.models';
+import { roleHandlerPluginFactory } from '@rollthecloudinc/detour';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
@@ -100,4 +103,54 @@ export const panelpageStylesheetToFileCrudAdaptorPluginFactory = (fileService: F
     delete: ({ }: CrudOperationInput) => of<CrudOperationResponse>({ success: false })
   });
 };
+
+/*function handlerFromJson<R extends UIRole>(json) {
+  return roleHandlerPluginFactory<R>({
+    id: json.id,
+    title: json.title,
+    role: json.role,
+    handler: ({ roleInstances }) => {
+
+      roleInstances.forEach(instance => {
+
+        json.actions.forEach(step => {
+          const fn = instance[step.action];
+
+          if (typeof fn === "function") {
+            fn.call(instance, step.params);
+          }
+        });
+
+      });
+
+    }
+  });
+}*/
+
+export const toggleSidenavPlugin = roleHandlerPluginFactory<SidenavRole>({
+  id: 'toggle_sidenav',
+  title: 'Toggle Sidenav',
+  role: 'sidenav',
+  handler: ({ roleInstances }) => {
+    roleInstances.forEach(i => i.toggle());
+  }
+});
+
+export const openSidenavPlugin = roleHandlerPluginFactory<SidenavRole>({
+  id: 'open_sidenav',
+  title: 'Open Sidenav',
+  role: 'sidenav',
+  handler: ({ roleInstances }) => {
+    roleInstances.forEach(i => i.open());
+  }
+});
+
+export const closeSidenavPlugin = roleHandlerPluginFactory<SidenavRole>({
+  id: 'close_sidenav',
+  title: 'Close Sidenav',
+  role: 'sidenav',
+  handler: ({ roleInstances }) => {
+    roleInstances.forEach(i => i.close());
+  }
+});
 
