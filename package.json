@@ -1,6 +1,6 @@
 {
   "name": "ng-druid",
-  "version": "20.0.0-alpha.58",
+  "version": "20.0.0-alpha.59",
   "scripts": {
     "ng": "ng",
     "start": "ng serve ipe",
