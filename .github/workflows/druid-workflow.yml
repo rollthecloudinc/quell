@@ -113,6 +113,9 @@ jobs:
           echo "" >> "$MASTER"
 
           for p in projects/spear/src/panelpage-styles/panelpage-*.scss; do
+            if [[ "$p" == *"panelpage-dynamic-styles.scss" ]]; then
+              continue
+            fi
             filename=$(basename "$p")
             echo "@forward './${filename}';" >> "$MASTER"
           done
