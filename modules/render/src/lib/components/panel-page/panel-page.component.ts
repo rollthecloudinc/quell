@@ -11,7 +11,7 @@ import { InteractionEventPluginManager, InteractionHandlerPluginManager, Interac
 import { /*ContextManagerService, */ InlineContext, ContextPluginManager, InlineContextResolverService } from '@rollthecloudinc/context';
 import { PanelPage, Pane, LayoutSetting, CssHelperService, PanelsContextService, PageBuilderFacade, FormService, PanelPageForm, PanelPageState, PanelContentHandler, PaneStateService, Panel, StylePlugin, PanelResolverService, StylePluginManager, StyleResolverService, PanelPageStateSlice } from '@rollthecloudinc/panels';
 import { DisplayGrid, GridsterConfig, GridType, GridsterItem } from 'angular-gridster2';
-import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval } from 'rxjs';
+import { fromEvent, Subscription, BehaviorSubject, Subject, iif, of, forkJoin, Observable, combineLatest, interval, firstValueFrom } from 'rxjs';
 import { filter, tap, debounceTime, take, skip, scan, delay, switchMap, map, bufferTime, timeout, defaultIfEmpty, concatAll, concat, concatWith, reduce, bufferToggle, concatMap, toArray, distinctUntilChanged, bufferWhen, takeUntil, flatMap, withLatestFrom, catchError, startWith, first } from 'rxjs/operators';
 import { getRouterSelectors, RouterReducerState } from '@ngrx/router-store';
 import { Store, select, createSelector } from '@ngrx/store';
@@ -1551,6 +1551,11 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
   ).subscribe()
   get panelsArray(): UntypedFormArray {
     return this.pageForm.get('panels') as UntypedFormArray;
+  }
+
+  @HostBinding('attr.data-panelpage')
+  get panelpageAttr() {
+    return this?.panelPageCached?.path?.toLowerCase().replace(/\//g, "__");
   }
 
   public onTouched: () => void = () => {};
