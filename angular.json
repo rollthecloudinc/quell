@@ -286,7 +286,8 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "projects/ipe/src/styles.scss",
               "projects/ipe/src/theme.scss",
-              "node_modules/prismjs/themes/prism-okaidia.css"
+              "node_modules/prismjs/themes/prism-okaidia.css",
+              "projects/ipe/src/panelpage-styles/panelpage-dynamic-styles.scss"
             ],
             "scripts": [
               "node_modules/marked/bin/marked.js",

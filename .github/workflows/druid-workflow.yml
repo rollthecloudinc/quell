@@ -82,6 +82,40 @@ jobs:
           #npm dedupe --force
         env:
           NODE_AUTH_TOKEN: ${{ secrets.RTC_GITHUB_REGISTRY }}
+      - name: Extract SCSS from panelpages
+        run: |
+          mkdir -p projects/ipe/src/panelpage-styles
+
+          for file in projects/ipe/src/assets/objects/panelpage/*.json; do
+            id=$(jq -r '.id' "$file")
+            path=$(jq -r '.path // ""' "$file")
+            scss=$(jq -r '.scss // ""' "$file")
+
+            if [ "$scss" != "" ]; then
+              safe_path=$(echo "$path" | sed 's/\//__/g')
+              outfile="projects/ipe/src/panelpage-styles/panelpage-${id}.scss"
+
+              echo "/* AUTO-GENERATED: PanelPage $id */" > "$outfile"
+              echo "" >> "$outfile"
+              echo "[data-panelpage=\"${safe_path}\"] .panel-page {" >> "$outfile"
+              echo "$scss" >> "$outfile"
+              echo "}" >> "$outfile"
+
+              echo "Wrote SCSS for $id → $outfile"
+            fi
+          done
+      - name: Create master import SCSS file
+        run: |
+          MASTER="projects/ipe/src/panelpage-styles/panelpage-dynamic-styles.scss"
+
+          echo "// Auto-generated master SCSS import file" > "$MASTER"
+          echo "" >> "$MASTER"
+
+          for p in projects/ipe/src/panelpage-styles/panelpage-*.scss; do
+            echo "@import './$(basename $p)';" >> "$MASTER"
+          done
+
+          echo "Generated master import file at $MASTER"
       - run: npm run get-routes
       - run: npm run extract-routes
       - run: npm run prerender:${{ secrets.ENVIRONMENT_NAME }}
