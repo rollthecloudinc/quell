@@ -1419,6 +1419,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
     this.afterContentInit$,
   ]).pipe(
     delay(1),
+    filter(() => !!this.id$.value || !!this.panelPageCached.id),
     switchMap(() => forkJoin(this.filteredListeners.map(l => of({}).pipe(
         map(() => ({ paramNames: l.event.settings.paramsString ? l.event.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [] })),
         switchMap(({ paramNames }) => this.paramEvaluatorService.paramValues(l.event.settings.params.reduce((p, c, i) => new Map<string, Param>([ ...p, [ paramNames[i], c ] ]), new Map<string, Param>())).pipe(
@@ -1434,6 +1435,7 @@ export class PanelPageComponent implements OnInit, AfterViewInit, AfterContentIn
       filteredListeners: this.filteredListeners, 
       listenerParams, 
       renderer: this.renderer,
+      panelPageId: this.id$.value || this.panelPageCached.id,
       callback: ({ handlerParams, plugin, index, evt }) => {
         // console.log(`The handler was called`, handlerParams, plugin, index, this.filteredListeners[index], evt );
         this.ihpm.getPlugin(plugin).pipe(

@@ -7,6 +7,7 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { ButtonContentHandler } from '../../../handlers/button-content.handler';
 import { Subject } from 'rxjs';
 import { QButton } from '../../../models/plugin.models';
+import { Param, ParamSettings } from '@rollthecloudinc/dparam';
 
 @Component({
     selector: 'classifieds-ui-button-editor',
@@ -16,9 +17,15 @@ import { QButton } from '../../../models/plugin.models';
 })
 export class ButtonEditorComponent implements OnInit {
 
+
+  contexts: Array<InlineContext> = [];
+
+  paramSettings = new ParamSettings()
+
   contentForm = this.fb.group({
     text: this.fb.control('', [ Validators.required ]),
-    action: this.fb.control('')
+    action: this.fb.control(''),
+    params: this.fb.control('')
   });
 
   button: QButton;
@@ -29,7 +36,9 @@ export class ButtonEditorComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private attributeSerializer: AttributeSerializerService,
     private handler: ButtonContentHandler
-  ) { }
+  ) { 
+    this.contexts = dialogData.contexts;
+  }
 
   ngOnInit(): void {
     if(this.dialogData.pane !== undefined) {
@@ -38,6 +47,11 @@ export class ButtonEditorComponent implements OnInit {
             this.contentForm.get('text').patchValue(this.button.text);
             if (this.button.action) {
                 this.contentForm.get('action').patchValue(this.button.action);
+            }
+            if (this.button.paramsString) {
+              this.paramSettings = new ParamSettings({
+                paramsString: this.button.paramsString,
+                params: this.button.params,});
             }
         });
     }
@@ -61,8 +75,12 @@ export class ButtonEditorComponent implements OnInit {
     const paneForm = (this.dialogData.panelFormGroup.get('panes') as UntypedFormArray).at(paneIndex);
     const text = this.contentForm.get('text').value;
     const action = this.contentForm.get('action').value;
+    const params = this.contentForm.get('params').value;
+  
+    console.log('button editor params', params);
 
-    const button = new QButton({ text, action });
+    const button = new QButton({ text, action, paramsString: params?.paramsString || '', params: params?.params || [] });
+    console.log('constructed button', button);
 
     (paneForm.get('settings') as UntypedFormArray).clear();
     const controls = this.handler.buildSettings(button).map(s => this.attributeSerializer.convertToGroup(s));
