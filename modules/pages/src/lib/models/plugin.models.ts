@@ -1,4 +1,5 @@
 import { AttributeValue } from '@rollthecloudinc/attributes';
+import { Param } from '@rollthecloudinc/dparam';
 
 export class DataSlice {
   context: string;
@@ -16,10 +17,14 @@ export class DataSlice {
 export class QButton {
   text: string;
   action?: string;
+  paramsString?: string;
+  params?: Array<Param>;
   constructor(data?: QButton) {
     if (data) {
       this.text = data.text;
       this.action = data.action
+      this.paramsString = data.paramsString;
+      this.params = data.params ? data.params.map(p => new Param(p)) : [];
     }
   }
 }

@@ -7,8 +7,9 @@ import { InteractionListenerComponent } from './components/interaction-listener/
 import { InteractionsDialogComponent } from './components/interactions-dialog/interactions-dialog.component';
 import { InteractionsFormComponent } from './components/interactions-form/interactions-form.component';
 import { InteractionEventPluginManager } from './services/interaction-event-plugin-manager.service';
-import { interactionEventDomFactory, interactionHandlerHelloWorldFactory } from './detour.factories';
+import { interactionEventDomFactory, interactionHandlerHelloWorldFactory, interactionHandlerNavigateFactory } from './detour.factories';
 import { InteractionHandlerPluginManager } from './services/interaction-handler-plugin-manager.service';
+import { Router } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -31,11 +32,13 @@ import { InteractionHandlerPluginManager } from './services/interaction-handler-
 })
 export class DetourModule { 
   constructor(
+    router: Router,
     iepm: InteractionEventPluginManager,
     ihpm: InteractionHandlerPluginManager,
     paramEvaluatorService: ParamEvaluatorService
   ) {
     iepm.register(interactionEventDomFactory(paramEvaluatorService));
     ihpm.register(interactionHandlerHelloWorldFactory());
+    ihpm.register(interactionHandlerNavigateFactory({ router }))
   }
 }

@@ -5,17 +5,25 @@ import { UIRole, RoleHandlerContext, createRoleHandler, AsyncOrSync, RoleRegistr
 import { map } from "rxjs/operators";
 import { Renderer2 } from "@angular/core";
 import { firstValueFrom, Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 /**
  * Only register type a single time to prevent duplicated events.
  */
-const globalListeners = new Set<string>();
+const subscriptions = new Map<string, Array<() => void>>();
 
 export const interactionEventDomFactory = (paramEvaluatorService: ParamEvaluatorService) => {
   return new InteractionEventPlugin<string>({ 
     title: 'DOM', 
     id: 'dom',
-    connect: ({ filteredListeners, listenerParams, renderer, callback }) => new Observable(obs => {
+    connect: ({ filteredListeners, listenerParams, renderer, panelPageId, callback }) => new Observable(obs => {
+      /**
+       * Panel page coonnected once otherwise unsubscribe.
+       */
+      if (subscriptions.has(panelPageId)) {
+        subscriptions.get(panelPageId).forEach(unsub => unsub());
+        subscriptions.delete(panelPageId);
+      }
       const mapTypes = new Map<string, Array<number>>();
       const len = filteredListeners.length;
       for (let i = 0; i < len; i++) {
@@ -36,6 +44,8 @@ export const interactionEventDomFactory = (paramEvaluatorService: ParamEvaluator
             const expectedTarget = (listenerParams[targets[i]] as any).target;
             if (e.target.matches(expectedTarget)) {
               console.log(`delegated target match ${expectedTarget}`);
+              const resolvedParamsAttr = e.target.getAttribute('data-resolved-params');
+              const targetParams = resolvedParamsAttr ? JSON.parse(resolvedParamsAttr) : {};
               if(filteredListeners[i].handler.settings.params) {
                 const paramNames = filteredListeners[i].handler.settings.paramsString ? filteredListeners[i].handler.settings.paramsString.split('&').filter(v => v.indexOf('=:') !== -1).map(v => v.split('=', 2)[1].substr(1)) : [];
                 paramEvaluatorService.paramValues(
@@ -45,12 +55,12 @@ export const interactionEventDomFactory = (paramEvaluatorService: ParamEvaluator
                 ).subscribe((handlerParams) => {
                   // plugin call and pass params
                   // console.log('handler original event and params', e, filteredListeners[i].handler.plugin,  handlerParams);
-                  callback({ handlerParams, plugin: filteredListeners[i].handler.plugin, index: i, evt: e });
+                  callback({ handlerParams: { ...handlerParams, ...targetParams }, plugin: filteredListeners[i].handler.plugin, index: i, evt: e });
                 })
               } else {
                 // plugin call and pass params
                 // console.log('handler original event and params', filteredListeners[i].handler.plugin, e);
-                callback({ handlerParams: {}, plugin: filteredListeners[i].handler.plugin, index: i, evt: e });
+                callback({ handlerParams: {...targetParams }, plugin: filteredListeners[i].handler.plugin, index: i, evt: e });
               }
             }
           });
@@ -59,14 +69,21 @@ export const interactionEventDomFactory = (paramEvaluatorService: ParamEvaluator
       const keys = Array.from(mapTypes);
       for (let i = 0; i < keys.length; i++) {
         const type = keys[i][0];
-        if (!globalListeners.has(type)) {
+        /*if (!globalListeners.has(type)) {
           console.log(`[InteractionEvent] Adding global listener for type '${type}'`);
           renderer.listen('document', type, eventDelegtionHandler);
           globalListeners.add(type);
-        }
-        /*renderer.listen('document', type, e => {
+        }*/
+        const unsubscribe = renderer.listen('document', type, e => {
           eventDelegtionHandler(e);
-        });*/
+        });
+        /**
+         * Save all subscriptions to be able to easily unsubscribe later.
+         */
+        if(!subscriptions.has(panelPageId)) {
+          subscriptions.set(panelPageId, []);
+        }
+        subscriptions.get(panelPageId).push(unsubscribe);
       }
       obs.next({});
       obs.complete();
@@ -82,6 +99,20 @@ export const interactionHandlerHelloWorldFactory = () => {
       console.log("Hello World");
     }
   })
+}
+
+export const interactionHandlerNavigateFactory = ({ router } : { router: Router }) => {
+  return new InteractionHandlerPlugin<string>({ 
+    title: 'Navigate', 
+    id: 'navigate',
+    handle: ({ handlerParams }) => {
+      const path = handlerParams['path'] as string;
+      const replace = handlerParams?.['replace'] as boolean ?? false;
+      router.navigateByUrl(path, {
+        replaceUrl: replace
+      });
+    }
+  }) 
 }
 
 export function roleHandlerPluginFactory<R extends UIRole>(
