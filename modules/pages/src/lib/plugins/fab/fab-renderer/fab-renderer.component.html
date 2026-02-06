@@ -1,0 +1,16 @@
+<button *ngIf="!minifab"
+  matFab
+  [extended]="extendedfab"
+  [attr.aria-label]="ariaLabel"
+  [ngClass]="action ? 'action-' + action : null">
+  <mat-icon [ngClass]="action ? 'action-' + action : null">{{ iconName }}</mat-icon>
+  <ng-container *ngIf="extendedfab">
+    {{ text }}
+  </ng-container>
+</button>
+<button *ngIf="minifab"
+  matMiniFab
+  [attr.aria-label]="ariaLabel"
+  [ngClass]="action ? 'action-' + action : null">
+  <mat-icon [ngClass]="action ? 'action-' + action : null">{{ iconName }}</mat-icon>
+</button>

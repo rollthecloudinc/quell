@@ -27,7 +27,7 @@ export class ButtonRendererComponent {
         this.resolvedContext$.next(resolvedContext);
     }
 
-    raised = true
+    appearance = 'elevated'
     color = 'primary'
     disabled = false
     text = ''
@@ -49,6 +49,7 @@ export class ButtonRendererComponent {
         tap(button => {
             this.text = button.text
             this.action = button.action
+            this.appearance = button.appearance|| 'elevated'
         })
     ).subscribe();
 

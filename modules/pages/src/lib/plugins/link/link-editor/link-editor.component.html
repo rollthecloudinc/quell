@@ -15,6 +15,19 @@
         </mat-form-field>
     </div>
 
+    <div>
+        <mat-form-field>
+            <mat-label>Appearance</mat-label>
+            <mat-select formControlName="appearance">
+                <mat-option value="text">Text</mat-option>
+                <mat-option value="elevated">Elevated</mat-option>
+                <mat-option value="outlined">Outlined</mat-option>
+                <mat-option value="filled">Filled</mat-option>
+                <mat-option value="tonal">Tonal</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
   </mat-dialog-content>
   <mat-dialog-actions>
     <button type="submit" mat-raised-button color="primary" [disabled]="!contentForm.valid">Save</button>

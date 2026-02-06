@@ -57,6 +57,9 @@ import { SidenavPanelEditorComponent } from './plugins/style/sidenav-panel-edito
 import { IconButtonContentHandler } from './handlers/icon-button-content.handler';
 import { IconButtonEditorComponent } from './plugins/icon-button/icon-button-editor/icon-button-editor.component';
 import { IconButtonRendererComponent } from './plugins/icon-button/icon-button-renderer/icon-button-renderer.component';
+import { FabContentHandler } from './handlers/fab-content.handler';
+import { FabEditorComponent } from './plugins/fab/fab-editor/fab-editor.component';
+import { FabRendererComponent } from './plugins/fab/fab-renderer/fab-renderer.component';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
@@ -175,6 +178,17 @@ export const iconButtonContentPluginFactory = (handler: IconButtonContentHandler
     selectionComponent: undefined,
     editorComponent: IconButtonEditorComponent,
     renderComponent: IconButtonRendererComponent,
+    handler
+  })
+}
+
+export const fabContentPluginFactory = (handler: FabContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'fab',
+    title: 'Fab (Floating Action Button)',
+    selectionComponent: undefined,
+    editorComponent: FabEditorComponent,
+    renderComponent: FabRendererComponent,
     handler
   })
 }
