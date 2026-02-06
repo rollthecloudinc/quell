@@ -17,12 +17,14 @@ export class DataSlice {
 export class QButton {
   text: string;
   action?: string;
+  appearance?: string;
   paramsString?: string;
   params?: Array<Param>;
   constructor(data?: QButton) {
     if (data) {
       this.text = data.text;
       this.action = data.action
+      this.appearance = data.appearance
       this.paramsString = data.paramsString;
       this.params = data.params ? data.params.map(p => new Param(p)) : [];
     }
@@ -60,10 +62,12 @@ export class QMenu {
 export class QLink {
   text: string
   url: string
+  appearance?: string;
   constructor(data?: QLink) {
     if (data) {
       this.text = data.text
       this.url = data.url
+      this.appearance = data.appearance
     }
   }
 }
@@ -102,6 +106,24 @@ export class IconButton {
       this.iconName = data.iconName;
       this.ariaLabel = data.ariaLabel;
       this.action = data.action;
+    }
+  }
+}
+
+export class Fab {
+  iconName: string;
+  ariaLabel?: string;
+  action?: string;
+  text?: string;
+  minifab?: boolean;
+
+  constructor(data?: Fab) {
+    if (data) {
+      this.iconName = data.iconName;
+      this.ariaLabel = data.ariaLabel;
+      this.action = data.action;
+      this.text = data.text
+      this.minifab = data.minifab;
     }
   }
 }
