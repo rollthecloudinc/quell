@@ -25,6 +25,7 @@ export class ButtonEditorComponent implements OnInit {
   contentForm = this.fb.group({
     text: this.fb.control('', [ Validators.required ]),
     action: this.fb.control(''),
+    appearance: this.fb.control(''),
     params: this.fb.control('')
   });
 
@@ -45,6 +46,9 @@ export class ButtonEditorComponent implements OnInit {
         this.handler.toObject(this.dialogData.pane.settings).subscribe((button: QButton) => {
             this.button = button;
             this.contentForm.get('text').patchValue(this.button.text);
+            if (this.button.appearance) {
+              this.contentForm.get('appearance').patchValue(this.button.appearance);
+            }
             if (this.button.action) {
                 this.contentForm.get('action').patchValue(this.button.action);
             }
@@ -74,12 +78,13 @@ export class ButtonEditorComponent implements OnInit {
 
     const paneForm = (this.dialogData.panelFormGroup.get('panes') as UntypedFormArray).at(paneIndex);
     const text = this.contentForm.get('text').value;
+    const appearance = this.contentForm.get('appearance').value;
     const action = this.contentForm.get('action').value;
     const params = this.contentForm.get('params').value;
   
     console.log('button editor params', params);
 
-    const button = new QButton({ text, action, paramsString: params?.paramsString || '', params: params?.params || [] });
+    const button = new QButton({ text, action, appearance, paramsString: params?.paramsString || '', params: params?.params || [] });
     console.log('constructed button', button);
 
     (paneForm.get('settings') as UntypedFormArray).clear();

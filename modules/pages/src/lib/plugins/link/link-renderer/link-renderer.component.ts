@@ -22,6 +22,7 @@ export class LinkRendererComponent {
     text = ''
     route: Array<any>
     href: string
+    appearance = 'text'
 
     readonly settings$ = new Subject<Array<AttributeValue>>();
     readonly link$ = new Subject<QLink>();
@@ -38,6 +39,7 @@ export class LinkRendererComponent {
             this.text = link.text
             this.route = link.url.indexOf('/') === 0 ? link.url.split('/').map((v, i) => i === 0 ? `/${v}` : v) : undefined
             this.href = link.url.indexOf('/') !== 0 ? link.url : undefined
+            this.appearance = link.appearance || 'text'
         })
     ).subscribe();
 }

@@ -1,0 +1,92 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { AttributeSerializerService } from '@rollthecloudinc/attributes';
+import { Pane } from '@rollthecloudinc/panels';
+import { InlineContext } from '@rollthecloudinc/context';
+import { FabContentHandler } from '../../../handlers/fab-content.handler';
+import { Fab } from '../../../models/plugin.models';
+
+@Component({
+  selector: 'classifieds-ui-fab-editor',
+  templateUrl: './fab-editor.component.html',
+  styleUrls: ['./fab-editor.component.scss'],
+  standalone: false
+})
+export class FabEditorComponent implements OnInit {
+
+  contentForm = this.fb.group({
+    iconName: this.fb.control('', Validators.required),
+    ariaLabel: this.fb.control('', Validators.required),
+    action: this.fb.control(''),
+    mini: this.fb.control(false),
+    text: this.fb.control('')
+  });
+
+  fab: Fab;
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    private dialogData: {
+      panelFormGroup: UntypedFormGroup;
+      pane: Pane;
+      panelIndex: number;
+      paneIndex: number;
+      contexts: Array<InlineContext>;
+    },
+    private dialogRef: MatDialogRef<FabEditorComponent>,
+    private fb: UntypedFormBuilder,
+    private attributeSerializer: AttributeSerializerService,
+    private handler: FabContentHandler
+  ) { }
+
+  ngOnInit(): void {
+    if (this.dialogData.pane !== undefined) {
+      this.handler.toObject(this.dialogData.pane.settings).subscribe(button => {
+        this.fab = button;
+        this.contentForm.patchValue({
+          iconName: button.iconName,
+          ariaLabel: button.ariaLabel,
+          action: button.action,
+          mini: button.minifab,
+          text: button.text
+        });
+      });
+    }
+  }
+
+  onSubmit() {
+    const button = new Fab({
+      iconName: this.contentForm.get('iconName').value,
+      ariaLabel: this.contentForm.get('ariaLabel').value,
+      action: this.contentForm.get('action').value,
+      minifab: this.contentForm.get('mini').value,
+      text: this.contentForm.get('text').value
+    });
+
+    let paneIndex = this.dialogData.paneIndex;
+    const panes = this.dialogData.panelFormGroup.get('panes') as any;
+
+    if (paneIndex === undefined) {
+      panes.push(this.fb.group({
+        contentPlugin: new UntypedFormControl('fab'),
+        name: new UntypedFormControl(''),
+        label: new UntypedFormControl(''),
+        rule: new UntypedFormControl(''),
+        settings: this.fb.array([])
+      }));
+      paneIndex = panes.length - 1;
+    }
+
+    const paneForm = panes.at(paneIndex);
+    const settingsCtrl = paneForm.get('settings') as any;
+    settingsCtrl.clear();
+
+    const controls = this.handler.buildSettings(button)
+      .map(s => this.attributeSerializer.convertToGroup(s));
+
+    controls.forEach(c => settingsCtrl.push(c));
+
+    this.dialogRef.close();
+  }
+}

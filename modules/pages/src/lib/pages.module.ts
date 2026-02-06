@@ -36,7 +36,7 @@ import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet
 import { CreatePanelPageComponent } from './components/create-panel-page/create-panel-page.component';
 import { EditPanelPageComponent } from './components/edit-panel-page/edit-panel-page.component';
 import { SnippetContentHandler } from './handlers/snippet-content.handler';
-import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory, formDatasourcePluginFactory, buttonContentPluginFactory, iconContentPluginFactory, linkContentPluginFactory, menuContentPluginFactory, sidenavStylePluginFactory, iconButtonContentPluginFactory } from './pages.factories';
+import { snippetContentPluginFactory, attributeContentPluginFactory, mediaContentPluginFactory/*, panelContentPluginFactory,*/, restContentPluginFactory, sliceContentPluginFactory, pageContextFactory, restContextFactory, formContextFactory, tabsStylePluginFactory, paneStateContextFactory, pageStateContextFactory, formParamPluginFactory, formResolvedContextPluginFactory, pagesFormBridgeFactory, formSerializationEntityCrudAdaptorPluginFactory, formDatasourcePluginFactory, buttonContentPluginFactory, iconContentPluginFactory, linkContentPluginFactory, menuContentPluginFactory, sidenavStylePluginFactory, iconButtonContentPluginFactory, fabContentPluginFactory } from './pages.factories';
 import { AttributeSelectorComponent } from './plugins/attribute/attribute-selector/attribute-selector.component';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { AttributeEditorComponent } from './plugins/attribute/attribute-editor/attribute-editor.component';
@@ -113,6 +113,9 @@ import { SelectionDialogComponent } from './components/selection-dialog/selectio
 import { IconButtonContentHandler } from './handlers/icon-button-content.handler';
 import { IconButtonRendererComponent } from './plugins/icon-button/icon-button-renderer/icon-button-renderer.component';
 import { IconButtonEditorComponent } from './plugins/icon-button/icon-button-editor/icon-button-editor.component';
+import { FabEditorComponent } from './plugins/fab/fab-editor/fab-editor.component';
+import { FabRendererComponent } from './plugins/fab/fab-renderer/fab-renderer.component';
+import { FabContentHandler } from './handlers/fab-content.handler';
 // import { PanelpageModule } from 'panelpage';
 // import { EditablepaneModule } from 'editablepane';
 
@@ -178,7 +181,7 @@ const routes = [
     // PanelpageModule,
     // EditablepaneModule
   ],
-  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent, ButtonEditorComponent, IconEditorComponent, LinkEditorComponent, MenuEditorComponent, ButtonRendererComponent, IconRendererComponent, LinkRendererComponent, MenuRendererComponent, SidenavPanelRendererComponent, SidenavPanelEditorComponent, SelectionDialogComponent, IconButtonRendererComponent, IconButtonEditorComponent],
+  declarations: [ContentSelectorComponent, ContentSelectionHostDirective, SnippetPaneRendererComponent, ContentEditorComponent, SnippetEditorComponent, CreatePanelPageComponent, EditPanelPageComponent, AttributeSelectorComponent, AttributeEditorComponent, AttributePaneRendererComponent, MediaEditorComponent, MediaPaneRendererComponent, RenderingEditorComponent, PanelSelectorComponent, /*PanelEditorComponent,*/ StyleSelectorComponent, GalleryEditorComponent, /*GalleryPanelRendererComponent,*/ DatasourceSelectorComponent, RestEditorComponent, RestFormComponent, RestPaneRendererComponent, VirtualListPanelRendererComponent, SliceEditorComponent, SliceFormComponent, SelectionComponent, RulesDialogComponent, TabsPanelRendererComponent, PropertiesDialogComponent, CatchAllRouterComponent, ContextDialogComponent, ContextEditorComponent, PanelPropsDialogComponent, PanePropsDialogComponent, LayoutEditorHostDirective, TablePanelRendererComponent, TabsPanelEditorComponent, PageStateEditorComponent, PageStateFormComponent, FormDatasourceFormComponent, FormDatasourceComponent, PaneContentHostDirective, EditablePaneComponent, PrerenderDialogComponent, ButtonEditorComponent, IconEditorComponent, LinkEditorComponent, MenuEditorComponent, ButtonRendererComponent, IconRendererComponent, LinkRendererComponent, MenuRendererComponent, SidenavPanelRendererComponent, SidenavPanelEditorComponent, SelectionDialogComponent, IconButtonRendererComponent, IconButtonEditorComponent, FabEditorComponent, FabRendererComponent],
   providers: [
     CatchAllGuard,
     PageContextResolver,
@@ -207,6 +210,7 @@ const routes = [
     { provide: CONTENT_PLUGIN, useFactory: linkContentPluginFactory, multi: true, deps: [ LinkContentHandler ] },
     { provide: CONTENT_PLUGIN, useFactory: menuContentPluginFactory, multi: true, deps: [ MenuContentHandler ] },
     { provide: CONTENT_PLUGIN, useFactory: iconButtonContentPluginFactory, multi: true, deps: [ IconButtonContentHandler ] },
+    { provide: CONTENT_PLUGIN, useFactory: fabContentPluginFactory, multi: true, deps: [ FabContentHandler ] },
     // { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'gallery', name: 'gallery', title: 'Gallery', editorComponent: undefined, renderComponent: GalleryPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useValue: new StylePlugin<string>({ id: 'virtuallist', name: 'virtuallist', title: 'Virtual List', editorComponent: undefined, renderComponent: VirtualListPanelRendererComponent }), multi: true },
     { provide: STYLE_PLUGIN, useFactory: tabsStylePluginFactory, multi: true, deps: [ TabsStyleHandler ] },

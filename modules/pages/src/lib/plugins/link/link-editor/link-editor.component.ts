@@ -20,7 +20,8 @@ export class LinkEditorComponent implements OnInit {
 
   contentForm = this.fb.group({
     text: this.fb.control('',[ Validators.required ]),
-    url: this.fb.control('',[ Validators.required ])
+    url: this.fb.control('',[ Validators.required ]),
+    appearance: this.fb.control(''),
   });
 
   link: QLink;
@@ -39,6 +40,9 @@ export class LinkEditorComponent implements OnInit {
             this.link = link;
             this.contentForm.get('text').patchValue(this.link.text);
             this.contentForm.get('url').patchValue(this.link.url);
+            if (this.link.appearance) {
+              this.contentForm.get('appearance').patchValue(this.link.appearance);
+            }
         });
     }
   }
@@ -61,8 +65,9 @@ export class LinkEditorComponent implements OnInit {
     const paneForm = (this.dialogData.panelFormGroup.get('panes') as UntypedFormArray).at(paneIndex);
     const text = this.contentForm.get('text').value;
     const url = this.contentForm.get('url').value;
+    const appearance = this.contentForm.get('appearance').value;
 
-    const link = new QLink({ text, url });
+    const link = new QLink({ text, url, appearance });
 
     (paneForm.get('settings') as UntypedFormArray).clear();
     const controls = this.handler.buildSettings(link).map(s => this.attributeSerializer.convertToGroup(s));

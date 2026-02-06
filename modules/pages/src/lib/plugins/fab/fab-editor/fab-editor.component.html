@@ -1,0 +1,35 @@
+<form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+
+    <mat-form-field>
+      <mat-label>Icon Name</mat-label>
+      <input matInput formControlName="iconName">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Aria Label</mat-label>
+      <input matInput formControlName="ariaLabel">
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Action (CSS class)</mat-label>
+      <input matInput formControlName="action">
+    </mat-form-field>
+
+    <div>
+      <mat-checkbox formControlName="mini">Mini FAB</mat-checkbox>
+    </div>
+
+    <mat-form-field>
+      <mat-label>Text</mat-label>
+      <input matInput formControlName="text">
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!contentForm.valid">
+      Save
+    </button>
+  </mat-dialog-actions>
+</form>
