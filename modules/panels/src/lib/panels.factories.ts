@@ -16,7 +16,7 @@ import { FilesService } from '@rollthecloudinc/media';
 import { YieldContentHandler } from './handlers/yield-content.handler';
 import { createRoleHandler, UIRole } from '@rollthecloudinc/utils';
 import { SidenavRole } from './models/role.models';
-import { roleHandlerPluginFactory } from '@rollthecloudinc/detour';
+import { roleHandlerPluginFactory, TimelineStep } from '@rollthecloudinc/detour';
 
 export const panelContentPluginFactory = (handler: PanelContentHandler) => {
   return new ContentPlugin<string>({
@@ -45,6 +45,7 @@ export const datasourceContentPluginFactory = (handler: DatasourceContentHandler
     id: 'datasource',
     title: 'Datasource',
     selectionComponent: undefined,
+    cls: 'datasource',
     editorComponent: DatasourceEditorComponent,
     renderComponent: undefined,
     handler
@@ -151,6 +152,15 @@ export const closeSidenavPlugin = roleHandlerPluginFactory<SidenavRole>({
   role: 'sidenav',
   handler: ({ roleInstances }) => {
     roleInstances.forEach(i => i.close());
+  }
+});
+
+export const refreshSidenavPlugin = roleHandlerPluginFactory<SidenavRole>({
+  id: 'refresh_sidenav',
+  title: 'Refresh Sidenav',
+  role: 'sidenav',
+  handler: ({ roleInstances }) => {
+    roleInstances.forEach(i => i.refresh());
   }
 });
 

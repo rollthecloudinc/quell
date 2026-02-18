@@ -1,5 +1,5 @@
 <!-- with label mappings -->
-<mat-tab-group *ngIf="labelMappingsEnabled" mat-align-tabs="start">
+<mat-tab-group *ngIf="labelMappingsEnabled" [mat-align-tabs]="alignTabs" [mat-stretch-tabs]="stretchTabs">
   <mat-tab *for="panes.length / 2; let i = index">
     <ng-template mat-tab-label>
       <classifieds-ui-render-pane  [pluginName]="panes[i * 2].contentPlugin" [settings]="panes[i * 2].settings" [contexts]="panes[i * 2].contexts"></classifieds-ui-render-pane>
@@ -9,7 +9,7 @@
 </mat-tab-group>
 
 <!-- without label mappings -->
-<mat-tab-group *ngIf="!labelMappingsEnabled" mat-align-tabs="start">
+<mat-tab-group *ngIf="!labelMappingsEnabled" [mat-align-tabs]="alignTabs" [mat-stretch-tabs]="stretchTabs">
   <mat-tab *ngFor="let pane of panes" label="The Label">
     <classifieds-ui-render-pane  [pluginName]="pane.contentPlugin" [settings]="pane.settings" [contexts]="pane.contexts"></classifieds-ui-render-pane>
   </mat-tab>

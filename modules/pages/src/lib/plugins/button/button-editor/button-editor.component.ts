@@ -94,4 +94,11 @@ export class ButtonEditorComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  fill() {
+    this.contentForm.patchValue({
+      text: 'My Button',
+      appearance: 'outlined'
+    })
+  }
+
 }

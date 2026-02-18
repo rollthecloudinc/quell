@@ -114,6 +114,30 @@ export class RulesParserService {
     ];
   }
 
+  extractFacts(ngRule: RuleSet, level = 0): Array<string> {
+    const facts: Set<string> = new Set<string>();
+    if(ngRule.rules === undefined || !Array.isArray(ngRule.rules)) {
+      // const [ fact, path ] = (rule as any).field.split('.', 2);
+      const firstDot = (ngRule as any).field.indexOf('.');
+      const fact = (ngRule as any).field.substr(0, firstDot);
+      facts.add(fact);
+    } else {
+      const len = ngRule.rules.length;
+      for(let i = 0; i < len; i++) {
+        if('field' in ngRule.rules[i] && (ngRule.condition === undefined || ngRule.condition === null || ngRule.condition === '')) {
+          // const [ fact, path ] = (ngRule.rules[i] as NgRule).field.split('.', 2);
+          const firstDot = (ngRule.rules[i] as NgRule).field.indexOf('.');
+          const fact = (ngRule.rules[i] as NgRule).field.substr(0, firstDot);
+          facts.add(fact);
+        } else {
+          const nestedRule = this.extractFacts(ngRule.rules[i] as RuleSet, level + 1);
+          nestedRule.forEach(f => facts.add(f));
+        }
+      }
+    }
+    return Array.from(facts);
+  }
+
   resolveNativeType(type: string) {
     switch(type) {
       case 'number':

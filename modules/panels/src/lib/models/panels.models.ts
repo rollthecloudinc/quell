@@ -6,9 +6,10 @@ import { InlineContext } from '@rollthecloudinc/context';
 import { PersistenceFormPayload } from "@rollthecloudinc/refinery";
 import { InteractionsFormPayload } from "@rollthecloudinc/detour";
 import { PrerenderFormPayload, SelectionFormPayload } from "../models/form.models";
+import { UIRole } from "@rollthecloudinc/utils";
 
 // Editor behaviors
-export interface PanelsEditor {
+export interface PanelsEditor extends UIRole {
 
   onPropertiesClick(): void;
   onPrerenderClick(): void;
@@ -43,10 +44,22 @@ export interface PanelsEditor {
   onRowSettingsChange(evt: Array<LayoutSetting>): void
   onColumnSettingsChange(evt: Array<LayoutSetting>): void;
   submit(): void;
+  preview(): void;
   onPersistenceClick(): void;
   onInteractionsClick(): void;
   onSelectionClick(): void;
 
+}
+
+export class ContentEditorConfig {
+  enablePreview = false
+  disableBackdrop = false
+  constructor(data?: ContentEditorConfig) {
+    if(data) {
+      this.enablePreview = data.enablePreview !== undefined ? data.enablePreview : false;
+      this.disableBackdrop = data.disableBackdrop !== undefined ? data.disableBackdrop : false;
+    }
+  }
 }
 
 export class PanelsSettings {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, ComponentFactoryResolver, ViewChild, ElementRef, inject, Injector } from '@angular/core';
 import { UntypedFormGroup, UntypedFormArray, UntypedFormBuilder } from '@angular/forms';
 import { CONTENT_PLUGIN, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { InlineContext } from '@rollthecloudinc/context';
@@ -6,6 +6,8 @@ import { Subject, Observable } from 'rxjs';
 import { ContentSelectionHostDirective } from '../../directives/content-selection-host.directive';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { MatDialog } from '@angular/material/dialog';
+import { RegisterRole } from '@rollthecloudinc/utils';
+import { ContentSelector } from '../../models/role.models';
 
 @Component({
     selector: 'classifieds-ui-content-selector',
@@ -13,7 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
     styleUrls: ['./content-selector.component.scss'],
     standalone: false
 })
-export class ContentSelectorComponent implements OnInit {
+@RegisterRole('content_selector')
+export class ContentSelectorComponent implements OnInit, ContentSelector {
+
+  public injector = inject<Injector>(Injector);
 
   selectedIndex = 0
   plugin: ContentPlugin;
@@ -30,7 +35,8 @@ export class ContentSelectorComponent implements OnInit {
     private dialog: MatDialog,
     private componentFactoryResolver: ComponentFactoryResolver,
     private fb: UntypedFormBuilder,
-    private contentPluginManager: ContentPluginManager
+    private contentPluginManager: ContentPluginManager,
+    private host: ElementRef
   ) {
     // this.contentPlugins = contentPlugins;
   }
@@ -77,6 +83,35 @@ export class ContentSelectorComponent implements OnInit {
     (componentRef.instance as any).panelFormGroup = this.data.panelForm;
     (componentRef.instance as any).contexts = this.data.contexts;
 
+  }
+
+  scrollTo(cls: string) {
+    const container = (this.bottomSheetRef.containerInstance as any)?._elementRef?.nativeElement;
+
+    if (!container) {
+      console.warn('No container found');
+      return;
+    }
+
+    // Inside that container: bottom sheet content
+    /*const scrollContainer = container.querySelector('.mat-bottom-sheet-container');
+
+    if (!scrollContainer) {
+      console.warn('No .mat-bottom-sheet-container found');
+      return;
+    }*/
+
+    const target = container.querySelector('.' + cls);
+
+    if (!target) {
+      console.warn('Target not found:', cls);
+      return;
+    }
+
+    container.scroll({
+      top: target.offsetTop - 50,
+      behavior: 'smooth'
+    });
   }
 
 }

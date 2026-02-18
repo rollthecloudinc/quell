@@ -1,0 +1,2 @@
+<classifieds-ui-content-editor *ngIf="!showPreview" [editorConfig]="editorConfig" (submitted)="onSubmit($event)" (previewed)="onPreview($event)" [panelPage]="panelPage"></classifieds-ui-content-editor>
+<classifieds-ui-panel-page *ngIf="showPreview" [panelPage]="panelPage" [previewing]="true" (closePreview)="onPreviewClose()"></classifieds-ui-panel-page>

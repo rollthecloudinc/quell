@@ -1,13 +1,13 @@
-import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, Output, EventEmitter, Input, ViewChildren, QueryList, ElementRef, OnChanges, SimpleChanges, TemplateRef, ContentChild, forwardRef, ComponentFactoryResolver, ComponentRef, AfterContentInit, AfterViewInit, inject, Injector } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, UntypedFormBuilder, Validator, Validators, AbstractControl, ValidationErrors, UntypedFormArray, UntypedFormControl, UntypedFormGroup } from "@angular/forms";
 import * as uuid from 'uuid';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ContentSelectorComponent } from '../content-selector/content-selector.component';
 import { AttributeValue } from '@rollthecloudinc/attributes';
 import { ContentPlugin, CONTENT_PLUGIN, ContentBinding, ContentPluginManager, ContentPluginEditorOptions } from '@rollthecloudinc/content';
-import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload, PrerenderFormPayload, SelectionFormPayload } from '@rollthecloudinc/panels';
+import { PanelsEditor, LayoutSetting, PanelContentHandler, PanelsContextService, Pane, PanelPage, LayoutEditorBaseComponent, StylePlugin, StylePluginManager, STYLE_PLUGIN, PageBuilderFacade, PropertiesFormPayload, PanelPropsFormPayload, PanePropsFormPayload, PrerenderFormPayload, SelectionFormPayload, ContentEditorConfig } from '@rollthecloudinc/panels';
 import { TokenizerService } from '@rollthecloudinc/token';
-import { SITE_NAME } from '@rollthecloudinc/utils';
+import { RegisterRole, SITE_NAME } from '@rollthecloudinc/utils';
 // import { STYLE_PLUGIN } from '@rollthecloudinc/style';
 import { /*ContextManagerService,*/ ContextPluginManager, InlineContext } from '@rollthecloudinc/context';
 import { SplitLayoutComponent, GridLayoutComponent, LayoutPluginManager } from '@rollthecloudinc/layout';
@@ -36,6 +36,8 @@ import { PaneContentHostDirective } from '../../directives/pane-content-host.dir
 import { InteractionsDialogComponent, InteractionsFormPayload } from '@rollthecloudinc/detour';
 import { PrerenderDialogComponent } from '../prerender-dialog/prerender-dialog.component';
 import { SelectionDialogComponent } from '../selection-dialog/selection-dialog.component';
+import { EditablePane } from '../../models/role.models';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 /**
  * Putting render pane inside the same file is a documented work around for the
@@ -49,7 +51,10 @@ import { SelectionDialogComponent } from '../selection-dialog/selection-dialog.c
     styleUrls: ['./editable-pane.component.scss'],
     standalone: false
 })
-export class EditablePaneComponent implements OnInit, OnChanges {
+@RegisterRole<EditablePane>('editable_pane')
+export class EditablePaneComponent implements OnInit, OnChanges, EditablePane {
+
+  public injector = inject<Injector>(Injector);
 
   @Input()
   pluginName: string;
@@ -146,6 +151,7 @@ export class EditablePaneComponent implements OnInit, OnChanges {
 
   @ViewChild(PaneContentHostDirective, { static: false }) contentPaneHost: PaneContentHostDirective;
   @ViewChild('contentEditor', { static: false }) contentEditor: any;
+  @ViewChild('paneMenuTrigger') paneMenuTriggerRef: MatMenuTrigger
 
   paneAncestoryWithSelfSub = combineLatest([
     this.ancestory$,
@@ -241,6 +247,18 @@ export class EditablePaneComponent implements OnInit, OnChanges {
     this.heightChange.emit();
   }
 
+  openMenu() {
+    this.paneMenuTriggerRef.openMenu()
+  }
+
+  closeMenu() {
+    this.paneMenuTriggerRef.closeMenu()
+  }
+
+  toggleMenu() {
+    this.paneMenuTriggerRef.toggleMenu()
+  }
+
   renderPaneContent() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.contentPlugin.renderComponent);
 
@@ -270,10 +288,16 @@ export class EditablePaneComponent implements OnInit, OnChanges {
     ],
     standalone: false
 })
+@RegisterRole('content_editor')
 export class ContentEditorComponent implements OnInit, OnChanges, AfterContentInit, AfterViewInit, ControlValueAccessor, Validator, PanelsEditor {
+
+  public injector = inject<Injector>(Injector);
 
   @Output()
   submitted = new EventEmitter<PanelPage>();
+
+  @Output()
+  previewed = new EventEmitter<PanelPage>();
 
   @Output()
   nestedUpdate = new EventEmitter<PanelPage>();
@@ -312,6 +336,9 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       (this.contentForm.get('panels') as FormArray).clear();
     }
   }*/
+
+  @Input()
+  editorConfig: ContentEditorConfig;
 
   @Input()
   savable = true;
@@ -595,7 +622,8 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
       switchMap(pp => this.panelsContextService.allActivePageContexts({ panelPage: pp })),
       take(1)
     ).subscribe(paneContexts => {
-      this.bs.open(ContentSelectorComponent, { data: {  panelForm: this.panels.at(index), panelIndex: index, contexts: [ ...( this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } });
+      const hasBackdrop = this.editorConfig !== undefined && this.editorConfig.disableBackdrop ? !this.editorConfig.disableBackdrop  : true
+      this.bs.open(ContentSelectorComponent, { hasBackdrop, data: {  panelForm: this.panels.at(index), panelIndex: index, contexts: [ ...( this.rootContext ? [ this.rootContext ] : [] ), ...this.contexts, ...paneContexts ] } });
     });
   }
 
@@ -941,6 +969,10 @@ export class ContentEditorComponent implements OnInit, OnChanges, AfterContentIn
 
   submit() {
     this.submitted.emit(this.packageFormData());
+  }
+
+  preview() {
+    this.previewed.emit(this.packageFormData());
   }
 
   packageFormData(): PanelPage {
