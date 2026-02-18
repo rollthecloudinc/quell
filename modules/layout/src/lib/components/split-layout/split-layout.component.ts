@@ -10,7 +10,9 @@ import {
   ViewChild,
   EventEmitter,
   Input,
-  Output
+  Output,
+  inject,
+  Injector
 } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -19,6 +21,8 @@ import { filter, switchMap } from 'rxjs/operators';
 import { LayoutDialogComponent } from '../layout-dialog/layout-dialog.component';
 import { LayoutPluginManager } from '../../services/layout-plugin-manager.service';
 import { AttributeValue } from '@rollthecloudinc/attributes';
+import { RegisterRole } from '@rollthecloudinc/utils';
+import { UIRoleLayout } from '../../models/layout.models';
 
 @Component({
   selector: 'classifieds-ui-split-layout',
@@ -27,7 +31,10 @@ import { AttributeValue } from '@rollthecloudinc/attributes';
   host: { '[class.is-nested]': 'nested' },
   standalone: false
 })
-export class SplitLayoutComponent implements OnInit, AfterViewInit {
+@RegisterRole('layout')
+export class SplitLayoutComponent implements OnInit, AfterViewInit, UIRoleLayout {
+
+  public injector = inject<Injector>(Injector);
 
   // -------------------------------------------------------------------
   // Inputs / Outputs

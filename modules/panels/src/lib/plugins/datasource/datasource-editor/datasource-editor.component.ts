@@ -1,19 +1,26 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, Injector, OnInit, ViewChild } from '@angular/core';
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { InlineContext } from '@rollthecloudinc/context';
-import { Datasource } from '@rollthecloudinc/datasource';
+import { Datasource, DatasourceFormComponent } from '@rollthecloudinc/datasource';
 import { DatasourceContentHandler } from '../../../handlers/datasource-content.handler';
 import { Subject } from 'rxjs';
 import { Pane } from '../../../models/panels.models';
+import { UIEditorRole } from '../../../models/role.models';
+import { RegisterRole } from '@rollthecloudinc/utils';
 @Component({
     selector: 'classifieds-ui-datasource-editor',
     templateUrl: './datasource-editor.component.html',
     styleUrls: ['./datasource-editor.component.scss'],
     standalone: false
 })
-export class DatasourceEditorComponent implements OnInit {
+@RegisterRole<UIEditorRole>('editor')
+export class DatasourceEditorComponent implements OnInit, UIEditorRole {
+
+  public injector = inject<Injector>(Injector);
+
+  @ViewChild(DatasourceFormComponent) datasourceForm: DatasourceFormComponent
 
   datasource: Datasource = new Datasource();
 
@@ -23,6 +30,8 @@ export class DatasourceEditorComponent implements OnInit {
   formGroup = this.fb.group({
     source: this.fb.control('')
   });
+
+  hasFillContent = true
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: { panelFormGroup: UntypedFormGroup; pane: Pane; panelIndex: number; paneIndex: number; contexts: Array<InlineContext>; contentAdded: Subject<[number, number]> },
@@ -61,6 +70,23 @@ export class DatasourceEditorComponent implements OnInit {
       sourceSettings.attributes.forEach(a => (paneForm.get('settings') as UntypedFormArray).push(this.attributeSerializer.convertToGroup(a)));
     }
     this.dialogRef.close();
+  }
+
+  submit() {
+    this.onSubmit()
+  }
+
+  fill() {
+    this.datasourceForm.fill()
+  }
+
+  setFillContent(content: any) {
+    if (content) {
+      this.hasFillContent = true
+    } else {
+      this.hasFillContent = false
+    }
+    this.datasourceForm.setFillContent(content)
   }
 
 }

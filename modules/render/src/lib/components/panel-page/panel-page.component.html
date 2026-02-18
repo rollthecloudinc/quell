@@ -1,3 +1,6 @@
+<button *ngIf="previewing" mat-icon-button [attr.aria-label]="'Close Preview'" (click)="onPreviewClose()" class="close-preview">
+  <mat-icon>close</mat-icon>
+</button>
 
 <div [formGroup]="pageForm">
   <ng-container><ng-template classifiedsUiLayoutRendererHost></ng-template></ng-container>

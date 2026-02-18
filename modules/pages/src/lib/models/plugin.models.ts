@@ -128,6 +128,23 @@ export class Fab {
   }
 }
 
+export class ContentEditorOptions {
+  constructor(data?: ContentEditorOptions) {
+    if (data) {
+      Object.assign(this, data);
+    }
+  }
+}
+
+export class TimelineNav {
+  group?: string;
+  constructor(data?: TimelineNav) {
+    if (data) {
+      this.group = data.group;
+    }
+  }
+}
+
 /*export class SelectOption {
   value: AttributeValue;
   label: string;

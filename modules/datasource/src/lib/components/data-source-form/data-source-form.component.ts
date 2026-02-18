@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, OnInit } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, UntypedFormBuilder, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from '@angular/forms';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
+import { Fillable } from '@rollthecloudinc/utils';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -22,13 +23,14 @@ import { map } from 'rxjs/operators';
     ],
     standalone: false
 })
-export class DataSourceFormComponent implements OnInit, ControlValueAccessor, Validator {
+export class DataSourceFormComponent implements OnInit, ControlValueAccessor, Validator, Fillable {
 
   @Input() set settings(settings: Array<AttributeValue>) {
     this.settings$.next(settings);
   }
 
   settings$ = new BehaviorSubject<Array<AttributeValue>>(undefined);
+  fillContent = [{id: 1, name: 'Batman'},{id: 2, name: "Superman"},{id: 3, name: "Spiderman"}]
 
   formGroup = this.fb.group({
     data: this.fb.control('')
@@ -79,6 +81,16 @@ export class DataSourceFormComponent implements OnInit, ControlValueAccessor, Va
 
   validate(c: AbstractControl): ValidationErrors | null{
     return this.formGroup.valid ? null : { invalidForm: {valid: false, message: "content is invalid"}};
+  }
+
+  fill() {
+    this.formGroup.patchValue({
+      data: JSON.stringify(this.fillContent)
+    })
+  }
+
+  setFillContent(content: any) {
+    this.fillContent = content
   }
 
 }

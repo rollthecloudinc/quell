@@ -1,6 +1,7 @@
 import { Component, forwardRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DatasourceOptions } from '../../models/datasource.models';
+import { Fillable } from '@rollthecloudinc/utils';
 
 @Component({
   selector: 'classifieds-ui-datasource-options',
@@ -14,10 +15,11 @@ import { DatasourceOptions } from '../../models/datasource.models';
     }
   ]
 })
-export class DatasourceOptionsComponent implements ControlValueAccessor, OnChanges {
+export class DatasourceOptionsComponent implements ControlValueAccessor, OnChanges, Fillable {
   @Input() datasourceOptions: DatasourceOptions;
 
   formGroup: UntypedFormGroup;
+  protected fillContent: any
 
   private onChange: (val: DatasourceOptions) => void = () => {};
   private onTouched: () => void = () => {};
@@ -65,6 +67,31 @@ export class DatasourceOptionsComponent implements ControlValueAccessor, OnChang
       this.formGroup.disable();
     } else {
       this.formGroup.enable();
+    }
+  }
+
+  setFillContent(content: any) {
+    this.fillContent = content
+  }
+
+  fill() {
+    if (this.fillContent) {
+      const query = this.fillContent.query
+      const trackBy = this.fillContent.trackBy
+      const valueMapping = this.fillContent.valueMapping
+      const labelMapping = this.fillContent.labelMapping
+      const idMapping = this.fillContent.idMapping
+      const multiple = this.fillContent.multiple
+      const limit = this.fillContent.limit
+      this.formGroup.patchValue({
+        query,
+        trackBy,
+        valueMapping,
+        labelMapping,
+        idMapping,
+        multiple,
+        limit
+      })
     }
   }
 }

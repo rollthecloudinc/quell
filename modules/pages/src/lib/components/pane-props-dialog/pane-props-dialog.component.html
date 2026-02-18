@@ -12,6 +12,8 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button type="submit" mat-raised-button color="primary" mat-dialog-close [disabled]="!propsForm.valid">Save</button>
+    <button type="submit" mat-raised-button color="primary" [disabled]="!propsForm.valid">Save</button>
+    <button type="button" matButton="outlined" (click)="fill()">Fill in the form</button>
+    <button type="submit" matButton="outlined" [disabled]="!propsForm.valid">Save the form</button>
   </mat-dialog-actions>
 </form>

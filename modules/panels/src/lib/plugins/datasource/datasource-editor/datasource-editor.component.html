@@ -1,4 +1,6 @@
 <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <classifieds-ui-datasource-form formControlName="source" [bindableOptions]="bindableOptions" [contexts]="contexts" [datasource]="datasource"></classifieds-ui-datasource-form>
   <button type="submit">Save</button>
+  <button type="button" matButton="outlined" (click)="fill()">Fill in the form</button>
+  <button type="submit" matButton="outlined" [disabled]="!formGroup.valid">Save the Form</button>
 </form>

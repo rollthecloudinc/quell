@@ -1,14 +1,15 @@
-import { Component, OnInit, Inject, Input } from '@angular/core';
+import { Component, OnInit, Inject, Input, inject, Injector, ViewChild } from '@angular/core';
 import { Validators, UntypedFormGroup, UntypedFormControl, UntypedFormArray, UntypedFormBuilder, AbstractControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AttributeSerializerService } from '@rollthecloudinc/attributes';
 import { ContentPlugin } from '@rollthecloudinc/content';
 import { InlineContext } from '@rollthecloudinc/context';
-import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest } from '@rollthecloudinc/datasource';
+import { Rest, DatasourceOptions, mockDatasourceOptions, mockRest, DatasourceOptionsComponent } from '@rollthecloudinc/datasource';
 import { FormValidation } from '@rollthecloudinc/ordain';
-import { Pane } from '@rollthecloudinc/panels';
+import { Pane, UIEditorRole } from '@rollthecloudinc/panels';
 import { FormElementHandler } from '../../handlers/form-element.handler';
 import { FormSettings } from '../../models/form.models';
+import { RegisterRole } from '@rollthecloudinc/utils';
 
 @Component({
     selector: 'druid-forms-form-element-editor',
@@ -16,15 +17,22 @@ import { FormSettings } from '../../models/form.models';
     styleUrls: ['./form-element-editor.component.scss'],
     standalone: false
 })
-export class FormElementEditorComponent implements OnInit {
+@RegisterRole('editor')
+export class FormElementEditorComponent implements OnInit, UIEditorRole {
+
+  public injector = inject<Injector>(Injector);
+
+  @ViewChild(DatasourceOptionsComponent) datasourceOptionsComponent: DatasourceOptionsComponent
 
   // contexts: Array<InlineContext>;
 
   // rest = mockRest;
   datasourceOptions = mockDatasourceOptions;
   validation: FormValidation = new FormValidation({ validators: [] });
+  hasFillButton = false
   protected paneIndex: number;
   protected pane: Pane;
+  protected fillContent: any;
 
   @Input() bindableOptions: Array<string> = [];
 
@@ -115,6 +123,26 @@ export class FormElementEditorComponent implements OnInit {
     const controls = this.handler.buildSettings(instance).map(s => this.attributeSerializer.convertToGroup(s));
     controls.forEach(c => (this.paneGroup.get('settings') as UntypedFormArray).push(c));
     this.dialogRef.close();
+  }
+
+  setFillContent(content: any) {
+    this.fillContent = content
+    if (content) {
+      this.hasFillButton = true
+    } else {
+      this.hasFillButton = false
+    }
+    this.datasourceOptionsComponent.setFillContent(content)
+  }
+
+  fill() {
+    if (this.fillContent) {
+      const datasourceBinding = this.fillContent.datasourceBinding
+      if (datasourceBinding) {
+        this.formGroup.patchValue({ datasourceBinding })
+      }
+    }
+    this.datasourceOptionsComponent.fill()
   }
 
 }

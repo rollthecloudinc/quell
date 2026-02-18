@@ -131,4 +131,11 @@ export class SnippetFormComponent implements OnInit, ControlValueAccessor, Valid
       document.getElementsByTagName('head')[0].appendChild(script);
   }
 
+  fill() {
+    this.contentForm.patchValue({
+      content: 'Hello World',
+      contentType: 'text/markdown'
+    })
+  }
+
 }

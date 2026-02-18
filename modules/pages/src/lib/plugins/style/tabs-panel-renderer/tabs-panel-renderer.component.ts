@@ -23,6 +23,8 @@ export class TabsPanelRendererComponent implements OnInit {
   originMappings: Array<number> = [];
 
   labelMappingsEnabled = false;
+  alignTabs = 'start' // @todo: part of settings
+  stretchTabs = false // @todo: part of settings
 
   constructor(
     private attributeSerializer: AttributeSerializerService

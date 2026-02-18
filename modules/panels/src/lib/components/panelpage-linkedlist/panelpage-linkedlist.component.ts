@@ -1,39 +1,47 @@
-import { Component, forwardRef, Input, OnInit } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormArray, UntypedFormBuilder, FormGroup, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validator } from "@angular/forms";
-import { PanelContentHandler } from "../../handlers/panel-content.handler";
+import { Component, forwardRef, Input } from "@angular/core";
+import {
+  AbstractControl,
+  ControlValueAccessor,
+  UntypedFormBuilder,
+  NG_VALUE_ACCESSOR,
+  NG_VALIDATORS,
+  ValidationErrors,
+  Validator
+} from "@angular/forms";
 import { BehaviorSubject, iif, of } from "rxjs";
 import { filter, map, switchMap } from "rxjs/operators";
 import { Pane, Panel, PanelPage } from "../../models/panels.models";
+import { PanelContentHandler } from "../../handlers/panel-content.handler";
 
 @Component({
-    selector: 'druid-panels-panelpage-linkedlist',
-    templateUrl: './panelpage-linkedlist.component.html',
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => PanelPageLinkedlistComponent),
-            multi: true
-        },
-        {
-            provide: NG_VALIDATORS,
-            useExisting: forwardRef(() => PanelPageLinkedlistComponent),
-            multi: true
-        },
-    ],
-    standalone: false
+  selector: "druid-panels-panelpage-linkedlist",
+  templateUrl: "./panelpage-linkedlist.component.html",
+  standalone: false,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => PanelPageLinkedlistComponent),
+      multi: true
+    }
+  ]
 })
 export class PanelPageLinkedlistComponent implements ControlValueAccessor, Validator {
 
-  @Input() set panelPages(panelPages: Array<PanelPage>) {
-    this.panelPages$.next(panelPages);
+  @Input() set panelPages(value: Array<PanelPage>) {
+    this.panelPages$.next(value ?? []);
   }
 
-  @Input() set panels(panels: Array<Panel>) {
-    this.panels$.next(panels);
+  @Input() set panels(value: Array<Panel>) {
+    this.panels$.next(value ?? []);
   }
 
-  @Input() set panes(panes: Array<Pane>) {
-    this.panes$.next(panes);
+  @Input() set panes(value: Array<Pane>) {
+    this.panes$.next(value ?? []);
   }
 
   panelPages$ = new BehaviorSubject<Array<PanelPage>>([]);
@@ -42,54 +50,58 @@ export class PanelPageLinkedlistComponent implements ControlValueAccessor, Valid
   nested$ = new BehaviorSubject<Array<PanelPage>>([]);
 
   formGroup = this.fb.group({
-    panelPage: this.fb.control(undefined),
-    panel: this.fb.control(undefined),
-    pane: this.fb.control(undefined),
-    nested: this.fb.control(undefined)
+    panelPage: this.fb.control(null),
+    panel: this.fb.control(null),
+    pane: this.fb.control(null),
+    nested: this.fb.control(null)
   });
 
-  panelPageSub = this.formGroup.get('panelPage').valueChanges.subscribe(index => {
-    this.panels$.next(new PanelPage(this.panelPages$.value[index]).panels);
-  });
-
-  panelSub = this.formGroup.get('panel').valueChanges.subscribe(index => {
-    this.panes$.next(new Panel( this.panels$.value[index] ).panes);
-  });
-
-  paneSub = this.formGroup.get('pane').valueChanges.pipe(
-    map(index => this.panes$.value[index]),
-    switchMap(pane => iif(
-      () => pane.contentPlugin === 'panel',
-      this.panelHandler.toObject(pane.settings),
-      of(undefined)
-    )),
-    filter(p => !!p)
-  ).subscribe(panelPage => {
-    this.nested$.next([ panelPage ]);
-  });
-
-  public onTouched: () => void = () => {};
-
-  get panelPages(): Array<PanelPage> {
-    return this.panelPages$.value && Array.isArray(this.panelPages$.value) ? this.panelPages$.value : [];
-  }
-
-  get panels(): Array<Panel> {
-    return this.panels$.value && Array.isArray(this.panels$.value) ? this.panels$.value : [];
-  }
-
-  get panes(): Array<Pane> {
-    return this.panes$.value && Array.isArray(this.panes$.value) ? this.panes$.value : [];
-  }
-
-  get nested(): Array<PanelPage> {
-    return this.nested$.value && typeof(this.nested$.value) !== undefined && this.nested$.value.length > 0 ? [ ...this.nested$.value ] : undefined;
-  }
-  
   constructor(
     private fb: UntypedFormBuilder,
     private panelHandler: PanelContentHandler
-  ) {}
+  ) {
+    this.initSubscriptions();
+  }
+
+  private initSubscriptions() {
+
+    // PANEL PAGE SELECTION → PANELS
+    this.formGroup.get("panelPage").valueChanges
+      .pipe(filter(index => index !== null && index !== undefined))
+      .subscribe(index => {
+        const page = this.panelPages$.value[index];
+        this.panels$.next(page ? new PanelPage(page).panels : []);
+      });
+
+    // PANEL SELECTION → PANES
+    this.formGroup.get("panel").valueChanges
+      .pipe(filter(index => index !== null && index !== undefined))
+      .subscribe(index => {
+        const panel = this.panels$.value[index];
+        this.panes$.next(panel ? new Panel(panel).panes : []);
+      });
+
+    // PANE SELECTION → NESTED PANEL PAGE
+    this.formGroup.get("pane").valueChanges
+      .pipe(
+        filter(index => index !== null && index !== undefined),
+        map(index => {
+          const pane = this.panes$.value[index];
+          return pane ?? null;
+        }),
+        filter(pane => !!pane),   // ignore undefined
+        switchMap(pane =>
+          pane.contentPlugin === "panel"
+            ? this.panelHandler.toObject(pane.settings)
+            : of(null)
+        )
+      )
+      .subscribe(page => {
+        this.nested$.next(page ? [page] : []);
+      });
+  }
+
+  onTouched = () => {};
 
   writeValue(val: any): void {
     if (val) {
@@ -105,16 +117,12 @@ export class PanelPageLinkedlistComponent implements ControlValueAccessor, Valid
     this.onTouched = fn;
   }
 
-  setDisabledState?(isDisabled: boolean): void {
-    if (isDisabled) {
-      this.formGroup.disable()
-    } else {
-      this.formGroup.enable()
-    }
+  setDisabledState(isDisabled: boolean): void {
+    if (isDisabled) this.formGroup.disable();
+    else this.formGroup.enable();
   }
 
-  validate(c: AbstractControl): ValidationErrors | null{
-    return this.formGroup.valid ? null : { invalidForm: { valid: false }};
+  validate(_: AbstractControl): ValidationErrors | null {
+    return this.formGroup.valid ? null : { invalidForm: { valid: false } };
   }
-
 }
