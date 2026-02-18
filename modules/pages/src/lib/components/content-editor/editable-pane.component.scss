@@ -12,6 +12,7 @@
 
 .inner-pane-wrapper {
   padding: 0;
+  display: flex;
 }
 
 .pane-header {
@@ -53,6 +54,7 @@ button.delete {
 
 .mat-expansion-panel {
   box-shadow: none;
+  flex: 1;
 }
 
 .mat-expansion-panel-header {

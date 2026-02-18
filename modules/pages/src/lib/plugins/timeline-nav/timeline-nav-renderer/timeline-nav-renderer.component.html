@@ -1,0 +1,36 @@
+<div class="timeline-nav-list">
+
+  <mat-list dense>
+
+    <ng-container *ngFor="let step of steps; let idx = index">
+
+      <mat-list-item
+        (click)="goTo(step.weight)"
+        class="timeline-nav-item"
+        [class.active]="step.weight === activeStepWeight"
+        style="cursor: pointer;"
+      >
+
+        <div matListItemIcon>
+          <mat-icon color="primary">
+            {{ step.weight === activeStepWeight ? 'play_arrow' : 'navigate_next' }}
+          </mat-icon>
+        </div>
+
+        <div matListItemTitle>
+          {{ step.title || ('Step ' + (idx + 1)) }}
+        </div>
+
+        <div matListItemLine *ngIf="step.description" class="step-description">
+          {{ step.description }}
+        </div>
+
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+    </ng-container>
+
+  </mat-list>
+
+</div>

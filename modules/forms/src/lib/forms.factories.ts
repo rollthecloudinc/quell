@@ -21,6 +21,7 @@ export const formInputPluginFactory = ({ handler }: { handler: FormElementHandle
   return new ContentPlugin<string>({
     id: 'form_input',
     title: 'Form Input',
+    cls: 'form-input',
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormInputComponent,
@@ -32,6 +33,7 @@ export const formSelectPluginFactory = ({ handler }: { handler: FormElementHandl
   return new ContentPlugin<string>({
     id: 'form_select',
     title: 'Form Select',
+    cls: 'form-select',
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormSelectComponent,
@@ -43,6 +45,7 @@ export const formListboxPluginFactory = ({ handler }: { handler: FormElementHand
   return new ContentPlugin<string>({
     id: 'form_listbox',
     title: 'Form Listbox',
+    cls: 'form-listbox',
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormListboxComponent,
@@ -54,6 +57,7 @@ export const formRadiogroupPluginFactory = ({ handler }: { handler: FormElementH
   return new ContentPlugin<string>({
     id: 'form_radiogroup',
     title: 'Form Radiogroup',
+    cls: 'form-radiogroup',
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormRadiogroupComponent,
@@ -120,6 +124,7 @@ export const formAutocompletePluginFactory = ({ handler }: { handler: FormElemen
   return new ContentPlugin<string>({
     id: 'form_autocomplete',
     title: 'Form Autocomplete',
+    cls: 'form-autocomplete',
     selectionComponent: undefined,
     editorComponent: FormElementEditorComponent,
     renderComponent: FormAutocompleteComponent,

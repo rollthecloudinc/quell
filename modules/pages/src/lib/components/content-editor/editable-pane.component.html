@@ -22,7 +22,7 @@
   </div> -->
   <div class="inner-pane-wrapper" fxLayout="row">
     <div class="pane-menu-trigger-wrapper">
-      <button mat-button type="button" [matMenuTriggerFor]="paneMenu">
+      <button mat-button type="button"#paneMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="paneMenu">
         <mat-icon>more_vert</mat-icon>
       </button>
     </div>
@@ -64,9 +64,9 @@
   </div>
 </ng-template>
 
-<mat-menu #paneMenu="matMenu">
+<mat-menu #paneMenu="matMenu" [hasBackdrop]="false">
   <button type="button" mat-menu-item (click)="onEditClick()" [disabled]="locked">Edit</button>
-  <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked && settings.length !== 0">Props</button>
+  <button type="button" mat-menu-item (click)="onPropsClick()" [disabled]="locked && settings.length !== 0" class="props-btn">Props</button>
   <button type="button" mat-menu-item (click)="onRulesClick()">Rules</button>
   <button *ngIf="!preview" mat-menu-item type="button" (click)="onPreviewClick()" [disabled]="locked">Preview</button>
   <button *ngIf="preview" mat-menu-item type="button" (click)="onDisablePreviewClick()">Disable Preview</button>

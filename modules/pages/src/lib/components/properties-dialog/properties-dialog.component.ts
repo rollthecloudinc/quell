@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { UntypedFormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PropertiesFormPayload } from '@rollthecloudinc/panels';
+import { read } from 'fs';
 
 @Component({
     selector: 'classifieds-ui-properties-dialog',
@@ -34,6 +35,15 @@ export class PropertiesDialogComponent implements OnInit {
 
   submit() {
     this.dialogRef.close(new PropertiesFormPayload({ ...this.propertiesForm.value, readUserIds: this.propertiesForm.value.readUserIds.map(id => id.userId) }));
+  }
+
+  fill() {
+    this.propertiesForm.patchValue({
+      name: 'example-page',
+      title: 'Example Page', 
+      path: '/example-page',
+      readUserIds: [{ userId: '*' }]
+    });
   }
 
 }

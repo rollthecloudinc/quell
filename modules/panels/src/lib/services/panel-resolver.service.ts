@@ -4,9 +4,10 @@ import { CONTENT_PLUGIN, ContentPlugin, ContentBinding, ContentPluginManager } f
 import { InlineContext, InlineContextResolverService } from '@rollthecloudinc/context';
 import { Pane } from '../models/panels.models';
 import { PanelContentHandler } from '../handlers/panel-content.handler';
-import { RulesResolverService } from '@rollthecloudinc/rules';
+import { RulesResolverService, RulesParserService } from '@rollthecloudinc/rules';
 import { switchMap, map, take, reduce, tap } from 'rxjs/operators';
 import { of, forkJoin, Observable, iif } from 'rxjs';
+import { RuleSet } from '@rollthecloudinc/ngx-angular-query-builder';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class PanelResolverService {
     // @Inject(CONTENT_PLUGIN) contentPlugins: Array<ContentPlugin>,
     private panelHandler: PanelContentHandler,
     private rulesResolver: RulesResolverService,
+    private rulesParser: RulesParserService,
     private inlineContextResolver: InlineContextResolverService,
     private cpm: ContentPluginManager
   ) {
@@ -50,7 +52,12 @@ export class PanelResolverService {
           }
         }, [])
       ).pipe(
-        map(v => v.reduce<Array<string>>((p, c) => ([ ...p, ...c ]), []))
+        map(v => v.reduce<Array<string>>((p, c) => ([ ...p, ...c ]), [])),
+        map(v => {
+          const facts = panes.map(p => p.rule ? this.rulesParser.extractFacts(p.rule) : []).reduce((p, c) => [ ...p, ...c ], []);
+          console.log('facts', facts);
+          return Array.from(new Set([ ...v, ...facts ]));
+        })
       ))
     );
   }

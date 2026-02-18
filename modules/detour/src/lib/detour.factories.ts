@@ -6,6 +6,9 @@ import { map } from "rxjs/operators";
 import { Renderer2 } from "@angular/core";
 import { firstValueFrom, Observable } from "rxjs";
 import { Router } from "@angular/router";
+import { CursorOverlayService } from "./services/cursor-overlay.service";
+import { resolveHandlerParams, resolveTargetElement, waitForComponent } from "./detour.helpers";
+import { TimelineEngineService } from "./services/timeline-engine.service";
 
 /**
  * Only register type a single time to prevent duplicated events.
@@ -88,6 +91,140 @@ export const interactionEventDomFactory = (paramEvaluatorService: ParamEvaluator
       obs.next({});
       obs.complete();
     })
+  });
+};
+
+export const interactionEventComponentFactory = (
+  evaluator: ParamEvaluatorService,
+  registry: RoleRegistry,
+  timeline: TimelineEngineService
+) => {
+  return new InteractionEventPlugin({
+    id: 'component',
+    title: 'Component Event',
+
+    connect: ({ filteredListeners, listenerParams, panelPageId, callback }) =>
+      new Observable(obs => {
+        const groups = new Map<
+          string,
+          { i: number; params: any; listener: any }[]
+        >();
+
+        // Group listeners by `group`, sort by weight
+        filteredListeners.forEach((listener, index) => {
+          const params = listenerParams[index];
+          const g = params.group ?? '__default__';
+
+          if (!groups.has(g)) groups.set(g, []);
+          groups.get(g)!.push({ i: index, params, listener });
+        });
+
+        groups.forEach(items =>
+          items.sort((a, b) => (a.params.weight ?? 0) - (b.params.weight ?? 0))
+        );
+
+        // For each group, register timeline steps INSTEAD of running handlers
+        groups.forEach(items => registerGroupSteps(items));
+
+        async function registerGroupSteps(items: any[]) {
+          for (const item of items) {
+            // ---------------------------------------------------------
+            // REGISTER TIMELINE STEP (instead of auto-executing)
+            // ---------------------------------------------------------
+            timeline.registerStep({
+              group: item.params.group ?? '__default__',
+              weight: item.params.weight ?? 0,
+
+              autoContinue: false, // let controller decide when to advance
+
+              cursorBehavior: item.params.cursorBehavior, // optional cursor system hook
+
+              run: async (ctx) => {
+
+                const { role, scope, index } = item.params;
+
+                // Wait for component
+                const component = await waitForComponent(role, scope, index, registry);
+
+                // Resolve handler params
+                const resolvedParams = await resolveHandlerParams(
+                  evaluator,
+                  item.listener,
+                  {}
+                );
+
+                // When this step is executed by the timeline:
+                callback({
+                  handlerParams: resolvedParams,
+                  plugin: item.listener.handler.plugin,
+                  index: item.i,
+                  evt: { component }
+                });
+
+                // If this step wants manual user confirmation before moving on:
+                // ctx.pause();
+                // await userConfirmsOrClicks();
+                // ctx.resume();
+              }
+            });
+          }
+        }
+
+        obs.next({});
+        obs.complete();
+      })
+  });
+};
+
+export const interactionEventImmediateFactory = (
+  evaluator: ParamEvaluatorService
+) => {
+  return new InteractionEventPlugin({
+    id: 'immediate',
+    title: 'Immediate',
+
+    /**
+     * Immediately execute all listeners.
+     *
+     * No DOM events.
+     * No role-waiting.
+     * No timeline delays.
+     *
+     * Useful for:
+     *   - Auto-registering timeline steps
+     *   - Initial data setup handlers
+     *   - Component bootstrap handlers
+     */
+    connect: ({ filteredListeners, listenerParams, callback }) =>
+      new Observable(obs => {
+
+        const run = async () => {
+          for (let i = 0; i < filteredListeners.length; i++) {
+            const listener = filteredListeners[i];
+            const paramsCfg = listenerParams[i];
+
+            // Resolve handler params using shared logic
+            const handlerParams = await resolveHandlerParams(
+              evaluator,
+              listener,
+              paramsCfg   // raw immediate params
+            );
+
+            // Immediately invoke the associated handler
+            callback({
+              handlerParams,
+              plugin: listener.handler.plugin,
+              index: i,
+              evt: { type: 'immediate' }
+            });
+          }
+
+          obs.next({});
+          obs.complete();
+        };
+
+        run();
+      })
   });
 };
 
@@ -247,3 +384,160 @@ export function createDynamicInteractionHandlerPlugin<R extends UIRole>(
     }
   });
 }
+
+/**
+ * Flags:
+ *   - handlerParams.mouseTarget : string | HTMLElement
+ *   - handlerParams.method      : string
+ *
+ * All remaining params are passed into the method called on the matched component.
+ *
+ * evt.component is supplied by the Component Interaction Event plugin
+ * (OR by macros, OR by scripted handlers, OR by DOM as needed).
+ */
+export function interactionHandlerDriverFactory(cursor: CursorOverlayService) {
+
+  return new InteractionHandlerPlugin({
+    id: 'driver',
+    title: 'Driver',
+
+    /**
+     * Driver entrypoint.
+     *
+     * Matches:
+     *   - Component event: evt.component => role-matched component instance
+     *   - DOM event: evt => native event (rare for driver, but allowed)
+     *   - Macro event: evt.component supplied by macro playback
+     *
+     * Params:
+     *   handlerParams = evaluated values from resolveHandlerParams()
+     */
+    handle: async ({ handlerParams, evt, listener, renderer, panelPageComponent }) => {
+
+      // Expecting evt.component when using component-based interactions
+      const component = evt?.component;
+      if (!component) {
+        console.warn('[InteractionDriver] No component instance available for driver.');
+        return;
+      }
+
+      const methodName = (handlerParams as any).method;
+      const mouseTarget = (handlerParams as any).mouseTarget;
+
+      if (!methodName || typeof methodName !== 'string') {
+        console.error('[InteractionDriver] "method" param missing or invalid:', methodName);
+        return;
+      }
+
+      // Extract final params — remove flagged ones
+      const finalParams: Record<string, any> = {};
+      for (const key of Object.keys(handlerParams)) {
+        if (key !== 'method' && key !== 'mouseTarget') {
+          finalParams[key] = handlerParams[key];
+        }
+      }
+
+      //----------------------------------------------------------
+      // 1. Resolve the mouseTarget and move cursor (if supplied)
+      //----------------------------------------------------------
+      if (mouseTarget) {
+        const targetEl = resolveTargetElement(component, mouseTarget);
+
+        if (targetEl instanceof HTMLElement) {
+          cursor.moveTo(targetEl, {
+            // You may override motion options here per-move if desired.
+            // Example: pathMode: 'arc'
+          });
+        } else {
+          console.warn('[InteractionDriver] mouseTarget did not resolve to HTMLElement:', mouseTarget);
+        }
+      }
+
+      //----------------------------------------------------------
+      // 2. Invoke the component method
+      //----------------------------------------------------------
+      const method = component[methodName];
+
+      if (typeof method !== 'function') {
+        console.error(`[InteractionDriver] Method "${methodName}" not found on component:`, component);
+        return;
+      }
+
+      try {
+        const result = method.call(component, finalParams);
+
+        // Handle async returns
+        if (result instanceof Promise) {
+          await result;
+        } else if (result?.subscribe) {
+          await result.toPromise();
+        }
+      } catch (err) {
+        console.error(`[InteractionDriver] Error while invoking method "${methodName}":`, err);
+      }
+
+      //----------------------------------------------------------
+      // 3. Optionally trigger a click ripple if the interaction
+      //    logically represents a click-type action.
+      //    This is opt‑in: driver plugins or param flags may
+      //    request it.
+      //----------------------------------------------------------
+      if ((handlerParams as any)?.click === true) {
+        cursor.clickBurst();
+      }
+    }
+  });
+}
+
+export const interactionHandlerTimelineFactory = (
+  cursor: CursorOverlayService,
+  timeline: TimelineEngineService
+) => {
+
+  return new InteractionHandlerPlugin({
+    id: 'timeline',
+    title: 'Timeline',
+
+    handle: async ({ handlerParams, evt }) => {
+      const action = (handlerParams as any)?.action;
+
+      const group = (handlerParams as any)?.group;
+      const weight = (handlerParams as any)?.weight;
+      const mouseTarget = (handlerParams as any)?.mouseTarget;
+
+      switch (action) {
+        case 'next':
+          await timeline.next(group);
+          break;
+
+        case 'prev':
+          await timeline.prev(group);
+          break;
+
+        case 'start':
+          await timeline.start(group, weight);
+          break;
+
+        case 'goto':
+          await timeline.goTo(group, weight);
+          break;
+
+        case 'pause':
+          timeline.pause(group);
+          break;
+
+        case 'resume':
+          timeline.resume(group);
+          break;
+
+        case 'cursor.move':
+          cursor.moveTo(mouseTarget);
+          break;
+
+        case 'cursor.click':
+          cursor.clickBurst();
+          break;
+      }
+    }
+  });
+};

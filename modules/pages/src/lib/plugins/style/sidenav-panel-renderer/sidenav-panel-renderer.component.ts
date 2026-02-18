@@ -16,7 +16,7 @@ import { MatSidenav } from '@angular/material/sidenav';
   standalone: false
 })
 @RegisterRole('sidenav')
-export class SidenavPanelRendererComponent implements SidenavRole {
+export class SidenavPanelRendererComponent implements SidenavRole, OnInit {
 
   public serializer = inject<AttributeSerializerService>(AttributeSerializerService);
   public injector = inject<Injector>(Injector);
@@ -40,6 +40,10 @@ export class SidenavPanelRendererComponent implements SidenavRole {
 
   @ViewChild(MatSidenav) matSidenav!: MatSidenav;
 
+  ngOnInit(): void {
+    this.loadSettings();
+  }
+
   loadSettings() {
     if (!this.panel?.settings) return;
 
@@ -52,6 +56,8 @@ export class SidenavPanelRendererComponent implements SidenavRole {
     this.sidenavMode = sidenav.mode;
     this.sidenavPosition = sidenav.position;
     this.sidenavOpened = sidenav.opened;
+
+    console.log('sidenav settings loaded:', sidenav);
   }
 
   toggle() {
@@ -65,5 +71,10 @@ export class SidenavPanelRendererComponent implements SidenavRole {
 
   close() {
     this.sidenavOpened = false;
+  }
+
+  refresh() {
+    console.log('refresh sidenav');
+    this.loadSettings();
   }
 }

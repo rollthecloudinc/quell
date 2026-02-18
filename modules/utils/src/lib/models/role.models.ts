@@ -16,10 +16,26 @@ export interface UIRole {
   // readonly role: string;
 }
 
+export interface Fillable<T=string> extends UIRole {
+  fill(): void
+  setFillContent(content: T): void
+}
+
 export interface RoleRegistration {
     role: string;
   instance: UIRole;
   scope?: string; 
+}
+
+
+/**
+ * Internal event payload emitted when registry changes.
+ */
+export interface RoleRegistryEvent {
+  type: 'register' | 'unregister';
+  role: string;
+  instance: UIRole;
+  scope?: string;
 }
 
 /*export function RegisterRole<R extends UIRole>(role: string, scope?: string) {

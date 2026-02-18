@@ -2,10 +2,10 @@ import { SnippetContentHandler } from './handlers/snippet-content.handler';
 import { AttributeContentHandler } from './handlers/attribute-content.handler';
 import { MediaContentHandler } from './handlers/media-content.handler';
 // import { PanelContentHandler } from './handlers/panel-content.handler';
-import { ContentBinding, ContentPlugin } from '@rollthecloudinc/content';
+import { ContentBinding, ContentPlugin, ContentPluginManager } from '@rollthecloudinc/content';
 import { ContextPlugin, InlineContext, InlineContextResolverService, ResolvedContextPlugin } from '@rollthecloudinc/context';
 import { Dataset, DatasourceFormComponent, DatasourcePlugin } from '@rollthecloudinc/datasource';
-import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade, PanelPage } from '@rollthecloudinc/panels';
+import { PanelPageState, PanelState , PaneState, StylePlugin, FormService, FormDatasource, PanelPageForm, PageBuilderFacade, PanelPage, autoFillSteps } from '@rollthecloudinc/panels';
 import { AttributeSerializerService, AttributeValue } from '@rollthecloudinc/attributes';
 import { SnippetPaneRendererComponent } from './plugins/snippet/snippet-pane-renderer/snippet-pane-renderer.component';
 import { SnippetEditorComponent } from './plugins/snippet/snippet-editor/snippet-editor.component';
@@ -34,7 +34,7 @@ import { PageStateEditorComponent } from './components/page-state-editor/page-st
 import { ParamPlugin, Param, ParamEvaluatorService } from '@rollthecloudinc/dparam';
 import { defaultIfEmpty, map, switchMap, take, tap } from 'rxjs/operators';
 import { TokenizerService } from '@rollthecloudinc/token';
-import { combineLatest, merge, of } from 'rxjs';
+import { combineLatest, firstValueFrom, merge, of } from 'rxjs';
 import { BridgeBuilderPlugin, PublicApiBridgeService } from '@rollthecloudinc/bridge';
 import { CrudAdaptorPlugin, CrudOperationInput, CrudOperationResponse } from '@rollthecloudinc/crud';
 import { FormDatasourceComponent } from './components/form-datasource/form-datasource.component';
@@ -60,11 +60,19 @@ import { IconButtonRendererComponent } from './plugins/icon-button/icon-button-r
 import { FabContentHandler } from './handlers/fab-content.handler';
 import { FabEditorComponent } from './plugins/fab/fab-editor/fab-editor.component';
 import { FabRendererComponent } from './plugins/fab/fab-renderer/fab-renderer.component';
+import { ContentEditorHandler } from './handlers/content-editor.handler';
+import { ContentEditorRendererComponent } from './plugins/content-editor/content-editor-renderer/content-editor-renderer.component';
+import { CursorOverlayService, InteractionHandlerPlugin, resolveTargetElement, TimelineEngineService, TimelineStep, waitForComponent, squashSteps, stitchSteps, sliceSteps, spliceSteps } from '@rollthecloudinc/detour';
+import { TimelineNavContentHandler } from './handlers/timeline-nav-content.handler';
+import { TimelineNavRendererComponent } from './plugins/timeline-nav/timeline-nav-renderer/timeline-nav-renderer.component';
+import { TimelineNavEditorComponent } from './plugins/timeline-nav/timeline-nav-editor/timeline-nav-editor.component';
+import { RoleRegistry } from '@rollthecloudinc/utils';
 
 export const snippetContentPluginFactory = (handler: SnippetContentHandler) => {
   return new ContentPlugin<string>({
     id: 'snippet',
     title: 'Snippet',
+    cls: 'snippet',
     selectionComponent: undefined,
     editorComponent: SnippetEditorComponent,
     renderComponent: SnippetPaneRendererComponent,
@@ -131,6 +139,7 @@ export const buttonContentPluginFactory = (handler: ButtonContentHandler) => {
   return new ContentPlugin<string>({
     id: 'button',
     title: 'Button',
+    cls: 'standard-button',
     selectionComponent: undefined,
     editorComponent: ButtonEditorComponent,
     renderComponent: ButtonRendererComponent,
@@ -189,6 +198,28 @@ export const fabContentPluginFactory = (handler: FabContentHandler) => {
     selectionComponent: undefined,
     editorComponent: FabEditorComponent,
     renderComponent: FabRendererComponent,
+    handler
+  })
+}
+
+export const contentEditorPluginFactory = (handler: ContentEditorHandler) => {
+  return new ContentPlugin<string>({
+    id: 'content_editor',
+    title: 'Content Editor',
+    selectionComponent: undefined,
+    editorComponent: undefined,
+    renderComponent: ContentEditorRendererComponent,
+    handler
+  })
+}
+
+export const timelineNavPluginFactory = (handler: TimelineNavContentHandler) => {
+  return new ContentPlugin<string>({
+    id: 'timeline_nav',
+    title: 'Timeline Nav',
+    selectionComponent: undefined,
+    editorComponent: TimelineNavEditorComponent,
+    renderComponent: TimelineNavRendererComponent,
     handler
   })
 }
@@ -388,3 +419,346 @@ export const createEditMatcher = (panelPage: PanelPage): UrlMatcher => {
     }
   };
 };
+
+export const tourContentTypeFactory = ({
+  group,
+  plugin,
+  registry,
+  cursor,
+  paneIndex = 0
+}:{
+  group: string,
+  plugin: ContentPlugin,
+  registry: RoleRegistry,
+  cursor: CursorOverlayService
+  paneIndex?: number
+}): TimelineStep[] => {
+
+  let step = 0
+  const steps = [
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Open main menu',
+      run: async ctx => {
+        console.log("Open main menu");
+        const c = await waitForComponent('layout_editor', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.main-controls .drawer-trigger');
+        cursor.moveTo(t)
+        await setTimeout(() => c.open(), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Click add row',
+      run: async ctx => {
+        console.log("Click add row");
+        const c = await waitForComponent('layout', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.add-row');
+        cursor.moveTo(t)
+        await setTimeout(() => c.addRow(), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Close main menu', 
+      run: async ctx => {
+        console.log("Close main menu");
+        const c = await waitForComponent('layout_editor', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.close-wrapper .mat-icon');
+        cursor.moveTo(t)
+        await setTimeout(() => c.close(), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Open panel menu',
+      run: async ctx => {
+        console.log("Open panel menu");
+        const c = await waitForComponent('layout_editor', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.panel-actions-btn');
+        cursor.moveTo(t)
+        await setTimeout(() => c.openMenu(), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Click add content',
+      run: async ctx => {
+        console.log("Click add content");
+        const c = await waitForComponent('content_editor', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.add-content');
+        cursor.moveTo(t)
+        await setTimeout(() => c.addContent(0), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      cursorBehavior: "scroll-to",
+      title: 'Scroll to ' + plugin.title,
+      run: async ctx => {
+        console.log("Scroll to content type", plugin?.cls);
+        const c = await waitForComponent('content_selector', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.mat-bottom-sheet-container-large .mat-mdc-nav-list');
+        cursor.moveTo(t)
+        await setTimeout(() => c.scrollTo(plugin.cls), 1000)
+      }
+    },
+    {
+      group,
+      weight: step++,
+      autoContinue: false,
+      cursorBehavior: "click-item",
+      title: 'Click ' + plugin.title,
+      run: async ctx => {
+        console.log("Click content type", plugin?.cls);
+        const c = await waitForComponent('content_selector', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.' + plugin.cls);
+        cursor.moveTo(t)
+        await setTimeout(() => c.onEntitySelected(plugin), 1000)
+      }
+    }
+  ]
+  if (plugin.id.indexOf('form_') === 0 /*|| plugin.id === 'datasource'*/) {
+    // For form elements set the name and title otherwise the label doesn't display and looks weird.
+    steps.push({
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Open pane menu',
+      run: async ctx => {
+        console.log("Open pane menu");
+        const c = await waitForComponent('editable_pane', undefined, paneIndex, registry)
+        const t = resolveTargetElement(c, '.pane-menu-trigger-wrapper button');
+        cursor.moveTo(t)
+        await setTimeout(() => c.openMenu(), 1000)
+      }
+    })
+    steps.push({
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Click props',
+      run: async ctx => {
+        console.log("Click props");
+        const c = await waitForComponent('editable_pane', undefined, paneIndex, registry)
+        const t = resolveTargetElement(c, '.props-btn');
+        cursor.moveTo(t)
+        await setTimeout(() => c.onPropsClick(), 1000)
+      }
+    })
+  }
+  if(plugin.renderComponent) {
+    steps.push({
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Click preview',
+      run: async ctx => {
+        console.log("Click Preview");
+        const c = await waitForComponent('content_editor', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.preview button');
+        cursor.moveTo(t)
+        await setTimeout(() => c.preview(), 1000)
+      }
+    }),
+    steps.push({
+      group,
+      weight: step++,
+      autoContinue: false,
+      title: 'Close preview',
+      run: async ctx => {
+        console.log("Close Preview");
+        const c = await waitForComponent('content_editor_renderer', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.close-preview');
+        cursor.moveTo(t)
+        await setTimeout(() => c.onPreviewClose(), 1000)
+      }
+    })
+  }
+  return steps
+}
+
+export const tourDataDependencyContentTypeFactory = ({
+  group,
+  plugin,
+  dataPlugin,
+  registry,
+  cursor
+}: {
+  group: string,
+  plugin: ContentPlugin,
+  dataPlugin: ContentPlugin,
+  registry: RoleRegistry,
+  cursor: CursorOverlayService
+}): TimelineStep[] => {
+  const fillSteps = autoFillSteps({ group, registry, cursor, mouseTarget: 'button[type=submit]' })
+  const dataSteps = stitchSteps(tourContentTypeFactory({ group, plugin: dataPlugin, registry, cursor }), fillSteps)
+  const popSteps = stitchSteps(dataSteps, [
+  {
+      group,
+      weight: 0,
+      autoContinue: false,
+      title: 'Open pane menu',
+      run: async ctx => {
+        console.log("Open pane menu");
+        const c = await waitForComponent('editable_pane', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.pane-menu-trigger-wrapper button');
+        cursor.moveTo(t)
+        await setTimeout(() => c.openMenu(), 1000)
+      }
+    },{
+      group,
+      weight: 1,
+      autoContinue: false,
+      title: 'Click props',
+      run: async ctx => {
+        console.log("Click props");
+        const c = await waitForComponent('editable_pane', undefined, 0, registry)
+        const t = resolveTargetElement(c, '.props-btn');
+        cursor.moveTo(t)
+        await setTimeout(() => c.onPropsClick(), 1000)
+      }
+    }
+  ])
+  const propSteps = stitchSteps(popSteps, autoFillSteps({ group, registry, cursor, mouseTarget: 'button[type=submit]' }))
+  const step = squashSteps(propSteps, group, 0, 2000)
+  step.title = "Create Data"
+  const tourSteps = sliceSteps(tourContentTypeFactory({ group, plugin, registry, cursor, paneIndex: 1 }), 3)
+  const propsClickIndex = tourSteps.findIndex(s => s.title === 'Click props')
+  const modifiedTourSteps = spliceSteps(tourSteps, propsClickIndex, 1, {
+      ...tourSteps[propsClickIndex],
+      run: async ctx => {
+        await tourSteps[propsClickIndex].run(ctx)
+        const c = await waitForComponent('editor', undefined, 0, registry)
+        c.setFillContent({ name: plugin.id, label: plugin.title })
+      }
+  })
+  const clickPluginIndex = modifiedTourSteps.findIndex(s => s.title === 'Click ' + plugin.title)
+  const finalTourSteps = spliceSteps(modifiedTourSteps, clickPluginIndex, 1, {
+    ...modifiedTourSteps[clickPluginIndex],
+    run: async ctx => {
+      await modifiedTourSteps[clickPluginIndex].run(ctx)
+      const c = await waitForComponent('editor', undefined, 0, registry)
+      c.setFillContent({ datasourceBinding: { id: 'test', type: 'pane' }, query: '', trackBy: undefined, idMapping: '[.id]', valueMapping: '[.id]', labelMapping: '[.name]' })
+    }
+  })
+  const steps = stitchSteps([step], finalTourSteps)
+  return steps
+}
+
+export function interactionHandlerTourContentTypeFactory(
+  contentPluginManager: ContentPluginManager,
+  timeline: TimelineEngineService,
+  registry: RoleRegistry,
+  cursor: CursorOverlayService
+) {
+  return new InteractionHandlerPlugin({
+    id: 'tour_content_type',
+    title: 'Tour Content Type',
+
+    handle: async ({ handlerParams }) => {
+      const group = (handlerParams as any)?.group;
+      if (!group) {
+        console.error('[tour_content_type] Missing required param "group"');
+        return;
+      }
+
+      // Look up content plugin by name
+      const plugin = await firstValueFrom(contentPluginManager.getPlugin(group));
+      if (!plugin) {
+        console.error(
+          `[tour_content_type] No content plugin found for group "${group}"`
+        );
+        return;
+      }
+
+      const pluginCls = plugin?.cls;
+      if (!pluginCls) {
+        console.error(
+          `[tour_content_type] Plugin "${group}" does not expose a cls property`
+        );
+        return;
+      }
+
+      // Build steps from the factory
+      const steps = tourContentTypeFactory({ group, plugin, registry, cursor });
+
+      // Register steps
+      for (const step of steps) {
+        timeline.registerStep(step);
+      }
+
+      console.log(
+        `[tour_content_type] Registered ${steps.length} steps for group "${group}" using selector "${pluginCls}"`
+      );
+    }
+  });
+}
+
+export const interactionHandlerTourDataDependencyContentTypeFactory = ({
+  contentPluginManager,
+  timeline,
+  registry,
+  cursor
+}: {
+  contentPluginManager: ContentPluginManager,
+  timeline: TimelineEngineService,
+  registry: RoleRegistry,
+  cursor: CursorOverlayService
+}) => {
+  return new InteractionHandlerPlugin({
+    id: 'tour_data_dependency_content_type',
+    title: 'Tour Data Dependency Content Type',
+
+    handle: async ({ handlerParams }) => {
+      const group = (handlerParams as any)?.group;
+      if (!group) {
+        console.error('[tour_data_dependency_content_type] Missing required param "group"');
+        return;
+      }
+
+      // Look up content plugin by name
+      const plugin = await firstValueFrom(contentPluginManager.getPlugin(group));
+      if (!plugin) {
+        console.error(
+          `[tour_data_dependency_content_type] No content plugin found for group "${group}"`
+        );
+        return;
+      }
+
+      const dataPlugin = await firstValueFrom(contentPluginManager.getPlugin('datasource'));
+
+      const pluginCls = plugin?.cls;
+      if (!pluginCls) {
+        console.error(
+          `[tour_data_dependency_content_type] Plugin "${group}" does not expose a cls property`
+        );
+        return;
+      }
+
+      // Build steps from the factory
+      const steps = tourDataDependencyContentTypeFactory({ group, plugin, dataPlugin, registry, cursor });
+
+      // Register steps
+      for (const step of steps) {
+        timeline.registerStep(step);
+      }
+
+      console.log(
+        `[tour_data_dependency_content_type] Registered ${steps.length} steps for group "${group}" using selector "${pluginCls}"`
+      );
+    }
+  });
+}

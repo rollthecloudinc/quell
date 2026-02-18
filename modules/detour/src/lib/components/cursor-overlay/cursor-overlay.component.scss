@@ -1,0 +1,16 @@
+.cursor {
+  width: 25px;
+  height: 25px;
+  // transform: rotate(-12deg); /* slant */
+  pointer-events: none;       /* optional, if overlay cursor */
+}
+
+/**
+ * This typically works to move the pointer to the front since
+ * the cursor will be the first overlay. If the cursor is not the first overlay
+ * this will break. We really only need it for tours though so its
+ * an acceptable trade-off.
+ */
+.cdk-overlay-container > .cdk-global-overlay-wrapper:first-child {
+  z-index: 2147483647 !important;
+}

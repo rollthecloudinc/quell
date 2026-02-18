@@ -37,5 +37,7 @@
   </mat-dialog-content>
   <mat-dialog-actions>
     <button type="submit" mat-raised-button color="primary" [disabled]="!contentForm.valid">Save</button>
+    <button type="button" matButton="outlined" (click)="fill()">Fill in the form</button>
+    <button type="submit" matButton="outlined" [disabled]="!contentForm.valid">Save the Form</button>
   </mat-dialog-actions>
 </form>

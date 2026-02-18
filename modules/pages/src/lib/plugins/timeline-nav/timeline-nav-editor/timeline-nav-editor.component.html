@@ -1,0 +1,15 @@
+
+<form [formGroup]="contentForm" (ngSubmit)="onSubmit()">
+  <mat-dialog-content>
+
+    <mat-form-field>
+      <mat-label>Timeline Group</mat-label>
+      <input matInput formControlName="group" placeholder="__default__ (optional)">
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions>
+    <button type="submit" mat-raised-button color="primary">Save</button>
+  </mat-dialog-actions>
+</form>

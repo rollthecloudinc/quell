@@ -2,6 +2,7 @@ export * from './lib/pages.module';
 export * from './lib/pages.factories';
 export * from './lib/pages.tokens';
 export * from './lib/models/pages.models';
+export * from './lib/models/role.models'
 export * from './lib/guards/catchall.guard';
 export * from './lib/components/catch-all-router/catch-all-router.component';
 export * from './lib/components/edit-panel-page/edit-panel-page.component';

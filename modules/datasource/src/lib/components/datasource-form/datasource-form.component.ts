@@ -7,6 +7,7 @@ import { DatasourceRendererHostDirective } from '../../directives/datasource-ren
 import { BehaviorSubject, combineLatest, of, Subject } from 'rxjs';
 import { ContentBinding } from '@rollthecloudinc/content';
 import { AttributeValue } from '@rollthecloudinc/attributes';
+import { Fillable } from '@rollthecloudinc/utils';
 
 @Component({
     selector: 'classifieds-ui-datasource-form',
@@ -26,7 +27,7 @@ import { AttributeValue } from '@rollthecloudinc/attributes';
     ],
     standalone: false
 })
-export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit {
+export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Validator, AfterViewInit, Fillable<{}> {
 
   @ViewChild(DatasourceRendererHostDirective, { static: true }) datasourceHost: DatasourceRendererHostDirective;
 
@@ -40,6 +41,8 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
       bindings: this.fb.array([])
     })
   });
+
+  fillContent;
 
   @Input() bindableOptions: Array<string> = [];
   @Input() contexts: Array<string> = [];
@@ -164,6 +167,22 @@ export class DatasourceFormComponent implements OnInit, ControlValueAccessor, Va
 
   removeBinding(index: number) {
     this.bindings.removeAt(index);
+  }
+  
+  fill() {
+    this.formGroup.patchValue({
+      plugin: 'data'
+    })
+    setTimeout(() => {
+      if (this.fillContent) {
+        this.componentRef$.value.instance.setFillContent(this.fillContent)
+      }
+      this.componentRef$.value.instance.fill()
+    }, 500)
+  }
+
+  setFillContent(content: any) {
+    this.fillContent = content
   }
 
 }

@@ -21,6 +21,7 @@ export class ContentPlugin<T = string> extends Plugin<T> {
   name?: T;
   fileTypes?: Array<string> = [];
   handler?: ContentHandler;
+  cls?: string;
   selectionComponent: Type<any>;
   renderComponent: Type<any>;
   editorComponent: Type<any>;
@@ -29,6 +30,7 @@ export class ContentPlugin<T = string> extends Plugin<T> {
     if (data) {
       this.name = this.id;
       this.handler = data.handler !== undefined ? data.handler: undefined;
+      this.cls = data.cls && data.cls !== '' ? data.cls : undefined
       this.selectionComponent = data.selectionComponent ? data.selectionComponent : undefined;
       this.renderComponent = data.renderComponent ? data.renderComponent : undefined;
       this.editorComponent = data.editorComponent ? data.editorComponent : undefined;
